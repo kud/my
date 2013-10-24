@@ -1,0 +1,87 @@
+#!/bin/bash
+printf "༼ ᕤ﻿◕◡◕ ༽ᕤ﻿ MASS INSTALLLLLL ༼ ᕤ﻿◕◡◕ ༽ᕤ\n\n﻿"
+
+if ! type "brew" > /dev/null; then
+  echo "=> Installing homebrew..."
+  ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
+fi
+
+if ! type "/usr/local/bin/zsh" > /dev/null; then
+  echo "=> Installing zsh..."
+  brew install zsh
+  read -p "Copy \`/usr/local/bin/zsh\` into your clipboard and paste it via vim. [Enter] when you're ok..."
+  sudo vim /etc/shells
+  chsh -s /usr/local/bin/zsh $USER
+  sudo mv /etc/{zshenv,zprofile}
+fi
+
+if ! type "/usr/local/bin/bash" > /dev/null; then
+  echo "=> Installing bash..."
+  brew install bash
+  read -p "Copy \`/usr/local/bin/bash\` into your clipboard and paste it via vim. [Enter] when you're ok..."
+  sudo vim /etc/shells
+  chsh -s /usr/local/bin/bash $USER
+fi
+
+echo "=> Updating brew..."
+brew update
+
+echo "=> Doctor is checking..."
+brew doctor || exit 1
+
+echo "=> Tap some brew repos..."
+brew tap homebrew/dupes
+
+echo "=> Installing brew packages..."
+brew install dnsmasq
+brew install git
+brew install wget
+brew install htop-osx
+brew install curl
+brew install ssh-copy-id
+brew install pv
+brew install tree
+brew install md5sha1sum
+
+brew install ruby
+brew install python
+brew install node
+
+brew install homebrew/dupes/rsync
+brew install homebrew/dupes/make
+brew link make
+
+echo "=> Installing brew cask..."
+brew tap phinze/homebrew-cask
+brew install brew-cask || brew upgrade brew-cask
+
+echo "=> Installing apps..."
+brew cask install google-chrome-canary --appdir="/Applications"
+brew cask install firefox-aurora --appdir="/Applications"
+brew cask install dropbox --appdir="/Applications"
+brew cask install vlc --appdir="/Applications"
+brew cask install alfred --appdir="/Applications"
+brew cask install iterm2 --appdir="/Applications"
+brew cask install lime-chat --appdir="/Applications"
+brew cask install f-lux --appdir="/Applications"
+brew cask install app-cleaner --appdir="/Applications"
+#brew cask install keepassx
+brew cask install spectacle --appdir="/Applications"
+brew cask install grand-perspective --appdir="/Applications"
+brew cask install imagealpha --appdir="/Applications"
+brew cask install imageoptim --appdir="/Applications"
+brew cask install mou --appdir="/Applications"
+brew cask install steam --appdir="/Applications"
+brew cask install tinygrab --appdir="/Applications"
+brew cask install sublime-text-3 --appdir="/Applications"
+
+echo "=> To install via App Store"
+echo "- Twitter"
+echo "- XCode"
+
+echo "=> Disabling default iTunes behavior with media keys..."
+launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist
+
+echo "And... we're done!"
+
+exec $SHELL
