@@ -26,8 +26,8 @@ fi
 echo "=> Updating brew..."
 brew update
 
-echo "=> Doctor is checking..."
-brew doctor || exit 1
+# echo "=> Doctor is checking..."
+# brew doctor || exit 1
 
 echo "=> Tap some brew repos..."
 brew tap homebrew/dupes
