@@ -9,7 +9,7 @@ ln -si ~/dotfiles/.gitconfig ~/.gitconfig
 touch ~/.gitconfig_local
 ln -si ~/dotfiles/.gitignore_global ~/.gitignore_global
 ln -si ~/dotfiles/.zpreztorc ~/.zpreztorc
-ln -si ~/dotfiles/.zshrc_macosx ~/.zshrc
+ln -si ~/dotfiles/.zshrc ~/.zshrc
 touch ~/.zshrc.local
 # symlink appdata
 ln -si ~/Dropbox/appdata/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist

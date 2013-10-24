@@ -29,4 +29,4 @@ export LC_ALL="en_GB.UTF-8"
 export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home
 
 # Local
-. ~/.zshrc.local
+. ~/.zshrc_local
