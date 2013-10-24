@@ -1,0 +1,18 @@
+#!/bin/sh
+echo '⤿ Time to synchronise...'
+# copy prezto files
+./sync_prezto
+# symlink dotfiles
+ln -si ~/dotfiles/.aliases ~/.aliases
+ln -si ~/dotfiles/.gemrc ~/.gemrc
+ln -si ~/dotfiles/.gitconfig ~/.gitconfig
+touch ~/.gitconfig_local
+ln -si ~/dotfiles/.gitignore_global ~/.gitignore_global
+ln -si ~/dotfiles/.zpreztorc ~/.zpreztorc
+ln -si ~/dotfiles/.zshrc_macosx ~/.zshrc
+touch ~/.zshrc.local
+# symlink appdata
+ln -si ~/Dropbox/appdata/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
+ln -si ~/Dropbox/appdata/limechat/net.limechat.LimeChat.plist ~/Library/Preferences/net.limechat.LimeChat.plist
+ln -si ~/Dropbox/appdata/sublimetext3/Packages ~/Library/Application\ Support/Sublime\ Text\ 3
+ln -si ~/Dropbox/appdata/sublimetext3/Installed\ Packages ~/Library/Application\ Support/Sublime\ Text\ 3
