@@ -1,15 +1,15 @@
-#!/bin/sh
+#!/bin/zsh
 echo '⤿ Time to synchronise...'
 # copy prezto files
-./sync_prezto
+~/my/scripts/sync_prezto
 # symlink dotfiles
-ln -si ~/dotfiles/.aliases ~/.aliases
-ln -si ~/dotfiles/.gemrc ~/.gemrc
-ln -si ~/dotfiles/.gitconfig ~/.gitconfig
+ln -si ~/my/dotfiles/.aliases ~/.aliases
+ln -si ~/my/dotfiles/.gemrc ~/.gemrc
+ln -si ~/my/dotfiles/.gitconfig ~/.gitconfig
 touch ~/.gitconfig_local
-ln -si ~/dotfiles/.gitignore_global ~/.gitignore_global
-ln -si ~/dotfiles/.zpreztorc ~/.zpreztorc
-ln -si ~/dotfiles/.zshrc ~/.zshrc
+ln -si ~/my/dotfiles/.gitignore_global ~/.gitignore_global
+ln -si ~/my/dotfiles/.zpreztorc ~/.zpreztorc
+ln -si ~/my/dotfiles/.zshrc ~/.zshrc
 touch ~/.zshrc.local
 # symlink appdata
 ln -si ~/Dropbox/appdata/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist

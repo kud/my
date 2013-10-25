@@ -1,0 +1,5 @@
+#!/bin/zsh
+git clone git@github.com:kud/my.git ~/my
+~/my/scripts/rocknroll
+~/my/scripts/sync
+echo $SHELL

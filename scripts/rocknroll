@@ -1,5 +1,5 @@
-#!/bin/bash
-printf "༼ ᕤ﻿◕◡◕ ༽ᕤ﻿ MASS INSTALLLLLL ༼ ᕤ﻿◕◡◕ ༽ᕤ\n\n﻿"
+#!/bin/zsh
+printf "༼ ᕤ﻿◕◡◕ ༽ᕤ﻿ \`my\` ༼ ᕤ﻿◕◡◕ ༽ᕤ\n\n﻿"
 
 if ! type "brew" > /dev/null; then
   echo "=> Installing homebrew..."
@@ -24,7 +24,7 @@ if ! type "/usr/local/bin/bash" > /dev/null; then
 fi
 
 echo "=> Updating brew..."
-brew update
+brew update && brew upgrade
 
 # echo "=> Doctor is checking..."
 # brew doctor || exit 1
@@ -84,6 +84,19 @@ echo "- XCode"
 
 echo "=> Disabling default iTunes behavior with media keys..."
 launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist
+
+if [ -d "$HOME/.zprezto" ]; then
+  echo "=> Updating Prezto..."
+  git --git-dir="$HOME/.zprezto/.git" pull
+else
+  echo "=> Installing Prezto..."
+  git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+fi
+
+echo "=> Updating Gems..."
+gem update --system && gem update
+echo "=> Updating global node modules..."
+npm update -g
 
 echo "And... we're done!"
 
