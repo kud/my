@@ -65,7 +65,7 @@ brew cask install iterm2 --appdir="/Applications"
 brew cask install lime-chat --appdir="/Applications"
 brew cask install f-lux --appdir="/Applications"
 brew cask install app-cleaner --appdir="/Applications"
-#brew cask install keepassx
+brew cask install keepass-x-2 --appdir="/Applications"
 brew cask install spectacle --appdir="/Applications"
 brew cask install grand-perspective --appdir="/Applications"
 brew cask install imagealpha --appdir="/Applications"
