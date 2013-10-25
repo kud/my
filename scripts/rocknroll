@@ -82,9 +82,6 @@ echo "=> To install via App Store"
 echo "- Twitter"
 echo "- XCode"
 
-echo "=> Disabling default iTunes behavior with media keys..."
-launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist
-
 if [ -d "$HOME/.zprezto" ]; then
   echo "=> Updating Prezto..."
   git --git-dir="$HOME/.zprezto/.git" pull

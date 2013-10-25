@@ -2,4 +2,5 @@
 git clone git@github.com:kud/my.git ~/my
 ~/my/scripts/rocknroll
 ~/my/scripts/sync
+~/my/scripts/osx
 echo $SHELL
