@@ -1,24 +1,9 @@
 # functions
 
-## update everything
-# function _rocknroll {
-#   echo "=> Updating Prezto..."
-#   git --git-dir="$HOME/.zprezto/.git" pull
-#   echo "=> Updating Homebrew..."
-#   brew update && brew upgrade
-#   echo "=> Updating Gems..."
-#   gem update --system && gem update
-#   echo "=> Updating global node modules..."
-#   npm update -g
-#   echo "=> And you're done!"
-#   exec $SHELL
-# }
-
 ## define browser
 function browser {
   open -a $BROWSER $argv
 }
-
 
 # basic directory operations
 alias ....='cd ../../..'

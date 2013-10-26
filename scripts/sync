@@ -1,16 +1,22 @@
 #!/bin/zsh
 echo '⤿ Time to synchronise...'
+
 # copy prezto files
 ~/my/scripts/sync_prezto
+
 # symlink dotfiles
 ln -si ~/my/dotfiles/.aliases ~/.aliases
 ln -si ~/my/dotfiles/.gemrc ~/.gemrc
 ln -si ~/my/dotfiles/.gitconfig ~/.gitconfig
-touch ~/.gitconfig_local
 ln -si ~/my/dotfiles/.gitignore_global ~/.gitignore_global
 ln -si ~/my/dotfiles/.zpreztorc ~/.zpreztorc
 ln -si ~/my/dotfiles/.zshrc ~/.zshrc
+ln -si ~/my/dotfiles/.editorconfig ~/.editorconfig
+
+# local files
+touch ~/.gitconfig_local
 touch ~/.zshrc.local
+
 # symlink appdata
 ln -si ~/Dropbox/appdata/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
 ln -si ~/Dropbox/appdata/limechat/net.limechat.LimeChat.plist ~/Library/Preferences/net.limechat.LimeChat.plist
