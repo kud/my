@@ -98,6 +98,7 @@ caskinstall imagealpha
 caskinstall imageoptim
 caskinstall mou
 caskinstall steam
+caskinstall spotify
 caskinstall tinygrab
 caskinstall sublime-text-3
 if ! type "subl" > /dev/null; then
