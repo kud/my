@@ -71,7 +71,7 @@ alias android-inspector='adb forward tcp:9222 localabstract:chrome_devtools_remo
 alias adb-logcat='adb logcat browser:IEW "*:S"'
 
 # update
-alias rocknroll='~/my/scripts/rocknroll'
+alias rocknroll='git --git-dir="$HOME/my/.git" pull && ~/my/scripts/rocknroll'
 alias brew-rocknroll='brew update && brew upgrade'
 
 # (un)compression
