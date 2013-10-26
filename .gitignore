@@ -1,3 +1,2 @@
 modules/*
-scripts/test
 !modules/.gitkeep
