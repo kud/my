@@ -60,23 +60,24 @@ if ! brew tap | grep dupes > /dev/null; then
 fi
 
 echo "${GREEN}=> Installing brew packages...${RESET}"
+brewinstall homebrew/dupes/make
+brew link make --force > /dev/null
+
 brewinstall dnsmasq
+brewinstall ssh-copy-id
+brewinstall htop-osx
+brewinstall homebrew/dupes/rsync
+
 brewinstall git
 brewinstall wget
-brewinstall htop-osx
 brewinstall curl
-brewinstall ssh-copy-id
 brewinstall pv
-brewinstall tree
 brewinstall md5sha1sum
+brewinstall tree
 
 brewinstall ruby
 brewinstall python
 brewinstall node
-
-brewinstall homebrew/dupes/rsync
-brewinstall homebrew/dupes/make
-brew link make --force > /dev/null
 
 brewinstall brew-cask
 
