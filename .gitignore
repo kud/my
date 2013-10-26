@@ -1,2 +1,2 @@
-modules
-!.gitkeep
+modules/*
+!modules/.gitkeep
