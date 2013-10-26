@@ -1,105 +1,125 @@
 #!/bin/zsh
-printf "༼ ᕤ﻿◕◡◕ ༽ᕤ﻿ \`my\` ༼ ᕤ﻿◕◡◕ ༽ᕤ\n\n﻿"
+autoload colors
+if [[ "$terminfo[colors]" -gt 8 ]]; then
+    colors
+fi
+for COLOR in RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; do
+    eval $COLOR='$fg_no_bold[${(L)COLOR}]'
+    eval BOLD_$COLOR='$fg_bold[${(L)COLOR}]'
+done
+eval RESET='$reset_color'
+
+export HOMEBREW_CASK_OPTS=--appdir=/Applications
+
+function brewinstall() {
+  brew install "${@}" 2> /dev/null
+}
+
+function caskinstall() {
+  brew cask install "${@}" 2> /dev/null
+}
+
+printf "\n༼ ᕤ﻿◕◡◕ ༽ᕤ﻿ \`my\` ༼ ᕤ﻿◕◡◕ ༽ᕤ\n\n﻿"
 
 if ! type "brew" > /dev/null; then
-  echo "=> Installing homebrew..."
+  echo "${GREEN}=> Installing homebrew..."
   ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
 fi
 
 if ! type "/usr/local/bin/zsh" > /dev/null; then
-  echo "=> Installing zsh..."
-  brew install zsh
-  read -p "Copy \`/usr/local/bin/zsh\` into your clipboard and paste it via vim. [Enter] when you're ok..."
-  sudo vim /etc/shells
+  echo "${GREEN}=> Installing zsh..."
+  brewinstall zsh
+  echo "/usr/local/bin/zsh" | sudo tee -a /etc/shells
   chsh -s /usr/local/bin/zsh $USER
   sudo mv /etc/{zshenv,zprofile}
 fi
 
 if ! type "/usr/local/bin/bash" > /dev/null; then
-  echo "=> Installing bash..."
-  brew install bash
-  read -p "Copy \`/usr/local/bin/bash\` into your clipboard and paste it via vim. [Enter] when you're ok..."
-  sudo vim /etc/shells
-  chsh -s /usr/local/bin/bash $USER
+  echo "${GREEN}=> Installing bash..."
+  brewinstall bash
+  echo "/usr/local/bin/bash" | sudo tee -a /etc/shells
 fi
 
-echo "=> Updating brew..."
+echo "${GREEN}=> Updating brew..."
 brew update && brew upgrade
 
-# echo "=> Doctor is checking..."
+# echo "${GREEN}=> Doctor is checking..."
 # brew doctor || exit 1
 
-echo "=> Tap some brew repos..."
-brew tap homebrew/dupes
+echo "${GREEN}=> Tap some brew repos..."
+if ! brew tap | grep cask > /dev/null; then
+  brew tap phinze/homebrew-cask
+fi
+if ! brew tap | grep dupes > /dev/null; then
+  brew tap homebrew/dupes
+fi
 
-echo "=> Installing brew packages..."
-brew install dnsmasq
-brew install git
-brew install wget
-brew install htop-osx
-brew install curl
-brew install ssh-copy-id
-brew install pv
-brew install tree
-brew install md5sha1sum
+echo "${GREEN}=> Installing brew packages..."
+brewinstall dnsmasq
+brewinstall git
+brewinstall wget
+brewinstall htop-osx
+brewinstall curl
+brewinstall ssh-copy-id
+brewinstall pv
+brewinstall tree
+brewinstall md5sha1sum
 
-brew install ruby
-brew install python
-brew install node
+brewinstall ruby
+brewinstall python
+brewinstall node
 
-brew install homebrew/dupes/rsync
-brew install homebrew/dupes/make
+brewinstall homebrew/dupes/rsync
+brewinstall homebrew/dupes/make
 brew link make --force
 
-echo "=> Installing brew cask..."
-brew tap phinze/homebrew-cask
-brew install brew-cask || brew upgrade brew-cask
+brewinstall brew-cask
 
-echo "=> Installing apps..."
-brew cask install google-chrome-canary --appdir="/Applications"
-brew cask install firefox-aurora --appdir="/Applications"
-brew cask install dropbox --appdir="/Applications"
-brew cask install vlc --appdir="/Applications"
-brew cask install alfred --appdir="/Applications"
-brew cask install iterm2 --appdir="/Applications"
-brew cask install lime-chat --appdir="/Applications"
-brew cask install f-lux --appdir="/Applications"
-brew cask install app-cleaner --appdir="/Applications"
-brew cask install keepass-x-2 --appdir="/Applications"
-brew cask install spectacle --appdir="/Applications"
-brew cask install grand-perspective --appdir="/Applications"
-brew cask install imagealpha --appdir="/Applications"
-brew cask install imageoptim --appdir="/Applications"
-brew cask install mou --appdir="/Applications"
-brew cask install steam --appdir="/Applications"
-brew cask install tinygrab --appdir="/Applications"
-brew cask install sublime-text-3 --appdir="/Applications"
+echo "${GREEN}=> Installing apps..."
+caskinstall google-chrome-canary
+caskinstall firefox-aurora
+caskinstall dropbox
+caskinstall vlc
+caskinstall alfred
+caskinstall iterm2
+caskinstall lime-chat
+caskinstall f-lux
+caskinstall app-cleaner
+caskinstall keepass-x-2
+caskinstall spectacle
+caskinstall grand-perspective
+caskinstall imagealpha
+caskinstall imageoptim
+caskinstall mou
+caskinstall steam
+caskinstall tinygrab
+caskinstall sublime-text-3
 if ! type "subl" > /dev/null; then
   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 fi
 
 if [ -d "$HOME/.zprezto" ]; then
-  echo "=> Updating Prezto..."
+  echo "${GREEN}=> Updating Prezto..."
   git --git-dir="$HOME/.zprezto/.git" --work-tree="$HOME/.zprezto/" pull
 else
-  echo "=> Installing Prezto..."
+  echo "${GREEN}=> Installing Prezto..."
   git clone --recursive https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
 fi
 
 if [ -d "$HOME/my/modules/themes" ]; then
-  echo "=> Updating themes..."
+  echo "${GREEN}=> Updating themes..."
   git --git-dir="$HOME/my/modules/themes/.git" --work-tree="$HOME/my/modules/themes/" pull
 else
-  echo "=> Installing themes..."
+  echo "${GREEN}=> Installing themes..."
   git clone --recursive https://github.com/putaindecode/themes.git "$HOME/my/modules/themes"
 fi
 
-echo "=> Updating Gems..."
+echo "${GREEN}=> Updating Gems..."
 gem update --system && gem update
-echo "=> Updating global node modules..."
+echo "${GREEN}=> Updating global node modules..."
 npm update -g
 
-echo "=> Don't forget to install via App Store"
+echo "${GREEN}=> Don't forget to install via App Store"
 echo "- Twitter for Mac"
 echo "- XCode"
 
