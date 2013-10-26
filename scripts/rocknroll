@@ -44,7 +44,7 @@ echo "${GREEN}=> Updating brew...${RESET}"
 brew update && brew upgrade
 
 # hack to make doctor not crying about make
-if ! type "/usr/local/bin/make" > /dev/null; then
+if type "/usr/local/bin/make" > /dev/null; then
   brew unlink make > /dev/null
 fi
 
@@ -76,7 +76,7 @@ brewinstall node
 
 brewinstall homebrew/dupes/rsync
 brewinstall homebrew/dupes/make
-brew link make --force
+brew link make --force > /dev/null
 
 brewinstall brew-cask
 
