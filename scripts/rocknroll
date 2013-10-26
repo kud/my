@@ -78,22 +78,30 @@ if ! type "subl" > /dev/null; then
   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 fi
 
-echo "=> To install via App Store"
-echo "- Twitter"
-echo "- XCode"
-
 if [ -d "$HOME/.zprezto" ]; then
   echo "=> Updating Prezto..."
   git --git-dir="$HOME/.zprezto/.git" --work-tree="$HOME/.zprezto/" pull
 else
   echo "=> Installing Prezto..."
-  git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+  git clone --recursive https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
+fi
+
+if [ -d "$HOME/my/modules/themes" ]; then
+  echo "=> Updating themes..."
+  git --git-dir="$HOME/my/modules/themes/.git" --work-tree="$HOME/my/modules/themes/" pull
+else
+  echo "=> Installing themes..."
+  git clone --recursive https://github.com/putaindecode/themes.git "$HOME/my/modules/themes"
 fi
 
 echo "=> Updating Gems..."
 gem update --system && gem update
 echo "=> Updating global node modules..."
 npm update -g
+
+echo "=> Don't forget to install via App Store"
+echo "- Twitter for Mac"
+echo "- XCode"
 
 echo "And... we're done!"
 

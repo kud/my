@@ -13,6 +13,10 @@ ln -si ~/my/dotfiles/.zpreztorc ~/.zpreztorc
 ln -si ~/my/dotfiles/.zshrc ~/.zshrc
 ln -si ~/my/dotfiles/.editorconfig ~/.editorconfig
 
+# symlink themes
+ln -si ~/my/modules/themes/kud/limechat/kud.css ~/Library/Application\ Support/LimeChat/Themes/kud.css
+ln -si ~/my/modules/themes/kud/limechat/kud.yaml ~/Library/Application\ Support/LimeChat/Themes/kud.yaml
+
 # local files
 touch ~/.gitconfig_local
 touch ~/.zshrc.local
