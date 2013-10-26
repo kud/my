@@ -84,7 +84,7 @@ echo "- XCode"
 
 if [ -d "$HOME/.zprezto" ]; then
   echo "=> Updating Prezto..."
-  git --git-dir="$HOME/.zprezto/.git" pull
+  git --git-dir="$HOME/.zprezto/.git" --work-tree="$HOME/.zprezto/" pull
 else
   echo "=> Installing Prezto..."
   git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
