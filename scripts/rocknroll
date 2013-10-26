@@ -22,12 +22,12 @@ function caskinstall() {
 printf "\n༼ ᕤ﻿◕◡◕ ༽ᕤ﻿ \`my\` ༼ ᕤ﻿◕◡◕ ༽ᕤ\n\n﻿"
 
 if ! type "brew" > /dev/null; then
-  echo "${GREEN}=> Installing homebrew..."
+  echo "${GREEN}=> Installing homebrew...${RESET}"
   ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
 fi
 
 if ! type "/usr/local/bin/zsh" > /dev/null; then
-  echo "${GREEN}=> Installing zsh..."
+  echo "${GREEN}=> Installing zsh...${RESET}"
   brewinstall zsh
   echo "/usr/local/bin/zsh" | sudo tee -a /etc/shells
   chsh -s /usr/local/bin/zsh $USER
@@ -35,18 +35,23 @@ if ! type "/usr/local/bin/zsh" > /dev/null; then
 fi
 
 if ! type "/usr/local/bin/bash" > /dev/null; then
-  echo "${GREEN}=> Installing bash..."
+  echo "${GREEN}=> Installing bash...${RESET}"
   brewinstall bash
   echo "/usr/local/bin/bash" | sudo tee -a /etc/shells
 fi
 
-echo "${GREEN}=> Updating brew..."
+echo "${GREEN}=> Updating brew...${RESET}"
 brew update && brew upgrade
 
-# echo "${GREEN}=> Doctor is checking..."
-# brew doctor || exit 1
+# hack to make doctor not crying about make
+if ! type "/usr/local/bin/make" > /dev/null; then
+  brew unlink make > /dev/null
+fi
 
-echo "${GREEN}=> Tap some brew repos..."
+echo "${GREEN}=> Doctor is checking...${RESET}"
+brew doctor || exit 1
+
+echo "${GREEN}=> Tap some brew repos...${RESET}"
 if ! brew tap | grep cask > /dev/null; then
   brew tap phinze/homebrew-cask
 fi
@@ -54,7 +59,7 @@ if ! brew tap | grep dupes > /dev/null; then
   brew tap homebrew/dupes
 fi
 
-echo "${GREEN}=> Installing brew packages..."
+echo "${GREEN}=> Installing brew packages...${RESET}"
 brewinstall dnsmasq
 brewinstall git
 brewinstall wget
@@ -75,7 +80,7 @@ brew link make --force
 
 brewinstall brew-cask
 
-echo "${GREEN}=> Installing apps..."
+echo "${GREEN}=> Installing apps...${RESET}"
 caskinstall google-chrome-canary
 caskinstall firefox-aurora
 caskinstall dropbox
@@ -99,30 +104,30 @@ if ! type "subl" > /dev/null; then
 fi
 
 if [ -d "$HOME/.zprezto" ]; then
-  echo "${GREEN}=> Updating Prezto..."
+  echo "${GREEN}=> Updating Prezto...${RESET}"
   git --git-dir="$HOME/.zprezto/.git" --work-tree="$HOME/.zprezto/" pull
 else
-  echo "${GREEN}=> Installing Prezto..."
+  echo "${GREEN}=> Installing Prezto...${RESET}"
   git clone --recursive https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
 fi
 
 if [ -d "$HOME/my/modules/themes" ]; then
-  echo "${GREEN}=> Updating themes..."
+  echo "${GREEN}=> Updating themes...${RESET}"
   git --git-dir="$HOME/my/modules/themes/.git" --work-tree="$HOME/my/modules/themes/" pull
 else
   echo "${GREEN}=> Installing themes..."
   git clone --recursive https://github.com/putaindecode/themes.git "$HOME/my/modules/themes"
 fi
 
-echo "${GREEN}=> Updating Gems..."
+echo "${GREEN}=> Updating Gems...${RESET}"
 gem update --system && gem update
 echo "${GREEN}=> Updating global node modules..."
 npm update -g
 
-echo "${GREEN}=> Don't forget to install via App Store"
+echo "${GREEN}=> Don't forget to install via App Store${RESET}"
 echo "- Twitter for Mac"
 echo "- XCode"
 
-echo "And... we're done!"
+echo "${BLUE}And... we're done!${RESET}"
 
 exec $SHELL
