@@ -117,8 +117,10 @@ if [ -d "$HOME/my/modules/themes" ]; then
   echo "${GREEN}=> Updating themes...${RESET}"
   git --git-dir="$HOME/my/modules/themes/.git" --work-tree="$HOME/my/modules/themes/" pull
 else
-  echo "${GREEN}=> Installing themes..."
-  git clone --recursive https://github.com/putaindecode/themes.git "$HOME/my/modules/themes"
+  echo "${GREEN}=> Installing themes...${RESET}"
+  git clone --recursive https://github.com/kud/themes.git "$HOME/my/modules/themes"
+  ln -si ~/my/modules/themes/limechat/kud.css ~/Library/Application\ Support/LimeChat/Themes/kud.css
+  ln -si ~/my/modules/themes/limechat/kud.yaml ~/Library/Application\ Support/LimeChat/Themes/kud.yaml
 fi
 
 echo "${GREEN}=> Updating Gems...${RESET}"
