@@ -1,5 +1,7 @@
 #!/bin/zsh
 setopt EXTENDED_GLOB
+
+# set colours
 autoload colors
 if [[ "$terminfo[colors]" -gt 8 ]]; then
     colors
@@ -10,23 +12,29 @@ for COLOR in RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; do
 done
 eval RESET='$reset_color'
 
+# define cask application folder
 export HOMEBREW_CASK_OPTS=--appdir=/Applications
 
+# easy brew install function
 function brewinstall() {
   brew install "${@}" 2> /dev/null
 }
 
+# easy cask install function
 function caskinstall() {
   brew cask install "${@}" 2> /dev/null
 }
 
+# kikoolol print
 printf "\n༼ ᕤ﻿◕◡◕ ༽ᕤ﻿ \`my\` ༼ ᕤ﻿◕◡◕ ༽ᕤ\n\n﻿"
 
+# install brew if needed
 if ! type "brew" > /dev/null; then
   echo "${GREEN}=> Installing homebrew...${RESET}"
   ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
 fi
 
+# install zsh via brew if needed
 if ! type "/usr/local/bin/zsh" > /dev/null; then
   echo "${GREEN}=> Installing zsh...${RESET}"
   brewinstall zsh
@@ -35,12 +43,14 @@ if ! type "/usr/local/bin/zsh" > /dev/null; then
   sudo mv /etc/{zshenv,zprofile}
 fi
 
+# install bash via brew if needed
 if ! type "/usr/local/bin/bash" > /dev/null; then
   echo "${GREEN}=> Installing bash...${RESET}"
   brewinstall bash
   echo "/usr/local/bin/bash" | sudo tee -a /etc/shells
 fi
 
+# update/upgrade brew
 echo "${GREEN}=> Updating brew...${RESET}"
 brew update && brew upgrade
 
@@ -49,10 +59,12 @@ if type "/usr/local/bin/make" > /dev/null; then
   brew unlink make > /dev/null
 fi
 
+# call the doctor please, and quit if he checked something wrong
 echo "${GREEN}=> Doctor is checking...${RESET}"
 brew doctor || exit 1
 
-echo "${GREEN}=> Tap some brew repos...${RESET}"
+# add some brew repo
+echo "${GREEN}=> Tap some brew repos if needed...${RESET}"
 if ! brew tap | grep cask > /dev/null; then
   brew tap phinze/homebrew-cask
 fi
@@ -60,10 +72,10 @@ if ! brew tap | grep dupes > /dev/null; then
   brew tap homebrew/dupes
 fi
 
+# install brew packages
 echo "${GREEN}=> Installing brew packages...${RESET}"
-brewinstall homebrew/dupes/make
-brew link make --force > /dev/null
 
+brewinstall homebrew/dupes/make && brew link make --force > /dev/null
 brewinstall dnsmasq
 brewinstall ssh-copy-id
 brewinstall htop-osx
@@ -82,6 +94,7 @@ brewinstall node
 
 brewinstall brew-cask
 
+# install apps
 echo "${GREEN}=> Installing apps...${RESET}"
 caskinstall google-chrome-canary
 caskinstall firefox-aurora
@@ -106,6 +119,7 @@ if ! type "subl" > /dev/null; then
   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 fi
 
+# handle zprezto
 if [ -d "$HOME/.zprezto" ]; then
   echo "${GREEN}=> Updating Prezto...${RESET}"
   git --git-dir="$HOME/.zprezto/.git" --work-tree="$HOME/.zprezto/" pull
@@ -118,6 +132,7 @@ else
   done
 fi
 
+# handle themes
 if [ -d "$HOME/my/modules/themes" ]; then
   echo "${GREEN}=> Updating themes...${RESET}"
   git --git-dir="$HOME/my/modules/themes/.git" --work-tree="$HOME/my/modules/themes/" pull
@@ -128,15 +143,21 @@ else
   ln -si ~/my/modules/themes/limechat/kud.yaml ~/Library/Application\ Support/LimeChat/Themes/kud.yaml
 fi
 
+# update ruby packages
 echo "${GREEN}=> Updating Gems...${RESET}"
 gem update --system && gem update
+
+# update node packages
 echo "${GREEN}=> Updating global node modules..."
 npm update -g
 
+# warn about apps coming from app store
 echo "${GREEN}=> Don't forget to install via App Store${RESET}"
 echo "- Twitter for Mac"
 echo "- XCode"
 
+# done!
 echo "${BLUE}And... we're done!${RESET}"
 
+# restart the shell
 exec $SHELL
