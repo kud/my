@@ -1,9 +1,6 @@
 #!/bin/zsh
 echo '⤿ Time to synchronise...'
 
-# copy prezto files
-~/my/scripts/sync_prezto
-
 # symlink dotfiles
 ln -si ~/my/dotfiles/.aliases ~/.aliases
 ln -si ~/my/dotfiles/.gemrc ~/.gemrc

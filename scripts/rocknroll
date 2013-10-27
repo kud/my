@@ -1,4 +1,5 @@
 #!/bin/zsh
+setopt EXTENDED_GLOB
 autoload colors
 if [[ "$terminfo[colors]" -gt 8 ]]; then
     colors
@@ -111,6 +112,10 @@ if [ -d "$HOME/.zprezto" ]; then
 else
   echo "${GREEN}=> Installing Prezto...${RESET}"
   git clone --recursive https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
+  echo "${GREEN}=> Copying zprezto files...${RESET}"
+  for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+    cp -ivn "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+  done
 fi
 
 if [ -d "$HOME/my/modules/themes" ]; then
