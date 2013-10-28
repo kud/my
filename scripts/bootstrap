@@ -5,4 +5,4 @@ fi
 ~/my/scripts/rocknroll
 ~/my/scripts/sync
 ~/my/scripts/osx
-echo $SHELL
+exec $SHELL
