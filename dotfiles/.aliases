@@ -97,3 +97,6 @@ alias sshfs='nocorrect sshfs'
 
 # no glob
 alias jake='noglob jake'
+
+# my
+alias my='subl $MY'
