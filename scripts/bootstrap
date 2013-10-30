@@ -1,8 +1,8 @@
 #!/bin/zsh
-if [ ! -d "$HOME/.zprezto" ]; then
-  git clone git@github.com:kud/my.git ~/my
+if [ ! -d "$HOME/my/" ]; then
+  git clone git@github.com:kud/my.git ~/my &&
 fi
-~/my/scripts/rocknroll
-~/my/scripts/sync
+~/my/scripts/rocknroll &&
+~/my/scripts/sync &&
 ~/my/scripts/osx
 exec $SHELL

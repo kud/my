@@ -1,5 +1,12 @@
 # functions
 
+## rocknroll
+function _rocknoll {
+  echo "=> Updating \`my\`..." &&
+  git --git-dir="$HOME/my/.git" --work-tree="$HOME/my/" pull &&
+  ~/my/scripts/rocknroll
+}
+
 ## define browser
 function browser {
   open -a $BROWSER $argv
@@ -56,7 +63,7 @@ alias android-inspector='adb forward tcp:9222 localabstract:chrome_devtools_remo
 alias adb-logcat='adb logcat browser:IEW "*:S"'
 
 # update
-alias rocknroll='git --git-dir="$HOME/my/.git" --work-tree="$HOME/my/" pull && ~/my/scripts/rocknroll'
+alias rocknroll='_rocknoll'
 alias brew-rocknroll='brew update && brew upgrade'
 
 # (un)compression
