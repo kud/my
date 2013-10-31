@@ -149,7 +149,7 @@ gem update --system && gem update
 
 # update node packages
 echo "\n${GREEN}=> Updating global node modules..."
-npm update -g
+npm update -g --quiet
 
 # warn about apps coming from app store
 echo "\n${GREEN}=> Don't forget to install via App Store${RESET}"
