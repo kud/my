@@ -107,3 +107,6 @@ alias jake='noglob jake'
 
 # my
 alias my='subl $MY'
+
+# easy
+alias s='subl .'
