@@ -101,7 +101,7 @@ caskinstall firefox-aurora
 caskinstall dropbox
 caskinstall vlc
 caskinstall alfred
-caskinstall iterm2
+caskinstall iterm2-beta
 caskinstall lime-chat
 caskinstall f-lux
 caskinstall app-cleaner
@@ -148,7 +148,7 @@ echo "\n${GREEN}=> Updating Gems...${RESET}"
 gem update --system && gem update
 
 # update node packages
-echo "\n${GREEN}=> Updating global node modules..."
+echo "\n${GREEN}=> Updating global node modules...${RESET}"
 npm update -g --quiet
 
 # warn about apps coming from app store
