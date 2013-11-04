@@ -87,6 +87,7 @@ brewinstall curl
 brewinstall pv
 brewinstall md5sha1sum
 brewinstall tree
+brewinstall mtr
 
 brewinstall ruby
 brewinstall python
