@@ -110,3 +110,4 @@ alias my='subl $MY'
 
 # easy
 alias s='subl .'
+alias flushcache='dscacheutil -flushcache'
