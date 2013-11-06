@@ -25,6 +25,13 @@ function caskinstall() {
   brew cask install "${@}" 2> /dev/null
 }
 
+# force
+FORCE=0;
+
+if [ "$1" = "-f" ]; then
+  FORCE=1;
+fi
+
 # kikoolol print
 printf "\n༼ ᕤ﻿◕◡◕ ༽ᕤ﻿ \`my\` ༼ ᕤ﻿◕◡◕ ༽ᕤ\n"
 
@@ -59,9 +66,11 @@ if type "/usr/local/bin/make" > /dev/null; then
   brew unlink make > /dev/null
 fi
 
-# call the doctor please, and quit if he checked something wrong
-echo "\n${GREEN}=> Doctor is checking...${RESET}"
-brew doctor || exit 1
+if [ $FORCE -eq 0 ]; then
+  # call the doctor please, and quit if he checked something wrong
+  echo "\n${GREEN}=> Doctor is checking...${RESET}"
+  brew doctor || exit 1
+fi
 
 # add some brew repo
 echo "\n${GREEN}=> Tap some brew repos if needed...${RESET}"
