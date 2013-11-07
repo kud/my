@@ -25,6 +25,13 @@ function caskinstall() {
   brew cask install "${@}" 2> /dev/null
 }
 
+# easy brew tap function
+function brewtap() {
+  if ! brew tap | grep "${@}" > /dev/null; then
+    brew tap "${@}"
+  fi
+}
+
 # force
 FORCE=0;
 
@@ -74,12 +81,9 @@ fi
 
 # add some brew repo
 echo "\n${GREEN}=> Tap some brew repos if needed...${RESET}"
-if ! brew tap | grep cask > /dev/null; then
-  brew tap phinze/homebrew-cask
-fi
-if ! brew tap | grep dupes > /dev/null; then
-  brew tap homebrew/dupes
-fi
+brewtap phinze/cask
+brewtap homebrew/dupes
+brewtap caskroom/versions
 
 # install brew packages
 echo "\n${GREEN}=> Installing brew packages...${RESET}"
