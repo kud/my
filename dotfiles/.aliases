@@ -2,9 +2,20 @@
 
 ## rocknroll
 function _rocknoll {
-  echo "=> Updating \`my\`..." &&
-  git --git-dir="$HOME/my/.git" --work-tree="$HOME/my/" pull &&
-  ~/my/scripts/rocknroll
+  # force
+  FORCE=0;
+
+  if [ "$1" = "-f" ]; then
+    FORCE=1;
+  fi
+
+  if [ $FORCE -eq 0 ]; then
+    echo "=> Updating \`my\`..." &&
+    git --git-dir="$HOME/my/.git" --work-tree="$HOME/my/" pull &&
+    ~/my/scripts/rocknroll
+  else
+    ~/my/scripts/rocknroll -f
+  fi
 }
 
 ## define browser
