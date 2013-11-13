@@ -41,6 +41,7 @@
   export = "!git clone --depth 1 $1 && rm -rf \"$(basename $1 .git)/.git\" -"
   sublimediff = "!git diff $@ | subl"
   mdrdiff = "!git diff $@ | mdr"
+  branches = branch -avv
 [branch]
   autosetuprebase = always
 ;Define these lines in .gitconfig_local
