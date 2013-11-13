@@ -68,11 +68,6 @@ fi
 echo "\n${GREEN}=> Updating brew...${RESET}"
 brew update && brew upgrade
 
-# hack to make doctor not crying about make
-if type "/usr/local/bin/make" > /dev/null; then
-  brew unlink make > /dev/null
-fi
-
 # add some brew repo
 echo "\n${GREEN}=> Tap some brew repos if needed...${RESET}"
 brewtap phinze/cask
@@ -82,7 +77,7 @@ brewtap caskroom/versions
 # install brew packages
 echo "\n${GREEN}=> Installing brew packages...${RESET}"
 
-brewinstall homebrew/dupes/make && brew link make --force > /dev/null
+brewinstall homebrew/dupes/make
 brewinstall dnsmasq
 brewinstall ssh-copy-id
 brewinstall htop-osx
@@ -170,11 +165,19 @@ if [ ! -d "/Applications/Xcode.app/" ]; then
   echo "- XCode"
 fi
 
+# hack to make doctor not crying about make
+if type "/usr/local/bin/make" > /dev/null; then
+  brew unlink make > /dev/null
+fi
+
 # if [ $FORCE -eq 0 ]; then
 echo "\n${GREEN}=> Doctor is checking...${RESET}"
 # brew doctor || exit 1
 brew doctor
 # fi
+
+# come back make!
+brew link make --force > /dev/null
 
 # done!
 echo "\n${BLUE}And... we're done!${RESET}"
