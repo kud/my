@@ -389,6 +389,9 @@ ln -s /Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app /Appli
 defaults write com.apple.dock wvous-bl-corner -int 5
 defaults write com.apple.dock wvous-bl-modifier -int 0
 
+# Stop bouncing
+defaults write com.apple.dock no-bouncing -bool true
+
 ###############################################################################
 # Safari & WebKit                                                             #
 ###############################################################################
