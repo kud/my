@@ -73,12 +73,6 @@ if type "/usr/local/bin/make" > /dev/null; then
   brew unlink make > /dev/null
 fi
 
-if [ $FORCE -eq 0 ]; then
-  # call the doctor please, and quit if he checked something wrong
-  echo "\n${GREEN}=> Doctor is checking...${RESET}"
-  brew doctor || exit 1
-fi
-
 # add some brew repo
 echo "\n${GREEN}=> Tap some brew repos if needed...${RESET}"
 brewtap phinze/cask
@@ -175,6 +169,12 @@ fi
 if [ ! -d "/Applications/Xcode.app/" ]; then
   echo "- XCode"
 fi
+
+# if [ $FORCE -eq 0 ]; then
+echo "\n${GREEN}=> Doctor is checking...${RESET}"
+# brew doctor || exit 1
+brew doctor
+# fi
 
 # done!
 echo "\n${BLUE}And... we're done!${RESET}"
