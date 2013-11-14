@@ -121,7 +121,7 @@ caskinstall sublime-text-3
 if ! type "subl" > /dev/null; then
   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 fi
-caskinstall x-quartz
+caskinstall xquartz
 
 # handle zprezto
 if [ -d "$HOME/.zprezto" ]; then
