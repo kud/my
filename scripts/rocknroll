@@ -122,6 +122,7 @@ if ! type "subl" > /dev/null; then
   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 fi
 caskinstall xquartz
+caskinstall bittorrent-sync
 
 # handle zprezto
 if [ -d "$HOME/.zprezto" ]; then
