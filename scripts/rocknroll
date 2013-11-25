@@ -90,6 +90,7 @@ brewinstall pv
 brewinstall md5sha1sum
 brewinstall tree
 brewinstall mtr
+brewinstall https://raw.github.com/kud/homebrew/formula.mdr/Library/Formula/mdr.rb
 
 brewinstall ruby
 brewinstall python
