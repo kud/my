@@ -18,6 +18,12 @@ function _rocknoll {
   fi
 }
 
+## take an image and copy/paste it as base64 into clipboard
+function base64-image-encoder {
+  IMGBASE64=$(base64 $argv)
+  echo "data:image/png;base64, $IMGBASE64" | pbcopy
+}
+
 ## define browser
 function browser {
   open -a $BROWSER $argv
@@ -122,3 +128,5 @@ alias my='subl $MY'
 # easy
 alias s='subl .'
 alias flushcache='dscacheutil -flushcache'
+
+
