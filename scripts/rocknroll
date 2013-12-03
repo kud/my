@@ -166,6 +166,7 @@ fi
 if [ ! -d "/Applications/Xcode.app/" ]; then
   echo "- XCode"
 fi
+echo "- Network Link Conditioner"
 
 # hack to make doctor not crying about make
 if type "/usr/local/bin/make" > /dev/null; then
