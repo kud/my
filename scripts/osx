@@ -296,8 +296,9 @@ defaults write com.apple.finder EmptyTrashSecurely -bool true
 # Enable the MacBook Air SuperDrive on any Mac
 # sudo nvram boot-args="mbasd=1"
 
-# Show the ~/Library folder
+# Unhide some folders
 chflags nohidden ~/Library
+# chflags nohidden /{opt,etc,cores,bin,Network,private,sbin,usr,Volumes,var,tmp,etc}
 
 # Remove Dropbox’s green checkmark icons in Finder
 # file=/Applications/Dropbox.app/Contents/Resources/emblem-dropbox-uptodate.icns
