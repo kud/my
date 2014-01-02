@@ -3,6 +3,9 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+# Homebrew Cask
+export HOMEBREW_CASK_OPTS=--appdir=/Applications
+
 # Export MY
 export MY=$HOME/my/
 
