@@ -1,6 +1,6 @@
 #!/bin/zsh
 if [ ! -d "$HOME/my/" ]; then
-  git clone git@github.com:kud/my.git ~/my &&
+  git clone https://github.com/kud/my.git ~/my &&
 fi
 ~/my/scripts/rocknroll &&
 ~/my/scripts/sync &&

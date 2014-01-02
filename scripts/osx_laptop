@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+sudo scutil --set ComputerName "_kud.laptop"
+sudo scutil --set HostName "_kud.laptop"
+sudo scutil --set LocalHostName "kud-laptop"
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "kud-laptop"
