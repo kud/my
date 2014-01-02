@@ -73,6 +73,7 @@ echo "\n${GREEN}=> Tap some brew repos if needed...${RESET}"
 brewtap phinze/cask
 brewtap homebrew/dupes
 brewtap caskroom/versions
+brewtap josegonzalez/homebrew-php
 
 # install brew packages
 echo "\n${GREEN}=> Installing brew packages...${RESET}"
@@ -97,6 +98,7 @@ brewinstall https://raw.github.com/kud/homebrew/formula.mdr/Library/Formula/mdr.
 brewinstall ruby
 brewinstall python
 brewinstall node
+brewinstall php55
 
 brewinstall brew-cask
 
