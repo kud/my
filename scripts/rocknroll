@@ -105,7 +105,7 @@ brewinstall brew-cask
 # install apps
 echo "\n${GREEN}=> Installing apps...${RESET}"
 caskinstall dropbox
-if [ ! -d "Dropbox" ]; then
+if [ ! -d "$HOME/Dropbox" ]; then
   read -q "REPLY?Configure now your dropbox and press [Enter] when you've finished..."
 fi
 caskinstall google-chrome-canary
