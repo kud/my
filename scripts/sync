@@ -12,7 +12,7 @@ ln -si ~/my/dotfiles/.editorconfig ~/.editorconfig
 
 # local files
 touch ~/.gitconfig_local
-touch ~/.zshrc.local
+touch ~/.zshrc_local
 
 # symlink appdata
 ln -si ~/Dropbox/appdata/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
