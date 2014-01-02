@@ -45,7 +45,7 @@ printf "\n༼ ᕤ﻿◕◡◕ ༽ᕤ﻿ \`my\` ༼ ᕤ﻿◕◡◕ ༽ᕤ\n"
 # install brew if needed
 if ! type "brew" > /dev/null; then
   echo "\n${GREEN}=> Installing homebrew...${RESET}"
-  ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
+  ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 fi
 
 # install zsh via brew if needed
@@ -54,7 +54,7 @@ if ! type "/usr/local/bin/zsh" > /dev/null; then
   brewinstall zsh
   echo "/usr/local/bin/zsh" | sudo tee -a /etc/shells
   chsh -s /usr/local/bin/zsh $USER
-  sudo mv /etc/{zshenv,zprofile}
+  # sudo mv /etc/{zshenv,zprofile}
 fi
 
 # install bash via brew if needed
@@ -108,19 +108,19 @@ caskinstall dropbox
 caskinstall vlc
 caskinstall alfred
 caskinstall iterm2-beta
-caskinstall lime-chat
+caskinstall limechat
 caskinstall f-lux
-caskinstall app-cleaner
-caskinstall keepass-x-2
+caskinstall appcleaner
+caskinstall keepassx2
 caskinstall spectacle
-caskinstall grand-perspective
+caskinstall grandperspective
 caskinstall imagealpha
 caskinstall imageoptim
 caskinstall mou
 caskinstall steam
 caskinstall spotify
 caskinstall tinygrab
-caskinstall sublime-text-3
+caskinstall sublime-text3
 if ! type "subl" > /dev/null; then
   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 fi
@@ -147,6 +147,7 @@ if [ -d "$HOME/my/modules/themes" ]; then
 else
   echo "\n${GREEN}=> Installing themes...${RESET}"
   git clone --recursive https://github.com/kud/themes.git "$HOME/my/modules/themes"
+  mkdir -p ~/Library/Application\ Support/LimeChat/Themes
   ln -si ~/my/modules/themes/limechat/kud.css ~/Library/Application\ Support/LimeChat/Themes/kud.css
   ln -si ~/my/modules/themes/limechat/kud.yaml ~/Library/Application\ Support/LimeChat/Themes/kud.yaml
 fi
