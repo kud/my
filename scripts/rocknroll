@@ -131,6 +131,7 @@ if ! type "subl" > /dev/null; then
 fi
 caskinstall xquartz
 caskinstall bittorrent-sync
+caskinstall flash
 
 # handle zprezto
 if [ -d "$HOME/.zprezto" ]; then
