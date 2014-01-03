@@ -626,8 +626,8 @@ defaults write com.twitter.twitter-mac AutomaticQuoteSubstitutionEnabled -bool f
 # Enable the hidden ‘Develop’ menu
 defaults write com.twitter.twitter-mac ShowDevelopMenu -bool true
 
-# Open links in the background
-defaults write com.twitter.twitter-mac openLinksInBackground -bool true
+# Do not open links in the background
+defaults write com.twitter.twitter-mac openLinksInBackground -bool false
 
 # Allow closing the ‘new tweet’ window by pressing `Esc`
 defaults write com.twitter.twitter-mac ESCClosesComposeWindow -bool true
