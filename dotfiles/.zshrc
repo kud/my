@@ -19,7 +19,7 @@ export PATH=/usr/local/opt/ruby/bin:/usr/local/share/npm/bin:/usr/local/lib/node
 . ~/.aliases
 
 # Android
-export ANDROID_SDK_ROOT=/usr/local/Cellar/android-sdk/r20.0.1
+export ANDROID_HOME=/usr/local/opt/android-sdk
 
 # rbenv
 # if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
