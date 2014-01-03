@@ -111,6 +111,9 @@ launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.
 # Hide Desktop icons
 defaults write com.apple.finder CreateDesktop -bool false
 
+# Set wallpaper
+osascript -e "tell application \"System Events\" to set picture of every desktop to \"~/Dropbox/lib/wallpapers/ram_wide.jpg\""
+
 ###############################################################################
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #
 ###############################################################################
