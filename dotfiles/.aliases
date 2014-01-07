@@ -18,6 +18,26 @@ function _rocknoll {
   fi
 }
 
+## quit app
+quit () {
+  for app in $*; do
+    osascript -e 'quit app "'$app'"'
+  done
+}
+
+## restart app
+restart () {
+  for app in $*; do
+    osascript -e 'quit app "'$app'"';
+    open -a $app
+  done
+}
+
+## bye bye (apps which are synchronised)
+byebye () {
+  quit "Sublime Text" limechat iterm
+}
+
 ## take an image and copy/paste it as base64 into clipboard
 function base64-image-encoder {
   IMGBASE64=$(base64 $argv)
