@@ -132,6 +132,15 @@ fi
 caskinstall xquartz
 caskinstall bittorrent-sync
 caskinstall flash
+caskinstall qlcolorcode
+caskinstall qlstephen
+caskinstall qlmarkdown
+caskinstall quicklook-json
+caskinstall quicklook-csv
+caskinstall qlprettypatch
+caskinstall betterzipql
+caskinstall webp-quicklook
+caskinstall suspicious-package
 
 # handle zprezto
 if [ -d "$HOME/.zprezto" ]; then
