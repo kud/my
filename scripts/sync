@@ -19,3 +19,4 @@ ln -si ~/Dropbox/appdata/iterm2/com.googlecode.iterm2.plist ~/Library/Preference
 ln -si ~/Dropbox/appdata/limechat/net.limechat.LimeChat.plist ~/Library/Preferences/net.limechat.LimeChat.plist
 ln -si ~/Dropbox/appdata/sublimetext3/Packages ~/Library/Application\ Support/Sublime\ Text\ 3
 ln -si ~/Dropbox/appdata/sublimetext3/Installed\ Packages ~/Library/Application\ Support/Sublime\ Text\ 3
+ln -si ~/Dropbox/appdata/lightroom/Develop\ Presets ~/Library/Application\ Support/Adobe/Lightroom
