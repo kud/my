@@ -141,6 +141,7 @@ caskinstall qlprettypatch
 caskinstall betterzipql
 caskinstall webp-quicklook
 caskinstall suspicious-package
+caskinstall ios7-screensaver
 
 # handle zprezto
 if [ -d "$HOME/.zprezto" ]; then
@@ -168,8 +169,18 @@ else
 fi
 
 # update ruby packages
-echo "\n${GREEN}=> Updating Gems...${RESET}"
+echo "\n${GREEN}=> Installing global node packages...${RESET}"
 gem update --system && gem update
+
+# install node packages
+echo "\n${GREEN}=> Updating global node modules...${RESET}"
+if ! type "bower" > /dev/null; then
+  npm install bower -g --quiet
+fi
+
+if ! type "tldr" > /dev/null; then
+  npm install tldr -g --quiet
+fi
 
 # update node packages
 echo "\n${GREEN}=> Updating global node modules...${RESET}"
