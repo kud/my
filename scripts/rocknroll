@@ -195,6 +195,8 @@ npm update -g --quiet
 echo "\n${GREEN}=> Installing global node packages...${RESET}"
 npminstall bower
 npminstall tldr
+npminstall nodemon
+npminstall jake
 
 # warn about apps coming from app store
 echo "\n${GREEN}=> Don't forget to install via App Store${RESET}"
