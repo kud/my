@@ -25,6 +25,21 @@ function caskinstall() {
   brew cask install "${@}" 2> /dev/null
 }
 
+# easy ruby package install function
+function geminstall() {
+  if ! type "${@}" > /dev/null; then
+    gem install "${@}"
+  fi
+}
+
+# easy global node package install function
+function npminstall() {
+  if ! type "${@}" > /dev/null; then
+    npm install "${@}" -g --quiet
+  fi
+}
+
+
 # easy brew tap function
 function brewtap() {
   if ! brew tap | grep "${@}" > /dev/null; then
@@ -169,22 +184,17 @@ else
 fi
 
 # update ruby packages
-echo "\n${GREEN}=> Installing global node packages...${RESET}"
+echo "\n${GREEN}=> Updating Gems...${RESET}"
 gem update --system && gem update
-
-# install node packages
-echo "\n${GREEN}=> Updating global node modules...${RESET}"
-if ! type "bower" > /dev/null; then
-  npm install bower -g --quiet
-fi
-
-if ! type "tldr" > /dev/null; then
-  npm install tldr -g --quiet
-fi
 
 # update node packages
 echo "\n${GREEN}=> Updating global node modules...${RESET}"
 npm update -g --quiet
+
+# install node packages
+echo "\n${GREEN}=> Installing global node packages...${RESET}"
+npminstall bower
+npminstall tldr
 
 # warn about apps coming from app store
 echo "\n${GREEN}=> Don't forget to install via App Store${RESET}"
