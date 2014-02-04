@@ -72,19 +72,20 @@ alias rm='rm -i'
 alias filesizer='du -sc * | sort -n | tail'
 
 # config
-alias profile='subl -n ~/.profile'
-alias bashprofile='subl -n  ~/.bash_profile'
-alias zshrc='subl -n  ~/.zshrc'
-alias npmrc='subl -n  ~/.npmrc'
-alias aliases-source='source ~/.aliases'
-alias aliases='subl -n  ~/.aliases'
+alias source-aliases='source ~/.aliases'
+alias .profile='subl -n ~/.profile'
+alias .bash_profile='subl -n  ~/.bash_profile'
+alias .zshrc='subl -n  ~/.zshrc'
+alias .npmrc='subl -n  ~/.npmrc'
+alias .aliases='subl -n  ~/.aliases'
 alias hosts='subl -n  /private/etc/hosts'
-alias apache='subl -n  /private/etc/apache2/httpd.conf'
-alias vhosts='subl -n  /private/etc/apache2/extra/httpd-vhosts.conf'
+alias httpd.conf='subl -n  /private/etc/apache2/httpd.conf'
+alias httpd-vhosts.conf='subl -n  /private/etc/apache2/extra/httpd-vhosts.conf'
 alias php.ini='subl -n  /private/etc/php.ini'
-alias gitignore='subl -n  ~/.gitignore_global'
+alias .gitignore_global='subl -n  ~/.gitignore_global'
 alias gitconfig='subl -n  ~/.gitconfig'
 alias network-sharing="sudo subl -n /etc/bootpd.plist"
+alias dnsmasq.conf="subl -n /usr/local/etc/dnsmasq.conf"
 
 # softwares
 # alias fw='open -a /Applications/Adobe\ Fireworks\ CS5/Adobe\ Fireworks\ CS5.app/Contents/MacOS/Adobe\ Fireworks\ CS5'
