@@ -42,7 +42,7 @@
   sublimediff = "!git diff $@ | subl"
   mdrdiff = "!git diff $@ | mdr"
   branches = branch -avv
-  resetfromsource = "!git fetch -a source && git co master && git reset --hard source/master"
+  resetfromsource = "!git checkout master && git reset --hard && git pull --rebase source master"
 [branch]
   autosetuprebase = always
 ;Define these lines in .gitconfig_local
