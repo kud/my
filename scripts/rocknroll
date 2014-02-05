@@ -126,7 +126,7 @@ if [ ! -d "$HOME/Dropbox" ]; then
   read -q "REPLY?Configure now your dropbox and press [Enter] when you've finished..."
 fi
 caskinstall google-chrome-canary
-caskinstall firefox-aurora
+caskinstall firefox-nightly
 caskinstall vlc
 caskinstall alfred
 caskinstall iterm2-beta
