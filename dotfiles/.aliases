@@ -83,7 +83,7 @@ alias httpd.conf='subl -n  /private/etc/apache2/httpd.conf'
 alias httpd-vhosts.conf='subl -n  /private/etc/apache2/extra/httpd-vhosts.conf'
 alias php.ini='subl -n  /private/etc/php.ini'
 alias .gitignore_global='subl -n  ~/.gitignore_global'
-alias gitconfig='subl -n  ~/.gitconfig'
+alias .gitconfig='subl -n  ~/.gitconfig'
 alias network-sharing="sudo subl -n /etc/bootpd.plist"
 alias dnsmasq.conf="subl -n /usr/local/etc/dnsmasq.conf"
 
