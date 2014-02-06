@@ -9,6 +9,7 @@ ln -si ~/my/dotfiles/.gitignore_global ~/.gitignore_global
 ln -si ~/my/dotfiles/.zpreztorc ~/.zpreztorc
 ln -si ~/my/dotfiles/.zshrc ~/.zshrc
 ln -si ~/my/dotfiles/.editorconfig ~/.editorconfig
+ln -si ~/my/dotfiles/.bookmarks ~/.bookmarks
 
 # local files
 touch ~/.gitconfig_local

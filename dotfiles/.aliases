@@ -130,7 +130,7 @@ export CLICOLOR=1
 DISPLAY=:0.0; export DISPLAY
 
 # github
-alias fakegithubconnection='ssh -N git@github.com'
+alias fake-github-connection='ssh -N git@github.com'
 
 # git / svn
 alias git-svn-pull='git svn rebase'
@@ -148,8 +148,12 @@ alias jake='noglob jake'
 # my
 alias my='subl $MY'
 
-# easy
+# bookmarks
+alias .bookmarks="subl -n ~/.bookmarks"
+alias bookmarks="less ~/.bookmarks"
+
+# ease
 alias s='subl .'
-alias flushcache='dscacheutil -flushcache'
+alias flush-dns='dscacheutil -flushcache'
 
 
