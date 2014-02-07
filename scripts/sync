@@ -9,7 +9,7 @@ ln -si ~/my/dotfiles/.gitignore_global ~/.gitignore_global
 ln -si ~/my/dotfiles/.zpreztorc ~/.zpreztorc
 ln -si ~/my/dotfiles/.zshrc ~/.zshrc
 ln -si ~/my/dotfiles/.editorconfig ~/.editorconfig
-ln -si ~/my/dotfiles/.bookmarks ~/.bookmarks
+ln -si ~/my/dotfiles/.boom ~/.boom
 
 # local files
 touch ~/.gitconfig_local
@@ -17,9 +17,16 @@ touch ~/.zshrc_local
 
 # symlink appdata
 ln -si ~/Dropbox/appdata/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
+
 ln -si ~/Dropbox/appdata/limechat/net.limechat.LimeChat.plist ~/Library/Preferences/net.limechat.LimeChat.plist
+
+mkdir -p ~/Library/Application\ Support/Sublime\ Text\ 3
 ln -si ~/Dropbox/appdata/sublimetext3/Packages ~/Library/Application\ Support/Sublime\ Text\ 3
 ln -si ~/Dropbox/appdata/sublimetext3/Installed\ Packages ~/Library/Application\ Support/Sublime\ Text\ 3
+
+mkdir -p ~/Library/Application\ Support/Adobe/Lightroom
 ln -si ~/Dropbox/appdata/lightroom/Develop\ Presets ~/Library/Application\ Support/Adobe/Lightroom
-ln -si ~/Dropbox/appdata/mou/CSS ~/Library/Application\ Support/Mou/
-ln -si ~/Dropbox/appdata/mou/Themes ~/Library/Application\ Support/Mou/
+
+mkdir -p ~/Library/Application\ Support/Mou
+ln -si ~/Dropbox/appdata/mou/CSS ~/Library/Application\ Support/Mou
+ln -si ~/Dropbox/appdata/mou/Themes ~/Library/Application\ Support/Mou

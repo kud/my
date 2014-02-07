@@ -1,0 +1,137 @@
+{
+  "lists": [
+    {
+      "tools": [
+        {
+          "colorhex": "http://www.colorhexa.com/"
+        },
+        {
+          "flatuicolors": "http://flatuicolors.com/"
+        },
+        {
+          "kuler": "https://kuler.adobe.com/"
+        },
+        {
+          "colours": "http://colours.neilorangepeel.com/"
+        },
+        {
+          "social-colours": "http://codingdroid.com/social-media-hex-and-rgb-color-codes/"
+        },
+        {
+          "color-template": "http://www.rocket-design.fr/color-template/"
+        },
+        {
+          "check-my-colours": "http://www.checkmycolours.com/"
+        },
+        {
+          "check-sourcemaps": "http://sourcemap-validator.herokuapp.com/"
+        }
+      ]
+    },
+    {
+      "docs": [
+        {
+          "test": "hello"
+        },
+        {
+          "devdocs": "http://devdocs.io/"
+        },
+        {
+          "caniuse": "http://caniuse.com/"
+        },
+        {
+          "html5index": "http://html5index.org/"
+        },
+        {
+          "jsdb": "http://www.jsdb.io/"
+        },
+        {
+          "dochub": "http://dochub.io/"
+        },
+        {
+          "microjs": "http://microjs.com/"
+        }
+      ]
+    },
+    {
+      "fixtures": [
+        {
+          "fakeimg": "http://fakeimg.pl/"
+        },
+        {
+          "placeimg": "http://placeimg.com/"
+        },
+        {
+          "lorempixel": "http://lorempixel.com/"
+        }
+      ]
+    },
+    {
+      "unicode": [
+        {
+          "copy-paste-character": "http://copypastecharacter.com/"
+        },
+        {
+          "fsymbols": "http://fsymbols.com/"
+        },
+        {
+          "shapecatcher": "http://shapecatcher.com/"
+        }
+      ]
+    },
+    {
+      "svg": [
+        {
+          "iconmonstr": "http://iconmonstr.com/"
+        },
+        {
+          "the-noun-project": "http://thenounproject.com/"
+        },
+        {
+          "icomoon": "http://icomoon.io/"
+        }
+      ]
+    },
+    {
+      "ui": [
+        {
+          "use-your-interface": "http://useyourinterface.com/"
+        },
+        {
+          "place-it": "https://placeit.net/"
+        }
+      ]
+    },
+    {
+      "hacks": [
+        {
+          "firefox-buttons": "http://davidwalsh.name/firefox-buttons"
+        },
+        {
+          "browserhacks": "http://browserhacks.com/"
+        }
+      ]
+    },
+    {
+      "components": [
+        {
+          "ratchet": "http://maker.github.io/ratchet/"
+        }
+      ]
+    },
+    {
+      "sounds": [
+        {
+          "noisli": "http://www.noisli.com/"
+        }
+      ]
+    },
+    {
+      "upload": [
+        {
+          "redpend": "https://redpen.io/"
+        }
+      ]
+    }
+  ]
+}

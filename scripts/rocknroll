@@ -189,6 +189,10 @@ fi
 echo "\n${GREEN}=> Updating Gems...${RESET}"
 gem update --system && gem update
 
+# install ruby packages
+echo "\n${GREEN}=> Installing global ruby packages...${RESET}"
+geminstall boom
+
 # update node packages
 echo "\n${GREEN}=> Updating global node modules...${RESET}"
 npm update -g --quiet

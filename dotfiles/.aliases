@@ -148,10 +148,6 @@ alias jake='noglob jake'
 # my
 alias my='subl $MY'
 
-# bookmarks
-alias .bookmarks="subl -n ~/.bookmarks"
-alias bookmarks="less ~/.bookmarks"
-
 # ease
 alias s='subl .'
 alias flush-dns='dscacheutil -flushcache'
