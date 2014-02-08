@@ -123,6 +123,9 @@
       "sounds": [
         {
           "noisli": "http://www.noisli.com/"
+        },
+        {
+          "coffitivity": "http://www.coffitivity.com/"
         }
       ]
     },
