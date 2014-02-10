@@ -195,7 +195,8 @@ geminstall boom
 
 # update node packages
 echo "\n${GREEN}=> Updating global node modules...${RESET}"
-npm update -g --quiet
+# npm update -g --quiet
+npm update -g --silent
 
 # install node packages
 echo "\n${GREEN}=> Installing global node packages...${RESET}"
