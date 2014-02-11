@@ -151,5 +151,6 @@ alias my='subl $MY'
 # ease
 alias s='subl .'
 alias flush-dns='dscacheutil -flushcache'
+alias dropbox='cd ~/Dropbox'
 
 
