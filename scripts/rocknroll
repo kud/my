@@ -110,6 +110,7 @@ brewinstall ncdu
 brewinstall iftop
 brewinstall iotop
 brewinstall lsof
+brewinstall pwgen
 brewinstall https://raw.github.com/kud/homebrew/formula.mdr/Library/Formula/mdr.rb
 
 brewinstall ruby
