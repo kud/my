@@ -118,20 +118,6 @@ alias untgz='tar -vzxf'
 # quicklook
 alias klook='qlmanage -p "$@" >& /dev/null'
 
-# global variable
-export AURORA_BIN="/Applications/FirefoxAurora.app/Contents/MacOS/firefox"
-export BROWSER=$AURORA_BIN
-export EDITOR="subl"
-export SVN_EDITOR="vim"
-
-# colours
-export TERM=xterm-256color
-export GREP_OPTIONS='--color=auto' GREP_COLOR='1;32'
-export CLICOLOR=1
-
-# display
-DISPLAY=:0.0; export DISPLAY
-
 # github
 alias fake-github-connection='ssh -N git@github.com'
 

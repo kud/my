@@ -27,6 +27,6 @@ ln -si ~/Dropbox/appdata/sublimetext3/Installed\ Packages ~/Library/Application\
 mkdir -p ~/Library/Application\ Support/Adobe/Lightroom
 ln -si ~/Dropbox/appdata/lightroom/Develop\ Presets ~/Library/Application\ Support/Adobe/Lightroom
 
-mkdir -p ~/Library/Application\ Support/Mou
-ln -si ~/Dropbox/appdata/mou/CSS ~/Library/Application\ Support/Mou
-ln -si ~/Dropbox/appdata/mou/Themes ~/Library/Application\ Support/Mou
+# mkdir -p ~/Library/Application\ Support/Mou
+# ln -si ~/Dropbox/appdata/mou/CSS ~/Library/Application\ Support/Mou
+# ln -si ~/Dropbox/appdata/mou/Themes ~/Library/Application\ Support/Mou

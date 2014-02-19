@@ -115,7 +115,8 @@ brewinstall https://raw.github.com/kud/homebrew/formula.mdr/Library/Formula/mdr.
 
 brewinstall ruby
 brewinstall python
-brewinstall node
+brewinstall node --without-npm
+curl https://npmjs.org/install.sh | sh
 brewinstall php55
 
 brewinstall brew-cask
