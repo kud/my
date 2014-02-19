@@ -31,9 +31,6 @@
     {
       "docs": [
         {
-          "test": "hello"
-        },
-        {
           "devdocs": "http://devdocs.io/"
         },
         {
@@ -67,19 +64,6 @@
       ]
     },
     {
-      "unicode": [
-        {
-          "copy-paste-character": "http://copypastecharacter.com/"
-        },
-        {
-          "fsymbols": "http://fsymbols.com/"
-        },
-        {
-          "shapecatcher": "http://shapecatcher.com/"
-        }
-      ]
-    },
-    {
       "svg": [
         {
           "iconmonstr": "http://iconmonstr.com/"
@@ -93,12 +77,25 @@
       ]
     },
     {
-      "ui": [
+      "unicode": [
         {
-          "use-your-interface": "http://useyourinterface.com/"
+          "copy-paste-character": "http://copypastecharacter.com/"
         },
         {
-          "place-it": "https://placeit.net/"
+          "fsymbols": "http://fsymbols.com/"
+        },
+        {
+          "shapecatcher": "http://shapecatcher.com/"
+        }
+      ]
+    },
+    {
+      "sounds": [
+        {
+          "noisli": "http://www.noisli.com/"
+        },
+        {
+          "coffitivity": "http://www.coffitivity.com/"
         }
       ]
     },
@@ -113,19 +110,19 @@
       ]
     },
     {
-      "components": [
+      "ui": [
         {
-          "ratchet": "http://maker.github.io/ratchet/"
+          "use-your-interface": "http://useyourinterface.com/"
+        },
+        {
+          "place-it": "https://placeit.net/"
         }
       ]
     },
     {
-      "sounds": [
+      "components": [
         {
-          "noisli": "http://www.noisli.com/"
-        },
-        {
-          "coffitivity": "http://www.coffitivity.com/"
+          "ratchet": "http://maker.github.io/ratchet/"
         }
       ]
     },

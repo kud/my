@@ -102,6 +102,9 @@ alias apache-log='tail -f /var/log/apache2/error_log'
 alias android-inspector='adb forward tcp:9222 localabstract:chrome_devtools_remote'
 alias adb-logcat='adb logcat browser:IEW "*:S"'
 
+# ios
+alias ios-simulator="open /Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app"
+
 # update
 alias rocknroll='_rocknoll'
 alias brew-rocknroll='brew update && brew upgrade'
