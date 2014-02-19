@@ -51,6 +51,22 @@
       ]
     },
     {
+      "ui": [
+        {
+          "use-your-interface": "http://useyourinterface.com/"
+        },
+        {
+          "place-it": "https://placeit.net/"
+        },
+        {
+          "patterntap": "http://patterntap.com/"
+        },
+        {
+          "pttrns": "http://pttrns.com/"
+        }
+      ]
+    },
+    {
       "fixtures": [
         {
           "fakeimg": "http://fakeimg.pl/"
@@ -60,19 +76,6 @@
         },
         {
           "lorempixel": "http://lorempixel.com/"
-        }
-      ]
-    },
-    {
-      "svg": [
-        {
-          "iconmonstr": "http://iconmonstr.com/"
-        },
-        {
-          "the-noun-project": "http://thenounproject.com/"
-        },
-        {
-          "icomoon": "http://icomoon.io/"
         }
       ]
     },
@@ -90,12 +93,15 @@
       ]
     },
     {
-      "sounds": [
+      "svg": [
         {
-          "noisli": "http://www.noisli.com/"
+          "iconmonstr": "http://iconmonstr.com/"
         },
         {
-          "coffitivity": "http://www.coffitivity.com/"
+          "the-noun-project": "http://thenounproject.com/"
+        },
+        {
+          "icomoon": "http://icomoon.io/"
         }
       ]
     },
@@ -110,12 +116,12 @@
       ]
     },
     {
-      "ui": [
+      "sounds": [
         {
-          "use-your-interface": "http://useyourinterface.com/"
+          "noisli": "http://www.noisli.com/"
         },
         {
-          "place-it": "https://placeit.net/"
+          "coffitivity": "http://www.coffitivity.com/"
         }
       ]
     },
