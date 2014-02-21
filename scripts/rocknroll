@@ -39,6 +39,12 @@ function npminstall() {
   fi
 }
 
+# easy global python package install function
+function pipinstall() {
+  if ! type "${@}" > /dev/null; then
+    pip install --upgrade "${@}"
+  fi
+}
 
 # easy brew tap function
 function brewtap() {
@@ -111,7 +117,7 @@ brewinstall iftop
 brewinstall iotop
 brewinstall lsof
 brewinstall pwgen
-brewinstall https://raw.github.com/kud/homebrew/formula.mdr/Library/Formula/mdr.rb
+brewinstall mdr
 
 brewinstall ruby
 brewinstall python
@@ -192,6 +198,10 @@ gem update --system && gem update
 # install ruby packages
 echo "\n${GREEN}=> Installing global ruby packages...${RESET}"
 geminstall boom
+
+# install ruby packages
+echo "\n${GREEN}=> Installing global python packages...${RESET}"
+pipinstall asciinema
 
 # update node packages
 echo "\n${GREEN}=> Updating global node modules...${RESET}"
