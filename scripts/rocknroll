@@ -165,6 +165,7 @@ caskinstall betterzipql
 caskinstall webp-quicklook
 caskinstall suspicious-package
 caskinstall ios7-screensaver
+caskinstall recordit
 
 # handle zprezto
 if [ -d "$HOME/.zprezto" ]; then
@@ -214,6 +215,7 @@ npminstall bower
 npminstall tldr
 npminstall nodemon
 npminstall jake
+npminstall bloody-testserver
 
 # warn about apps coming from app store
 echo "\n${GREEN}=> Don't forget to install via App Store${RESET}"
