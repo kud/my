@@ -58,7 +58,7 @@ alias adb-logcat='adb logcat browser:IEW "*:S"'
 alias ios-simulator="open -a /Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app"
 
 # update
-alias rocknroll='_rocknoll'
+alias rocknroll='~/my/bin/rocknroll-cli'
 alias brew-rocknroll='brew update && brew upgrade'
 
 # (un)compression
