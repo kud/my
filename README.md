@@ -15,7 +15,7 @@ Go to your App Store and install **XCode**.
 ### Run the script and watch the sky!
 
 ```shell
-$ curl --silent https://raw.github.com/kud/my/master/scripts/bootstrap | zsh
+$ curl --silent https://raw.github.com/kud/my/master/commands/bootstrap | zsh
 ```
 
 ## Periodic run

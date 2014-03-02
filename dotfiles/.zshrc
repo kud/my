@@ -1,28 +1,10 @@
-# source Prezto
+# prezto
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# homebrew cask
-export HOMEBREW_CASK_OPTS=--appdir=/Applications
-
 # export MY
 export MY=$HOME/my/
-
-# editor
-export EDITOR='subl -w'
-
-# path
-export PATH=/usr/texbin:/usr/local/opt/ruby/bin:/usr/local/share/npm/bin:/usr/local/lib/node_modules:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
-
-# Aliases
-. ~/.aliases
-
-# global variable
-export AURORA_BIN="/Applications/FirefoxAurora.app/Contents/MacOS/firefox"
-export BROWSER=$AURORA_BIN
-export EDITOR="subl"
-export SVN_EDITOR="vim"
 
 # colours
 export TERM=xterm-256color
@@ -32,21 +14,36 @@ export CLICOLOR=1
 # display
 DISPLAY=:0.0; export DISPLAY
 
-# android
-export ANDROID_HOME=/usr/local/opt/android-sdk
+# path
+export PATH=$HOME/my/bin:/usr/local/opt/ruby/bin:/usr/local/share/npm/bin:/usr/local/lib/node_modules:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
 
-# rbenv
-# if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+# british and utf-8
+export LANG="en_GB"
+export LC_ALL="en_GB.UTF-8"
 
 # increase opened files size
 ulimit -n 1024
 
-# prefer British and use UTF-8
-export LANG="en_GB"
-export LC_ALL="en_GB.UTF-8"
+# global variable
+export AURORA_BIN="/Applications/FirefoxNightly.app/Contents/MacOS/firefox"
+export BROWSER=$AURORA_BIN
+export EDITOR='subl -w'
+export GIT_EDITOR="vim"
+
+# aliases
+. ~/.aliases
+
+# android
+export ANDROID_HOME=/usr/local/opt/android-sdk
 
 # java
 export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home
+
+# rbenv
+# if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+# homebrew cask
+export HOMEBREW_CASK_OPTS=--appdir=/Applications
 
 # local
 . ~/.zshrc_local

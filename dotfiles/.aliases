@@ -1,54 +1,3 @@
-# functions
-
-## rocknroll
-function _rocknoll {
-  # force
-  FORCE=0;
-
-  if [ "$1" = "-f" ]; then
-    FORCE=1;
-  fi
-
-  if [ $FORCE -eq 0 ]; then
-    echo "=> Updating \`my\`..." &&
-    git --git-dir="$HOME/my/.git" --work-tree="$HOME/my/" pull &&
-    ~/my/scripts/rocknroll
-  else
-    ~/my/scripts/rocknroll -f
-  fi
-}
-
-## quit app
-quit () {
-  for app in $*; do
-    osascript -e 'quit app "'$app'"'
-  done
-}
-
-## restart app
-restart () {
-  for app in $*; do
-    osascript -e 'quit app "'$app'"';
-    open -a $app
-  done
-}
-
-## bye bye (apps which are synchronised)
-byebye () {
-  quit "Sublime Text" limechat iterm
-}
-
-## take an image and copy/paste it as base64 into clipboard
-function base64-image-encoder {
-  IMGBASE64=$(base64 $argv)
-  echo "data:image/png;base64, $IMGBASE64" | pbcopy
-}
-
-## define browser
-function browser {
-  open -a $BROWSER $argv
-}
-
 # basic directory operations
 alias ....='cd ../../..'
 alias ...='cd ../..'
@@ -64,7 +13,10 @@ alias l='ls -la'
 alias ll='ls -l'
 alias la='ls -lap'
 
+# ease folder creation
 alias md=mkdir
+
+# verbose
 alias cp='cp -v'
 alias mv='mv -v'
 alias rm='rm -i'
@@ -103,7 +55,7 @@ alias android-inspector='adb forward tcp:9222 localabstract:chrome_devtools_remo
 alias adb-logcat='adb logcat browser:IEW "*:S"'
 
 # ios
-alias ios-simulator="open /Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app"
+alias ios-simulator="open -a /Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app"
 
 # update
 alias rocknroll='_rocknoll'
@@ -128,12 +80,6 @@ alias git-svn-push='git svn rebase && git svn dcommit'
 # macosx
 alias fuckyoudock='killall Dock'
 
-# no correct
-alias sshfs='nocorrect sshfs'
-
-# no glob
-alias jake='noglob jake'
-
 # my
 alias my='subl $MY'
 
@@ -142,4 +88,9 @@ alias s='subl .'
 alias flush-dns='dscacheutil -flushcache'
 alias dropbox='cd ~/Dropbox'
 
+# no correct
+alias sshfs='nocorrect sshfs'
+
+# no glob
+alias jake='noglob jake'
 

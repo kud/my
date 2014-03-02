@@ -1,0 +1,8 @@
+#!/usr/local/bin/zsh
+
+## restart an app
+
+for app in $*; do
+  osascript -e 'quit app "'$app'"';
+  open -a $app
+done

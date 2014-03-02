@@ -1,0 +1,14 @@
+#!/usr/local/bin/zsh
+FORCE=0;
+
+if [ "$1" = "-f" ]; then
+  FORCE=1;
+fi
+
+if [ $FORCE -eq 0 ]; then
+  echo "=> Updating \`my\`..." &&
+  git --git-dir="$HOME/my/.git" --work-tree="$HOME/my/" pull &&
+  ~/my/commands/rocknroll
+else
+  ~/my/commands/rocknroll -f
+fi
