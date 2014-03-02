@@ -2,4 +2,4 @@
 
 ## open the main browser with the right url
 
-open -a $BROWSER $argv
+open $BROWSER $argv
