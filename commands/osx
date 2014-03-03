@@ -2,7 +2,7 @@
 
 # ~/.osx — http://mths.be/osx
 
-echo "=> Updating macosx settings..."
+echo "❯ Updating macosx settings..."
 
 # Ask for the administrator password upfront
 sudo -v
