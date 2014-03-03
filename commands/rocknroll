@@ -166,6 +166,7 @@ caskinstall webp-quicklook
 caskinstall suspicious-package
 caskinstall ios7-screensaver
 caskinstall recordit
+caskinstall xscope
 
 # handle zprezto
 if [ -d "$HOME/.zprezto" ]; then
