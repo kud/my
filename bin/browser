@@ -1,5 +1,0 @@
-#!/usr/local/bin/zsh
-
-## open the main browser with the right url
-
-open $BROWSER $argv
