@@ -43,3 +43,12 @@ cache/
 ##################
 .settings/
 .project
+
+# Node.js #
+###########
+node_modules/
+
+# Bower #
+#########
+bower-components/
+bower_components/

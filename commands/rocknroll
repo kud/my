@@ -60,8 +60,9 @@ if [ "$1" = "-f" ]; then
   FORCE=1;
 fi
 
-# kikoolol print
-printf "\n༼ ᕤ﻿◕◡◕ ༽ᕤ﻿ \`my\` ༼ ᕤ﻿◕◡◕ ༽ᕤ\n"
+printf "\n${CYAN}###############\n"
+printf "#     MY      #\n"
+printf "###############${RESET}\n"
 
 # install brew if needed
 if ! type "brew" > /dev/null; then
@@ -106,6 +107,7 @@ brewinstall htop-osx
 brewinstall homebrew/dupes/rsync
 
 brewinstall git
+brewinstall ghi
 brewinstall wget
 brewinstall curl
 brewinstall pv
@@ -118,6 +120,7 @@ brewinstall iotop
 brewinstall lsof
 brewinstall pwgen
 brewinstall mdr
+brewinstall vim
 
 brewinstall ruby
 brewinstall python

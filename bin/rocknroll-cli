@@ -6,7 +6,7 @@ if [ "$1" = "-f" ]; then
 fi
 
 if [ $FORCE -eq 0 ]; then
-  echo "❯ Updating \`my\`..." &&
+  echo "${GREEN}❯ Updating \`my\`...${RESET}" &&
   git --git-dir="$HOME/my/.git" --work-tree="$HOME/my/" pull &&
   ~/my/commands/rocknroll
 else

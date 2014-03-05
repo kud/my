@@ -1,7 +1,7 @@
 [core]
   whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
-  editor = subl -n -w
-  # editor = vim
+  # editor = subl -n -w
+  editor = vim
   excludesfile = ~/.gitignore_global
 [push]
   default = tracking
@@ -53,3 +53,5 @@
 ;  email = EMAIL
 [include]
   path = .gitconfig_local
+[ghi]
+	token = !security find-internet-password -a kud -s github.com -l 'ghi token' -w

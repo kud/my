@@ -14,6 +14,17 @@ export CLICOLOR=1
 # display
 DISPLAY=:0.0; export DISPLAY
 
+# set colours
+autoload colors
+if [[ "$terminfo[colors]" -gt 8 ]]; then
+  colors
+fi
+for COLOR in RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; do
+  eval $COLOR='$fg_no_bold[${(L)COLOR}]'
+  eval BOLD_$COLOR='$fg_bold[${(L)COLOR}]'
+done
+eval RESET='$reset_color'
+
 # path
 export PATH=$HOME/my/bin:/usr/local/opt/ruby/bin:/usr/local/share/npm/bin:/usr/local/lib/node_modules:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
 
@@ -25,10 +36,9 @@ export LC_ALL="en_GB.UTF-8"
 ulimit -n 1024
 
 # global variable
-export AURORA_BIN="/Applications/FirefoxNightly.app/Contents/MacOS/firefox"
-export BROWSER=$AURORA_BIN
+export FIREFOXNIGHTLY_BIN="/Applications/FirefoxNightly.app/Contents/MacOS/firefox"
+export BROWSER=$FIREFOXNIGHTLY_BIN
 export EDITOR='subl -w'
-export GIT_EDITOR="subl -n -w"
 
 # aliases
 . ~/.aliases
