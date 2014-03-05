@@ -28,7 +28,7 @@ ulimit -n 1024
 export AURORA_BIN="/Applications/FirefoxNightly.app/Contents/MacOS/firefox"
 export BROWSER=$AURORA_BIN
 export EDITOR='subl -w'
-export GIT_EDITOR="vim"
+# export GIT_EDITOR="vim"
 
 # aliases
 . ~/.aliases
