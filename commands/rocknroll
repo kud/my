@@ -60,7 +60,7 @@ if [ "$1" = "-f" ]; then
   FORCE=1;
 fi
 
-printf "\n${CYAN}###############\n"
+printf "\n${MAGENTA}###############\n"
 printf "#     MY      #\n"
 printf "###############${RESET}\n"
 

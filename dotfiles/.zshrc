@@ -14,17 +14,6 @@ export CLICOLOR=1
 # display
 DISPLAY=:0.0; export DISPLAY
 
-# set colours
-autoload colors
-if [[ "$terminfo[colors]" -gt 8 ]]; then
-  colors
-fi
-for COLOR in RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; do
-  eval $COLOR='$fg_no_bold[${(L)COLOR}]'
-  eval BOLD_$COLOR='$fg_bold[${(L)COLOR}]'
-done
-eval RESET='$reset_color'
-
 # path
 export PATH=$HOME/my/bin:/usr/local/opt/ruby/bin:/usr/local/share/npm/bin:/usr/local/lib/node_modules:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
 
