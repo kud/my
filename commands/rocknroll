@@ -60,9 +60,24 @@ if [ "$1" = "-f" ]; then
   FORCE=1;
 fi
 
-printf "\n${YELLOW}################\n"
-printf "##     MY     ##\n"
-printf "################${RESET}\n"
+printf "\n${YELLOW}"
+printf "\nMMMMMMMM               MMMMMMMMYYYYYYY       YYYYYYY"
+printf "\nM:::::::M             M:::::::MY:::::Y       Y:::::Y"
+printf "\nM::::::::M           M::::::::MY:::::Y       Y:::::Y"
+printf "\nM:::::::::M         M:::::::::MY::::::Y     Y::::::Y"
+printf "\nM::::::::::M       M::::::::::MYYY:::::Y   Y:::::YYY"
+printf "\nM:::::::::::M     M:::::::::::M   Y:::::Y Y:::::Y   "
+printf "\nM:::::::M::::M   M::::M:::::::M    Y:::::Y:::::Y    "
+printf "\nM::::::M M::::M M::::M M::::::M     Y:::::::::Y     "
+printf "\nM::::::M  M::::M::::M  M::::::M      Y:::::::Y      "
+printf "\nM::::::M   M:::::::M   M::::::M       Y:::::Y       "
+printf "\nM::::::M    M:::::M    M::::::M       Y:::::Y       "
+printf "\nM::::::M     MMMMM     M::::::M       Y:::::Y       "
+printf "\nM::::::M               M::::::M       Y:::::Y       "
+printf "\nM::::::M               M::::::M    YYYY:::::YYYY    "
+printf "\nM::::::M               M::::::M    Y:::::::::::Y    "
+printf "\nMMMMMMMM               MMMMMMMM    YYYYYYYYYYYYY    "
+printf "\n${RESET}"
 
 # install brew if needed
 if ! type "brew" > /dev/null; then
