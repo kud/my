@@ -60,7 +60,7 @@ if [ "$1" = "-f" ]; then
   FORCE=1;
 fi
 
-printf "\n${YELLOW}"
+printf "${YELLOW}"
 printf "\nMMMMMMMM               MMMMMMMMYYYYYYY       YYYYYYY"
 printf "\nM:::::::M             M:::::::MY:::::Y       Y:::::Y"
 printf "\nM::::::::M           M::::::::MY:::::Y       Y:::::Y"
