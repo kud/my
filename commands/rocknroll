@@ -60,9 +60,9 @@ if [ "$1" = "-f" ]; then
   FORCE=1;
 fi
 
-printf "\n${MAGENTA}###############\n"
-printf "#     MY      #\n"
-printf "###############${RESET}\n"
+printf "\n${YELLOW}################\n"
+printf "##     MY     ##\n"
+printf "################${RESET}\n"
 
 # install brew if needed
 if ! type "brew" > /dev/null; then
