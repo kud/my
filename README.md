@@ -2,13 +2,6 @@
 
 <img align="right" height="200" src="https://raw.github.com/kud/my/master/everybodydancenow.gif">
 
-███╗   ███╗██╗   ██╗
-████╗ ████║╚██╗ ██╔╝
-██╔████╔██║ ╚████╔╝
-██║╚██╔╝██║  ╚██╔╝
-██║ ╚═╝ ██║   ██║
-╚═╝     ╚═╝   ╚═╝
-
 My own fucking environment for Mac OS X.<br>
 Scripts, themes, dotfiles.<br>
 You've got all you need.<br>
