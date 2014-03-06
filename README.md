@@ -4,6 +4,11 @@
 
 My own fucking environment for Mac OS X. Scripts, themes, dotfiles. You've got all you need.
 
+<br>
+<br>
+<br>
+<br>
+
 ## First time
 
 Everything should be simple, your first step on your Mac too. Just follow these few lines.
