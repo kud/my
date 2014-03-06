@@ -1,6 +1,6 @@
 # My! Oh My!
 
-<img align="right" height="200" src="https://raw.github.com/kud/my/master/everybodydancenow.gif" border="1">
+<img align="right" height="200" src="https://raw.github.com/kud/my/master/everybodydancenow.gif" style="border: 1px solid black;">
 
 My own fucking environment for Mac OS X.<br>
 Scripts, themes, dotfiles.<br>
