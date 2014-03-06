@@ -2,7 +2,9 @@
 
 <img align="right" height="200" src="https://raw.github.com/kud/my/master/everybodydancenow.gif">
 
-My own fucking environment for Mac OS X. Scripts, themes, dotfiles. You've got all you need.
+My own fucking environment for Mac OS X.
+Scripts, themes, dotfiles.
+You've got all you need.
 
 <br>
 <br>
