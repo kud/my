@@ -148,7 +148,7 @@ brewinstall vim
 
 brewinstall ruby
 brewinstall python
-brewinstall node
+brewinstall node --without-npm
 brewinstall php55
 
 brewinstall brew-cask
@@ -238,10 +238,14 @@ geminstall boom
 echo "\n${GREEN}❯ Installing global python packages...${RESET}"
 pipinstall asciinema
 
+# install npm
+if ! type "npm" > /dev/null; then
+  curl -L https://npmjs.org/install.sh | sh
+fi
+
 # update node packages
 echo "\n${GREEN}❯ Updating global node modules...${RESET}"
-# npm update -g --quiet
-npm update -g --silent
+npm update -g --quiet
 
 # install node packages
 echo "\n${GREEN}❯ Installing global node packages...${RESET}"

@@ -32,6 +32,9 @@ export EDITOR='subl -w'
 # aliases
 . ~/.aliases
 
+# npm
+export NODE_PATH=/usr/local/share/npm/lib/node_modules
+
 # android
 export ANDROID_HOME=/usr/local/opt/android-sdk
 
