@@ -1,5 +1,4 @@
 #!/usr/local/bin/zsh
-
 ## restart an app
 
 for app in $*; do

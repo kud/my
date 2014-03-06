@@ -1,0 +1,6 @@
+#!/bin/zsh
+source $MY/core/helper
+
+echo_title_update "\`my\`"
+git --git-dir="$MY/.git" --work-tree="$MY/" pull &&
+$MY/core/rocknroll

@@ -2,7 +2,7 @@
 if [ ! -d "$HOME/my/" ]; then
   git clone https://github.com/kud/my.git ~/my &&
 fi
-~/my/commands/rocknroll &&
-~/my/commands/sync &&
-~/my/commands/osx
+~/my/core/rocknroll &&
+~/my/core/dotfiles &&
+~/my/core/osx
 exec $SHELL

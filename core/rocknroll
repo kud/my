@@ -1,16 +1,7 @@
 #!/bin/zsh
 setopt EXTENDED_GLOB
 
-# set colours
-autoload colors
-if [[ "$terminfo[colors]" -gt 8 ]]; then
-  colors
-fi
-for COLOR in RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; do
-  eval $COLOR='$fg_no_bold[${(L)COLOR}]'
-  eval BOLD_$COLOR='$fg_bold[${(L)COLOR}]'
-done
-eval RESET='$reset_color'
+source $MY/core/helper
 
 # define cask application folder
 export HOMEBREW_CASK_OPTS=--appdir=/Applications
@@ -53,50 +44,17 @@ function brewtap() {
   fi
 }
 
-# force
-FORCE=0;
-
-if [ "$1" = "-f" ]; then
-  FORCE=1;
-fi
-
-printf "${YELLOW}"
-
-# printf "\nMMMMMMMM               MMMMMMMMYYYYYYY       YYYYYYY"
-# printf "\nM:::::::M             M:::::::MY:::::Y       Y:::::Y"
-# printf "\nM::::::::M           M::::::::MY:::::Y       Y:::::Y"
-# printf "\nM:::::::::M         M:::::::::MY::::::Y     Y::::::Y"
-# printf "\nM::::::::::M       M::::::::::MYYY:::::Y   Y:::::YYY"
-# printf "\nM:::::::::::M     M:::::::::::M   Y:::::Y Y:::::Y   "
-# printf "\nM:::::::M::::M   M::::M:::::::M    Y:::::Y:::::Y    "
-# printf "\nM::::::M M::::M M::::M M::::::M     Y:::::::::Y     "
-# printf "\nM::::::M  M::::M::::M  M::::::M      Y:::::::Y      "
-# printf "\nM::::::M   M:::::::M   M::::::M       Y:::::Y       "
-# printf "\nM::::::M    M:::::M    M::::::M       Y:::::Y       "
-# printf "\nM::::::M     MMMMM     M::::::M       Y:::::Y       "
-# printf "\nM::::::M               M::::::M       Y:::::Y       "
-# printf "\nM::::::M               M::::::M    YYYY:::::YYYY    "
-# printf "\nM::::::M               M::::::M    Y:::::::::::Y    "
-# printf "\nMMMMMMMM               MMMMMMMM    YYYYYYYYYYYYY    "
-
-printf "\n    ${YELLOW}███${BLACK}╗   ${YELLOW}███${BLACK}╗${YELLOW}██${BLACK}╗   ${YELLOW}██${BLACK}╗"
-printf "\n    ${YELLOW}████${BLACK}╗ ${YELLOW}████${BLACK}║╚${YELLOW}██${BLACK}╗ ${YELLOW}██${BLACK}╔╝"
-printf "\n    ${YELLOW}██${BLACK}╔${YELLOW}████${BLACK}╔${YELLOW}██${BLACK}║ ╚${YELLOW}████${BLACK}╔╝ "
-printf "\n    ${YELLOW}██${BLACK}║╚${YELLOW}██${BLACK}╔╝${YELLOW}██${BLACK}║  ╚${YELLOW}██${BLACK}╔╝ "
-printf "\n    ${YELLOW}██${BLACK}║ ╚═╝ ${YELLOW}██${BLACK}║   ${YELLOW}██${BLACK}║   "
-printf "\n    ${BLACK}╚═╝     ╚═╝   ╚═╝  "
-
-printf "\n${RESET}"
+source $MY/core/intro
 
 # install brew if needed
 if ! type "brew" > /dev/null; then
-  echo "\n${GREEN}❯ Installing homebrew...${RESET}"
+  echo_title_install "homebrew"
   ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 fi
 
 # install zsh via brew if needed
 if ! type "/usr/local/bin/zsh" > /dev/null; then
-  echo "\n${GREEN}❯ Installing zsh...${RESET}"
+  echo_title_install "zsh"
   brewinstall zsh
   echo "/usr/local/bin/zsh" | sudo tee -a /etc/shells
   chsh -s /usr/local/bin/zsh $USER
@@ -105,24 +63,22 @@ fi
 
 # install bash via brew if needed
 if ! type "/usr/local/bin/bash" > /dev/null; then
-  echo "\n${GREEN}❯ Installing bash...${RESET}"
+  echo_title_install "bash"
   brewinstall bash
   echo "/usr/local/bin/bash" | sudo tee -a /etc/shells
 fi
 
 # update/upgrade brew
-echo "\n${GREEN}❯ Updating brew...${RESET}"
+echo_title_update "brew"
 brew update && brew upgrade
 
-# add some brew repo
-echo "\n${GREEN}❯ Tap some brew repos if needed...${RESET}"
+# install brew packages
+echo_title_install "brew packages"
+
 brewtap phinze/cask
 brewtap homebrew/dupes
 brewtap caskroom/versions
 brewtap josegonzalez/php
-
-# install brew packages
-echo "\n${GREEN}❯ Installing brew packages...${RESET}"
 
 brewinstall homebrew/dupes/make
 brewinstall dnsmasq
@@ -154,7 +110,8 @@ brewinstall php55
 brewinstall brew-cask
 
 # install apps
-echo "\n${GREEN}❯ Installing apps...${RESET}"
+echo_title_install "apps"
+
 caskinstall dropbox
 if [ ! -d "$HOME/Dropbox" ]; then
   read -q "REPLY?Configure now your dropbox and press [Enter] when you've finished..."
@@ -197,12 +154,12 @@ caskinstall xscope
 
 # handle zprezto
 if [ -d "$HOME/.zprezto" ]; then
-  echo "\n${GREEN}❯ Updating Prezto...${RESET}"
+  echo_title_update "prezto"
   git --git-dir="$HOME/.zprezto/.git" --work-tree="$HOME/.zprezto/" pull
 else
-  echo "\n${GREEN}❯ Installing Prezto...${RESET}"
+  echo_title_install "prezto"
   git clone --recursive https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
-  echo "${GREEN}❯ Copying zprezto files...${RESET}"
+  echo_title "Copying zprezto files.."
   for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
     cp -ivn "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
   done
@@ -210,10 +167,10 @@ fi
 
 # handle themes
 if [ -d "$HOME/my/modules/themes" ]; then
-  echo "\n${GREEN}❯ Updating themes...${RESET}"
+  echo_title_update "themes"
   git --git-dir="$HOME/my/modules/themes/.git" --work-tree="$HOME/my/modules/themes/" pull
 else
-  echo "\n${GREEN}❯ Installing themes...${RESET}"
+  echo_title_install "themes"
   git clone --recursive https://github.com/kud/themes.git "$HOME/my/modules/themes"
   mkdir -p ~/Library/Application\ Support/LimeChat/Themes
   ln -si ~/my/modules/themes/limechat/kud.css ~/Library/Application\ Support/LimeChat/Themes/kud.css
@@ -221,34 +178,35 @@ else
 fi
 
 # vim theme
-echo "\n${GREEN}❯ Updating vim theme...${RESET}"
+echo_title_installupdate "vim theme"
 mkdir -p ~/.vim/colors
 rm -f ~/.vim/colors/Tomorrow-Night-Eighties.vim
-curl -s https://raw.github.com/chriskempson/tomorrow-theme/master/vim/colors/Tomorrow-Night-Eighties.vim > .vim/colors/Tomorrow-Night-Eighties.vim
+curl -sL https://raw.github.com/chriskempson/tomorrow-theme/master/vim/colors/Tomorrow-Night-Eighties.vim > ~/.vim/colors/Tomorrow-Night-Eighties.vim
 
 # update ruby packages
-echo "\n${GREEN}❯ Updating Gems...${RESET}"
+echo_title_update "gems"
 gem update --system && gem update
 
 # install ruby packages
-echo "\n${GREEN}❯ Installing global ruby packages...${RESET}"
+echo_title_install "global ruby packages"
 geminstall boom
 
 # install ruby packages
-echo "\n${GREEN}❯ Installing global python packages...${RESET}"
+echo_title_install "global python packages"
 pipinstall asciinema
 
 # install npm
 if ! type "npm" > /dev/null; then
-  curl -L https://npmjs.org/install.sh | sh
+  echo_title_install "npm"
+  curl -sL https://npmjs.org/install.sh | sh
 fi
 
 # update node packages
-echo "\n${GREEN}❯ Updating global node modules...${RESET}"
+echo_title_update "global node modules"
 npm update -g --quiet
 
 # install node packages
-echo "\n${GREEN}❯ Installing global node packages...${RESET}"
+echo_title_install "global packages"
 npminstall bower
 npminstall tldr
 npminstall nodemon
@@ -256,7 +214,7 @@ npminstall jake
 npminstall bloody-testserver
 
 # warn about apps coming from app store
-echo "\n${GREEN}❯ Don't forget to install via App Store${RESET}"
+echo_title "Don't forget to install via App Store"
 
 if [ ! -d "/Applications/Twitter.app/" ]; then
   echo "- Twitter for Mac"
@@ -271,17 +229,14 @@ if type "/usr/local/bin/make" > /dev/null; then
   brew unlink make > /dev/null
 fi
 
-# if [ $FORCE -eq 0 ]; then
-echo "\n${GREEN}❯ Doctor is checking...${RESET}"
-# brew doctor || exit 1
+echo_title "Doctor is checking..."
 brew doctor
-# fi
 
 # come back `make`!
 brew link make --force > /dev/null
 
 # done!
-echo "\n${BLUE}And... we're done!${RESET}"
+echo_success "And... we're done!"
 
 # restart the shell
 exec $SHELL

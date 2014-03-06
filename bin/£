@@ -1,30 +1,39 @@
-#!/bin/zsh
+#! /bin/zsh
+source $MY/core/helper
 
 if [[ $# -eq 0 ]]; then
   £ --help
 else
 
+  source $MY/core/intro
+
   case "$1" in
       bam)
-        rocknroll-cli
+        $MY/core/itself
         ;;
       edit)
-        subl ~/my
+        subl $MY
         ;;
       open)
-        open ~/my
+        open $MY
         ;;
       --help)
         printf "\n"
-        printf "The \`£\` command, all you need for \`my\`."
-        printf "\n\n"
-        printf "usage: £ [<command>|--help]"
-        printf "\n\n"
-        printf "      bam     start install/update/upgrade"
+        printf "Usage:"
         printf "\n"
-        printf "      edit    edit the project \`my\`"
         printf "\n"
-        printf "      open    open in finder"
+        printf "    ${COLOUR_CYAN}£${COLOUR_RESET} [<command>|--help]"
+        printf "\n"
+        printf "\n"
+        printf "\n"
+        printf "Commands:"
+        printf "\n"
+        printf "\n"
+        printf "    bam     ${COLOUR_BLACK}Start the install/update process${COLOUR_RESET}"
+        printf "\n"
+        printf "    edit    ${COLOUR_BLACK}Open with \$EDITOR${COLOUR_RESET}"
+        printf "\n"
+        printf "    open    ${COLOUR_BLACK}Open with Finder${COLOUR_RESET}"
         printf "\n"
         printf "\n"
         ;;

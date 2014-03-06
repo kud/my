@@ -1,0 +1,26 @@
+#!/bin/zsh
+
+# set colours
+autoload colors
+if [[ "$terminfo[colors]" -gt 8 ]]; then
+  colors
+fi
+
+for COLOUR in RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; do
+  eval COLOUR_$COLOUR='$fg_no_bold[${(L)COLOUR}]'
+  eval COLOUR_BOLD_$COLOUR='$fg_bold[${(L)COLOUR}]'
+done
+eval COLOUR_RESET='$reset_color'
+
+export CHAR_OK=✔
+export CHAR_ERROR=✗
+export CHAR_STARTER=❯
+
+function echo_info () { echo "${COLOUR_BLUE}i${COLOUR_RESET} $1" }
+function echo_user () { echo "${COLOUR_YELLOW}?${COLOUR_RESET} $1" }
+function echo_success () { echo "${COLOUR_GREEN}${CHAR_OK}${COLOUR_RESET} $1" }
+function echo_fail () { echo "${COLOUR_RED}${CHAR_ERROR}${COLOUR_RESET} $1|n"; exit }
+function echo_title () { echo "${COLOUR_CYAN}${CHAR_STARTER} $@${COLOUR_RESET}" }
+function echo_title_install () { echo_title "Installing" $1"..." }
+function echo_title_update () { echo_title "Updating" $1"..." }
+function echo_title_installupdate () { echo_title "Installing/Updating" $1"..." }

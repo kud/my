@@ -1,17 +1,7 @@
 #!/bin/zsh
+source $MY/core/helper
 
-# set colours
-autoload colors
-if [[ "$terminfo[colors]" -gt 8 ]]; then
-  colors
-fi
-for COLOR in RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; do
-  eval $COLOR='$fg_no_bold[${(L)COLOR}]'
-  eval BOLD_$COLOR='$fg_bold[${(L)COLOR}]'
-done
-eval RESET='$reset_color'
-
-echo "${GREEN}⤿ Synchronising...${RESET}\n"
+echo_title_install "dotfiles"
 
 # symlink dotfiles
 ln -s ~/my/dotfiles/.aliases ~/.aliases 2> /dev/null
@@ -44,4 +34,4 @@ ln -s ~/Dropbox/appdata/lightroom/Develop\ Presets ~/Library/Application\ Suppor
 # ln -si ~/Dropbox/appdata/mou/CSS ~/Library/Application\ Support/Mou
 # ln -si ~/Dropbox/appdata/mou/Themes ~/Library/Application\ Support/Mou
 
-echo "${BLUE}...synchronised!${RESET}"
+echo_success "Dotfiles are symlinked"

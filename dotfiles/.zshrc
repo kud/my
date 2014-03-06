@@ -4,7 +4,7 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # export MY
-export MY=$HOME/my/
+export MY=$HOME/my
 
 # colours
 export TERM=xterm-256color
@@ -41,8 +41,6 @@ export ANDROID_HOME=/usr/local/opt/android-sdk
 # java
 export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home
 
-# rbenv
-# if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # homebrew cask
 export HOMEBREW_CASK_OPTS=--appdir=/Applications
