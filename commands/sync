@@ -1,33 +1,47 @@
 #!/bin/zsh
-echo '⤿ Time to synchronise...'
+
+# set colours
+autoload colors
+if [[ "$terminfo[colors]" -gt 8 ]]; then
+  colors
+fi
+for COLOR in RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; do
+  eval $COLOR='$fg_no_bold[${(L)COLOR}]'
+  eval BOLD_$COLOR='$fg_bold[${(L)COLOR}]'
+done
+eval RESET='$reset_color'
+
+echo "${GREEN}⤿ Synchronising...${RESET}\n"
 
 # symlink dotfiles
-ln -si ~/my/dotfiles/.aliases ~/.aliases
-ln -si ~/my/dotfiles/.vimrc ~/.vimrc
-ln -si ~/my/dotfiles/.gemrc ~/.gemrc
-ln -si ~/my/dotfiles/.gitconfig ~/.gitconfig
-ln -si ~/my/dotfiles/.gitignore_global ~/.gitignore_global
-ln -si ~/my/dotfiles/.zpreztorc ~/.zpreztorc
-ln -si ~/my/dotfiles/.zshrc ~/.zshrc
-ln -si ~/my/dotfiles/.editorconfig ~/.editorconfig
-ln -si ~/my/dotfiles/.boom ~/.boom
+ln -s ~/my/dotfiles/.aliases ~/.aliases 2> /dev/null
+ln -s ~/my/dotfiles/.vimrc ~/.vimrc 2> /dev/null
+ln -s ~/my/dotfiles/.gemrc ~/.gemrc 2> /dev/null
+ln -s ~/my/dotfiles/.gitconfig ~/.gitconfig 2> /dev/null
+ln -s ~/my/dotfiles/.gitignore_global ~/.gitignore_global 2> /dev/null
+ln -s ~/my/dotfiles/.zpreztorc ~/.zpreztorc 2> /dev/null
+ln -s ~/my/dotfiles/.zshrc ~/.zshrc 2> /dev/null
+ln -s ~/my/dotfiles/.editorconfig ~/.editorconfig 2> /dev/null
+ln -s ~/my/dotfiles/.boom ~/.boom 2> /dev/null
 
 # local files
 touch ~/.gitconfig_local
 touch ~/.zshrc_local
 
 # symlink appdata
-ln -si ~/Dropbox/appdata/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
+ln -s ~/Dropbox/appdata/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist 2> /dev/null
 
-ln -si ~/Dropbox/appdata/limechat/net.limechat.LimeChat.plist ~/Library/Preferences/net.limechat.LimeChat.plist
+ln -s ~/Dropbox/appdata/limechat/net.limechat.LimeChat.plist ~/Library/Preferences/net.limechat.LimeChat.plist 2> /dev/null
 
 mkdir -p ~/Library/Application\ Support/Sublime\ Text\ 3
-ln -si ~/Dropbox/appdata/sublimetext3/Packages ~/Library/Application\ Support/Sublime\ Text\ 3
-ln -si ~/Dropbox/appdata/sublimetext3/Installed\ Packages ~/Library/Application\ Support/Sublime\ Text\ 3
+ln -s ~/Dropbox/appdata/sublimetext3/Packages ~/Library/Application\ Support/Sublime\ Text\ 3 2> /dev/null
+ln -s ~/Dropbox/appdata/sublimetext3/Installed\ Packages ~/Library/Application\ Support/Sublime\ Text\ 3 2> /dev/null
 
 mkdir -p ~/Library/Application\ Support/Adobe/Lightroom
-ln -si ~/Dropbox/appdata/lightroom/Develop\ Presets ~/Library/Application\ Support/Adobe/Lightroom
+ln -s ~/Dropbox/appdata/lightroom/Develop\ Presets ~/Library/Application\ Support/Adobe/Lightroom 2> /dev/null
 
 # mkdir -p ~/Library/Application\ Support/Mou
 # ln -si ~/Dropbox/appdata/mou/CSS ~/Library/Application\ Support/Mou
 # ln -si ~/Dropbox/appdata/mou/Themes ~/Library/Application\ Support/Mou
+
+echo "${BLUE}...synchronised!${RESET}"
