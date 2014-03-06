@@ -220,6 +220,12 @@ else
   ln -si ~/my/modules/themes/limechat/kud.yaml ~/Library/Application\ Support/LimeChat/Themes/kud.yaml
 fi
 
+# vim theme
+echo "\n${GREEN}❯ Updating vim theme...${RESET}"
+mkdir -p ~/.vim/colors
+rm -f ~/.vim/colors/Tomorrow-Night-Eighties.vim
+curl -s https://raw.github.com/chriskempson/tomorrow-theme/master/vim/colors/Tomorrow-Night-Eighties.vim > .vim/colors/Tomorrow-Night-Eighties.vim
+
 # update ruby packages
 echo "\n${GREEN}❯ Updating Gems...${RESET}"
 gem update --system && gem update

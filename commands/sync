@@ -3,6 +3,7 @@ echo '⤿ Time to synchronise...'
 
 # symlink dotfiles
 ln -si ~/my/dotfiles/.aliases ~/.aliases
+ln -si ~/my/dotfiles/.vimrc ~/.vimrc
 ln -si ~/my/dotfiles/.gemrc ~/.gemrc
 ln -si ~/my/dotfiles/.gitconfig ~/.gitconfig
 ln -si ~/my/dotfiles/.gitignore_global ~/.gitignore_global
