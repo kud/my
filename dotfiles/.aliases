@@ -80,9 +80,6 @@ alias git-svn-push='git svn rebase && git svn dcommit'
 # macosx
 alias fuckyoudock='killall Dock'
 
-# my
-alias my='subl $MY'
-
 # ease
 alias s='subl .'
 alias flush-dns='dscacheutil -flushcache'

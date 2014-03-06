@@ -1,16 +1,30 @@
 #!/bin/zsh
 
 if [ "$1" = "--help" ]; then
-  printf "The `£` command, all you need for \`my\`"
+  printf "The \`£\` command, all you need for \`my\`."
   printf "\n\n"
   printf "usage: £ [<command>]"
   printf "\n\n"
-  printf "      bam   start install/update/upgrade"
+  printf "      bam     start install/update/upgrade"
   printf "\n"
-  printf "    --help  give you help"
+  printf "      edit    edit the project \`my\`"
+  printf "\n"
+  printf "      open    open in finder"
+  printf "\n"
+  printf "      browse  go to \`my\` folder"
+  printf "\n"
+  printf "      --help  give you help"
   printf "\n"
 fi
 
 if [ "$1" = "bam" ]; then
   rocknroll-cli
+fi
+
+if [ "$1" = "edit" ]; then
+  subl ~/my
+fi
+
+if [ "$1" = "browse" ]; then
+  cd ~/my
 fi
