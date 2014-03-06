@@ -25,6 +25,10 @@ if [ "$1" = "edit" ]; then
   subl ~/my
 fi
 
+if [ "$1" = "open" ]; then
+  open ~/my
+fi
+
 if [ "$1" = "browse" ]; then
   cd ~/my
 fi
