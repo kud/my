@@ -21,6 +21,7 @@ alias cp='cp -v'
 alias mv='mv -v'
 alias rm='rm -i'
 
+# show folders size
 alias filesizer='du -sc * | sort -n | tail'
 
 # config
@@ -57,10 +58,6 @@ alias adb-logcat='adb logcat browser:IEW "*:S"'
 # ios
 alias ios-simulator="open -a /Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app"
 
-# update
-alias rocknroll='~/my/bin/rocknroll-cli'
-alias brew-rocknroll='brew update && brew upgrade'
-
 # (un)compression
 alias tarls='tar -tf'
 alias tgz='tar -czf'
@@ -78,7 +75,7 @@ alias git-svn-pull='git svn rebase'
 alias git-svn-push='git svn rebase && git svn dcommit'
 
 # macosx
-alias fuckyoudock='killall Dock'
+alias fuck-you-dock='killall Dock'
 
 # ease
 alias s='subl .'
