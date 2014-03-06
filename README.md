@@ -2,7 +2,7 @@
 
 <img align="right" height="100" src="https://raw.github.com/kud/my/master/everybodydancenow.gif">
 
-My own fucking environment for Mac OS X, mate. It's all in the box. Scripts, themes, dotfiles. It's just brilliant.
+My own fucking environment for Mac OS X. Scripts, themes, dotfiles. You've got all you need.
 
 ## First time
 
@@ -18,10 +18,10 @@ Go to your App Store and install **XCode**.
 $ curl --silent https://raw.github.com/kud/my/master/commands/bootstrap | zsh
 ```
 
-## Periodic run
+## Usage
 
-Install? Update? Well, just one command to make eveeerything.
+The main command is:
 
 ```shell
-$ rocknroll
+$ £
 ```
