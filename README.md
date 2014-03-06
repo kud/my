@@ -9,16 +9,17 @@ You've got all you need.<br>
 <br>
 <br>
 <br>
+<br>
 
 ## First time
 
 Everything should be simple, your first step on your Mac too. Just follow these few lines.
 
-### Install XCode
+#### Install XCode
 
 Go to your App Store and install **XCode**.
 
-### Run the script and watch the sky!
+#### Run the script and watch the sky!
 
 ```shell
 $ curl --silent https://raw.github.com/kud/my/master/commands/bootstrap | zsh
