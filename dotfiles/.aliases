@@ -1,11 +1,11 @@
 # basic directory operations
-alias ....='cd ../../..'
+# alias ....='cd ../../..'
 alias ...='cd ../..'
 alias ..='cd ..'
 
 # super user
 alias _='sudo'
-alias please='sudo'
+# alias please='sudo'
 
 # list directory contents
 alias lsa='ls -lah'
@@ -68,11 +68,11 @@ alias untgz='tar -vzxf'
 alias klook='qlmanage -p "$@" >& /dev/null'
 
 # github
-alias fake-github-connection='ssh -N git@github.com'
+# alias fake-github-connection='ssh -N git@github.com'
 
 # git / svn
-alias git-svn-pull='git svn rebase'
-alias git-svn-push='git svn rebase && git svn dcommit'
+# alias git-svn-pull='git svn rebase'
+# alias git-svn-push='git svn rebase && git svn dcommit'
 
 # macosx
 alias fuck-you-dock='killall Dock'
