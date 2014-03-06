@@ -23,4 +23,14 @@ function echo_fail () { echo "${COLOUR_RED}${CHAR_ERROR}${COLOUR_RESET} $1|n"; e
 function echo_title () { echo "${COLOUR_CYAN}${CHAR_STARTER} $@${COLOUR_RESET}" }
 function echo_title_install () { echo_title "Installing" $1"..." }
 function echo_title_update () { echo_title "Updating" $1"..." }
-function echo_title_installupdate () { echo_title "Installing/Updating" $1"..." }
+function echo_title_installupdate () { echo_title "{Install|Updat}ing" $1"..." }
+function echo_space () { printf "\n" }
+function echo_spacex2 () {
+  echo_space
+  echo_space
+}
+function echo_spacex3 () {
+  echo_space
+  echo_space
+  echo_space
+}

@@ -48,12 +48,14 @@ source $MY/core/intro
 
 # install brew if needed
 if ! type "brew" > /dev/null; then
+  echo_space
   echo_title_install "homebrew"
   ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 fi
 
 # install zsh via brew if needed
 if ! type "/usr/local/bin/zsh" > /dev/null; then
+  echo_space
   echo_title_install "zsh"
   brewinstall zsh
   echo "/usr/local/bin/zsh" | sudo tee -a /etc/shells
@@ -63,16 +65,19 @@ fi
 
 # install bash via brew if needed
 if ! type "/usr/local/bin/bash" > /dev/null; then
+  echo_space
   echo_title_install "bash"
   brewinstall bash
   echo "/usr/local/bin/bash" | sudo tee -a /etc/shells
 fi
 
 # update/upgrade brew
+echo_space
 echo_title_update "brew"
 brew update && brew upgrade
 
 # install brew packages
+echo_space
 echo_title_install "brew packages"
 
 brewtap phinze/cask
@@ -110,6 +115,7 @@ brewinstall php55
 brewinstall brew-cask
 
 # install apps
+echo_space
 echo_title_install "apps"
 
 caskinstall dropbox
@@ -154,11 +160,14 @@ caskinstall xscope
 
 # handle zprezto
 if [ -d "$HOME/.zprezto" ]; then
+  echo_space
   echo_title_update "prezto"
   git --git-dir="$HOME/.zprezto/.git" --work-tree="$HOME/.zprezto/" pull
 else
+  echo_space
   echo_title_install "prezto"
   git clone --recursive https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
+  echo_space
   echo_title "Copying zprezto files.."
   for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
     cp -ivn "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
@@ -167,9 +176,11 @@ fi
 
 # handle themes
 if [ -d "$HOME/my/modules/themes" ]; then
+  echo_space
   echo_title_update "themes"
   git --git-dir="$HOME/my/modules/themes/.git" --work-tree="$HOME/my/modules/themes/" pull
 else
+  echo_space
   echo_title_install "themes"
   git clone --recursive https://github.com/kud/themes.git "$HOME/my/modules/themes"
   mkdir -p ~/Library/Application\ Support/LimeChat/Themes
@@ -178,34 +189,41 @@ else
 fi
 
 # vim theme
+echo_space
 echo_title_installupdate "vim theme"
 mkdir -p ~/.vim/colors
 rm -f ~/.vim/colors/Tomorrow-Night-Eighties.vim
 curl -sL https://raw.github.com/chriskempson/tomorrow-theme/master/vim/colors/Tomorrow-Night-Eighties.vim > ~/.vim/colors/Tomorrow-Night-Eighties.vim
 
 # update ruby packages
+echo_space
 echo_title_update "gems"
 gem update --system && gem update
 
 # install ruby packages
+echo_space
 echo_title_install "global ruby packages"
 geminstall boom
 
 # install ruby packages
+echo_space
 echo_title_install "global python packages"
 pipinstall asciinema
 
 # install npm
 if ! type "npm" > /dev/null; then
+  echo_space
   echo_title_install "npm"
   curl -sL https://npmjs.org/install.sh | sh
 fi
 
 # update node packages
+echo_space
 echo_title_update "global node modules"
 npm update -g --quiet
 
 # install node packages
+echo_space
 echo_title_install "global packages"
 npminstall bower
 npminstall tldr
@@ -214,6 +232,7 @@ npminstall jake
 npminstall bloody-testserver
 
 # warn about apps coming from app store
+echo_space
 echo_title "Don't forget to install via App Store"
 
 if [ ! -d "/Applications/Twitter.app/" ]; then
@@ -229,6 +248,7 @@ if type "/usr/local/bin/make" > /dev/null; then
   brew unlink make > /dev/null
 fi
 
+echo_space
 echo_title "Doctor is checking..."
 brew doctor
 
@@ -236,6 +256,7 @@ brew doctor
 brew link make --force > /dev/null
 
 # done!
+echo_space
 echo_success "And... we're done!"
 
 # restart the shell

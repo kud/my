@@ -5,8 +5,6 @@ if [[ $# -eq 0 ]]; then
   £ --help
 else
 
-  source $MY/core/intro
-
   case "$1" in
       bam)
         $MY/core/itself
@@ -18,24 +16,22 @@ else
         open $MY
         ;;
       --help)
-        printf "\n"
+
+        source $MY/core/intro
+
+        echo_space
         printf "Usage:"
-        printf "\n"
-        printf "\n"
+        echo_spacex2
         printf "    ${COLOUR_CYAN}£${COLOUR_RESET} [<command>|--help]"
-        printf "\n"
-        printf "\n"
-        printf "\n"
+        echo_spacex3
         printf "Commands:"
-        printf "\n"
-        printf "\n"
+        echo_spacex2
         printf "    bam     ${COLOUR_BLACK}Start the install/update process${COLOUR_RESET}"
-        printf "\n"
+        echo_space
         printf "    edit    ${COLOUR_BLACK}Open with \$EDITOR${COLOUR_RESET}"
-        printf "\n"
+        echo_space
         printf "    open    ${COLOUR_BLACK}Open with Finder${COLOUR_RESET}"
-        printf "\n"
-        printf "\n"
+        echo_spacex2
         ;;
       *)
         echo 'What did you say?'
