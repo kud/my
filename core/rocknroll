@@ -44,8 +44,6 @@ function brewtap() {
   fi
 }
 
-source $MY/core/intro
-
 # install brew if needed
 if ! type "brew" > /dev/null; then
   echo_space
