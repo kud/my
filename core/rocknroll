@@ -118,7 +118,7 @@ echo_title_install "apps"
 
 caskinstall dropbox
 if [ ! -d "$HOME/Dropbox" ]; then
-  read -q "REPLY?Configure now your dropbox and press [Enter] when you've finished..."
+  read \?"Configure now your dropbox and press [Enter] when you've finished..."
 fi
 caskinstall google-chrome-canary
 caskinstall firefox-nightly
@@ -242,16 +242,16 @@ fi
 echo "- Network Link Conditioner"
 
 # hack to make doctor not crying about `make`
-if type "/usr/local/bin/make" > /dev/null; then
-  brew unlink make > /dev/null
-fi
+# if type "/usr/local/bin/make" > /dev/null; then
+#   brew unlink make > /dev/null
+# fi
 
 echo_space
 echo_title "Doctor is checking..."
 brew doctor
 
 # come back `make`!
-brew link make --force > /dev/null
+# brew link make --force > /dev/null
 
 # done!
 echo_space
