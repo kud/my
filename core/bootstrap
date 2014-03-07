@@ -1,8 +1,9 @@
-#!/bin/zsh
+#! /usr/bin/env zsh
 if [ ! -d "$HOME/my/" ]; then
   git clone https://github.com/kud/my.git ~/my &&
 fi
-~/my/core/rocknroll &&
 ~/my/core/dotfiles &&
+~/my/core/rocknroll &&
 ~/my/core/osx
+
 exec $SHELL

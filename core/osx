@@ -1,8 +1,9 @@
-#!/usr/bin/env bash
-
+#! /usr/bin/env zsh
 # ~/.osx — http://mths.be/osx
+#
+source $MY/core/helper
 
-echo "❯ Updating macosx settings..."
+echo_title_update "macosx settings"
 
 # Ask for the administrator password upfront
 sudo -v
@@ -30,15 +31,17 @@ sudo nvram SystemAudioVolume=" "
 defaults write NSGlobalDomain AppleEnableMenuBarTransparency -bool false
 
 # Menu bar: hide the Time Machine, Volume, User, and Bluetooth icons
-defaults write ~/Library/Preferences/ByHost/com.apple.systemuiserver.* dontAutoLoad -array \
-        "/System/Library/CoreServices/Menu Extras/TimeMachine.menu" \
-        "/System/Library/CoreServices/Menu Extras/Volume.menu" \
-        "/System/Library/CoreServices/Menu Extras/User.menu"
+for domain in ~/Library/Preferences/ByHost/com.apple.systemuiserver.*; do
+  defaults write "${domain}" dontAutoLoad -array \
+    "/System/Library/CoreServices/Menu Extras/TimeMachine.menu" \
+    "/System/Library/CoreServices/Menu Extras/Volume.menu" \
+    "/System/Library/CoreServices/Menu Extras/User.menu"
+done
 defaults write com.apple.systemuiserver menuExtras -array \
-        "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
-        "/System/Library/CoreServices/Menu Extras/AirPort.menu" \
-        "/System/Library/CoreServices/Menu Extras/Battery.menu" \
-        "/System/Library/CoreServices/Menu Extras/Clock.menu"
+  "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
+  "/System/Library/CoreServices/Menu Extras/AirPort.menu" \
+  "/System/Library/CoreServices/Menu Extras/Battery.menu" \
+  "/System/Library/CoreServices/Menu Extras/Clock.menu"
 
 # Set highlight color to green
 # defaults write NSGlobalDomain AppleHighlightColor -string "0.764700 0.976500 0.568600"
@@ -691,6 +694,14 @@ defaults write com.twitter.twitter-mac ShowFullNames -bool true
 # Do not hide the app in the background if it’s not the front-most window
 defaults write com.twitter.twitter-mac HideInBackground -bool false
 
+if [ $OS_PROFILE = 'laptop' ]; then
+  source $MY/profiles/laptop/core/osx
+fi
+
+if [ $OS_PROFILE = 'work' ]; then
+  source $MY/profiles/work/core/osx
+fi
+
 ###############################################################################
 # Kill affected applications                                                  #
 ###############################################################################
@@ -700,4 +711,5 @@ for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "Dock" \
   "Transmission" "Twitter" "iCal"; do
   killall "${app}" > /dev/null 2>&1
 done
-echo "Done. Note that some of these changes require a logout/restart to take effect."
+
+echo_success "Done. Note that some of these changes require a logout/restart to take effect."

@@ -45,11 +45,5 @@
   resetfromsource = "!git checkout master && git reset --hard && git pull --rebase source master"
 [branch]
   autosetuprebase = always
-;Define these lines in .gitconfig_local
-;[github]
-;  user = USERNAME
-;[user]
-;  name = FIRSTNAME LASTNAME
-;  email = EMAIL
 [include]
-  path = .gitconfig_local
+  path = .gitconfig.local

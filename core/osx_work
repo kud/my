@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-sudo scutil --set ComputerName "_kud.work"
-sudo scutil --set HostName "_kud.work"
-sudo scutil --set LocalHostName "kud-work"
-sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "kud-work"

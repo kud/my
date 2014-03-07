@@ -1,5 +1,5 @@
-#!/usr/local/bin/zsh
-## quit an app
+#! /usr/bin/env zsh
+# quit an app
 
 for app in $*; do
   osascript -e 'quit app "'$app'"'

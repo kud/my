@@ -46,4 +46,4 @@ export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK
 export HOMEBREW_CASK_OPTS=--appdir=/Applications
 
 # local
-. ~/.zshrc_local
+. ~/.zshrc.local

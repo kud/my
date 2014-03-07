@@ -1,4 +1,13 @@
-#!/usr/bin/env bash
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+echo_title_update "laptop macosx settings"
+
+###############################################################################
+# General UI/UX                                                               #
+###############################################################################
+
 sudo scutil --set ComputerName "_kud.laptop"
 sudo scutil --set HostName "_kud.laptop"
 sudo scutil --set LocalHostName "kud-laptop"

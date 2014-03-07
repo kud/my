@@ -1,4 +1,4 @@
-#!/bin/zsh
+#! /usr/bin/env zsh
 source $MY/core/helper
 
 echo_title_install "dotfiles"
@@ -15,8 +15,15 @@ ln -s ~/my/dotfiles/.editorconfig ~/.editorconfig 2> /dev/null
 ln -s ~/my/dotfiles/.boom ~/.boom 2> /dev/null
 
 # local files
-touch ~/.gitconfig_local
-touch ~/.zshrc_local
+if [ ! -f ~/.zshrc.local ]; then
+  echo "export OS_PROFILE=DEFINE_ME" > ~/.zshrc.local
+  read \?"Configure now your \`OS_PROFILE\` in \`~/.zshrc.local\` and press [Enter] when you've finished..."
+fi
+
+if [ ! -f ~/.gitconfig.local ]; then
+  echo "[github]\n  user = USERNAME\n[user]\n  name = FIRSTNAME LASTNAME\n  email = EMAIL" > ~/.gitconfig.local
+  read \?"Configure now your git informations in \`~/.gitconfig.local\` and press [Enter] when you've finished..."
+fi
 
 # symlink appdata
 ln -s ~/Dropbox/appdata/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist 2> /dev/null
@@ -34,4 +41,7 @@ ln -s ~/Dropbox/appdata/lightroom/Develop\ Presets ~/Library/Application\ Suppor
 # ln -si ~/Dropbox/appdata/mou/CSS ~/Library/Application\ Support/Mou
 # ln -si ~/Dropbox/appdata/mou/Themes ~/Library/Application\ Support/Mou
 
-echo_success "Dotfiles are symlinked"
+# resource!
+source $HOME/.zshrc
+
+echo_success "Dotfiles are installed!"
