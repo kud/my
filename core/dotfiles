@@ -15,14 +15,14 @@ ln -s ~/my/dotfiles/.editorconfig ~/.editorconfig 2> /dev/null
 ln -s ~/my/dotfiles/.boom ~/.boom 2> /dev/null
 
 # local files
-if [ ! -f ~/.zshrc.local ]; then
-  echo "export OS_PROFILE=DEFINE_ME" > ~/.zshrc.local
-  read \?"Configure now your \`OS_PROFILE\` in \`~/.zshrc.local\` and press [Enter] when you've finished..."
+if [ ! -f ~/.zshrc_local ]; then
+  echo "export OS_PROFILE=DEFINE_ME" > ~/.zshrc_local
+  read \?"Configure now your \`OS_PROFILE\` in \`~/.zshrc_local\` and press [Enter] when you've finished..."
 fi
 
-if [ ! -f ~/.gitconfig.local ]; then
-  echo "[github]\n  user = USERNAME\n[user]\n  name = FIRSTNAME LASTNAME\n  email = EMAIL" > ~/.gitconfig.local
-  read \?"Configure now your git informations in \`~/.gitconfig.local\` and press [Enter] when you've finished..."
+if [ ! -f ~/.gitconfig_local ]; then
+  echo "[github]\n  user = USERNAME\n[user]\n  name = FIRSTNAME LASTNAME\n  email = EMAIL" > ~/.gitconfig_local
+  read \?"Configure now your git informations in \`~/.gitconfig_local\` and press [Enter] when you've finished..."
 fi
 
 # symlink appdata
