@@ -125,7 +125,11 @@ defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
 defaults write com.apple.finder CreateDesktop -bool false
 
 # Set wallpaper
-osascript -e "tell application \"System Events\" to set picture of every desktop to \"~/Dropbox/lib/wallpapers/ram_wide.jpg\""
+rm -rf "~/Library/Application Support/Dock/desktoppicture.db"
+if [ ! -f /System/Library/CoreServices/DefaultDesktop.jpg.bak ]; then
+  sudo mv /System/Library/CoreServices/DefaultDesktop.jpg /System/Library/CoreServices/DefaultDesktop.jpg.bak
+fi
+sudo cp -f ~/Dropbox/lib/background/forest.jpg /System/Library/CoreServices/DefaultDesktop.jpg
 
 ###############################################################################
 # SSD-specific tweaks                                                         #
