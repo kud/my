@@ -9,6 +9,12 @@ else
       bam)
         $MY/core/itself
         ;;
+      osx)
+        $MY/core/osx
+        ;;
+      dotfiles)
+        $MY/core/dotfiles
+        ;;
       edit)
         subl $MY
         ;;
@@ -26,11 +32,15 @@ else
         echo_spacex3
         printf "Commands:"
         echo_spacex2
-        printf "    bam     ${COLOUR_BLACK}Start the install/update process${COLOUR_RESET}"
+        printf "    bam       ${COLOUR_BLACK}Start the install/update process${COLOUR_RESET}"
         echo_space
-        printf "    edit    ${COLOUR_BLACK}Open with \$EDITOR${COLOUR_RESET}"
+        printf "    osx       ${COLOUR_BLACK}Updates osx setttings${COLOUR_RESET}"
         echo_space
-        printf "    open    ${COLOUR_BLACK}Open with Finder${COLOUR_RESET}"
+        printf "    dotfiles  ${COLOUR_BLACK}Updates dotfiles${COLOUR_RESET}"
+        echo_space
+        printf "    edit      ${COLOUR_BLACK}Open with \$EDITOR${COLOUR_RESET}"
+        echo_space
+        printf "    open      ${COLOUR_BLACK}Open with Finder${COLOUR_RESET}"
         echo_spacex2
         ;;
       *)
