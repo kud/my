@@ -37,9 +37,9 @@ else
         echo_spacex2
         printf "    bam         ${COLOUR_BLACK}Start the install/update process${COLOUR_RESET}"
         echo_space
-        printf "    osx         ${COLOUR_BLACK}Updates osx setttings${COLOUR_RESET}"
+        printf "    osx         ${COLOUR_BLACK}Update osx setttings${COLOUR_RESET}"
         echo_space
-        printf "    dotfiles    ${COLOUR_BLACK}Updates dotfiles${COLOUR_RESET}"
+        printf "    dotfiles    ${COLOUR_BLACK}Update dotfiles${COLOUR_RESET}"
         echo_space
         printf "    bootstrap   ${COLOUR_BLACK}Make everything${COLOUR_RESET}"
         echo_space
