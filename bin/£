@@ -15,6 +15,9 @@ else
       dotfiles)
         $MY/core/dotfiles
         ;;
+      shims)
+        $MY/core/shims
+        ;;
       bootstrap)
         $MY/core/bootstrap
         ;;
@@ -40,6 +43,8 @@ else
         printf "    osx         ${COLOUR_BLACK}Update osx setttings${COLOUR_RESET}"
         echo_space
         printf "    dotfiles    ${COLOUR_BLACK}Update dotfiles${COLOUR_RESET}"
+        echo_space
+        printf "    shims       ${COLOUR_BLACK}Create shell command for .app${COLOUR_RESET}"
         echo_space
         printf "    bootstrap   ${COLOUR_BLACK}Make everything${COLOUR_RESET}"
         echo_space
