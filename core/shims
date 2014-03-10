@@ -1,0 +1,20 @@
+# #! /usr/bin/env zsh
+# source $MY/core/helper
+
+# echo_title_install "shims"
+
+# SHIMS=~/.shims
+
+# mkdir -p $SHIMS
+
+# # symlink dotfiles
+# ln -s /Applications/Google\ Chrome\ Canary.app $SHIMS/canary 2> /dev/null
+# ln -s /Applications/LimeChat.app $SHIMS/canary 2> /dev/null
+
+# # resource!
+# source $HOME/.zshrc
+
+# echo_success "Shims are installed!"
+
+#! /usr/bin/env zsh
+# open -a "$HOME/.shims/${1}"
