@@ -104,6 +104,7 @@ brewinstall lsof
 brewinstall pwgen
 brewinstall mdr
 brewinstall vim
+brewinstall heroku-toolbelt
 
 brewinstall ruby
 brewinstall python
