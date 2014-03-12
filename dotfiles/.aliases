@@ -82,7 +82,6 @@ alias fuck-you-dock='killall Dock'
 # ease
 alias s='subl .'
 alias flush-dns='dscacheutil -flushcache'
-alias dropbox='cd ~/Dropbox'
 
 # no correct
 alias sshfs='nocorrect sshfs'
