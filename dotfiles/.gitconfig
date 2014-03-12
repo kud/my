@@ -1,7 +1,7 @@
 [core]
   whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
-  # editor = subl -n -w
-  editor = vim
+  editor = subl -n -w
+  # editor = vim
   excludesfile = ~/.gitignore_global
 [push]
   default = tracking
