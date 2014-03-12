@@ -157,6 +157,10 @@ caskinstall ios7-screensaver
 caskinstall recordit
 caskinstall xscope
 
+# install dropbox-cli
+curl -Ls "https://www.dropbox.com/download?dl=packages/dropbox.py" > $MY/bin/dropbox-cli
+chmod +x $MY/bin/dropbox-cli
+
 # handle zprezto
 if [ -d "$HOME/.zprezto" ]; then
   echo_space
