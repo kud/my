@@ -41,6 +41,8 @@ export ANDROID_HOME=/usr/local/opt/android-sdk
 # java
 export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home
 
+# python
+export PYTHONPATH=/usr/local/lib/python2.7/site-packages
 
 # homebrew cask
 export HOMEBREW_CASK_OPTS=--appdir=/Applications
