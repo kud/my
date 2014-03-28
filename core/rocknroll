@@ -80,8 +80,9 @@ echo_title_install "brew packages"
 
 brewtap phinze/cask
 brewtap homebrew/dupes
+brewtap homebrew/versions
 brewtap caskroom/versions
-brewtap josegonzalez/php
+brewtap josegonzalez/homebrew-php
 
 brewinstall homebrew/dupes/make
 brewinstall dnsmasq
@@ -109,7 +110,7 @@ brewinstall heroku-toolbelt
 brewinstall ruby
 brewinstall python
 brewinstall node --without-npm
-brewinstall php55
+brewinstall php55 --with-debug --with-homebrew-curl --with-homebrew-libxslt --with-homebrew-openssl
 
 brewinstall brew-cask
 

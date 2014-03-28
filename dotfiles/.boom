@@ -25,6 +25,9 @@
         },
         {
           "check-sourcemaps": "http://sourcemap-validator.herokuapp.com/"
+        },
+        {
+          "easing": "http://easings.net"
         }
       ]
     },
@@ -47,6 +50,22 @@
         },
         {
           "microjs": "http://microjs.com/"
+        }
+      ]
+    },
+    {
+      "unicode": [
+        {
+          "copy-paste-character": "http://copypastecharacter.com/"
+        },
+        {
+          "fsymbols": "http://fsymbols.com/"
+        },
+        {
+          "shapecatcher": "http://shapecatcher.com/"
+        },
+        {
+          "use-iconic": "https://useiconic.com/"
         }
       ]
     },
@@ -76,19 +95,6 @@
         },
         {
           "lorempixel": "http://lorempixel.com/"
-        }
-      ]
-    },
-    {
-      "unicode": [
-        {
-          "copy-paste-character": "http://copypastecharacter.com/"
-        },
-        {
-          "fsymbols": "http://fsymbols.com/"
-        },
-        {
-          "shapecatcher": "http://shapecatcher.com/"
         }
       ]
     },
