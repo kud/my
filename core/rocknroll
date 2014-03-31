@@ -78,7 +78,7 @@ brew update && brew upgrade
 echo_space
 echo_title_install "brew packages"
 
-brewtap phinze/cask
+brewtap  phinze/homebrew-cask
 brewtap homebrew/dupes
 brewtap homebrew/versions
 brewtap caskroom/versions
@@ -122,6 +122,7 @@ caskinstall dropbox
 if [ ! -d "$HOME/Dropbox" ]; then
   read \?"Configure now your dropbox and press [Enter] when you've finished..."
 fi
+caskinstall google-drive
 caskinstall google-chrome-canary
 caskinstall firefox-nightly
 caskinstall vlc
