@@ -1,0 +1,6 @@
+#! /usr/bin/env zsh
+source $MY/core/helper
+echo_title "Killing in the name of..."
+sudo -v
+PID=$(sudo lsof -i :53 | grep _mdnsresponder | head -1 | sed 's/  */ /g' | cut -d' ' -f2)
+sudo kill -9 $PID
