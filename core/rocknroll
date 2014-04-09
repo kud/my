@@ -138,7 +138,7 @@ caskinstall imagealpha
 caskinstall imageoptim
 caskinstall steam
 caskinstall spotify
-caskinstall tinygrab
+caskinstall cloudup
 caskinstall sublime-text3
 if ! type "subl" > /dev/null; then
   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
