@@ -99,6 +99,19 @@
       ]
     },
     {
+      "loaders": [
+        {
+          "1": "http://codepen.io/TaniaLD/pen/oKxep"
+        },
+        {
+          "2": "http://codepen.io/collection/khwrE/"
+        },
+        {
+          "3": "http://codepen.io/collection/HtAne/"
+        }
+      ]
+    },
+    {
       "svg": [
         {
           "iconmonstr": "http://iconmonstr.com/"
@@ -112,22 +125,22 @@
       ]
     },
     {
-      "hacks": [
-        {
-          "firefox-buttons": "http://davidwalsh.name/firefox-buttons"
-        },
-        {
-          "browserhacks": "http://browserhacks.com/"
-        }
-      ]
-    },
-    {
       "sounds": [
         {
           "noisli": "http://www.noisli.com/"
         },
         {
           "coffitivity": "http://www.coffitivity.com/"
+        }
+      ]
+    },
+    {
+      "hacks": [
+        {
+          "firefox-buttons": "http://davidwalsh.name/firefox-buttons"
+        },
+        {
+          "browserhacks": "http://browserhacks.com/"
         }
       ]
     },
