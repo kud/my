@@ -4,15 +4,15 @@ source $MY/core/helper
 echo_title_install "dotfiles"
 
 # symlink dotfiles
-ln -s ~/my/dotfiles/.aliases ~/.aliases 2> /dev/null
-ln -s ~/my/dotfiles/.vimrc ~/.vimrc 2> /dev/null
-ln -s ~/my/dotfiles/.gemrc ~/.gemrc 2> /dev/null
-ln -s ~/my/dotfiles/.gitconfig ~/.gitconfig 2> /dev/null
-ln -s ~/my/dotfiles/.gitignore_global ~/.gitignore_global 2> /dev/null
-ln -s ~/my/dotfiles/.zpreztorc ~/.zpreztorc 2> /dev/null
-ln -s ~/my/dotfiles/.zshrc ~/.zshrc 2> /dev/null
-ln -s ~/my/dotfiles/.editorconfig ~/.editorconfig 2> /dev/null
-ln -s ~/my/dotfiles/.boom ~/.boom 2> /dev/null
+ln -sf ~/my/dotfiles/.aliases ~/.aliases 2> /dev/null
+ln -sf ~/my/dotfiles/.vimrc ~/.vimrc 2> /dev/null
+ln -sf ~/my/dotfiles/.gemrc ~/.gemrc 2> /dev/null
+ln -sf ~/my/dotfiles/.gitconfig ~/.gitconfig 2> /dev/null
+ln -sf ~/my/dotfiles/.gitignore_global ~/.gitignore_global 2> /dev/null
+ln -sf ~/my/dotfiles/.zpreztorc ~/.zpreztorc 2> /dev/null
+ln -sf ~/my/dotfiles/.zshrc ~/.zshrc 2> /dev/null
+ln -sf ~/my/dotfiles/.editorconfig ~/.editorconfig 2> /dev/null
+ln -sf ~/my/dotfiles/.boom ~/.boom 2> /dev/null
 
 # local files
 if [ ! -f ~/.zshrc_local ]; then
@@ -26,20 +26,20 @@ if [ ! -f ~/.gitconfig_local ]; then
 fi
 
 # symlink appdata
-ln -s ~/Dropbox/appdata/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist 2> /dev/null
+ln -sf ~/Wuala/appdata/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist 2> /dev/null
 
-ln -s ~/Dropbox/appdata/limechat/net.limechat.LimeChat.plist ~/Library/Preferences/net.limechat.LimeChat.plist 2> /dev/null
+ln -sf ~/Wuala/appdata/limechat/net.limechat.LimeChat.plist ~/Library/Preferences/net.limechat.LimeChat.plist 2> /dev/null
 
 mkdir -p ~/Library/Application\ Support/Sublime\ Text\ 3
-ln -s ~/Dropbox/appdata/sublimetext3/Packages ~/Library/Application\ Support/Sublime\ Text\ 3 2> /dev/null
-ln -s ~/Dropbox/appdata/sublimetext3/Installed\ Packages ~/Library/Application\ Support/Sublime\ Text\ 3 2> /dev/null
+ln -sf ~/Wuala/appdata/sublimetext3/Packages ~/Library/Application\ Support/Sublime\ Text\ 3 2> /dev/null
+ln -sf ~/Wuala/appdata/sublimetext3/Installed\ Packages ~/Library/Application\ Support/Sublime\ Text\ 3 2> /dev/null
 
 mkdir -p ~/Library/Application\ Support/Adobe/Lightroom
-ln -s ~/Dropbox/appdata/lightroom/Develop\ Presets ~/Library/Application\ Support/Adobe/Lightroom 2> /dev/null
+ln -sf ~/Wuala/appdata/lightroom/Develop\ Presets ~/Library/Application\ Support/Adobe/Lightroom 2> /dev/null
 
 # mkdir -p ~/Library/Application\ Support/Mou
-# ln -si ~/Dropbox/appdata/mou/CSS ~/Library/Application\ Support/Mou
-# ln -si ~/Dropbox/appdata/mou/Themes ~/Library/Application\ Support/Mou
+# ln -si ~/Wuala/appdata/mou/CSS ~/Library/Application\ Support/Mou
+# ln -si ~/Wuala/appdata/mou/Themes ~/Library/Application\ Support/Mou
 
 # resource!
 source $HOME/.zshrc

@@ -122,6 +122,10 @@ caskinstall dropbox
 if [ ! -d "$HOME/Dropbox" ]; then
   read \?"Configure now your dropbox and press [Enter] when you've finished..."
 fi
+caskinstall wuala
+if [ ! -d "$HOME/Wuala" ]; then
+  read \?"Configure now your wuala and press [Enter] when you've finished..."
+fi
 caskinstall google-drive
 caskinstall google-chrome-canary
 caskinstall firefox-nightly

@@ -5,3 +5,5 @@ do
   finalName=`echo ${${${app// /-}/\/Applications\//}//.app/} | tr '[:upper:]' '[:lower:]'`
   echo "#! /usr/bin/env zsh\nopen -a \"${app}\"" > $MY/bin/shims/${finalName}
 done
+
+chmod +x $MY/bin/shims/*
