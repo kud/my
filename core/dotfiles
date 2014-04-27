@@ -4,15 +4,9 @@ source $MY/core/helper
 echo_title_install "dotfiles"
 
 # symlink dotfiles
-ln -sf ~/my/dotfiles/.aliases ~/.aliases 2> /dev/null
-ln -sf ~/my/dotfiles/.vimrc ~/.vimrc 2> /dev/null
-ln -sf ~/my/dotfiles/.gemrc ~/.gemrc 2> /dev/null
-ln -sf ~/my/dotfiles/.gitconfig ~/.gitconfig 2> /dev/null
-ln -sf ~/my/dotfiles/.gitignore_global ~/.gitignore_global 2> /dev/null
-ln -sf ~/my/dotfiles/.zpreztorc ~/.zpreztorc 2> /dev/null
-ln -sf ~/my/dotfiles/.zshrc ~/.zshrc 2> /dev/null
-ln -sf ~/my/dotfiles/.editorconfig ~/.editorconfig 2> /dev/null
-ln -sf ~/my/dotfiles/.boom ~/.boom 2> /dev/null
+for dotfile in "${ZDOTDIR:-$HOME}"/my/dotfiles/.{aliases,boom,editorconfig,gemrc,gitconfig,gitignore_global,vimrc,zshrc}; do
+  ln -sf "$dotfile" "${ZDOTDIR:-$HOME}/${dotfile:t}" 2> /dev/null
+done
 
 # local files
 if [ ! -f ~/.zshrc_local ]; then
