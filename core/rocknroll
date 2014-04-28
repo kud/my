@@ -118,39 +118,27 @@ brewinstall brew-cask
 echo_space
 echo_title_install "apps"
 
-caskinstall dropbox
-if [ ! -d "$HOME/Dropbox" ]; then
-  read \?"Configure now your dropbox and press [Enter] when you've finished..."
-fi
+# caskinstall dropbox
+# if [ ! -d "$HOME/Dropbox" ]; then
+#   read \?"Configure now your dropbox and press [Enter] when you've finished..."
+# fi
+
 caskinstall wuala
 if [ ! -d "$HOME/Wuala" ]; then
   read \?"Configure now your wuala and press [Enter] when you've finished..."
 fi
-caskinstall google-drive
-caskinstall google-chrome-canary
-caskinstall firefox-nightly
-caskinstall vlc
+
 caskinstall alfred
-caskinstall iterm2-beta
-caskinstall limechat
 caskinstall flux
+caskinstall iterm2-beta
 caskinstall appcleaner
 caskinstall keepassx2
 caskinstall spectacle
 caskinstall grandperspective
-caskinstall imagealpha
-caskinstall imageoptim
-caskinstall img2icns
-caskinstall steam
-caskinstall spotify
 caskinstall cloudup
-caskinstall sublime-text3
-if ! type "subl" > /dev/null; then
-  ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
-fi
 caskinstall xquartz
-caskinstall bittorrent-sync
 caskinstall flash
+caskinstall bittorrent-sync
 caskinstall qlcolorcode
 caskinstall qlstephen
 caskinstall qlmarkdown
@@ -161,8 +149,28 @@ caskinstall betterzipql
 caskinstall webp-quicklook
 caskinstall suspicious-package
 caskinstall ios7-screensaver
-caskinstall recordit
+# caskinstall recordit
 caskinstall xscope
+
+caskinstall sublime-text3
+if ! type "subl" > /dev/null; then
+  ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
+fi
+caskinstall google-drive
+caskinstall google-chrome-canary
+caskinstall firefox-nightly
+
+caskinstall limechat
+
+caskinstall imagealpha
+caskinstall imageoptim
+caskinstall img2icns
+
+caskinstall steam
+
+caskinstall spotify
+caskinstall vlc
+
 
 # handle zprezto
 if [ -d "$HOME/.zprezto" ]; then
@@ -211,7 +219,7 @@ echo_space
 echo_title_install "global ruby packages"
 geminstall boom
 
-# install ruby packages
+# install python packages
 echo_space
 echo_title_install "global python packages"
 pipinstall asciinema
@@ -258,8 +266,9 @@ echo_space
 echo_title "Doctor is checking..."
 brew doctor
 
-# come back `make`!
+# come brew packages back
 # brew link make --force > /dev/null
+# brew link zlib --force > /dev/null
 
 # done!
 echo_space
