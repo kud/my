@@ -1,7 +1,7 @@
 # basic directory operations
 # alias ....='cd ../../..'
-alias ...='cd ../..'
-alias ..='cd ..'
+# alias ...='cd ../..'
+# alias ..='cd ..'
 
 # super user
 alias _='sudo'
