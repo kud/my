@@ -80,8 +80,8 @@ echo_title_install "brew packages"
 
 brewtap homebrew/dupes
 brewtap homebrew/versions
-brewtap homebrew/homebrew-php
-brewtap caskroom/homebrew-cask
+brewtap homebrew/php
+brewtap caskroom/cask
 brewtap caskroom/versions
 
 brewinstall homebrew/dupes/make
