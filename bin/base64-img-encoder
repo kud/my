@@ -1,0 +1,6 @@
+#! /usr/bin/env zsh
+# take a png/jpg/gif and copy/paste it as base64 into clipboard
+
+IMGBASE64=$(base64 $argv)
+echo "data:image/MIMETYPE;base64,$IMGBASE64" | pbcopy
+echo "Don't forget to change the mimetype."

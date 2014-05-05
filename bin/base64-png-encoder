@@ -1,5 +1,0 @@
-#! /usr/bin/env zsh
-# take a png and copy/paste it as base64 into clipboard
-
-IMGBASE64=$(base64 $argv)
-echo "data:image/png;base64,$IMGBASE64" | pbcopy
