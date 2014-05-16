@@ -54,38 +54,6 @@
       ]
     },
     {
-      "unicode": [
-        {
-          "copy-paste-character": "http://copypastecharacter.com/"
-        },
-        {
-          "fsymbols": "http://fsymbols.com/"
-        },
-        {
-          "shapecatcher": "http://shapecatcher.com/"
-        },
-        {
-          "use-iconic": "https://useiconic.com/"
-        }
-      ]
-    },
-    {
-      "ui": [
-        {
-          "use-your-interface": "http://useyourinterface.com/"
-        },
-        {
-          "place-it": "https://placeit.net/"
-        },
-        {
-          "patterntap": "http://patterntap.com/"
-        },
-        {
-          "pttrns": "http://pttrns.com/"
-        }
-      ]
-    },
-    {
       "fixtures": [
         {
           "fakeimg": "http://fakeimg.pl/"
@@ -99,62 +67,12 @@
       ]
     },
     {
-      "loaders": [
-        {
-          "1": "http://codepen.io/TaniaLD/pen/oKxep"
-        },
-        {
-          "2": "http://codepen.io/collection/khwrE/"
-        },
-        {
-          "3": "http://codepen.io/collection/HtAne/"
-        }
-      ]
-    },
-    {
-      "svg": [
-        {
-          "iconmonstr": "http://iconmonstr.com/"
-        },
-        {
-          "the-noun-project": "http://thenounproject.com/"
-        },
-        {
-          "icomoon": "http://icomoon.io/"
-        }
-      ]
-    },
-    {
       "sounds": [
         {
           "noisli": "http://www.noisli.com/"
         },
         {
           "coffitivity": "http://www.coffitivity.com/"
-        }
-      ]
-    },
-    {
-      "hacks": [
-        {
-          "firefox-buttons": "http://davidwalsh.name/firefox-buttons"
-        },
-        {
-          "browserhacks": "http://browserhacks.com/"
-        }
-      ]
-    },
-    {
-      "components": [
-        {
-          "ratchet": "http://maker.github.io/ratchet/"
-        }
-      ]
-    },
-    {
-      "upload": [
-        {
-          "redpend": "https://redpen.io/"
         }
       ]
     }
