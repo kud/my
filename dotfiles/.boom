@@ -28,6 +28,9 @@
         },
         {
           "easing": "http://easings.net"
+        },
+        {
+          "regexr": "http://www.regexr.com/"
         }
       ]
     },
