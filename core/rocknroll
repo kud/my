@@ -89,6 +89,7 @@ brewinstall dnsmasq
 brewinstall ssh-copy-id
 brewinstall htop-osx
 brewinstall homebrew/dupes/rsync
+brewinstall archey
 
 brewinstall git
 brewinstall ghi
