@@ -245,6 +245,7 @@ npminstall bower
 npminstall tldr
 npminstall nodemon
 npminstall jake
+npminstall vtop
 npminstall bloody-testserver
 
 # warn about apps coming from app store
