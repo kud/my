@@ -152,7 +152,7 @@ caskinstall webp-quicklook
 caskinstall suspicious-package
 caskinstall ios7-screensaver
 # caskinstall recordit
-caskinstall xscope
+# caskinstall xscope
 
 caskinstall sublime-text3
 if ! type "subl" > /dev/null; then
@@ -235,12 +235,12 @@ fi
 
 # update node packages
 echo_space
-echo_title_update "global node modules"
+echo_title_update "global node packages"
 npm update -g --quiet
 
 # install node packages
 echo_space
-echo_title_install "global packages"
+echo_title_install "global node packages"
 npminstall bower
 npminstall tldr
 npminstall nodemon
@@ -259,6 +259,7 @@ if [ ! -d "/Applications/Xcode.app/" ]; then
   echo "- XCode"
 fi
 echo "- Network Link Conditioner"
+echo "- Xscope"
 
 # hack to make doctor not crying about `make`
 # if type "/usr/local/bin/make" > /dev/null; then
