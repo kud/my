@@ -1,4 +1,4 @@
 #! /usr/bin/env zsh
 # quit some apps (mostly apps which are synchronised with dropbox)
 
-quit "Sublime Text" limechat iterm
+quit "Sublime Text" limechat iterm twitter
