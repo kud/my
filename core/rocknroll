@@ -120,7 +120,7 @@ caskinstall sublime-text3
 if ! type "subl" > /dev/null; then
   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 fi
-caskinstall google-drive
+# caskinstall google-drive
 caskinstall google-chrome-canary
 caskinstall firefox-nightly
 
@@ -129,8 +129,6 @@ caskinstall limechat
 caskinstall imagealpha
 caskinstall imageoptim
 caskinstall img2icns
-
-caskinstall steam
 
 caskinstall spotify
 caskinstall vlc
