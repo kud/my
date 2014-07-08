@@ -33,3 +33,41 @@ function echo_spacex3 () {
   echo_space
   echo_space
 }
+
+# easy brew install function
+function brewinstall() {
+  brew install "${@}" 2> /dev/null
+}
+
+# easy cask install function
+function caskinstall() {
+  brew cask install "${@}" 2> /dev/null
+}
+
+# easy ruby package install function
+function geminstall() {
+  if ! type "${@}" > /dev/null; then
+    gem install "${@}"
+  fi
+}
+
+# easy global node package install function
+function npminstall() {
+  if ! type "${@}" > /dev/null; then
+    npm install "${@}" -g --quiet
+  fi
+}
+
+# easy global python package install function
+function pipinstall() {
+  if ! type "${@}" > /dev/null; then
+    pip install --upgrade "${@}"
+  fi
+}
+
+# easy brew tap function
+function brewtap() {
+  if ! brew tap | grep "${@}" > /dev/null; then
+    brew tap "${@}"
+  fi
+}

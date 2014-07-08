@@ -2,7 +2,8 @@
 
 source $MY/core/helper
 
-echo_title_update "work macosx settings"
+echo_space
+echo_title_update "macosx settings @ work"
 
 ###############################################################################
 # General UI/UX                                                               #

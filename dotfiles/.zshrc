@@ -32,11 +32,6 @@ export EDITOR='subl -w'
 # aliases
 . ~/.aliases
 
-# optimisation
-zstyle ':completion:*' accept-exact '*(N)'
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/.zsh/cache
-
 # npm
 export NODE_PATH=/usr/local/share/npm/lib/node_modules
 

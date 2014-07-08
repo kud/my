@@ -1,0 +1,9 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+echo_space
+echo_title_install "apps @ work"
+
+caskinstall virtualbox
+caskinstall vagrant

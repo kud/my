@@ -2,7 +2,8 @@
 
 source $MY/core/helper
 
-echo_title_update "laptop macosx settings"
+echo_space
+echo_title_update "macosx settings @ laptop"
 
 ###############################################################################
 # General UI/UX                                                               #

@@ -6,44 +6,6 @@ source $MY/core/helper
 # define cask application folder
 export HOMEBREW_CASK_OPTS=--appdir=/Applications
 
-# easy brew install function
-function brewinstall() {
-  brew install "${@}" 2> /dev/null
-}
-
-# easy cask install function
-function caskinstall() {
-  brew cask install "${@}" 2> /dev/null
-}
-
-# easy ruby package install function
-function geminstall() {
-  if ! type "${@}" > /dev/null; then
-    gem install "${@}"
-  fi
-}
-
-# easy global node package install function
-function npminstall() {
-  if ! type "${@}" > /dev/null; then
-    npm install "${@}" -g --quiet
-  fi
-}
-
-# easy global python package install function
-function pipinstall() {
-  if ! type "${@}" > /dev/null; then
-    pip install --upgrade "${@}"
-  fi
-}
-
-# easy brew tap function
-function brewtap() {
-  if ! brew tap | grep "${@}" > /dev/null; then
-    brew tap "${@}"
-  fi
-}
-
 # install brew if needed
 if ! type "brew" > /dev/null; then
   echo_space
@@ -265,6 +227,14 @@ echo "- Xscope"
 # if type "/usr/local/bin/make" > /dev/null; then
 #   brew unlink make > /dev/null
 # fi
+
+if [ $OS_PROFILE = 'laptop' ]; then
+  source $MY/profiles/laptop/core/rocknroll
+fi
+
+if [ $OS_PROFILE = 'work' ]; then
+  source $MY/profiles/work/core/rocknroll
+fi
 
 echo_space
 echo_title "Doctor is checking..."
