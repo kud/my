@@ -5,4 +5,5 @@ source $MY/core/helper
 echo_space
 echo_title_install "apps @ laptop"
 
+brewinstall submarine
 caskinstall steam
