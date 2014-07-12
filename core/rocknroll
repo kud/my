@@ -208,19 +208,6 @@ npminstall jake
 npminstall vtop
 npminstall bloody-testserver
 
-# warn about apps coming from app store
-echo_space
-echo_title "Don't forget to install via App Store"
-
-if [ ! -d "/Applications/Twitter.app/" ]; then
-  echo "- Twitter for Mac"
-fi
-if [ ! -d "/Applications/Xcode.app/" ]; then
-  echo "- XCode"
-fi
-echo "- Network Link Conditioner"
-echo "- Xscope"
-
 # hack to make doctor not crying about `make`
 # if type "/usr/local/bin/make" > /dev/null; then
 #   brew unlink make > /dev/null
@@ -232,6 +219,21 @@ fi
 
 if [ $OS_PROFILE = 'work' ]; then
   source $MY/profiles/work/core/rocknroll
+fi
+
+# warn about apps coming from app store
+echo_space
+echo_title "Don't forget to install via App Store"
+
+if [ ! -d "/Applications/Twitter.app/" ]; then
+  echo "- Twitter for Mac"
+fi
+if [ ! -d "/Applications/Xcode.app/" ]; then
+  echo "- XCode"
+fi
+echo "- Network Link Conditioner"
+if [ ! -d "/Applications/Xscope.app/" ]; then
+  echo "- Xscope"
 fi
 
 echo_space
