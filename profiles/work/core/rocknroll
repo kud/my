@@ -7,3 +7,10 @@ echo_title_install "apps @ work"
 
 caskinstall virtualbox
 caskinstall vagrant
+
+caskinstall google-chrome
+caskinstall google-chrome-beta
+caskinstall google-chrome-dev
+
+caskinstall firefox
+caskinstall firefox-aurora
