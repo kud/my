@@ -4,7 +4,8 @@
   # editor = vim
   excludesfile = ~/.gitignore_global
 [push]
-  default = tracking
+  # default = tracking
+  default = simple
 [color]
   ui = true
 [color "branch"]
