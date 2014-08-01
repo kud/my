@@ -57,6 +57,57 @@
       ]
     },
     {
+      "spinners": [
+        {
+          "cs-spinner": "http://jh3y.github.io/-cs-spinner/"
+        },
+        {
+          "css-loaders": "http://projects.lukehaas.me/css-loaders/"
+        },
+        {
+          "loaders-and-spinners": "http://codepen.io/collection/HtAne/"
+        },
+        {
+          "loaders-and-spinners-2": "http://codepen.io/collection/khwrE/"
+        },
+        {
+          "loaders-and-spinners-3": "http://codepen.io/TaniaLD/pen/oKxep"
+        }
+      ]
+    },
+    {
+      "svg": [
+        {
+          "useiconic": "https://useiconic.com/icons/"
+        },
+        {
+          "thenounproject": "http://thenounproject.com/"
+        },
+        {
+          "iconmonstr": "http://iconmonstr.com/"
+        },
+        {
+          "icomoon": "https://icomoon.io/"
+        }
+      ]
+    },
+    {
+      "unicode": [
+        {
+          "graphemica": "http://graphemica.com/"
+        },
+        {
+          "shapecatcher": "http://shapecatcher.com/"
+        },
+        {
+          "fsymbols": "http://fsymbols.com/"
+        },
+        {
+          "copypastecharacter": "http://copypastecharacter.com/"
+        }
+      ]
+    },
+    {
       "fixtures": [
         {
           "fakeimg": "http://fakeimg.pl/"
