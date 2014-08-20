@@ -31,6 +31,9 @@
         },
         {
           "regexr": "http://www.regexr.com/"
+        },
+        {
+          "screensizes": "http://screensiz.es"
         }
       ]
     },
@@ -76,22 +79,6 @@
       ]
     },
     {
-      "svg": [
-        {
-          "useiconic": "https://useiconic.com/icons/"
-        },
-        {
-          "thenounproject": "http://thenounproject.com/"
-        },
-        {
-          "iconmonstr": "http://iconmonstr.com/"
-        },
-        {
-          "icomoon": "https://icomoon.io/"
-        }
-      ]
-    },
-    {
       "unicode": [
         {
           "graphemica": "http://graphemica.com/"
@@ -104,6 +91,22 @@
         },
         {
           "copypastecharacter": "http://copypastecharacter.com/"
+        }
+      ]
+    },
+    {
+      "svg": [
+        {
+          "useiconic": "https://useiconic.com/icons/"
+        },
+        {
+          "thenounproject": "http://thenounproject.com/"
+        },
+        {
+          "iconmonstr": "http://iconmonstr.com/"
+        },
+        {
+          "icomoon": "https://icomoon.io/"
         }
       ]
     },
