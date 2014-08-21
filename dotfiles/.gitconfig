@@ -1,7 +1,7 @@
 [core]
-  whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
-  editor = subl -n -w
-  # editor = vim
+  whitespace   = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+  editor       = subl -n -w
+  # editor     = vim
   excludesfile = ~/.gitignore_global
 [push]
   # default = tracking
@@ -10,43 +10,44 @@
   ui = true
 [color "branch"]
   current = yellow reverse
-  local = yellow
-  remote = green
+  local   = yellow
+  remote  = green
 [color "diff"]
-  meta = yellow bold
-  frag = magenta bold
-  old = red bold
-  new = green bold
+  meta       = yellow bold
+  frag       = magenta bold
+  old        = red bold
+  new        = green bold
   whitespace = red reverse
 [color "status"]
-  added = yellow
-  changed = green
+  added     = yellow
+  changed   = green
   untracked = cyan
 [alias]
-  co = checkout
-  br = branch
-  ci = commit
-  st = status
-  df = diff
-  dc = diff --cached
-  lg = log -p
-  lol = log --graph --decorate --pretty=oneline --abbrev-commit
-  lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
-  ls = ls-files
-  ign = ls-files -o -i --exclude-standard
-  lgb = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-  unstage = reset HEAD --
-  last = log -1 HEAD
-  oops = commit --amend
-  rmdf = "!git rm $(git ls-files --deleted)"
-  export = "!git clone --depth 1 $1 && rm -rf \"$(basename $1 .git)/.git\" -"
+  co          = checkout
+  br          = branch
+  ci          = commit
+  st          = status
+  df          = diff
+  dc          = diff --cached
+  lg          = log -p
+  lol         = log --graph --decorate --pretty=oneline --abbrev-commit
+  lola        = log --graph --decorate --pretty=oneline --abbrev-commit --all
+  ls          = ls-files
+  ign         = ls-files -o -i --exclude-standard
+  lgb         = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  unstage     = reset HEAD --
+  last        = log -1 HEAD
+  oops        = commit --amend
+  rmdf        = "!git rm $(git ls-files --deleted)"
+  export      = "!git clone --depth 1 $1 && rm -rf \"$(basename $1 .git)/.git\" -"
   sublimediff = "!git diff $@ | subl"
-  mdrdiff = "!git diff $@ | mdr"
-  branches = branch -avv
-  resetfromsource = "!git checkout master && git reset --hard && git pull --rebase source master"
+  mdrdiff     = "!git diff $@ | mdr"
+  branches    = branch -avv
+  wip         = "!git add . && git commit -m 'WIP'"
+  # resetfromsource = "!git checkout master && git reset --hard && git pull --rebase source master"
 [branch]
   autosetuprebase = always
 [include]
   path = .gitconfig_local
 [ghi]
-	token = !security find-internet-password -a kud -s github.com -l 'ghi token' -w
+  token = !security find-internet-password -a kud -s github.com -l 'ghi token' -w
