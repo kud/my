@@ -79,22 +79,6 @@
       ]
     },
     {
-      "unicode": [
-        {
-          "graphemica": "http://graphemica.com/"
-        },
-        {
-          "shapecatcher": "http://shapecatcher.com/"
-        },
-        {
-          "fsymbols": "http://fsymbols.com/"
-        },
-        {
-          "copypastecharacter": "http://copypastecharacter.com/"
-        }
-      ]
-    },
-    {
       "svg": [
         {
           "useiconic": "https://useiconic.com/icons/"
@@ -107,6 +91,25 @@
         },
         {
           "icomoon": "https://icomoon.io/"
+        },
+        {
+          "fontello": "http://fontello.com/"
+        }
+      ]
+    },
+    {
+      "unicode": [
+        {
+          "graphemica": "http://graphemica.com/"
+        },
+        {
+          "shapecatcher": "http://shapecatcher.com/"
+        },
+        {
+          "fsymbols": "http://fsymbols.com/"
+        },
+        {
+          "copypastecharacter": "http://copypastecharacter.com/"
         }
       ]
     },
