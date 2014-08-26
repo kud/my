@@ -60,25 +60,6 @@
       ]
     },
     {
-      "spinners": [
-        {
-          "cs-spinner": "http://jh3y.github.io/-cs-spinner/"
-        },
-        {
-          "css-loaders": "http://projects.lukehaas.me/css-loaders/"
-        },
-        {
-          "loaders-and-spinners": "http://codepen.io/collection/HtAne/"
-        },
-        {
-          "loaders-and-spinners-2": "http://codepen.io/collection/khwrE/"
-        },
-        {
-          "loaders-and-spinners-3": "http://codepen.io/TaniaLD/pen/oKxep"
-        }
-      ]
-    },
-    {
       "svg": [
         {
           "useiconic": "https://useiconic.com/icons/"
@@ -94,6 +75,28 @@
         },
         {
           "fontello": "http://fontello.com/"
+        },
+        {
+          "shapecatcher": "http://shapecatcher.com/"
+        }
+      ]
+    },
+    {
+      "spinners": [
+        {
+          "cs-spinner": "http://jh3y.github.io/-cs-spinner/"
+        },
+        {
+          "css-loaders": "http://projects.lukehaas.me/css-loaders/"
+        },
+        {
+          "loaders-and-spinners": "http://codepen.io/collection/HtAne/"
+        },
+        {
+          "loaders-and-spinners-2": "http://codepen.io/collection/khwrE/"
+        },
+        {
+          "loaders-and-spinners-3": "http://codepen.io/TaniaLD/pen/oKxep"
         }
       ]
     },
@@ -133,6 +136,13 @@
         },
         {
           "coffitivity": "http://www.coffitivity.com/"
+        }
+      ]
+    },
+    {
+      "free-pictures": [
+        {
+          "unsplash": "http://unsplash.com/"
         }
       ]
     }
