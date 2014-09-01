@@ -1,0 +1,2 @@
+#! /usr/bin/env zsh
+find . -name '*.DS_Store' -type f -delete
