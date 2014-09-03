@@ -77,13 +77,14 @@ alias klook='qlmanage -p "$@" >& /dev/null'
 # alias git-svn-push='git svn rebase && git svn dcommit'
 
 # macosx
-alias fuckyou-dock='killall Dock'
+alias fuck-dock='killall Dock'
 
 # ease
 alias s='subl .'
 alias flush-dns='dscacheutil -flushcache'
 alias reload-shell='exec $SHELL'
 alias gem-back='gem pristine --all --only-executables'
+alias fuck='sudo $(fc -ln -1)'
 
 # no correct
 alias sshfs='nocorrect sshfs'
