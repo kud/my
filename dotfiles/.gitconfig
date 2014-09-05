@@ -38,6 +38,7 @@
   unstage        = reset HEAD --
   last           = log -1 HEAD
   oops           = commit --amend
+  fix            = "!git add . && git commit --amend --no-edit"
   rmdf           = "!git rm $(git ls-files --deleted)"
   export         = "!git clone --depth 1 $1 && rm -rf \"$(basename $1 .git)/.git\" -"
   sublimediff    = "!git diff $@ | subl"
