@@ -33,6 +33,8 @@ ln -sf ~/Wuala/low/appdata/sublimetext3/Installed\ Packages ~/Library/Applicatio
 
 ln -sf ~/Wuala/low/appdata/lightroom/Develop\ Presets ~/Library/Application\ Support/Adobe/Lightroom 2> /dev/null
 
+ln -sf ~/Wuala/low/appdata/atom ~/.atom 2> /dev/null
+
 # mkdir -p ~/Library/Application\ Support/Mou
 # ln -si ~/Wuala/low/appdata/mou/CSS ~/Library/Application\ Support/Mou
 # ln -si ~/Wuala/low/appdata/mou/Themes ~/Library/Application\ Support/Mou
