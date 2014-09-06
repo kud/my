@@ -108,6 +108,7 @@ caskinstall qlstephen
 caskinstall qlmarkdown
 caskinstall quicklook-json
 caskinstall quicklook-csv
+caskinstall prefs-editor
 caskinstall qlprettypatch
 caskinstall betterzipql
 caskinstall webp-quicklook
