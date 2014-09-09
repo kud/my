@@ -77,6 +77,10 @@ brewinstall php55 --with-debug --with-homebrew-curl --with-homebrew-libxslt --wi
 
 brewinstall brew-cask
 
+echo_space
+echo_title "Cleaning brew..."
+brew cleanup
+
 # install apps
 echo_space
 echo_title_install "apps"
@@ -133,6 +137,10 @@ caskinstall img2icns
 
 caskinstall spotify
 caskinstall vlc
+
+echo_space
+echo_title "Cleaning brew cask..."
+brew cask cleanup
 
 
 # handle zprezto
