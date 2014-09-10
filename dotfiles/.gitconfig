@@ -23,6 +23,7 @@
   changed   = green
   untracked = cyan
 [alias]
+  aa              = add .
   co              = checkout
   br              = branch
   ci              = commit
