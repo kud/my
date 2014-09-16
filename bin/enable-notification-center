@@ -1,0 +1,4 @@
+#! /usr/bin/env zsh
+launchctl load -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist
+killall NotificationCenter
+
