@@ -219,6 +219,8 @@ npminstall jake
 npminstall vtop
 npminstall bloody-testserver
 npminstall hicat
+npminstall npm-check-updates
+npminstall npm-check
 
 # hack to make doctor not crying about `make`
 # if type "/usr/local/bin/make" > /dev/null; then
