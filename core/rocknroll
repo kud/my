@@ -72,7 +72,7 @@ brewinstall heroku-toolbelt
 
 brewinstall ruby
 brewinstall python
-brewinstall node --without-npm
+brewinstall node
 brewinstall php55 --with-debug --with-homebrew-curl --with-homebrew-libxslt --with-homebrew-openssl
 
 brewinstall brew-cask
@@ -198,11 +198,11 @@ echo_title_install "global python packages"
 pipinstall asciinema
 
 # install npm
-if ! type "npm" > /dev/null; then
-  echo_space
-  echo_title_install "npm"
-  curl -sL https://npmjs.org/install.sh | sh
-fi
+# if ! type "npm" > /dev/null; then
+#   echo_space
+#   echo_title_install "npm"
+#   curl -sL https://npmjs.org/install.sh | sh
+# fi
 
 # update node packages
 echo_space
