@@ -1,0 +1,2 @@
+#! /usr/bin/env zsh
+system_profiler SPDisplaysDataType | grep Resolution
