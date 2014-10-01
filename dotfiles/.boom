@@ -133,19 +133,25 @@
       ]
     },
     {
+      "pictures": [
+        {
+          "unsplash": "http://unsplash.com/"
+        },
+        {
+          "chromecast": "http://chromecastbg.alexmeub.com/"
+        },
+        {
+          "hipster": "http://hipsterwall.cloudsmaker.com/"
+        }
+      ]
+    },
+    {
       "sounds": [
         {
           "noisli": "http://www.noisli.com/"
         },
         {
           "coffitivity": "http://www.coffitivity.com/"
-        }
-      ]
-    },
-    {
-      "free-pictures": [
-        {
-          "unsplash": "http://unsplash.com/"
         }
       ]
     }
