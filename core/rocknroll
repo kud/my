@@ -44,6 +44,7 @@ brewtap homebrew/dupes
 brewtap homebrew/versions
 brewtap homebrew/php
 brewtap caskroom/cask
+brewtap caskroom/fonts
 brewtap caskroom/versions
 
 brewinstall homebrew/dupes/make
@@ -120,6 +121,9 @@ caskinstall suspicious-package
 caskinstall ios7-screensaver
 # caskinstall recordit
 # caskinstall xscope
+
+caskinstall font-ubuntu
+caskinstall font-ubuntu-mono-powerline
 
 caskinstall sublime-text3
 if ! type "subl" > /dev/null; then
