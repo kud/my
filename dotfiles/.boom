@@ -60,6 +60,28 @@
       ]
     },
     {
+      "spinners": [
+        {
+          "cs-spinner": "http://jh3y.github.io/-cs-spinner/"
+        },
+        {
+          "css-loaders": "http://projects.lukehaas.me/css-loaders/"
+        },
+        {
+          "loaders-and-spinners": "http://codepen.io/collection/HtAne/"
+        },
+        {
+          "loaders-and-spinners-2": "http://codepen.io/collection/khwrE/"
+        },
+        {
+          "loaders-and-spinners-3": "http://codepen.io/TaniaLD/pen/oKxep"
+        },
+        {
+          "loading": "http://jxnblk.github.io/loading/"
+        }
+      ]
+    },
+    {
       "docs": [
         {
           "devdocs": "http://devdocs.io/"
@@ -82,24 +104,18 @@
       ]
     },
     {
-      "spinners": [
+      "pictures": [
         {
-          "cs-spinner": "http://jh3y.github.io/-cs-spinner/"
+          "unsplash": "http://unsplash.com/"
         },
         {
-          "css-loaders": "http://projects.lukehaas.me/css-loaders/"
+          "chromecast": "http://chromecastbg.alexmeub.com/"
         },
         {
-          "loaders-and-spinners": "http://codepen.io/collection/HtAne/"
+          "hipsterwall": "http://hipsterwall.cloudsmaker.com/"
         },
         {
-          "loaders-and-spinners-2": "http://codepen.io/collection/khwrE/"
-        },
-        {
-          "loaders-and-spinners-3": "http://codepen.io/TaniaLD/pen/oKxep"
-        },
-        {
-          "loading": "http://jxnblk.github.io/loading/"
+          "magdeleine": "http://magdeleine.co/"
         }
       ]
     },
@@ -129,19 +145,6 @@
         },
         {
           "lorempixel": "http://lorempixel.com/"
-        }
-      ]
-    },
-    {
-      "pictures": [
-        {
-          "unsplash": "http://unsplash.com/"
-        },
-        {
-          "chromecast": "http://chromecastbg.alexmeub.com/"
-        },
-        {
-          "hipsterwall": "http://hipsterwall.cloudsmaker.com/"
         }
       ]
     },
