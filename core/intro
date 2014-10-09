@@ -3,23 +3,6 @@ source $MY/core/helper
 
 printf "${COLOUR_YELLOW}"
 
-# printf "\nMMMMMMMM               MMMMMMMMYYYYYYY       YYYYYYY"
-# printf "\nM:::::::M             M:::::::MY:::::Y       Y:::::Y"
-# printf "\nM::::::::M           M::::::::MY:::::Y       Y:::::Y"
-# printf "\nM:::::::::M         M:::::::::MY::::::Y     Y::::::Y"
-# printf "\nM::::::::::M       M::::::::::MYYY:::::Y   Y:::::YYY"
-# printf "\nM:::::::::::M     M:::::::::::M   Y:::::Y Y:::::Y   "
-# printf "\nM:::::::M::::M   M::::M:::::::M    Y:::::Y:::::Y    "
-# printf "\nM::::::M M::::M M::::M M::::::M     Y:::::::::Y     "
-# printf "\nM::::::M  M::::M::::M  M::::::M      Y:::::::Y      "
-# printf "\nM::::::M   M:::::::M   M::::::M       Y:::::Y       "
-# printf "\nM::::::M    M:::::M    M::::::M       Y:::::Y       "
-# printf "\nM::::::M     MMMMM     M::::::M       Y:::::Y       "
-# printf "\nM::::::M               M::::::M       Y:::::Y       "
-# printf "\nM::::::M               M::::::M    YYYY:::::YYYY    "
-# printf "\nM::::::M               M::::::M    Y:::::::::::Y    "
-# printf "\nMMMMMMMM               MMMMMMMM    YYYYYYYYYYYYY    "
-
 printf "\n    ${COLOUR_YELLOW}███${COLOUR_BLACK}╗   ${COLOUR_YELLOW}███${COLOUR_BLACK}╗${COLOUR_YELLOW}██${COLOUR_BLACK}╗   ${COLOUR_YELLOW}██${COLOUR_BLACK}╗"
 printf "\n    ${COLOUR_YELLOW}████${COLOUR_BLACK}╗ ${COLOUR_YELLOW}████${COLOUR_BLACK}║╚${COLOUR_YELLOW}██${COLOUR_BLACK}╗ ${COLOUR_YELLOW}██${COLOUR_BLACK}╔╝"
 printf "\n    ${COLOUR_YELLOW}██${COLOUR_BLACK}╔${COLOUR_YELLOW}████${COLOUR_BLACK}╔${COLOUR_YELLOW}██${COLOUR_BLACK}║ ╚${COLOUR_YELLOW}████${COLOUR_BLACK}╔╝ "
