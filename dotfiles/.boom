@@ -38,6 +38,31 @@
       ]
     },
     {
+      "docs": [
+        {
+          "devdocs": "http://devdocs.io/"
+        },
+        {
+          "caniuse": "http://caniuse.com/"
+        },
+        {
+          "html5index": "http://html5index.org/"
+        },
+        {
+          "jsdb": "http://www.jsdb.io/"
+        },
+        {
+          "dochub": "http://dochub.io/"
+        },
+        {
+          "microjs": "http://microjs.com/"
+        },
+        {
+          "fontfamily": "http://fontfamily.io/"
+        }
+      ]
+    },
+    {
       "svg": [
         {
           "useiconic": "https://useiconic.com/icons/"
@@ -82,24 +107,18 @@
       ]
     },
     {
-      "docs": [
+      "unicode": [
         {
-          "devdocs": "http://devdocs.io/"
+          "graphemica": "http://graphemica.com/"
         },
         {
-          "caniuse": "http://caniuse.com/"
+          "shapecatcher": "http://shapecatcher.com/"
         },
         {
-          "html5index": "http://html5index.org/"
+          "fsymbols": "http://fsymbols.com/"
         },
         {
-          "jsdb": "http://www.jsdb.io/"
-        },
-        {
-          "dochub": "http://dochub.io/"
-        },
-        {
-          "microjs": "http://microjs.com/"
+          "copypastecharacter": "http://copypastecharacter.com/"
         }
       ]
     },
@@ -116,22 +135,6 @@
         },
         {
           "magdeleine": "http://magdeleine.co/"
-        }
-      ]
-    },
-    {
-      "unicode": [
-        {
-          "graphemica": "http://graphemica.com/"
-        },
-        {
-          "shapecatcher": "http://shapecatcher.com/"
-        },
-        {
-          "fsymbols": "http://fsymbols.com/"
-        },
-        {
-          "copypastecharacter": "http://copypastecharacter.com/"
         }
       ]
     },
