@@ -1,0 +1,12 @@
+#! /usr/bin/env zsh
+source $MY/core/helper
+
+echo_title "Fixing appdata..."
+
+mv ~/Wuala/low/appdata/iterm2/com.googlecode.iterm2\ \(conflicting\ version\ 1\).plist ~/Wuala/low/appdata/iterm2/com.googlecode.iterm2.plist 2> /dev/null
+
+mv ~/Wuala/low/appdata/limechat/net.limechat.LimeChat\ \(conflicting\ version\ 1\).plist ~/Wuala/low/appdata/limechat/net.limechat.LimeChat.plist 2> /dev/null
+
+echo_success "Appdata are fixed!"
+
+restart limechat iterm
