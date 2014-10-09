@@ -75,7 +75,6 @@ brewinstall heroku-toolbelt
 brewinstall ruby
 brewinstall python
 brewinstall node
-brewinstall php55 --with-debug --with-homebrew-curl --with-homebrew-libxslt --with-homebrew-openssl
 
 brewinstall brew-cask
 
