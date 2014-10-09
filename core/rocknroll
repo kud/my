@@ -68,6 +68,7 @@ brewinstall iotop
 brewinstall lsof
 brewinstall pwgen
 brewinstall mdr
+brewinstall exiftool
 brewinstall vim
 brewinstall heroku-toolbelt
 
