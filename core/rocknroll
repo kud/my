@@ -71,6 +71,7 @@ brewinstall mdr
 brewinstall exiftool
 brewinstall vim
 brewinstall heroku-toolbelt
+brewinstall figlet
 
 brewinstall ruby
 brewinstall python
