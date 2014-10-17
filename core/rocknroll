@@ -97,6 +97,7 @@ if [ ! -d "$HOME/Wuala" ]; then
   read \?"Configure now your wuala and press [Enter] when you've finished..."
 fi
 
+# caskinstall java # sorry my love :(
 caskinstall alfred
 caskinstall flux
 caskinstall iterm2
