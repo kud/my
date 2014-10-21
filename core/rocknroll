@@ -98,7 +98,7 @@ if [ ! -d "$HOME/Wuala" ]; then
 fi
 
 caskinstall java # sorry my love :(
-caskinstall alfred
+# caskinstall alfred
 caskinstall flux
 caskinstall iterm2
 caskinstall appcleaner
