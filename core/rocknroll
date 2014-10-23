@@ -218,15 +218,15 @@ npm update -g --quiet
 # install node packages
 echo_space
 echo_title_install "global node packages"
-npminstall bower
+# npminstall bower
 npminstall tldr
 npminstall nodemon
 npminstall jake
 npminstall vtop
 npminstall bloody-testserver
 npminstall hicat
-npminstall npm-check-updates
-npminstall npm-check
+# npminstall npm-check-updates
+# npminstall npm-check
 
 # hack to make doctor not crying about `make`
 # if type "/usr/local/bin/make" > /dev/null; then
