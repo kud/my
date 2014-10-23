@@ -1,0 +1,9 @@
+#! /usr/bin/env zsh
+rm -rf "~/Library/Application Support/Dock/desktoppicture.db"
+
+sudo rm -rf "/System/Library/CoreServices/DefaultDesktop.jpg"
+sudo ln -s ~/Wuala/low/lib/wallpapers/DefaultDesktop.jpg /System/Library/CoreServices/DefaultDesktop.jpg
+
+for app in "Activity Monitor" "Dock" "Finder" "SystemUIServer" "cfprefsd"; do
+  killall "${app}" > /dev/null 2>&1
+done
