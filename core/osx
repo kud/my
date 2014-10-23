@@ -117,6 +117,11 @@ defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
 
 # Disable Notification Center and remove the menu bar icon
 # launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist
+# sudo chmod 600 /System/Library/CoreServices/NotificationCenter.app/Contents/MacOS/NotificationCenter
+
+# Enable Notification Center
+# launchctl load -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist
+# sudo chmod 755 /System/Library/CoreServices/NotificationCenter.app/Contents/MacOS/NotificationCenter
 
 # Disable smart quotes as they’re annoying when typing code
 defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
@@ -523,7 +528,13 @@ defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
 # ###############################################################################
 
 # Hide Spotlight tray-icon (and subsequent helper)
-#sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search
+# sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.metadata.mds.plist
+# sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search
+
+# Show Spotlight tray-icon
+# launchctl load -w /System/Library/LaunchDaemons/com.apple.metadata.mds.plist
+# sudo chmod 755 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search
+
 # Disable Spotlight indexing for any volume that gets mounted and has not yet
 # been indexed before.
 # Use `sudo mdutil -i off "/Volumes/foo"` to stop indexing any volume.

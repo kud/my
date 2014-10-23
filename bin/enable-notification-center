@@ -1,5 +1,0 @@
-#! /usr/bin/env zsh
-# launchctl load -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist
-sudo chmod 755 /System/Library/CoreServices/NotificationCenter.app/Contents/MacOS/NotificationCenter
-killall NotificationCenter
-killall Dock
