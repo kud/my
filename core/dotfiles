@@ -4,7 +4,7 @@ source $MY/core/helper
 echo_title_install "dotfiles"
 
 # symlink dotfiles
-for dotfile in "${ZDOTDIR:-$HOME}"/my/dotfiles/.{aliases,boom,editorconfig,gemrc,gitconfig,gitignore_global,vimrc,zshrc}; do
+for dotfile in "${ZDOTDIR:-$HOME}"/my/dotfiles/.{aliases,boom,editorconfig,gemrc,gitconfig,gitignore_global,memo,vimrc,zshrc}; do
   ln -sf "$dotfile" "${ZDOTDIR:-$HOME}/${dotfile:t}" 2> /dev/null
 done
 

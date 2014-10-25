@@ -225,6 +225,7 @@ npminstall jake
 npminstall vtop
 npminstall bloody-testserver
 npminstall hicat
+npminstall putainde-memo
 # npminstall npm-check-updates
 # npminstall npm-check
 
