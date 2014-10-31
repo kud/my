@@ -228,7 +228,7 @@ defaults write com.apple.screencapture location -string "${HOME}/Wuala/screensho
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
 defaults write com.apple.screencapture type -string "png"
 
-# Remove date on screenshot name
+# Add/Remove date on screenshot name
 defaults write com.apple.screencapture "include-date" 1
 
 # Rename screenshot name
