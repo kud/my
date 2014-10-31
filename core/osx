@@ -222,10 +222,17 @@ defaults write com.apple.screensaver askForPassword -int 1
 defaults write com.apple.screensaver askForPasswordDelay -int 0
 
 # Save screenshots to the desktop
-defaults write com.apple.screencapture location -string "${HOME}/Downloads"
+# defaults write com.apple.screencapture location -string "${HOME}/Downloads"
+defaults write com.apple.screencapture location -string "${HOME}/Wuala/screenshots"
 
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
 defaults write com.apple.screencapture type -string "png"
+
+# Remove date on screenshot name
+defaults write com.apple.screencapture "include-date" 1
+
+# Rename screenshot name
+defaults write com.apple.screencapture name screenshot
 
 # Enable shadow in screenshots
 defaults write com.apple.screencapture disable-shadow -bool false
