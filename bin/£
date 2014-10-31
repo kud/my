@@ -15,6 +15,9 @@ else
       dotfiles)
         $MY/core/dotfiles
         ;;
+      dotfiles)
+        $MY/core/applescripts
+        ;;
       shims)
         $MY/core/shims
         ;;
@@ -41,21 +44,23 @@ else
         echo_spacex3
         printf "Commands:"
         echo_spacex2
-        printf "    bam         ${COLOUR_BLACK}Start the install/update process${COLOUR_RESET}"
+        printf "    bam           ${COLOUR_BLACK}Start the install/update process${COLOUR_RESET}"
         echo_space
-        printf "    osx         ${COLOUR_BLACK}Update osx setttings${COLOUR_RESET}"
+        printf "    osx           ${COLOUR_BLACK}Update osx setttings${COLOUR_RESET}"
         echo_space
-        printf "    dotfiles    ${COLOUR_BLACK}Update dotfiles${COLOUR_RESET}"
+        printf "    dotfiles      ${COLOUR_BLACK}Update dotfiles${COLOUR_RESET}"
         echo_space
-        printf "    shims       ${COLOUR_BLACK}Create shell command for .app${COLOUR_RESET}"
+        printf "    applescripts  ${COLOUR_BLACK}Update applescripts${COLOUR_RESET}"
         echo_space
-        printf "    fix-appdata ${COLOUR_BLACK}Fix appdata${COLOUR_RESET}"
+        printf "    shims         ${COLOUR_BLACK}Create shell command for .app${COLOUR_RESET}"
         echo_space
-        printf "    bootstrap   ${COLOUR_BLACK}Make everything${COLOUR_RESET}"
+        printf "    fix-appdata   ${COLOUR_BLACK}Fix appdata${COLOUR_RESET}"
         echo_space
-        printf "    edit        ${COLOUR_BLACK}Open with \$EDITOR${COLOUR_RESET}"
+        printf "    bootstrap     ${COLOUR_BLACK}Make everything${COLOUR_RESET}"
         echo_space
-        printf "    open        ${COLOUR_BLACK}Open with Finder${COLOUR_RESET}"
+        printf "    edit          ${COLOUR_BLACK}Open with \$EDITOR${COLOUR_RESET}"
+        echo_space
+        printf "    open          ${COLOUR_BLACK}Open with Finder${COLOUR_RESET}"
         echo_spacex2
         ;;
       *)

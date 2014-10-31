@@ -1,0 +1,15 @@
+#! /usr/bin/env zsh
+source $MY/core/helper
+
+echo_title_install "applescripts"
+
+# Ask for the administrator password upfront
+sudo -v
+
+# Add script to global
+# Do not forget just after the symlink to right click on the "Wuala/screenshots" folder > services > folder actions setup... and add "get-screenshot-when-new-file.scpt"
+sudo ln -sf ${HOME}"/my/applescripts/get-screenshot-when-new-file.scpt" "/Library/Scripts/Folder Action Scripts/" 2> /dev/null
+
+# resource!
+
+echo_success "Applescripts are installed!"
