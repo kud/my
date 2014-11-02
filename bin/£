@@ -15,7 +15,7 @@ else
       dotfiles)
         $MY/core/dotfiles
         ;;
-      dotfiles)
+      applescripts)
         $MY/core/applescripts
         ;;
       shims)
