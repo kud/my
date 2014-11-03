@@ -53,5 +53,7 @@
   autosetuprebase = always
 [include]
   path = .gitconfig_local
+[github]
+	user = kud
 [ghi]
-  token = !security find-internet-password -a kud -s github.com -l 'ghi token' -w
+	token = !security find-internet-password -a kud -s github.com -l 'ghi token' -w
