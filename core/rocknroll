@@ -253,6 +253,9 @@ fi
 if [ ! -d "/Applications/Xcode.app/" ]; then
   echo "- XCode"
 fi
+if [ ! -d "/Applications/GifGrabber.app/" ]; then
+  echo "- GifGrabber"
+fi
 echo "- Network Link Conditioner"
 if [ ! -d "/Applications/Xscope.app/" ]; then
   echo "- Xscope"
