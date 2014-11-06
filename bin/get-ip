@@ -1,0 +1,4 @@
+#! /usr/bin/env zsh
+IP=$(dig +short myip.opendns.com @resolver1.opendns.com)
+echo "My ip is: ${IP}"
+echo ${IP} |pbcopy
