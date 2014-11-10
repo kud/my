@@ -123,6 +123,7 @@ caskinstall suspicious-package
 caskinstall ios7-screensaver
 # caskinstall recordit
 # caskinstall xscope
+# caskinstall google-drive
 
 caskinstall font-ubuntu
 caskinstall font-ubuntu-mono-powerline
@@ -131,9 +132,8 @@ caskinstall sublime-text3
 if ! type "subl" > /dev/null; then
   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 fi
-# caskinstall google-drive
-caskinstall google-chrome-canary
-caskinstall firefox-nightly
+# caskinstall firefox-nightly
+caskinstall firefoxdeveloperedition
 
 caskinstall limechat
 
