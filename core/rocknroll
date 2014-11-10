@@ -227,6 +227,7 @@ npminstall bloody-testserver
 npminstall hicat
 npminstall putainde-memo
 npminstall figlet-cli
+npminstall tmi
 # npminstall npm-check-updates
 # npminstall npm-check
 
