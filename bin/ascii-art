@@ -1,0 +1,3 @@
+#! /usr/bin/env zsh
+figlet -f 'Ansi Shadow' $@ |pbcopy
+echo 'Copied in the clipboard!'

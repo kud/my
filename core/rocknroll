@@ -71,7 +71,6 @@ brewinstall mdr
 brewinstall exiftool
 brewinstall vim
 brewinstall heroku-toolbelt
-brewinstall figlet
 brewinstall terminal-notifier
 
 brewinstall ruby
@@ -227,6 +226,7 @@ npminstall vtop
 npminstall bloody-testserver
 npminstall hicat
 npminstall putainde-memo
+npminstall figlet-cli
 # npminstall npm-check-updates
 # npminstall npm-check
 
