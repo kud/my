@@ -72,6 +72,7 @@ brewinstall exiftool
 brewinstall vim
 brewinstall heroku-toolbelt
 brewinstall terminal-notifier
+brewinstall youtube-dl
 
 brewinstall ruby
 brewinstall python
@@ -153,7 +154,11 @@ brew cask cleanup
 if [ -d "$HOME/.zprezto" ]; then
   echo_space
   echo_title_update "prezto"
-  git --git-dir="$HOME/.zprezto/.git" --work-tree="$HOME/.zprezto/" pull
+  cd "$HOME/.zprezto/"
+  git pull
+  git submodule update --init --recursive
+  cd -
+  # git --git-dir="$HOME/.zprezto/.git" --work-tree="$HOME/.zprezto/" pull
 else
   echo_space
   echo_title_install "prezto"
