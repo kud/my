@@ -73,6 +73,7 @@ brewinstall vim
 brewinstall heroku-toolbelt
 brewinstall terminal-notifier
 brewinstall youtube-dl
+brewinstall htmlcompressor
 
 brewinstall ruby
 brewinstall python
