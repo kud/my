@@ -234,6 +234,7 @@ npminstall hicat
 npminstall putainde-memo
 npminstall figlet-cli
 npminstall tmi
+npminstall svgo
 # npminstall npm-check-updates
 # npminstall npm-check
 
