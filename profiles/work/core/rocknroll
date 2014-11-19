@@ -19,11 +19,7 @@ caskinstall virtualbox
 caskinstall vagrant
 
 caskinstall google-chrome
-caskinstall google-chrome-beta
-caskinstall google-chrome-dev
 caskinstall google-chrome-canary
 
 caskinstall firefox
-caskinstall firefox-beta
-caskinstall firefox-aurora
 caskinstall firefox-nightly

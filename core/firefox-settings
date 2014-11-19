@@ -1,0 +1,12 @@
+#! /usr/bin/env zsh
+source $MY/core/helper
+
+echo_title_update "firefox settings"
+
+quit firefoxnightly firefox
+
+DEFAULT_FOLDER=$(ls "$HOME/Library/Application Support/Firefox/Profiles" |grep default)
+
+echo 'user_pref("browser.devedition.theme.enabled", true);' >> "$HOME/Library/Application Support/Firefox/Profiles/$DEFAULT_FOLDER/prefs.js"
+
+echo_success "Firefox settings are set!"
