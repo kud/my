@@ -236,6 +236,7 @@ npminstall putainde-memo
 npminstall figlet-cli
 npminstall tmi
 npminstall svgo
+npminstall fraktur
 # npminstall npm-check-updates
 # npminstall npm-check
 
