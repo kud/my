@@ -53,6 +53,7 @@ brewinstall ssh-copy-id
 brewinstall htop-osx
 brewinstall homebrew/dupes/rsync
 brewinstall archey
+brewinstall mitmproxy
 
 brewinstall git
 brewinstall ghi
