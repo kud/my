@@ -24,6 +24,9 @@ export LC_ALL="en_GB.UTF-8"
 # increase opened files size
 ulimit -n 1024
 
+# bind
+bindkey '^R' history-incremental-search-backward
+
 # global variable
 export FIREFOXNIGHTLY_BIN="/Applications/FirefoxNightly.app/Contents/MacOS/firefox"
 export BROWSER=$FIREFOXNIGHTLY_BIN
