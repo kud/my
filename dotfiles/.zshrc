@@ -1,7 +1,11 @@
 # prezto
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-fi
+# if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+#   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+# fi
+
+# pure
+autoload -U promptinit && promptinit
+prompt pure
 
 # export MY
 export MY=$HOME/my
@@ -49,6 +53,9 @@ export PYTHONPATH=/usr/local/lib/python2.7/site-packages
 
 # homebrew cask
 export HOMEBREW_CASK_OPTS=--appdir=/Applications
+
+# hightlight
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # local
 . ~/.zshrc_local

@@ -55,6 +55,7 @@ brewinstall homebrew/dupes/rsync
 brewinstall archey
 brewinstall mitmproxy
 
+brewinstall zsh-syntax-highlighting
 brewinstall git
 brewinstall ghi
 brewinstall wget
@@ -182,10 +183,13 @@ else
   echo_space
   echo_title_install "themes"
   git clone --recursive https://github.com/kud/themes.git "$HOME/my/modules/themes"
-  mkdir -p ~/Library/Application\ Support/LimeChat/Themes
-  ln -si ~/my/modules/themes/limechat/kud.css ~/Library/Application\ Support/LimeChat/Themes/kud.css
-  ln -si ~/my/modules/themes/limechat/kud.yaml ~/Library/Application\ Support/LimeChat/Themes/kud.yaml
 fi
+
+mkdir -p ~/Library/Application\ Support/LimeChat/Themes
+ln -si ~/my/modules/themes/limechat/kud.css ~/Library/Application\ Support/LimeChat/Themes/kud.css
+ln -si ~/my/modules/themes/limechat/kud.yaml ~/Library/Application\ Support/LimeChat/Themes/kud.yaml
+
+ln -si ~/my/modules/themes/prezto/prompt_kud_setup ~/.zprezto/modules/prompt/functions/prompt_kud_setup
 
 # vim theme
 echo_space
@@ -227,6 +231,7 @@ npm update -g --quiet
 echo_space
 echo_title_install "global node packages"
 # npminstall bower
+npminstall pure-prompt
 npminstall tldr
 npminstall nodemon
 npminstall jake
