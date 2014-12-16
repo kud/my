@@ -1,14 +1,14 @@
 # zsh modules
-autoload -U promptinit && promptinit
-autoload -U compinit && compinit
+# autoload -U promptinit && promptinit
+# autoload -U compinit && compinit
 
 # prezto
-# if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-#   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-# fi
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
 
 # pure
-prompt pure
+# prompt pure
 
 # export MY
 export MY=$HOME/my
@@ -32,7 +32,7 @@ export LC_ALL="en_GB.UTF-8"
 ulimit -n 1024
 
 # bind
-# bindkey '^R' history-incremental-search-backward
+bindkey '^R' history-incremental-search-backward
 
 # global variable
 export FIREFOXNIGHTLY_BIN="/Applications/FirefoxNightly.app/Contents/MacOS/firefox"
@@ -58,9 +58,9 @@ export PYTHONPATH=/usr/local/lib/python2.7/site-packages
 export HOMEBREW_CASK_OPTS=--appdir=/Applications
 
 # custom zsh
-. /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fpath=(path/to/zsh-completions/src $fpath)
-zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
+# . /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# fpath=(/usr/local/share/zsh-completions $fpath)
+# zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 
 # local
 . ~/.zshrc_local
