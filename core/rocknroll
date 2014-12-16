@@ -56,6 +56,9 @@ brewinstall archey
 brewinstall mitmproxy
 
 brewinstall zsh-syntax-highlighting
+brewinstall zsh-completions
+brewinstall zsh-history-substring-search
+
 brewinstall git
 brewinstall ghi
 brewinstall wget
