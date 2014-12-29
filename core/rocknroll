@@ -79,6 +79,7 @@ brewinstall heroku-toolbelt
 brewinstall terminal-notifier
 brewinstall youtube-dl
 brewinstall htmlcompressor
+brewinstall mozjpeg
 
 brewinstall ruby
 brewinstall python
