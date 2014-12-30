@@ -80,6 +80,8 @@ brewinstall terminal-notifier
 brewinstall youtube-dl
 brewinstall htmlcompressor
 brewinstall mozjpeg
+brewinstall gifsicle
+brewinstall ffmpeg
 
 brewinstall ruby
 brewinstall python
@@ -130,6 +132,7 @@ caskinstall webp-quicklook
 caskinstall suspicious-package
 caskinstall ios7-screensaver
 caskinstall android-file-transfer
+caskinstall licecap
 # caskinstall recordit
 # caskinstall xscope
 # caskinstall google-drive
@@ -272,9 +275,6 @@ if [ ! -d "/Applications/Twitter.app/" ]; then
 fi
 if [ ! -d "/Applications/Xcode.app/" ]; then
   echo "- XCode"
-fi
-if [ ! -d "/Applications/GifGrabber.app/" ]; then
-  echo "- GifGrabber"
 fi
 echo "- Network Link Conditioner"
 if [ ! -d "/Applications/Xscope.app/" ]; then
