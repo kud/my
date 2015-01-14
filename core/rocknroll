@@ -251,6 +251,7 @@ npminstall figlet-cli
 npminstall tmi
 npminstall svgo
 npminstall fraktur
+npminstall weinre
 # npminstall npm-check-updates
 # npminstall npm-check
 
