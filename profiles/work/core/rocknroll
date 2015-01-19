@@ -16,7 +16,7 @@ echo_space
 echo_title_install "apps @ work"
 
 caskinstall virtualbox
-caskinstall vagrant
+# caskinstall vagrant
 
 caskinstall google-chrome
 caskinstall google-chrome-canary
