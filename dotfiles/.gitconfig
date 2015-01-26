@@ -49,6 +49,7 @@
   rebase-current  = "!git co master && git pull && git co - && git rebase master"
   rewrite-history = "!git rebase -i $(git merge-base master HEAD)"
   browser         = "!open $(echo $(git config --get remote.origin.url) |sed 's/:/\\//g' |sed 's/git@/https:\\/\\//g' |sed 's/\\.git//g')"
+  cleanup         = "!git remote prune origin && git repack && git gc"
   # resetfromsource = "!git checkout master && git reset --hard && git pull --rebase source master"
 [branch]
   autosetuprebase = always
