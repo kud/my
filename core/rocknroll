@@ -251,7 +251,8 @@ npminstall figlet-cli
 npminstall tmi
 npminstall svgo
 npminstall fraktur
-npminstall weinre
+npminstall weinre # debugger for web pages — http://people.apache.org/~pmuellr/weinre-docs/latest/
+npminstall pageres # responsive website screenshots — https://github.com/sindresorhus/pageres
 # npminstall npm-check-updates
 # npminstall npm-check
 
