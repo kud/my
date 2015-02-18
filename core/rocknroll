@@ -82,6 +82,8 @@ brewinstall htmlcompressor
 brewinstall mozjpeg
 brewinstall gifsicle
 brewinstall ffmpeg
+brewinstall grep
+brewinstall pcre2
 
 brewinstall ruby
 brewinstall python
