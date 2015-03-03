@@ -44,6 +44,7 @@
   export          = "!git clone --depth 1 $1 && rm -rf \"$(basename $1 .git)/.git\" -"
   subl            = "!git diff $@ | subl"
   mdr             = "!git diff $@ | mdr"
+  gh              = "!/Applications/Github.app/Contents/MacOS/github_cli ${@:-.}"
   branches        = branch -avv
   wip             = "!git add . && git commit -m 'WIP'"
   rebase-current  = "!git co master && git pull && git co - && git rebase master"
@@ -59,3 +60,7 @@
   user = kud
 [ghi]
   token = !security find-internet-password -a kud -s github.com -l 'ghi token' -w
+[filter "hawser"]
+	clean = git hawser clean %f
+	smudge = git hawser smudge %f
+	required = true
