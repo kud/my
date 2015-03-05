@@ -1,6 +1,6 @@
 #! /usr/bin/env zsh
 
-#
+# credit: madx
 # ex: edit-remote-file root@ip:/etc/nginx/sites-available/desktop
 #
 
