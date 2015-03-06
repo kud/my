@@ -1,0 +1,15 @@
+#! /usr/bin/env zsh
+source $MY/core/helper
+
+case "$1" in
+    stop)
+      networksetup -setairportpower en1 off
+    ;;
+    start)
+      networksetup -setairportpower en1 on
+    ;;
+    *)
+      echo 'What did you say?'
+    ;;
+esac
+
