@@ -8,6 +8,9 @@ case "$1" in
     start)
       networksetup -setairportpower en1 on
     ;;
+    list)
+      /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -s
+    ;;
     *)
       echo 'What did you say?'
     ;;

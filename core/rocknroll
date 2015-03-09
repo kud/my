@@ -84,6 +84,7 @@ brewinstall gifsicle
 brewinstall ffmpeg
 brewinstall grep
 brewinstall pcre2
+brewinstall rename
 
 brewinstall ruby
 brewinstall python
