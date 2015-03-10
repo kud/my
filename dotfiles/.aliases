@@ -77,7 +77,8 @@ alias klook='qlmanage -p "$@" >& /dev/null'
 # alias git-svn-push='git svn rebase && git svn dcommit'
 
 # macosx
-alias fuck-dock='killall Dock'
+alias fuckyou-dock='killall Dock'
+alias fuckyou-finder='killall Finder'
 
 # ease
 alias s='subl .'
