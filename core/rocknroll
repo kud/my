@@ -260,10 +260,15 @@ npminstall pageres # responsive website screenshots — https://github.com/sindr
 npminstall npm-check-updates # check if npm modules are updated
 # npminstall npm-check
 
+echo_space
+echo_title "Remove shits"
+sed -i "" 's/install.disable.sponsor.offers.*/install.disable.sponsor.offers=true/g' ~/Library/Application\ Support/Oracle/Java/Deployment/deployment.properties
+
 # hack to make doctor not crying about `make`
 # if type "/usr/local/bin/make" > /dev/null; then
 #   brew unlink make > /dev/null
 # fi
+
 
 if [ $OS_PROFILE = 'laptop' ]; then
   source $MY/profiles/laptop/core/rocknroll
