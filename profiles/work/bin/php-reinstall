@@ -1,0 +1,10 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+brew list|grep php|xargs brew uninstall
+
+$MY/profiles/work/core/php
+
+
+

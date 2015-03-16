@@ -64,3 +64,5 @@ export HOMEBREW_CASK_OPTS=--appdir=/Applications
 
 # local
 . ~/.zshrc_local
+
+export PATH=$HOME/my/profiles/$OS_PROFILE/bin:bin$PATH
