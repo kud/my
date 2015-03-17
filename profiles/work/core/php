@@ -4,7 +4,7 @@ source $MY/core/helper
 
 echo_title_install "PHP"
 
-brewinstall php56 --disable-opcache --with-debug --with-homebrew-curl --with-homebrew-libxslt --with-homebrew-openssl --without-snmp
+brewinstall php56 --disable-opcache --with-homebrew-curl --with-homebrew-libxslt --with-homebrew-openssl --without-snmp
 brewinstall php56-mcrypt
 brewinstall php56-geoip
 brewinstall php56-igbinary
