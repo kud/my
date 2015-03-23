@@ -744,6 +744,16 @@ defaults write com.twitter.twitter-mac ShowFullNames -bool true
 # Do not hide the app in the background if it’s not the front-most window
 defaults write com.twitter.twitter-mac HideInBackground -bool false
 
+###############################################################################
+# Remove shits                                                                #
+###############################################################################
+
+defaults write ~/Library/Application\ Support/JREInstaller/ThirdParty SPONSORS -string "0"
+
+###############################################################################
+# Profiles                                                                    #
+###############################################################################
+
 if [ $OS_PROFILE = 'laptop' ]; then
   source $MY/profiles/laptop/core/osx
 fi
