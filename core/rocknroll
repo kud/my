@@ -88,8 +88,8 @@ brewinstall rename
 
 brewinstall ruby
 brewinstall python
-# brewinstall node
-brewinstall iojs
+brewinstall node
+# brewinstall iojs
 
 brewinstall brew-cask
 
