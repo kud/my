@@ -82,6 +82,8 @@ alias fuckyou-finder='killall Finder'
 
 # ease
 alias s='subl .'
+alias s-add='subl -a'
+alias s-node='subl -a node_modules'
 alias flush-dns='dscacheutil -flushcache'
 alias reload-shell='exec $SHELL'
 alias gem-back='gem pristine --all --only-executables'
