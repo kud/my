@@ -262,6 +262,7 @@ npminstall weinre # debugger for web pages — http://people.apache.org/~pmuellr
 npminstall pageres # responsive website screenshots — https://github.com/sindresorhus/pageres
 npminstall npm-check-updates # check if npm modules are updated
 # npminstall npm-check
+npminstall react-native-cli
 
 echo_space
 echo_title "Remove shits"
