@@ -23,35 +23,36 @@
   changed   = green
   untracked = cyan
 [alias]
-  aa              = add .
-  co              = checkout
-  br              = branch
-  ci              = commit
-  st              = status
-  df              = diff
-  dc              = diff --cached
-  lg              = log -p
-  lol             = log --graph --decorate --pretty=oneline --abbrev-commit
-  lola            = log --graph --decorate --pretty=oneline --abbrev-commit --all
-  ls              = ls-files
-  ign             = ls-files -o -i --exclude-standard
-  lgb             = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-  unstage         = reset HEAD --
-  last            = log -1 HEAD
-  oops            = commit --amend
-  fix             = "!git add . && git commit --amend --no-edit"
-  rmdf            = "!git rm $(git ls-files --deleted)"
-  export          = "!git clone --depth 1 $1 && rm -rf \"$(basename $1 .git)/.git\" -"
-  subl            = "!git diff $@ | subl"
-  mdr             = "!git diff $@ | mdr"
-  gh              = "!/Applications/Github.app/Contents/MacOS/github_cli ${@:-.}"
-  branches        = branch -avv
-  wip             = "!git add . && git commit -m 'WIP'"
-  rebase-current  = "!git co master && git pull && git co - && git rebase master"
-  rewrite-history = "!git rebase -i $(git merge-base master HEAD)"
-  browser         = "!open $(echo $(git config --get remote.origin.url) |sed 's/:/\\//g' |sed 's/git@/https:\\/\\//g' |sed 's/\\.git//g')"
-  cleanup         = "!git remote prune origin && git repack && git gc"
-  # resetfromsource = "!git checkout master && git reset --hard && git pull --rebase source master"
+  aa                 = add .
+  co                 = checkout
+  br                 = branch
+  ci                 = commit
+  st                 = status
+  df                 = diff
+  dc                 = diff --cached
+  lg                 = log -p
+  lol                = log --graph --decorate --pretty=oneline --abbrev-commit
+  lola               = log --graph --decorate --pretty=oneline --abbrev-commit --all
+  ls                 = ls-files
+  ign                = ls-files -o -i --exclude-standard
+  lgb                = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  unstage            = reset HEAD --
+  last               = log -1 HEAD
+  oops               = commit --amend
+  fix                = "!git add . && git commit --amend --no-edit"
+  rmdf               = "!git rm $(git ls-files --deleted)"
+  export             = "!git clone --depth 1 $1 && rm -rf \"$(basename $1 .git)/.git\" -"
+  subl               = "!git diff $@ | subl"
+  mdr                = "!git diff $@ | mdr"
+  gh                 = "!/Applications/Github.app/Contents/MacOS/github_cli ${@:-.}"
+  branches           = branch -avv
+  wip                = "!git add . && git commit -m 'WIP'"
+  rebase-from-master = "!git co master && git pull && git co - && git rebase master"
+  rewrite-history    = "!git rebase -i $(git merge-base master HEAD)"
+  finalise           = "!git rebase-from-master && git rewrite-history"
+  browser            = "!open $(echo $(git config --get remote.origin.url) |sed 's/:/\\//g' |sed 's/git@/https:\\/\\//g' |sed 's/\\.git//g')"
+  cleanup            = "!git remote prune origin && git repack && git gc"
+  # resetfromsource  = "!git checkout master && git reset --hard && git pull --rebase source master"
 [branch]
   autosetuprebase = always
 [include]
