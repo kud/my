@@ -4,3 +4,4 @@ sudo -v
 kill-mdnsresponder
 echo_title "Starting dnsmasq..."
 sudo dnsmasq
+echo_success "Done."

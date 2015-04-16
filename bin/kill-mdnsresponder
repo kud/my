@@ -4,3 +4,4 @@ echo_title "Killing mdnsresponder..."
 sudo -v
 PID=$(sudo lsof -i :53 | grep _mdnsresponder | head -1 | sed 's/  */ /g' | cut -d' ' -f2)
 sudo kill -9 $PID
+echo_success "Done."
