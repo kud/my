@@ -39,6 +39,7 @@
   unstage            = reset HEAD --
   last               = log -1 HEAD
   oops               = commit --amend
+  pt                 = "!git push && git push --tags"
   fix                = "!git add . && git commit --amend --no-edit"
   rmdf               = "!git rm $(git ls-files --deleted)"
   export             = "!git clone --depth 1 $1 && rm -rf \"$(basename $1 .git)/.git\" -"
@@ -64,4 +65,8 @@
 [filter "hawser"]
 	clean = git hawser clean %f
 	smudge = git hawser smudge %f
+	required = true
+[filter "lfs"]
+	clean = git lfs clean %f
+	smudge = git lfs smudge %f
 	required = true
