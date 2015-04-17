@@ -1,4 +1,0 @@
-#! /usr/bin/env zsh
-IP=$(ipconfig getifaddr en0)
-echo "My local ip is: ${IP}"
-echo ${IP} |pbcopy

@@ -1,7 +1,5 @@
 #! /usr/bin/env zsh
 
-#
 # ex: edit-remote-file root@ip:/etc/nginx/sites-available/desktop
-#
 
 scp $1 /tmp/scp_buffer && subl -n -w /tmp/scp_buffer && scp /tmp/scp_buffer $1

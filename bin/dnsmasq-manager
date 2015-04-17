@@ -1,0 +1,65 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+killMdnsresponder() {
+  echo_title "Killing mdnsresponder..."
+  PID=$(sudo lsof -i :53 | grep _mdnsresponder | head -1 | sed 's/  */ /g' | cut -d' ' -f2)
+  sudo kill -9 $PID
+  echo_success "mdnsresponder killed."
+}
+
+killDnsmasq() {
+  echo_title "Killing dnsmasq..."
+  PID=$(sudo lsof -i :53 | grep dnsmasq | head -1 | sed 's/  */ /g' | cut -d' ' -f2)
+  sudo kill -9 $PID
+  echo_success "dnsmasq killed."
+}
+
+startDnsmasq() {
+  echo_title "Starting dnsmasq..."
+  sudo dnsmasq
+  echo_success "dnsmasq started."
+}
+
+if [[ $# -eq 0 ]]; then
+  $0 --help
+else
+
+  case "$1" in
+      start)
+        sudo -v
+        killMdnsresponder
+        startDnsmasq
+      ;;
+      stop)
+        sudo -v
+        killDnsmasq
+      ;;
+      restart)
+        sudo -v
+        killMdnsresponder
+        killDnsmasq
+        startDnsmasq
+      ;;
+      --help)
+          echo_space
+          printf "Usage:"
+          echo_spacex2
+          printf "    ${COLOUR_CYAN}dnsmasq-manager${COLOUR_RESET} [<command>|--help]"
+          echo_spacex3
+          printf "Commands:"
+          echo_spacex2
+          printf "    start    ${COLOUR_BLACK}Start dnsmasq${COLOUR_RESET}"
+          echo_space
+          printf "    stop     ${COLOUR_BLACK}Stop dnsmasq${COLOUR_RESET}"
+          echo_space
+          printf "    restart  ${COLOUR_BLACK}Restart dnsmasq${COLOUR_RESET}"
+          echo_spacex2
+          ;;
+      *)
+        echo 'What did you say?'
+      ;;
+  esac
+
+fi

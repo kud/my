@@ -1,0 +1,57 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+asl() {
+  echo_title "Deleting ASL..."
+  sudo rm /var/log/asl/*.asl
+  echo_success "ASL deleted."
+}
+
+dsstore() {
+  echo_title "Deleting .DS_Store..."
+  find . -name '*.DS_Store' -type f -delete
+  echo_success ".DS_Store deleted."
+}
+
+screenshots() {
+  echo_title "Deleting screenshots..."
+  rm ${HOME}/Wuala/screenshots/*
+  echo_success "Screenshots deleted."
+}
+
+if [[ $# -eq 0 ]]; then
+  $0 --help
+else
+
+  case "$1" in
+      asl)
+        asl
+      ;;
+      dsstore)
+        dsstore
+      ;;
+      screenshots)
+        screenshots
+      ;;
+      --help)
+          echo_space
+          printf "Usage:"
+          echo_spacex2
+          printf "    ${COLOUR_CYAN}delete${COLOUR_RESET} [<command>|--help]"
+          echo_spacex3
+          printf "Commands:"
+          echo_spacex2
+          printf "    asl          ${COLOUR_BLACK}Delete ASL${COLOUR_RESET}"
+          echo_space
+          printf "    dsstore      ${COLOUR_BLACK}Delete .DS_Store from where you are${COLOUR_RESET}"
+          echo_space
+          printf "    screenshots  ${COLOUR_BLACK}Delete screenshots${COLOUR_RESET}"
+          echo_spacex2
+          ;;
+      *)
+        echo 'What did you say?'
+      ;;
+  esac
+
+fi

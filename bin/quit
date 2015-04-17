@@ -1,4 +1,5 @@
 #! /usr/bin/env zsh
+
 # quit an app
 
 for app in $*; do

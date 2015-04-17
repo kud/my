@@ -1,8 +1,11 @@
 #! /usr/bin/env zsh
+
+# main command
+
 source $MY/core/helper
 
 if [[ $# -eq 0 ]]; then
-  £ --help
+  $0 --help
 else
 
   case "$1" in

@@ -1,4 +1,6 @@
 #! /usr/bin/env zsh
-# quit some apps (mostly apps which are synchronised with dropbox)
 
-quit "Sublime Text" limechat iterm twitter
+# quit some apps (mostly apps which are synchronised)
+
+echo_title 'See you soon. ;)'
+quit "Sublime Text" limechat twitter firefoxnightly

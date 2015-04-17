@@ -1,4 +1,5 @@
 #! /usr/bin/env zsh
+
 # restart an app
 
 for app in $*; do

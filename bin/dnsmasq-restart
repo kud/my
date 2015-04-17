@@ -1,9 +1,0 @@
-#! /usr/bin/env zsh
-source $MY/core/helper
-sudo -v
-PID=$(sudo lsof -i :53 | grep dnsmasq | head -1 | sed 's/  */ /g' | cut -d' ' -f2)
-sudo kill -9 $PID
-kill-mdnsresponder
-echo_title "Starting dnsmasq..."
-sudo dnsmasq
-echo_success "Done."

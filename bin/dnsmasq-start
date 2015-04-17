@@ -1,7 +1,0 @@
-#! /usr/bin/env zsh
-source $MY/core/helper
-sudo -v
-kill-mdnsresponder
-echo_title "Starting dnsmasq..."
-sudo dnsmasq
-echo_success "Done."
