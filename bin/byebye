@@ -2,5 +2,7 @@
 
 # quit some apps (mostly apps which are synchronised)
 
+source $MY/core/helper
+
 echo_title 'See you soon. ;)'
 quit "Sublime Text" limechat twitter firefoxnightly
