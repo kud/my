@@ -2,7 +2,8 @@
 
 source $MY/core/helper
 
-echo_title 'Hey you ;), have a good day!'
+echo_title 'Hey you ;)'
+echo "What's up today?"
 
 subl
 limechat
