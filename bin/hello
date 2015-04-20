@@ -1,0 +1,11 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+echo_title 'Hey you ;), have a good day!'
+
+subl
+limechat
+twitter
+firefoxnightly
+spotify

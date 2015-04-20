@@ -5,4 +5,4 @@
 source $MY/core/helper
 
 echo_title 'See you soon. ;)'
-quit "Sublime Text" limechat twitter firefoxnightly
+quit "Sublime Text" limechat twitter firefoxnightly spotify
