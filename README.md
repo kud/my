@@ -39,4 +39,4 @@ $ £
 
 ## Doc
 
-- [SSH](doc/ssh.md)
+⪧ [Index](doc/index.md)
