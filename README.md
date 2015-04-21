@@ -2,9 +2,9 @@
 
 <img align="right" height="200" src="everybodydancenow.gif">
 
-My own fucking environment for Mac OS X.<br>
+My own environment for Mac OS X.<br>
 Scripts, themes, dotfiles.<br>
-You've got all you need.<br>
+All what I need.<br>
 
 <br>
 <br>
@@ -36,3 +36,7 @@ $ £
 #### Preview
 
 <img src="preview.png">
+
+## Doc
+
+- [SSH](doc/ssh.md)
