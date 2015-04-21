@@ -13,7 +13,14 @@ else
         $MY/core/itself
       ;;
       doc)
-        mdlive
+        case "$2" in
+          --offline)
+            mdlive --dir $MY/doc
+          ;;
+          *)
+            open https://github.com/kud/my/blob/master/doc/index.md
+          ;;
+        esac
       ;;
       osx)
         $MY/core/osx
