@@ -11,34 +11,37 @@ else
   case "$1" in
       bam)
         $MY/core/itself
-        ;;
+      ;;
+      doc)
+        mdlive
+      ;;
       osx)
         $MY/core/osx
-        ;;
+      ;;
       dotfiles)
         $MY/core/dotfiles
-        ;;
+      ;;
       applescripts)
         $MY/core/applescripts
-        ;;
+      ;;
       firefox-settings)
         $MY/core/firefox-settings
-        ;;
+      ;;
       shims)
         $MY/core/shims
-        ;;
+      ;;
       fix-appdata)
         $MY/core/fix-appdata
-        ;;
+      ;;
       bootstrap)
         $MY/core/bootstrap
-        ;;
+      ;;
       edit)
         subl $MY
-        ;;
+      ;;
       open)
         open $MY
-        ;;
+      ;;
       --help)
 
         source $MY/core/intro
@@ -51,6 +54,8 @@ else
         printf "Commands:"
         echo_spacex2
         printf "    bam               ${COLOUR_BLACK}Start the install/update process${COLOUR_RESET}"
+        echo_space
+        printf "    doc               ${COLOUR_BLACK}Start a server to read the doc${COLOUR_RESET}"
         echo_space
         printf "    osx               ${COLOUR_BLACK}Update osx setttings${COLOUR_RESET}"
         echo_space
@@ -70,10 +75,10 @@ else
         echo_space
         printf "    open              ${COLOUR_BLACK}Open with Finder${COLOUR_RESET}"
         echo_spacex2
-        ;;
+      ;;
       *)
         echo 'What did you say?'
-        ;;
+      ;;
   esac
 
 fi

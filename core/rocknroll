@@ -140,6 +140,7 @@ caskinstall ios7-screensaver
 caskinstall android-file-transfer
 caskinstall licecap
 caskinstall etrecheck
+caskinstall macdown
 # caskinstall recordit
 # caskinstall xscope
 # caskinstall google-drive
@@ -246,14 +247,14 @@ npm update -g --quiet
 echo_space
 echo_title_install "global node packages"
 # npminstall bower
-npminstall pure-prompt
+# npminstall pure-prompt
 npminstall tldr
 npminstall nodemon
 npminstall jake
 npminstall vtop
 npminstall bloody-testserver
 npminstall hicat
-npminstall putainde-memo
+# npminstall putainde-memo
 npminstall figlet-cli
 npminstall tmi
 npminstall svgo
@@ -263,6 +264,7 @@ npminstall pageres # responsive website screenshots — https://github.com/sindr
 npminstall npm-check-updates # check if npm modules are updated
 # npminstall npm-check
 npminstall react-native-cli
+npminstall markdown-live
 
 npm config set save-exact true
 
