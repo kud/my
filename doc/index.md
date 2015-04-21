@@ -1,5 +1,6 @@
 # Index
 
-- [Git](git.md)
-- [SSH](ssh.md)
+- [devtools](devtools.md)
+- [git](git.md)
+- [ssh](ssh.md)
 - [nginx](nginx.md)
