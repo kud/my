@@ -93,6 +93,8 @@ brewinstall watchman
 brewinstall flow
 # brewinstall iojs
 
+brewinstall syncthing
+
 brewinstall brew-cask
 
 echo_space
