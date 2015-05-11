@@ -34,7 +34,7 @@ fi
 # update/upgrade brew
 echo_space
 echo_title_update "brew"
-brew update && brew upgrade
+brew update && brew upgrade --all
 
 # install brew packages
 echo_space
@@ -46,6 +46,7 @@ brewtap homebrew/php
 brewtap caskroom/cask
 brewtap caskroom/fonts
 brewtap caskroom/versions
+brewtap aredridel/iojs
 
 brewinstall homebrew/dupes/make
 brewinstall dnsmasq
@@ -88,10 +89,10 @@ brewinstall rename
 
 brewinstall ruby
 brewinstall python
-brewinstall node
+# brewinstall node
+brewinstall aredridel/iojs/iojs
 brewinstall watchman
 brewinstall flow
-# brewinstall iojs
 
 brewinstall syncthing
 
@@ -239,6 +240,10 @@ pipinstall asciinema
 #   echo_title_install "npm"
 #   curl -sL https://npmjs.org/install.sh | sh
 # fi
+
+echo_space
+echo_title_update "npm"
+npm install -g npm@latest
 
 # update node packages
 echo_space
