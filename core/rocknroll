@@ -89,8 +89,8 @@ brewinstall rename
 
 brewinstall ruby
 brewinstall python
-# brewinstall node
-brewinstall aredridel/iojs/iojs
+brewinstall node
+# brewinstall aredridel/iojs/iojs
 brewinstall watchman
 brewinstall flow
 
@@ -264,6 +264,7 @@ npminstall hicat
 # npminstall putainde-memo
 npminstall figlet-cli
 npminstall tmi
+npminstall trash
 npminstall svgo
 npminstall fraktur
 npminstall weinre # debugger for web pages — http://people.apache.org/~pmuellr/weinre-docs/latest/
