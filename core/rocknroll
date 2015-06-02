@@ -275,6 +275,7 @@ npminstall react-native-cli
 npminstall markdown-live
 
 npm config set save-exact true
+npm config set tag-version-prefix ""
 
 echo_space
 echo_title "Remove shits"
