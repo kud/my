@@ -144,6 +144,7 @@ caskinstall android-file-transfer
 caskinstall licecap
 caskinstall etrecheck
 caskinstall macdown
+caskinstall monodraw
 # caskinstall recordit
 # caskinstall xscope
 # caskinstall google-drive
