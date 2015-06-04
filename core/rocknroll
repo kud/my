@@ -95,6 +95,7 @@ brewinstall watchman
 brewinstall flow
 
 brewinstall syncthing
+brewinstall bitlbee # bridges for irc
 
 brewinstall brew-cask
 
