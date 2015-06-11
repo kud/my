@@ -40,6 +40,7 @@ brew update && brew upgrade --all
 echo_space
 echo_title_install "brew packages"
 
+## tap
 brewtap homebrew/dupes
 brewtap homebrew/versions
 brewtap homebrew/php
@@ -48,20 +49,14 @@ brewtap caskroom/fonts
 brewtap caskroom/versions
 # brewtap aredridel/iojs
 
-brewinstall homebrew/dupes/make
+## system
 brewinstall dnsmasq
 brewinstall ssh-copy-id
 brewinstall htop-osx
+brewinstall homebrew/dupes/make
 brewinstall homebrew/dupes/rsync
 brewinstall archey
 brewinstall mitmproxy
-
-brewinstall zsh-syntax-highlighting
-brewinstall zsh-completions
-brewinstall zsh-history-substring-search
-
-brewinstall git
-brewinstall ghi
 brewinstall wget
 brewinstall curl
 brewinstall pv
@@ -73,20 +68,31 @@ brewinstall iftop
 brewinstall iotop
 brewinstall lsof
 brewinstall pwgen
-brewinstall mdr
 brewinstall exiftool
-brewinstall vim
-brewinstall heroku-toolbelt
-brewinstall terminal-notifier
-brewinstall youtube-dl
+brewinstall grep
+brewinstall pcre2
 brewinstall htmlcompressor
 brewinstall mozjpeg
 brewinstall gifsicle
 brewinstall ffmpeg
-brewinstall grep
-brewinstall pcre2
 brewinstall rename
+# brewinstall terminal-notifier
 
+## zsh
+brewinstall zsh-syntax-highlighting
+brewinstall zsh-completions
+brewinstall zsh-history-substring-search
+
+## git
+brewinstall git
+brewinstall ghi
+brewinstall hub
+brewinstall mdr
+
+## editors
+brewinstall vim
+
+## languages
 brewinstall ruby
 brewinstall python
 # brewinstall node
@@ -95,9 +101,17 @@ brewinstall watchman
 brewinstall flow
 brewinstall nvm
 
-brewinstall syncthing
+## communication
 brewinstall bitlbee # bridges for irc
 
+## sync/backup
+brewinstall syncthing
+
+## others
+brewinstall heroku-toolbelt
+brewinstall youtube-dl
+
+## homebrew plugins
 brewinstall brew-cask
 
 echo_space
@@ -159,8 +173,8 @@ caskinstall sublime-text-dev
 if ! type "subl" > /dev/null; then
   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 fi
-# caskinstall firefox-nightly
-caskinstall firefoxdeveloperedition
+caskinstall firefox-nightly
+# caskinstall firefoxdeveloperedition
 
 caskinstall limechat
 
@@ -256,15 +270,12 @@ npm update -g --quiet
 # install node packages
 echo_space
 echo_title_install "global node packages"
-# npminstall bower
-# npminstall pure-prompt
 npminstall tldr
 npminstall nodemon
 npminstall jake
 npminstall vtop
 npminstall bloody-testserver
 npminstall hicat
-# npminstall putainde-memo
 npminstall figlet-cli
 npminstall tmi
 npminstall trash
@@ -273,9 +284,9 @@ npminstall fraktur
 npminstall weinre # debugger for web pages — http://people.apache.org/~pmuellr/weinre-docs/latest/
 npminstall pageres # responsive website screenshots — https://github.com/sindresorhus/pageres
 npminstall npm-check-updates # check if npm modules are updated
-# npminstall npm-check
 npminstall react-native-cli
 npminstall markdown-live
+# npminstall pure-prompt
 
 npm config set save-exact true
 npm config set tag-version-prefix ""
