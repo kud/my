@@ -46,7 +46,7 @@ brewtap homebrew/php
 brewtap caskroom/cask
 brewtap caskroom/fonts
 brewtap caskroom/versions
-brewtap aredridel/iojs
+# brewtap aredridel/iojs
 
 brewinstall homebrew/dupes/make
 brewinstall dnsmasq
@@ -89,10 +89,11 @@ brewinstall rename
 
 brewinstall ruby
 brewinstall python
-brewinstall node
+# brewinstall node
 # brewinstall aredridel/iojs/iojs
 brewinstall watchman
 brewinstall flow
+brewinstall nvm
 
 brewinstall syncthing
 brewinstall bitlbee # bridges for irc
