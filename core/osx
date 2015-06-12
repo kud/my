@@ -28,7 +28,6 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 sudo nvram SystemAudioVolume=" "
 
 # Disable transparency in the menu bar and elsewhere on Yosemite
-# Do not set it as true, there're bugs
 defaults write com.apple.universalaccess reduceTransparency -bool false
 
 # Menu bar: hide the Time Machine, Volume, User, and Bluetooth icons
@@ -462,6 +461,7 @@ defaults write com.apple.dock wvous-bl-modifier -int 0
 
 # Privacy: don’t send search queries to Apple
 defaults write com.apple.Safari UniversalSearchEnabled -bool false
+defaults write com.apple.Safari SuppressSearchSuggestions -bool true
 
 # Press Tab to highlight each item on a web page
 defaults write com.apple.Safari WebKitTabToLinksPreferenceKey -bool true
@@ -605,7 +605,7 @@ defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 # Disable local Time Machine backups
 hash tmutil &> /dev/null && sudo tmutil disablelocal
 
- ###############################################################################
+###############################################################################
 # Activity Monitor                                                            #
 ###############################################################################
 
@@ -682,6 +682,14 @@ defaults write com.apple.appstore ShowDebugMenu -bool true
 
 # Disable signing emails by default
 # defaults write ~/Library/Preferences/org.gpgtools.gpgmail SignNewEmailsByDefault -bool false
+
+###############################################################################
+# Opera & Opera Developer                                                     #
+###############################################################################
+
+# Expand the print dialog by default
+defaults write com.operasoftware.Opera PMPrintingExpandedStateForPrint2 -boolean true
+defaults write com.operasoftware.OperaDeveloper PMPrintingExpandedStateForPrint2 -boolean true
 
 ###############################################################################
 # SizeUp.app                                                                  #

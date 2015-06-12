@@ -110,6 +110,7 @@ brewinstall syncthing
 ## others
 brewinstall heroku-toolbelt
 brewinstall youtube-dl
+brewinstall flashlight
 
 ## homebrew plugins
 brewinstall brew-cask
