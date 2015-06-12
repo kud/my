@@ -231,12 +231,14 @@ defaults write com.apple.screencapture type -string "png"
 defaults write com.apple.screencapture "include-date" 1
 
 # Rename screenshot name
-defaults write com.apple.screencapture name screenshot
+defaults write com.apple.screencapture name macosx
 
 ## Use '-' instead of ' '
 sudo plutil -convert xml1 /System/Library/CoreServices/SystemUIServer.app/Contents/Resources/English.lproj/ScreenCapture.strings
+# sudo vim /System/Library/CoreServices/SystemUIServer.app/Contents/Resources/English.lproj/ScreenCapture.strings
 sudo sed -i '' 's/<string>%@ %@ at %@<\/string>/<string>%@-%@-at-%@<\/string>/g' /System/Library/CoreServices/SystemUIServer.app/Contents/Resources/English.lproj/ScreenCapture.strings
 sudo plutil -convert binary1 /System/Library/CoreServices/SystemUIServer.app/Contents/Resources/English.lproj/ScreenCapture.strings
+# killall SystemUIServer
 
 # Enable shadow in screenshots
 defaults write com.apple.screencapture disable-shadow -bool false
