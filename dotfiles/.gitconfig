@@ -48,6 +48,7 @@
   gh                 = "!/Applications/Github.app/Contents/MacOS/github_cli ${@:-.}"
   branches           = branch -avv
   wip                = "!git add . && git commit -m 'WIP'"
+  lazy               = "!git add . && git commit -m 'Some updates.' && git push"
   rebase-from-master = "!git co master && git pull && git co - && git rebase master"
   rewrite-history    = "!git rebase -i $(git merge-base master HEAD)"
   finalise           = "!git rebase-from-master && git rewrite-history"
