@@ -81,7 +81,7 @@ alias burn-finder='killall Finder'
 
 # ease
 alias s='subl .'
-alias s-add='subl -a'
+alias s-add='subl -a .'
 alias s-node='subl -a node_modules'
 alias flush-dns='sudo discoveryutil mdnsflushcache;sudo discoveryutil udnsflushcaches;'
 alias reload-shell='exec $SHELL'
