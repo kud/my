@@ -287,6 +287,7 @@ npminstall pageres # responsive website screenshots — https://github.com/sindr
 npminstall npm-check-updates@unstable # check if npm modules are updated
 npminstall react-native-cli
 npminstall markdown-live
+npminstall caniuse-cmd
 # npminstall pure-prompt
 
 npm config set save-exact true
