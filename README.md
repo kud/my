@@ -39,4 +39,4 @@ $ £
 
 ## Doc
 
-⪧ [Index](doc/index.md)
+⪧ [Index](doc)
