@@ -39,4 +39,4 @@ $ £
 
 ## Doc
 
-⪧ [Index](doc/README.md)
+⪧ [Index](doc)
