@@ -252,6 +252,7 @@ echo_space
 echo_title_install "global python packages"
 pipinstall asciinema
 pipinstall speedtest-cli
+pipinstall LinkChecker
 
 # install npm
 # if ! type "npm" > /dev/null; then
