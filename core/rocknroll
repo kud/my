@@ -86,6 +86,7 @@ brewinstall zsh-history-substring-search
 ## git
 brewinstall git
 brewinstall ghi
+brewinstall tig
 brewinstall hub
 brewinstall mdr
 
