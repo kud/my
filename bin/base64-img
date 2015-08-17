@@ -4,6 +4,8 @@
 
 source $MY/core/helper
 
+MIMETYPE=$(file -b --mime-type $argv)
 IMGBASE64=$(base64 $argv)
-echo "data:image/${2};base64,$IMGBASE64" | pbcopy
+
+echo "data:$MIMETYPE;base64,$IMGBASE64" | pbcopy
 echo_success 'Copied in the clipboard!'
