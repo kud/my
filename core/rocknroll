@@ -96,11 +96,10 @@ brewinstall vim
 ## languages
 brewinstall ruby
 brewinstall python
-# brewinstall node
+brewinstall node
 # brewinstall aredridel/iojs/iojs
 brewinstall watchman
 brewinstall flow
-brewinstall nvm
 
 ## communication
 brewinstall bitlbee # bridges for irc
