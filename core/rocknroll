@@ -290,6 +290,7 @@ npminstall npm-check-updates@unstable # check if npm modules are updated
 npminstall react-native-cli
 npminstall markdown-live
 npminstall caniuse-cmd
+npminstall imagemin
 # npminstall toggl
 # npminstall pure-prompt
 
