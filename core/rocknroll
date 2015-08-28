@@ -50,23 +50,17 @@ brewtap caskroom/versions
 # brewtap aredridel/iojs
 
 ## system
-brewinstall dnsmasq
 brewinstall ssh-copy-id
-brewinstall htop-osx
 brewinstall homebrew/dupes/make
-brewinstall homebrew/dupes/rsync
 brewinstall archey
 brewinstall mitmproxy
-brewinstall wget
-brewinstall curl
 brewinstall pv
 brewinstall md5sha1sum
 brewinstall tree
-brewinstall mtr
 brewinstall ncdu
+brewinstall htop-osx
 brewinstall iftop
 brewinstall iotop
-brewinstall lsof
 brewinstall pwgen
 brewinstall exiftool
 brewinstall grep
@@ -77,6 +71,15 @@ brewinstall gifsicle
 brewinstall ffmpeg
 brewinstall rename
 # brewinstall terminal-notifier
+
+## network
+brewinstall homebrew/dupes/rsync
+brewinstall wget
+brewinstall curl
+brewinstall lsof
+brewinstall tcpflow # analyse tcp requests
+brewinstall mtr
+brewinstall dnsmasq
 
 ## zsh
 brewinstall zsh-syntax-highlighting
