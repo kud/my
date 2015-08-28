@@ -114,6 +114,7 @@ brewinstall syncthing
 brewinstall heroku-toolbelt
 brewinstall youtube-dl
 brewinstall flashlight
+brewinstall imagemagick
 
 ## homebrew plugins
 brewinstall brew-cask
