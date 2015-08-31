@@ -323,8 +323,11 @@ fi
 echo_space
 echo_title "Don't forget to install via App Store"
 
-if [ ! -d "/Applications/Twitter.app/" ]; then
-  echo "- Twitter for Mac"
+# if [ ! -d "/Applications/Twitter.app/" ]; then
+#   echo "- Twitter for Mac"
+# fi
+if [ ! -d "/Applications/Tweetbot.app/" ]; then
+  echo "- Tweetbot"
 fi
 if [ ! -d "/Applications/Xcode.app/" ]; then
   echo "- XCode"
