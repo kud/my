@@ -68,7 +68,7 @@ brewinstall pcre2
 brewinstall htmlcompressor
 brewinstall mozjpeg
 brewinstall gifsicle
-brewinstall ffmpeg
+brewinstall ffmpeg --with-libass --with-fontconfig
 brewinstall rename
 # brewinstall terminal-notifier
 
@@ -114,7 +114,7 @@ brewinstall syncthing
 brewinstall heroku-toolbelt
 brewinstall youtube-dl
 brewinstall flashlight
-brewinstall imagemagick
+brewinstall imagemagick --with-fontconfig
 
 ## homebrew plugins
 brewinstall brew-cask
@@ -255,7 +255,6 @@ gem update --system && gem update
 echo_space
 echo_title_install "global python packages"
 pipinstall asciinema
-pipinstall speedtest-cli
 pipinstall LinkChecker
 
 # install npm
@@ -295,6 +294,7 @@ npminstall react-native-cli
 npminstall markdown-live
 npminstall caniuse-cmd
 npminstall imagemin
+npminstall speed-test
 # npminstall toggl
 # npminstall pure-prompt
 
