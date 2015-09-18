@@ -132,9 +132,9 @@ echo_title_install "apps"
 #   read \?"Configure now your dropbox and press [Enter] when you've finished..."
 # fi
 
-caskinstall wuala
-if [ ! -d "$HOME/Wuala" ]; then
-  read \?"Configure now your wuala and press [Enter] when you've finished..."
+caskinstall sync
+if [ ! -d "$HOME/Sync" ]; then
+  read \?"Configure now your sync and press [Enter] when you've finished..."
 fi
 
 caskinstall java # sorry my love :(
