@@ -135,7 +135,7 @@ defaults write com.apple.finder CreateDesktop -bool false
 # all wallpapers are in `/Library/Desktop Pictures/`. The default is `Wave.jpg`.
 rm -rf "~/Library/Application Support/Dock/desktoppicture.db"
 sudo rm -rf "/System/Library/CoreServices/DefaultDesktop.jpg"
-sudo ln -s ~/Wuala/low/lib/wallpapers/DefaultDesktop.jpg /System/Library/CoreServices/DefaultDesktop.jpg
+sudo ln -s ~/Sync/low/lib/wallpapers/DefaultDesktop.jpg /System/Library/CoreServices/DefaultDesktop.jpg
 
 ###############################################################################
 # SSD-specific tweaks                                                         #
@@ -222,7 +222,7 @@ defaults write com.apple.screensaver askForPasswordDelay -int 0
 
 # Save screenshots to the desktop
 # defaults write com.apple.screencapture location -string "${HOME}/Downloads"
-defaults write com.apple.screencapture location -string "${HOME}/Wuala/screenshots"
+defaults write com.apple.screencapture location -string "${HOME}/Sync/screenshots"
 
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
 defaults write com.apple.screencapture type -string "png"

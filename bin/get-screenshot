@@ -6,9 +6,9 @@ urlencode() {
   print ${(j::)input/(#b)([^A-Za-z0-9_.\!~*\'\(\)-])/%${(l:2::0:)$(([##16]#match))}}
 }
 
-NAME=$(ls -t ${HOME}/Wuala/screenshots  |awk '{printf("%s",$0);exit}')
+NAME=$(ls -t ${HOME}/Sync/screenshots  |awk '{printf("%s",$0);exit}')
 NAME=$(urlencode $NAME)
-# echo "https://content.wuala.com/contents/_kud/screenshots/$NAME/?dl=0" |pbcopy
+# echo "https://content.sync.com/contents/_kud/screenshots/$NAME/?dl=0" |pbcopy
 
 if [ "$1" = "-g" ]; then
   echo "http://screenshots.kud.io/$NAME/" |pbcopy
