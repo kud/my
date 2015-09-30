@@ -47,6 +47,7 @@ brewtap homebrew/php
 brewtap caskroom/cask
 brewtap caskroom/fonts
 brewtap caskroom/versions
+brewtap docmunch/pdftk
 # brewtap aredridel/iojs
 
 ## system
@@ -115,6 +116,7 @@ brewinstall heroku-toolbelt
 brewinstall youtube-dl
 brewinstall flashlight
 brewinstall imagemagick --with-fontconfig
+brewinstall pdftk
 
 ## homebrew plugins
 brewinstall brew-cask
