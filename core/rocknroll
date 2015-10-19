@@ -148,7 +148,7 @@ caskinstall keepassx
 caskinstall spectacle
 caskinstall gifrocket
 caskinstall grandperspective
-# caskinstall cloudup
+caskinstall cloudup
 caskinstall xquartz
 caskinstall flash
 caskinstall bittorrent-sync
