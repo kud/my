@@ -1,0 +1,59 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+freshNormal() {
+  /Applications/Firefox.app/Contents/MacOS/firefox-bin -p fresh &> /dev/null &
+}
+
+freshNightly() {
+  /Applications/FirefoxNightly.app/Contents/MacOS/firefox-bin -p fresh &> /dev/null &
+}
+
+backup() {
+  rm -rf /opt/homebrew-cask/Caskroom/firefox-nightly/FirefoxNightlyBackup.app
+  cp -R $(readlink /Applications/FirefoxNightly.app) /opt/homebrew-cask/Caskroom/firefox-nightly/FirefoxNightlyBackup.app
+}
+
+runBackup() {
+  /opt/homebrew-cask/Caskroom/firefox-nightly/FirefoxNightlyBackup.app/Contents/MacOS/firefox-bin &> /dev/null &
+}
+
+if [[ $# -eq 0 ]]; then
+  $0 --help
+else
+
+  case "$1" in
+      fresh-normal)
+        freshNormal
+      ;;
+      fresh-nightly)
+        freshNightly
+      ;;
+      backup)
+        backup
+      ;;
+      run-backup)
+        runBackup
+      ;;
+      --help)
+          echo_space
+          printf "Usage:"
+          echo_spacex2
+          printf "    ${COLOUR_CYAN}firefox-manager${COLOUR_RESET} [<command>|--help]"
+          echo_spacex3
+          printf "Commands:"
+          echo_spacex2
+          printf "    fresh       ${COLOUR_BLACK}Start a fresh profile with Firefox${COLOUR_RESET}"
+          echo_space
+          printf "    backup      ${COLOUR_BLACK}Make a backup of Firefox Nightly${COLOUR_RESET}"
+          echo_space
+          printf "    run-backup  ${COLOUR_BLACK}Start the backup of Firefox Nightly${COLOUR_RESET}"
+          echo_spacex2
+          ;;
+      *)
+        echo 'What did you say?'
+      ;;
+  esac
+
+fi

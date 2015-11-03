@@ -6,13 +6,25 @@ echo_title_update "firefox settings"
 DEFAULT_FOLDER=$(ls "$HOME/Library/Application Support/Firefox/Profiles" |grep .default)
 PREFS_JS="$HOME/Library/Application Support/Firefox/Profiles/$DEFAULT_FOLDER/prefs.js"
 
-echo 'user_pref("general.warnOnAboutConfig", false);' >> $PREFS_JS
-echo 'user_pref("browser.newtab.url", "http://putaindecode.io/tab/");' >> $PREFS_JS
+# global
+echo 'user_pref("general.warnOnAboutConfig", false);' >> $PREFS_JS # disable warning on about:config
 echo 'user_pref("mousewheel.with_meta.action", 0);' >> $PREFS_JS # disable zoom on cmd + mousewheel
-echo 'user_pref("browser.devedition.theme.showCustomizeButton", true);' >> $PREFS_JS
-echo 'user_pref("browser.devedition.theme.enabled", true);' >> $PREFS_JS
-echo 'user_pref("devtools.webide.widget.enabled", true);' >> $PREFS_JS
-echo 'user_pref("devtools.chrome.enabled ", true);' >> $PREFS_JS
-echo 'user_pref("devtools.debugger.remote-enabled", true);' >> $PREFS_JS
+echo 'user_pref("browser.startup.homepage", "https://raindrop.io/app#/dashboard");' >> $PREFS_JS # make raindrop as homepage
+
+# pocket
+echo 'user_pref("browser.pocket.enabled", false);' >> $PREFS_JS
+echo 'user_pref("browser.pocket.useLocaleList", false);' >> $PREFS_JS
+echo 'user_pref("browser.toolbarbuttons.introduced.pocket-button", false);' >> $PREFS_JS
+
+# devtools
+echo 'user_pref("devtools.webide.widget.enabled", true);' >> $PREFS_JS # enable WebIDE
+echo 'user_pref("devtools.chrome.enabled ", true);' >> $PREFS_JS # enable chrome
+echo 'user_pref("devtools.debugger.remote-enabled", true);' >> $PREFS_JS # enable remote
+echo 'user_pref("devtools.command-button-responsive.enabled", false);' >> $PREFS_JS # disable responsive button
+echo 'user_pref("devtools.command-button-splitconsole.enabled", false);' >> $PREFS_JS # disable split button
+echo 'user_pref("devtools.command-button-eyedropper.enabled", true);' >> $PREFS_JS # enable colour picker
+echo 'user_pref("devtools.toolbox.host", "side");' >> $PREFS_JS # devtools in side
+
+# echo 'user_pref("services.sync.client.name", "_kud.work");' >> $PREFS_JS # change device name
 
 echo_success "Firefox settings are set!"

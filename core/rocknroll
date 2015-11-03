@@ -35,6 +35,7 @@ fi
 echo_space
 echo_title_update "brew"
 brew update && brew upgrade --all
+brew cask update
 
 # install brew packages
 echo_space
