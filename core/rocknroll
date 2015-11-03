@@ -253,6 +253,10 @@ gem update --system && gem update
 # echo_title_install "global ruby packages"
 # geminstall boom
 
+echo_space
+echo_title_update "pip"
+pip install --upgrade pip
+
 # install python packages
 echo_space
 echo_title_install "global python packages"
