@@ -3,200 +3,8 @@ setopt EXTENDED_GLOB
 
 source $MY/core/helper
 
-# define cask application folder
-export HOMEBREW_CASK_OPTS=--appdir=/Applications
-
-# install brew if needed
-if ! type "brew" > /dev/null; then
-  echo_space
-  echo_title_install "homebrew"
-  ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
-fi
-
-# install zsh via brew if needed
-if ! type "/usr/local/bin/zsh" > /dev/null; then
-  echo_space
-  echo_title_install "zsh"
-  brewinstall zsh
-  echo "/usr/local/bin/zsh" | sudo tee -a /etc/shells
-  chsh -s /usr/local/bin/zsh $USER
-  # sudo mv /etc/{zshenv,zprofile}
-fi
-
-# install bash via brew if needed
-if ! type "/usr/local/bin/bash" > /dev/null; then
-  echo_space
-  echo_title_install "bash"
-  brewinstall bash
-  echo "/usr/local/bin/bash" | sudo tee -a /etc/shells
-fi
-
-# update/upgrade brew
-echo_space
-echo_title_update "brew"
-brew update && brew upgrade --all
-brew cask update
-
-# install brew packages
-echo_space
-echo_title_install "brew packages"
-
-## tap
-brewtap homebrew/dupes
-brewtap homebrew/versions
-brewtap homebrew/php
-brewtap caskroom/cask
-brewtap caskroom/fonts
-brewtap caskroom/versions
-# brewtap docmunch/pdftk
-# brewtap aredridel/iojs
-
-## system
-brewinstall ssh-copy-id
-brewinstall homebrew/dupes/make
-brewinstall archey
-brewinstall mitmproxy
-brewinstall pv
-brewinstall md5sha1sum
-brewinstall tree
-brewinstall ncdu
-brewinstall htop-osx
-brewinstall iftop
-brewinstall iotop
-brewinstall pwgen
-brewinstall exiftool
-brewinstall grep
-brewinstall pcre2
-brewinstall htmlcompressor
-brewinstall mozjpeg
-brewinstall gifsicle
-brewinstall ffmpeg --with-libass --with-fontconfig
-brewinstall rename
-# brewinstall terminal-notifier
-
-## network
-brewinstall homebrew/dupes/rsync
-brewinstall wget
-brewinstall curl
-brewinstall lsof
-brewinstall tcpflow # analyse tcp requests
-brewinstall mtr
-brewinstall dnsmasq
-
-## zsh
-brewinstall zsh-syntax-highlighting
-brewinstall zsh-completions
-brewinstall zsh-history-substring-search
-
-## git
-brewinstall git
-brewinstall ghi
-brewinstall tig
-brewinstall hub
-brewinstall mdr
-
-## editors
-brewinstall vim
-
-## languages
-brewinstall ruby
-brewinstall python
-brewinstall node
-# brewinstall aredridel/iojs/iojs
-brewinstall watchman
-brewinstall flow
-
-## communication
-brewinstall bitlbee # bridges for irc
-
-## sync/backup
-brewinstall syncthing
-
-## others
-brewinstall heroku-toolbelt
-brewinstall youtube-dl
-brewinstall flashlight
-brewinstall imagemagick --with-fontconfig
-# brewinstall pdftk
-
-## homebrew plugins
-brewinstall brew-cask
-
-echo_space
-echo_title "Cleaning brew..."
-brew cleanup
-
-# install apps
-echo_space
-echo_title_install "apps"
-
-# caskinstall dropbox
-# if [ ! -d "$HOME/Dropbox" ]; then
-#   read \?"Configure now your dropbox and press [Enter] when you've finished..."
-# fi
-
-caskinstall sync
-if [ ! -d "$HOME/Sync" ]; then
-  read \?"Configure now your sync and press [Enter] when you've finished..."
-fi
-
-caskinstall java # sorry my love :(
-# caskinstall alfred
-caskinstall flux
-caskinstall iterm2
-caskinstall appcleaner
-caskinstall keepassx
-caskinstall spectacle
-caskinstall gifrocket
-caskinstall grandperspective
-caskinstall cloudup
-caskinstall xquartz
-caskinstall flash
-caskinstall bittorrent-sync
-caskinstall qlcolorcode
-caskinstall qlstephen
-caskinstall qlmarkdown
-caskinstall quicklook-json
-caskinstall quicklook-csv
-caskinstall prefs-editor
-caskinstall qlprettypatch
-caskinstall betterzipql
-caskinstall webp-quicklook
-caskinstall suspicious-package
-caskinstall ios7-screensaver
-caskinstall android-file-transfer
-caskinstall licecap
-caskinstall etrecheck
-caskinstall macdown
-caskinstall monodraw
-# caskinstall recordit
-# caskinstall xscope
-# caskinstall google-drive
-
-caskinstall font-ubuntu
-caskinstall font-ubuntu-mono-powerline
-
-# caskinstall sublime-text3
-caskinstall sublime-text-dev
-if ! type "subl" > /dev/null; then
-  ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
-fi
-caskinstall firefox-nightly
-# caskinstall firefoxdeveloperedition
-
-caskinstall limechat
-
-caskinstall imagealpha
-caskinstall imageoptim
-caskinstall img2icns
-
-caskinstall spotify
-caskinstall vlc
-
-echo_space
-echo_title "Cleaning brew cask..."
-brew cask cleanup
-
+source $MY/core/brew
+source $MY/core/cask
 
 # handle zprezto
 if [ -d "$HOME/.zprezto" ]; then
@@ -244,70 +52,9 @@ rm -f ~/.vim/colors/Tomorrow-Night.vim
 curl -sL https://raw.githubusercontent.com/chriskempson/tomorrow-theme/master/vim/colors/Tomorrow-Night-Eighties.vim > ~/.vim/colors/Tomorrow-Night-Eighties.vim
 curl -sL https://raw.githubusercontent.com/chriskempson/tomorrow-theme/master/vim/colors/Tomorrow-Night.vim > ~/.vim/colors/Tomorrow-Night.vim
 
-# update ruby packages
-echo_space
-echo_title_update "gems"
-gem update --system && gem update
-
-# install ruby packages
-# echo_space
-# echo_title_install "global ruby packages"
-# geminstall boom
-
-echo_space
-echo_title_update "pip"
-pip install --upgrade pip
-
-# install python packages
-echo_space
-echo_title_install "global python packages"
-pipinstall asciinema
-pipinstall LinkChecker
-
-# install npm
-# if ! type "npm" > /dev/null; then
-#   echo_space
-#   echo_title_install "npm"
-#   curl -sL https://npmjs.org/install.sh | sh
-# fi
-
-echo_space
-echo_title_update "npm"
-npm install -g npm@latest
-
-# update node packages
-echo_space
-echo_title_update "global node packages"
-npm update -g --quiet
-
-# install node packages
-echo_space
-echo_title_install "global node packages"
-npminstall tldr
-npminstall nodemon
-npminstall jake
-npminstall vtop
-npminstall bloody-testserver
-npminstall hicat
-npminstall figlet-cli
-npminstall tmi
-npminstall trash-cli
-npminstall svgo
-npminstall fraktur # write with great font
-npminstall weinre # debugger for web pages — http://people.apache.org/~pmuellr/weinre-docs/latest/
-npminstall pageres # responsive website screenshots — https://github.com/sindresorhus/pageres
-npminstall npm-check-updates # check if npm modules are updated
-npminstall react-native-cli
-npminstall markdown-live
-npminstall caniuse-cmd
-npminstall imagemin
-npminstall speed-test
-npminstall up
-# npminstall toggl
-# npminstall pure-prompt
-
-npm config set save-exact true
-npm config set tag-version-prefix ""
+source $MY/core/gem
+source $MY/core/pip
+source $MY/core/npm
 
 echo_space
 echo_title "Remove shits"
@@ -318,7 +65,6 @@ sed -i "" 's/install.disable.sponsor.offers.*/install.disable.sponsor.offers=tru
 #   brew unlink make > /dev/null
 # fi
 
-
 if [ $OS_PROFILE = 'laptop' ]; then
   source $MY/profiles/laptop/core/rocknroll
 fi
@@ -327,23 +73,7 @@ if [ $OS_PROFILE = 'work' ]; then
   source $MY/profiles/work/core/rocknroll
 fi
 
-# warn about apps coming from app store
-echo_space
-echo_title "Don't forget to install via App Store"
-
-# if [ ! -d "/Applications/Twitter.app/" ]; then
-#   echo "- Twitter for Mac"
-# fi
-if [ ! -d "/Applications/Tweetbot.app/" ]; then
-  echo "- Tweetbot"
-fi
-if [ ! -d "/Applications/Xcode.app/" ]; then
-  echo "- XCode"
-fi
-echo "- Network Link Conditioner"
-if [ ! -d "/Applications/Xscope.app/" ]; then
-  echo "- Xscope"
-fi
+source $MY/core/appstore
 
 echo_space
 echo_title "Doctor is checking..."

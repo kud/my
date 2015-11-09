@@ -1,0 +1,12 @@
+#! /usr/bin/env zsh
+source $MY/core/helper
+
+# update ruby packages
+echo_space
+echo_title_update "gems"
+gem update --system && gem update
+
+# install ruby packages
+# echo_space
+# echo_title_install "global ruby packages"
+# geminstall boom

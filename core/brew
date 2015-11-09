@@ -1,0 +1,125 @@
+#! /usr/bin/env zsh
+source $MY/core/helper
+
+# define cask application folder
+export HOMEBREW_CASK_OPTS=--appdir=/Applications
+
+# install brew if needed
+if ! type "brew" > /dev/null; then
+  echo_space
+  echo_title_install "homebrew"
+  ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+fi
+
+# install zsh via brew if needed
+if ! type "/usr/local/bin/zsh" > /dev/null; then
+  echo_space
+  echo_title_install "zsh"
+  brewinstall zsh
+  echo "/usr/local/bin/zsh" | sudo tee -a /etc/shells
+  chsh -s /usr/local/bin/zsh $USER
+  # sudo mv /etc/{zshenv,zprofile}
+fi
+
+# install bash via brew if needed
+if ! type "/usr/local/bin/bash" > /dev/null; then
+  echo_space
+  echo_title_install "bash"
+  brewinstall bash
+  echo "/usr/local/bin/bash" | sudo tee -a /etc/shells
+fi
+
+# update/upgrade brew
+echo_space
+echo_title_update "brew"
+brew update && brew upgrade --all
+brew cask update
+
+# install brew packages
+echo_space
+echo_title_install "brew packages"
+
+## tap
+brewtap homebrew/dupes
+brewtap homebrew/versions
+brewtap homebrew/php
+brewtap caskroom/cask
+brewtap caskroom/fonts
+brewtap caskroom/versions
+# brewtap docmunch/pdftk
+# brewtap aredridel/iojs
+
+## system
+brewinstall ssh-copy-id
+brewinstall homebrew/dupes/make
+brewinstall archey
+brewinstall mitmproxy
+brewinstall pv
+brewinstall md5sha1sum
+brewinstall tree
+brewinstall ncdu
+brewinstall htop-osx
+brewinstall iftop
+brewinstall iotop
+brewinstall pwgen
+brewinstall exiftool
+brewinstall grep
+brewinstall pcre2
+brewinstall htmlcompressor
+brewinstall mozjpeg
+brewinstall gifsicle
+brewinstall ffmpeg --with-libass --with-fontconfig
+brewinstall rename
+# brewinstall terminal-notifier
+
+## network
+brewinstall homebrew/dupes/rsync
+brewinstall wget
+brewinstall curl
+brewinstall lsof
+brewinstall tcpflow # analyse tcp requests
+brewinstall mtr
+brewinstall dnsmasq
+
+## zsh
+brewinstall zsh-syntax-highlighting
+brewinstall zsh-completions
+brewinstall zsh-history-substring-search
+
+## git
+brewinstall git
+brewinstall ghi
+brewinstall tig
+brewinstall hub
+brewinstall mdr
+
+## editors
+brewinstall vim
+
+## languages
+brewinstall ruby
+brewinstall python
+brewinstall node
+# brewinstall aredridel/iojs/iojs
+brewinstall watchman
+brewinstall flow
+
+## communication
+brewinstall bitlbee # bridges for irc
+
+## sync/backup
+brewinstall syncthing
+
+## others
+brewinstall heroku-toolbelt
+brewinstall youtube-dl
+brewinstall flashlight
+brewinstall imagemagick --with-fontconfig
+# brewinstall pdftk
+
+## homebrew plugins
+brewinstall brew-cask
+
+echo_space
+echo_title "Cleaning brew..."
+brew cleanup
