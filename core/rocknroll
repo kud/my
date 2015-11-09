@@ -4,7 +4,6 @@ setopt EXTENDED_GLOB
 source $MY/core/helper
 
 source $MY/core/brew
-source $MY/core/cask
 
 # handle zprezto
 if [ -d "$HOME/.zprezto" ]; then
