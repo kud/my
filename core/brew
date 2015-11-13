@@ -167,6 +167,7 @@ caskinstall etrecheck
 caskinstall macdown
 caskinstall monodraw
 caskinstall flashlight
+caskinstall glueprint
 # caskinstall recordit
 # caskinstall xscope
 # caskinstall google-drive
