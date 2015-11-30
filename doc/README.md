@@ -1,6 +1,7 @@
 # Index
 
-- [devtools](devtools.md)
-- [git](git.md)
-- [ssh](ssh.md)
-- [nginx](nginx.md)
+- sips: scriptable image processing system
+
+```
+$ sips -Z 640 *.jpg
+``
