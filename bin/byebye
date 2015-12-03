@@ -5,4 +5,4 @@
 source $MY/core/helper
 
 echo 'See you soon. ;)'
-quit "Sublime Text" limechat tweetbot firefoxnightly spotify
+quit "Sublime Text" limechat tweetbot firefoxnightly spotify keepassx "Google Chrome Canary"
