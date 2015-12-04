@@ -4,18 +4,18 @@ source $MY/core/helper
 
 ip() {
   IP=$(dig +short myip.opendns.com @resolver1.opendns.com)
-  echo "My ip is: ${IP}"
-  echo ${IP} |pbcopy
+  echo "${IP}"
+  echo ${IP}|pbcopy
 }
 
 localIp() {
   IP=$(ipconfig getifaddr en0)
-  echo "My local ip is: ${IP}"
-  echo ${IP} |pbcopy
+  echo "${IP}"
+  echo ${IP}|pbcopy
 }
 
 resolution() {
-  system_profiler SPDisplaysDataType | grep Resolution
+  system_profiler SPDisplaysDataType|grep Resolution
 }
 
 if [[ $# -eq 0 ]]; then
