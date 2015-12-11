@@ -1,3 +1,0 @@
-#! /usr/bin/env zsh
-
-/Applications/ImageOptim.app/Contents/MacOS/ImageOptim $1
