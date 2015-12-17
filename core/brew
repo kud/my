@@ -52,7 +52,7 @@ brewtap caskroom/versions
 ## system
 brewinstall ssh-copy-id
 brewinstall homebrew/dupes/make
-brewinstall archey
+brewinstall archey # system information
 brewinstall mitmproxy
 brewinstall pv
 brewinstall md5sha1sum
