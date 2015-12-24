@@ -41,11 +41,6 @@ alias .gitconfig_local='subl -n  ~/.gitconfig_local'
 alias network-sharing="sudo subl -n /etc/bootpd.plist"
 alias dnsmasq.conf="subl -n /usr/local/etc/dnsmasq.conf"
 
-# softwares
-# alias fw='open -a /Applications/Adobe\ Fireworks\ CS5/Adobe\ Fireworks\ CS5.app/Contents/MacOS/Adobe\ Fireworks\ CS5'
-# alias ai='open -a /Applications/Adobe\ Illustrator\ CS5/Adobe\ Illustrator.app/Contents/MacOS/Adobe\ Illustrator'
-# alias imageoptim='open -a ImageOptim.app'
-
 # apache
 # alias apache-stop='sudo apachectl graceful-stop'
 # alias apache-start='sudo apachectl start'
@@ -82,11 +77,12 @@ alias burn-finder='killall Finder'
 # ease
 alias s='subl .'
 alias s-add='subl -a .'
-alias s-node='subl -a node_modules'
+alias s-nm='subl -a node_modules'
 alias flush-dns='sudo discoveryutil mdnsflushcache;sudo discoveryutil udnsflushcaches;'
 alias reload-shell='exec $SHELL'
 alias gem-back='gem pristine --all --only-executables'
 alias please='sudo $(fc -ln -1)'
+alias allo-internet='ping 8.8.8.8'
 
 # no correct
 alias sshfs='nocorrect sshfs'
