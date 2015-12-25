@@ -149,7 +149,7 @@ caskinstall grandperspective
 caskinstall cloudup
 caskinstall xquartz
 caskinstall flash
-caskinstall bittorrent-sync
+# caskinstall bittorrent-sync
 caskinstall qlcolorcode
 caskinstall qlstephen
 caskinstall qlmarkdown
@@ -164,10 +164,10 @@ caskinstall ios7-screensaver
 caskinstall android-file-transfer
 caskinstall licecap
 caskinstall etrecheck
-caskinstall macdown
+# caskinstall macdown
 caskinstall monodraw
 caskinstall flashlight
-caskinstall glueprint
+# caskinstall glueprint
 caskinstall github-desktop
 # caskinstall recordit
 # caskinstall xscope
