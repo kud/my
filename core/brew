@@ -140,7 +140,8 @@ fi
 caskinstall java # sorry my love :(
 # caskinstall alfred
 caskinstall flux
-caskinstall iterm2
+# caskinstall iterm2
+caskinstall iterm2-nightly
 caskinstall appcleaner
 caskinstall keepassx
 caskinstall spectacle
