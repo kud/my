@@ -25,7 +25,7 @@ npminstall tldr
 npminstall nodemon
 npminstall jake
 npminstall vtop
-npminstall bloody-testserver
+npminstall http-server
 npminstall hicat
 npminstall figlet-cli
 npminstall tmi
