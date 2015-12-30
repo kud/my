@@ -7,6 +7,11 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+# functions
+function mcd() {
+  mkdir -p "$1" && cd "$1";
+}
+
 # pure
 # prompt pure
 
