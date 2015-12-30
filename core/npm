@@ -26,21 +26,21 @@ npminstall nodemon
 npminstall jake
 npminstall vtop
 npminstall http-server
-npminstall hicat
+npminstall hicat # sommand-line syntax highlighter
 npminstall figlet-cli
-npminstall tmi
+npminstall tmi # too many images
 npminstall trash-cli
 npminstall svgo
 npminstall fraktur # write with great font
 npminstall weinre # debugger for web pages — http://people.apache.org/~pmuellr/weinre-docs/latest/
-npminstall pageres # responsive website screenshots — https://github.com/sindresorhus/pageres
+npminstall pageres-cli # responsive website screenshots — https://github.com/sindresorhus/pageres
 npminstall npm-check-updates # check if npm modules are updated
 npminstall react-native-cli
 npminstall markdown-live
 npminstall caniuse-cmd
 npminstall imagemin
 npminstall speed-test
-npminstall up
+npminstall up # cloudup
 # npminstall toggl
 # npminstall pure-prompt
 
