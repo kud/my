@@ -35,8 +35,8 @@ ulimit -n 1024
 bindkey '^R' history-incremental-search-backward
 
 # global variable
-export FIREFOXNIGHTLY_BIN="/Applications/FirefoxNightly.app/Contents/MacOS/firefox"
-export BROWSER=$FIREFOXNIGHTLY_BIN
+# export FIREFOXNIGHTLY_BIN="/Applications/FirefoxNightly.app/Contents/MacOS/firefox"
+# export BROWSER=$FIREFOXNIGHTLY_BIN # bug with python
 export EDITOR='subl -w'
 
 # aliases
