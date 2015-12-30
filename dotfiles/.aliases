@@ -85,6 +85,7 @@ alias gem-back='gem pristine --all --only-executables'
 alias please='sudo $(fc -ln -1)'
 alias allo='ping 8.8.8.8'
 alias dl='curl -O'
+alias dafuck='whence -v'
 
 # no correct
 alias sshfs='nocorrect sshfs'
