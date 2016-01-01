@@ -4,4 +4,4 @@
 
 - `$ £ firefox-settings`
 - Enter sync account
-- Move icons
+- Redefine GUI

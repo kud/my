@@ -37,6 +37,4 @@ $ £
 
 <img src="preview.png">
 
-## Doc
-
-⪧ [Index](doc)
+## [Doc](doc)
