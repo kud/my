@@ -1,0 +1,20 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+if [[ $# -eq 0 ]]; then
+  $0 --help
+else
+
+  case "$1" in
+    gif)
+      echo "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="|pbcopy
+      echo_success 'Gif copied in the clipboard!'
+    ;;
+    *)
+      echo 'What did you say?'
+    ;;
+  esac
+
+fi
+
