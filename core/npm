@@ -41,6 +41,7 @@ npminstall caniuse-cmd
 npminstall imagemin
 npminstall speed-test
 npminstall up # cloudup
+npminstall uncss # remove useless css
 # npminstall toggl
 # npminstall pure-prompt
 
