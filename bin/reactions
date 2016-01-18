@@ -1,7 +1,5 @@
 #! /usr/bin/env zsh
 
-# take a png/jpg/gif and copy/paste it as base64 into clipboard
-
 source $MY/core/helper
 
 echo "    ¯\_(ツ)_/¯"
