@@ -1,9 +1,11 @@
 #! /usr/bin/env zsh
 
-branches=$(git branch --merged|grep -v 'master')
+branches=$(git branch --merged|grep -v 'master'|sed "s/ //g")
 
-echo "List of branches merged:"
-echo $branches
+echo "List of merged branches:"
+echo ""
+echo "> ${branches}"
+echo ""
 
 read \?"Press any key to continue the deletion… or ctrl+c to stop."
 
