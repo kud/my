@@ -49,6 +49,7 @@
   rmdf              = "!git rm $(git ls-files --deleted)"
   # export            = "!git clone --depth 1 $1 && rm -rf \"$(basename $1 .git)/.git\" -"
   branches          = branch -avv
+  branches-clean    = "!$MY/core/git/branches-clean.sh"
   wip               = "!git add . && git commit -m 'WIP'"
   # lazy              = "!git add . && git commit -m 'Some updates.' && git push"
   refresh           = "!git co master && git pull && git co - && git rebase master"
