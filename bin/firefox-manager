@@ -87,7 +87,7 @@ else
         echo_space
         printf "    run-backup [default|stable]    ${COLOUR_BLACK}Start the backup of Firefox Nightly${COLOUR_RESET}"
         echo_spacex2
-        ;;
+    ;;
     *)
       echo 'What did you say?'
     ;;
