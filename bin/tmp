@@ -1,0 +1,35 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+if [[ $# -eq 0 ]]; then
+  $0 --help
+else
+
+  case "$1" in
+    clean)
+      rm -rf ~/tmp/*
+    ;;
+    open)
+      open ~/tmp
+    ;;
+    --help)
+        echo_space
+        printf "Usage:"
+        echo_spacex2
+        printf "    ${COLOUR_CYAN}tmp${COLOUR_RESET} [<command>|--help]"
+        echo_spacex3
+        printf "Commands:"
+        echo_spacex2
+        printf "    open    ${COLOUR_BLACK}Open the folder${COLOUR_RESET}"
+        echo_space
+        printf "    clean   ${COLOUR_BLACK}Clean the folder${COLOUR_RESET}"
+        echo_spacex2
+    ;;
+    *)
+      echo 'What did you say?'
+    ;;
+  esac
+
+fi
+
