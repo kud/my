@@ -9,4 +9,4 @@ echo ""
 
 read \?"Press any key to continue the deletion… or ctrl+c to stop."
 
-git branch -D $branches
+git branch -d $branches
