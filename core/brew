@@ -173,6 +173,7 @@ caskinstall github-desktop
 # caskinstall recordit
 # caskinstall xscope
 # caskinstall google-drive
+caskinstall p7zip
 
 caskinstall font-ubuntu
 caskinstall font-ubuntu-mono-powerline
