@@ -51,7 +51,7 @@
   branches          = branch -avv
   branches-clean    = "!$MY/core/git/branches-clean.sh"
   wip               = "!git add . && git commit -m 'WIP'"
-  # lazy              = "!git add . && git commit -m 'Some updates.' && git push"
+  lazy              = "!git add . && git commit -m 'Some updates.' && git push"
   refresh           = "!git co master && git pull && git co - && git rebase master"
   rewrite           = "!git rebase -i $(git merge-base master HEAD)"
   finalise          = "!git refresh && git rewrite"
