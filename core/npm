@@ -48,3 +48,4 @@ npminstall uncss # remove useless css
 # config
 npm config set save-exact true
 npm config set tag-version-prefix ""
+npm config set progress false
