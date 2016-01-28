@@ -58,6 +58,7 @@
   browser           = "!open $(echo $(git config --get remote.origin.url)|sed 's/:/\\//g'|sed 's/git@/https:\\/\\//g'|sed 's/\\.git//g')"
   cleanup           = "!git remote prune origin && git repack && git gc"
   show-aliases      = "!git config --get-regexp alias|sed \"s/alias.\\([a-zA-Z-]*\\) \\(\\.\\)*/$(tput setaf 2)\\1 $(tput setaf 8)\\2/\""
+  show-master       = "!$MY/core/git/show-master.sh"
 [branch]
   autosetuprebase = always
 [include]
