@@ -1,0 +1,9 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+if [[ $# -eq 0 ]]; then
+  curl -4 http://wttr.in/Paris
+else
+  curl -4 http://wttr.in/{$1}
+fi
