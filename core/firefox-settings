@@ -12,9 +12,9 @@ echo 'user_pref("mousewheel.with_meta.action", 0);' >> $PREFS_JS # disable zoom 
 echo 'user_pref("browser.startup.homepage", "https://raindrop.io/app#/dashboard");' >> $PREFS_JS # make raindrop as homepage
 
 # pocket
-echo 'user_pref("browser.pocket.enabled", false);' >> $PREFS_JS
-echo 'user_pref("browser.pocket.useLocaleList", false);' >> $PREFS_JS
-echo 'user_pref("browser.toolbarbuttons.introduced.pocket-button", false);' >> $PREFS_JS
+echo 'user_pref("extensions.pocket.enabled", false);' >> $PREFS_JS
+# echo 'user_pref("browser.pocket.useLocaleList", false);' >> $PREFS_JS
+# echo 'user_pref("browser.toolbarbuttons.introduced.pocket-button", false);' >> $PREFS_JS
 
 # devtools
 echo 'user_pref("devtools.webide.widget.enabled", true);' >> $PREFS_JS # enable WebIDE
