@@ -33,7 +33,7 @@
   diff-mdr          = "!git diff $@ | mdr"
   diff-subl         = "!git diff $@ | subl"
   diff-files-subl   = "!git diff --name-only | uniq | xargs subl"
-  gh                = "!/Applications/Github.app/Contents/MacOS/github_cli ${@:-.}"
+  gh                = "!/Applications/GitHub Desktop.app/Contents/MacOS/github_cli ${@:-.}"
   lg                = log -p
   lol               = log --graph --decorate --pretty=oneline --abbrev-commit
   lola              = log --graph --decorate --pretty=oneline --abbrev-commit --all
