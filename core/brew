@@ -141,7 +141,8 @@ caskinstall java # sorry my love :(
 # caskinstall alfred
 caskinstall flux
 # caskinstall iterm2
-caskinstall iterm2-nightly
+# caskinstall iterm2-nightly
+caskinstall iterm2-beta
 caskinstall appcleaner
 caskinstall keepassx
 caskinstall spectacle
@@ -177,7 +178,7 @@ caskinstall github-desktop
 caskinstall p7zip
 
 caskinstall font-ubuntu
-caskinstall font-ubuntu-mono-powerline
+caskinstall font-ubuntu-mono-derivative-powerline
 
 # caskinstall sublime-text3
 caskinstall sublime-text-dev
