@@ -5,7 +5,7 @@ fi
 source $MY/core/intro
 echo_space
 ~/my/core/dotfiles &&
-~/my/core/applescripts &&
+#~/my/core/applescripts &&
 ~/my/core/rocknroll &&
 ~/my/core/osx
 
