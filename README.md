@@ -22,7 +22,7 @@ Go to your App Store and install **XCode**.
 #### Run the script and watch the sky!
 
 ```shell
-$ curl --silent https://raw.github.com/kud/my/master/core/bootstrap | zsh
+$ curl --silent https://raw.githubusercontent.com/kud/my/master/core/bootstrap | zsh
 ```
 
 ## Usage
