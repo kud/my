@@ -8,7 +8,7 @@ export HOMEBREW_CASK_OPTS=--appdir=/Applications
 if ! type "brew" > /dev/null; then
   echo_space
   echo_title_install "homebrew"
-  ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
 # install zsh via brew if needed
