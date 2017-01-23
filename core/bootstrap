@@ -2,7 +2,7 @@
 if [ ! -d "$HOME/my/" ]; then
   git clone https://github.com/kud/my.git ~/my &&
 fi
-source $MY/core/intro
+source $HOME/my/core/intro
 echo_space
 ~/my/core/dotfiles &&
 #~/my/core/applescripts &&
