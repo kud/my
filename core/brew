@@ -82,9 +82,10 @@ brewinstall mtr
 brewinstall dnsmasq
 
 ## zsh
-brewinstall zsh-syntax-highlighting
-brewinstall zsh-completions
-brewinstall zsh-history-substring-search
+### already in prezto, unneeded
+# brewinstall zsh-syntax-highlighting
+# brewinstall zsh-completions
+# brewinstall zsh-history-substring-search
 
 ## git
 brewinstall git
