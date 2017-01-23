@@ -10,4 +10,11 @@ $MY/core/dotfiles &&
 $MY/core/rocknroll &&
 $MY/core/osx
 
+echo "Do not forget to set up:"
+echo ""
+echo "- Firefox settings (`£ firefox-settings` + `Customize`)"
+echo "- Tweetbot (everything)"
+echo "- Dock (move it)"
+echo "- SSH for GitHub (https://help.github.com/articles/connecting-to-github-with-ssh/)"
+
 exec $SHELL
