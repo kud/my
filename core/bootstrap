@@ -2,11 +2,12 @@
 if [ ! -d "$HOME/my/" ]; then
   git clone https://github.com/kud/my.git ~/my &&
 fi
-source $HOME/my/core/intro
+export MY=$HOME/my
+source $MY/core/intro
 echo_space
-~/my/core/dotfiles &&
-#~/my/core/applescripts &&
-~/my/core/rocknroll &&
-~/my/core/osx
+$MY/core/dotfiles &&
+#$MY/core/applescripts &&
+$MY/core/rocknroll &&
+$MY/core/osx
 
 exec $SHELL
