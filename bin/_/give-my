@@ -18,6 +18,10 @@ resolution() {
   system_profiler SPDisplaysDataType|grep Resolution
 }
 
+sshKey() {
+  pbcopy < ~/.ssh/id_rsa.pub
+}
+
 if [[ $# -eq 0 ]]; then
   $0 --help
 else
@@ -32,6 +36,9 @@ else
       resolution)
         resolution
       ;;
+      ssh-key)
+        sshKey
+      ;;
       --help)
           echo_space
           printf "Usage:"
@@ -45,6 +52,8 @@ else
           printf "    local-ip         ${COLOUR_BLACK}Give the local ip${COLOUR_RESET}"
           echo_space
           printf "    resolution       ${COLOUR_BLACK}Give the resolution${COLOUR_RESET}"
+          echo_space
+          printf "    ssh-key          ${COLOUR_BLACK}Copy the ssh-key${COLOUR_RESET}"
           echo_spacex2
           ;;
       *)
