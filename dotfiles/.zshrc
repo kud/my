@@ -59,7 +59,9 @@ export ANDROID_HOME=/usr/local/opt/android-sdk
 export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home
 
 # python
-export PYTHONPATH=/usr/local/lib/python2.7/site-packages
+# export PYTHONPATH=/usr/local/lib/python2.7/site-packages
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
 # homebrew cask
 export HOMEBREW_CASK_OPTS=--appdir=/Applications
