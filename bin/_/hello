@@ -5,7 +5,9 @@ source $MY/core/helper
 echo "Hey you ;) What's up today?"
 
 subl
-limechat
+# limechat
 tweetbot
 firefoxnightly
 spotify
+$MY/profiles/$OS_PROFILE/bin/_/hello
+
