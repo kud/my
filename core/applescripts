@@ -8,7 +8,7 @@ sudo -v
 
 # Add script to global
 # Do not forget just after the symlink to right click on the "Sync/screenshots" folder > services > folder actions setup... and add "get-screenshot-when-new-file.scpt"
-sudo ln -sf ${HOME}"/my/applescripts/get-screenshot-when-new-file.scpt" "/Library/Scripts/Folder Action Scripts/" 2> /dev/null
+# sudo ln -sf ${HOME}"/my/applescripts/get-screenshot-when-new-file.scpt" "/Library/Scripts/Folder Action Scripts/" 2> /dev/null
 
 # resource!
 
