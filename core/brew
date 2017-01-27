@@ -163,7 +163,7 @@ caskinstall qlprettypatch
 caskinstall betterzipql
 caskinstall webp-quicklook
 caskinstall suspicious-package
-caskinstall ios7-screensaver
+# caskinstall ios7-screensaver
 caskinstall android-file-transfer
 caskinstall licecap
 caskinstall etrecheck
