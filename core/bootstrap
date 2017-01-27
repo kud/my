@@ -10,12 +10,6 @@ $MY/core/dotfiles &&
 $MY/core/rocknroll &&
 $MY/core/osx
 
-echo "Do not forget to:"
-echo ""
-echo "- Disable SIP by doing this: 1/ cmd + r on Apple logo. 2/ Utilities > Terminal. 3/ `$ csrutil disable`. 4/ restart."
-echo "- Adjust Firefox settings (`£ firefox-settings` + `Customize`)"
-echo "- Adjust Tweetbot (everything)"
-echo "- Adjust Dock (move it)"
-echo "- Add SSH for GitHub (https://help.github.com/articles/connecting-to-github-with-ssh/)"
+open https://github.com/kud/my/blob/master/doc/postinstall.md
 
 exec $SHELL

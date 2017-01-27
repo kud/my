@@ -1,6 +1,6 @@
-# Git
+# git
 
-## Modify the first commit
+## modify the first commit
 
 ```console
 $ git rebase -i --root

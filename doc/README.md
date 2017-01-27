@@ -1,6 +1,6 @@
-# Index
+# index
 
-## Disable SIP
+## disable SIP
 
 - cmd + r on Apple logo
 - Utilities > Terminal
