@@ -66,12 +66,12 @@
 [ghi]
   token = !security find-internet-password -a kud -s github.com -l 'ghi token' -w
 [filter "hawser"]
-	clean = git hawser clean %f
-	smudge = git hawser smudge %f
-	required = true
+  clean = git hawser clean %f
+  smudge = git hawser smudge %f
+  required = true
 [filter "lfs"]
-	clean = git lfs clean %f
-	smudge = git lfs smudge %f
-	required = true
+  clean = git lfs clean %f
+  smudge = git lfs smudge %f
+  required = true
 [fetch]
-	prune = true
+  prune = true
