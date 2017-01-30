@@ -44,6 +44,7 @@ npminstall speed-test
 npminstall up # cloudup
 npminstall uncss # remove useless css
 npminstall how2 # stackoverflow from the terminal
+npminstall iterm2-tab-set # set iTerm2 tab color, title, and/or badge
 # npminstall toggl
 # npminstall pure-prompt
 
