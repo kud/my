@@ -7,4 +7,3 @@ echo_title_install "apps @ laptop"
 
 brewinstall submarine
 caskinstall steam
-caskinstall flux-beta
