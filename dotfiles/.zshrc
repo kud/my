@@ -8,12 +8,16 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # functions
+## set the tab title to current dir
+function precmd() {
+  echo -ne "\e]1;${PWD##*/}\a"
+}
+
+## create a folder and go in it
 function mcd() {
   mkdir -p "$1" && cd "$1";
 }
 
-# pure
-# prompt pure
 
 # export MY
 export MY=$HOME/my
