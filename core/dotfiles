@@ -35,6 +35,8 @@ ln -sf ~/Sync/low/appdata/lightroom/Develop\ Presets ~/Library/Application\ Supp
 
 ln -sf ~/Sync/low/appdata/atom ~/.atom 2> /dev/null
 
+ln -sf /Applications/GitHub\ Desktop.app/Contents/MacOS/github_cli /usr/local/bin/github_cli 2> /dev/null
+
 # mkdir -p ~/Library/Application\ Support/Mou
 # ln -si ~/Sync/low/appdata/mou/CSS ~/Library/Application\ Support/Mou
 # ln -si ~/Sync/low/appdata/mou/Themes ~/Library/Application\ Support/Mou
