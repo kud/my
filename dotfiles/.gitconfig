@@ -64,8 +64,6 @@
   path = .gitconfig_local
 [github]
   user = kud
-[ghi]
-  token = !security find-internet-password -a kud -s github.com -l 'ghi token' -w
 [filter "hawser"]
   clean = git hawser clean %f
   smudge = git hawser smudge %f
@@ -76,3 +74,5 @@
   required = true
 [fetch]
   prune = true
+[ghi]
+	token = !security find-internet-password -a kud -s github.com -l 'ghi token' -w
