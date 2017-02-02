@@ -1,8 +1,10 @@
 #! /usr/bin/env zsh
 
-# quit some apps (mostly apps which are synchronised)
+# quit some apps (mostly apps which got their settings synchronised)
 
 source $MY/core/helper
 
+# quit "Sublime Text" limechat firefoxnightly spotify keepassx
 echo 'See you soon. ;)'
-quit "Sublime Text" limechat tweetbot firefoxnightly spotify keepassx "Google Chrome Canary" slack discord
+echo ''
+curl --silent http://i.giphy.com/3o6Zt0u5axHuOYOEH6.gif|imgcat
