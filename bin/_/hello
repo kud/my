@@ -2,7 +2,8 @@
 
 source $MY/core/helper
 
-echo "Hey you ;) What's up today?"
+echo ''
+figlet -f 'Ansi Shadow' "Hey! :-)"
 
 subl
 # limechat
