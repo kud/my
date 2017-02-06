@@ -2,11 +2,11 @@
 
 source $MY/core/helper
 
-freshNormal() {
+startFreshNormal() {
   /Applications/Firefox.app/Contents/MacOS/firefox-bin -p fresh &> /dev/null &
 }
 
-freshNightly() {
+startFreshNightly() {
   /Applications/FirefoxNightly.app/Contents/MacOS/firefox-bin -p fresh &> /dev/null &
 }
 
@@ -20,11 +20,11 @@ makeStableBackup() {
   cp -R /opt/homebrew-cask/Caskroom/firefox-nightly/FirefoxNightlyBackup.app /opt/homebrew-cask/Caskroom/firefox-nightly/FirefoxNightlyStable.app
 }
 
-runDefaultBackup() {
+startDefaultBackup() {
   /opt/homebrew-cask/Caskroom/firefox-nightly/FirefoxNightlyBackup.app/Contents/MacOS/firefox-bin &> /dev/null &
 }
 
-runStableBackup() {
+startStableBackup() {
   /opt/homebrew-cask/Caskroom/firefox-nightly/FirefoxNightlyStable.app/Contents/MacOS/firefox-bin &> /dev/null &
 }
 
@@ -34,13 +34,13 @@ if [[ $# -eq 0 ]]; then
 else
 
   case "$1" in
-    fresh)
+    start-fresh)
       case "$2" in
         normal)
-          freshNormal
+          startFreshNormal
         ;;
         nightly)
-          freshNightly
+          startFreshNightly
         ;;
         *)
           echo 'What did you say?'
@@ -60,13 +60,13 @@ else
         ;;
       esac
     ;;
-    run-backup)
+    start-backup)
       case "$2" in
         default)
-          runDefaultBackup
+          startDefaultBackup
         ;;
         stable)
-          runStableBackup
+          startStableBackup
         ;;
         *)
           echo 'What did you say?'
@@ -81,11 +81,11 @@ else
         echo_spacex3
         printf "Commands:"
         echo_spacex2
-        printf "    fresh [normal|nightly]         ${COLOUR_BLACK}Start a fresh profile with Firefox${COLOUR_RESET}"
+        printf "    start-fresh [normal|nightly]         ${COLOUR_BLACK}Start a fresh profile with Firefox${COLOUR_RESET}"
         echo_space
         printf "    make-backup [default|stable]   ${COLOUR_BLACK}Make a backup of Firefox Nightly${COLOUR_RESET}"
         echo_space
-        printf "    run-backup [default|stable]    ${COLOUR_BLACK}Start the backup of Firefox Nightly${COLOUR_RESET}"
+        printf "    start-backup [default|stable]    ${COLOUR_BLACK}Start the backup of Firefox Nightly${COLOUR_RESET}"
         echo_spacex2
     ;;
     *)
