@@ -1,4 +1,5 @@
 #! /usr/bin/env zsh
+
 source $MY/core/helper
 
 echo_title_update "firefox settings"
@@ -9,7 +10,9 @@ PREFS_JS="$HOME/Library/Application Support/Firefox/Profiles/$DEFAULT_FOLDER/pre
 # global
 echo 'user_pref("general.warnOnAboutConfig", false);' >> $PREFS_JS # disable warning on about:config
 echo 'user_pref("mousewheel.with_meta.action", 0);' >> $PREFS_JS # disable zoom on cmd + mousewheel
-echo 'user_pref("browser.startup.homepage", "https://raindrop.io/app#/dashboard");' >> $PREFS_JS # make raindrop as homepage
+echo 'user_pref("browser.startup.homepage", "https://raindrop.io/");' >> $PREFS_JS # make raindrop as homepage
+echo 'user_pref("browser.fixup.alternate.enabled", false);' >> $PREFS_JS # turning off domain guessing
+echo 'user_pref("keyword.enabled", false);' >> $PREFS_JS # turning off the web search in the address bar
 
 # pocket
 echo 'user_pref("extensions.pocket.enabled", false);' >> $PREFS_JS
@@ -25,6 +28,6 @@ echo 'user_pref("devtools.command-button-splitconsole.enabled", false);' >> $PRE
 echo 'user_pref("devtools.command-button-eyedropper.enabled", true);' >> $PREFS_JS # enable colour picker
 echo 'user_pref("devtools.toolbox.host", "side");' >> $PREFS_JS # devtools in side
 
-# echo 'user_pref("services.sync.client.name", "_kud.work");' >> $PREFS_JS # change device name
+source $MY/profiles/$OS_PROFILE/core/firefox-settings
 
 echo_success "Firefox settings are set!"
