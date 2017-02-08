@@ -1,0 +1,16 @@
+#! /usr/bin/env zsh
+
+echo "❯ Check before…"
+BEFORE=$(defaults read)
+echo $BEFORE > before.tmp
+
+read \?"Do your changes and ENTER or CTRL+C to stop."
+
+echo "❯ Check after…"
+AFTER=$(defaults read)
+echo $AFTER > after.tmp
+
+echo "❯ Waiting for comparison…"
+diff -U 30 before.tmp after.tmp|subl
+
+rm -rf before.tmp after.tmp
