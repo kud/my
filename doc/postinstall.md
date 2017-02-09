@@ -9,6 +9,10 @@ Disable or not SIP:
 - `$ csrutil disable`
 - restart
 
+## vim
+
+- Do `:PlugInstall`
+
 ## firefox
 
 - `$ £ firefox-settings`
