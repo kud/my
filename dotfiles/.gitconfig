@@ -41,6 +41,7 @@
   ign                   = ls-files -o -i --exclude-standard
   lgb                   = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
   unstage               = reset HEAD --
+  unstash               = stash pop
   last                  = log -1 HEAD
   oops                  = commit --amend
   pt                    = "!git push && git push --tags"
