@@ -70,6 +70,8 @@ alias klook='qlmanage -p "$@" >& /dev/null'
 # git / svn
 # alias git-svn-pull='git svn rebase'
 # alias git-svn-push='git svn rebase && git svn dcommit'
+#
+#
 
 # macosx
 alias kill-dock='killall Dock'
@@ -87,6 +89,9 @@ alias please='sudo $(fc -ln -1)'
 alias allo='ping 8.8.8.8'
 alias dl='curl -O'
 alias dafuck='whence -v'
+
+#fix
+alias localtunnel='/usr/local/bin/lt'
 
 # no correct
 alias sshfs='nocorrect sshfs'
