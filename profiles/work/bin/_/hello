@@ -3,5 +3,4 @@
 source $MY/core/helper
 
 slack
-limechat
 discord
