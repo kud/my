@@ -1,0 +1,7 @@
+#! /usr/bin/env zsh
+
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+git branch -m $1
+git push origin :${current_branch} $1
+git push origin -u $1
