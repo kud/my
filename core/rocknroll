@@ -62,9 +62,9 @@ source $MY/core/gem
 source $MY/core/pip
 source $MY/core/npm
 
-echo_space
-echo_title "Remove shits"
-sed -i "" 's/install.disable.sponsor.offers.*/install.disable.sponsor.offers=true/g' ~/Library/Application\ Support/Oracle/Java/Deployment/deployment.properties
+# echo_space
+# echo_title "Remove shits"
+# sed -i "" 's/install.disable.sponsor.offers.*/install.disable.sponsor.offers=true/g' ~/Library/Application\ Support/Oracle/Java/Deployment/deployment.properties
 
 # hack to make doctor not crying about `make`
 # if type "/usr/local/bin/make" > /dev/null; then
