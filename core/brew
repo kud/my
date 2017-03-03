@@ -179,6 +179,7 @@ caskinstall github-desktop
 # caskinstall xscope
 # caskinstall google-drive
 caskinstall p7zip
+caskinstall xrg
 
 caskinstall font-ubuntu
 caskinstall font-ubuntu-mono-derivative-powerline
