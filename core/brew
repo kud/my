@@ -116,6 +116,7 @@ brewinstall syncthing
 ## others
 brewinstall heroku-toolbelt
 brewinstall youtube-dl
+brewinstall pdf-redact-tools
 brewinstall imagemagick --with-fontconfig
 # brewinstall pdftk
 
