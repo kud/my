@@ -50,9 +50,9 @@
   rmdf                  = "!git rm $(git ls-files --deleted)"
   # export                = "!git clone --depth 1 $1 && rm -rf \"$(basename $1 .git)/.git\" -"
   branches              = branch -avv
-  wip                   = "!git add . && git commit -m 'WIP'"
+  wip                   = "!git add . && git commit -m '🔥 WIP 🔥'"
   unwip                 = "!git reset --soft HEAD~1"
-  lazy                  = "!git add . && git commit -m 'Some updates.' && git push"
+  lazy                  = "!git add . && git commit -m '🌬️' && git push"
   refresh               = "!git co master && git pull && git co - && git rebase master"
   rewrite               = "!git rebase -i $(git merge-base master HEAD)"
   finalise              = "!git refresh && git rewrite"
