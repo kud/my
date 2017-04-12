@@ -53,7 +53,7 @@
   wip                   = "!git add . && git commit -m '🔥 WIP 🔥'"
   unwip                 = "!git reset --soft HEAD~1"
   lazy                  = "!git add . && git commit -m '🌬️' && git push"
-  refresh               = "!git co master && git pull && git co - && git rebase master"
+  refresh               = "!git fetch && git rebase origin/master"
   rewrite               = "!git rebase -i $(git merge-base master HEAD)"
   finalise              = "!git refresh && git rewrite"
   browser               = "!open $(echo $(git config --get remote.origin.url)|sed 's/:/\\//g'|sed 's/git@/https:\\/\\//g'|sed 's/\\.git//g')"
