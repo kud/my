@@ -5,5 +5,4 @@
 source $MY/core/helper
 
 quit "Sublime Text" limechat firefoxnightly spotify keepassx
-echo ''
-curl --silent http://i.giphy.com/3o6Zt0u5axHuOYOEH6.gif|imgcat
+echo 'See you soon!'
