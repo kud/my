@@ -85,11 +85,11 @@ else
         echo_spacex3
         printf "Commands:"
         echo_spacex2
-        printf "    start-fresh [normal|nightly]         ${COLOUR_BLACK}Start a fresh profile with Firefox${COLOUR_RESET}"
+        printf "    start-fresh [normal|nightly]   ${COLOUR_BLACK}Start a fresh profile with Firefox${COLOUR_RESET}"
         echo_space
         printf "    make-backup [default|stable]   ${COLOUR_BLACK}Make a backup of Firefox Nightly${COLOUR_RESET}"
         echo_space
-        printf "    start-backup [default|stable]    ${COLOUR_BLACK}Start the backup of Firefox Nightly${COLOUR_RESET}"
+        printf "    start-backup [default|stable]  ${COLOUR_BLACK}Start the backup of Firefox Nightly${COLOUR_RESET}"
         echo_spacex2
     ;;
     *)

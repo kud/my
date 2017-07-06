@@ -182,6 +182,7 @@ caskinstall github-desktop
 caskinstall p7zip
 caskinstall xrg
 caskinstall molotov
+caskinstall insomnia # REST Client — https://insomnia.rest/
 
 caskinstall font-ubuntu
 caskinstall font-ubuntu-mono-derivative-powerline
