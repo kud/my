@@ -57,6 +57,7 @@
   wip                   = "!git add -A && git commit -m '🔥 WIP 🔥'"
   unwip                 = "!git reset --soft HEAD~1"
   lazy                  = "!git add -A && git commit -m '🌬️' && git push"
+  polish                = "!git add -A && git commit -m '💅'"
   refresh               = "!git fetch && git rebase origin/master"
   rewrite               = "!git rebase -i $(git merge-base master HEAD)"
   finalise              = "!git refresh && git rewrite"
