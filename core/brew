@@ -71,6 +71,7 @@ brewinstall mozjpeg
 brewinstall gifsicle
 brewinstall ffmpeg --with-libass --with-fontconfig
 brewinstall rename
+brewinstall exa # Modern replacement for 'ls' — https://the.exa.website
 # brewinstall terminal-notifier
 
 ## network

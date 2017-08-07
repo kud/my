@@ -12,6 +12,9 @@ alias l='ls -la'
 alias ll='ls -l'
 alias la='ls -lap'
 
+alias l='exa -la --git'
+alias ll='exa -l --git'
+
 # ease folder creation
 alias md=mkdir
 
