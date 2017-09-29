@@ -120,6 +120,7 @@ brewinstall heroku-toolbelt
 brewinstall youtube-dl
 brewinstall pdf-redact-tools
 brewinstall imagemagick --with-fontconfig
+brewinstall mas # Mac App Store command line interface - https://github.com/mas-cli/mas
 # brewinstall pdftk
 
 ## homebrew plugins

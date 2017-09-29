@@ -61,6 +61,7 @@ curl -sL https://raw.githubusercontent.com/mhartington/oceanic-next/master/color
 source $MY/core/gem
 source $MY/core/pip
 source $MY/core/npm
+source $MY/core/mas
 
 # echo_space
 # echo_title "Remove shits"
