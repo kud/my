@@ -79,8 +79,6 @@ if [ $OS_PROFILE = 'work' ]; then
   source $MY/profiles/work/core/rocknroll
 fi
 
-source $MY/core/appstore
-
 echo_space
 echo_title "Doctor is checking..."
 brew doctor
