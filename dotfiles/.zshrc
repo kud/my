@@ -22,6 +22,9 @@ function mcd() {
 # export MY
 export MY=$HOME/my
 
+# export TMP
+export TMP=$HOME/__tmp
+
 # colours
 export TERM=xterm-256color
 export GREP_OPTIONS='--color=auto' GREP_COLOR='1;32'
