@@ -55,16 +55,17 @@
   branches              = branch -avv
   lazy                  = "!git add -A && git commit -m '🌬' && git push"
   wip                   = "!git add -A && git commit -m '🚧 WIP 🚧'"
-  unwip                 = "!git reset --soft HEAD~1"
+  unwip                 = "!git reset --soft HEAD~1 && git unstage"
   polish                = "!git add -A && git commit -m '💅'"
   fixit                 = "!git add -A && git commit -m '🚒'"
   refresh               = "!git fetch && git rebase origin/master"
   rewrite               = "!git rebase -i $(git merge-base master HEAD)"
   finalise              = "!git refresh && git rewrite"
   open-url              = "!open $(echo $(git config --get remote.origin.url)|sed 's/:/\\//g'|sed 's/git@/https:\\/\\//g'|sed 's/\\.git//g')"
+  open-modified         = "!$EDITOR $(git status --porcelain | cut -c4-)"
   cleanup               = "!git remote prune origin && git repack && git gc"
   history               = reflog --relative-date
-  show-commands         = "!git config --get-regexp alias|sed \"s/alias.\\([a-zA-Z-]*\\) \\(\\.\\)*/$(tput setaf 2)\\1 $(tput setaf 8)\\2/\""
+  show-commands         = "!git config --get-regexp alias|sed \"s/alias.\\([a-zA-Z-]*\\) \\(\\.\\)*/$(tput setaf 2)\\1 $(tput setaf 0)\\2/\""
 [branch]
   autosetuprebase = always
 [include]
