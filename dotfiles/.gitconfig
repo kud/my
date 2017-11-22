@@ -32,7 +32,6 @@
   st                    = status
   df                    = diff
   dc                    = diff --cached
-  # diff-mdr              = "!git diff $@ | mdr"
   diff-subl             = "!git diff $@ | subl"
   diff-so-fancy         = "!git diff --color | diff-so-fancy"
   diff-files-subl       = "!git diff --name-only | uniq | xargs subl"
@@ -77,10 +76,10 @@
   smudge = git hawser smudge %f
   required = true
 [filter "lfs"]
+	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
 [fetch]
   prune = true
 [ghi]

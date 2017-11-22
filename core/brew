@@ -95,7 +95,6 @@ brewinstall git
 brewinstall ghi
 brewinstall tig
 brewinstall hub
-# brewinstall mdr
 
 ## editors
 brewinstall vim
