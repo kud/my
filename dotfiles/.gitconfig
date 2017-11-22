@@ -53,7 +53,7 @@
   rmdf                  = "!git rm $(git ls-files --deleted)"
   # export                = "!git clone --depth 1 $1 && rm -rf \"$(basename $1 .git)/.git\" -"
   branches              = branch -avv
-  lazy                  = "!git add -A && git commit -m '🌬️' && git push"
+  lazy                  = "!git add -A && git commit -m '🌬' && git push"
   wip                   = "!git add -A && git commit -m '🚧 WIP 🚧'"
   unwip                 = "!git reset --soft HEAD~1"
   polish                = "!git add -A && git commit -m '💅'"
