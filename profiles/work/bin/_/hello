@@ -3,4 +3,5 @@
 source $MY/core/helper
 
 slack
-discord
+trello
+# discord

@@ -1,0 +1,2 @@
+#! /usr/bin/env zsh
+open -a "/Applications/Trello.app"
