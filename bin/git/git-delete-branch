@@ -1,0 +1,11 @@
+#! /usr/bin/env zsh
+
+if [ -z "$1" ]; then
+  echo "What's the name of the branch you want to delete?"
+else
+  git co master
+  git branch -D $1
+  git push origin :$1
+  git co -
+fi
+
