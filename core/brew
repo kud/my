@@ -33,7 +33,7 @@ fi
 # update/upgrade brew
 echo_space
 echo_title_update "brew"
-brew update && brew upgrade
+brew update && brew upgrade && brew cask upgrade
 # brew cask update # not needed anymore
 
 # install brew packages
