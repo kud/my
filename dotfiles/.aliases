@@ -84,7 +84,7 @@ alias kill-finder='killall Finder'
 alias s='subl .'
 alias s-add='subl -a .'
 alias s-nm='subl -a node_modules'
-alias kraken="/Applications/GitKraken.app/Contents/MacOS/GitKraken -p $(pwd)"
+# alias kraken="/Applications/GitKraken.app/Contents/MacOS/GitKraken -p $(pwd)"
 
 alias dns-flush='sudo killall -HUP mDNSResponder'
 alias shell-reload='exec $SHELL'

@@ -37,6 +37,7 @@
   diff-files-subl       = "!git diff --name-only | uniq | xargs subl"
   issues                = "!ghi"
   gh                    = "!github_cli ${@:-.}"
+  kraken                = "!open -na 'GitKraken' --args -p $(pwd)"
   lg                    = log -p
   lol                   = log --graph --decorate --pretty=oneline --abbrev-commit
   lola                  = log --graph --decorate --pretty=oneline --abbrev-commit --all
