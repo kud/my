@@ -10,4 +10,3 @@ echo_space
 echo_title_install "global python packages"
 
 pipinstall asciinema
-pipinstall LinkChecker

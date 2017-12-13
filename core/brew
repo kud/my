@@ -101,7 +101,7 @@ brewinstall vim
 
 ## languages
 brewinstall ruby
-brewinstall python
+# brewinstall python # installed via pyenv
 brewinstall node
 brewinstall yarn
 # brewinstall aredridel/iojs/iojs
