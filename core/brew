@@ -204,7 +204,8 @@ caskinstall imageoptim
 caskinstall img2icns
 
 caskinstall spotify
-caskinstall vlc
+# caskinstall vlc
+caskinstall vlc-nightly
 
 echo_space
 echo_title "Cleaning brew cask..."
