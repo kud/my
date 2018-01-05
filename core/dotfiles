@@ -1,9 +1,9 @@
 #! /usr/bin/env zsh
+
 source $MY/core/helper
 
 echo_title_install "dotfiles"
 
-# symlink dotfiles
 for dotfile in "${ZDOTDIR:-$HOME}"/my/dotfiles/.{aliases,editorconfig,gemrc,gitconfig,gitignore_global,vimrc,zshrc}; do
   ln -sf "$dotfile" "${ZDOTDIR:-$HOME}/${dotfile:t}" 2> /dev/null
 done
@@ -18,28 +18,6 @@ if [ ! -f ~/.gitconfig_local ]; then
   echo "[github]\n  user = USERNAME\n[user]\n  name = FIRSTNAME LASTNAME\n  email = EMAIL" > ~/.gitconfig_local
   read \?"Configure now your git informations in \`~/.gitconfig_local\` and press [Enter] when you've finished..."
 fi
-
-# symlink appdata
-
-# create folders first
-mkdir -p ~/Library/Application\ Support/{"Sublime Text 3",Adobe/Lightroom}
-
-ln -sf ~/Sync/low/appdata/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist 2> /dev/null
-
-ln -sf ~/Sync/low/appdata/limechat/net.limechat.LimeChat.plist ~/Library/Preferences/net.limechat.LimeChat.plist 2> /dev/null
-
-ln -sf ~/Sync/low/appdata/sublimetext3/Packages ~/Library/Application\ Support/Sublime\ Text\ 3 2> /dev/null
-ln -sf ~/Sync/low/appdata/sublimetext3/Installed\ Packages ~/Library/Application\ Support/Sublime\ Text\ 3 2> /dev/null
-
-ln -sf ~/Sync/low/appdata/lightroom/Develop\ Presets ~/Library/Application\ Support/Adobe/Lightroom 2> /dev/null
-
-ln -sf ~/Sync/low/appdata/atom ~/.atom 2> /dev/null
-
-ln -sf /Applications/GitHub\ Desktop.app/Contents/MacOS/github_cli /usr/local/bin/github_cli 2> /dev/null
-
-# mkdir -p ~/Library/Application\ Support/Mou
-# ln -si ~/Sync/low/appdata/mou/CSS ~/Library/Application\ Support/Mou
-# ln -si ~/Sync/low/appdata/mou/Themes ~/Library/Application\ Support/Mou
 
 # resource!
 source $HOME/.zshrc

@@ -1,2 +1,0 @@
-#! /usr/bin/env zsh
-open -a "/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app"

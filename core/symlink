@@ -1,0 +1,31 @@
+#! /usr/bin/env zsh
+source $MY/core/helper
+
+echo_title_install "symlinks"
+
+# create folders first
+mkdir -p ~/Library/Application\ Support/{"Sublime Text 3",Adobe/Lightroom}
+
+# app:iterm
+ln -sf ~/Sync/low/appdata/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist 2> /dev/null
+
+# app:limechat
+ln -sf ~/Sync/low/appdata/limechat/net.limechat.LimeChat.plist ~/Library/Preferences/net.limechat.LimeChat.plist 2> /dev/null
+
+# app:sublime text
+ln -sf ~/Sync/low/appdata/sublimetext3/Packages ~/Library/Application\ Support/Sublime\ Text\ 3 2> /dev/null
+ln -sf ~/Sync/low/appdata/sublimetext3/Installed\ Packages ~/Library/Application\ Support/Sublime\ Text\ 3 2> /dev/null
+
+# app:lightroom
+ln -sf ~/Sync/low/appdata/lightroom/Develop\ Presets ~/Library/Application\ Support/Adobe/Lightroom 2> /dev/null
+
+# app:atom
+ln -sf ~/Sync/low/appdata/atom ~/.atom 2> /dev/null
+
+# app:github
+ln -sf /Applications/GitHub\ Desktop.app/Contents/MacOS/github_cli /usr/local/bin/github_cli 2> /dev/null
+
+# resource!
+source $HOME/.zshrc
+
+echo_success "Symlinks are done!"

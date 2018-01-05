@@ -18,7 +18,6 @@ function mcd() {
   mkdir -p "$1" && cd "$1";
 }
 
-
 # export MY
 export MY=$HOME/my
 

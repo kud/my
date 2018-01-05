@@ -10,7 +10,7 @@ else
 
   case "$1" in
       bam)
-        $MY/core/itself
+        $MY/core/bam
       ;;
       doc)
         case "$2" in
@@ -27,6 +27,9 @@ else
       ;;
       dotfiles)
         $MY/core/dotfiles
+      ;;
+      symlink)
+        $MY/core/symlink
       ;;
       applescripts)
         $MY/core/applescripts
@@ -67,6 +70,8 @@ else
         printf "    osx               ${COLOUR_BLACK}Update osx setttings${COLOUR_RESET}"
         echo_space
         printf "    dotfiles          ${COLOUR_BLACK}Update dotfiles${COLOUR_RESET}"
+        echo_space
+        printf "    symlink           ${COLOUR_BLACK}Update symlinks${COLOUR_RESET}"
         echo_space
         printf "    applescripts      ${COLOUR_BLACK}Update applescripts${COLOUR_RESET}"
         echo_space

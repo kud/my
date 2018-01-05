@@ -1,9 +1,11 @@
 #! /usr/bin/env zsh
 
+rm -rf $MY/bin/shims/*
+
 for app in /Applications/*.app
 do
   finalName=`echo ${${${app// /-}/\/Applications\//}//.app/} | tr '[:upper:]' '[:lower:]'`
-  echo "#! /usr/bin/env zsh\nopen -a \"${app}\"" > $MY/bin/shims/${finalName}
+  echo "#! /usr/bin/env zsh\nopen -a \"${app}\"" > $MY/bin/shims/open-${finalName}
 done
 
 chmod +x $MY/bin/shims/*

@@ -6,8 +6,8 @@ echo ''
 figlet -f 'Ansi Shadow' "Hey! :-)"
 
 subl
-tweetbot
-firefoxnightly
-spotify
+open-tweetbot
+open-firefoxnightly
+open-spotify
 $MY/profiles/$OS_PROFILE/bin/_/hello
 

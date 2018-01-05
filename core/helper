@@ -36,7 +36,8 @@ function echo_spacex3 () {
 
 # easy brew install function
 function brewinstall() {
-  brew install "${@}" 2> /dev/null
+  # brew install "${@}" 2> /dev/null
+  brew install "${@}"
 }
 
 function brewuninstall() {
@@ -45,7 +46,12 @@ function brewuninstall() {
 
 # easy cask install function
 function caskinstall() {
-  brew cask install "${@}" 2> /dev/null
+  # brew cask install "${@}" 2> /dev/null
+  brew cask install "${@}"
+}
+
+function caskuninstall() {
+  brew cask uninstall "${@}"
 }
 
 # easy ruby package install function

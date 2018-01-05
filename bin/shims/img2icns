@@ -1,2 +1,0 @@
-#! /usr/bin/env zsh
-open -a "/Applications/Img2icns.app"

@@ -3,7 +3,7 @@
 source $MY/core/helper
 
 echo_space
-echo_title_update "macosx settings @ work"
+echo_title_update "macosx settings @ $OS_PROFILE"
 
 ###############################################################################
 # General UI/UX                                                               #

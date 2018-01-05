@@ -1,5 +1,5 @@
 #! /usr/bin/env zsh
-#! /usr/bin/env zsh
+
 source $MY/core/helper
 
 # define cask application folder
@@ -52,7 +52,7 @@ brewtap caskroom/versions
 
 ## system
 brewinstall ssh-copy-id
-brewinstall homebrew/dupes/make
+brewinstall make
 brewinstall archey # system information
 brewinstall mitmproxy
 brewinstall pv
@@ -61,7 +61,6 @@ brewinstall tree
 brewinstall ncdu
 brewinstall htop-osx
 brewinstall iftop
-brewinstall iotop
 brewinstall pwgen
 brewinstall exiftool
 brewinstall grep
@@ -74,6 +73,7 @@ brewinstall rename
 brewinstall exa # Modern replacement for 'ls' — https://the.exa.website
 brewinstall less # because the macOS built-in version is old
 # brewinstall terminal-notifier
+brewinstall p7zip
 
 ## network
 brewinstall homebrew/dupes/rsync
@@ -122,9 +122,6 @@ brewinstall imagemagick --with-fontconfig
 brewinstall mas # Mac App Store command line interface - https://github.com/mas-cli/mas
 # brewinstall pdftk
 
-## homebrew plugins
-brewinstall brew-cask
-
 echo_space
 echo_title "Cleaning brew..."
 brew cleanup
@@ -163,6 +160,7 @@ caskinstall qlstephen
 caskinstall qlmarkdown
 caskinstall quicklook-json
 caskinstall quicklook-csv
+caskinstall webpquicklook
 caskinstall prefs-editor
 caskinstall qlprettypatch
 caskinstall betterzipql
@@ -178,34 +176,37 @@ caskinstall skitch # https://evernote.com/skitch/
 caskinstall flashlight
 # caskinstall glueprint
 caskinstall github-desktop
+caskinstall gitkraken
 # caskinstall recordit
 # caskinstall xscope
 # caskinstall google-drive
-caskinstall p7zip
 caskinstall xrg
 caskinstall molotov
 caskinstall insomnia # REST Client — https://insomnia.rest/
-
 caskinstall font-ubuntu
 caskinstall font-ubuntu-mono-derivative-powerline
-
+caskinstall font-fira-code
 # caskinstall sublime-text3
 caskinstall sublime-text-dev
 if ! type "subl" > /dev/null; then
   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 fi
-caskinstall firefoxnightly
+caskinstall firefox-nightly
 # caskinstall firefoxdeveloperedition
-
+caskinstall atom
 caskinstall limechat
-
+caskinstall discord
+caskinstall deluge
 caskinstall imagealpha
 caskinstall imageoptim
-caskinstall img2icns
-
+caskinstall mysimbl
 caskinstall spotify
+caskinstall steam
+caskinstall kodi
 # caskinstall vlc
 caskinstall vlc-nightly
+
+source $MY/profiles/$OS_PROFILE/core/brew
 
 echo_space
 echo_title "Cleaning brew cask..."
