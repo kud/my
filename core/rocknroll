@@ -72,13 +72,7 @@ source $MY/core/mas
 #   brew unlink make > /dev/null
 # fi
 
-if [ $OS_PROFILE = 'laptop' ]; then
-  source $MY/profiles/laptop/core/rocknroll
-fi
-
-if [ $OS_PROFILE = 'work' ]; then
-  source $MY/profiles/work/core/rocknroll
-fi
+source $MY/profiles/$OS_PROFILE/core/rocknroll 2> /dev/null
 
 echo_space
 echo_title "Doctor is checking..."

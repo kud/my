@@ -952,16 +952,10 @@ defaults write com.tapbots.TweetbotMac OpenURLsDirectly -bool true
 defaults write ~/Library/Application\ Support/JREInstaller/ThirdParty SPONSORS -string "0"
 
 ###############################################################################
-# Profiles                                                                    #
+# Profile                                                                    #
 ###############################################################################
 
-if [ $OS_PROFILE = 'laptop' ]; then
-  source $MY/profiles/laptop/core/osx
-fi
-
-if [ $OS_PROFILE = 'work' ]; then
-  source $MY/profiles/work/core/osx
-fi
+source $MY/profiles/$OS_PROFILE/core/osx 2> /dev/null
 
 ###############################################################################
 # Kill affected applications                                                  #

@@ -59,7 +59,7 @@ brewinstall pv
 brewinstall md5sha1sum
 brewinstall tree
 brewinstall ncdu
-brewinstall htop-osx
+# brewinstall htop-osx
 brewinstall iftop
 brewinstall pwgen
 brewinstall exiftool
@@ -76,7 +76,7 @@ brewinstall less # because the macOS built-in version is old
 brewinstall p7zip
 
 ## network
-brewinstall homebrew/dupes/rsync
+brewinstall rsync
 brewinstall wget
 brewinstall curl
 brewinstall lsof
@@ -115,7 +115,7 @@ brewinstall bitlbee # bridges for irc
 brewinstall syncthing
 
 ## others
-brewinstall heroku-toolbelt
+brewinstall heroku
 brewinstall youtube-dl
 brewinstall pdf-redact-tools
 brewinstall imagemagick --with-fontconfig
@@ -149,37 +149,27 @@ caskinstall iterm2-beta
 caskinstall appcleaner
 caskinstall keepassx
 caskinstall spectacle
-# caskinstall gifrocket
 caskinstall grandperspective
 caskinstall cloudup
 caskinstall xquartz
 caskinstall flash-player
-# caskinstall bittorrent-sync
 caskinstall qlcolorcode
 caskinstall qlstephen
 caskinstall qlmarkdown
 caskinstall quicklook-json
 caskinstall quicklook-csv
-caskinstall webpquicklook
 caskinstall prefs-editor
 caskinstall qlprettypatch
 caskinstall betterzipql
-caskinstall webp-quicklook
 caskinstall suspicious-package
-# caskinstall ios7-screensaver
 caskinstall android-file-transfer
 caskinstall licecap
 caskinstall etrecheck
-# caskinstall macdown
 caskinstall monodraw
 caskinstall skitch # https://evernote.com/skitch/
 caskinstall flashlight
-# caskinstall glueprint
 caskinstall github-desktop
 caskinstall gitkraken
-# caskinstall recordit
-# caskinstall xscope
-# caskinstall google-drive
 caskinstall xrg
 caskinstall molotov
 caskinstall insomnia # REST Client — https://insomnia.rest/
@@ -192,7 +182,6 @@ if ! type "subl" > /dev/null; then
   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 fi
 caskinstall firefox-nightly
-# caskinstall firefoxdeveloperedition
 caskinstall atom
 caskinstall limechat
 caskinstall discord
@@ -206,7 +195,7 @@ caskinstall kodi
 # caskinstall vlc
 caskinstall vlc-nightly
 
-source $MY/profiles/$OS_PROFILE/core/brew
+source $MY/profiles/$OS_PROFILE/core/brew 2> /dev/null
 
 echo_space
 echo_title "Cleaning brew cask..."

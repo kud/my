@@ -4,5 +4,5 @@
 
 source $MY/core/helper
 
-quit "Sublime Text" limechat firefoxnightly spotify keepassx
+quit "Sublime Text" "Firefox Nightly" spotify keepassx
 echo 'See you soon!'

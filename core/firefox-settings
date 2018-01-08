@@ -29,6 +29,6 @@ echo 'user_pref("devtools.command-button-splitconsole.enabled", false);' >> $PRE
 echo 'user_pref("devtools.command-button-eyedropper.enabled", true);' >> $PREFS_JS # enable colour picker
 echo 'user_pref("devtools.toolbox.host", "side");' >> $PREFS_JS # devtools in side
 
-source $MY/profiles/$OS_PROFILE/core/firefox-settings
+source $MY/profiles/$OS_PROFILE/core/firefox-settings 2> /dev/null
 
 echo_success "Firefox settings are set!"
