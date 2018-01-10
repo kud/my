@@ -66,8 +66,6 @@ echo_title "Cleaning the machine"
 echo_space
 
 # if [[ -v FINAL_ARRAY ]]; then
-#   echo "Nothing to clean."
-# else
 #   echo_info "It will remove these commands:"
 #   echo_space
 
@@ -82,11 +80,11 @@ echo_space
 #   for app in $CASK_FINAL_ARRAY; do
 #     brewuninstall $app
 #   done
+# else
+#   echo "Nothing to clean."
 # fi
 
 if [[ -v CASK_FINAL_ARRAY ]]; then
-  echo "Nothing to clean."
-else
   echo_info "It will remove these apps:"
   echo_space
 
@@ -101,5 +99,7 @@ else
   for app in $CASK_FINAL_ARRAY; do
     caskuninstall $app
   done
+else
+  echo "Nothing to clean."
 fi
 
