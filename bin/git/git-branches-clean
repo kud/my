@@ -5,8 +5,6 @@ branches=$(git branch --merged|grep -v 'master'|sed "s/ //g")
 git fetch
 
 if [[ -v branches ]]; then
-  echo "Nothing to clean."
-else
   echo "List of merged branches:"
   echo ""
   echo "> ${branches}"
@@ -15,6 +13,8 @@ else
   read \?"Press any key to continue the deletion… or ctrl+c to stop."
 
   git branch -d $branches
+else
+  echo "Nothing to clean."
 fi
 
 
