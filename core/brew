@@ -103,8 +103,6 @@ brewinstall vim
 brewinstall ruby
 # brewinstall python # installed via pyenv
 brewinstall node
-brewinstall yarn
-# brewinstall aredridel/iojs/iojs
 brewinstall watchman
 brewinstall flow
 
