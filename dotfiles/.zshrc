@@ -55,9 +55,6 @@ export EDITOR='subl'
 
 # node
 export NODE_PATH=/usr/local/share/npm/lib/node_modules
-export PATH="$PATH:`yarn global bin`"
-# export NVM_DIR=~/.nvm
-# source $(brew --prefix nvm)/nvm.sh
 
 # android
 export ANDROID_HOME=/usr/local/opt/android-sdk
