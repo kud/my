@@ -17,7 +17,11 @@ Everything should be simple, your first step on your Mac too. Just follow these 
 
 ### Step 1: Install XCode
 
-Go to your App Store and install **XCode**.
+Go to your App Store, install **XCode** and accept the licence via:
+
+```shell
+$ sudo xcodebuild -license
+```
 
 ### Step 2: Run the script and watch the sky!
 
