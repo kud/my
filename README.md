@@ -2,7 +2,7 @@
 
 <img align="right" height="200" src="everybodydancenow.gif">
 
-My own environment for Mac OS X.<br>
+My own environment for macOS.<br>
 Scripts, themes, dotfiles.<br>
 All what I need.<br>
 
@@ -15,11 +15,11 @@ All what I need.<br>
 
 Everything should be simple, your first step on your Mac too. Just follow these few lines.
 
-#### Install XCode
+### Step 1: Install XCode
 
 Go to your App Store and install **XCode**.
 
-#### Run the script and watch the sky!
+### Step 2: Run the script and watch the sky!
 
 ```shell
 $ curl --silent https://raw.githubusercontent.com/kud/my/master/core/bootstrap | zsh
