@@ -41,9 +41,6 @@ echo_space
 echo_title_install "brew packages"
 
 ## tap
-brewtap homebrew/dupes
-brewtap homebrew/versions
-# brewtap homebrew/php
 brewtap caskroom/cask
 brewtap caskroom/fonts
 brewtap caskroom/versions
