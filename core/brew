@@ -103,11 +103,11 @@ brewinstall vim
 brewinstall ruby
 # brewinstall python # installed via pyenv
 brewinstall node
-brewinstall watchman
+# brewinstall watchman
 brewinstall flow
 
 ## communication
-brewinstall bitlbee # bridges for irc
+# brewinstall bitlbee # bridges for irc
 
 ## sync/backup
 brewinstall syncthing
