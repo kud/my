@@ -21,8 +21,8 @@ Go to your App Store, install **XCode** and accept the licence / install command
 
 ```shell
 $ sudo xcodebuild -license
-# xcode-select --install
-# sudo xcode-select --switch /Library/Developer/CommandLineTools
+$ xcode-select --install
+$ sudo xcode-select --switch /Library/Developer/CommandLineTools
 ```
 
 ### Step 2: Run the script and watch the sky!
