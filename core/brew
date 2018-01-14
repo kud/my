@@ -162,11 +162,11 @@ caskinstall licecap
 caskinstall etrecheck
 caskinstall monodraw
 caskinstall skitch # https://evernote.com/skitch/
-caskinstall flashlight
-caskinstall github-desktop
+# caskinstall flashlight
+# caskinstall github-beta
 caskinstall gitkraken
 caskinstall xrg
-caskinstall molotov
+caskinstall molotovhttps://github.com/kud/my/blob/master/core/brew
 caskinstall insomnia # REST Client — https://insomnia.rest/
 caskinstall font-ubuntu
 caskinstall font-ubuntu-mono-derivative-powerline
