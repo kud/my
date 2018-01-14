@@ -6,7 +6,7 @@ Disable or not SIP:
 
 - cmd + r on Apple logo
 - Utilities > Terminal
-- `$ csrutil disable`
+- `$ csrutil enable --without fs`
 - restart
 
 ## vim
