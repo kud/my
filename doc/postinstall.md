@@ -15,6 +15,8 @@ Disable or not SIP:
 
 ## firefox
 
+- Start firefox
+- Quit firefox and wait 5s
 - `$ £ firefox-settings`
 - Enter sync account
 - Redefine GUI
