@@ -183,7 +183,7 @@ caskinstall discord
 caskinstall deluge
 caskinstall imagealpha
 caskinstall imageoptim
-caskinstall mysimbl
+# caskinstall mysimbl
 caskinstall spotify
 caskinstall steam
 caskinstall kodi
