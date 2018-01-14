@@ -9,8 +9,8 @@ source $MY/core/intro
 echo_space
 
 $MY/core/dotfiles &&
-$MY/core/symlink &&
 $MY/core/rocknroll &&
+$MY/core/symlink &&
 # $MY/core/osx &&
 
 open https://github.com/kud/my/blob/master/doc/postinstall.md
