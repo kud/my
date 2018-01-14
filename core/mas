@@ -4,11 +4,11 @@ source $MY/core/helper
 echo_space
 echo_title_install "apps from AppStore"
 
-if [ ! -d "/Applications/Xcode.app/" ]; then
-  mas install 497799835
-else
-  xcode-select --install
-fi
+# if [ ! -d "/Applications/Xcode.app/" ]; then
+#  mas install 497799835
+# else
+#  xcode-select --install
+# fi
 
 if [ ! -d "/Applications/Tweetbot.app/" ]; then
   mas install 557168941
