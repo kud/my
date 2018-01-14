@@ -167,7 +167,7 @@ caskinstall skitch # https://evernote.com/skitch/
 # caskinstall github-beta
 caskinstall gitkraken
 caskinstall xrg
-caskinstall molotovhttps://github.com/kud/my/blob/master/core/brew
+caskinstall molotov
 caskinstall insomnia # REST Client — https://insomnia.rest/
 caskinstall font-ubuntu
 caskinstall font-ubuntu-mono-derivative-powerline
