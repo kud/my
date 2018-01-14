@@ -1,12 +1,8 @@
 #! /usr/bin/env zsh
 source $MY/core/helper
 
-echo_space
-echo_title_update "pip"
-pip install --upgrade pip
-
 # install python packages
 echo_space
 echo_title_install "global python packages"
 
-pipinstall asciinema
+pip3install asciinema
