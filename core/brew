@@ -98,7 +98,8 @@ brewinstall vim
 
 ## languages
 brewinstall ruby
-# brewinstall python # installed via pyenv
+brewinstall python # however, will be installed via pyenv after
+brewinstall python3 # however, will be installed via pyenv after
 brewinstall node
 # brewinstall watchman
 brewinstall flow
