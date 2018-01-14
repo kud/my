@@ -155,7 +155,7 @@ caskinstall quicklook-json
 caskinstall quicklook-csv
 caskinstall prefs-editor
 caskinstall qlprettypatch
-caskinstall betterzipql
+caskinstall betterzip
 caskinstall suspicious-package
 caskinstall android-file-transfer
 caskinstall licecap
