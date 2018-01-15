@@ -31,6 +31,10 @@ sudo pmset -a standbydelay 86400
 # Disable the sound effects on boot
 sudo nvram SystemAudioVolume=" "
 
+# Disable sounds
+defaults write NSGlobalDomain com.apple.sound.beep.volume -float 0
+defaults write NSGlobalDomain com.apple.sound.uiaudio.enabled -int 0
+
 # Reduce motion
 defaults write com.apple.universalaccess reduceMotion -bool true
 
