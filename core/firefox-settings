@@ -22,14 +22,23 @@ echo 'user_pref("extensions.pocket.enabled", false);' >> $PREFS_JS
 # echo 'user_pref("browser.toolbarbuttons.introduced.pocket-button", false);' >> $PREFS_JS
 
 # devtools
-echo 'user_pref("devtools.webide.widget.enabled", true);' >> $PREFS_JS # enable WebIDE
-echo 'user_pref("devtools.chrome.enabled ", true);' >> $PREFS_JS # enable chrome
-echo 'user_pref("devtools.debugger.remote-enabled", true);' >> $PREFS_JS # enable remote
-echo 'user_pref("devtools.command-button-responsive.enabled", false);' >> $PREFS_JS # disable responsive button
-echo 'user_pref("devtools.command-button-splitconsole.enabled", false);' >> $PREFS_JS # disable split button
-echo 'user_pref("devtools.command-button-eyedropper.enabled", true);' >> $PREFS_JS # enable colour picker
-echo 'user_pref("devtools.toolbox.host", "side");' >> $PREFS_JS # devtools in side
-echo 'user_pref("devtools.editor.keymap", "sublime");' >> $PREFS_JS # use sublime text keymap
+echo 'user_pref("devtools.chrome.enabled", true);' >> $PREFS_JS
+echo 'user_pref("devtools.command-button-eyedropper.enabled", true);' >> $PREFS_JS
+echo 'user_pref("devtools.command-button-paintflashing.enabled", true);' >> $PREFS_JS
+echo 'user_pref("devtools.command-button-responsive.enabled", false);' >> $PREFS_JS
+echo 'user_pref("devtools.command-button-scratchpad.enabled", true);' >> $PREFS_JS
+echo 'user_pref("devtools.command-button-screenshot.enabled", true);' >> $PREFS_JS
+echo 'user_pref("devtools.command-button-splitconsole.enabled", false);' >> $PREFS_JS
+echo 'user_pref("devtools.debugger.remote-enabled", true);' >> $PREFS_JS
+echo 'user_pref("devtools.dom.enabled", true);' >> $PREFS_JS
+echo 'user_pref("devtools.editor.keymap", "sublime");' >> $PREFS_JS
+echo 'user_pref("devtools.onboarding.telemetry.logged", true);' >> $PREFS_JS
+echo 'user_pref("devtools.performance.new-panel-enabled", true);' >> $PREFS_JS
+echo 'user_pref("devtools.scratchpad.enabled", true);' >> $PREFS_JS
+echo 'user_pref("devtools.screenshot.audio.enabled", false);' >> $PREFS_JS
+echo 'user_pref("devtools.toolbox.host", "side");' >> $PREFS_JS
+echo 'user_pref("devtools.webconsole.timestampMessages", true);' >> $PREFS_JS
+echo 'user_pref("devtools.webide.widget.enabled", true);' >> $PREFS_JS
 
 source $MY/profiles/$OS_PROFILE/core/firefox-settings 2> /dev/null
 
