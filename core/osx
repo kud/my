@@ -168,19 +168,22 @@ sudo chflags uchg /private/var/vm/sleepimage
 ###############################################################################
 
 # Trackpad: enable tap to click for this user and for the login screen
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+# defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+# defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+# defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
 # Trackpad: enable dragging with 3 fingers # not totally efficient yet
-defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 2
+# defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 2
 defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 2
 defaults write com.apple.AppleMultitouchTrackpad Dragging -bool false
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Dragging -bool false
 defaults write com.apple.AppleMultitouchTrackpad DragLock -bool false
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad DragLock -bool false
 defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerHorizSwipeGesture -int 0
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerVertSwipeGesture -int 0
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Dragging -bool false
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerHorizSwipeGesture -int 0
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerVertSwipeGesture -int 0
 
 # Trackpad: map bottom right corner to right-click
 # defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 2
@@ -269,6 +272,12 @@ sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutio
 ###############################################################################
 # Finder                                                                      #
 ###############################################################################
+
+# Hide tags
+defaults write com.apple.finder ShowRecentTags -bool false
+
+# New window points to home
+defaults write com.apple.finder NewWindowTarget -string "PfHm"
 
 # Hide icons on Desktop
 defaults write com.apple.finder CreateDesktop false
