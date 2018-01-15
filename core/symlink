@@ -19,7 +19,8 @@ ln -sf ~/Sync/low/appdata/sublimetext3/Installed\ Packages ~/Library/Application
 # app:lightroom
 ln -sf ~/Sync/low/appdata/lightroom/Develop\ Presets ~/Library/Application\ Support/Adobe/Lightroom 2> /dev/null
 
-# app:atom
+# app:atom @FIXME
+rm -rf ~/.atom
 ln -sf ~/Sync/low/appdata/atom ~/.atom 2> /dev/null
 
 # app:github

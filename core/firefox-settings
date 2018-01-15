@@ -14,6 +14,7 @@ echo 'user_pref("browser.startup.homepage", "https://raindrop.io/");' >> $PREFS_
 echo 'user_pref("browser.fixup.alternate.enabled", false);' >> $PREFS_JS # turning off domain guessing
 echo 'user_pref("keyword.enabled", false);' >> $PREFS_JS # turning off the web search in the address bar
 echo 'user_pref("network.IDN_show_punycode", true);' >> $PREFS_JS # fix against fucking phishing
+echo 'user_pref("browser.uidensity", true);' >> $PREFS_JS # compact theme
 
 # pocket
 echo 'user_pref("extensions.pocket.enabled", false);' >> $PREFS_JS
@@ -28,6 +29,7 @@ echo 'user_pref("devtools.command-button-responsive.enabled", false);' >> $PREFS
 echo 'user_pref("devtools.command-button-splitconsole.enabled", false);' >> $PREFS_JS # disable split button
 echo 'user_pref("devtools.command-button-eyedropper.enabled", true);' >> $PREFS_JS # enable colour picker
 echo 'user_pref("devtools.toolbox.host", "side");' >> $PREFS_JS # devtools in side
+echo 'user_pref("devtools.editor.keymap", "sublime");' >> $PREFS_JS # use sublime text keymap
 
 source $MY/profiles/$OS_PROFILE/core/firefox-settings 2> /dev/null
 
