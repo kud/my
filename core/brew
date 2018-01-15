@@ -190,6 +190,9 @@ caskinstall steam
 caskinstall kodi
 # caskinstall vlc
 caskinstall vlc-nightly
+caskinstall slack
+caskinstall image2icon
+# cask install highsierramediakeyenabler
 
 source $MY/profiles/$OS_PROFILE/core/brew 2> /dev/null
 

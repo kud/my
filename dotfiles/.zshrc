@@ -1,7 +1,3 @@
-# zsh modules
-# autoload -U promptinit && promptinit
-# autoload -U compinit && compinit
-
 # prezto
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -63,17 +59,11 @@ export ANDROID_HOME=/usr/local/opt/android-sdk
 export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home
 
 # python
-# export PYTHONPATH=/usr/local/lib/python2.7/site-packages
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
 # homebrew cask
 export HOMEBREW_CASK_OPTS=--appdir=/Applications
-
-# custom zsh
-# . /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# fpath=(/usr/local/share/zsh-completions $fpath)
-# zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 
 # local
 . ~/.zshrc_local

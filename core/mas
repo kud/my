@@ -18,6 +18,8 @@ if [ ! -d "/Applications/Xscope.app/" ]; then
   mas install 889428659
 fi
 
+source $MY/profiles/$OS_PROFILE/core/mas 2> /dev/null
+
 echo_space
 echo_title_update "apps from AppStore"
 

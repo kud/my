@@ -1,4 +1,5 @@
 #! /usr/bin/env zsh
+#
 source $MY/core/helper
 
 # install python packages
@@ -6,3 +7,5 @@ echo_space
 echo_title_install "global python packages"
 
 pip3install asciinema
+
+source $MY/profiles/$OS_PROFILE/core/pip 2> /dev/null

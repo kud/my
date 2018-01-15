@@ -1,0 +1,18 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+# install python packages
+echo_space
+echo_title_install "python @ work"
+
+# Contexte
+
+## Journal
+pyenv install 2.7.10
+
+## Data
+pyenv install 3.4.3
+pyenv virtualenv 3.4.3 lois-webapp
+pip install --upgrade pip
+

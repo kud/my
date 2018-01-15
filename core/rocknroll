@@ -74,9 +74,6 @@ source $MY/core/mas
 
 source $MY/profiles/$OS_PROFILE/core/rocknroll 2> /dev/null
 
-# refresh the shell
-exec $SHELL
-
 echo_space
 echo_title "Doctor is checking..."
 brew doctor
