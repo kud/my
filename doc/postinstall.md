@@ -1,5 +1,9 @@
 # postinstall
 
+## my
+
+- Change origin url (`$ $EDITOR $MY/.git/config`) to `git@github.com:kud/my.git`
+
 ## SIP
 
 Disable or not SIP:
