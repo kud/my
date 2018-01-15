@@ -4,7 +4,11 @@
 
 - Change origin url (`$ $EDITOR $MY/.git/config`) to `git@github.com:kud/my.git`
 
-## SIP
+## security & privacy
+
+- System Preferences > Security & Privacy > Require password "immediately"
+
+## sip
 
 Disable or not SIP:
 
@@ -29,7 +33,7 @@ Disable or not SIP:
 
 - Download and install: http://littleendiangamestudios.com/project/ios-8-screen-saver/
 
-# SSH
+# ssh
 
 - Add this at the beggining of `~/.ssh/config`:
 
