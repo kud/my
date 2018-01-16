@@ -6,13 +6,22 @@ source $MY/core/helper
 echo_space
 echo_title_install "python @ work"
 
-# Contexte
+# Main
+LATEST_PYTHON2_VERSION=$(brew info python|grep 'python:'|sed 's/python: stable //g'|sed 's/ (bottled).*//g')
+LATEST_PYTHON3_VERSION=$(brew info python3|grep 'python3:'|sed 's/python3: stable //g'|sed 's/ (bottled).*//g')
 
+pyenv install -s $LATEST_PYTHON2_VERSION # latest python2
+pyenv install -s $LATEST_PYTHON3_VERSION #latest python3
+pyenv global $LATEST_PYTHON3_VERSION
+
+# Contexte
 ## Journal
-pyenv install 2.7.10
+CTX_JOURNAL_PYTHON_VERSION="2.7.10"
+pyenv install -s $CTX_JOURNAL_PYTHON_VERSION
+pyenv virtualenv $CTX_JOURNAL_PYTHON_VERSION contexte
 
 ## Data
-pyenv install 3.4.3
-pyenv virtualenv 3.4.3 lois-webapp
-pip install --upgrade pip
+CTX_DATA_PYTHON_VERSION="2.7.10"
+pyenv install -s $CTX_DATA_PYTHON_VERSION
+pyenv virtualenv $CTX_DATA_PYTHON_VERSION lois-webapp
 
