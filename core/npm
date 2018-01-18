@@ -42,7 +42,7 @@ npminstall caniuse-cmd
 npminstall imagemin
 npminstall speed-test
 npminstall localtunnel # expose localhost to world — https://github.com/localtunnel/localtunnel
-npminstall up # cloudup
+npminstall Automattic/cloudup-cli # cloudup
 npminstall uncss # remove useless css
 npminstall how2 # stackoverflow from the terminal
 npminstall iterm2-tab-set # set iTerm2 tab color, title, and/or badge

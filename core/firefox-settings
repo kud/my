@@ -39,6 +39,7 @@ echo 'user_pref("devtools.screenshot.audio.enabled", false);' >> $PREFS_JS
 echo 'user_pref("devtools.toolbox.host", "side");' >> $PREFS_JS
 echo 'user_pref("devtools.webconsole.timestampMessages", true);' >> $PREFS_JS
 echo 'user_pref("devtools.webide.widget.enabled", true);' >> $PREFS_JS
+echo 'user_pref("devtools.cache.disabled", true);' >> $PREFS_JS
 
 source $MY/profiles/$OS_PROFILE/core/firefox-settings 2> /dev/null
 
