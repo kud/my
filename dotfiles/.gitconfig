@@ -34,7 +34,7 @@
   dc                    = diff --cached
   diff-subl             = "!git diff $@ | subl"
   diff-so-fancy         = "!git diff --color | diff-so-fancy"
-  diff-files-subl       = "!git diff --name-only | uniq | xargs subl"
+  subl-diff             = "!git diff --name-only | uniq | xargs subl"
   issues                = "!ghi"
   gh                    = "!github_cli ${@:-.}"
   kraken                = "!open -na 'GitKraken' --args -p $(pwd)"

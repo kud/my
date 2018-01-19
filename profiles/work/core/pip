@@ -6,14 +6,6 @@ source $MY/core/helper
 echo_space
 echo_title_install "python @ work"
 
-# Main
-LATEST_PYTHON2_VERSION=$(brew info python|grep 'python:'|sed 's/python: stable //g'|sed 's/ (bottled).*//g')
-LATEST_PYTHON3_VERSION=$(brew info python3|grep 'python3:'|sed 's/python3: stable //g'|sed 's/ (bottled).*//g')
-
-pyenv install -s $LATEST_PYTHON2_VERSION
-pyenv install -s $LATEST_PYTHON3_VERSION
-pyenv global $LATEST_PYTHON3_VERSION
-
 # Contexte
 ## Journal
 CTX_JOURNAL_PYTHON_VERSION="2.7.10"

@@ -7,8 +7,6 @@ echo_title_install "brew packages @ $OS_PROFILE"
 
 brewinstall mariadb@10.1
 brewinstall elasticsearch@2.4
-brewinstall pyenv
-brewinstall pyenv-virtualenv
 brewinstall redis
 
 echo_space
