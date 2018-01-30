@@ -1,0 +1,3 @@
+#! /usr/bin/env zsh
+
+sudo lsof -i tcp:$1
