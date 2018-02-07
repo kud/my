@@ -17,3 +17,8 @@ CTX_DATA_PYTHON_VERSION="2.7.10"
 pyenv install -s $CTX_DATA_PYTHON_VERSION
 pyenv virtualenv $CTX_DATA_PYTHON_VERSION lois-webapp
 
+## Apps
+CTX_APPS_PYTHON_VERSION="2.7.10"
+pyenv install -s $CTX_APPS_PYTHON_VERSION
+pyenv virtualenv $CTX_APPS_PYTHON_VERSION apps
+
