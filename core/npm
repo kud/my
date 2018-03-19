@@ -50,6 +50,7 @@ npminstall gh-pages # deploy on gh-pages — https://github.com/tschaub/gh-pages
 npminstall diff-so-fancy # Good-lookin' diffs. Actually… nah… The best-lookin' diffs. — https://github.com/so-fancy/diff-so-fancy
 # npminstall toggl
 # npminstall pure-prompt
+npminstall fkill-cli # Fabulously kill processes. — https://github.com/sindresorhus/fkill-cli
 
 # config
 npm config set save-exact true
