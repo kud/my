@@ -158,7 +158,7 @@ caskinstall quicklook-json
 caskinstall quicklook-csv
 caskinstall prefs-editor
 caskinstall qlprettypatch
-caskinstall betterzip
+# caskinstall betterzip
 caskinstall suspicious-package
 caskinstall android-file-transfer
 caskinstall licecap
@@ -194,6 +194,7 @@ caskinstall kodi
 caskinstall vlc-nightly
 caskinstall slack
 caskinstall image2icon
+caskinstall rocket
 # cask install highsierramediakeyenabler
 
 source $MY/profiles/$OS_PROFILE/core/brew 2> /dev/null
