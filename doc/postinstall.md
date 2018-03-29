@@ -33,7 +33,7 @@ Disable or not SIP:
 
 - Download and install: http://littleendiangamestudios.com/project/ios-8-screen-saver/
 
-# ssh
+## ssh
 
 - Add this at the beggining of `~/.ssh/config`:
 
@@ -44,3 +44,7 @@ ProxyCommand ssh $(echo %h | sed 's/+[^+]*$//;s/\([^+%%]*\)%%\([^+]*\)$/\2 -l \1
 ```
 
 - [Add SSH key for GitHub](https://help.github.com/articles/connecting-to-github-with-ssh/)
+
+## applications
+
+- pixelsnap
