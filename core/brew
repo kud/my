@@ -161,7 +161,7 @@ caskinstall qlprettypatch
 # caskinstall betterzip
 caskinstall suspicious-package
 caskinstall android-file-transfer
-caskinstall licecap
+caskinstall kap
 caskinstall etrecheck
 caskinstall monodraw
 caskinstall skitch # https://evernote.com/skitch/

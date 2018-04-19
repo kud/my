@@ -14,8 +14,12 @@ if [ ! -d "/Applications/Tweetbot.app/" ]; then
   mas install 557168941
 fi
 
-if [ ! -d "/Applications/Xscope.app/" ]; then
+if [ ! -d "/Applications/xScope.app/" ]; then
   mas install 889428659
+fi
+
+if [ ! -d "/Applications/GIF Brewery 3.app/" ]; then
+  mas install 1081413713
 fi
 
 source $MY/profiles/$OS_PROFILE/core/mas 2> /dev/null
