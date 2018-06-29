@@ -48,6 +48,7 @@
   unstash               = stash pop
   last                  = log -1 HEAD
   recommit              = commit --amend
+  reset-soft-last       = reset --soft HEAD~1
   pt                    = "!git push && git push --tags"
   pr                    = "!hub pull-request"
   fix                   = "!git add -A && git commit --amend --no-edit"
