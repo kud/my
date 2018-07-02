@@ -56,7 +56,7 @@ brewinstall pv
 brewinstall md5sha1sum
 brewinstall tree
 brewinstall ncdu
-# brewinstall htop-osx
+brewinstall htop
 brewinstall iftop
 brewinstall pwgen
 brewinstall exiftool
@@ -195,6 +195,7 @@ caskinstall vlc-nightly
 caskinstall slack
 caskinstall image2icon
 caskinstall rocket
+caskinstall beardedspice # http://beardedspice.github.io/
 # cask install highsierramediakeyenabler
 
 source $MY/profiles/$OS_PROFILE/core/brew 2> /dev/null
