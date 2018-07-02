@@ -195,8 +195,8 @@ caskinstall vlc-nightly
 caskinstall slack
 caskinstall image2icon
 caskinstall rocket
-caskinstall beardedspice # http://beardedspice.github.io/
-# cask install highsierramediakeyenabler
+# caskinstall beardedspice # http://beardedspice.github.io/
+cask install highsierramediakeyenabler
 
 source $MY/profiles/$OS_PROFILE/core/brew 2> /dev/null
 
