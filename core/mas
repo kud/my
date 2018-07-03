@@ -10,17 +10,9 @@ echo_title_install "apps from AppStore"
 #  xcode-select --install
 # fi
 
-if [ ! -d "/Applications/Tweetbot.app/" ]; then
-  mas install 1384080005
-fi
-
-if [ ! -d "/Applications/xScope.app/" ]; then
-  mas install 889428659
-fi
-
-if [ ! -d "/Applications/GIF Brewery 3.app/" ]; then
-  mas install 1081413713
-fi
+mas install 1384080005 # Tweetbot 3
+mas install 889428659 # xScope
+mas install 1081413713 # GIF Brewery 3
 
 source $MY/profiles/$OS_PROFILE/core/mas 2> /dev/null
 
