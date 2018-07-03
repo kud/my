@@ -4,7 +4,7 @@ branches=$(git branch --merged|grep -v 'master'|sed "s/ //g")
 
 git fetch
 
-if [[ -v $branches ]]; then
+if [ -n "${branches}" ]; then
   echo "List of merged branches:"
   echo ""
   echo "> ${branches}"
