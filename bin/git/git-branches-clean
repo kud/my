@@ -1,18 +1,23 @@
 #! /usr/bin/env zsh
 
-branches=$(git branch --merged|grep -v 'master'|sed "s/ //g")
+branches_array=($(git branch --merged|grep -v 'master'|tr '\n' ' '))
+branches_displayed=$(git branch --merged|grep -v 'master'|sed "s/  /❯ /g")
 
 git fetch
 
-if [ -n "${branches}" ]; then
+if [ -n "${branches_array}" ]; then
   echo "List of merged branches:"
   echo ""
-  echo "> ${branches}"
+  echo "${branches_displayed}"
   echo ""
 
   read \?"Press any key to continue the deletion… or ctrl+c to stop."
 
-  git branch -d $branches
+  for branch in $branches_array
+  do
+    git branch -d $branch
+  done
+
 else
   echo "No branch to clean.";
 fi
