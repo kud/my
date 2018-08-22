@@ -35,6 +35,7 @@ npminstall fraktur # write with great font
 npminstall weinre # debugger for web pages — http://people.apache.org/~pmuellr/weinre-docs/latest/
 npminstall pageres-cli # responsive website screenshots — https://github.com/sindresorhus/pageres
 npminstall npm-check-updates # check if npm modules are updated
+npminstall npm-check # check if npm modules are updated
 npminstall react-native-cli
 npminstall gulp-cli
 npminstall markdown-live
