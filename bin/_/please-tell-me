@@ -10,8 +10,9 @@ ip() {
 
 localIp() {
   IP=$(ipconfig getifaddr en0)
-  echo "${IP}"
-  echo ${IP}|pbcopy
+  IP2=$(ipconfig getifaddr en4)
+  echo "${IP}${IP2}"
+  echo ${IP}${IP2}|pbcopy
 }
 
 resolution() {
