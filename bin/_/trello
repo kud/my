@@ -1,0 +1,18 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+if [[ $# -eq 0 ]]; then
+  $0 --help
+else
+
+  case "$1" in
+      open-card)
+        open "https://trello.com/c/$2"
+      ;;
+      *)
+        echo 'What did you say?'
+      ;;
+  esac
+
+fi
