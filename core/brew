@@ -191,18 +191,19 @@ caskinstall imageoptim
 caskinstall spotify
 caskinstall steam
 caskinstall kodi
-# caskinstall vlc
-caskinstall vlc-nightly
+caskinstall vlc
+# caskinstall vlc-nightly
 caskinstall slack
 caskinstall image2icon
 caskinstall rocket
 # caskinstall beardedspice # http://beardedspice.github.io/
 caskinstall highsierramediakeyenabler
 caskinstall mark-text # https://marktext.github.io/website/
+caskinstall steermouse # http://plentycom.jp/en/steermouse/
 
 source $MY/profiles/$OS_PROFILE/core/brew 2> /dev/null
 
 echo_space
 echo_title "Cleaning brew cask..."
-brew cask cleanup
+brew cleanup
 
