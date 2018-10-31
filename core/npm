@@ -58,7 +58,6 @@ npminstall import-cost
 npm config set save-exact true
 npm config set tag-version-prefix ""
 npm config set progress false
-npm config set registry http://registry.npmjs.org/
 # npm config set loglevel info
 npm config set fetch-retries 3
 npm config set fetch-retry-mintimeout 15000
