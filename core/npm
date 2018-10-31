@@ -53,6 +53,7 @@ npminstall diff-so-fancy # Good-lookin' diffs. Actually… nah… The best-looki
 # npminstall pure-prompt
 npminstall fkill-cli # Fabulously kill processes. — https://github.com/sindresorhus/fkill-cli
 npminstall import-cost
+npminstall gnomon
 
 # config
 npm config set save-exact true
