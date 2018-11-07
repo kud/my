@@ -54,6 +54,7 @@ npminstall diff-so-fancy # Good-lookin' diffs. Actually… nah… The best-looki
 npminstall fkill-cli # Fabulously kill processes. — https://github.com/sindresorhus/fkill-cli
 npminstall import-cost
 npminstall gnomon
+npminstall lighthouse # Auditing, performance metrics, and best practices for Progressive Web Apps - https://github.com/GoogleChrome/lighthouse
 
 # config
 npm config set save-exact true
