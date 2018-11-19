@@ -18,7 +18,7 @@ else
             mdlive --dir $MY/doc
           ;;
           *)
-            open https://github.com/kud/my/blob/master/doc/index.md
+            open https://github.com/kud/my/tree/master/doc
           ;;
         esac
       ;;

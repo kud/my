@@ -104,7 +104,6 @@ brewinstall pyenv
 brewinstall pyenv-virtualenv
 brewinstall node
 # brewinstall watchman
-brewinstall flow
 
 ## communication
 # brewinstall bitlbee # bridges for irc
@@ -113,7 +112,7 @@ brewinstall flow
 brewinstall syncthing
 
 ## others
-brewinstall heroku
+brewinstall heroku/brew/heroku
 brewinstall youtube-dl
 brewinstall pdf-redact-tools
 brewinstall imagemagick --with-fontconfig
@@ -163,7 +162,7 @@ caskinstall qlprettypatch
 caskinstall suspicious-package
 caskinstall android-file-transfer
 caskinstall kap
-caskinstall etrecheck
+caskinstall etrecheckpro
 caskinstall monodraw
 caskinstall skitch # https://evernote.com/skitch/
 # caskinstall flashlight
