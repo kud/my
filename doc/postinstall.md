@@ -38,6 +38,11 @@ Disable or not SIP:
 - Add this at the beggining of `~/.ssh/config`:
 
 ```
+# use keychain for SSH // https://ma.ttias.be/mac-osx-keeps-prompting-ssh-key-passphrase-not-use-keychain/
+Host *
+  UseKeychain yes
+  AddKeysToAgent yes
+
 # jumper
 Host *+*
 ProxyCommand ssh $(echo %h | sed 's/+[^+]*$//;s/\([^+%%]*\)%%\([^+]*\)$/\2 -l \1/;s/:/ -p /') nc -w1 $(echo %h | sed 's/^.*+//;/:/!s/$/ %p/;s/:/ /')
