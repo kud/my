@@ -25,6 +25,10 @@ $ xcode-select --install
 $ sudo xcode-select --switch /Library/Developer/CommandLineTools
 ```
 
+### Step 2: Sign-in AppStore
+
+Go to your App Store and Sign-in.
+
 ### Step 2: Run the script and watch the sky!
 
 ```shell
