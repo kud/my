@@ -97,6 +97,10 @@ brewinstall hub
 brewinstall vim
 
 ## languages
+brewinstall zlib # needed for python
+brewinstall readline # needed for python
+brewinstall xz # needed for python
+
 brewinstall ruby
 brewinstall python # however, will be installed via pyenv after
 brewinstall python3 # however, will be installed via pyenv after
