@@ -17,7 +17,8 @@ Everything should be simple, your first step on your Mac too. Just follow these 
 
 ### Step 1: Install XCode
 
-Go to your App Store, install **XCode** and accept the licence / install command lines / enable command lines via:
+- Go to your App Store, install **XCode**
+- and accept the licence / install command lines / enable command lines via:
 
 ```shell
 $ sudo xcodebuild -license
