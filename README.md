@@ -30,7 +30,7 @@ $ sudo xcode-select --switch /Library/Developer/CommandLineTools
 
 Go to your App Store and Sign-in.
 
-### Step 2: Run the script and watch the sky!
+### Step 3: Run the script and watch the sky!
 
 ```shell
 $ curl --silent https://raw.githubusercontent.com/kud/my/master/core/bootstrap | zsh
