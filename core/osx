@@ -41,19 +41,6 @@ defaults write com.apple.universalaccess reduceMotion -bool true
 # Disable transparency in the menu bar and elsewhere on Yosemite
 defaults write com.apple.universalaccess reduceTransparency -bool true
 
-# Menu bar: hide the Time Machine, Volume, and User icons
-# for domain in ~/Library/Preferences/ByHost/com.apple.systemuiserver.*; do
-#   defaults write "${domain}" dontAutoLoad -array \
-#     "/System/Library/CoreServices/Menu Extras/TimeMachine.menu" \
-#     "/System/Library/CoreServices/Menu Extras/Volume.menu" \
-#     "/System/Library/CoreServices/Menu Extras/User.menu"
-# done
-# defaults write com.apple.systemuiserver menuExtras -array \
-#   "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
-#   "/System/Library/CoreServices/Menu Extras/AirPort.menu" \
-#   "/System/Library/CoreServices/Menu Extras/Battery.menu" \
-#   "/System/Library/CoreServices/Menu Extras/Clock.menu"
-
 # Set highlight color to green
 # defaults write NSGlobalDomain AppleHighlightColor -string "0.764700 0.976500 0.568600"
 
@@ -457,6 +444,9 @@ defaults write com.apple.dock autohide -bool true
 
 # Make Dock icons of hidden applications translucent
 defaults write com.apple.dock showhidden -bool true
+
+# Don't show recent applications in Dock
+# defaults write com.apple.dock show-recents -bool false
 
 # Disable the Launchpad gesture (pinch with thumb and three fingers)
 #defaults write com.apple.dock showLaunchpadGestureEnabled -int 0
@@ -878,7 +868,7 @@ defaults write com.google.Chrome.canary PMPrintingExpandedStateForPrint2 -bool t
 ###############################################################################
 
 # Set up my preferred keyboard shortcuts
-cp -r init/spectacle.json ~/Library/Application\ Support/Spectacle/Shortcuts.json 2> /dev/null
+# cp -r init/spectacle.json ~/Library/Application\ Support/Spectacle/Shortcuts.json 2> /dev/null
 
 ###############################################################################
 # Transmission.app                                                            #

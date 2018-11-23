@@ -71,6 +71,9 @@ brewinstall exa # Modern replacement for 'ls' — https://the.exa.website
 brewinstall less # because the macOS built-in version is old
 # brewinstall terminal-notifier
 brewinstall p7zip
+brewinstall autojump
+brewinstall brightness
+brewinstall background-music
 
 ## network
 brewinstall rsync
@@ -149,7 +152,8 @@ caskinstall flux
 # caskinstall iterm2-nightly
 caskinstall iterm2-beta
 caskinstall appcleaner
-caskinstall keepassx
+# caskinstall keepassx
+caskinstall macpass
 caskinstall spectacle
 caskinstall grandperspective
 caskinstall cloudup
@@ -200,9 +204,11 @@ caskinstall slack
 caskinstall image2icon
 caskinstall rocket
 # caskinstall beardedspice # http://beardedspice.github.io/
-caskinstall highsierramediakeyenabler
+caskinstall macmediakeyforwarder
 caskinstall mark-text # https://marktext.github.io/website/
 caskinstall steermouse # http://plentycom.jp/en/steermouse/
+caskinstall nativedisplaybrightness
+caskinstall gfxcardstatus # https://gfx.io/
 
 source $MY/profiles/$OS_PROFILE/core/brew 2> /dev/null
 

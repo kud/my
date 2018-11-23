@@ -1,0 +1,5 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+figlet -l|xargs -I FONT sh -c 'echo "FONT:" && echo '' && figlet -f "FONT" "'$1'" && echo "-------------------------"'
