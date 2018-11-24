@@ -52,4 +52,5 @@ ProxyCommand ssh $(echo %h | sed 's/+[^+]*$//;s/\([^+%%]*\)%%\([^+]*\)$/\2 -l \1
 
 ## applications
 
-- pixelsnap
+- pixelsnap (email)
+- NativeDisplayBrightness (https://github.com/KAMIKAZEUA/NativeDisplayBrightness/releases)
