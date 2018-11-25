@@ -149,8 +149,8 @@ caskinstall java # sorry my love :(
 # caskinstall alfred
 caskinstall flux
 # caskinstall iterm2
-# caskinstall iterm2-nightly
-caskinstall iterm2-beta
+caskinstall iterm2-nightly
+# caskinstall iterm2-beta
 caskinstall appcleaner
 # caskinstall keepassx
 caskinstall macpass
@@ -207,7 +207,7 @@ caskinstall rocket
 caskinstall macmediakeyforwarder
 caskinstall mark-text # https://marktext.github.io/website/
 caskinstall steermouse # http://plentycom.jp/en/steermouse/
-caskinstall nativedisplaybrightness
+# caskinstall nativedisplaybrightness
 caskinstall gfxcardstatus # https://gfx.io/
 
 source $MY/profiles/$OS_PROFILE/core/brew 2> /dev/null
