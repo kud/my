@@ -20,3 +20,9 @@ $ sips -Z 640 *.jpg
 ```
 $ mogrify -format jpg --quality 85 *.{png,gif,svg} && rm -rf *.{png,gif,svg} && sips -Z 256 *.jpg && imagemin *.jpg --outdir=build
 ```
+
+## add "anywhere" to "allow apps downloaded from"
+
+```
+$ sudo spctl --master-disable
+```
