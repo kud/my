@@ -7,14 +7,20 @@ endif
 call plug#begin('~/.vim/bundle')
 
 Plug 'itchyny/lightline.vim'
+Plug 'othree/yajs.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'ryanoasis/vim-devicons'
+Plug 'othree/html5.vim'
+Plug 'scrooloose/nerdtree'
 
 call plug#end()
+
+syntax enable
 
 if (has("termguicolors"))
  set termguicolors
 endif
-
-syntax enable
 
 colorscheme OceanicNext
 
@@ -23,7 +29,7 @@ set nu
 set showcmd
 set noruler
 set cursorline
-set encoding=utf8
+set encoding=utf-8
 set expandtab
 set showmode
 set number
@@ -34,3 +40,8 @@ set incsearch
 set ignorecase
 set smartcase
 set mouse=a
+
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme='solarized'
+let g:airline_solarized_bg='dark'

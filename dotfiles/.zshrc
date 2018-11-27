@@ -3,14 +3,29 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+# change prompt
+prompt_context() {
+  # local user=`whoami`
+
+  # if [[ "$user" != "$DEFAULT_USER" || -n "$SSH_CONNECTION" ]]; then
+  #   prompt_segment $PRIMARY_FG default " %(!.%{%F{yellow}%}.)$user@%m "
+  # fi
+
+  prompt_segment $PRIMARY_FG default  "  🌈  "
+}
+
+prompt_dir() {
+  prompt_segment blue $PRIMARY_FG ' %c '
+}
+
 # autojump
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
 # functions
 ## set the tab title to current dir
-function precmd() {
-  echo -ne "\e]1;${PWD##*/}\a"
-}
+# function precmd() {
+#   echo -ne "\e]1;${PWD##*/}\a"
+# }
 
 ## create a folder and go in it
 function mcd() {
