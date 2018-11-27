@@ -73,7 +73,6 @@ brewinstall less # because the macOS built-in version is old
 brewinstall p7zip
 brewinstall autojump
 brewinstall brightness
-brewinstall background-music
 
 ## network
 brewinstall rsync
@@ -181,7 +180,10 @@ caskinstall molotov
 caskinstall insomnia # REST Client — https://insomnia.rest/
 caskinstall font-ubuntu
 caskinstall font-ubuntu-mono-derivative-powerline
+caskinstall font-ubuntu-nerd-font
+caskinstall font-ubuntu-nerd-font-mono
 caskinstall font-fira-code
+caskinstall font-hack-nerd-font
 # caskinstall sublime-text3
 caskinstall sublime-text-dev
 if ! type "subl" > /dev/null; then
@@ -209,6 +211,7 @@ caskinstall mark-text # https://marktext.github.io/website/
 caskinstall steermouse # http://plentycom.jp/en/steermouse/
 # caskinstall nativedisplaybrightness
 caskinstall gfxcardstatus # https://gfx.io/
+caskinstall background-music
 
 source $MY/profiles/$OS_PROFILE/core/brew 2> /dev/null
 
