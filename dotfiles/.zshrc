@@ -47,7 +47,11 @@ export CLICOLOR=1
 DISPLAY=:0.0; export DISPLAY
 
 # path
-export PATH=$HOME/my/bin/_:$HOME/my/bin/git:/usr/local/opt/ruby/bin:/usr/local/share/npm/bin:/usr/local/lib/node_modules:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$HOME/my/bin/shims
+export PATH=$PATH:$MY/bin/shims # add commands to open applications
+export PATH=/usr/local/lib/node_modules:$PATH # npm global commands
+export PATH=/usr/local/opt/ruby/bin:$PATH # ruby commands
+export PATH=$MY/bin/git:$PATH # git commands
+export PATH=$MY/bin/_:$PATH # own commands
 
 # british and utf-8
 export LANG="en_GB"
@@ -86,4 +90,5 @@ export HOMEBREW_CASK_OPTS=--appdir=/Applications
 # local
 . ~/.zshrc_local
 
-export PATH=$HOME/my/profiles/$OS_PROFILE/bin:$PATH
+# add or override commands by via profiled ones
+export PATH=$MY/profiles/$OS_PROFILE/bin:$PATH
