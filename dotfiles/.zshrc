@@ -20,6 +20,7 @@ prompt_dir() {
 
 # autojump
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+autoload -U compinit && compinit
 
 # functions
 ## set the tab title to current dir
