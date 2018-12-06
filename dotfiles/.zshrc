@@ -11,7 +11,7 @@ prompt_context() {
   #   prompt_segment $PRIMARY_FG default " %(!.%{%F{yellow}%}.)$user@%m "
   # fi
 
-  prompt_segment $PRIMARY_FG default  "  🌈  "
+  prompt_segment $PRIMARY_FG default  " 🌈 "
 }
 
 prompt_dir() {
