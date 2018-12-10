@@ -7,6 +7,20 @@
 - `$ csrutil disable`
 - restart
 
+## disable AutoBoot
+
+- disable
+
+```
+$ sudo nvram AutoBoot=%00
+```
+
+- enable
+
+```
+$ sudo nvram AutoBoot=%03
+```
+
 ## sips
 
 scriptable image processing system.
