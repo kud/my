@@ -22,6 +22,9 @@ prompt_dir() {
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 autoload -U compinit && compinit
 
+# z
+. /usr/local/etc/profile.d/z.sh
+
 # functions
 ## set the tab title to current dir
 # function precmd() {
