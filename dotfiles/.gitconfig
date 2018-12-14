@@ -59,7 +59,7 @@
   wip                   = "!git add -A && git commit -m '🚧 WIP 🚧'"
   unwip                 = "!git reset --soft HEAD~1 && git unstage"
   polish                = "!git add -A && git commit -m '💅'"
-  fixit                 = "!git add -A && git commit -m '🚒'"
+  fix-it                 = "!git add -A && git commit -m '🚒'"
   refresh               = "!git fetch && git rebase origin/master"
   rewrite               = "!git fetch && git rebase -i $(git merge-base origin/master HEAD)"
   finalise              = "!git fetch && git rebase origin/master && git rebase -i $(git merge-base origin/master HEAD)"
