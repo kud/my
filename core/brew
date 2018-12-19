@@ -292,7 +292,8 @@ caskinstall mark-text # https://marktext.github.io/website/
 caskinstall steermouse # http://plentycom.jp/en/steermouse/
 # caskinstall nativedisplaybrightness
 caskinstall gfxcardstatus # https://gfx.io/
-caskinstall background-music
+# caskinstall background-music
+caskinstall background-music-pre
 
 source $MY/profiles/$OS_PROFILE/core/brew 2> /dev/null
 
