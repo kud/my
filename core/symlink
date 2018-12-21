@@ -23,6 +23,10 @@ ln -sf ~/Sync/low/appdata/lightroom/Develop\ Presets ~/Library/Application\ Supp
 rm -rf ~/.atom
 ln -sf ~/Sync/low/appdata/atom ~/.atom 2> /dev/null
 
+# app:rocket
+rm -rf ~/Library/Application\ Support/Rocket
+ln -sf ~/Sync/low/appdata/Rocket ~/Library/Application\ Support 2> /dev/null
+
 # app:github
 ln -sf /Applications/GitHub\ Desktop.app/Contents/MacOS/github_cli /usr/local/bin/github_cli 2> /dev/null
 
