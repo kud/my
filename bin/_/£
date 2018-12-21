@@ -40,9 +40,6 @@ else
       shims)
         $MY/core/shims
       ;;
-      fix-appdata)
-        $MY/core/fix-appdata
-      ;;
       bootstrap)
         $MY/core/bootstrap
       ;;
@@ -78,8 +75,6 @@ else
         printf "    firefox-settings  ${COLOUR_BLACK}Update firefox settings${COLOUR_RESET}"
         echo_space
         printf "    shims             ${COLOUR_BLACK}Create shell command for .app${COLOUR_RESET}"
-        echo_space
-        printf "    fix-appdata       ${COLOUR_BLACK}Fix appdata${COLOUR_RESET}"
         echo_space
         printf "    bootstrap         ${COLOUR_BLACK}Make everything${COLOUR_RESET}"
         echo_space
