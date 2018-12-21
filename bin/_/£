@@ -31,9 +31,6 @@ else
       symlink)
         $MY/core/symlink
       ;;
-      applescripts)
-        $MY/core/applescripts
-      ;;
       firefox-settings)
         $MY/core/firefox-settings
       ;;
@@ -69,8 +66,6 @@ else
         printf "    dotfiles          ${COLOUR_BLACK}Update dotfiles${COLOUR_RESET}"
         echo_space
         printf "    symlink           ${COLOUR_BLACK}Update symlinks${COLOUR_RESET}"
-        echo_space
-        printf "    applescripts      ${COLOUR_BLACK}Update applescripts${COLOUR_RESET}"
         echo_space
         printf "    firefox-settings  ${COLOUR_BLACK}Update firefox settings${COLOUR_RESET}"
         echo_space
