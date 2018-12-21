@@ -21,6 +21,10 @@ Disable or not SIP:
 
 - Do `:PlugInstall`
 
+## sublime text
+
+- Insert licence
+
 ## firefox
 
 - Start firefox
@@ -53,4 +57,3 @@ ProxyCommand ssh $(echo %h | sed 's/+[^+]*$//;s/\([^+%%]*\)%%\([^+]*\)$/\2 -l \1
 ## applications
 
 - pixelsnap (email)
-- NativeDisplayBrightness (https://github.com/KAMIKAZEUA/NativeDisplayBrightness/releases)

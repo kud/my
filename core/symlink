@@ -3,6 +3,9 @@ source $MY/core/helper
 
 echo_title_install "symlinks"
 
+# sensible dotfiles
+ln -sf ~/Sync/low/appdata/ssh/config ~/.ssh/config 2> /dev/null
+
 # create folders first
 mkdir -p ~/Library/Application\ Support/{"Sublime Text 3",Adobe/Lightroom}
 
