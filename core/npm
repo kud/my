@@ -29,7 +29,7 @@ npminstall http-server
 npminstall hicat # command-line syntax highlighter — https://www.npmjs.com/package/hicat
 npminstall figlet-cli
 npminstall tmi # too many images
-npminstall trash-cli
+npminstall trash-cli # can be a conflict with mas dependencies
 npminstall svgo
 npminstall fraktur # write with great font
 npminstall weinre # debugger for web pages — http://people.apache.org/~pmuellr/weinre-docs/latest/
