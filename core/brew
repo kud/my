@@ -294,6 +294,7 @@ caskinstall steermouse # http://plentycom.jp/en/steermouse/
 caskinstall gfxcardstatus # https://gfx.io/
 # caskinstall background-music
 caskinstall background-music-pre
+caskinstall fliqlo
 
 source $MY/profiles/$OS_PROFILE/core/brew 2> /dev/null
 

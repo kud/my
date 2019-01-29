@@ -2,7 +2,8 @@
 
 # tmux requires unrecognized OSC sequences to be wrapped with DCS tmux;
 # <sequence> ST, and for all ESCs in <sequence> to be replaced with ESC ESC. It
-# only accepts ESC backslash for ST.
+# only accepts ESC backslash for ST. We use TERM instead of TMUX because TERM
+# gets passed through ssh.
 function print_osc() {
     if [[ $TERM == screen* ]] ; then
         printf "\033Ptmux;\033\033]"
@@ -20,6 +21,34 @@ function print_st() {
     fi
 }
 
+function load_version() {
+    if [ -z ${IMGCAT_BASE64_VERSION+x} ]; then
+        export IMGCAT_BASE64_VERSION=$(base64 --version 2>&1)
+    fi
+}
+
+function b64_encode() {
+    load_version
+    if [[ "$IMGCAT_BASE64_VERSION" =~ GNU ]]; then
+        # Disable line wrap
+        base64 -w0
+    else
+        base64
+    fi
+}
+
+function b64_decode() {
+    load_version
+    if [[ "$IMGCAT_BASE64_VERSION" =~ fourmilab ]]; then
+      BASE64ARG=-d
+    elif [[ "$IMGCAT_BASE64_VERSION" =~ GNU ]]; then
+      BASE64ARG=-di
+    else
+      BASE64ARG=-D
+    fi
+    base64 $BASE64ARG
+}
+
 # print_image filename inline base64contents print_filename
 #   filename: Filename to convey to client
 #   inline: 0 or 1
@@ -30,19 +59,10 @@ function print_image() {
     print_osc
     printf '1337;File='
     if [[ -n "$1" ]]; then
-      printf 'name='`printf "%s" "$1" | base64`";"
+      printf 'name='`printf "%s" "$1" | b64_encode`";"
     fi
 
-    VERSION=$(base64 --version 2>&1)
-    if [[ "$VERSION" =~ fourmilab ]]; then
-      BASE64ARG=-d
-    elif [[ "$VERSION" =~ GNU ]]; then
-      BASE64ARG=-di
-    else
-      BASE64ARG=-D
-    fi
-
-    printf "%s" "$3" | base64 $BASE64ARG | wc -c | awk '{printf "size=%d",$1}'
+    printf "%s" "$3" | b64_decode | wc -c | awk '{printf "size=%d",$1}'
     printf ";inline=$2"
     printf ":"
     printf "%s" "$3"
@@ -62,6 +82,13 @@ function show_help() {
     echo "   or: cat filename | imgcat" 1>& 2
 }
 
+function check_dependency() {
+  if ! (builtin command -V "$1" > /dev/null 2>& 1); then
+    echo "imgcat: missing dependency: can't find $1" 1>& 2
+    exit 1
+  fi
+}
+
 ## Main
 
 if [ -t 0 ]; then
@@ -76,6 +103,10 @@ if [ $has_stdin = f -a $# -eq 0 ]; then
     exit
 fi
 
+check_dependency awk
+check_dependency base64
+check_dependency wc
+
 # Look for command line flags.
 while [ $# -gt 0 ]; do
     case "$1" in
@@ -86,6 +117,16 @@ while [ $# -gt 0 ]; do
     -p|--p|--print)
         print_filename=1
         ;;
+    -u|--u|--url)
+        check_dependency curl
+        encoded_image=$(curl -s "$2" | b64_encode) || (error "No such file or url $2"; exit 2)
+        has_stdin=f
+        print_image "$2" 1 "$encoded_image" "$print_filename"
+        set -- ${@:1:1} "-u" ${@:3}
+        if [ "$#" -eq 2 ]; then
+            exit
+        fi
+        ;;
     -*)
         error "Unknown option flag: $1"
         show_help
@@ -94,7 +135,7 @@ while [ $# -gt 0 ]; do
     *)
         if [ -r "$1" ] ; then
             has_stdin=f
-            print_image "$1" 1 "$(base64 < "$1")" "$print_filename"
+            print_image "$1" 1 "$(b64_encode < "$1")" "$print_filename"
         else
             error "imgcat: $1: No such file or directory"
             exit 2
@@ -106,7 +147,7 @@ done
 
 # Read and print stdin
 if [ $has_stdin = t ]; then
-    print_image "" 1 "$(cat | base64)" ""
+    print_image "" 1 "$(cat | b64_encode)" ""
 fi
 
 exit 0
