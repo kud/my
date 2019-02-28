@@ -4,22 +4,18 @@ source $MY/core/helper
 
 echo_title_update "firefox settings"
 
-DEFAULT_FOLDER=$(ls "$HOME/Library/Application Support/Firefox/Profiles" |grep .default)
+DEFAULT_FOLDER=$(ls "$HOME/Library/Application Support/Firefox/Profiles" |grep .default-nightly)
 PREFS_JS="$HOME/Library/Application Support/Firefox/Profiles/$DEFAULT_FOLDER/prefs.js"
 
 # global
-echo 'user_pref("general.warnOnAboutConfig", false);' >> $PREFS_JS # disable warning on about:config
+echo 'user_pref("browser.aboutConfig.showWarning", false);' >> $PREFS_JS # disable warning on about:config
 echo 'user_pref("mousewheel.with_meta.action", 0);' >> $PREFS_JS # disable zoom on cmd + mousewheel
-echo 'user_pref("browser.startup.homepage", "https://raindrop.io/");' >> $PREFS_JS # make raindrop as homepage
 echo 'user_pref("browser.fixup.alternate.enabled", false);' >> $PREFS_JS # turning off domain guessing
+echo 'user_pref("browser.tabs.warnOnClose", false);' >> $PREFS_JS # turning off warn when closing tab
 echo 'user_pref("keyword.enabled", false);' >> $PREFS_JS # turning off the web search in the address bar
 echo 'user_pref("network.IDN_show_punycode", true);' >> $PREFS_JS # fix against fucking phishing
-echo 'user_pref("browser.uidensity", true);' >> $PREFS_JS # compact theme
-
-# pocket
-echo 'user_pref("extensions.pocket.enabled", false);' >> $PREFS_JS
-# echo 'user_pref("browser.pocket.useLocaleList", false);' >> $PREFS_JS
-# echo 'user_pref("browser.toolbarbuttons.introduced.pocket-button", false);' >> $PREFS_JS
+echo 'user_pref("browser.uidensity", 1);' >> $PREFS_JS # compact theme
+echo 'user_pref("extensions.pocket.enabled", false);' >> $PREFS_JS # pocket
 
 # devtools
 echo 'user_pref("devtools.chrome.enabled", true);' >> $PREFS_JS
