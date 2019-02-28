@@ -15,7 +15,10 @@ echo 'user_pref("browser.tabs.warnOnClose", false);' >> $PREFS_JS # turning off 
 echo 'user_pref("keyword.enabled", false);' >> $PREFS_JS # turning off the web search in the address bar
 echo 'user_pref("network.IDN_show_punycode", true);' >> $PREFS_JS # fix against fucking phishing
 echo 'user_pref("browser.uidensity", 1);' >> $PREFS_JS # compact theme
-echo 'user_pref("extensions.pocket.enabled", false);' >> $PREFS_JS # pocket
+echo 'user_pref("extensions.pocket.enabled", false);' >> $PREFS_JS # disable pocket
+echo 'user_pref("browser.search.suggest.enabled", false);' >> $PREFS_JS # disable suggestion
+echo 'user_pref("browser.search.hiddenOneOffs", "Google,Bing,Amazon.co.uk,Chambers (UK),DuckDuckGo,eBay,Twitter,Wikipedia (en)");' >> $PREFS_JS # disable search engines
+
 
 # devtools
 echo 'user_pref("devtools.chrome.enabled", true);' >> $PREFS_JS
