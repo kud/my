@@ -57,6 +57,7 @@ npminstall gnomon
 npminstall lighthouse # Auditing, performance metrics, and best practices for Progressive Web Apps - https://github.com/GoogleChrome/lighthouse
 npminstall vscode-css-languageserver-bin
 npminstall lsp-tsserver
+npminstall ntl # Npm Task List: Interactive cli menu to list/run npm tasks - https://github.com/ruyadorno/ntl
 
 # config
 npm config set save-exact true
