@@ -3,4 +3,3 @@
 source $MY/core/helper
 
 open-slack
-open-trello

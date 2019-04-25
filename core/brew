@@ -77,6 +77,7 @@ brewinstall p7zip
 brewinstall autojump
 brewinstall brightness
 brewinstall z
+brewinstall ripgrep
 
 ## network
 brewinstall rsync
