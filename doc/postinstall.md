@@ -57,3 +57,4 @@ ProxyCommand ssh $(echo %h | sed 's/+[^+]*$//;s/\([^+%%]*\)%%\([^+]*\)$/\2 -l \1
 ## applications
 
 - pixelsnap (email)
+- earsafe (email)
