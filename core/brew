@@ -270,11 +270,11 @@ caskinstall font-ubuntumono-nerd-font
 caskinstall font-ubuntumono-nerd-font-mono
 
 # caskinstall sublime-text3
-# caskinstall sublime-text-dev
-caskinstall $MY/patches/sublime-text-3207.rb
-if ! type "subl" > /dev/null; then
-  ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
-fi
+caskinstall sublime-text-dev
+# caskinstall $MY/patches/sublime-text-3207.rb
+# if ! type "subl" > /dev/null; then
+#   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
+# fi
 caskinstall firefox-nightly
 caskinstall atom
 caskinstall limechat
