@@ -24,6 +24,7 @@
   untracked = cyan
 [alias]
   aa                    = add -A
+  add-so-fancy          = "!git ls-files -m -o --exclude-standard|fzf --print0 -m --preview-window right:75%  --preview 'git diff --color=always {}'|xargs -0 -t -o git add"
   aac                   = "!git add -A && git commit"
   apc                   = "!git add -p && git commit"
   co                    = checkout
