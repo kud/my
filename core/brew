@@ -76,6 +76,7 @@ brewinstall less # because the macOS built-in version is old
 brewinstall p7zip
 brewinstall autojump
 brewinstall brightness
+brewinstall monitorcontrol
 brewinstall z
 brewinstall ripgrep
 
