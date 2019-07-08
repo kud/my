@@ -24,7 +24,7 @@
   untracked = cyan
 [alias]
   aa                    = add -A
-  add-so-fancy          = "!git ls-files -m -o --exclude-standard|fzf --print0 -m --preview-window right:75%  --preview 'git diff --color=always {}'|xargs -0 -t -o git add"
+  add-extended          = "!git ls-files -m -o --exclude-standard|fzf --print0 -m --preview-window right:75%  --preview 'git diff --color=always {}'|xargs -0 -t -o git add"
   aac                   = "!git add -A && git commit"
   apc                   = "!git add -p && git commit"
   co                    = checkout
@@ -34,7 +34,7 @@
   df                    = diff
   dc                    = diff --cached
   diff-subl             = "!git diff $@|subl"
-  diff-so-fancy         = "!git diff --color|diff-so-fancy|less"
+  diff-extended         = "!git diff --color|diff-so-fancy|less"
   subl-diff             = "!git diff --name-only|uniq|xargs subl"
   issues                = "!ghi"
   gh                    = "!github_cli ${@:-.}"
@@ -60,7 +60,7 @@
   wip                   = "!git add -A && git commit -m '🚧 WIP 🚧'"
   unwip                 = "!git reset --soft HEAD~1 && git unstage"
   polish                = "!git add -A && git commit -m '💅'"
-  fix-it                 = "!git add -A && git commit -m '🚒'"
+  fix-it                = "!git add -A && git commit -m '🚒'"
   refresh               = "!git fetch && git rebase origin/master"
   rewrite               = "!git fetch && git rebase -i $(git merge-base origin/master HEAD)"
   finalise              = "!git fetch && git rebase origin/master && git rebase -i $(git merge-base origin/master HEAD)"
