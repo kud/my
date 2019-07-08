@@ -297,7 +297,7 @@ caskinstall macmediakeyforwarder
 caskinstall mark-text # https://marktext.github.io/website/
 caskinstall steermouse # http://plentycom.jp/en/steermouse/
 # caskinstall nativedisplaybrightness
-caskinstall gfxcardstatus # https://gfx.io/
+# caskinstall gfxcardstatus # https://gfx.io/
 # caskinstall background-music
 caskinstall background-music-pre
 caskinstall fliqlo
