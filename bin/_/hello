@@ -3,7 +3,7 @@
 source $MY/core/helper
 
 echo ''
-figlet -f 'Ansi Shadow' "Hey! :-)"
+figlet -f 'Ansi Shadow' "Helloooooo"
 
 subl
 open-tweetbot
