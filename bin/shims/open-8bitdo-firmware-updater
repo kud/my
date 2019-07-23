@@ -1,0 +1,2 @@
+#! /usr/bin/env zsh
+open -a "/Applications/8BitDo Firmware Updater.app"
