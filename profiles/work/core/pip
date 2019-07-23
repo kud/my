@@ -10,25 +10,24 @@ echo_title_install "python @ work"
 ## Journal
 CTX_JOURNAL_PYTHON_VERSION="2.7.10"
 pyenv install -s $CTX_JOURNAL_PYTHON_VERSION
+pyenv virtualenv-delete -f contexte
 pyenv virtualenv $CTX_JOURNAL_PYTHON_VERSION contexte
 
 ## Data Lois Webapp
 CTX_DATA_LOIS_WEBAPP_PYTHON_VERSION="2.7.10"
 pyenv install -s $CTX_DATA_LOIS_WEBAPP_PYTHON_VERSION
+pyenv virtualenv-delete -f lois-webapp
 pyenv virtualenv $CTX_DATA_LOIS_WEBAPP_PYTHON_VERSION lois-webapp
 
 ## Data Lois Backend
-CTX_DATA_LOIS_BACKEND_PYTHON_VERSION="3.4.3"
+CTX_DATA_LOIS_BACKEND_PYTHON_VERSION="3.6.8"
 pyenv install -s $CTX_DATA_LOIS_BACKEND_PYTHON_VERSION
+pyenv virtualenv-delete -f lois-backend
 pyenv virtualenv $CTX_DATA_LOIS_BACKEND_PYTHON_VERSION lois-backend
-
-## awsebcli
-AWSEBCLI_PYTHON_VERSION="3.6.3"
-pyenv install -s $AWSEBCLI_PYTHON_VERSION
-pyenv virtualenv $AWSEBCLI_PYTHON_VERSION awsebcli
 
 ## Apps
 CTX_APPS_PYTHON_VERSION="2.7.10"
 pyenv install -s $CTX_APPS_PYTHON_VERSION
+pyenv virtualenv-delete -f apps
 pyenv virtualenv $CTX_APPS_PYTHON_VERSION apps
 
