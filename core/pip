@@ -20,4 +20,6 @@ pip3install pip
 pip3install asciinema
 pip3install python-language-server
 
+pip-upgrade-all
+
 source $MY/profiles/$OS_PROFILE/core/pip 2> /dev/null
