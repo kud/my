@@ -12,6 +12,7 @@ brew link mariadb@10.1 --force
 brewinstall elasticsearch@2.4
 brewinstall redis
 brewinstall s3cmd
+brewinstall awsebcli
 
 echo_space
 echo_title_install "apps @ $OS_PROFILE"
