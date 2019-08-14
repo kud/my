@@ -74,8 +74,6 @@
   autosetuprebase = always
 [include]
   path = .gitconfig_local
-[github]
-  user = kud
 [filter "hawser"]
   clean = git hawser clean %f
   smudge = git hawser smudge %f
@@ -89,12 +87,3 @@
   prune = true
 [rebase]
 	autosquash = true
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-[user]
-	name = Erwann Mest
-	email = m@kud.io
