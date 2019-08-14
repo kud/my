@@ -2,7 +2,7 @@
   whitespace   = fix,-indent-with-non-tab,trailing-space,cr-at-eol
   # editor       = subl -n -w
   editor       = vim
-  excludesfile = ~/.gitignore_global
+	excludesfile = /Users/kud/.gitignore_global
 [push]
   # default = tracking
   default = simple
@@ -37,7 +37,7 @@
   diff-extended         = "!git diff --color|diff-so-fancy|less"
   subl-diff             = "!git diff --name-only|uniq|xargs subl"
   issues                = "!ghi"
-  gh                    = "!github_cli ${@:-.}"
+  # gh                    = "!github_cli ${@:-.}"
   kraken                = "!open -na 'GitKraken' --args -p $(pwd)"
   lg                    = log -p
   lol                   = log --graph --decorate --pretty=oneline --abbrev-commit
@@ -88,3 +88,12 @@
   prune = true
 [rebase]
 	autosquash = true
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[user]
+	name = Erwann Mest
+	email = m@kud.io
