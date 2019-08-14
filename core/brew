@@ -179,8 +179,9 @@ caskinstall etrecheckpro
 caskinstall monodraw
 # caskinstall skitch # https://evernote.com/skitch/
 # caskinstall flashlight
-# caskinstall github-beta
+caskinstall github-beta
 caskinstall gitkraken
+caskinstall gitup
 caskinstall xrg
 caskinstall molotov
 caskinstall insomnia # REST Client — https://insomnia.rest/
