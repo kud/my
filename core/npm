@@ -55,8 +55,10 @@ npminstall fkill-cli # Fabulously kill processes. — https://github.com/sindres
 npminstall import-cost
 npminstall gnomon
 npminstall lighthouse # Auditing, performance metrics, and best practices for Progressive Web Apps - https://github.com/GoogleChrome/lighthouse
+npminstall typescript
 npminstall vscode-css-languageserver-bin
 npminstall lsp-tsserver
+npminstall typescript-language-server
 npminstall ntl # Npm Task List: Interactive cli menu to list/run npm tasks - https://github.com/ruyadorno/ntl
 npminstall fkill # Fabulously kill processes. Cross-platform.  - https://github.com/sindresorhus/fkill-cli
 
