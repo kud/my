@@ -40,6 +40,7 @@
   # gh                    = "!github_cli ${@:-.}"
   kraken                = "!open -na 'GitKraken' --args -p $(pwd)"
   gu                    = "!gitup open ."
+  sm                    = "!'/Applications/Sublime Merge.app/Contents/SharedSupport/bin/smerge' ."
   lg                    = log -p
   lol                   = log --graph --decorate --pretty=oneline --abbrev-commit
   lola                  = log --graph --decorate --pretty=oneline --abbrev-commit --all
