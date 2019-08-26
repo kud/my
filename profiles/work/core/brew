@@ -13,6 +13,7 @@ brewinstall elasticsearch@2.4
 brewinstall redis
 brewinstall s3cmd
 brewinstall awsebcli
+brewinstall postgresql
 
 echo_space
 echo_title_install "apps @ $OS_PROFILE"
