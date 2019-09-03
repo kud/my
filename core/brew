@@ -303,7 +303,7 @@ caskinstall steermouse # http://plentycom.jp/en/steermouse/
 caskinstall background-music-pre
 caskinstall fliqlo
 caskinstall tyke
-caskinstall cheatsheet
+# caskinstall cheatsheet
 
 source $MY/profiles/$OS_PROFILE/core/brew 2> /dev/null
 
