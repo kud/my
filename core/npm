@@ -62,6 +62,8 @@ npminstall typescript-language-server
 npminstall prettier
 npminstall ntl # Npm Task List: Interactive cli menu to list/run npm tasks - https://github.com/ruyadorno/ntl
 npminstall fkill # Fabulously kill processes. Cross-platform.  - https://github.com/sindresorhus/fkill-cli
+npminstall kmdr # Learn CLI commands with kmdr explain - https://kmdr.sh
+npminstall bodybuilder
 
 # config
 npm config set save-exact true
