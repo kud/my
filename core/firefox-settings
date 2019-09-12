@@ -18,6 +18,7 @@ echo 'user_pref("browser.uidensity", 1);' >> $PREFS_JS # compact theme
 echo 'user_pref("extensions.pocket.enabled", false);' >> $PREFS_JS # disable pocket
 echo 'user_pref("browser.search.suggest.enabled", false);' >> $PREFS_JS # disable suggestion
 echo 'user_pref("browser.search.hiddenOneOffs", "Google,Bing,Amazon.co.uk,Chambers (UK),DuckDuckGo,eBay,Twitter,Wikipedia (en)");' >> $PREFS_JS # disable search engines
+echo 'user_pref("browser.tabs.closeWindowWithLastTab", false);' >> $PREFS_JS # disable close window when last tab is closing
 
 
 # devtools
