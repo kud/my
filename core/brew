@@ -76,7 +76,6 @@ brewinstall less # because the macOS built-in version is old
 brewinstall p7zip
 brewinstall autojump
 brewinstall brightness
-brewinstall monitorcontrol
 brewinstall z
 brewinstall ripgrep
 
@@ -153,7 +152,6 @@ if [ ! -d "$HOME/Sync" ]; then
 fi
 
 caskinstall java # sorry my love :(
-# caskinstall alfred
 caskinstall flux
 # caskinstall iterm2
 caskinstall iterm2-nightly
@@ -184,6 +182,7 @@ caskinstall monodraw
 caskinstall github-beta
 caskinstall gitkraken
 caskinstall gitup
+caskinstall lazygit
 caskinstall xrg
 caskinstall molotov
 caskinstall insomnia # REST Client — https://insomnia.rest/
@@ -305,6 +304,9 @@ caskinstall steermouse # http://plentycom.jp/en/steermouse/
 caskinstall background-music-pre
 caskinstall fliqlo
 caskinstall tyke
+caskinstall sip
+caskinstall alfred
+# caskinstall monitorcontrol
 # caskinstall cheatsheet
 
 source $MY/profiles/$OS_PROFILE/core/brew 2> /dev/null
