@@ -132,6 +132,7 @@ brewinstall mas # Mac App Store command line interface - https://github.com/mas-
 brewinstall bat # https://github.com/sharkdp/bat
 brewinstall httpie
 brewinstall jq
+brewinstall ipcalc
 
 echo_space
 echo_title "Cleaning brew..."
