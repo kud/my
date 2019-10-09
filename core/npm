@@ -64,6 +64,7 @@ npminstall ntl # Npm Task List: Interactive cli menu to list/run npm tasks - htt
 npminstall fkill # Fabulously kill processes. Cross-platform.  - https://github.com/sindresorhus/fkill-cli
 npminstall kmdr # Learn CLI commands with kmdr explain - https://kmdr.sh
 npminstall bodybuilder
+npminstall add-license
 
 # config
 npm config set save-exact true
