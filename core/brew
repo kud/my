@@ -308,7 +308,7 @@ caskinstall tyke
 caskinstall sip
 caskinstall alfred
 # caskinstall monitorcontrol
-caskinstall cheatsheet
+# caskinstall cheatsheet
 
 source $MY/profiles/$OS_PROFILE/core/brew 2> /dev/null
 
