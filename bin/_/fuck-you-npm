@@ -1,8 +1,7 @@
 #! /usr/bin/env zsh
 
-source $MY/core/helper
-
 npm cache clean --force
 rm -rf ~/.npm
 
-echo_success '💥'
+echo ""
+echo "💥 It's done."
