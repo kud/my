@@ -91,3 +91,5 @@
 	autosquash = true
 [commit]
 	verbose = true
+[merge]
+	ff = false

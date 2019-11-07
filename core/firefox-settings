@@ -19,7 +19,7 @@ echo 'user_pref("extensions.pocket.enabled", false);' >> $PREFS_JS # disable poc
 echo 'user_pref("browser.search.suggest.enabled", false);' >> $PREFS_JS # disable suggestion
 echo 'user_pref("browser.search.hiddenOneOffs", "Google,Bing,Amazon.co.uk,Chambers (UK),DuckDuckGo,eBay,Twitter,Wikipedia (en)");' >> $PREFS_JS # disable search engines
 echo 'user_pref("browser.tabs.closeWindowWithLastTab", false);' >> $PREFS_JS # disable close window when last tab is closing
-echo 'user_pref("findbar.modalHighlight", true);' >> $PREFS_JS # find like safari
+echo 'user_pref("findbar.modalHighlight", false);' >> $PREFS_JS # find like safari
 echo 'user_pref("browser.urlbar.megabar", false);' >> $PREFS_JS # disable megabar when searching
 
 # devtools
