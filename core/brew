@@ -309,6 +309,8 @@ caskinstall sip
 caskinstall alfred
 # caskinstall monitorcontrol
 # caskinstall cheatsheet
+caskinstall rawtherapee
+caskinstall darktable
 
 source $MY/profiles/$OS_PROFILE/core/brew 2> /dev/null
 
