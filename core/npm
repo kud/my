@@ -65,6 +65,7 @@ npminstall fkill # Fabulously kill processes. Cross-platform.  - https://github.
 npminstall kmdr # Learn CLI commands with kmdr explain - https://kmdr.sh
 npminstall bodybuilder
 npminstall fixme
+npminstall git-branch-select
 
 # config
 npm config set save-exact true
