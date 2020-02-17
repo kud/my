@@ -8,9 +8,9 @@ source $MY/core/helper
 #   curl -sL https://npmjs.org/install.sh | sh
 # fi
 
-echo_space
-echo_title_update "npm"
-npm install -g npm@latest
+# echo_space
+# echo_title_update "npm"
+# npm install -g npm@latest
 
 # update node packages
 echo_space

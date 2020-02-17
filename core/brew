@@ -272,6 +272,9 @@ caskinstall font-ubuntu-nerd-font
 caskinstall font-ubuntu-nerd-font-mono
 caskinstall font-ubuntumono-nerd-font
 caskinstall font-ubuntumono-nerd-font-mono
+caskinstall font-jetbrains-mono
+caskinstall font-jetbrainsmono-nerd-font
+caskinstall font-jetbrainsmono-nerd-font-mono
 
 # caskinstall sublime-text3
 caskinstall sublime-text-dev
