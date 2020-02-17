@@ -93,3 +93,5 @@
 	verbose = true
 [merge]
 	ff = false
+[ghi]
+	token = !security find-internet-password -a kud -s github.com -l 'ghi token' -w
