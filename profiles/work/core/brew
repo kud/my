@@ -9,7 +9,7 @@ mkdir /usr/local/etc/my.cnf.d
 brewinstall mariadb@10.1
 brew link mariadb@10.1 --force
 # brew services start mariadb@10.1
-brewinstall elasticsearch@2.4
+# brewinstall elasticsearch@2.4
 brewinstall redis
 brewinstall s3cmd
 brewinstall awsebcli
