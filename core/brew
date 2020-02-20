@@ -47,6 +47,7 @@ brewtap homebrew/cask
 brewtap homebrew/cask-fonts
 # brewtap caskroom/versions
 brewtap homebrew/cask-versions
+brewtap elastic/tap
 # brewtap docmunch/pdftk
 # brewtap aredridel/iojs
 
@@ -124,6 +125,8 @@ brewinstall syncthing
 
 ## others
 brewinstall heroku/brew/heroku
+brewinstall elastic/tap/elasticsearch-full
+brewinstall elastic/tap/kibana-full
 brewinstall youtube-dl
 brewinstall pdf-redact-tools
 brewinstall imagemagick --with-fontconfig
