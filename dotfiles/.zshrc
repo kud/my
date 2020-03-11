@@ -151,6 +151,9 @@ if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -
 # homebrew cask
 export HOMEBREW_CASK_OPTS=--appdir=/Applications
 
+# babel
+export BABEL_CACHE_PATH=/tmp/babel.cache.json
+
 # local
 . ~/.zshrc_local
 
