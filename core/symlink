@@ -19,6 +19,9 @@ ln -sf ~/Sync/low/appdata/limechat/net.limechat.LimeChat.plist ~/Library/Prefere
 ln -sf ~/Sync/low/appdata/sublimetext3/Packages ~/Library/Application\ Support/Sublime\ Text\ 3 2> /dev/null
 ln -sf ~/Sync/low/appdata/sublimetext3/Installed\ Packages ~/Library/Application\ Support/Sublime\ Text\ 3 2> /dev/null
 
+# app:insomnia
+ln -sf ~/Sync/low/appdata/insomnia ~/Library/Application\ Support/Insomnia 2> /dev/null
+
 # app:lightroom
 ln -sf ~/Sync/low/appdata/lightroom/Develop\ Presets ~/Library/Application\ Support/Adobe/Lightroom 2> /dev/null
 
