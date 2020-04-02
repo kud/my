@@ -29,6 +29,9 @@ ln -sf ~/Sync/low/appdata/lightroom/Develop\ Presets ~/Library/Application\ Supp
 rm -rf ~/.atom
 ln -sf ~/Sync/low/appdata/atom ~/.atom 2> /dev/null
 
+# app:vs code
+ln -sf ~/Sync/low/appdata/code ~/Library/Application\ Support/Code 2> /dev/null
+
 # app:rocket
 ln -sf ~/Sync/low/appdata/rocket/rocket.db ~/Library/Application\ Support/Rocket/rocket.db 2> /dev/null
 
