@@ -12,7 +12,8 @@ CTX_JOURNAL_PYTHON_VERSION="2.7.10"
 pyenv install -s $CTX_JOURNAL_PYTHON_VERSION
 # pyenv virtualenv-delete -f contexte
 pyenv virtualenv $CTX_JOURNAL_PYTHON_VERSION contexte
-# pyenv local contexte
+pyenv local contexte
+pip install --upgrade pip
 # pip-upgrade-all
 
 ## Data Lois Webapp
@@ -20,7 +21,8 @@ CTX_DATA_LOIS_WEBAPP_PYTHON_VERSION="2.7.10"
 pyenv install -s $CTX_DATA_LOIS_WEBAPP_PYTHON_VERSION
 # pyenv virtualenv-delete -f lois-webapp
 pyenv virtualenv $CTX_DATA_LOIS_WEBAPP_PYTHON_VERSION lois-webapp
-# pyenv local lois-webapp
+pyenv local lois-webapp
+pip install --upgrade pip
 # pip-upgrade-all
 
 ## Data Lois Backend
@@ -28,7 +30,8 @@ CTX_DATA_LOIS_BACKEND_PYTHON_VERSION="3.6.8"
 pyenv install -s $CTX_DATA_LOIS_BACKEND_PYTHON_VERSION
 # pyenv virtualenv-delete -f lois-backend
 pyenv virtualenv $CTX_DATA_LOIS_BACKEND_PYTHON_VERSION lois-backend
-# pyenv local lois-backend
+pyenv local lois-backend
+pip install --upgrade pip
 # pip-upgrade-all
 
 ## Apps
@@ -36,7 +39,8 @@ CTX_APPS_PYTHON_VERSION="2.7.10"
 pyenv install -s $CTX_APPS_PYTHON_VERSION
 # pyenv virtualenv-delete -f apps
 pyenv virtualenv $CTX_APPS_PYTHON_VERSION apps
-# pyenv local apps
+pyenv local apps
+pip install --upgrade pip
 # pip-upgrade-all
 
 pyenv local --unset
