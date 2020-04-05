@@ -5,7 +5,7 @@ source $MY/core/helper
 # install python
 echo_space
 echo_title_update "python"
-LATEST_PYTHON2_VERSION=$(brew info python@2|grep 'python@2:'|sed 's/python@2: stable //g'|sed 's/ (bottled).*//g')
+LATEST_PYTHON2_VERSION=$(brew info python@2|grep 'python@2:'|sed 's/python@2: stable //g'|sed 's/, HEAD//g')
 LATEST_PYTHON3_VERSION=$(brew info python|grep 'python:'|sed 's/python: stable //g'|sed 's/ (bottled).*//g')
 
 pyenv install -s $LATEST_PYTHON2_VERSION
