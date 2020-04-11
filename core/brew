@@ -69,7 +69,8 @@ brewinstall pcre2
 brewinstall htmlcompressor
 brewinstall mozjpeg
 brewinstall gifsicle
-brewinstall ffmpeg --with-libass --with-fontconfig
+# brewinstall ffmpeg --with-libass --with-fontconfig
+brewinstall ffmpeg
 brewinstall rename
 brewinstall exa # Modern replacement for 'ls' — https://the.exa.website
 brewinstall less # because the macOS built-in version is old
@@ -129,7 +130,8 @@ brewinstall elastic/tap/elasticsearch-full
 brewinstall elastic/tap/kibana-full
 brewinstall youtube-dl
 brewinstall pdf-redact-tools
-brewinstall imagemagick --with-fontconfig
+# brewinstall imagemagick --with-fontconfig
+brewinstall imagemagick
 brewinstall mas # Mac App Store command line interface - https://github.com/mas-cli/mas
 # brewinstall pdftk
 brewinstall bat # https://github.com/sharkdp/bat
