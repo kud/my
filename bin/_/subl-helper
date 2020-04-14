@@ -7,6 +7,9 @@ if [[ $# -eq 0 ]]; then
 else
 
   case "$1" in
+      user)
+        subl ~/Sync/low/appdata/sublimetext3/Packages/User
+      ;;
       snippets)
         subl ~/Sync/low/appdata/sublimetext3/Packages/User/snippets
       ;;
@@ -18,6 +21,8 @@ else
         echo_spacex3
         printf "Commands:"
         echo_spacex2
+        printf "    user                   ${COLOUR_BLACK}Edit /User/${COLOUR_RESET}"
+        echo_space
         printf "    snippets               ${COLOUR_BLACK}Edit snippets${COLOUR_RESET}"
         echo_spacex2
       ;;
