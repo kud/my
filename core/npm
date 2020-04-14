@@ -56,9 +56,10 @@ npminstall import-cost
 npminstall gnomon
 npminstall lighthouse # Auditing, performance metrics, and best practices for Progressive Web Apps - https://github.com/GoogleChrome/lighthouse
 npminstall typescript@next
-npminstall vscode-css-languageserver-bin
-npminstall lsp-tsserver
-npminstall typescript-language-server
+# npminstall vscode-css-languageserver-bin
+# npminstall vscode-html-languageserver-bin
+# npminstall lsp-tsserver
+# npminstall typescript-language-server
 npminstall prettier
 npminstall ntl # Npm Task List: Interactive cli menu to list/run npm tasks - https://github.com/ruyadorno/ntl
 npminstall fkill # Fabulously kill processes. Cross-platform.  - https://github.com/sindresorhus/fkill-cli
