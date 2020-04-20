@@ -1,0 +1,3 @@
+#! /usr/bin/env zsh
+
+xattr -d com.apple.quarantine $1

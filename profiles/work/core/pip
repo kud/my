@@ -6,7 +6,7 @@ source $MY/core/helper
 echo_space
 echo_title_install "python @ work"
 
-brew install ./patches/openssl/1.0/openssl.rb
+brew install $MY/patches/openssl/1.0/openssl.rb
 ln -sf /usr/local/Cellar/openssl/1.0.2t/lib/libssl.1.0.0.dylib /usr/local/opt/openssl/lib/libssl.1.0.0.dylib
 ln -sf /usr/local/Cellar/openssl/1.0.2t/lib/libcrypto.1.0.0.dylib /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib
 
@@ -15,17 +15,8 @@ ln -sf /usr/local/Cellar/openssl/1.0.2t/lib/libcrypto.1.0.0.dylib /usr/local/opt
 CTX_JOURNAL_PYTHON_VERSION="2.7.17"
 pyenv install -s $CTX_JOURNAL_PYTHON_VERSION
 # pyenv virtualenv-delete -f contexte
-pyenv virtualenv $CTX_JOURNAL_PYTHON_VERSION contexte
+pyenv virtualenv $CTX_JOURNAL_PYTHON_VERSION ctx-journal
 # pyenv local contexte
-# pip install --upgrade pip
-# pip-upgrade-all
-
-## Data Lois Webapp
-CTX_DATA_LOIS_WEBAPP_PYTHON_VERSION="2.7.17"
-pyenv install -s $CTX_DATA_LOIS_WEBAPP_PYTHON_VERSION
-# pyenv virtualenv-delete -f lois-webapp
-pyenv virtualenv $CTX_DATA_LOIS_WEBAPP_PYTHON_VERSION lois-webapp
-# pyenv local lois-webapp
 # pip install --upgrade pip
 # pip-upgrade-all
 
@@ -33,7 +24,7 @@ pyenv virtualenv $CTX_DATA_LOIS_WEBAPP_PYTHON_VERSION lois-webapp
 CTX_DATA_LOIS_BACKEND_PYTHON_VERSION="3.6.8"
 pyenv install -s $CTX_DATA_LOIS_BACKEND_PYTHON_VERSION
 # pyenv virtualenv-delete -f lois-backend
-pyenv virtualenv $CTX_DATA_LOIS_BACKEND_PYTHON_VERSION lois-backend
+pyenv virtualenv $CTX_DATA_LOIS_BACKEND_PYTHON_VERSION ctx-lois-backend
 # pyenv local lois-backend
 # pip install --upgrade pip
 # pip-upgrade-all
@@ -42,7 +33,7 @@ pyenv virtualenv $CTX_DATA_LOIS_BACKEND_PYTHON_VERSION lois-backend
 CTX_APPS_PYTHON_VERSION="2.7.17"
 pyenv install -s $CTX_APPS_PYTHON_VERSION
 # pyenv virtualenv-delete -f apps
-pyenv virtualenv $CTX_APPS_PYTHON_VERSION apps
+pyenv virtualenv $CTX_APPS_PYTHON_VERSION ctx-apps
 # pyenv local apps
 # pip install --upgrade pip
 # pip-upgrade-all
