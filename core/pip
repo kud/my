@@ -19,12 +19,13 @@ echo_title_install "global python packages"
 pip3install pip
 pip3install asciinema
 
-pyenv virtualenv $LATEST_PYTHON3_VERSION lsp
-pyenv local lsp
+pyenv virtualenv $LATEST_PYTHON3_VERSION sublime-text
+pyenv local sublime-text
 pip3install python-language-server
+pip3install black
 pyenv local --unset
 
 pip install --upgrade pip
 pip-upgrade-all
 
-# source $MY/profiles/$OS_PROFILE/core/pip 2> /dev/null
+source $MY/profiles/$OS_PROFILE/core/pip 2> /dev/null

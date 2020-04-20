@@ -165,7 +165,7 @@ caskinstall iterm2-nightly
 caskinstall appcleaner
 # caskinstall keepassx
 caskinstall macpass
-caskinstall spectacle
+caskinstall rectangle
 caskinstall grandperspective
 caskinstall cloudup
 caskinstall xquartz
@@ -199,6 +199,7 @@ caskinstall sublime-text-dev
 # if ! type "subl" > /dev/null; then
 #   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 # fi
+caskinstall sublime-merge-dev
 caskinstall firefox-nightly
 caskinstall atom
 caskinstall limechat
