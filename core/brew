@@ -101,6 +101,7 @@ brewinstall git
 brewinstall ghi
 brewinstall tig
 brewinstall hub
+brewinstall lazygit
 
 ## editors
 brewinstall vim
@@ -116,6 +117,7 @@ brewinstall python3 # however, will be installed via pyenv after
 brewinstall pyenv
 brewinstall pyenv-virtualenv
 brewinstall node
+brewinstall jesseduffield/lazynpm/lazynpm
 # brewinstall watchman
 
 ## communication
@@ -188,7 +190,6 @@ caskinstall monodraw
 caskinstall github-beta
 caskinstall gitkraken
 caskinstall gitup
-caskinstall lazygit
 caskinstall xrg
 caskinstall molotov
 caskinstall insomnia # REST Client — https://insomnia.rest/
