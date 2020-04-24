@@ -70,6 +70,7 @@ bindkey '^R' history-incremental-search-backward
 # global variable
 # export FIREFOXNIGHTLY_BIN="/Applications/FirefoxNightly.app/Contents/MacOS/firefox"
 # export BROWSER=$FIREFOXNIGHTLY_BIN # bug with python
+export GIT_EDITOR="vim"
 export VISUAL="subl"
 export EDITOR="vim"
 
