@@ -55,7 +55,7 @@
   recommit              = commit --amend
   reset-soft-last       = reset --soft HEAD~1
   pt                    = "!git push && git push --tags"
-  pr                    = "!hub pull-request"
+  pr                    = "!gh pr create"
   fix                   = "!git add -A && git commit --amend --no-edit"
   rmdf                  = "!git rm $(git ls-files --deleted)"
   # export                = "!git clone --depth 1 $1 && rm -rf \"$(basename $1 .git)/.git\" -"
@@ -71,6 +71,7 @@
   open-modified         = "!$EDITOR $(git status --porcelain | cut -c4-)"
   cleanup               = "!git remote prune origin && git repack && git gc"
   history               = reflog --relative-date
+  tools                 = "!echo '• gh\n• hub\n• lazygit\n• tig\n• ghi'"
   show-commands         = "!git config --get-regexp alias|sed \"s/alias.\\([a-zA-Z-]*\\) \\(\\.\\)*/$(tput setaf 2)\\1 $(tput setaf 0)\\2/\""
 [branch]
   autosetuprebase = always
