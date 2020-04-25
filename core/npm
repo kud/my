@@ -67,6 +67,7 @@ npminstall kmdr # Learn CLI commands with kmdr explain - https://kmdr.sh
 npminstall bodybuilder
 npminstall fixme
 npminstall git-branch-select
+npminstall envinfo
 
 # config
 npm config set save-exact true
