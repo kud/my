@@ -3,11 +3,11 @@ source $MY/core/helper
 
 echo_title_install "symlinks"
 
-# sensible dotfiles
-ln -sf ~/Sync/low/appdata/ssh/config ~/.ssh/config 2> /dev/null
-
 # create folders first
 mkdir -p ~/Library/Application\ Support/{"Sublime Text 3",Adobe/Lightroom}
+
+# sensible dotfiles
+ln -sf ~/Sync/low/appdata/ssh/config ~/.ssh/config 2> /dev/null
 
 # app:iterm
 ln -sf ~/Sync/low/appdata/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist 2> /dev/null
@@ -20,17 +20,17 @@ ln -sf ~/Sync/low/appdata/sublimetext3/Packages ~/Library/Application\ Support/S
 ln -sf ~/Sync/low/appdata/sublimetext3/Installed\ Packages ~/Library/Application\ Support/Sublime\ Text\ 3 2> /dev/null
 
 # app:insomnia
-ln -sf ~/Sync/low/appdata/insomnia ~/Library/Application\ Support/Insomnia 2> /dev/null
+ln -sf ~/Sync/low/appdata/insomnia/Insomnia ~/Library/Application\ Support 2> /dev/null
 
 # app:lightroom
 ln -sf ~/Sync/low/appdata/lightroom/Develop\ Presets ~/Library/Application\ Support/Adobe/Lightroom 2> /dev/null
 
-# app:atom @FIXME
+# app:atom @FIXME: please
 rm -rf ~/.atom
 ln -sf ~/Sync/low/appdata/atom ~/.atom 2> /dev/null
 
 # app:vs code
-ln -sf ~/Sync/low/appdata/code ~/Library/Application\ Support/Code 2> /dev/null
+ln -sf ~/Sync/low/appdata/code/Code ~/Library/Application\ Support 2> /dev/null
 
 # app:rocket
 ln -sf ~/Sync/low/appdata/rocket/rocket.db ~/Library/Application\ Support/Rocket/rocket.db 2> /dev/null
