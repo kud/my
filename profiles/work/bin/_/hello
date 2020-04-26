@@ -1,6 +1,0 @@
-#! /usr/bin/env zsh
-
-source $MY/core/helper
-
-open-slack
-open-figma

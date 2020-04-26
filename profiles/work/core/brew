@@ -21,7 +21,7 @@ echo_title_install "apps @ $OS_PROFILE"
 caskinstall google-chrome
 caskinstall google-chrome-canary
 caskinstall firefox
-caskinstall zeplin
-# caskinstall figma
+# caskinstall zeplin
+caskinstall figma
 caskinstall ngrok
 caskinstall sequel-pro

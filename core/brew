@@ -203,7 +203,6 @@ caskinstall sublime-text-dev
 caskinstall sublime-merge-dev
 caskinstall firefox-nightly
 caskinstall atom
-caskinstall limechat
 caskinstall discord
 caskinstall deluge
 caskinstall imagealpha
@@ -233,6 +232,12 @@ caskinstall alfred
 # caskinstall cheatsheet
 caskinstall rawtherapee
 caskinstall darktable
+caskinstall fromscratch
+caskinstall visual-studio-code
+caskinstall typora
+caskinstall proxyman
+caskinstall nativedisplaybrightness
+caskinstall adoptopenjdk8
 
 source $MY/profiles/$OS_PROFILE/core/brew 2> /dev/null
 
