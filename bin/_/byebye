@@ -1,8 +1,0 @@
-#! /usr/bin/env zsh
-
-# quit some apps (mostly apps which got their settings synchronised)
-
-source $MY/core/helper
-
-quit "Sublime Text" "Firefox Nightly" slack spotify
-echo 'See you soon!'

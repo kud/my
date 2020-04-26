@@ -16,8 +16,8 @@ export CHAR_OK=✔
 export CHAR_ERROR=✗
 export CHAR_STARTER=❯
 
-function echo_info () { echo "${COLOUR_BLUE}i${COLOUR_RESET} $1" }
-function echo_user () { echo "${COLOUR_YELLOW}?${COLOUR_RESET} $1" }
+function echo_info () { echo "${COLOUR_BLUE}[i]${COLOUR_RESET} $1" }
+function echo_user () { echo "${COLOUR_YELLOW}[?]${COLOUR_RESET} $1" }
 function echo_success () { echo "${COLOUR_GREEN}${CHAR_OK}${COLOUR_RESET} $1" }
 function echo_fail () { echo "${COLOUR_RED}${CHAR_ERROR}${COLOUR_RESET} $1|n"; exit }
 function echo_title () { echo "${COLOUR_CYAN}${CHAR_STARTER} $@${COLOUR_RESET}" }
