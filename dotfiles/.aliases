@@ -30,29 +30,19 @@ alias rm='rm -i'
 alias filesizer='du -sc * | sort -n | tail'
 
 # config
-# alias source-aliases='source ~/.aliases'
 alias .profile='subl -n ~/.profile'
-# alias .bash_profile='subl -n  ~/.bash_profile'
 alias .zshrc='subl -n  ~/.zshrc'
 alias .zshrc_local='subl -n  ~/.zshrc_local'
 alias .npmrc='subl -n  ~/.npmrc'
 alias .vimrc='subl -n  ~/.vimrc'
 alias .aliases='subl -n  ~/.aliases'
 alias hosts='subl -n  /private/etc/hosts'
-# alias httpd.conf='subl -n  /private/etc/apache2/httpd.conf'
-# alias httpd-vhosts.conf='subl -n  /private/etc/apache2/extra/httpd-vhosts.conf'
 alias php.ini='subl -n  /private/etc/php.ini'
 alias .gitignore_global='subl -n  ~/.gitignore_global'
 alias .gitconfig='subl -n  ~/.gitconfig'
 alias .gitconfig_local='subl -n  ~/.gitconfig_local'
 alias network-sharing="sudo subl -n /etc/bootpd.plist"
 alias dnsmasq.conf="subl -n /usr/local/etc/dnsmasq.conf"
-
-# apache
-# alias apache-stop='sudo apachectl graceful-stop'
-# alias apache-start='sudo apachectl start'
-# alias apache-restart='sudo apachectl restart'
-# alias apache-log='tail -f /var/log/apache2/error_log'
 
 # android
 alias android-inspector='adb forward tcp:9222 localabstract:chrome_devtools_remote'
@@ -70,24 +60,16 @@ alias untgz='tar -vzxf'
 # quicklook
 alias klook='qlmanage -p "$@" >& /dev/null'
 
+alias yarn-check='yarn upgrade-interactive'
+
 # github
 # alias fake-github-connection='ssh -N git@github.com'
-
-# git / svn
-# alias git-svn-pull='git svn rebase'
-# alias git-svn-push='git svn rebase && git svn dcommit'
-
-# macosx
-# alias kill-dock='killall Dock'
-# alias kill-finder='killall Finder'
 
 # ease
 alias s='subl .'
 alias s-add='subl -a .'
 alias s-nm='subl -a node_modules'
 alias about='archey'
-# alias kraken="/Applications/GitKraken.app/Contents/MacOS/GitKraken -p $(pwd)"
-
 alias dns-flush='sudo killall -HUP mDNSResponder'
 alias shell-reload='exec $SHELL'
 alias gem-back='gem pristine --all --only-executables'

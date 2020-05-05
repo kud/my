@@ -72,6 +72,7 @@ brewinstall gifsicle
 # brewinstall ffmpeg --with-libass --with-fontconfig
 brewinstall ffmpeg
 brewinstall rename
+brewinstall neurobin/pkg/rnm
 brewinstall exa # Modern replacement for 'ls' — https://the.exa.website
 brewinstall less # because the macOS built-in version is old
 # brewinstall terminal-notifier
@@ -117,6 +118,8 @@ brewinstall python3 # however, will be installed via pyenv after
 brewinstall pyenv
 brewinstall pyenv-virtualenv
 brewinstall node
+
+brewinstall yarn
 brewinstall jesseduffield/lazynpm/lazynpm
 # brewinstall watchman
 
