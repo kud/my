@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Deluge.app"
+open -a "/Applications/Deluge.app" $@

@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Sync.app"
+open -a "/Applications/Sync.app" $@

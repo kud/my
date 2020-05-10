@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Rectangle.app"
+open -a "/Applications/Rectangle.app" $@

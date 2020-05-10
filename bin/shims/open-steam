@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Steam.app"
+open -a "/Applications/Steam.app" $@

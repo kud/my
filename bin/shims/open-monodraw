@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Monodraw.app"
+open -a "/Applications/Monodraw.app" $@

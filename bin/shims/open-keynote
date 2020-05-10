@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Keynote.app"
+open -a "/Applications/Keynote.app" $@

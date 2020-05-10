@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Rocket.app"
+open -a "/Applications/Rocket.app" $@

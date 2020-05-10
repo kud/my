@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Firefox.app"
+open -a "/Applications/Firefox.app" $@

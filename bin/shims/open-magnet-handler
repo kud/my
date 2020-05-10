@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Magnet Handler.app"
+open -a "/Applications/Magnet Handler.app" $@

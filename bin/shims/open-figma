@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Figma.app"
+open -a "/Applications/Figma.app" $@

@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Atom.app"
+open -a "/Applications/Atom.app" $@

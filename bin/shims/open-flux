@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Flux.app"
+open -a "/Applications/Flux.app" $@

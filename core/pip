@@ -17,7 +17,7 @@ echo_space
 echo_title_install "global python packages"
 
 pip3install pip
-pip3install asciinema
+# pip3install asciinema
 
 pyenv virtualenv $LATEST_PYTHON3_VERSION sublime-text
 pyenv local sublime-text

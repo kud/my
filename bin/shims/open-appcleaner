@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/AppCleaner.app"
+open -a "/Applications/AppCleaner.app" $@

@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/xScope.app"
+open -a "/Applications/xScope.app" $@
