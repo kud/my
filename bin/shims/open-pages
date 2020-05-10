@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Pages.app"
+open -a "/Applications/Pages.app" $@

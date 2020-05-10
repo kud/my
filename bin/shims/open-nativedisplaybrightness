@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/NativeDisplayBrightness.app"
+open -a "/Applications/NativeDisplayBrightness.app" $@

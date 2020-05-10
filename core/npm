@@ -26,6 +26,7 @@ npminstall nodemon
 npminstall jake
 npminstall vtop
 npminstall http-server
+npminstall serve
 npminstall hicat # command-line syntax highlighter — https://www.npmjs.com/package/hicat
 npminstall figlet-cli
 npminstall tmi # too many images

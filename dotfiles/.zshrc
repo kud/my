@@ -22,6 +22,9 @@ prompt_dir() {
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 autoload -U compinit && compinit
 
+# zmv
+autoload zmv
+
 # z
 . /usr/local/etc/profile.d/z.sh
 

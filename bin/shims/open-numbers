@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Numbers.app"
+open -a "/Applications/Numbers.app" $@

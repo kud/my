@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Bluetooth Explorer.app"
+open -a "/Applications/Bluetooth Explorer.app" $@

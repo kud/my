@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Google Chrome.app"
+open -a "/Applications/Google Chrome.app" $@

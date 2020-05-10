@@ -60,7 +60,7 @@ alias untgz='tar -vzxf'
 # quicklook
 alias klook='qlmanage -p "$@" >& /dev/null'
 
-alias yarn-check='yarn upgrade-interactive'
+alias yarn-check='yarn upgrade-interactive --latest'
 
 # github
 # alias fake-github-connection='ssh -N git@github.com'
@@ -68,7 +68,7 @@ alias yarn-check='yarn upgrade-interactive'
 # ease
 alias s='subl .'
 alias s-add='subl -a .'
-alias s-nm='subl -a node_modules'
+# alias s-nm='subl -a node_modules'
 alias about='archey'
 alias dns-flush='sudo killall -HUP mDNSResponder'
 alias shell-reload='exec $SHELL'

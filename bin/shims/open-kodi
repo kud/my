@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Kodi.app"
+open -a "/Applications/Kodi.app" $@

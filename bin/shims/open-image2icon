@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Image2Icon.app"
+open -a "/Applications/Image2Icon.app" $@

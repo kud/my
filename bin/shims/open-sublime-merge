@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Sublime Merge.app"
+open -a "/Applications/Sublime Merge.app" $@

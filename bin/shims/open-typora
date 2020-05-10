@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Typora.app"
+open -a "/Applications/Typora.app" $@

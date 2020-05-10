@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Flash Player.app"
+open -a "/Applications/Flash Player.app" $@

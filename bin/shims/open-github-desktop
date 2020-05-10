@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/GitHub Desktop.app"
+open -a "/Applications/GitHub Desktop.app" $@

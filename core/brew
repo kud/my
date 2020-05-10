@@ -143,6 +143,7 @@ brewinstall bat # https://github.com/sharkdp/bat
 brewinstall httpie
 brewinstall jq
 brewinstall ipcalc
+brewinstall asciinema
 
 echo_space
 echo_title "Cleaning brew..."

@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Simulator (Watch).app"
+open -a "/Applications/Simulator (Watch).app" $@

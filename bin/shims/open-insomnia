@@ -1,2 +1,2 @@
 #! /usr/bin/env zsh
-open -a "/Applications/Insomnia.app"
+open -a "/Applications/Insomnia.app" $@
