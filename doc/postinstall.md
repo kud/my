@@ -1,6 +1,6 @@
 # postinstall
 
-## my
+## my (folder)
 
 - Change origin url (`$ $EDITOR $MY/.git/config`) to `git@github.com:kud/my.git`
 
@@ -8,14 +8,9 @@
 
 - System Preferences > Security & Privacy > Require password "immediately"
 
-## sip
+## keyboard
 
-Disable or not SIP:
-
-- cmd + r on Apple logo
-- Utilities > Terminal
-- `$ csrutil enable --without fs`
-- restart
+- System Preferences > Keyboard > Text : Drag'n'drop `Text Substitutions.plist`
 
 ## dock
 
@@ -47,6 +42,17 @@ Disable or not SIP:
 
 ## applications
 
-- pixelsnap 2 (email)
-- cleanshot (email)
-- earsafe (email)
+- pixelsnap 2
+- cleanshot x
+- earsafe
+
+---
+
+## sip (optional)
+
+Disable or not SIP:
+
+- cmd + r on Apple logo
+- Utilities > Terminal
+- `$ csrutil enable --without fs`
+- restart
