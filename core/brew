@@ -2,17 +2,17 @@
 
 source $MY/core/helper
 
-# define cask application folder
+## define cask application folder
 export HOMEBREW_CASK_OPTS=--appdir=/Applications
 
-# install brew if needed
+## install brew if needed
 if ! type "brew" > /dev/null; then
   echo_space
   echo_title_install "homebrew"
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-# install zsh via brew if needed
+## install zsh via brew if needed
 if ! type "/usr/local/bin/zsh" > /dev/null; then
   echo_space
   echo_title_install "zsh"
@@ -22,7 +22,7 @@ if ! type "/usr/local/bin/zsh" > /dev/null; then
   # sudo mv /etc/{zshenv,zprofile}
 fi
 
-# install bash via brew if needed
+## install bash via brew if needed
 if ! type "/usr/local/bin/bash" > /dev/null; then
   echo_space
   echo_title_install "bash"
@@ -30,28 +30,22 @@ if ! type "/usr/local/bin/bash" > /dev/null; then
   echo "/usr/local/bin/bash" | sudo tee -a /etc/shells
 fi
 
-# update/upgrade brew
+## update/upgrade brew
 echo_space
 echo_title_update "brew"
 brew update && brew upgrade && brew cask upgrade
-# brew cask update # not needed anymore
 
-# install brew packages
+## install brew packages
 echo_space
 echo_title_install "brew packages"
 
-## tap
-# brewtap caskroom/cask
+### tap
 brewtap homebrew/cask
-# brewtap caskroom/fonts
 brewtap homebrew/cask-fonts
-# brewtap caskroom/versions
 brewtap homebrew/cask-versions
 brewtap elastic/tap
-# brewtap docmunch/pdftk
-# brewtap aredridel/iojs
 
-## system
+### system
 brewinstall ssh-copy-id
 brewinstall make
 brewinstall archey # system information
@@ -69,21 +63,21 @@ brewinstall pcre2
 brewinstall htmlcompressor
 brewinstall mozjpeg
 brewinstall gifsicle
-# brewinstall ffmpeg --with-libass --with-fontconfig
 brewinstall ffmpeg
 brewinstall rename
 brewinstall neurobin/pkg/rnm
 brewinstall exa # Modern replacement for 'ls' — https://the.exa.website
 brewinstall less # because the macOS built-in version is old
-# brewinstall terminal-notifier
 brewinstall p7zip
 brewinstall autojump
 brewinstall brightness
 brewinstall z
 brewinstall ripgrep
 brewinstall gnu-sed
+# brewinstall ffmpeg --with-libass --with-fontconfig
+# brewinstall terminal-notifier
 
-## network
+### network
 brewinstall rsync
 brewinstall wget
 brewinstall curl
@@ -92,23 +86,17 @@ brewinstall tcpflow # analyse tcp requests
 brewinstall mtr
 brewinstall dnsmasq
 
-## zsh
-### already in prezto, unneeded
-# brewinstall zsh-syntax-highlighting
-# brewinstall zsh-completions
-# brewinstall zsh-history-substring-search
-
-## git
+### git
 brewinstall git
 brewinstall ghi
 brewinstall tig
 brewinstall hub
 brewinstall lazygit
 
-## editors
+### editors
 brewinstall vim
 
-## languages
+### languages
 brewinstall zlib # needed for python
 brewinstall readline # needed for python
 brewinstall xz # needed for python
@@ -119,38 +107,33 @@ brewinstall python3 # however, will be installed via pyenv after
 brewinstall pyenv
 brewinstall pyenv-virtualenv
 brewinstall node
-
 brewinstall yarn
 brewinstall jesseduffield/lazynpm/lazynpm
-# brewinstall watchman
 
-## communication
-# brewinstall bitlbee # bridges for irc
-
-## sync/backup
+### sync/backup
 brewinstall syncthing
 
-## others
+### others
 brewinstall heroku/brew/heroku
 brewinstall elastic/tap/elasticsearch-full
 brewinstall elastic/tap/kibana-full
 brewinstall youtube-dl
 brewinstall pdf-redact-tools
-# brewinstall imagemagick --with-fontconfig
 brewinstall imagemagick
 brewinstall mas # Mac App Store command line interface - https://github.com/mas-cli/mas
-# brewinstall pdftk
 brewinstall bat # https://github.com/sharkdp/bat
 brewinstall httpie
 brewinstall jq
 brewinstall ipcalc
 brewinstall asciinema
+# brewinstall pdftk
+# brewinstall imagemagick --with-fontconfig
 
 echo_space
 echo_title "Cleaning brew..."
 brew cleanup
 
-# install apps
+## install apps
 echo_space
 echo_title_install "apps"
 
@@ -170,40 +153,24 @@ caskinstall flux
 caskinstall iterm2-nightly
 # caskinstall iterm2-beta
 caskinstall appcleaner
-# caskinstall keepassx
 caskinstall macpass
 caskinstall rectangle
 caskinstall grandperspective
 caskinstall cloudup
 caskinstall xquartz
 caskinstall flash-player
-caskinstall qlcolorcode
-caskinstall qlstephen
-caskinstall qlmarkdown
-caskinstall quicklook-json
-caskinstall quicklook-csv
-caskinstall qlprettypatch
-caskinstall qlimagesize
-caskinstall qlvideo
 caskinstall prefs-editor
-# caskinstall betterzip
-caskinstall suspicious-package
 caskinstall android-file-transfer
 caskinstall kap
 caskinstall etrecheckpro
 caskinstall monodraw
-# caskinstall skitch # https://evernote.com/skitch/
-# caskinstall flashlight
 caskinstall github-beta
 caskinstall gitkraken
 caskinstall gitup
 caskinstall xrg
 caskinstall molotov
 caskinstall insomnia # REST Client — https://insomnia.rest/
-
-# caskinstall sublime-text3
 caskinstall sublime-text-dev
-# caskinstall $MY/patches/sublime-text-3207.rb
 # if ! type "subl" > /dev/null; then
 #   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 # fi
@@ -214,29 +181,22 @@ caskinstall discord
 caskinstall deluge
 caskinstall imagealpha
 caskinstall imageoptim
-# caskinstall mysimbl
 caskinstall spotify
 caskinstall steam
 caskinstall kodi
 caskinstall vlc
-# caskinstall vlc-nightly
 caskinstall slack
 caskinstall image2icon
 caskinstall rocket
-# caskinstall beardedspice # http://beardedspice.github.io/
 caskinstall macmediakeyforwarder
 caskinstall mark-text # https://marktext.github.io/website/
 caskinstall steermouse # http://plentycom.jp/en/steermouse/
-# caskinstall nativedisplaybrightness
-# caskinstall gfxcardstatus # https://gfx.io/
 # caskinstall background-music
 caskinstall background-music-pre
 caskinstall fliqlo
 caskinstall tyke
 caskinstall sip
 caskinstall alfred
-# caskinstall monitorcontrol
-# caskinstall cheatsheet
 caskinstall rawtherapee
 caskinstall darktable
 caskinstall fromscratch
@@ -245,6 +205,27 @@ caskinstall typora
 caskinstall proxyman
 caskinstall nativedisplaybrightness
 caskinstall adoptopenjdk8
+# caskinstall flashlight
+# caskinstall mysimbl
+# caskinstall vlc-nightly
+# caskinstall beardedspice # http://beardedspice.github.io/
+# caskinstall nativedisplaybrightness
+# caskinstall gfxcardstatus # https://gfx.io/
+# caskinstall monitorcontrol
+# caskinstall cheatsheet
+
+# quicklook plugins
+caskinstall qlcolorcode
+caskinstall qlstephen
+caskinstall qlmarkdown
+caskinstall quicklook-json
+caskinstall quicklook-csv
+caskinstall qlimagesize
+caskinstall suspicious-package
+caskinstall quicklookase
+caskinstall qlvideo
+caskinstall qlprettypatch
+xattr -d -r com.apple.quarantine ~/Library/QuickLook # remove quarantine attr since Catalina
 
 source $MY/profiles/$OS_PROFILE/core/brew 2> /dev/null
 
