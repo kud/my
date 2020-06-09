@@ -81,6 +81,7 @@ brewinstall autojump
 brewinstall brightness
 brewinstall z
 brewinstall ripgrep
+brewinstall gnu-sed
 
 ## network
 brewinstall rsync
@@ -181,8 +182,10 @@ caskinstall qlstephen
 caskinstall qlmarkdown
 caskinstall quicklook-json
 caskinstall quicklook-csv
-caskinstall prefs-editor
 caskinstall qlprettypatch
+caskinstall qlimagesize
+caskinstall qlvideo
+caskinstall prefs-editor
 # caskinstall betterzip
 caskinstall suspicious-package
 caskinstall android-file-transfer

@@ -57,6 +57,7 @@ DISPLAY=:0.0; export DISPLAY
 export PATH=$PATH:$MY/bin/shims # add commands to open applications
 export PATH=/usr/local/lib/node_modules:$PATH # npm global commands
 export PATH=/usr/local/opt/ruby/bin:$PATH # ruby commands
+export PATH=/usr/local/opt/gnu-sed/libexec/gnubin:$PATH # gnu-sed
 export PATH=$MY/bin/git:$PATH # git commands
 export PATH=$MY/bin/_:$PATH # own commands
 
