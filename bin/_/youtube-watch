@@ -1,0 +1,5 @@
+#! /usr/bin/env zsh
+
+NAME=youtube-dl-$(date +%s)
+youtube-dl -o /tmp/$NAME $@
+open /tmp/$NAME*
