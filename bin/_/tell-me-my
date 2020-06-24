@@ -21,6 +21,12 @@ resolution() {
 
 sshKey() {
   pbcopy < ~/.ssh/id_rsa.pub
+  echo "Copied!"
+}
+
+cpuFeatures() {
+  STRING=$(sysctl -a|grep machdep.cpu.features)
+  echo "${STRING}"
 }
 
 if [[ $# -eq 0 ]]; then
@@ -39,6 +45,9 @@ else
       ;;
       ssh-key)
         sshKey
+      ;;
+      cpu-features)
+        cpuFeatures
       ;;
       --help)
           echo_space
