@@ -45,10 +45,11 @@
 - pixelsnap 2
 - cleanshot x
 - earsafe
+- [nativedisplaybrightness](https://github.com/KAMIKAZEUA/NativeDisplayBrightness/releases)
 
 ---
 
-## sip (optional)
+## sip protection (optional)
 
 Disable or not SIP:
 

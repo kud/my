@@ -203,15 +203,14 @@ caskinstall fromscratch
 caskinstall visual-studio-code
 caskinstall typora
 caskinstall proxyman
-caskinstall nativedisplaybrightness
 caskinstall adoptopenjdk8
 # caskinstall flashlight
 # caskinstall mysimbl
 # caskinstall vlc-nightly
 # caskinstall beardedspice # http://beardedspice.github.io/
-# caskinstall nativedisplaybrightness
 # caskinstall gfxcardstatus # https://gfx.io/
 # caskinstall monitorcontrol
+# caskinstall nativedisplaybrightness
 # caskinstall cheatsheet
 
 # quicklook plugins
