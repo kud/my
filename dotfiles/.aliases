@@ -68,6 +68,7 @@ alias yarn-check='yarn upgrade-interactive --latest'
 # ease
 alias s='subl .'
 alias s-add='subl -a .'
+alias c='code .'
 # alias s-nm='subl -a node_modules'
 alias about='archey'
 alias dns-flush='sudo killall -HUP mDNSResponder'
