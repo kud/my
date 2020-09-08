@@ -3,9 +3,33 @@
   # editor       = subl -n -w
   editor       = vim
 	excludesfile = /Users/kud/.gitignore_global
+[branch]
+  autosetuprebase = always
 [push]
   # default = tracking
   default = simple
+[filter "hawser"]
+  clean = git hawser clean %f
+  smudge = git hawser smudge %f
+  required = true
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+[fetch]
+  prune = true
+[rebase]
+  autosquash = true
+[commit]
+  verbose = true
+[merge]
+  ff = false
+[ghi]
+  token = !security find-internet-password -a kud -s github.com -l 'ghi token' -w
+[url "git@github.com:"]
+  insteadOf = http://github.com/
+  insteadOf = https://github.com/
 [color]
   ui = true
 [color "branch"]
@@ -73,29 +97,5 @@
   history               = reflog --relative-date
   tools                 = "!echo '• gh\n• hub\n• lazygit\n• tig\n• ghi'"
   show-commands         = "!git config --get-regexp alias|sed \"s/alias.\\([a-zA-Z-]*\\) \\(\\.\\)*/$(tput setaf 2)\\1 $(tput setaf 0)\\2/\""
-[branch]
-  autosetuprebase = always
 [include]
   path = .gitconfig_local
-[filter "hawser"]
-  clean = git hawser clean %f
-  smudge = git hawser smudge %f
-  required = true
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
-[fetch]
-  prune = true
-[rebase]
-	autosquash = true
-[commit]
-	verbose = true
-[merge]
-	ff = false
-[ghi]
-	token = !security find-internet-password -a kud -s github.com -l 'ghi token' -w
-[url "git@github.com:"]
-  insteadOf = http://github.com/
-  insteadOf = https://github.com/
