@@ -126,6 +126,7 @@ brewinstall httpie
 brewinstall jq
 brewinstall ipcalc
 brewinstall asciinema
+brewinstall openssl@1.1
 # brewinstall pdftk
 # brewinstall imagemagick --with-fontconfig
 
