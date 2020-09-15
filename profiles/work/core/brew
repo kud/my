@@ -14,6 +14,7 @@ brewinstall redis
 brewinstall s3cmd
 brewinstall awsebcli
 brewinstall postgresql
+brewinstall pdf-redact-tools
 
 echo_space
 echo_title_install "apps @ $OS_PROFILE"
