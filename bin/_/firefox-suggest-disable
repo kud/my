@@ -1,0 +1,19 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+echo_title_update "firefox settings"
+
+DEFAULT_FOLDER=$(ls "$HOME/Library/Application Support/Firefox/Profiles" | grep .default-nightly)
+PREFS_JS="$HOME/Library/Application Support/Firefox/Profiles/$DEFAULT_FOLDER/prefs.js"
+
+echo 'user_pref("browser.urlbar.suggest.bookmark", false);' >>$PREFS_JS
+echo 'user_pref("browser.urlbar.suggest.history", false);' >>$PREFS_JS
+echo 'user_pref("browser.urlbar.suggest.openpage", false);' >>$PREFS_JS
+echo 'user_pref("browser.urlbar.suggest.topsites", false);' >>$PREFS_JS
+
+quit "firefox"
+
+sleep 5
+
+open-firefox-nightly
