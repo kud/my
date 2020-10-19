@@ -99,3 +99,5 @@
   show-commands         = "!git config --get-regexp alias|sed \"s/alias.\\([a-zA-Z-]*\\) \\(\\.\\)*/$(tput setaf 2)\\1 $(tput setaf 0)\\2/\""
 [include]
   path = .gitconfig_local
+[pull]
+	rebase = true
