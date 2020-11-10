@@ -43,6 +43,7 @@ npminstall markdown-live
 npminstall caniuse-cmd
 npminstall imagemin
 npminstall speed-test
+npminstall fast-cli
 npminstall localtunnel # expose localhost to world — https://github.com/localtunnel/localtunnel
 npminstall Automattic/cloudup-cli # cloudup
 npminstall uncss # remove useless css
