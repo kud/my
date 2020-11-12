@@ -70,6 +70,7 @@ npminstall bodybuilder
 npminstall fixme
 npminstall git-branch-select
 npminstall envinfo
+npminstall vercel
 
 # config
 npm config set save-exact true
