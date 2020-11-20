@@ -53,14 +53,6 @@ export CLICOLOR=1
 # display
 DISPLAY=:0.0; export DISPLAY
 
-# path
-export PATH=$PATH:$MY/bin/shims # add commands to open applications
-export PATH=/usr/local/lib/node_modules:$PATH # npm global commands
-export PATH=/usr/local/opt/ruby/bin:$PATH # ruby commands
-export PATH=/usr/local/opt/gnu-sed/libexec/gnubin:$PATH # gnu-sed
-export PATH=$MY/bin/git:$PATH # git commands
-export PATH=$MY/bin/_:$PATH # own commands
-
 # british and utf-8
 export LANG="en_GB"
 export LC_ALL="en_GB.UTF-8"
@@ -148,7 +140,10 @@ fi
 export ANDROID_HOME=/usr/local/opt/android-sdk
 
 # java
-export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home
+export JAVA_HOME=$(/usr/libexec/java_home -v15)
+export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
+export JAVA_14_HOME=$(/usr/libexec/java_home -v14)
+export JAVA_15_HOME=$(/usr/libexec/java_home -v15)
 
 # python
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
@@ -159,6 +154,16 @@ export HOMEBREW_CASK_OPTS=--appdir=/Applications
 
 # babel
 export BABEL_CACHE_PATH=/tmp/babel.cache.json
+
+# PATH - must be in the end
+export PATH=$PATH:$MY/bin/shims # add commands to open applications
+export PATH=/usr/local/Cellar/:$PATH # brew
+export PATH=/usr/local/lib/node_modules:$PATH # npm
+export PATH=/usr/local/opt/ruby/bin:$PATH # ruby
+# export PATH="/usr/local/opt/openjdk/bin:$PATH" # java
+export PATH=/usr/local/opt/gnu-sed/libexec/gnubin:$PATH # gnu-sed
+export PATH=$MY/bin/git:$PATH # git commands
+export PATH=$MY/bin/_:$PATH # own commands
 
 # local
 . ~/.zshrc_local

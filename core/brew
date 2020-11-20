@@ -101,6 +101,8 @@ brewinstall zlib # needed for python
 brewinstall readline # needed for python
 brewinstall xz # needed for python
 
+brewinstall java
+sudo ln -sfn /usr/local/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
 brewinstall ruby
 brewinstall python # however, will be installed via pyenv after
 brewinstall python3 # however, will be installed via pyenv after
@@ -148,7 +150,6 @@ if [ ! -d "$HOME/Sync" ]; then
   read \?"Configure now your sync and press [Enter] when you've finished..."
 fi
 
-caskinstall java # sorry my love :(
 caskinstall flux
 # caskinstall iterm2
 caskinstall iterm2-nightly
@@ -204,7 +205,7 @@ caskinstall fromscratch
 caskinstall visual-studio-code
 caskinstall typora
 caskinstall proxyman
-caskinstall adoptopenjdk8
+caskinstall adoptopenjdk
 # caskinstall flashlight
 # caskinstall mysimbl
 # caskinstall vlc-nightly
