@@ -15,6 +15,12 @@ brewinstall s3cmd
 brewinstall awsebcli
 brewinstall postgresql
 brewinstall pdf-redact-tools
+brewinstall java11
+sudo ln -sfn /usr/local/opt/openjdk@11/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-11.jdk
+
+brew tap-new $USER/local-elasticsearch
+brew extract --version=5.6.4 elasticsearch $USER/local-elasticsearch
+brewinstall elasticsearch@5.6.4
 
 echo_space
 echo_title_install "apps @ $OS_PROFILE"

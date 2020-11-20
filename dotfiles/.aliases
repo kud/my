@@ -80,6 +80,11 @@ alias allo='ping 8.8.8.8'
 alias dl='curl -O'
 alias wtf='whence -v'
 
+# java
+alias java11='export JAVA_HOME=$JAVA_11_HOME'
+alias java14='export JAVA_HOME=$JAVA_14_HOME'
+alias java15='export JAVA_HOME=$JAVA_15_HOME'
+
 #fix
 alias localtunnel='/usr/local/bin/lt'
 
