@@ -71,6 +71,7 @@ npminstall fixme
 npminstall git-branch-select
 npminstall envinfo
 npminstall vercel
+npminstall jscodeshift
 
 # config
 npm config set save-exact true
