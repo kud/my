@@ -1,0 +1,3 @@
+#! /usr/bin/env zsh
+
+git branch|grep -v "master"|grep -v "stable"|xargs git branch -D
