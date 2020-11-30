@@ -5,6 +5,8 @@ source $MY/core/helper
 echo_space
 echo_title_install "brew packages @ $OS_PROFILE"
 
+brewtap contexte/contexte
+
 mkdir /usr/local/etc/my.cnf.d
 brewinstall mariadb@10.1
 brew link mariadb@10.1 --force
@@ -18,8 +20,6 @@ brewinstall pdf-redact-tools
 brewinstall java11
 sudo ln -sfn /usr/local/opt/openjdk@11/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-11.jdk
 
-brew tap-new $USER/local-elasticsearch
-brew extract --version=5.6.4 elasticsearch $USER/local-elasticsearch
 brewinstall elasticsearch@5.6.4
 
 echo_space
