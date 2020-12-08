@@ -206,6 +206,7 @@ caskinstall visual-studio-code
 caskinstall typora
 caskinstall proxyman
 caskinstall adoptopenjdk
+caskinstall zettlr
 # caskinstall flashlight
 # caskinstall mysimbl
 # caskinstall vlc-nightly
