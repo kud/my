@@ -210,6 +210,7 @@ caskinstall proxyman
 caskinstall adoptopenjdk
 caskinstall zettlr
 caskinstall removebg
+caskinstall openmtp
 # caskinstall flashlight
 # caskinstall mysimbl
 # caskinstall vlc-nightly
