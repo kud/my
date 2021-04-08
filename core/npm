@@ -81,4 +81,3 @@ npm config set progress false
 npm config set fetch-retries 3
 npm config set fetch-retry-mintimeout 15000
 npm config set fetch-retry-maxtimeout 90000
-npm config set cache-min 86400
