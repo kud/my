@@ -101,3 +101,5 @@
   path = .gitconfig_local
 [pull]
 	rebase = true
+[init]
+	defaultBranch = main
