@@ -39,10 +39,10 @@ defaults write NSGlobalDomain com.apple.sound.beep.volume -float 0
 defaults write NSGlobalDomain com.apple.sound.uiaudio.enabled -int 0
 
 # Reduce motion
-defaults write com.apple.universalaccess reduceMotion -bool true
+# defaults write com.apple.universalaccess reduceMotion -bool true
 
 # Disable transparency in the menu bar and elsewhere on Yosemite
-defaults write com.apple.universalaccess reduceTransparency -bool true
+# defaults write com.apple.universalaccess reduceTransparency -bool true
 
 # Set highlight color to green
 # defaults write NSGlobalDomain AppleHighlightColor -string "0.764700 0.976500 0.568600"
@@ -396,7 +396,7 @@ defaults write com.apple.dock mouse-over-hilite-stack -bool true
 defaults write com.apple.dock tilesize -int 24
 
 # Orientation
-defaults write com.apple.dock orientation -string "left"
+defaults write com.apple.dock orientation -string "bottom"
 
 # Change minimize/maximize window effect
 defaults write com.apple.dock mineffect -string "scale"
