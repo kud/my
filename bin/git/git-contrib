@@ -10,12 +10,12 @@ gh repo fork $1 --clone &&
 cd $REPO &&
 
 git co -b tmp &&
-git branch -D master &&
-git checkout --orphan master &&
+git branch -D main &&
+git checkout --orphan main &&
 git branch -D tmp &&
 git rm -rf . &&
 rm '.gitignore' &> /dev/null
 echo "**Repository used only for submitting PRs. 🙌**" > README.md &&
 git add README.md &&
 git commit -a -m "Initial Commit" &&
-git push -f origin master
+git push -f origin main

@@ -1,7 +1,7 @@
 #! /usr/bin/env zsh
 
-branches_array=($(git branch --merged master|grep -v 'master'|grep -v 'stable'|tr '\n' ' '))
-branches_displayed=$(git branch --merged master|grep -v 'master'|grep -v 'stable'|sed "s/  /❯ /g")
+branches_array=($(git branch --merged main|grep -v 'main'|grep -v 'stable'|tr '\n' ' '))
+branches_displayed=$(git branch --merged main|grep -v 'main'|grep -v 'stable'|sed "s/  /❯ /g")
 
 git fetch
 
