@@ -1,5 +1,6 @@
 #! /usr/bin/env zsh
 
+rm -rf ./node_modules
 npm cache clean --force
 rm -rf ~/.npm
 

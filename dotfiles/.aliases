@@ -79,6 +79,7 @@ alias please='sudo $(fc -ln -1)'
 alias allo='ping 8.8.8.8'
 alias dl='curl -O'
 alias wtf='whence -v'
+alias npms='npm run start'
 
 # java
 alias java11='export JAVA_HOME=$JAVA_11_HOME'
