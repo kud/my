@@ -67,8 +67,8 @@ bindkey '^R' history-incremental-search-backward
 # export FIREFOXNIGHTLY_BIN="/Applications/FirefoxNightly.app/Contents/MacOS/firefox"
 # export BROWSER=$FIREFOXNIGHTLY_BIN # bug with python
 export GIT_EDITOR="vim"
-export VISUAL="subl"
-export EDITOR="subl"
+export VISUAL="code"
+export EDITOR="code"
 
 # aliases
 . ~/.aliases
