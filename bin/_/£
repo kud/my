@@ -44,7 +44,7 @@ else
         $MY/core/bootstrap
       ;;
       edit)
-        subl $MY
+        code $MY
       ;;
       open)
         open $MY

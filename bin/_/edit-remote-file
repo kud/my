@@ -2,4 +2,4 @@
 
 # ex: edit-remote-file root@ip:/etc/nginx/sites-available/desktop
 
-scp $1 /tmp/scp_buffer && subl -n -w /tmp/scp_buffer && scp /tmp/scp_buffer $1
+scp $1 /tmp/scp_buffer && code -n -w /tmp/scp_buffer && scp /tmp/scp_buffer $1
