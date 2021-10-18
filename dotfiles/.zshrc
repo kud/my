@@ -146,6 +146,7 @@ export JAVA_14_HOME=$(/usr/libexec/java_home -v14)
 export JAVA_15_HOME=$(/usr/libexec/java_home -v15)
 
 # python
+if which pyenv > /dev/null; then eval "$(pyenv init --path)"; fi
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
