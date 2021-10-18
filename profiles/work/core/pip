@@ -12,13 +12,13 @@ brew install $MY/patches/openssl/1.0/openssl.rb
 
 # Contexte
 ## Journal
-CTX_JOURNAL_PYTHON_VERSION="2.7.17"
-pyenv install -s $CTX_JOURNAL_PYTHON_VERSION
-pyenv virtualenv $CTX_JOURNAL_PYTHON_VERSION ctx-journal
+# CTX_JOURNAL_PYTHON_VERSION="2.7.17"
+# pyenv install -s $CTX_JOURNAL_PYTHON_VERSION
+# pyenv virtualenv $CTX_JOURNAL_PYTHON_VERSION ctx-journal
 
 CTX_JOURNALV3_PYTHON_VERSION="3.7.9"
 pyenv install -s $CTX_JOURNALV3_PYTHON_VERSION
-pyenv virtualenv $CTX_JOURNALV3_PYTHON_VERSION ctx-journal-v3
+pyenv virtualenv $CTX_JOURNALV3_PYTHON_VERSION ctx-journal
 
 ## Data Lois Backend
 CTX_DATA_LOIS_BACKEND_PYTHON_VERSION="3.6.8"
