@@ -44,6 +44,7 @@ brewtap homebrew/cask
 brewtap homebrew/cask-fonts
 brewtap homebrew/cask-versions
 brewtap elastic/tap
+brewtap federico-terzi/espanso
 
 ### system
 brewinstall ssh-copy-id
@@ -131,6 +132,7 @@ brewinstall asciinema
 brewinstall openssl@1.1
 brewinstall glow
 brewinstall loom
+brewinstall espanso
 # brewinstall pdftk
 # brewinstall imagemagick --with-fontconfig
 
