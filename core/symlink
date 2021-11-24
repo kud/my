@@ -38,6 +38,9 @@ ln -sf ~/Sync/low/appdata/rocket/rocket.db ~/Library/Application\ Support/Rocket
 # app:github
 ln -sf /Applications/GitHub\ Desktop.app/Contents/MacOS/github_cli /usr/local/bin/github_cli 2> /dev/null
 
+# app:espanso
+ln -sf ~/Sync/low/appdata/espanso ~/Library/Preferences 2> /dev/null
+
 # resource!
 source $HOME/.zshrc
 
