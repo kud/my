@@ -176,7 +176,7 @@ caskinstall gitup
 caskinstall xrg
 caskinstall molotov
 caskinstall insomnia # REST Client — https://insomnia.rest/
-caskinstall sublime-text-dev
+# caskinstall sublime-text-dev
 # if ! type "subl" > /dev/null; then
 #   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 # fi

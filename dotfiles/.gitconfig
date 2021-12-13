@@ -57,7 +57,7 @@
   st                    = status
   df                    = diff
   dc                    = diff --cached
-  diff-subl             = "!git diff $@|subl"
+  # diff-subl             = "!git diff $@|subl"
   diff-extended         = "!git diff --color|diff-so-fancy|less"
   subl-diff             = "!git diff --name-only|uniq|xargs subl"
   issues                = "!ghi"
