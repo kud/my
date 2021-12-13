@@ -30,20 +30,20 @@ alias rm='rm -i'
 alias filesizer='du -sc * | sort -n | tail'
 
 # config
-alias .profile='subl -n ~/.profile'
-alias .zshrc='subl -n  ~/.zshrc'
-alias .zshrc_local='subl -n  ~/.zshrc_local'
-alias .npmrc='subl -n  ~/.npmrc'
-alias .vimrc='subl -n  ~/.vimrc'
-alias sshconfig='subl -n  ~/.ssh/config'
-alias .aliases='subl -n  ~/.aliases'
-alias hosts='subl -n  /private/etc/hosts'
-alias php.ini='subl -n  /private/etc/php.ini'
-alias .gitignore_global='subl -n  ~/.gitignore_global'
-alias .gitconfig='subl -n  ~/.gitconfig'
-alias .gitconfig_local='subl -n  ~/.gitconfig_local'
-alias network-sharing="sudo subl -n /etc/bootpd.plist"
-alias dnsmasq.conf="subl -n /usr/local/etc/dnsmasq.conf"
+alias .profile='$EDITOR -n ~/.profile'
+alias .zshrc='$EDITOR -n  ~/.zshrc'
+alias .zshrc_local='$EDITOR -n  ~/.zshrc_local'
+alias .npmrc='$EDITOR -n  ~/.npmrc'
+alias .vimrc='$EDITOR -n  ~/.vimrc'
+alias sshconfig='$EDITOR -n  ~/.ssh/config'
+alias .aliases='$EDITOR -n  ~/.aliases'
+alias hosts='$EDITOR -n  /private/etc/hosts'
+alias php.ini='$EDITOR -n  /private/etc/php.ini'
+alias .gitignore_global='$EDITOR -n  ~/.gitignore_global'
+alias .gitconfig='$EDITOR -n  ~/.gitconfig'
+alias .gitconfig_local='$EDITOR -n  ~/.gitconfig_local'
+alias network-sharing="sudo $EDITOR -n /etc/bootpd.plist"
+alias dnsmasq.conf="$EDITOR -n /usr/local/etc/dnsmasq.conf"
 
 # android
 alias android-inspector='adb forward tcp:9222 localabstract:chrome_devtools_remote'
@@ -67,8 +67,8 @@ alias yarn-check='yarn upgrade-interactive --latest'
 # alias fake-github-connection='ssh -N git@github.com'
 
 # ease
-alias s='subl .'
-alias s-add='subl -a .'
+# alias s='subl .'
+# alias s-add='subl -a .'
 alias c='code .'
 # alias s-nm='subl -a node_modules'
 alias about='archey'
