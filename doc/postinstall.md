@@ -46,6 +46,7 @@
 - cleanshot x
 - earsafe
 - [nativedisplaybrightness](https://github.com/KAMIKAZEUA/NativeDisplayBrightness/releases)
+- [LayerX](https://yuhua-chen.github.io/LayerX/)
 
 ---
 
