@@ -182,14 +182,14 @@ caskinstall insomnia # REST Client — https://insomnia.rest/
 # fi
 caskinstall sublime-merge-dev
 caskinstall firefox-nightly
-caskinstall atom
+# caskinstall atom
 caskinstall discord
 caskinstall deluge
 caskinstall imagealpha
 caskinstall imageoptim
 caskinstall spotify
 caskinstall steam
-caskinstall kodi
+# caskinstall kodi
 caskinstall vlc
 caskinstall slack
 caskinstall image2icon
@@ -205,14 +205,14 @@ caskinstall sip
 caskinstall alfred
 caskinstall rawtherapee
 caskinstall darktable
-caskinstall fromscratch
 caskinstall visual-studio-code
-caskinstall typora
+# caskinstall typora
 caskinstall proxyman
 caskinstall adoptopenjdk
-caskinstall zettlr
+# caskinstall zettlr
 caskinstall removebg
 caskinstall openmtp
+caskinstall altair-graphql-client
 # caskinstall flashlight
 # caskinstall mysimbl
 # caskinstall vlc-nightly
