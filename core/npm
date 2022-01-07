@@ -72,6 +72,7 @@ npminstall git-branch-select
 npminstall envinfo
 npminstall vercel
 npminstall jscodeshift
+npminstall fx # https://github.com/antonmedv/fx
 
 # config
 npm config set save-exact true
