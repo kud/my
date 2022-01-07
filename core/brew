@@ -213,6 +213,7 @@ caskinstall adoptopenjdk
 caskinstall removebg
 caskinstall openmtp
 caskinstall altair-graphql-client
+caskinstall duf
 # caskinstall flashlight
 # caskinstall mysimbl
 # caskinstall vlc-nightly
