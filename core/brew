@@ -202,7 +202,8 @@ caskinstall background-music-pre
 caskinstall fliqlo
 caskinstall tyke
 caskinstall sip
-caskinstall alfred
+# caskinstall alfred
+caskinstall raycast
 caskinstall rawtherapee
 caskinstall darktable
 caskinstall visual-studio-code
