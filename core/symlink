@@ -25,9 +25,9 @@ ln -sf ~/Sync/low/appdata/insomnia/Insomnia ~/Library/Application\ Support 2> /d
 # app:lightroom
 ln -sf ~/Sync/low/appdata/lightroom/Develop\ Presets ~/Library/Application\ Support/Adobe/Lightroom 2> /dev/null
 
-# app:atom @FIXME: please
-rm -rf ~/.atom
-ln -sf ~/Sync/low/appdata/atom ~/.atom 2> /dev/null
+# # app:atom @FIXME: please
+# rm -rf ~/.atom
+# ln -sf ~/Sync/low/appdata/atom ~/.atom 2> /dev/null
 
 # app:vs code
 ln -sf ~/Sync/low/appdata/code/Code ~/Library/Application\ Support 2> /dev/null
@@ -40,6 +40,9 @@ ln -sf /Applications/GitHub\ Desktop.app/Contents/MacOS/github_cli /usr/local/bi
 
 # app:espanso
 ln -sf ~/Sync/low/appdata/espanso ~/Library/Preferences 2> /dev/null
+
+# app:raycast
+ln -sf ~/Sync/low/appdata/com.raycast.macos ~/Library/Application\ Support 2> /dev/null
 
 # resource!
 source $HOME/.zshrc
