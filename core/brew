@@ -89,7 +89,7 @@ brewinstall dnsmasq
 
 ### git
 brewinstall git
-brewinstall ghi
+# brewinstall ghi
 brewinstall tig
 brewinstall hub
 brewinstall lazygit
