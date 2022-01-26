@@ -25,8 +25,6 @@
   verbose = true
 [merge]
   ff = false
-[ghi]
-  token = !security find-internet-password -a kud -s github.com -l 'ghi token' -w
 [url "git@github.com:"]
   insteadOf = http://github.com/
   insteadOf = https://github.com/
@@ -59,10 +57,10 @@
   dc                    = diff --cached
   # diff-subl             = "!git diff $@|subl"
   diff-extended         = "!git diff --color|diff-so-fancy|less"
-  subl-diff             = "!git diff --name-only|uniq|xargs subl"
-  issues                = "!ghi"
+  # subl-diff             = "!git diff --name-only|uniq|xargs subl"
+  # issues                = "!ghi"
   # gh                    = "!github_cli ${@:-.}"
-  kraken                = "!open -na 'GitKraken' --args -p $(pwd)"
+  # kraken                = "!open -na 'GitKraken' --args -p $(pwd)"
   gu                    = "!gitup open ."
   sm                    = "!'/Applications/Sublime Merge.app/Contents/SharedSupport/bin/smerge' ."
   tig                   = "!tig"
@@ -91,7 +89,8 @@
   refresh               = "!git fetch && git rebase origin/main"
   rewrite               = "!git fetch && git rebase -i $(git merge-base origin/main HEAD)"
   finalise              = "!git fetch && git rebase origin/main && git rebase -i $(git merge-base origin/main HEAD)"
-  open-url              = "!open $(echo $(git config --get remote.origin.url)|sed 's/:/\\//g'|sed 's/git@/https:\\/\\//g'|sed 's/\\.git//g')"
+  # open-url              = "!open $(echo $(git config --get remote.origin.url)|sed 's/:/\\//g'|sed 's/git@/https:\\/\\//g'|sed 's/\\.git//g')"
+  open-url              = "!hub browse"
   open-modified         = "!$EDITOR $(git status --porcelain | cut -c4-)"
   cleanup               = "!git remote prune origin && git repack && git gc"
   history               = reflog --relative-date
