@@ -170,8 +170,8 @@ caskinstall android-file-transfer
 caskinstall kap
 caskinstall etrecheckpro
 caskinstall monodraw
-caskinstall github-beta
-caskinstall gitkraken
+# caskinstall github-beta
+# caskinstall gitkraken
 caskinstall gitup
 caskinstall xrg
 caskinstall molotov
@@ -215,6 +215,7 @@ caskinstall removebg
 caskinstall openmtp
 caskinstall altair-graphql-client
 caskinstall duf
+caskinstall xcodes
 # caskinstall flashlight
 # caskinstall mysimbl
 # caskinstall vlc-nightly
