@@ -109,7 +109,8 @@ brewinstall python # however, will be installed via pyenv after
 brewinstall python3 # however, will be installed via pyenv after
 brewinstall pyenv
 brewinstall pyenv-virtualenv
-brewinstall node
+# brewinstall node
+brewinstall node@16
 brewinstall yarn
 brewinstall jesseduffield/lazynpm/lazynpm
 
