@@ -1,5 +1,5 @@
 #! /usr/bin/env zsh
 
-NAME=youtube-dl-$(date +%s)
-youtube-dl -o /tmp/$NAME $@
+NAME=yt-dlp-$(date +%s)
+yt-dlp-o /tmp/$NAME $@
 open /tmp/$NAME*
