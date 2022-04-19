@@ -121,7 +121,7 @@ brewinstall syncthing
 brewinstall heroku/brew/heroku
 brewinstall elastic/tap/elasticsearch-full
 brewinstall elastic/tap/kibana-full
-brewinstall youtube-dl
+brewinstall yt-dlp
 brewinstall pdf-redact-tools
 brewinstall imagemagick
 brewinstall mas # Mac App Store command line interface - https://github.com/mas-cli/mas
