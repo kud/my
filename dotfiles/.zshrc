@@ -68,7 +68,7 @@ bindkey '^R' history-incremental-search-backward
 # export BROWSER=$FIREFOXNIGHTLY_BIN # bug with python
 export GIT_EDITOR="vim"
 export VISUAL="code"
-export EDITOR="code"
+export EDITOR="vim"
 
 # aliases
 . ~/.aliases
