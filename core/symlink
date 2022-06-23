@@ -7,42 +7,42 @@ echo_title_install "symlinks"
 mkdir -p ~/Library/Application\ Support/{"Sublime Text 3",Adobe/Lightroom}
 
 # sensible dotfiles
-ln -sf ~/Sync/low/appdata/ssh/config ~/.ssh/config 2> /dev/null
+ln -sf ${SYNC_FOLDER}/low/appdata/ssh/config ~/.ssh/config 2> /dev/null
 
 # app:iterm
-ln -sf ~/Sync/low/appdata/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist 2> /dev/null
+ln -sf ${SYNC_FOLDER}/low/appdata/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist 2> /dev/null
 
 # app:limechat
-ln -sf ~/Sync/low/appdata/limechat/net.limechat.LimeChat.plist ~/Library/Preferences/net.limechat.LimeChat.plist 2> /dev/null
+ln -sf ${SYNC_FOLDER}/low/appdata/limechat/net.limechat.LimeChat.plist ~/Library/Preferences/net.limechat.LimeChat.plist 2> /dev/null
 
 # app:sublime text
-ln -sf ~/Sync/low/appdata/sublimetext3/Packages ~/Library/Application\ Support/Sublime\ Text\ 3 2> /dev/null
-ln -sf ~/Sync/low/appdata/sublimetext3/Installed\ Packages ~/Library/Application\ Support/Sublime\ Text\ 3 2> /dev/null
+ln -sf ${SYNC_FOLDER}/low/appdata/sublimetext3/Packages ~/Library/Application\ Support/Sublime\ Text\ 3 2> /dev/null
+ln -sf ${SYNC_FOLDER}/low/appdata/sublimetext3/Installed\ Packages ~/Library/Application\ Support/Sublime\ Text\ 3 2> /dev/null
 
 # app:insomnia
-ln -sf ~/Sync/low/appdata/insomnia/Insomnia ~/Library/Application\ Support 2> /dev/null
+ln -sf ${SYNC_FOLDER}/low/appdata/insomnia/Insomnia ~/Library/Application\ Support 2> /dev/null
 
 # app:lightroom
-ln -sf ~/Sync/low/appdata/lightroom/Develop\ Presets ~/Library/Application\ Support/Adobe/Lightroom 2> /dev/null
+ln -sf ${SYNC_FOLDER}/low/appdata/lightroom/Develop\ Presets ~/Library/Application\ Support/Adobe/Lightroom 2> /dev/null
 
 # # app:atom @FIXME: please
 # rm -rf ~/.atom
-# ln -sf ~/Sync/low/appdata/atom ~/.atom 2> /dev/null
+# ln -sf ${SYNC_FOLDER}/low/appdata/atom ~/.atom 2> /dev/null
 
 # app:vs code
-ln -sf ~/Sync/low/appdata/code/Code ~/Library/Application\ Support 2> /dev/null
+ln -sf ${SYNC_FOLDER}/low/appdata/code/Code ~/Library/Application\ Support 2> /dev/null
 
 # app:rocket
-ln -sf ~/Sync/low/appdata/rocket/rocket.db ~/Library/Application\ Support/Rocket/rocket.db 2> /dev/null
+ln -sf ${SYNC_FOLDER}/low/appdata/rocket/rocket.db ~/Library/Application\ Support/Rocket/rocket.db 2> /dev/null
 
 # app:github
 ln -sf /Applications/GitHub\ Desktop.app/Contents/MacOS/github_cli /usr/local/bin/github_cli 2> /dev/null
 
 # app:espanso
-ln -sf ~/Sync/low/appdata/espanso ~/Library/Preferences 2> /dev/null
+ln -sf ${SYNC_FOLDER}/low/appdata/espanso ~/Library/Preferences 2> /dev/null
 
 # app:raycast
-ln -sf ~/Sync/low/appdata/com.raycast.macos ~/Library/Application\ Support 2> /dev/null
+ln -sf ${SYNC_FOLDER}/low/appdata/com.raycast.macos ~/Library/Application\ Support 2> /dev/null
 
 # resource!
 source $HOME/.zshrc
