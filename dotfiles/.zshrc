@@ -45,6 +45,9 @@ export MY=$HOME/my
 # export TMP
 export TMP=$HOME/__tmp
 
+# export Sync Folder
+export SYNC_FOLDER=$HOME/pCloud
+
 # colours
 export TERM=xterm-256color
 export GREP_OPTIONS='--color=auto' GREP_COLOR='1;32'

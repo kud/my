@@ -155,6 +155,10 @@ if [ ! -d "$HOME/Sync" ]; then
   read \?"Configure now your sync and press [Enter] when you've finished..."
 fi
 
+if [ ! -d "$HOME/pCloud" ]; then
+  read \?"Install and configure pCloud and press [Enter] when you've finished..."
+fi
+
 caskinstall flux
 # caskinstall iterm2
 caskinstall iterm2-nightly
