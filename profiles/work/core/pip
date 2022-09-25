@@ -3,29 +3,5 @@
 source $MY/core/helper
 
 # install python packages
-echo_space
-echo_title_install "python @ work"
-
-brew install $MY/patches/openssl/1.0/openssl.rb
-# ln -sf /usr/local/Cellar/openssl/1.0.2t/lib/libssl.1.0.0.dylib /usr/local/opt/openssl/lib/libssl.1.0.0.dylib
-# ln -sf /usr/local/Cellar/openssl/1.0.2t/lib/libcrypto.1.0.0.dylib /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib
-
-# Contexte
-## Journal
-# CTX_JOURNAL_PYTHON_VERSION="2.7.17"
-# pyenv install -s $CTX_JOURNAL_PYTHON_VERSION
-# pyenv virtualenv $CTX_JOURNAL_PYTHON_VERSION ctx-journal
-
-CTX_JOURNALV3_PYTHON_VERSION="3.7.9"
-pyenv install -s $CTX_JOURNALV3_PYTHON_VERSION
-pyenv virtualenv $CTX_JOURNALV3_PYTHON_VERSION ctx-journal
-
-## Data Lois Backend
-CTX_DATA_LOIS_BACKEND_PYTHON_VERSION="3.6.8"
-pyenv install -s $CTX_DATA_LOIS_BACKEND_PYTHON_VERSION
-pyenv virtualenv $CTX_DATA_LOIS_BACKEND_PYTHON_VERSION ctx-lois-backend
-
-## Apps
-CTX_APPS_PYTHON_VERSION="2.7.17"
-pyenv install -s $CTX_APPS_PYTHON_VERSION
-pyenv virtualenv $CTX_APPS_PYTHON_VERSION ctx-apps
+# echo_space
+# echo_title_install "python @ work"

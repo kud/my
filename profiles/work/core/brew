@@ -2,33 +2,8 @@
 
 source $MY/core/helper
 
-echo_space
-echo_title_install "brew packages @ $OS_PROFILE"
+# echo_space
+# echo_title_install "brew packages @ $OS_PROFILE"
 
-brewtap contexte/contexte
-
-mkdir /usr/local/etc/my.cnf.d
-brewinstall mariadb@10.1
-brew link mariadb@10.1 --force
-# brew services start mariadb@10.1
-# brewinstall elasticsearch@2.4
-brewinstall redis
-brewinstall s3cmd
-brewinstall awsebcli
-brewinstall postgresql
-brewinstall pdf-redact-tools
-brewinstall java11
-sudo ln -sfn /usr/local/opt/openjdk@11/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-11.jdk
-
-brewinstall elasticsearch@5.6.4
-
-echo_space
-echo_title_install "apps @ $OS_PROFILE"
-
-caskinstall google-chrome
-caskinstall google-chrome-canary
-caskinstall firefox
-# caskinstall zeplin
-caskinstall figma
-caskinstall ngrok
-caskinstall sequel-pro
+# echo_space
+# echo_title_install "apps @ $OS_PROFILE"

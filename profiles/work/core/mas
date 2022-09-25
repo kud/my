@@ -1,8 +1,6 @@
 #! /usr/bin/env zsh
 source $MY/core/helper
 
-echo_space
-echo_title_install "apps from AppStore @ work"
-
-mas install 1278508951
+# echo_space
+# echo_title_install "apps from AppStore @ work"
 
