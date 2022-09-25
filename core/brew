@@ -49,7 +49,7 @@ brewtap federico-terzi/espanso
 ### system
 brewinstall ssh-copy-id
 brewinstall make
-brewinstall archey # system information
+brewinstall neofetch # system information
 brewinstall mitmproxy
 brewinstall pv
 brewinstall md5sha1sum
