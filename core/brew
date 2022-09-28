@@ -52,6 +52,7 @@ brewinstall make
 brewinstall neofetch # system information
 brewinstall mitmproxy
 brewinstall pv
+brewinstall fd
 brewinstall md5sha1sum
 brewinstall tree
 brewinstall ncdu
