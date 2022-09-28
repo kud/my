@@ -80,12 +80,14 @@ brewinstall gnu-sed
 
 ### network
 brewinstall rsync
+brewinstall rclone
 brewinstall wget
 brewinstall curl
 brewinstall lsof
 brewinstall tcpflow # analyse tcp requests
 brewinstall mtr
 brewinstall dnsmasq
+brewinstall syncthing
 
 ### git
 brewinstall git
@@ -113,9 +115,6 @@ brewinstall pyenv-virtualenv
 brewinstall node@16
 brewinstall yarn
 brewinstall jesseduffield/lazynpm/lazynpm
-
-### sync/backup
-brewinstall syncthing
 
 ### others
 brewinstall heroku/brew/heroku

@@ -138,7 +138,7 @@ defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 # all wallpapers are in `/Library/Desktop Pictures/`. The default is `Wave.jpg`.
 # rm -rf "~/Library/Application Support/Dock/desktoppicture.db"
 # sudo rm -rf "/System/Library/CoreServices/DefaultDesktop.jpg"
-# sudo ln -s ${SYNC_FOLDER}/low/lib/wallpapers/DefaultDesktop.jpg /System/Library/CoreServices/DefaultDesktop.jpg
+# sudo ln -s ${SYNC_FOLDER}/Lib/wallpapers/DefaultDesktop.jpg /System/Library/CoreServices/DefaultDesktop.jpg
 
 ###############################################################################
 # SSD-specific tweaks                                                         #
@@ -233,7 +233,7 @@ defaults write com.apple.screensaver askForPasswordDelay -int 0
 defaults -currentHost write com.apple.screensaver idleTime -int 0
 
 # Save screenshots to the desktop
-defaults write com.apple.screencapture location -string "${SYNC_FOLDER}/screenshots"
+defaults write com.apple.screencapture location -string "${HOME}/Screenshots"
 
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
 defaults write com.apple.screencapture type -string "png"

@@ -16,7 +16,7 @@ dsstore() {
 
 screenshots() {
   echo_title "Deleting screenshots..."
-  rm ${SYNC_FOLDER}/screenshots/*
+  rm ${HOME}/Screenshots/*
   echo_success "Screenshots deleted."
 }
 
