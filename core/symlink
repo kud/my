@@ -10,6 +10,9 @@ echo_title_install "symlinks"
 # sensible dotfiles
 ln -sf ${SYNC_FOLDER}/Appdata/ssh/config ~/.ssh/config 2> /dev/null
 
+# screenshots
+ln -sf ${SYNC_FOLDER}/Screenshots ~ 2> /dev/null
+
 # app:iterm
 ln -sf ${SYNC_FOLDER}/Appdata/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist 2> /dev/null
 
