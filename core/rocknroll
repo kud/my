@@ -38,9 +38,9 @@ else
   git clone --recursive https://github.com/kud/themes.git "$HOME/my/modules/themes"
 fi
 
-mkdir -p ~/Library/Application\ Support/LimeChat/Themes
-ln -sf ~/my/modules/themes/limechat/kud.css ~/Library/Application\ Support/LimeChat/Themes/kud.css
-ln -sf ~/my/modules/themes/limechat/kud.yaml ~/Library/Application\ Support/LimeChat/Themes/kud.yaml
+# mkdir -p ~/Library/Application\ Support/LimeChat/Themes
+# ln -sf ~/my/modules/themes/limechat/kud.css ~/Library/Application\ Support/LimeChat/Themes/kud.css
+# ln -sf ~/my/modules/themes/limechat/kud.yaml ~/Library/Application\ Support/LimeChat/Themes/kud.yaml
 
 # ln -si ~/my/modules/themes/prezto/prompt_kud_setup ~/.zprezto/modules/prompt/functions/prompt_kud_setup
 

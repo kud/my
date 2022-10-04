@@ -10,11 +10,6 @@ echo_title_install "apps from AppStore"
 #  xcode-select --install
 # fi
 
-mas install 1384080005 # Tweetbot 3
-mas install 889428659 # xScope
-mas install 1081413713 # GIF Brewery 3
-mas install 1351639930 # Gifski
-
 source $MY/profiles/$OS_PROFILE/core/mas 2> /dev/null
 
 echo_space
