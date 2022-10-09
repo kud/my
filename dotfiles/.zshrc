@@ -27,6 +27,7 @@ autoload zmv
 
 # z
 . /usr/local/etc/profile.d/z.sh
+. /opt/homebrew/etc/profile.d/z.sh
 
 # functions
 ## set the tab title to current dir

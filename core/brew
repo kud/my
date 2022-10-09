@@ -17,8 +17,9 @@ if ! type "/usr/local/bin/zsh" > /dev/null; then
   echo_space
   echo_title_install "zsh"
   brewinstall zsh
-  echo "/usr/local/bin/zsh" | sudo tee -a /etc/shells
-  chsh -s /usr/local/bin/zsh $USER
+  # echo "/usr/local/bin/zsh" | sudo tee -a /etc/shells
+  # chsh -s /usr/local/bin/zsh $USER
+  chsh -s $(which zsh)
   # sudo mv /etc/{zshenv,zprofile}
 fi
 
@@ -33,7 +34,7 @@ fi
 ## update/upgrade brew
 echo_space
 echo_title_update "brew"
-brew update && brew upgrade && brew cask upgrade
+brew update && brew upgrade
 
 ## install brew packages
 echo_space
