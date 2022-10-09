@@ -69,11 +69,6 @@ source $MY/core/mas
 # echo_title "Remove shits"
 # sed -i "" 's/install.disable.sponsor.offers.*/install.disable.sponsor.offers=true/g' ~/Library/Application\ Support/Oracle/Java/Deployment/deployment.properties
 
-# hack to make doctor not crying about `make`
-# if type "/usr/local/bin/make" > /dev/null; then
-#   brew unlink make > /dev/null
-# fi
-
 source $MY/profiles/$OS_PROFILE/core/rocknroll 2> /dev/null
 
 echo_space

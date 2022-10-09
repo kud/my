@@ -40,7 +40,7 @@ ln -sf ${SYNC_FOLDER}/Appdata/code/Code ~/Library/Application\ Support 2> /dev/n
 ln -sf ${SYNC_FOLDER}/Appdata/rocket/rocket.db ~/Library/Application\ Support/Rocket/rocket.db 2> /dev/null
 
 # app:github
-ln -sf /Applications/GitHub\ Desktop.app/Contents/MacOS/github_cli /usr/local/bin/github_cli 2> /dev/null
+ln -sf /Applications/GitHub\ Desktop.app/Contents/MacOS/github_cli ${HOMEBREW_PREFIX}/bin/github_cli 2> /dev/null
 
 # app:espanso
 ln -sf ${SYNC_FOLDER}/Appdata/espanso ~/Library/Preferences 2> /dev/null

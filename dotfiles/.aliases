@@ -43,7 +43,7 @@ alias .gitignore_global='$EDITOR -n  ~/.gitignore_global'
 alias .gitconfig='$EDITOR -n  ~/.gitconfig'
 alias .gitconfig_local='$EDITOR -n  ~/.gitconfig_local'
 alias network-sharing="sudo $EDITOR -n /etc/bootpd.plist"
-alias dnsmasq.conf="$EDITOR -n /usr/local/etc/dnsmasq.conf"
+alias dnsmasq.conf="$EDITOR -n ${HOMEBREW_PREFIX}/etc/dnsmasq.conf"
 
 # android
 alias android-inspector='adb forward tcp:9222 localabstract:chrome_devtools_remote'
@@ -88,7 +88,7 @@ alias java14='export JAVA_HOME=$JAVA_14_HOME'
 alias java15='export JAVA_HOME=$JAVA_15_HOME'
 
 #fix
-alias localtunnel='/usr/local/bin/lt'
+alias localtunnel='${HOMEBREW_PREFIX}/bin/lt'
 
 # no correct
 alias sshfs='nocorrect sshfs'
