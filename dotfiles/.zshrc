@@ -1,4 +1,4 @@
-# HOMEBREW_PREFIX
+# Set homebrew prefix depending on Intel or Apple Silicon
 HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-/usr/local}"
 
 # prezto
@@ -22,16 +22,14 @@ prompt_dir() {
 }
 
 # autojump
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+[ -f ${HOMEBREW_PREFIX}/etc/profile.d/autojump.sh ] && . ${HOMEBREW_PREFIX}/etc/profile.d/autojump.sh
 autoload -U compinit && compinit
 
 # zmv
 autoload zmv
 
 # z
-## @TODO: should understand this
-[ -f /usr/local/etc/profile.d/z.sh ] && . /usr/local/etc/profile.d/z.sh
-[ -f /opt/homebrew/etc/profile.d/z.sh ] && . /opt/homebrew/etc/profile.d/z.sh
+[ -f ${HOMEBREW_PREFIX}/etc/profile.d/z.sh ] && . ${HOMEBREW_PREFIX}/etc/profile.d/z.sh
 
 # functions
 ## set the tab title to current dir
@@ -82,14 +80,14 @@ export EDITOR="vim"
 . ~/.aliases
 
 # node
-export NODE_PATH=/usr/local/share/npm/lib/node_modules
+export NODE_PATH=${HOMEBREW_PREFIX}/share/npm/lib/node_modules
 
 ###-begin-npm-completion-###
 #
 # npm command completion script
 #
 # Installation: npm completion >> ~/.bashrc  (or ~/.zshrc)
-# Or, maybe: npm completion > /usr/local/etc/bash_completion.d/npm
+# Or, maybe: npm completion > ${HOMEBREW_PREFIX}/etc/bash_completion.d/npm
 #
 if type complete &>/dev/null; then
   _npm_completion () {
@@ -145,7 +143,7 @@ fi
 ###-end-npm-completion-###
 
 # android
-export ANDROID_HOME=/usr/local/opt/android-sdk
+export ANDROID_HOME=${HOMEBREW_PREFIX}/opt/android-sdk
 
 # java
 export JAVA_HOME=$(/usr/libexec/java_home -v15)
@@ -158,8 +156,8 @@ if which pyenv > /dev/null; then eval "$(pyenv init --path)"; fi
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
-export LDFLAGS="-L/usr/local/opt/openssl/lib"
-export CPPFLAGS="-I/usr/local/opt/openssl/include"
+export LDFLAGS="-L${HOMEBREW_PREFIX}/opt/openssl/lib"
+export CPPFLAGS="-I${HOMEBREW_PREFIX}/opt/openssl/include"
 
 # homebrew cask
 export HOMEBREW_CASK_OPTS=--appdir=/Applications
@@ -169,11 +167,11 @@ export BABEL_CACHE_PATH=/tmp/babel.cache.json
 
 # PATH - must be in the end
 export PATH=$PATH:$MY/bin/shims # add commands to open applications
-export PATH=/usr/local/Cellar/:$PATH # brew
-export PATH=/usr/local/lib/node_modules:$PATH # npm
-export PATH=/usr/local/opt/ruby/bin:$PATH # ruby
-# export PATH="/usr/local/opt/openjdk/bin:$PATH" # java
-export PATH=/usr/local/opt/gnu-sed/libexec/gnubin:$PATH # gnu-sed
+export PATH=${HOMEBREW_PREFIX}/Cellar/:$PATH # brew
+export PATH=${HOMEBREW_PREFIX}/lib/node_modules:$PATH # npm
+export PATH=${HOMEBREW_PREFIX}/opt/ruby/bin:$PATH # ruby
+# export PATH="${HOMEBREW_PREFIX}/opt/openjdk/bin:$PATH" # java
+export PATH=${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH # gnu-sed
 export PATH=$MY/bin/git:$PATH # git commands
 export PATH=$MY/bin/_:$PATH # own commands
 
