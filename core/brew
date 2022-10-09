@@ -150,11 +150,6 @@ echo_title_install "apps"
 #   read \?"Configure now your dropbox and press [Enter] when you've finished..."
 # fi
 
-caskinstall sync
-if [ ! -d "$HOME/Sync" ]; then
-  read \?"Configure now your sync and press [Enter] when you've finished..."
-fi
-
 if [ ! -d "$HOME/pCloud" ]; then
   read \?"Install and configure pCloud and press [Enter] when you've finished..."
 fi

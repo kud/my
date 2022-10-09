@@ -25,9 +25,9 @@
   verbose = true
 [merge]
   ff = false
-[url "git@github.com:"]
-  insteadOf = http://github.com/
-  insteadOf = https://github.com/
+# [url "git@github.com:"]
+#   insteadOf = http://github.com/
+#   insteadOf = https://github.com/
 [color]
   ui = true
 [color "branch"]
