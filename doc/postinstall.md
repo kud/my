@@ -10,17 +10,21 @@
 
 ## keyboard
 
+(no need, was replaced by espanso)
+
 - System Preferences > Keyboard > Text : Drag'n'drop `Text Substitutions.plist`
 
 ## dock
 
-- Set on Finder : Options > All Desktops
+- Set on Finder: Options > All Desktops
 
 ## vim
 
 - Do `:PlugInstall`
 
 ## sublime text
+
+(no needed anymore)
 
 - Insert licence
 
@@ -31,6 +35,11 @@
 - `$ £ firefox-settings`
 - Enter sync account
 - Redefine GUI
+- Install plugins (list here those ones)
+
+## vs code
+
+- Install Material Theme Icons Palenight and choose it
 
 ## screensaver
 
