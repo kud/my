@@ -1,3 +1,6 @@
+# HOMEBREW_PREFIX
+HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-/usr/local}"
+
 # prezto
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -26,6 +29,7 @@ autoload -U compinit && compinit
 autoload zmv
 
 # z
+## @TODO: should understand this
 [ -f /usr/local/etc/profile.d/z.sh ] && . /usr/local/etc/profile.d/z.sh
 [ -f /opt/homebrew/etc/profile.d/z.sh ] && . /opt/homebrew/etc/profile.d/z.sh
 

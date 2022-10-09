@@ -18,7 +18,6 @@ if ! type "/usr/local/bin/zsh" > /dev/null; then
   echo_title_install "zsh"
   brewinstall zsh
   # echo "/usr/local/bin/zsh" | sudo tee -a /etc/shells
-  # chsh -s /usr/local/bin/zsh $USER
   chsh -s $(which zsh)
   # sudo mv /etc/{zshenv,zprofile}
 fi
