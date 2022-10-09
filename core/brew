@@ -167,7 +167,6 @@ caskinstall appcleaner
 caskinstall macpass
 caskinstall rectangle
 caskinstall grandperspective
-caskinstall cloudup
 caskinstall xquartz
 caskinstall flash-player
 caskinstall prefs-editor
@@ -179,7 +178,6 @@ caskinstall monodraw
 # caskinstall gitkraken
 caskinstall gitup
 caskinstall xrg
-caskinstall molotov
 caskinstall insomnia # REST Client — https://insomnia.rest/
 # caskinstall sublime-text-dev
 # if ! type "subl" > /dev/null; then
@@ -189,11 +187,9 @@ caskinstall sublime-merge-dev
 caskinstall firefox-nightly
 # caskinstall atom
 caskinstall discord
-caskinstall deluge
 caskinstall imagealpha
 caskinstall imageoptim
 caskinstall spotify
-caskinstall steam
 # caskinstall kodi
 caskinstall vlc
 caskinstall slack
@@ -209,8 +205,6 @@ caskinstall tyke
 caskinstall sip
 # caskinstall alfred
 caskinstall raycast
-caskinstall rawtherapee
-caskinstall darktable
 caskinstall visual-studio-code
 # caskinstall typora
 caskinstall proxyman

@@ -1,0 +1,9 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+caskinstall deluge
+caskinstall steam
+caskinstall molotov
+caskinstall rawtherapee
+caskinstall darktable
