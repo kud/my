@@ -134,6 +134,7 @@ brewinstall openssl@1.1
 brewinstall glow
 brewinstall loom
 brewinstall espanso
+brewinstall svn # for Ubuntu fonts
 # brewinstall pdftk
 # brewinstall imagemagick --with-fontconfig
 
