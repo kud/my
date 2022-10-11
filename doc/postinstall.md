@@ -8,11 +8,11 @@
 
 - System Preferences > Security & Privacy > Require password "immediately"
 
-## keyboard
+<!-- ## keyboard
 
 (no need, was replaced by espanso)
 
-- System Preferences > Keyboard > Text : Drag'n'drop `Text Substitutions.plist`
+- System Preferences > Keyboard > Text : Drag'n'drop `Text Substitutions.plist` -->
 
 ## dock
 
@@ -22,11 +22,11 @@
 
 - Do `:PlugInstall`
 
-## sublime text
+<!-- ## sublime text
 
 (no needed anymore)
 
-- Insert licence
+- Insert licence -->
 
 ## firefox
 
@@ -35,7 +35,7 @@
 - `$ £ firefox-settings`
 - Enter sync account
 - Redefine GUI
-- Install plugins (list here those ones)
+- Install plugins // @TODO list here those ones
 
 ## vs code
 
