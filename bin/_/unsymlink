@@ -1,0 +1,5 @@
+#! /usr/bin/env zsh
+
+ORIGINAL_SOURCE=$(readlink $argv)
+rm -rf $argv
+cp -r $ORIGINAL_SOURCE $argv

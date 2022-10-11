@@ -19,7 +19,6 @@ if ! type "${HOMEBREW_PREFIX}/bin/zsh" > /dev/null; then
   brewinstall zsh
   echo "${HOMEBREW_PREFIX}/bin/zsh" | sudo tee -a /etc/shells
   chsh -s $(which zsh)
-  # sudo mv /etc/{zshenv,zprofile}
 fi
 
 ## install bash via brew if needed
@@ -43,8 +42,6 @@ echo_title_install "brew packages"
 brewtap homebrew/cask
 brewtap homebrew/cask-fonts
 brewtap homebrew/cask-versions
-brewtap elastic/tap
-brewtap federico-terzi/espanso
 
 ### system
 brewinstall ssh-copy-id
@@ -76,8 +73,6 @@ brewinstall brightness
 brewinstall z
 brewinstall ripgrep
 brewinstall gnu-sed
-# brewinstall ffmpeg --with-libass --with-fontconfig
-# brewinstall terminal-notifier
 
 ### network
 brewinstall rsync
@@ -109,18 +104,14 @@ brewinstall java
 sudo ln -sfn ${HOMEBREW_PREFIX}/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
 brewinstall ruby
 brewinstall python # however, will be installed via pyenv after
-brewinstall python3 # however, will be installed via pyenv after
 brewinstall pyenv
 brewinstall pyenv-virtualenv
-brewinstall node
-# brewinstall node@16
+brewinstall node # @TODO: could be an idea to have a manager
 brewinstall yarn
 brewinstall jesseduffield/lazynpm/lazynpm
 
 ### others
 brewinstall heroku/brew/heroku
-brewinstall elastic/tap/elasticsearch-full
-brewinstall elastic/tap/kibana-full
 brewinstall yt-dlp
 brewinstall pdf-redact-tools
 brewinstall imagemagick
@@ -133,7 +124,6 @@ brewinstall asciinema
 brewinstall openssl@1.1
 brewinstall glow
 brewinstall loom
-brewinstall espanso
 brewinstall svn # for Ubuntu fonts
 # brewinstall pdftk
 # brewinstall imagemagick --with-fontconfig

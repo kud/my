@@ -8,6 +8,10 @@ for dotfile in "${ZDOTDIR:-$HOME}"/my/dotfiles/.{aliases,editorconfig,gemrc,gitc
   ln -sf "$dotfile" "${ZDOTDIR:-$HOME}/${dotfile:t}" 2> /dev/null
 done
 
+if [ ! -f ~/.ssh/config ]; then
+  cp $MY/templates/ssh/config ~/.ssh/
+fi
+
 # local files
 if [ ! -f ~/.zshrc_local ]; then
   echo "export OS_PROFILE=DEFINE_ME" > ~/.zshrc_local

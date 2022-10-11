@@ -3,26 +3,8 @@ source $MY/core/helper
 
 echo_title_install "symlinks"
 
-# create folders first
-# mkdir -p ~/Library/Application\ Support/{"Sublime Text 3",Adobe/Lightroom}
-# mkdir -p ~/Library/Application\ Support/Adobe/Lightroom
-
-# sensible dotfiles
-ln -sf ${SYNC_FOLDER}/Appdata/ssh/config ~/.ssh/config 2> /dev/null
-
 # screenshots
 ln -sf ${SYNC_FOLDER}/Screenshots ~ 2> /dev/null
-
-# app:iterm
-# should be loaded via preferences
-# ln -sf ${SYNC_FOLDER}/Appdata/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist 2> /dev/null
-
-# app:limechat
-# ln -sf ${SYNC_FOLDER}/Appdata/limechat/net.limechat.LimeChat.plist ~/Library/Preferences/net.limechat.LimeChat.plist 2> /dev/null
-
-# app:sublime text
-# ln -sf ${SYNC_FOLDER}/Appdata/sublimetext3/Packages ~/Library/Application\ Support/Sublime\ Text\ 3 2> /dev/null
-# ln -sf ${SYNC_FOLDER}/Appdata/sublimetext3/Installed\ Packages ~/Library/Application\ Support/Sublime\ Text\ 3 2> /dev/null
 
 # app:insomnia
 ln -sf ${SYNC_FOLDER}/Appdata/insomnia/Insomnia ~/Library/Application\ Support 2> /dev/null
@@ -30,24 +12,11 @@ ln -sf ${SYNC_FOLDER}/Appdata/insomnia/Insomnia ~/Library/Application\ Support 2
 # app:lightroom
 # ln -sf ${SYNC_FOLDER}/Appdata/lightroom/Develop\ Presets ~/Library/Application\ Support/Adobe/Lightroom 2> /dev/null
 
-# # app:atom @FIXME: please
-# rm -rf ~/.atom
-# ln -sf ${SYNC_FOLDER}/Appdata/atom ~/.atom 2> /dev/null
-
-# app:vs code
-# ln -sf ${SYNC_FOLDER}/Appdata/code/Code ~/Library/Application\ Support 2> /dev/null
-
-# app:rocket
-# ln -sf ${SYNC_FOLDER}/Appdata/rocket/rocket.db ~/Library/Application\ Support/Rocket/rocket.db 2> /dev/null
-
 # app:github
 ln -sf /Applications/GitHub\ Desktop.app/Contents/MacOS/github_cli ${HOMEBREW_PREFIX}/bin/github_cli 2> /dev/null
 
 # app:espanso
 ln -sf ${SYNC_FOLDER}/Appdata/espanso ~/Library/Preferences 2> /dev/null
-
-# app:raycast
-# ln -sf ${SYNC_FOLDER}/Appdata/com.raycast.macos ~/Library/Application\ Support 2> /dev/null
 
 source $MY/profiles/$OS_PROFILE/core/symlink 2> /dev/null
 
