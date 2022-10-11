@@ -113,7 +113,6 @@ brewinstall jesseduffield/lazynpm/lazynpm
 ### others
 brewinstall heroku/brew/heroku
 brewinstall yt-dlp
-brewinstall pdf-redact-tools
 brewinstall imagemagick
 brewinstall mas # Mac App Store command line interface - https://github.com/mas-cli/mas
 brewinstall bat # https://github.com/sharkdp/bat

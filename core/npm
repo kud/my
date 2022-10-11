@@ -73,6 +73,7 @@ npminstall envinfo
 npminstall vercel
 npminstall jscodeshift
 npminstall fx # https://github.com/antonmedv/fx
+npm install zx
 
 # config
 npm config set save-exact true
