@@ -1,0 +1,3 @@
+#! /usr/bin/env zsh
+
+find . -type l ! -exec test -e {} \; -print

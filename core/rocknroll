@@ -48,16 +48,10 @@ fi
 echo_space
 echo_title_update "vim theme"
 mkdir -p ~/.vim/colors
-# rm -f ~/.vim/colors/Tomorrow-Night-Eighties.vim
 rm -f ~/.vim/colors/Tomorrow-Night.vim
-# rm -f ~/.vim/colors/flatland.vim
 rm -f ~/.vim/colors/OceanicNext.vim
-# rm -f ~/.vim/colors/OceanicNextLight.vim
-# curl -sL https://raw.githubusercontent.com/chriskempson/tomorrow-theme/master/vim/colors/Tomorrow-Night-Eighties.vim > ~/.vim/colors/Tomorrow-Night-Eighties.vim
 curl -sL https://raw.githubusercontent.com/chriskempson/tomorrow-theme/master/vim/colors/Tomorrow-Night.vim > ~/.vim/colors/Tomorrow-Night.vim
-# curl -sL https://raw.githubusercontent.com/vivkin/flatland.vim/master/colors/flatland.vim > ~/.vim/colors/flatland.vim
 curl -sL https://raw.githubusercontent.com/mhartington/oceanic-next/master/colors/OceanicNext.vim > ~/.vim/colors/OceanicNext.vim
-# curl -sL https://raw.githubusercontent.com/mhartington/oceanic-next/master/colors/OceanicNextLight.vim > ~/.vim/colors/OceanicNextLight.vim
 
 
 source $MY/core/gem
@@ -74,10 +68,6 @@ source $MY/profiles/$OS_PROFILE/core/rocknroll 2> /dev/null
 echo_space
 echo_title "Doctor is checking..."
 brew doctor
-
-# come brew packages back
-# brew link make --force > /dev/null
-# brew link zlib --force > /dev/null
 
 # done!
 echo_space

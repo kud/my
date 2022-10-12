@@ -9,8 +9,7 @@ caskinstall font-ubuntu
 caskinstall font-ubuntu-mono-derivative-powerline
 caskinstall font-fira-code
 caskinstall font-cascadia-code
-caskinstall font-cascadia-mono
-
+caskinstall font-cascadia-mon
 caskinstall font-3270-nerd-font
 caskinstall font-3270-nerd-font-mono
 caskinstall font-anonymouspro-nerd-font
