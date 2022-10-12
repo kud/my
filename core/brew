@@ -120,12 +120,10 @@ brewinstall httpie
 brewinstall jq
 brewinstall ipcalc
 brewinstall asciinema
-brewinstall openssl@1.1
+brewinstall openssl
 brewinstall glow
 brewinstall loom
 brewinstall svn # for Ubuntu fonts
-# brewinstall pdftk
-# brewinstall imagemagick --with-fontconfig
 
 echo_space
 echo_title "Cleaning brew..."
@@ -135,19 +133,14 @@ brew cleanup
 echo_space
 echo_title_install "apps"
 
-# caskinstall dropbox
-# if [ ! -d "$HOME/Dropbox" ]; then
-#   read \?"Configure now your dropbox and press [Enter] when you've finished..."
-# fi
-
 if [ ! -d "$HOME/pCloud" ]; then
   read \?"Install and configure pCloud and press [Enter] when you've finished..."
 fi
 
 caskinstall flux
 # caskinstall iterm2
-caskinstall iterm2-nightly
 # caskinstall iterm2-beta
+caskinstall iterm2-nightly
 caskinstall appcleaner
 caskinstall macpass
 caskinstall rectangle
@@ -170,7 +163,6 @@ caskinstall insomnia # REST Client — https://insomnia.rest/
 # fi
 caskinstall sublime-merge-dev
 caskinstall firefox-nightly
-# caskinstall atom
 caskinstall discord
 caskinstall imagealpha
 caskinstall imageoptim
@@ -188,7 +180,6 @@ caskinstall background-music-pre
 caskinstall fliqlo
 caskinstall tyke
 caskinstall sip
-# caskinstall alfred
 caskinstall raycast
 caskinstall visual-studio-code
 # caskinstall typora

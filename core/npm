@@ -51,17 +51,11 @@ npminstall how2 # stackoverflow from the terminal
 npminstall iterm2-tab-set # set iTerm2 tab color, title, and/or badge
 npminstall gh-pages # deploy on gh-pages — https://github.com/tschaub/gh-pages
 npminstall diff-so-fancy # Good-lookin' diffs. Actually… nah… The best-lookin' diffs. — https://github.com/so-fancy/diff-so-fancy
-# npminstall toggl
-# npminstall pure-prompt
 npminstall fkill-cli # Fabulously kill processes. — https://github.com/sindresorhus/fkill-cli
 npminstall import-cost
 npminstall gnomon
 npminstall lighthouse # Auditing, performance metrics, and best practices for Progressive Web Apps - https://github.com/GoogleChrome/lighthouse
 npminstall typescript@next
-# npminstall vscode-css-languageserver-bin
-# npminstall vscode-html-languageserver-bin
-# npminstall lsp-tsserver
-# npminstall typescript-language-server
 npminstall prettier
 npminstall ntl # Npm Task List: Interactive cli menu to list/run npm tasks - https://github.com/ruyadorno/ntl
 npminstall fkill # Fabulously kill processes. Cross-platform.  - https://github.com/sindresorhus/fkill-cli
@@ -73,13 +67,12 @@ npminstall envinfo
 npminstall vercel
 npminstall jscodeshift
 npminstall fx # https://github.com/antonmedv/fx
-npm install zx
+npminstall zx
 
 # config
 npm config set save-exact true
 npm config set tag-version-prefix ""
 npm config set progress false
-# npm config set loglevel info
 npm config set fetch-retries 3
 npm config set fetch-retry-mintimeout 15000
 npm config set fetch-retry-maxtimeout 90000
