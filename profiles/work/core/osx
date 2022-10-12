@@ -17,6 +17,3 @@ sudo scutil --set HostName "mest001"
 sudo scutil --set LocalHostName "mest001"
 # sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "kud-work"
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "mest001"
-
-# Enable press-and-hold for keys in favor of key repeat (useful for qwerty keyboard)
-defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool true
