@@ -87,6 +87,7 @@ brewinstall syncthing
 
 ### git
 brewinstall git
+brewinstall gh
 # brewinstall ghi
 brewinstall tig
 brewinstall hub
