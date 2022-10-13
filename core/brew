@@ -192,6 +192,8 @@ caskinstall altair-graphql-client
 caskinstall duf
 caskinstall xcodes
 caskinstall keepassxc
+caskinstall cleanshot
+caskinstall pixelsnap
 # caskinstall flashlight
 # caskinstall mysimbl
 # caskinstall vlc-nightly
