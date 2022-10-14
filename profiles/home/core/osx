@@ -13,3 +13,7 @@ sudo scutil --set ComputerName "_kud.home"
 sudo scutil --set HostName "_kud.home"
 sudo scutil --set LocalHostName "kud-home"
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "kud-home"
+
+# Disable to boot when open the lib
+sudo nvram AutoBoot=%00
+# sudo nvram AutoBoot=%03
