@@ -1,0 +1,52 @@
+#! /usr/bin/env zsh
+
+# Ask for the administrator password upfront
+sudo -v
+
+# Menu bar
+# defaults write com.apple.systemuiserver menuExtras -array "/System/Library/CoreServices/Menu Extras/Clock.menu" "/System/Library/CoreServices/Menu Extras/Battery.menu" "/System/Library/CoreServices/Menu Extras/AirPort.menu" "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" "/System/Library/CoreServices/Menu Extras/Volume.menu" "/System/Library/CoreServices/Menu Extras/Displays.menu"
+
+# Disable sounds
+defaults write NSGlobalDomain com.apple.sound.beep.volume -float 0
+defaults write NSGlobalDomain com.apple.sound.uiaudio.enabled -int 0
+
+# Require password immediately after sleep or screen saver begins
+# defaults -currentHost write com.apple.screensaver idleTime -int 0
+
+# Set language and text formats
+defaults write NSGlobalDomain AppleICUNumberSymbols -dict 0 '.' 1 '' 10 '.' 17 ''
+
+###############################################################################
+# Screen                                                                      #
+###############################################################################
+
+# Add/Remove date on screenshot name
+defaults write com.apple.screencapture "include-date" 1
+
+# Rename screenshot name
+defaults write com.apple.screencapture name macosx
+
+###############################################################################
+# Finder                                                                      #
+###############################################################################
+
+# Hide tags
+defaults write com.apple.finder ShowRecentTags -bool false
+
+# Hide icons on Desktop
+defaults write com.apple.finder CreateDesktop false
+
+###############################################################################
+# Dock                                                                        #
+###############################################################################
+
+# Orientation
+defaults write com.apple.dock orientation -string "bottom"
+
+###############################################################################
+# Remove shits                                                                #
+###############################################################################
+
+defaults write ~/Library/Application\ Support/JREInstaller/ThirdParty SPONSORS -string "0"
+
+
