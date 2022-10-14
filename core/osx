@@ -182,8 +182,8 @@ sudo systemsetup -settimezone "Europe/London" > /dev/null
 # Energy saving                                                               #
 ###############################################################################
 
-# Enable lid wakeup // @TODO: understand this
-sudo pmset -a lidwake 1
+# Enable lid wakeup
+# sudo pmset -a lidwake 1
 
 # Restart automatically on power loss
 sudo pmset -a autorestart 1
