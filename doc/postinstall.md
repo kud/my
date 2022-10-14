@@ -1,18 +1,15 @@
 # postinstall
 
-## my (folder)
+## MY, change remote
 
-- Change origin url (`$ $EDITOR $MY/.git/config`) to `git@github.com:kud/my.git`
+```shell
+$ cd MY
+$ git remote origin set-url git@github.com:kud/my.git
+```
 
 ## security & privacy
 
 - System Preferences > Security & Privacy > Require password "immediately"
-
-<!-- ## keyboard
-
-(no need, was replaced by espanso)
-
-- System Preferences > Keyboard > Text : Drag'n'drop `Text Substitutions.plist` -->
 
 ## dock
 
@@ -21,12 +18,6 @@
 ## vim
 
 - Do `:PlugInstall`
-
-<!-- ## sublime text
-
-(no needed anymore)
-
-- Insert licence -->
 
 ## firefox
 
@@ -51,11 +42,11 @@
 
 ## applications
 
-- pixelsnap 2
-- cleanshot x
-- earsafe
+- [earsafe](https://earsafe.io/)
 - [nativedisplaybrightness](https://github.com/KAMIKAZEUA/NativeDisplayBrightness/releases)
 - [LayerX](https://yuhua-chen.github.io/LayerX/)
+- [espanso](https://github.com/espanso/espanso/releases)
+- [espanso > french accents](https://hub.espanso.org/french-accents)
 
 ---
 

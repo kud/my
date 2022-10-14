@@ -19,7 +19,7 @@ ln -sf ${SYNC_FOLDER}/Screenshots ~ 2> /dev/null
 # ln -sf ${SYNC_FOLDER}/Appdata/rocket/rocket.db ~/Library/Application\ Support/Rocket/rocket.db 2> /dev/null
 
 # app:espanso
-# ln -sf ${SYNC_FOLDER}/Appdata/espanso ~/Library/Preferences 2> /dev/null
+ln -sf ${SYNC_FOLDER}/Appdata/espanso ~/Library/Preferences 2> /dev/null
 
 # source $MY/profiles/$OS_PROFILE/core/symlink 2> /dev/null
 
