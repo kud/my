@@ -14,7 +14,7 @@ if ! type "brew" > /dev/null; then
 fi
 
 ## install zsh
-if ! type "${HOMEBREW_PREFIX}/bin/zsh" > /dev/null; then
+if [[ $(which zsh) == "/bin/zsh" ]]; then
   echo_space
   echo_title_install "zsh"
   brewinstall zsh
@@ -23,7 +23,7 @@ if ! type "${HOMEBREW_PREFIX}/bin/zsh" > /dev/null; then
 fi
 
 ## install bash
-if ! type "${HOMEBREW_PREFIX}/bin/bash" > /dev/null; then
+if [ -z "$HOMEBREW_PREFIX" && ! type "${HOMEBREW_PREFIX}/bin/bash" > /dev/null ]; then
   echo_space
   echo_title_install "bash"
   brewinstall bash
