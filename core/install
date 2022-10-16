@@ -9,9 +9,9 @@ export MY=$HOME/my
 $MY/core/intro &&
 $MY/core/default-folders &&
 $MY/core/dotfiles &&
-# $MY/core/main &&
-# $MY/core/symlink &&
-# $MY/core/fonts &&
+$MY/core/main &&
+$MY/core/symlink &&
+$MY/core/fonts &&
 # $MY/core/os &&
 
 # open https://github.com/kud/my/blob/master/doc/postinstall.md
