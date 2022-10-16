@@ -28,6 +28,7 @@ Everything should be simple, your first step on your Mac too. Just follow these 
 $ sudo xcodebuild -license
 $ xcode-select --install
 $ sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+$ xcodebuild -runFirstLaunch
 ```
 
 ### Step 2: Run the script and watch the sky!
