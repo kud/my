@@ -132,7 +132,7 @@ echo_space
 echo_title_install "apps"
 
 if [ ! -d "$HOME/pCloud" ]; then
-  read \?"Install and configure pCloud and press [Enter] when you've finished..."
+  read "?Install and configure pCloud and press [Enter] when you've finished..."
 fi
 
 caskinstall flux

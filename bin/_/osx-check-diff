@@ -6,7 +6,7 @@ BEFORE_HOST=$(defaults -currentHost read)
 echo $BEFORE > before.tmp
 echo $BEFORE_HOST > before_host.tmp
 
-read \?"Do your changes and ENTER or CTRL+C to stop."
+read "?Do your changes and ENTER or CTRL+C to stop."
 
 echo "❯ Check after…"
 AFTER=$(defaults read)
