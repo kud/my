@@ -23,7 +23,7 @@ if [[ $(which zsh) == "/bin/zsh" ]]; then
 fi
 
 ## install bash
-if [[ $(which zsh) == "/bin/bash" ]]; then
+if [[ $(which bash) == "/bin/bash" ]]; then
   echo_space
   echo_title_install "bash"
   brewinstall bash
