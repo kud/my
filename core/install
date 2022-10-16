@@ -7,6 +7,7 @@ fi
 export MY=$HOME/my
 
 $MY/core/intro &&
+$MY/core/default-folders &&
 $MY/core/dotfiles &&
 $MY/core/main &&
 $MY/core/symlink &&
