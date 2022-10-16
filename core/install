@@ -14,6 +14,6 @@ $MY/core/symlink &&
 $MY/core/fonts &&
 # $MY/core/os &&
 
-# open https://github.com/kud/my/blob/master/doc/postinstall.md
+open https://github.com/kud/my/blob/master/doc/postinstall.md
 
 exec $SHELL
