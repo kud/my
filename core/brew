@@ -9,8 +9,8 @@ export HOMEBREW_CASK_OPTS=--appdir=/Applications
 if ! type "brew" > /dev/null; then
   echo_space
   echo_title_install "homebrew"
-  # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  curl --silent https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh|bash
+  sudo -v
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
 read -s -k '?Press any key to continue.'
