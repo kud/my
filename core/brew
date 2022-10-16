@@ -19,11 +19,11 @@ if [[ $(which zsh) == "/bin/zsh" ]]; then
   echo_title_install "zsh"
   brewinstall zsh
   echo "${HOMEBREW_PREFIX}/bin/zsh" | sudo tee -a /etc/shells
-  chsh -s $(which zsh)
+  chsh -s ${HOMEBREW_PREFIX}/bin/zsh
 fi
 
 ## install bash
-if [ -z "$HOMEBREW_PREFIX" && ! type "${HOMEBREW_PREFIX}/bin/bash" > /dev/null ]; then
+if [[ $(which zsh) == "/bin/bash" ]]; then
   echo_space
   echo_title_install "bash"
   brewinstall bash
