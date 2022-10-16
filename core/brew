@@ -131,10 +131,6 @@ brewinstall svn # for Ubuntu fonts
 echo_space
 echo_title_install "apps"
 
-if [ ! -d "$HOME/pCloud" ]; then
-  read "?Install and configure pCloud (https://www.pcloud.com/download-free-online-cloud-file-storage.html) and press [Enter] when you've finished..."  < /dev/tty
-fi
-
 caskinstall flux
 # caskinstall iterm2
 # caskinstall iterm2-beta

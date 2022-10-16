@@ -1,0 +1,7 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+if [ ! -d "$HOME/pCloud" ]; then
+  read "?Install and configure pCloud (https://www.pcloud.com/download-free-online-cloud-file-storage.html) and press [Enter] when you've finished..."  < /dev/tty
+fi
