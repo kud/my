@@ -2,6 +2,6 @@
 
 rm -rf $HOME/my
 
-rm -rf $HOME/.{aliases,editorconfig,gemrc,gitconfig,gitignore_global,prettierrc.js,vimrc,zshrc,zpreztorc}
+rm -rf $HOME/.{aliases,editorconfig,gemrc,gitconfig,gitconfig_local,gitignore_global,prettierrc.js,vimrc,zshrc,zshrc_local,zpreztorc}
 
 rm -rf $HOME/.zprezto
