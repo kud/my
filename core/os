@@ -1,5 +1,6 @@
 #! /usr/bin/env zsh
 # ~/.macos — https://mths.be/macos
+# version: https://github.com/mathiasbynens/dotfiles/blob/ea68bda80a455e149d29156071d4c8472f6b93cb/.macos
 
 source $MY/core/helper
 
