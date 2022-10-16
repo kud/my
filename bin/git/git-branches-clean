@@ -11,7 +11,7 @@ if [ -n "${branches_array}" ]; then
   echo "${branches_displayed}"
   echo ""
 
-  read "?Press any key to continue the deletion… or ctrl+c to stop."
+  read "?Press any key to continue the deletion… or ctrl+c to stop."  < /dev/tty
 
   for branch in $branches_array
   do
