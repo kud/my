@@ -4,7 +4,7 @@ source $MY/core/helper
 
 echo_title_install "dotfiles"
 
-for dotfile in "${ZDOTDIR:-$HOME}"/my/dotfiles/.{aliases,editorconfig,gemrc,gitconfig,gitignore_global,.prettierrc.js,vimrc,zshrc,zpreztorc}; do
+for dotfile in "${ZDOTDIR:-$HOME}"/my/dotfiles/.{aliases,editorconfig,gemrc,gitconfig,gitignore_global,prettierrc.js,vimrc,zshrc,zpreztorc}; do
   ln -sf "$dotfile" "${ZDOTDIR:-$HOME}/${dotfile:t}" 2> /dev/null
 done
 
