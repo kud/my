@@ -4,7 +4,7 @@
 
 ```shell
 $ cd MY
-$ git remote origin set-url git@github.com:kud/my.git
+$ git remote set-url origin git@github.com:kud/my.git
 ```
 
 ## security & privacy
@@ -18,15 +18,6 @@ $ git remote origin set-url git@github.com:kud/my.git
 ## vim
 
 - Do `:PlugInstall`
-
-## firefox
-
-- Start firefox
-- Quit firefox and wait 5s
-- `$ £ firefox-settings`
-- Enter sync account
-- Redefine GUI
-- Install plugins // @TODO list here those ones
 
 ## vs code
 
@@ -47,6 +38,15 @@ $ git remote origin set-url git@github.com:kud/my.git
 - [LayerX](https://yuhua-chen.github.io/LayerX/)
 - [espanso](https://github.com/espanso/espanso/releases)
 - [espanso > french accents](https://hub.espanso.org/french-accents)
+
+## firefox
+
+- Start firefox
+- Quit firefox and wait 5s
+- `$ £ firefox-settings`
+- Enter sync account
+- Redefine GUI
+- Install plugins // @TODO list here those ones
 
 ---
 
