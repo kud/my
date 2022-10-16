@@ -5,25 +5,16 @@ source $MY/core/helper
 # install python
 echo_space
 echo_title_update "python"
-# LATEST_PYTHON2_VERSION=$(brew info python@2|grep 'python@2:'|sed 's/python@2: stable //g'|sed 's/, HEAD//g')
-LATEST_PYTHON3_VERSION=$(brew info python|grep '(bottled)'|sed 's/==> python@3...: stable //g'|sed 's/ (bottled).*//g')
+LATEST_PYTHON_VERSION=$(brew info python|grep '(bottled)'|sed 's/==> python@3...: stable //g'|sed 's/ (bottled).*//g')
 
-# pyenv install -s $LATEST_PYTHON2_VERSION
-pyenv install -s $LATEST_PYTHON3_VERSION
-pyenv global $LATEST_PYTHON3_VERSION
+pyenv install -s $LATEST_PYTHON_VERSION
+pyenv global $LATEST_PYTHON_VERSION
 
 # install python packages
 echo_space
 echo_title_install "global python packages"
 
 pip3install pip
-# pip3install asciinema
-
-# pyenv virtualenv $LATEST_PYTHON3_VERSION sublime-text
-# pyenv local sublime-text
-# pip3install python-language-server
-# pip3install black
-# pyenv local --unset
 
 pip install --upgrade pip
 pip-upgrade-all

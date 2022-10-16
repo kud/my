@@ -4,6 +4,7 @@ source $MY/core/helper
 echo_title_install "fonts"
 
 cp ${SYNC_FOLDER}/Lib/fonts/Operator\ Mono/* ~/Library/Fonts &> /dev/null
+cp ${SYNC_FOLDER}/Lib/fonts/Operator\ Mono\ Lig/* ~/Library/Fonts &> /dev/null
 
 caskinstall font-ubuntu
 caskinstall font-ubuntu-mono-derivative-powerline

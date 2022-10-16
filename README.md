@@ -33,7 +33,7 @@ Go to your App Store and Sign-in.
 ### Step 3: Run the script and watch the sky!
 
 ```shell
-$ curl --silent https://raw.githubusercontent.com/kud/my/master/core/bootstrap | zsh
+$ curl --silent https://raw.githubusercontent.com/kud/my/master/core/install | zsh
 ```
 
 ## Usage

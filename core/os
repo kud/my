@@ -3,7 +3,7 @@
 
 source $MY/core/helper
 
-echo_title_update "macosx settings"
+echo_title_update "macos settings"
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
@@ -934,13 +934,13 @@ defaults write com.tapbots.TweetbotMac OpenURLsDirectly -bool true
 # EXTENDED                                                                    #
 ###############################################################################
 
-source $MY/core/osx-extended
+source $MY/core/os-extended
 
 ###############################################################################
 # Profile                                                                      #
 ###############################################################################
 
-source $MY/profiles/$OS_PROFILE/core/osx 2> /dev/null
+source $MY/profiles/$OS_PROFILE/core/os 2> /dev/null
 
 ###############################################################################
 # Kill affected applications                                                  #

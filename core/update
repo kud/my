@@ -1,8 +1,11 @@
 #! /usr/bin/env zsh
+
 source $MY/core/helper
 
 echo_title_update "\`my\`"
 git --git-dir="$MY/.git" --work-tree="$MY/" pull &&
 
 $MY/core/intro &&
-$MY/core/rocknroll
+$MY/core/main
+
+exec $SHELL

@@ -1,0 +1,17 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+# vim theme
+echo_space
+echo_title_update "vim theme"
+
+mkdir -p ~/.vim/colors
+
+# Tomorrow Night
+rm -f ~/.vim/colors/Tomorrow-Night.vim
+curl -sL https://raw.githubusercontent.com/chriskempson/tomorrow-theme/master/vim/colors/Tomorrow-Night.vim > ~/.vim/colors/Tomorrow-Night.vim
+
+# OceanicNext
+rm -f ~/.vim/colors/OceanicNext.vim
+curl -sL https://raw.githubusercontent.com/mhartington/oceanic-next/master/colors/OceanicNext.vim > ~/.vim/colors/OceanicNext.vim
