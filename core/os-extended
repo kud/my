@@ -16,6 +16,10 @@ defaults -currentHost write com.apple.screensaver idleTime -int 0
 # Set language and text formats
 defaults write NSGlobalDomain AppleICUNumberSymbols -dict 0 '.' 1 '' 10 '.' 17 ''
 
+# Disable to boot when open the lib
+sudo nvram AutoBoot=%00
+# sudo nvram AutoBoot=%03
+
 ###############################################################################
 # Screen                                                                      #
 ###############################################################################
@@ -24,7 +28,7 @@ defaults write NSGlobalDomain AppleICUNumberSymbols -dict 0 '.' 1 '' 10 '.' 17 '
 defaults write com.apple.screencapture "include-date" 1
 
 # Rename screenshot name
-defaults write com.apple.screencapture name macosx
+defaults write com.apple.screencapture name macos
 
 ###############################################################################
 # Finder                                                                      #
