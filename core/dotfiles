@@ -15,7 +15,7 @@ fi
 # local files
 if [ ! -f ~/.zshrc_local ]; then
   echo "export OS_PROFILE=DEFINE_ME" > ~/.zshrc_local
-  read "?Configure now your \`OS_PROFILE\` in \`~/.zshrc_local\` and press [Enter] when you've finished..."
+  read "?Configure now your \`OS_PROFILE\` in \`~/.zshrc_local\` and press [Enter] when you've finished..." < /dev/tty
 fi
 
 if [ ! -f ~/.gitconfig_local ]; then
