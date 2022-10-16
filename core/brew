@@ -12,7 +12,7 @@ if ! type "brew" > /dev/null; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-read \?"STOP"
+exit 1
 
 ## install zsh
 if ! type "${HOMEBREW_PREFIX}/bin/zsh" > /dev/null; then
