@@ -1,13 +1,11 @@
 # My! Oh My!
 
-<img align="right" height="200" src="everybodydancenow.gif">
+<img align="right" height="282" height="500" src="everybodydancenow.gif">
 
 My own environment for macOS.<br>
 Scripts, themes, dotfiles.<br>
 All what I need.<br>
 
-<br>
-<br>
 <br>
 <br>
 <br>
