@@ -3,7 +3,6 @@ setopt EXTENDED_GLOB
 
 source $MY/core/helper
 
-$MY/core/default-folders
 $MY/core/prezto
 $MY/core/brew
 $MY/core/themes
