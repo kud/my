@@ -34,7 +34,7 @@ $ xcodebuild -runFirstLaunch
 ### Step 2: Run the script and watch the sky!
 
 ```shell
-$ curl --silent https://raw.githubusercontent.com/kud/my/master/core/install | zsh
+$ curl --silent https://raw.githubusercontent.com/kud/my/master/core/install|zsh
 ```
 
 ## Usage
