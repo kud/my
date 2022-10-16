@@ -13,8 +13,6 @@ if ! type "brew" > /dev/null; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-read -s -k '?Press any key to continue.'
-
 ## install zsh
 if ! type "${HOMEBREW_PREFIX}/bin/zsh" > /dev/null; then
   echo_space
