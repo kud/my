@@ -3,5 +3,7 @@
 rm -rf $HOME/my
 
 for dotfile in "${ZDOTDIR:-$HOME}"/my/dotfiles/.{aliases,editorconfig,gemrc,gitconfig,gitignore_global,prettierrc.js,vimrc,zshrc,zpreztorc}; do
-  echo "$dotfile" "${ZDOTDIR:-$HOME}/${dotfile:t}" 2> /dev/null
+  rm -rf "${ZDOTDIR:-$HOME}/${dotfile:t}" 2> /dev/null
 done
+
+rm -rf $HOME/.zprezto
