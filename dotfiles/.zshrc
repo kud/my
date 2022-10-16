@@ -166,7 +166,7 @@ export HOMEBREW_CASK_OPTS=--appdir=/Applications
 export BABEL_CACHE_PATH=/tmp/babel.cache.json
 
 # PATH - must be in the end
-export PATH=$PATH:$MY/bin/shims # add commands to open applications
+export PATH=/usr/local/sbin:$PATH # brew
 export PATH=${HOMEBREW_PREFIX}/Cellar/:$PATH # brew
 export PATH=${HOMEBREW_PREFIX}/lib/node_modules:$PATH # npm
 export PATH=${HOMEBREW_PREFIX}/opt/ruby/bin:$PATH # ruby
@@ -174,6 +174,8 @@ export PATH=${HOMEBREW_PREFIX}/opt/ruby/bin:$PATH # ruby
 export PATH=${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH # gnu-sed
 export PATH=$MY/bin/git:$PATH # git commands
 export PATH=$MY/bin/_:$PATH # own commands
+
+export PATH=$PATH:$MY/bin/shims # add commands to open applications
 
 # local
 . ~/.zshrc_local
