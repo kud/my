@@ -140,14 +140,13 @@ caskinstall flux
 # caskinstall iterm2-beta
 caskinstall iterm2-nightly
 caskinstall appcleaner
-caskinstall macpass
 caskinstall rectangle
 caskinstall grandperspective
 caskinstall xquartz
 caskinstall flash-player
 caskinstall prefs-editor
 caskinstall android-file-transfer
-caskinstall kap
+# caskinstall kap
 caskinstall etrecheckpro
 caskinstall monodraw
 # caskinstall github-beta
