@@ -5,14 +5,14 @@ source $MY/core/helper
 ## define cask application folder
 export HOMEBREW_CASK_OPTS=--appdir=/Applications
 
-## install brew if needed
+## install brew
 if ! type "brew" > /dev/null; then
   echo_space
   echo_title_install "homebrew"
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-## install zsh via brew if needed
+## install zsh
 if ! type "${HOMEBREW_PREFIX}/bin/zsh" > /dev/null; then
   echo_space
   echo_title_install "zsh"
@@ -21,7 +21,7 @@ if ! type "${HOMEBREW_PREFIX}/bin/zsh" > /dev/null; then
   chsh -s $(which zsh)
 fi
 
-## install bash via brew if needed
+## install bash
 if ! type "${HOMEBREW_PREFIX}/bin/bash" > /dev/null; then
   echo_space
   echo_title_install "bash"
@@ -126,10 +126,6 @@ brewinstall glow
 brewinstall loom
 brewinstall svn # for Ubuntu fonts
 
-echo_space
-echo_title "Cleaning brew..."
-brew cleanup
-
 ## install apps
 echo_space
 echo_title_install "apps"
@@ -222,4 +218,9 @@ source $MY/profiles/$OS_PROFILE/core/brew 2> /dev/null
 echo_space
 echo_title "Cleaning brew cask..."
 brew cleanup
+
+echo_space
+echo_title "Doctor is checking..."
+brew doctor
+
 

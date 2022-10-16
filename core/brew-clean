@@ -1,75 +1,94 @@
-#! /usr/bin/env zsh
+# #! /usr/bin/env zsh
 
-source $MY/core/helper
+# source $MY/core/helper
 
-# BREW
-# MAIN_ARRAY=()
-# MAIN_LINES=$(grep -oE '^[ ]*brewinstall [0-9a-zA-Z/.@-]*' $MY/core/brew|sed -E 's/^[ ]*brewinstall //')
+# # BREW
+# # MAIN_ARRAY=()
+# # MAIN_LINES=$(grep -oE '^[ ]*brewinstall [0-9a-zA-Z/.@-]*' $MY/core/brew|sed -E 's/^[ ]*brewinstall //')
 
-# printf '%s\n' "$MAIN_LINES"|while IFS= read -r line
+# # printf '%s\n' "$MAIN_LINES"|while IFS= read -r line
+# # do
+# #    MAIN_ARRAY+=($line)
+# # done
+
+# # PROFILE_ARRAY=()
+# # PROFILE_LINES=$(grep -oE '^[ ]*brewinstall [0-9a-zA-Z/.@-]*' $MY/profiles/$OS_PROFILE/core/brew|sed -E 's/^[ ]*brewinstall //')
+
+# # printf '%s\n' "$PROFILE_LINES"|while IFS= read -r line
+# # do
+# #    PROFILE_ARRAY+=($line)
+# # done
+
+# # MERGED_ARRAY=( "${MAIN_ARRAY[@]}" "${PROFILE_ARRAY[@]}" )
+
+# # CMD_ARRAY=()
+# # CMD_LINES=$(brew list)
+
+# # printf '%s\n' "$CMD_LINES"|while IFS= read -r line
+# # do
+# #    CMD_ARRAY+=($line)
+# # done
+
+
+# # FINAL_ARRAY=(`echo ${MERGED_ARRAY[@]} ${CMD_ARRAY[@]}|tr ' ' '\n'|sort|uniq -u `)
+
+# # CASK
+# CASK_MAIN_ARRAY=()
+# CASK_MAIN_LINES=$(grep -oE '^[ ]*caskinstall [0-9a-zA-Z/.@-]*' $MY/core/brew|sed -E 's/^[ ]*caskinstall //')
+
+# printf '%s\n' "$CASK_MAIN_LINES"|while IFS= read -r line
 # do
-#    MAIN_ARRAY+=($line)
+#   CASK_MAIN_ARRAY+=($line)
 # done
 
-# PROFILE_ARRAY=()
-# PROFILE_LINES=$(grep -oE '^[ ]*brewinstall [0-9a-zA-Z/.@-]*' $MY/profiles/$OS_PROFILE/core/brew|sed -E 's/^[ ]*brewinstall //')
+# CASK_PROFILE_ARRAY=()
+# CASK_PROFILE_LINES=$(grep -oE '^[ ]*caskinstall [0-9a-zA-Z/.@-]*' $MY/profiles/$OS_PROFILE/core/brew|sed -E 's/^[ ]*caskinstall //')
 
-# printf '%s\n' "$PROFILE_LINES"|while IFS= read -r line
+# printf '%s\n' "$CASK_PROFILE_LINES"|while IFS= read -r line
 # do
-#    PROFILE_ARRAY+=($line)
+#   CASK_PROFILE_ARRAY+=($line)
 # done
 
-# MERGED_ARRAY=( "${MAIN_ARRAY[@]}" "${PROFILE_ARRAY[@]}" )
+# CASK_MERGED_ARRAY=( "${CASK_MAIN_ARRAY[@]}" "${CASK_PROFILE_ARRAY[@]}" )
 
-# CMD_ARRAY=()
-# CMD_LINES=$(brew list)
+# CASK_CMD_ARRAY=()
+# CASK_CMD_LINES=$(brew cask list|sed -E 's/^font.*//')
 
-# printf '%s\n' "$CMD_LINES"|while IFS= read -r line
+# printf '%s\n' "$CASK_CMD_LINES"|while IFS= read -r line
 # do
-#    CMD_ARRAY+=($line)
+#   CASK_CMD_ARRAY+=($line)
 # done
 
+# CASK_FINAL_ARRAY=(`echo ${CASK_MERGED_ARRAY[@]} ${CASK_CMD_ARRAY[@]}|tr ' ' '\n'|sort|uniq -u `)
 
-# FINAL_ARRAY=(`echo ${MERGED_ARRAY[@]} ${CMD_ARRAY[@]}|tr ' ' '\n'|sort|uniq -u `)
+# # SCRIPT
+# echo_title "Cleaning the machine"
+# echo_space
 
-# CASK
-CASK_MAIN_ARRAY=()
-CASK_MAIN_LINES=$(grep -oE '^[ ]*caskinstall [0-9a-zA-Z/.@-]*' $MY/core/brew|sed -E 's/^[ ]*caskinstall //')
+# # if [[ -v FINAL_ARRAY ]]; then
+# #   echo_info "It will remove these commands:"
+# #   echo_space
 
-printf '%s\n' "$CASK_MAIN_LINES"|while IFS= read -r line
-do
-  CASK_MAIN_ARRAY+=($line)
-done
+# #   for app in $FINAL_ARRAY; do
+# #     echo $app
+# #   done
 
-CASK_PROFILE_ARRAY=()
-CASK_PROFILE_LINES=$(grep -oE '^[ ]*caskinstall [0-9a-zA-Z/.@-]*' $MY/profiles/$OS_PROFILE/core/brew|sed -E 's/^[ ]*caskinstall //')
+# #   echo_space
+# #   read \?"Press any key to continue the deletion… or ctrl+c to stop."
 
-printf '%s\n' "$CASK_PROFILE_LINES"|while IFS= read -r line
-do
-  CASK_PROFILE_ARRAY+=($line)
-done
+# #   echo_space
+# #   for app in $CASK_FINAL_ARRAY; do
+# #     brewuninstall $app
+# #   done
+# # else
+# #   echo "Nothing to clean."
+# # fi
 
-CASK_MERGED_ARRAY=( "${CASK_MAIN_ARRAY[@]}" "${CASK_PROFILE_ARRAY[@]}" )
-
-CASK_CMD_ARRAY=()
-CASK_CMD_LINES=$(brew cask list|sed -E 's/^font.*//')
-
-printf '%s\n' "$CASK_CMD_LINES"|while IFS= read -r line
-do
-  CASK_CMD_ARRAY+=($line)
-done
-
-CASK_FINAL_ARRAY=(`echo ${CASK_MERGED_ARRAY[@]} ${CASK_CMD_ARRAY[@]}|tr ' ' '\n'|sort|uniq -u `)
-
-# SCRIPT
-echo_title "Cleaning the machine"
-echo_space
-
-# if [[ -v FINAL_ARRAY ]]; then
-#   echo_info "It will remove these commands:"
+# if [[ -v CASK_FINAL_ARRAY ]]; then
+#   echo_info "It will remove these apps:"
 #   echo_space
 
-#   for app in $FINAL_ARRAY; do
+#   for app in $CASK_FINAL_ARRAY; do
 #     echo $app
 #   done
 
@@ -78,28 +97,9 @@ echo_space
 
 #   echo_space
 #   for app in $CASK_FINAL_ARRAY; do
-#     brewuninstall $app
+#     caskuninstall $app
 #   done
 # else
 #   echo "Nothing to clean."
 # fi
-
-if [[ -v CASK_FINAL_ARRAY ]]; then
-  echo_info "It will remove these apps:"
-  echo_space
-
-  for app in $CASK_FINAL_ARRAY; do
-    echo $app
-  done
-
-  echo_space
-  read \?"Press any key to continue the deletion… or ctrl+c to stop."
-
-  echo_space
-  for app in $CASK_FINAL_ARRAY; do
-    caskuninstall $app
-  done
-else
-  echo "Nothing to clean."
-fi
 

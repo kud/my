@@ -9,8 +9,8 @@ if [[ $# -eq 0 ]]; then
 else
 
   case "$1" in
-      bam)
-        $MY/core/bam
+      update)
+        $MY/core/update
       ;;
       doc)
         case "$2" in
@@ -22,8 +22,8 @@ else
           ;;
         esac
       ;;
-      osx)
-        $MY/core/osx
+      os)
+        $MY/core/os
       ;;
       dotfiles)
         $MY/core/dotfiles
@@ -40,8 +40,8 @@ else
       shims)
         $MY/core/shims
       ;;
-      bootstrap)
-        $MY/core/bootstrap
+      install)
+        $MY/core/install
       ;;
       edit)
         code $MY
@@ -60,11 +60,11 @@ else
         echo_spacex3
         printf "Commands:"
         echo_spacex2
-        printf "    bam               ${COLOUR_BLACK}Start the install/update process${COLOUR_RESET}"
+        printf "    update            ${COLOUR_BLACK}Start the install/update process${COLOUR_RESET}"
         echo_space
         printf "    doc               ${COLOUR_BLACK}Start a server to read the doc${COLOUR_RESET}"
         echo_space
-        printf "    osx               ${COLOUR_BLACK}Update osx setttings${COLOUR_RESET}"
+        printf "    os                ${COLOUR_BLACK}Update os setttings${COLOUR_RESET}"
         echo_space
         printf "    dotfiles          ${COLOUR_BLACK}Update dotfiles${COLOUR_RESET}"
         echo_space
@@ -76,7 +76,7 @@ else
         echo_space
         printf "    shims             ${COLOUR_BLACK}Create shell command for .app${COLOUR_RESET}"
         echo_space
-        printf "    bootstrap         ${COLOUR_BLACK}Make everything${COLOUR_RESET}"
+        printf "    install           ${COLOUR_BLACK}Make everything${COLOUR_RESET}"
         echo_space
         printf "    edit              ${COLOUR_BLACK}Open with \$EDITOR${COLOUR_RESET}"
         echo_space

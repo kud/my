@@ -1,0 +1,21 @@
+#! /usr/bin/env zsh
+setopt EXTENDED_GLOB
+
+source $MY/core/helper
+
+$MY/core/default-folders
+$MY/core/prezto
+$MY/core/brew
+$MY/core/themes
+$MY/core/vim
+$MY/core/gem
+$MY/core/pip
+$MY/core/npm
+$MY/core/mas
+
+# done!
+echo_space
+echo_success "And... we're done!"
+
+# resource!
+source $HOME/.zshrc
