@@ -23,14 +23,10 @@ Everything should be simple, your first step on your Mac too. Just follow these 
 ```shell
 $ sudo xcodebuild -license
 $ xcode-select --install
-$ sudo xcode-select --switch /Library/Developer/CommandLineTools
+$ sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 ```
 
-### Step 2: Sign-in AppStore
-
-Go to your App Store and Sign-in.
-
-### Step 3: Run the script and watch the sky!
+### Step 2: Run the script and watch the sky!
 
 ```shell
 $ curl --silent https://raw.githubusercontent.com/kud/my/master/core/install | zsh
@@ -47,5 +43,3 @@ $ £
 #### Preview
 
 <img src="preview.png">
-
-## [Doc](doc)
