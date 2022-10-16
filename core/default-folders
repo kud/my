@@ -2,4 +2,4 @@
 
 source $MY/core/helper
 
-mkdir -p ~/{__tmp,Projects}
+mkdir -p ~/{__tmp,Projects,.ssh}
