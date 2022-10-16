@@ -20,7 +20,7 @@ fi
 
 if [ ! -f ~/.gitconfig_local ]; then
   echo "[github]\n  user = USERNAME\n[user]\n  name = FIRSTNAME LASTNAME\n  email = EMAIL" > ~/.gitconfig_local
-  read "?Configure now your git informations in \`~/.gitconfig_local\` and press [Enter] when you've finished..."
+  read "?Configure now your git informations in \`~/.gitconfig_local\` and press [Enter] when you've finished..."  < /dev/tty
 fi
 
 # resource!

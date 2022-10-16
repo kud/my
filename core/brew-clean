@@ -74,7 +74,7 @@
 # #   done
 
 # #   echo_space
-# #   read "?Press any key to continue the deletion… or ctrl+c to stop."
+# #   read "?Press any key to continue the deletion… or ctrl+c to stop."  < /dev/tty
 
 # #   echo_space
 # #   for app in $CASK_FINAL_ARRAY; do
@@ -93,7 +93,7 @@
 #   done
 
 #   echo_space
-#   read "?Press any key to continue the deletion… or ctrl+c to stop."
+#   read "?Press any key to continue the deletion… or ctrl+c to stop."  < /dev/tty
 
 #   echo_space
 #   for app in $CASK_FINAL_ARRAY; do
