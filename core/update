@@ -10,3 +10,5 @@ $MY/core/default-folders &&
 $MY/core/main
 
 exec $SHELL
+
+$MY/core/doctor

@@ -17,3 +17,5 @@ $MY/core/os &&
 open https://github.com/kud/my/blob/master/doc/postinstall.md
 
 exec $SHELL
+
+$MY/core/doctor
