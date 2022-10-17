@@ -215,8 +215,3 @@ echo_space
 echo_title "Cleaning brew cask..."
 brew cleanup
 
-echo_space
-echo_title "Doctor is checking..."
-brew doctor
-
-
