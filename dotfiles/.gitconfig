@@ -90,7 +90,7 @@
   rewrite               = "!git fetch && git rebase -i $(git merge-base origin/main HEAD)"
   finalise              = "!git fetch && git rebase origin/main && git rebase -i $(git merge-base origin/main HEAD)"
   # open-url              = "!open $(echo $(git config --get remote.origin.url)|sed 's/:/\\//g'|sed 's/git@/https:\\/\\//g'|sed 's/\\.git//g')"
-  open-url              = "!hub browse"
+  open-url              = "!gh browse"
   open-modified         = "!$EDITOR $(git status --porcelain | cut -c4-)"
   cleanup               = "!git remote prune origin && git repack && git gc"
   history               = reflog --relative-date
