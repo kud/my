@@ -1,9 +1,11 @@
 #! /usr/bin/env zsh
 
+HEAD_BRANCH=$(basename $(git symbolic-ref --short refs/remotes/origin/HEAD))
+
 if [ -z "$1" ]; then
   echo "What's the name of the branch you want to delete?"
 else
-  git co main
+  git co ${HEAD_BRANCH}
   git branch -D $1
   git push origin :$1
   git co -

@@ -1,7 +1,8 @@
 #! /usr/bin/env zsh
 
-branches_array=($(git branch --merged main|grep -v 'main'|grep -v 'stable'|tr '\n' ' '))
-branches_displayed=$(git branch --merged main|grep -v 'main'|grep -v 'stable'|sed "s/  /❯ /g")
+HEAD_BRANCH=$(basename $(git symbolic-ref --short refs/remotes/origin/HEAD))
+branches_array=($(git branch --merged ${HEAD_BRANCH}|grep -v ${HEAD_BRANCH}|grep -v 'stable'|tr '\n' ' '))
+branches_displayed=$(git branch --merged ${HEAD_BRANCH}|grep -v ${HEAD_BRANCH}|grep -v 'stable'|sed "s/  /❯ /g")
 
 git fetch
 
