@@ -7,25 +7,37 @@ $ cd MY
 $ git remote set-url origin git@github.com:kud/my.git
 ```
 
-## security & privacy
+## Security & Privacy
 
 - System Preferences > Security & Privacy > Require password "immediately"
 
-## dock
+## Dock
 
-- Set on Finder: Options > All Desktops
+- Set on Finder: Options > All Desktops (Need different desktops)
 
-## vim
+## Vim
 
 - Do `:PlugInstall`
 
-## vs code
+## VS Code
 
-- Install Material Theme Icons Palenight and choose it
+- Configure Sync via GitHub
 
-## screensaver
+## Screensaver
 
 - Set `fliqlo`
+
+## iTerm2
+
+- Import appdata file
+
+## Raycast
+
+- Import appdata file
+
+## Spotlight
+
+- Reemove shortcuts
 
 ## ssh
 
@@ -37,7 +49,6 @@ $ git remote set-url origin git@github.com:kud/my.git
 - [nativedisplaybrightness](https://github.com/KAMIKAZEUA/NativeDisplayBrightness/releases)
 - [LayerX](https://yuhua-chen.github.io/LayerX/)
 - [espanso](https://github.com/espanso/espanso/releases)
-- [espanso > french accents](https://hub.espanso.org/french-accents)
 
 ## firefox
 
