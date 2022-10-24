@@ -55,9 +55,9 @@ $ git remote set-url origin git@github.com:kud/my.git
 - Start firefox
 - Quit firefox and wait 5s
 - `$ £ firefox-settings`
+- Start firefox
 - Enter sync account
 - Redefine GUI
-- Install plugins // @TODO list here those ones
 
 ---
 
