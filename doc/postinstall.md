@@ -11,6 +11,10 @@ $ git remote set-url origin git@github.com:kud/my.git
 
 - System Preferences > Security & Privacy > Require password "immediately"
 
+## Keyboard
+
+- Disable (quite) all the keyboard shortcuts
+
 ## Dock
 
 - Set on Finder: Options > All Desktops (Need different desktops)
@@ -35,22 +39,18 @@ $ git remote set-url origin git@github.com:kud/my.git
 
 - Import appdata file
 
-## Spotlight
-
-- Reemove shortcuts
-
 ## ssh
 
 - [Add SSH key for GitHub](https://help.github.com/articles/connecting-to-github-with-ssh/)
 
-## applications
+## Applications
 
 - [earsafe](https://earsafe.io/)
 - [nativedisplaybrightness](https://github.com/KAMIKAZEUA/NativeDisplayBrightness/releases)
 - [LayerX](https://yuhua-chen.github.io/LayerX/)
 - [espanso](https://github.com/espanso/espanso/releases)
 
-## firefox
+## Firefox
 
 - Start firefox
 - Quit firefox and wait 5s
