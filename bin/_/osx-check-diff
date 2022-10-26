@@ -15,8 +15,8 @@ echo $AFTER > after.tmp
 echo $AFTER_HOST > after_host.tmp
 
 echo "❯ Waiting for comparison…"
-diff -U 30 before.tmp after.tmp|code
+diff -U 30 before.tmp after.tmp|code -
 echo "❯ Waiting for \"host\" comparison…"
-diff -U 30 before_host.tmp after_host.tmp|code
+diff -U 30 before_host.tmp after_host.tmp|code -
 
 rm -rf before.tmp after.tmp before_host.tmp after_host.tmp
