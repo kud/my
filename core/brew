@@ -188,6 +188,7 @@ caskinstall xcodes
 caskinstall keepassxc
 caskinstall cleanshot
 caskinstall pixelsnap
+caskinstall pika
 # caskinstall flashlight
 # caskinstall mysimbl
 # caskinstall vlc-nightly
