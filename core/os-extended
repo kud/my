@@ -40,6 +40,23 @@ defaults write com.apple.finder ShowRecentTags -bool false
 # Hide icons on Desktop
 defaults write com.apple.finder CreateDesktop false
 
+# Column view
+defaults write com.apple.finder "FXPreferredViewStyle" -string "clmv"
+
+###############################################################################
+# Menu Bar & Control Centre                                                   #
+###############################################################################
+
+defaults write com.apple.controlcenter  "NSStatusItem Visible AirDrop" -int 0
+defaults write com.apple.controlcenter  "NSStatusItem Visible Battery" -int 1
+defaults write com.apple.controlcenter  "NSStatusItem Visible BentoBox" -int 1
+defaults write com.apple.controlcenter  "NSStatusItem Visible Clock" -int 1
+defaults write com.apple.controlcenter  "NSStatusItem Visible KeyboardBrightness" -int 0
+defaults write com.apple.controlcenter  "NSStatusItem Visible NowPlaying"  -int 0
+defaults write com.apple.controlcenter  "NSStatusItem Visible Sound" -int 0
+defaults write com.apple.controlcenter  "NSStatusItem Visible UserSwitcher" -int 0
+defaults write com.apple.controlcenter  "NSStatusItem Visible WiFi" -int 0
+
 ###############################################################################
 # Dock                                                                        #
 ###############################################################################
