@@ -1,20 +1,20 @@
 #! /usr/bin/env zsh
 
 HEAD_BRANCH=$(basename $(git symbolic-ref --short refs/remotes/origin/HEAD))
-branches_array=($(git branch --merged ${HEAD_BRANCH}|grep -v ${HEAD_BRANCH}|grep -v 'stable'|tr '\n' ' '))
-branches_displayed=$(git branch --merged ${HEAD_BRANCH}|grep -v ${HEAD_BRANCH}|grep -v 'stable'|sed "s/  /❯ /g")
+BRANCHES_ARRAY=($(git branch --merged ${HEAD_BRANCH}|grep -v ${HEAD_BRANCH}|grep -v 'stable'|tr '\n' ' '))
+BRANCHES_DISPLAYED=$(git branch --merged ${HEAD_BRANCH}|grep -v ${HEAD_BRANCH}|grep -v 'stable'|sed "s/  /❯ /g")
 
-git fetch
+git fetch --prune
 
-if [ -n "${branches_array}" ]; then
+if [ -n "${BRANCHES_ARRAY}" ]; then
   echo "List of merged branches:"
   echo ""
-  echo "${branches_displayed}"
+  echo "${BRANCHES_DISPLAYED}"
   echo ""
 
   read "?Press any key to continue the deletion… or ctrl+c to stop."  < /dev/tty
 
-  for branch in $branches_array
+  for branch in $BRANCHES_ARRAY
   do
     git branch -d $branch
   done
