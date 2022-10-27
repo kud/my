@@ -189,6 +189,7 @@ caskinstall keepassxc
 caskinstall cleanshot
 caskinstall pixelsnap
 caskinstall pika
+caskinstall hiddenbar
 # caskinstall flashlight
 # caskinstall mysimbl
 # caskinstall vlc-nightly
