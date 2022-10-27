@@ -56,6 +56,7 @@ defaults write com.apple.controlcenter  "NSStatusItem Visible NowPlaying"  -int 
 defaults write com.apple.controlcenter  "NSStatusItem Visible Sound" -int 0
 defaults write com.apple.controlcenter  "NSStatusItem Visible UserSwitcher" -int 0
 defaults write com.apple.controlcenter  "NSStatusItem Visible WiFi" -int 0
+defaults write com.apple.controlcenter  "NSStatusItem Visible Bluetooth" -int 0
 
 ###############################################################################
 # Dock                                                                        #
