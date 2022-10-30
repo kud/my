@@ -59,6 +59,11 @@ $ git remote set-url origin git@github.com:kud/my.git
 - Enter sync account
 - Redefine GUI
 
+## KeePassXC
+
+- Set dark as theme
+- Set up KeePassXC Browser Addon
+
 ---
 
 ## sip protection (optional)

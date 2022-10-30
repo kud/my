@@ -172,8 +172,8 @@ caskinstall steermouse # http://plentycom.jp/en/steermouse/
 # caskinstall background-music
 caskinstall background-music-pre
 caskinstall fliqlo
-caskinstall tyke
-caskinstall sip
+# caskinstall tyke
+# caskinstall sip
 caskinstall raycast
 caskinstall visual-studio-code
 # caskinstall typora
