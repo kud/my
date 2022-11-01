@@ -58,6 +58,7 @@ $ git remote set-url origin git@github.com:kud/my.git
 - Start firefox
 - Enter sync account
 - Redefine GUI
+- Set gmail as mailto
 
 ## KeePassXC
 
