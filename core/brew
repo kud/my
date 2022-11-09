@@ -170,7 +170,7 @@ caskinstall macmediakeyforwarder
 caskinstall mark-text # https://marktext.github.io/website/
 caskinstall steermouse # http://plentycom.jp/en/steermouse/
 # caskinstall background-music
-caskinstall background-music-pre
+# caskinstall background-music-pre
 caskinstall fliqlo
 # caskinstall tyke
 # caskinstall sip
@@ -189,7 +189,7 @@ caskinstall keepassxc
 caskinstall cleanshot
 caskinstall pixelsnap
 caskinstall pika
-caskinstall hiddenbar
+# caskinstall hiddenbar
 # caskinstall flashlight
 # caskinstall mysimbl
 # caskinstall vlc-nightly
