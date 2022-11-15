@@ -10,19 +10,14 @@ caskinstall font-ubuntu
 caskinstall font-ubuntu-mono-derivative-powerline
 caskinstall font-fira-code
 caskinstall font-cascadia-code
-caskinstall font-cascadia-mon
 caskinstall font-3270-nerd-font
 caskinstall font-3270-nerd-font-mono
-caskinstall font-anonymouspro-nerd-font
-caskinstall font-anonymouspro-nerd-font-mono
 caskinstall font-arimo-nerd-font
 caskinstall font-arimo-nerd-font-mono
 caskinstall font-aurulentsansmono-nerd-font
 caskinstall font-aurulentsansmono-nerd-font-mono
 caskinstall font-bitstreamverasansmono-nerd-font
 caskinstall font-bitstreamverasansmono-nerd-font-mono
-caskinstall font-codenewroman-nerd-font
-caskinstall font-codenewroman-nerd-font-mono
 caskinstall font-cousine-nerd-font
 caskinstall font-cousine-nerd-font-mono
 caskinstall font-dejavusansmono-nerd-font
@@ -87,12 +82,10 @@ caskinstall font-terminus-nerd-font
 caskinstall font-terminus-nerd-font-mono
 caskinstall font-tinos-nerd-font
 caskinstall font-tinos-nerd-font-mono
-caskinstall font-ubuntu-nerd-font
-caskinstall font-ubuntu-nerd-font-mono
-caskinstall font-ubuntumono-nerd-font
-caskinstall font-ubuntumono-nerd-font-mono
 caskinstall font-jetbrains-mono
 caskinstall font-jetbrainsmono-nerd-font
 caskinstall font-jetbrainsmono-nerd-font-mono
+caskinstall font-hubot-sans
+caskinstall font-mona-sans
 
 echo_success "Fonts are done!"
