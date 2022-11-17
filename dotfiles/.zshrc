@@ -165,6 +165,10 @@ export HOMEBREW_CASK_OPTS=--appdir=/Applications
 # babel
 export BABEL_CACHE_PATH=/tmp/babel.cache.json
 
+# volta
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
 # PATH - must be in the end
 export PATH=/usr/local/sbin:$PATH # brew
 export PATH=${HOMEBREW_PREFIX}/Cellar/:$PATH # brew
