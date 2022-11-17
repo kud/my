@@ -91,7 +91,6 @@ brewinstall git
 brewinstall gh
 # brewinstall ghi
 brewinstall tig
-brewinstall hub
 brewinstall lazygit
 
 ### editors
