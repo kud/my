@@ -125,7 +125,7 @@ brewinstall openssl
 brewinstall glow
 brewinstall loom
 brewinstall svn # for Ubuntu fonts
-brewinstall runjs
+brewinstall gnupg2
 
 ## install apps
 echo_space
@@ -188,6 +188,7 @@ caskinstall keepassxc
 caskinstall cleanshot
 caskinstall pixelsnap
 caskinstall pika
+brewinstall runjs
 # caskinstall hiddenbar
 # caskinstall flashlight
 # caskinstall mysimbl
