@@ -175,7 +175,6 @@ caskinstall cleanshot
 caskinstall pixelsnap
 caskinstall pika
 brewinstall runjs
-brewinstall whalebird
 # caskinstall kap
 # caskinstall background-music
 # caskinstall background-music-pre
