@@ -1,5 +1,12 @@
 # postinstall
 
+## Applications
+
+- [earsafe](https://earsafe.io/)
+- [nativedisplaybrightness](https://github.com/KAMIKAZEUA/NativeDisplayBrightness/releases)
+<!-- - [LayerX](https://yuhua-chen.github.io/LayerX/) -->
+- [espanso](https://github.com/espanso/espanso/releases)
+
 ## MY, change remote
 
 ```shell
@@ -43,13 +50,6 @@ $ git remote set-url origin git@github.com:kud/my.git
 
 - [Add SSH key for GitHub](https://help.github.com/articles/connecting-to-github-with-ssh/)
 
-## Applications
-
-- [earsafe](https://earsafe.io/)
-- [nativedisplaybrightness](https://github.com/KAMIKAZEUA/NativeDisplayBrightness/releases)
-- [LayerX](https://yuhua-chen.github.io/LayerX/)
-- [espanso](https://github.com/espanso/espanso/releases)
-
 ## Firefox
 
 - Start firefox
@@ -64,6 +64,10 @@ $ git remote set-url origin git@github.com:kud/my.git
 
 - Set dark as theme
 - Set up KeePassXC Browser Addon
+
+## Slack
+
+- Change font-family via `/slackfont Helvetica`
 
 ---
 
