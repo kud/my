@@ -142,25 +142,17 @@ caskinstall xquartz
 caskinstall flash-player
 caskinstall prefs-editor
 caskinstall android-file-transfer
-# caskinstall kap
 caskinstall etrecheckpro
 caskinstall monodraw
-# caskinstall github-beta
-# caskinstall gitkraken
 caskinstall gitup
 caskinstall xrg
 caskinstall insomnia # REST Client — https://insomnia.rest/
-# caskinstall sublime-text-dev
-# if ! type "subl" > /dev/null; then
-#   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl ${HOMEBREW_PREFIX}/bin/subl
-# fi
 caskinstall sublime-merge-dev
 caskinstall firefox-nightly
 caskinstall discord
 caskinstall imagealpha
 caskinstall imageoptim
 caskinstall spotify
-# caskinstall kodi
 caskinstall vlc
 caskinstall slack
 caskinstall image2icon
@@ -168,17 +160,11 @@ caskinstall rocket
 caskinstall macmediakeyforwarder
 caskinstall mark-text # https://marktext.github.io/website/
 caskinstall steermouse # http://plentycom.jp/en/steermouse/
-# caskinstall background-music
-# caskinstall background-music-pre
 caskinstall fliqlo
-# caskinstall tyke
-# caskinstall sip
 caskinstall raycast
 caskinstall visual-studio-code
-# caskinstall typora
 caskinstall proxyman
 caskinstall adoptopenjdk
-# caskinstall zettlr
 caskinstall removebg
 caskinstall openmtp
 caskinstall altair-graphql-client
@@ -189,6 +175,14 @@ caskinstall cleanshot
 caskinstall pixelsnap
 caskinstall pika
 brewinstall runjs
+brewinstall whalebird
+# caskinstall kap
+# caskinstall background-music
+# caskinstall background-music-pre
+# caskinstall tyke
+# caskinstall sip
+# caskinstall typora
+# caskinstall zettlr
 # caskinstall hiddenbar
 # caskinstall flashlight
 # caskinstall mysimbl
@@ -198,6 +192,13 @@ brewinstall runjs
 # caskinstall monitorcontrol
 # caskinstall nativedisplaybrightness
 # caskinstall cheatsheet
+# caskinstall kodi
+# caskinstall sublime-text-dev
+# if ! type "subl" > /dev/null; then
+#   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl ${HOMEBREW_PREFIX}/bin/subl
+# fi
+# caskinstall github-beta
+# caskinstall gitkraken
 
 # quicklook plugins
 caskinstall qlcolorcode
