@@ -10,6 +10,8 @@ echo_title_install "apps from AppStore"
 #  xcode-select --install
 # fi
 
+mas install 1604176982
+
 source $MY/profiles/$OS_PROFILE/core/mas 2> /dev/null
 
 echo_space
