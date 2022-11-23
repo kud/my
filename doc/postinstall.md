@@ -3,8 +3,6 @@
 ## Applications
 
 - [earsafe](https://earsafe.io/)
-- [nativedisplaybrightness](https://github.com/KAMIKAZEUA/NativeDisplayBrightness/releases)
-<!-- - [LayerX](https://yuhua-chen.github.io/LayerX/) -->
 - [espanso](https://github.com/espanso/espanso/releases)
 
 ## MY, change remote
