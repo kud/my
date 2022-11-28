@@ -14,16 +14,11 @@ prompt_context() {
   #   prompt_segment $PRIMARY_FG default " %(!.%{%F{yellow}%}.)$user@%m "
   # fi
 
-  prompt_segment $PRIMARY_FG default  " 🧟 "
+  prompt_segment $PRIMARY_FG default  ""
 }
 
 prompt_dir() {
   prompt_segment blue $PRIMARY_FG ' %c '
-}
-
-function git_branch_name()
-{
-  echo "hello"
 }
 
 # autojump
