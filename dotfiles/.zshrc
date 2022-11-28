@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Set homebrew prefix depending on Intel or Apple Silicon
 HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-/usr/local}"
 
@@ -6,20 +13,20 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# change prompt
-prompt_context() {
-  # local user=`whoami`
+# # change prompt
+# prompt_context() {
+#   # local user=`whoami`
 
-  # if [[ "$user" != "$DEFAULT_USER" || -n "$SSH_CONNECTION" ]]; then
-  #   prompt_segment $PRIMARY_FG default " %(!.%{%F{yellow}%}.)$user@%m "
-  # fi
+#   # if [[ "$user" != "$DEFAULT_USER" || -n "$SSH_CONNECTION" ]]; then
+#   #   prompt_segment $PRIMARY_FG default " %(!.%{%F{yellow}%}.)$user@%m "
+#   # fi
 
-  prompt_segment $PRIMARY_FG default  ""
-}
+#   prompt_segment $PRIMARY_FG default  ""
+# }
 
-prompt_dir() {
-  prompt_segment blue $PRIMARY_FG ' %c '
-}
+# prompt_dir() {
+#   prompt_segment blue $PRIMARY_FG ' %c '
+# }
 
 # autojump
 [ -f ${HOMEBREW_PREFIX}/etc/profile.d/autojump.sh ] && . ${HOMEBREW_PREFIX}/etc/profile.d/autojump.sh
@@ -182,3 +189,6 @@ export PATH=$PATH:$MY/bin/shims # add commands to open applications
 
 # add or override commands by via profiled ones
 export PATH=$MY/profiles/$OS_PROFILE/bin:$PATH
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
