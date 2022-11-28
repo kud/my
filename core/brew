@@ -74,6 +74,7 @@ brewinstall brightness
 brewinstall z
 brewinstall ripgrep
 brewinstall gnu-sed
+brewinstall fzf
 
 ### network
 brewinstall rsync
@@ -174,8 +175,8 @@ caskinstall keepassxc
 caskinstall cleanshot
 caskinstall pixelsnap
 caskinstall pika
-brewinstall runjs
-brewinstall monitorcontrol
+caskinstall runjs
+caskinstall monitorcontrol
 # caskinstall kap
 # caskinstall background-music
 # caskinstall background-music-pre
