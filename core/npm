@@ -68,6 +68,7 @@ npminstall vercel
 npminstall jscodeshift
 npminstall fx # https://github.com/antonmedv/fx
 npminstall zx
+npminstall web-ext
 
 # config
 npm config set save-exact true
