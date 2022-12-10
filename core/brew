@@ -177,6 +177,7 @@ caskinstall pixelsnap
 caskinstall pika
 caskinstall runjs
 caskinstall monitorcontrol
+caskinstall meetingbar
 # caskinstall kap
 # caskinstall background-music
 # caskinstall background-music-pre
