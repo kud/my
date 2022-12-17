@@ -178,6 +178,7 @@ caskinstall pika
 caskinstall runjs
 caskinstall monitorcontrol
 caskinstall meetingbar
+caskinstall bartender
 # caskinstall kap
 # caskinstall background-music
 # caskinstall background-music-pre
@@ -185,7 +186,6 @@ caskinstall meetingbar
 # caskinstall sip
 # caskinstall typora
 # caskinstall zettlr
-# caskinstall hiddenbar
 # caskinstall flashlight
 # caskinstall mysimbl
 # caskinstall vlc-nightly
