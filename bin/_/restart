@@ -4,5 +4,6 @@
 
 for app in $*; do
   osascript -e 'quit app "'$app'"';
+  sleep 5
   open -a $app
 done
