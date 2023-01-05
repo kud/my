@@ -14,4 +14,4 @@ caskinstall molotov
 caskinstall rawtherapee
 caskinstall darktable
 caskinstall signal
-brewinstall whalebird
+caskinstall whalebird

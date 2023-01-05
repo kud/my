@@ -7,3 +7,5 @@ source $MY/core/helper
 
 echo_space
 echo_title_install "apps @ $OS_PROFILE"
+
+caskinstall neo4j
