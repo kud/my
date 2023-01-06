@@ -6,7 +6,7 @@ source $MY/core/helper
 export HOMEBREW_CASK_OPTS=--appdir=/Applications
 
 ## install brew
-if ! type "brew" > /dev/null; then
+if ! type "brew" >/dev/null; then
   echo_space
   echo_title_install "homebrew"
   sudo -v
@@ -66,7 +66,7 @@ brewinstall gifsicle
 brewinstall ffmpeg
 brewinstall rename
 brewinstall neurobin/pkg/rnm
-brewinstall exa # Modern replacement for 'ls' — https://the.exa.website
+brewinstall exa  # Modern replacement for 'ls' — https://the.exa.website
 brewinstall less # because the macOS built-in version is old
 brewinstall p7zip
 brewinstall autojump
@@ -98,9 +98,9 @@ brewinstall lazygit
 brewinstall vim
 
 ### languages
-brewinstall zlib # needed for python
+brewinstall zlib     # needed for python
 brewinstall readline # needed for python
-brewinstall xz # needed for python
+brewinstall xz       # needed for python
 
 brewinstall java
 sudo ln -sfn ${HOMEBREW_PREFIX}/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
@@ -109,6 +109,7 @@ brewinstall python # however, will be installed via pyenv after
 brewinstall pyenv
 brewinstall pyenv-virtualenv
 brewinstall node@18 # @TODO: could be an idea to have a manager
+brew link node@18 --overwrite
 brewinstall yarn
 brewinstall jesseduffield/lazynpm/lazynpm
 
@@ -159,7 +160,7 @@ caskinstall slack
 caskinstall image2icon
 caskinstall rocket
 caskinstall macmediakeyforwarder
-caskinstall mark-text # https://marktext.github.io/website/
+caskinstall mark-text  # https://marktext.github.io/website/
 caskinstall steermouse # http://plentycom.jp/en/steermouse/
 caskinstall fliqlo
 caskinstall raycast
@@ -179,6 +180,7 @@ caskinstall runjs
 caskinstall monitorcontrol
 caskinstall meetingbar
 caskinstall bartender
+caskinstall osquery
 # caskinstall kap
 # caskinstall background-music
 # caskinstall background-music-pre
@@ -215,9 +217,8 @@ caskinstall qlvideo
 caskinstall qlprettypatch
 xattr -d -r com.apple.quarantine ~/Library/QuickLook # remove quarantine attr since Catalina
 
-source $MY/profiles/$OS_PROFILE/core/brew 2> /dev/null
+source $MY/profiles/$OS_PROFILE/core/brew 2>/dev/null
 
 echo_space
 echo_title "Cleaning brew cask..."
 brew cleanup
-
