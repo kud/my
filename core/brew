@@ -181,6 +181,7 @@ caskinstall monitorcontrol
 caskinstall meetingbar
 caskinstall bartender
 caskinstall osquery
+caskinstall google-chrome-canary
 # caskinstall kap
 # caskinstall background-music
 # caskinstall background-music-pre
