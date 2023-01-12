@@ -182,6 +182,7 @@ caskinstall meetingbar
 caskinstall bartender
 caskinstall osquery
 caskinstall google-chrome-canary
+caskinstall obsidian
 # caskinstall kap
 # caskinstall background-music
 # caskinstall background-music-pre
