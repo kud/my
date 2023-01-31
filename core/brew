@@ -128,6 +128,7 @@ brewinstall glow
 brewinstall loom
 brewinstall svn # for Ubuntu fonts
 brewinstall gnupg2
+brewinstall duf
 
 ## install apps
 echo_space
@@ -170,7 +171,6 @@ caskinstall adoptopenjdk
 caskinstall removebg
 caskinstall openmtp
 caskinstall altair-graphql-client
-caskinstall duf
 caskinstall xcodes
 caskinstall keepassxc
 caskinstall cleanshot
