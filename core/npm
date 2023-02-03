@@ -29,14 +29,14 @@ npminstall http-server
 npminstall serve
 npminstall hicat # command-line syntax highlighter — https://www.npmjs.com/package/hicat
 npminstall figlet-cli
-npminstall tmi # too many images
+npminstall tmi       # too many images
 npminstall trash-cli # can be a conflict with mas dependencies
 npminstall svgo
-npminstall fraktur # write with great font
-npminstall weinre # debugger for web pages — http://people.apache.org/~pmuellr/weinre-docs/latest/
-npminstall pageres-cli # responsive website screenshots — https://github.com/sindresorhus/pageres
+npminstall fraktur           # write with great font
+npminstall weinre            # debugger for web pages — http://people.apache.org/~pmuellr/weinre-docs/latest/
+npminstall pageres-cli       # responsive website screenshots — https://github.com/sindresorhus/pageres
 npminstall npm-check-updates # check if npm modules are updated
-npminstall npm-check # check if npm modules are updated
+npminstall npm-check         # check if npm modules are updated
 npminstall react-native-cli
 npminstall gulp-cli
 npminstall markdown-live
@@ -44,22 +44,22 @@ npminstall caniuse-cmd
 npminstall imagemin
 npminstall speed-test
 npminstall fast-cli
-npminstall localtunnel # expose localhost to world — https://github.com/localtunnel/localtunnel
+npminstall localtunnel            # expose localhost to world — https://github.com/localtunnel/localtunnel
 npminstall Automattic/cloudup-cli # cloudup
-npminstall uncss # remove useless css
-npminstall how2 # stackoverflow from the terminal
-npminstall iterm2-tab-set # set iTerm2 tab color, title, and/or badge
-npminstall gh-pages # deploy on gh-pages — https://github.com/tschaub/gh-pages
-npminstall diff-so-fancy # Good-lookin' diffs. Actually… nah… The best-lookin' diffs. — https://github.com/so-fancy/diff-so-fancy
-npminstall fkill-cli # Fabulously kill processes. — https://github.com/sindresorhus/fkill-cli
+npminstall uncss                  # remove useless css
+npminstall how2                   # stackoverflow from the terminal
+npminstall iterm2-tab-set         # set iTerm2 tab color, title, and/or badge
+npminstall gh-pages               # deploy on gh-pages — https://github.com/tschaub/gh-pages
+npminstall diff-so-fancy          # Good-lookin' diffs. Actually… nah… The best-lookin' diffs. — https://github.com/so-fancy/diff-so-fancy
+npminstall fkill-cli              # Fabulously kill processes. — https://github.com/sindresorhus/fkill-cli
 npminstall import-cost
 npminstall gnomon
 npminstall lighthouse # Auditing, performance metrics, and best practices for Progressive Web Apps - https://github.com/GoogleChrome/lighthouse
 npminstall typescript@next
 npminstall prettier
-npminstall ntl # Npm Task List: Interactive cli menu to list/run npm tasks - https://github.com/ruyadorno/ntl
+npminstall ntl   # Npm Task List: Interactive cli menu to list/run npm tasks - https://github.com/ruyadorno/ntl
 npminstall fkill # Fabulously kill processes. Cross-platform.  - https://github.com/sindresorhus/fkill-cli
-npminstall kmdr # Learn CLI commands with kmdr explain - https://kmdr.sh
+npminstall kmdr  # Learn CLI commands with kmdr explain - https://kmdr.sh
 npminstall bodybuilder
 npminstall fixme
 npminstall git-branch-select
@@ -77,3 +77,5 @@ npm config set progress false
 npm config set fetch-retries 3
 npm config set fetch-retry-mintimeout 15000
 npm config set fetch-retry-maxtimeout 90000
+
+yarn config set save-exact true
