@@ -55,12 +55,7 @@
   st                    = status
   df                    = diff
   dc                    = diff --cached
-  # diff-subl             = "!git diff $@|subl"
-  diff-extended         = "!git diff --color|diff-so-fancy|less"
-  # subl-diff             = "!git diff --name-only|uniq|xargs subl"
-  # issues                = "!ghi"
-  # gh                    = "!github_cli ${@:-.}"
-  # kraken                = "!open -na 'GitKraken' --args -p $(pwd)"
+  diff-extended         = "!git diff --color|diff-so-fancy"
   gu                    = "!gitup open ."
   sm                    = "!'/Applications/Sublime Merge.app/Contents/SharedSupport/bin/smerge' ."
   tig                   = "!tig"
