@@ -179,7 +179,7 @@ export PATH=${HOMEBREW_PREFIX}/lib/node_modules:$PATH # npm
 export PATH=${HOMEBREW_PREFIX}/opt/ruby/bin:$PATH # ruby
 # export PATH="${HOMEBREW_PREFIX}/opt/openjdk/bin:$PATH" # java
 export PATH=${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH # gnu-sed
-export PATH=$MY/bin/git:$PATH # git commands
+export PATH=$MY/git/bin:$PATH # git commands
 export PATH=$MY/bin/_:$PATH # own commands
 
 export PATH=$PATH:$MY/bin/shims # add commands to open applications
