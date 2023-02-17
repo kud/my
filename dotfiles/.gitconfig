@@ -60,6 +60,7 @@
   apc = "!git add -p && git commit"
   br = branch
   branches = branch -avv
+  bs = branch-select
   ci = commit
   cleanup = "!git remote prune origin && git repack && git gc"
   co = checkout
