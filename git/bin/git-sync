@@ -1,6 +1,7 @@
 #! /usr/bin/env zsh
 
-ORIGIN_REPO=$(git config --get remote.origin.url|sed 's/git@github.com://g'|sed 's/\.git//g')
-UPSTREAM_REPO=$(git config --get remote.upstream.url|sed 's/git@github.com://g'|sed 's/\.git//g')
+ORIGIN_REPO=$(git config --get remote.origin.url | sed 's/git@github.com://g' | sed 's/\.git//g')
+UPSTREAM_REPO=$(git config --get remote.upstream.url | sed 's/git@github.com://g' | sed 's/\.git//g')
 
 gh repo sync $ORIGIN_REPO --source $UPSTREAM_REPO
+git fetch
