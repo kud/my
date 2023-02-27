@@ -59,6 +59,7 @@
   aicommit = "!aicommits"
   apc = "!git add -p && git commit"
   br = branch
+  branchv = branch -v
   branches = branch -avv
   bs = branch-select
   ci = commit

@@ -185,6 +185,7 @@ caskinstall bartender
 caskinstall osquery
 caskinstall google-chrome-canary
 caskinstall obsidian
+# caskinstall yulrizka/tap/pushtotalk
 # caskinstall kap
 # caskinstall background-music
 # caskinstall background-music-pre
