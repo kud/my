@@ -90,6 +90,7 @@ brewinstall syncthing
 ### git
 brewinstall git
 brewinstall gh
+gh extension install dlvhdr/gh-dash
 # brewinstall ghi
 brewinstall tig
 brewinstall lazygit
