@@ -87,7 +87,7 @@ export EDITOR="vim"
 . ~/.aliases
 
 # node
-export NODE_PATH=${HOMEBREW_PREFIX}/share/npm/lib/node_modules
+export NODE_PATH=${HOMEBREW_PREFIX}/lib/node_modules
 
 ###-begin-npm-completion-###
 #
