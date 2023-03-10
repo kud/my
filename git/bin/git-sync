@@ -2,6 +2,11 @@
 
 ORIGIN_REPO=$(git config --get remote.origin.url | sed 's/git@github.com://g' | sed 's/\.git//g')
 UPSTREAM_REPO=$(git config --get remote.upstream.url | sed 's/git@github.com://g' | sed 's/\.git//g')
+HEAD_BRANCH=$(basename $(git symbolic-ref --short refs/remotes/origin/HEAD))
 
+git stash save tmp-sync-command >/dev/null 2>&1
 gh repo sync $ORIGIN_REPO --source $UPSTREAM_REPO
-git fetch
+git checkout $HEAD_BRANCH
+git pull origin
+git checkout -
+git stash pop tmp-sync-command >/dev/null 2>&1
