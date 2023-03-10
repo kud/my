@@ -2,7 +2,7 @@
 
 BRANCHES_ARRAY=($(git branch -vv | awk '/: gone]/{print $1}' | tr '\n' ' '))
 
-git fetch --all --prune
+git sync
 
 echo ""
 
