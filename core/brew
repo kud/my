@@ -132,6 +132,7 @@ brewinstall loom
 brewinstall svn # for Ubuntu fonts
 brewinstall gnupg2
 brewinstall duf
+brewinstall pandoc
 
 ## install apps
 echo_space
