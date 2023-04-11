@@ -71,6 +71,7 @@ npminstall fx # https://github.com/antonmedv/fx
 npminstall zx
 npminstall web-ext
 npminstall aicommits
+npminstall nativefier
 
 # config
 npm config set save-exact true
