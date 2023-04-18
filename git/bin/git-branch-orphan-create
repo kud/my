@@ -1,0 +1,10 @@
+#! /usr/bin/env zsh
+read -p "Enter the name of the orphan branch: " ORPHAN_NAME
+
+git checkout --orphan "$ORPHAN_NAME"
+git rm -rf .
+rm '.gitignore'
+echo "# README" >README.md
+git add README.md
+git commit -a -m "Initial Commit"
+git push origin "$ORPHAN_NAME"
