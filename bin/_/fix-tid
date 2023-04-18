@@ -1,0 +1,3 @@
+#! /usr/bin/env zsh
+
+sudo sed -i 's/auth\s\+sufficient\s\+pam_smartcard.so/auth       sufficient     pam_tid.so\nauth       sufficient     pam_smartcard.so/g' /etc/pam.d/sudo
