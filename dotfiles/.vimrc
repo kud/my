@@ -6,13 +6,16 @@ endif
 
 call plug#begin('~/.vim/bundle')
 
+Plug 'drewtempelmeyer/palenight.vim'
 Plug 'itchyny/lightline.vim'
+Plug 'othree/html5.vim'
 Plug 'othree/yajs.vim'
+Plug 'rakr/vim-two-firewatch'
+Plug 'ryanoasis/vim-devicons'
+Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'ryanoasis/vim-devicons'
-Plug 'othree/html5.vim'
-Plug 'scrooloose/nerdtree'
+
 
 call plug#end()
 
@@ -21,8 +24,6 @@ syntax enable
 if (has("termguicolors"))
  set termguicolors
 endif
-
-colorscheme OceanicNext
 
 set backspace=2
 set nu
@@ -40,8 +41,19 @@ set incsearch
 set ignorecase
 set smartcase
 set mouse=a
+set background=dark
 
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme='solarized'
-let g:airline_solarized_bg='dark'
+
+"
+colorscheme two-firewatch
+let g:two_firewatch_italics=1
+let g:airline_theme='twofirewatch'
+"
+
+colorscheme palenight
+let g:lightline = { 'colorscheme': 'palenight' }
+let g:airline_theme = "palenight"
+
+:highlight Normal ctermbg=236 guibg=#26282b
