@@ -140,8 +140,8 @@ echo_title_install "apps"
 
 caskinstall flux
 # caskinstall iterm2
-# caskinstall iterm2-beta
-caskinstall iterm2-nightly
+caskinstall iterm2-beta
+# caskinstall iterm2-nightly
 caskinstall appcleaner
 caskinstall rectangle
 caskinstall grandperspective
