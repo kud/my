@@ -188,7 +188,7 @@ export PATH=$PATH:$MY/bin/shims # add commands to open applications
 . ~/.zshrc_local
 
 # add or override commands by via profiled ones
-export PATH=$MY/profiles/$OS_PROFILE/bin:$PATH
+export PATH=$MY/profiles/$OS_PROFILE/bin/_:$PATH
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
