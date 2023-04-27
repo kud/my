@@ -1,0 +1,5 @@
+#! /usr/bin/env zsh
+
+cd $MY/profiles/work/bin/_/_globalproject-connect/
+node ./index.js
+cd --
