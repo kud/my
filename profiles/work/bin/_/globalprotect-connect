@@ -1,5 +1,6 @@
 #! /usr/bin/env zsh
 
-cd $MY/profiles/work/bin/_/_globalproject-connect/
+cd $MY/profiles/work/bin/_/_globalprotect-connect
+
 node ./index.js
 cd --
