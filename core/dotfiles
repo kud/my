@@ -1,29 +1,47 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
-source $MY/core/helper
+source "$MY/core/helper"
 
 echo_title_install "dotfiles"
 
-for dotfile in "${ZDOTDIR:-$HOME}"/my/dotfiles/.{aliases,editorconfig,gemrc,gitconfig,gitignore_global,prettierrc.js,vimrc,zshrc,zpreztorc,p10k.zsh}; do
-  ln -sf "$dotfile" "${ZDOTDIR:-$HOME}/${dotfile:t}" 2> /dev/null
+dotfiles=(
+  ".aliases"
+  ".editorconfig"
+  ".gemrc"
+  ".gitconfig"
+  ".gitignore_global"
+  ".prettierrc.js"
+  ".vimrc"
+  ".zshrc"
+  ".zpreztorc"
+  ".p10k.zsh"
+  ".config/nvim/init.vim"
+)
+
+for file in "${dotfiles[@]}"; do
+  ln -sf "$MY/dotfiles/$file" "${ZDOTDIR:-$HOME}/$file" 2>/dev/null
 done
 
-if [ ! -f ~/.ssh/config ]; then
-  cp $MY/templates/ssh/config ~/.ssh/
+if [ ! -f "$HOME/.ssh/config" ]; then
+  cp "$MY/templates/ssh/config" "$HOME/.ssh/"
 fi
 
 # local files
-if [ ! -f ~/.zshrc_local ]; then
-  echo "export OS_PROFILE=DEFINE_ME" > ~/.zshrc_local
-  read "?Configure now your \`OS_PROFILE\` in \`~/.zshrc_local\` and press [Enter] when you've finished..." < /dev/tty
+if [ ! -f "$HOME/.zshrc_local" ]; then
+  echo "export OS_PROFILE=DEFINE_ME" >"$HOME/.zshrc_local"
+  read -p "Configure now your 'OS_PROFILE' in '~/.zshrc_local' and press [Enter] when you've finished..." </dev/tty
 fi
 
-if [ ! -f ~/.gitconfig_local ]; then
-  echo "[github]\n  user = USERNAME\n[user]\n  name = FIRSTNAME LASTNAME\n  email = EMAIL" > ~/.gitconfig_local
-  read "?Configure now your git informations in \`~/.gitconfig_local\` and press [Enter] when you've finished..."  < /dev/tty
+if [ ! -f "$HOME/.gitconfig_local" ]; then
+  echo "[github]
+  user = USERNAME
+[user]
+  name = FIRSTNAME LASTNAME
+  email = EMAIL" >"$HOME/.gitconfig_local"
+  read -p "Configure now your git informations in '~/.gitconfig_local' and press [Enter] when you've finished..." </dev/tty
 fi
 
-# resource!
-source $HOME/.zshrc
+# reload the shell
+source "$HOME/.zshrc"
 
 echo_success "Dotfiles are installed!"
