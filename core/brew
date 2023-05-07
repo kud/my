@@ -97,6 +97,7 @@ brewinstall lazygit
 
 ### editors
 brewinstall vim
+brewinstall nvim
 
 ### languages
 brewinstall zlib     # needed for python
