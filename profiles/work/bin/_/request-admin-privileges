@@ -1,0 +1,3 @@
+#! /usr/bin/env zsh
+
+open raycast://script-commands/request-admin-privileges
