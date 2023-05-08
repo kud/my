@@ -114,6 +114,7 @@ brewinstall pyenv-virtualenv
 brewinstall node@16 # @TODO: could be an idea to have a manager
 # brew link node@18 --overwrite
 brew link node@16 --overwrite
+brewinstall fnm
 brewinstall yarn
 brewinstall jesseduffield/lazynpm/lazynpm
 
