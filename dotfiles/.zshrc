@@ -79,9 +79,9 @@ bindkey '^R' history-incremental-search-backward
 # global variable
 # export FIREFOXNIGHTLY_BIN="/Applications/FirefoxNightly.app/Contents/MacOS/firefox"
 # export BROWSER=$FIREFOXNIGHTLY_BIN # bug with python
-export GIT_EDITOR="vim"
+export GIT_EDITOR="nvim"
 export VISUAL="code"
-export EDITOR="vim"
+export EDITOR="nvim"
 
 # aliases
 . ~/.aliases
@@ -192,3 +192,5 @@ export PATH=$MY/profiles/$OS_PROFILE/bin/_:$PATH
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+eval "$(fnm env --use-on-cd)" > /dev/null 2>&1
