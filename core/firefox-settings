@@ -4,45 +4,73 @@ source $MY/core/helper
 
 echo_title_update "firefox settings"
 
-DEFAULT_FOLDER=$(ls "$HOME/Library/Application Support/Firefox/Profiles" |grep .default-nightly)
+DEFAULT_FOLDER=$(ls "$HOME/Library/Application Support/Firefox/Profiles" | grep .default-nightly)
 PREFS_JS="$HOME/Library/Application Support/Firefox/Profiles/$DEFAULT_FOLDER/prefs.js"
 
 # global
-echo 'user_pref("browser.aboutConfig.showWarning", false);' >> $PREFS_JS # disable warning on about:config
-echo 'user_pref("mousewheel.with_meta.action", 0);' >> $PREFS_JS # disable zoom on cmd + mousewheel
-echo 'user_pref("browser.fixup.alternate.enabled", false);' >> $PREFS_JS # turning off domain guessing
-echo 'user_pref("browser.tabs.warnOnClose", false);' >> $PREFS_JS # turning off warn when closing tab
-echo 'user_pref("keyword.enabled", false);' >> $PREFS_JS # turning off the web search in the address bar
-echo 'user_pref("network.IDN_show_punycode", true);' >> $PREFS_JS # fix against fucking phishing
-echo 'user_pref("browser.uidensity", 1);' >> $PREFS_JS # compact theme
-echo 'user_pref("extensions.pocket.enabled", false);' >> $PREFS_JS # disable pocket
-echo 'user_pref("browser.search.suggest.enabled", false);' >> $PREFS_JS # disable suggestion
-echo 'user_pref("browser.search.hiddenOneOffs", "Google,Bing,Amazon.co.uk,Chambers (UK),DuckDuckGo,eBay,Twitter,Wikipedia (en)");' >> $PREFS_JS # disable search engines
-echo 'user_pref("browser.tabs.closeWindowWithLastTab", false);' >> $PREFS_JS # disable close window when last tab is closing
-echo 'user_pref("findbar.modalHighlight", false);' >> $PREFS_JS # find like safari
-echo 'user_pref("browser.urlbar.megabar", false);' >> $PREFS_JS # disable megabar when searching
-echo 'user_pref("privacy.query_stripping.enabled", true);' >> $PREFS_JS #remove query strings
+# disable warning on about:config
+echo 'user_pref("browser.aboutConfig.showWarning", false);' >>$PREFS_JS
+
+# disable zoom on cmd + mousewheel
+echo 'user_pref("mousewheel.with_meta.action", 0);' >>$PREFS_JS
+
+# turning off domain guessing
+echo 'user_pref("browser.fixup.alternate.enabled", false);' >>$PREFS_JS
+
+# turning off warn when closing tab
+echo 'user_pref("browser.tabs.warnOnClose", false);' >>$PREFS_JS
+
+# turning off the web search in the address bar
+echo 'user_pref("keyword.enabled", false);' >>$PREFS_JS
+
+# fix against fucking phishing
+echo 'user_pref("network.IDN_show_punycode", true);' >>$PREFS_JS
+
+# compact theme
+echo 'user_pref("browser.uidensity", 1);' >>$PREFS_JS
+
+# disable pocket
+echo 'user_pref("extensions.pocket.enabled", false);' >>$PREFS_JS
+
+# disable suggestion
+echo 'user_pref("browser.search.suggest.enabled", false);' >>$PREFS_JS
+
+# disable search engines
+echo 'user_pref("browser.search.hiddenOneOffs", "Google,Bing,Amazon.co.uk,Chambers (UK),DuckDuckGo,eBay,Twitter,Wikipedia (en)");' >>$PREFS_JS
+
+# disable close window when last tab is closing
+echo 'user_pref("browser.tabs.closeWindowWithLastTab", false);' >>$PREFS_JS
+
+# find like safari
+echo 'user_pref("findbar.modalHighlight", false);' >>$PREFS_JS
+
+# disable megabar when searching
+echo 'user_pref("browser.urlbar.megabar", false);' >>$PREFS_JS
+
+# remove query strings
+echo 'user_pref("privacy.query_stripping.enabled", true);' >>$PREFS_JS
 
 # devtools
-echo 'user_pref("devtools.chrome.enabled", true);' >> $PREFS_JS
-echo 'user_pref("devtools.command-button-eyedropper.enabled", true);' >> $PREFS_JS
-echo 'user_pref("devtools.command-button-paintflashing.enabled", true);' >> $PREFS_JS
-echo 'user_pref("devtools.command-button-responsive.enabled", false);' >> $PREFS_JS
-echo 'user_pref("devtools.command-button-scratchpad.enabled", true);' >> $PREFS_JS
-echo 'user_pref("devtools.command-button-screenshot.enabled", true);' >> $PREFS_JS
-echo 'user_pref("devtools.command-button-splitconsole.enabled", false);' >> $PREFS_JS
-echo 'user_pref("devtools.debugger.remote-enabled", true);' >> $PREFS_JS
-echo 'user_pref("devtools.dom.enabled", true);' >> $PREFS_JS
-echo 'user_pref("devtools.editor.keymap", "sublime");' >> $PREFS_JS
-echo 'user_pref("devtools.onboarding.telemetry.logged", true);' >> $PREFS_JS
-echo 'user_pref("devtools.performance.new-panel-enabled", true);' >> $PREFS_JS
-echo 'user_pref("devtools.scratchpad.enabled", true);' >> $PREFS_JS
-echo 'user_pref("devtools.screenshot.audio.enabled", false);' >> $PREFS_JS
-echo 'user_pref("devtools.toolbox.host", "side");' >> $PREFS_JS
-echo 'user_pref("devtools.webconsole.timestampMessages", true);' >> $PREFS_JS
-echo 'user_pref("devtools.webide.widget.enabled", true);' >> $PREFS_JS
-echo 'user_pref("devtools.cache.disabled", true);' >> $PREFS_JS
+echo 'user_pref("devtools.chrome.enabled", true);' >>$PREFS_JS
+echo 'user_pref("devtools.command-button-eyedropper.enabled", true);' >>$PREFS_JS
+echo 'user_pref("devtools.command-button-paintflashing.enabled", true);' >>$PREFS_JS
+echo 'user_pref("devtools.command-button-responsive.enabled", false);' >>$PREFS_JS
+echo 'user_pref("devtools.command-button-scratchpad.enabled", true);' >>$PREFS_JS
+echo 'user_pref("devtools.command-button-screenshot.enabled", true);' >>$PREFS_JS
+echo 'user_pref("devtools.command-button-splitconsole.enabled", false);' >>$PREFS_JS
+echo 'user_pref("devtools.debugger.remote-enabled", true);' >>$PREFS_JS
+echo 'user_pref("devtools.dom.enabled", true);' >>$PREFS_JS
+echo 'user_pref("devtools.editor.keymap", "sublime");' >>$PREFS_JS
+echo 'user_pref("devtools.onboarding.telemetry.logged", true);' >>$PREFS_JS
+echo 'user_pref("devtools.performance.new-panel-enabled", true);' >>$PREFS_JS
+echo 'user_pref("devtools.scratchpad.enabled", true);' >>$PREFS_JS
+echo 'user_pref("devtools.screenshot.audio.enabled", false);' >>$PREFS_JS
+echo 'user_pref("devtools.toolbox.host", "side");' >>$PREFS_JS
+echo 'user_pref("devtools.webconsole.timestampMessages", true);' >>$PREFS_JS
+echo 'user_pref("devtools.webide.widget.enabled", true);' >>$PREFS_JS
+echo 'user_pref("devtools.cache.disabled", true);' >>$PREFS_JS
+echo 'user_pref("devtools.aboutdebugging.local-tab-debugging", true);' >>$PREFS_JS
 
-source $MY/profiles/$OS_PROFILE/core/firefox-settings 2> /dev/null
+source $MY/profiles/$OS_PROFILE/core/firefox-settings 2>/dev/null
 
 echo_success "Firefox settings are set!"
