@@ -42,15 +42,12 @@ alias php.ini='$EDITOR -n  /private/etc/php.ini'
 alias .gitignore_global='$EDITOR -n  ~/.gitignore_global'
 alias .gitconfig='$EDITOR -n  ~/.gitconfig'
 alias .gitconfig_local='$EDITOR -n  ~/.gitconfig_local'
-alias network-sharing="sudo $EDITOR -n /etc/bootpd.plist"
-alias dnsmasq.conf="$EDITOR -n ${HOMEBREW_PREFIX}/etc/dnsmasq.conf"
+alias network-sharing='sudo $EDITOR -n /etc/bootpd.plist'
+alias dnsmasq.conf='$EDITOR -n ${HOMEBREW_PREFIX}/etc/dnsmasq.conf'
 
 # android
 alias android-inspector='adb forward tcp:9222 localabstract:chrome_devtools_remote'
 alias adb-logcat='adb logcat browser:IEW "*:S"'
-
-# ios
-# alias ios-simulator="open -a /Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app"
 
 # (un)compression
 alias tarls='tar -tf'
@@ -59,18 +56,13 @@ alias untar='tar -vxf'
 alias untgz='tar -vzxf'
 
 # quicklook
-alias klook='qlmanage -p "$@" >& /dev/null'
+alias klook='qlmanage -p'
 
+# yarn
 alias yarn-check='yarn upgrade-interactive --latest'
 
-# github
-# alias fake-github-connection='ssh -N git@github.com'
-
 # ease
-# alias s='subl .'
-# alias s-add='subl -a .'
 alias c='code .'
-# alias s-nm='subl -a node_modules'
 alias about='neofetch'
 alias dns-flush='sudo killall -HUP mDNSResponder'
 alias shell-reload='exec $SHELL'
@@ -87,13 +79,9 @@ alias java11='export JAVA_HOME=$JAVA_11_HOME'
 alias java14='export JAVA_HOME=$JAVA_14_HOME'
 alias java15='export JAVA_HOME=$JAVA_15_HOME'
 
-#fix
-alias localtunnel='${HOMEBREW_PREFIX}/bin/lt'
-
 # no correct
 alias sshfs='nocorrect sshfs'
 
 # no glob
 alias jake='noglob jake'
 alias npm='noglob npm'
-
