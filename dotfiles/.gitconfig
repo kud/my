@@ -4,6 +4,7 @@
   editor = nvim
   excludesfile = ~/.gitignore_global
   hooksPath = ~/my/git/hooks
+	ignoreCase = true
 [branch]
   autosetuprebase = always
 [push]
