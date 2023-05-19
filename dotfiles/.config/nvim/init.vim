@@ -30,6 +30,7 @@ set nu
 set showcmd
 set noruler
 set cursorline
+set guicursor=
 set encoding=utf-8
 set expandtab
 set showmode
