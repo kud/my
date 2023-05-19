@@ -2,10 +2,6 @@
   "name": "my",
   "version": "1.0.0",
   "type": "module",
-  "bin": {
-    "git-packages-create-pr": "./scripts/git-packages-create-pr.js",
-    "git-packages-upgrade": "./scripts/git-packages-upgrade.js"
-  },
   "license": "ISC",
   "dependencies": {
     "simple-git": "3.18.0",
