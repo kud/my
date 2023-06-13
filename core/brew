@@ -136,6 +136,7 @@ brewinstall svn # for Ubuntu fonts
 brewinstall gnupg2
 brewinstall duf
 brewinstall pandoc
+brewinstall jless
 
 ## install apps
 echo_space
