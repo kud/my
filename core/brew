@@ -137,6 +137,7 @@ brewinstall gnupg2
 brewinstall duf
 brewinstall pandoc
 brewinstall jless
+brewinstall noborus/tap/trdsql
 
 ## install apps
 echo_space
