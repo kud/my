@@ -44,6 +44,10 @@ $ git remote set-url origin git@github.com:kud/my.git
 
 - Import appdata file
 
+## Sublime Merge
+
+- [Install Meetio Theme](https://github.com/meetio-theme/merge-meetio-theme)
+
 ## ssh
 
 - [Add SSH key for GitHub](https://help.github.com/articles/connecting-to-github-with-ssh/)

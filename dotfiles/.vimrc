@@ -56,4 +56,4 @@ colorscheme palenight
 let g:lightline = { 'colorscheme': 'palenight' }
 let g:airline_theme = "palenight"
 
-:highlight Normal ctermbg=236 guibg=#26282b
+:highlight Normal ctermbg=236 guibg=#25272a
