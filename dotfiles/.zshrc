@@ -13,6 +13,11 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+# antibody
+source <(antibody init)
+
+antibody bundle mtxr/zsh-change-case
+
 # # change prompt
 # prompt_context() {
 #   # local user=`whoami`
@@ -75,6 +80,9 @@ ulimit -n 1024
 
 # bind
 bindkey '^R' history-incremental-search-backward
+bindkey -r '^K'
+bindkey '^K^U' _mtxr-to-upper # Ctrl+K + Ctrl+U
+bindkey '^K^L' _mtxr-to-lower # Ctrl+K + Ctrl+L
 
 # global variable
 # export FIREFOXNIGHTLY_BIN="/Applications/FirefoxNightly.app/Contents/MacOS/firefox"
