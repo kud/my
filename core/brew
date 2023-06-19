@@ -138,6 +138,7 @@ brewinstall duf
 brewinstall pandoc
 brewinstall jless
 brewinstall noborus/tap/trdsql
+brewinstall antibody
 
 ## install apps
 echo_space
