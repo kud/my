@@ -8,7 +8,8 @@ echo`Enter password to unlock the database:`
 
 try {
   const { stdout: result } =
-    await $`keepassxc-cli show ${process.env.DATABASE_PATH} -k ${process.env.KEY_PATH} ${process.env.ENTRY_TITLE} -a username -a password -t`
+    // await $`keepassxc-cli show ${process.env.DATABASE_PATH} -k ${process.env.KEY_PATH} ${process.env.ENTRY_TITLE} -a username -a password -t`
+    await $`keepassxc-cli show ${process.env.DATABASE_PATH} ${process.env.ENTRY_TITLE} -a username -a password -t`
 
   const [username, password, totp] = result.split("\n")
 
