@@ -86,7 +86,7 @@
   open-modified = "!$EDITOR $(git status --porcelain | cut -c4-)"
   browse = "!gh browse"
   polish = "!git add -A && git commit -m '💅'"
-  pr = "!gh pr create --fill"
+  pr = "!gh pr create --fill \"\""
   pt = "!git push && git push --tags"
   recommit = commit --amend
   reset-soft-last = reset --soft HEAD~1
