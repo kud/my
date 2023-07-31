@@ -10,7 +10,7 @@ dotfiles=(
   ".gemrc"
   ".gitconfig"
   ".gitignore_global"
-  ".prettierrc.js"
+  ".prettierrc"
   ".vimrc"
   ".zshrc"
   ".zpreztorc"
