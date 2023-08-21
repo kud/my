@@ -190,6 +190,7 @@ caskinstall osquery
 caskinstall google-chrome-canary
 caskinstall obsidian
 caskinstall hyperkey
+caskinstall signal
 # caskinstall yulrizka/tap/pushtotalk
 # caskinstall kap
 # caskinstall background-music
