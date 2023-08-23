@@ -1,3 +1,35 @@
+[delta "mellow-barbet"]
+    dark = true
+    syntax-theme = base16
+    line-numbers = true
+    side-by-side = true
+    file-style = brightwhite
+    file-decoration-style = none
+    file-added-label = [+]
+    file-copied-label = [==]
+    file-modified-label = [*]
+    file-removed-label = [-]
+    file-renamed-label = [->]
+    hunk-header-decoration-style = "#3e3e43" box ul
+    plus-style = brightgreen black
+    plus-emph-style = black green
+    minus-style = brightred black
+    minus-emph-style = black red
+    line-numbers-minus-style = brightred
+    line-numbers-plus-style = brightgreen
+    line-numbers-left-style = "#3e3e43"
+    line-numbers-right-style = "#3e3e43"
+    line-numbers-zero-style = "#57575f"
+    zero-style = syntax
+    whitespace-error-style = black bold
+    blame-code-style = syntax
+    blame-palette = "#161617" "#1b1b1d" "#2a2a2d" "#3e3e43"
+    merge-conflict-begin-symbol = ~
+    merge-conflict-end-symbol = ~
+    merge-conflict-ours-diff-header-style = yellow bold
+    merge-conflict-ours-diff-header-decoration-style = "#3e3e43" box
+    merge-conflict-theirs-diff-header-style = yellow bold
+    merge-conflict-theirs-diff-header-decoration-style = "#3e3e43" box
 [core]
   whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
   # editor       = subl -n -w
@@ -5,7 +37,8 @@
   excludesfile = ~/.gitignore_global
   hooksPath = ~/my/git/hooks
 	ignoreCase = true
-	pager = diff-so-fancy | less --tabs=4 -RFX
+	# pager = diff-so-fancy | less --tabs=4 -RFX
+  pager = delta
 [branch]
   autosetuprebase = always
 [push]
@@ -28,6 +61,7 @@
   verbose = true
 [merge]
   ff = false
+  conflictstyle = diff3
 [color]
   ui = true
 [color "branch"]
@@ -54,6 +88,22 @@
   ignoreRevsFile = .git-blame-ignore-revs
   markIgnoredLines = true
   markUnblamableLines = true
+[interactive]
+	# diffFilter = diff-so-fancy --patch
+  diffFilter = delta --color-only
+[delta]
+  features = mellow-barbet
+  navigate = true    # use n and N to move between diff sections
+  light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+  line-numbers = true
+  side-by-side = true
+  hyperlinks = true
+  hyperlinks-file-link-format = "vscode://file/{path}:{line}"
+  true-color = always
+  plus-style = syntax "#003800"
+  minus-style = syntax "#3f0001"
+[diff]
+  colorMoved = default
 [alias]
   aa = add -A
   aac = "!git add -A && git commit"
@@ -69,7 +119,7 @@
   co = checkout
   dc = diff --cached
   df = diff
-  # diff-plus = "!git diff --color|diff-so-fancy"
+  diff-alt = "!git diff --color|diff-so-fancy"
   export = "!git clone --depth 1 $1 && rm -rf \"$(basename $1 .git)/.git\" -"
   fix = "!git add -A && git commit --amend --no-edit"
   gu = "!gitup open ."
@@ -100,5 +150,3 @@
   unstash = stash pop
   unwip = "!git reset --soft HEAD~1 && git unstage"
   wip = "!git add -A && git commit -m '🚧 WIP'"
-[interactive]
-	diffFilter = diff-so-fancy --patch
