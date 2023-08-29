@@ -157,6 +157,16 @@ elif type compctl &>/dev/null; then
 fi
 ###-end-npm-completion-###
 
+## yarn
+function yarn() {
+  if [[ $1 == 'install' ]]; then
+    shift
+    yarn add "$@"
+  else
+    command yarn "$@"
+  fi
+}
+
 # android
 export ANDROID_HOME=${HOMEBREW_PREFIX}/opt/android-sdk
 
