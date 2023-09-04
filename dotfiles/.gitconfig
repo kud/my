@@ -145,7 +145,7 @@
   sm = "!'/Applications/Sublime Merge.app/Contents/SharedSupport/bin/smerge' ."
   st = status
   tig = "!tig"
-  tools = "!echo '• gh\n• hub\n• lazygit\n• tig\n• ghi'"
+  tools = "!echo '• gh\n• lazygit\n• tig'"
   unstage = reset HEAD --
   unstash = stash pop
   unwip = "!git reset --soft HEAD~1 && git unstage"
