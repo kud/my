@@ -1,0 +1,6 @@
+#! /usr/bin/env zsh
+
+fix-tid
+
+echo ""
+echo "It's now fixed. 💪"

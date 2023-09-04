@@ -1,3 +1,10 @@
 #! /usr/bin/env zsh
 
-sudo sed -i 's/auth\s\+sufficient\s\+pam_smartcard.so/auth       sufficient     pam_tid.so\nauth       sufficient     pam_smartcard.so/g' /etc/pam.d/sudo
+FILE_PATH="/etc/pam.d/sudo"
+LINE_TO_CHECK="auth       sufficient     pam_tid.so"
+LINE_TO_ADD_BEFORE="auth\s\+sufficient\s\+pam_smartcard.so"
+
+# Check if the line already exists
+if ! grep -qF "$LINE_TO_CHECK" "$FILE_PATH"; then
+  sudo sed -i "/$LINE_TO_ADD_BEFORE/i $LINE_TO_CHECK" "$FILE_PATH"
+fi
