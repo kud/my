@@ -1,0 +1,11 @@
+#! /usr/bin/env zsh
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+if dscl . -read /Groups/admin GroupMembership | grep -q $USER; then
+  echo -e "${GREEN}✓ ${NC}${USER}, you are an admin on this computer!"
+else
+  echo -e "${RED}✗ ${NC}${USER}, you are not an admin on this computer."
+fi
