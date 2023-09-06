@@ -41,7 +41,6 @@ echo_title_install "brew packages"
 
 ### tap
 brewtap homebrew/cask
-brewtap homebrew/cask-fonts
 brewtap homebrew/cask-versions
 
 ### system
