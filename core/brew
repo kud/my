@@ -191,6 +191,7 @@ caskinstall google-chrome-canary
 caskinstall obsidian
 caskinstall hyperkey
 caskinstall signal
+caskinstall redisinsight
 # caskinstall yulrizka/tap/pushtotalk
 # caskinstall kap
 # caskinstall background-music
