@@ -1,2 +1,0 @@
-#! /usr/bin/env zsh
-open -a "/Applications/GIF Brewery 3.app" $@

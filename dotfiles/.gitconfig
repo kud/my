@@ -122,7 +122,7 @@
   diff-alt = "!git diff --color|diff-so-fancy"
   export = "!git clone --depth 1 $1 && rm -rf \"$(basename $1 .git)/.git\" -"
   fix = "!git add -A && git commit --amend --no-edit"
-  gu = "!gitup open ."
+  # gu = "!gitup open ."
   history = reflog --relative-date
   hotfix = "!git add -A && git commit -m '🚒'"
   ign = ls-files -o -i --exclude-standard
