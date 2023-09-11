@@ -1,40 +1,50 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
 source $MY/core/helper
 
-if [[ $# -eq 0 ]]; then
-  $0 --help
-else
+display_help() {
+  echo_space
+  echo "Usage:"
+  echo_spacex2
+  echo "    ${COLOUR_CYAN}tmp${COLOUR_RESET} [<command>|--help]"
+  echo_spacex3
+  echo "Commands:"
+  echo_spacex2
+  echo "    open    ${COLOUR_BLACK}Open tmp folder${COLOUR_RESET}"
+  echo_spacex2
+  echo "    clean   ${COLOUR_BLACK}Clean tmp folder${COLOUR_RESET}"
+  echo_spacex2
+  echo "    from    ${COLOUR_BLACK}Move files/folder to tmp folder${COLOUR_RESET}"
+  echo_spacex2
+}
+
+main() {
+  if [[ $# -eq 0 ]]; then
+    display_help
+    return
+  fi
 
   case "$1" in
-    clean)
-      rm -rf ~/__tmp/*
+  clean)
+    find ~/__tmp/ -type f -exec trash {} \;
     ;;
-    open)
-      open ~/__tmp
+  open)
+    open ~/__tmp
     ;;
-    from)
-      mv $2 ~/__tmp/
+  from)
+    [[ -z $2 ]] && {
+      echo "Specify a file or folder to move."
+      return
+    }
+    mv "$2" ~/__tmp/
     ;;
-    --help)
-        echo_space
-        printf "Usage:"
-        echo_spacex2
-        printf "    ${COLOUR_CYAN}tmp${COLOUR_RESET} [<command>|--help]"
-        echo_spacex3
-        printf "Commands:"
-        echo_spacex2
-        printf "    open    ${COLOUR_BLACK}Open tmp folder${COLOUR_RESET}"
-        echo_space
-        printf "    clean   ${COLOUR_BLACK}Clean tmp folder${COLOUR_RESET}"
-        echo_space
-        printf "    from    ${COLOUR_BLACK}Move files/folder to tmp folder${COLOUR_RESET}"
-        echo_spacex2
+  --help)
+    display_help
     ;;
-    *)
-      echo 'What did you say?'
+  *)
+    echo 'What did you say?'
     ;;
   esac
+}
 
-fi
-
+main "$@"
