@@ -44,10 +44,21 @@ autoload zmv
 [ -f ${HOMEBREW_PREFIX}/etc/profile.d/z.sh ] && . ${HOMEBREW_PREFIX}/etc/profile.d/z.sh
 
 # functions
+
 ## set the tab title to current dir
-# function precmd() {
-#   echo -ne "\e]1;${PWD##*/}\a"
-# }
+precmd() {
+  local title=""
+
+  if [[ "$PWD" == "$HOME" ]]; then
+    title="~"
+  else
+    title="${PWD##*/}"
+  fi
+
+  echo -ne "\e]1;$title\a"
+}
+
+
 
 ## create a folder and go in it
 function mcd() {
