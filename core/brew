@@ -195,6 +195,7 @@ caskinstall obsidian
 caskinstall hyperkey
 caskinstall signal
 caskinstall redisinsight
+caskinstall android-studio
 # caskinstall yulrizka/tap/pushtotalk
 # caskinstall kap
 # caskinstall background-music
