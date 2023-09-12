@@ -109,6 +109,7 @@ brewinstall xz       # needed for python
 
 brewinstall java
 sudo ln -sfn ${HOMEBREW_PREFIX}/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+brewinstall zulu11
 brewinstall ruby
 brewinstall python # however, will be installed via pyenv after
 brewinstall pyenv

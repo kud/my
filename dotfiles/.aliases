@@ -75,9 +75,9 @@ alias npms='npm run start'
 alias wt='webtorrent --vlc --not-on-top download'
 
 # java
-alias java11='export JAVA_HOME=$JAVA_11_HOME'
-alias java14='export JAVA_HOME=$JAVA_14_HOME'
-alias java15='export JAVA_HOME=$JAVA_15_HOME'
+# alias java11='export JAVA_HOME=$JAVA_11_HOME'
+# alias java14='export JAVA_HOME=$JAVA_14_HOME'
+# alias java15='export JAVA_HOME=$JAVA_15_HOME'
 
 # no correct
 alias sshfs='nocorrect sshfs'
