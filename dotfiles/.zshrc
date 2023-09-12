@@ -172,10 +172,11 @@ fi
 export ANDROID_HOME=${HOMEBREW_PREFIX}/opt/android-sdk
 
 # java
-export JAVA_HOME=$(/usr/libexec/java_home -v15)
-export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
-export JAVA_14_HOME=$(/usr/libexec/java_home -v14)
-export JAVA_15_HOME=$(/usr/libexec/java_home -v15)
+# export JAVA_HOME=$(/usr/libexec/java_home -v15)
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home"
+# export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
+# export JAVA_14_HOME=$(/usr/libexec/java_home -v14)
+# export JAVA_15_HOME=$(/usr/libexec/java_home -v15)
 
 # python
 if which pyenv > /dev/null; then eval "$(pyenv init --path)"; fi
