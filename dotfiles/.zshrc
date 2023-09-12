@@ -169,7 +169,8 @@ fi
 ###-end-npm-completion-###
 
 # android
-export ANDROID_HOME=${HOMEBREW_PREFIX}/opt/android-sdk
+# export ANDROID_HOME=${HOMEBREW_PREFIX}/opt/android-sdk
+export ANDROID_HOME=$HOME/Library/Android/sdk
 
 # java
 # export JAVA_HOME=$(/usr/libexec/java_home -v15)
@@ -197,8 +198,10 @@ export PATH=/usr/local/sbin:$PATH # brew
 export PATH=${HOMEBREW_PREFIX}/Cellar/:$PATH # brew
 export PATH=${HOMEBREW_PREFIX}/lib/node_modules:$PATH # npm
 export PATH=${HOMEBREW_PREFIX}/opt/ruby/bin:$PATH # ruby
-# export PATH="${HOMEBREW_PREFIX}/opt/openjdk/bin:$PATH" # java
 export PATH=${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH # gnu-sed
+export PATH=$PATH:$ANDROID_HOME/emulator # android emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools # android platform-tools
+
 export PATH=$MY/git/bin:$PATH # git commands
 export PATH=$MY/bin/_:$PATH # own commands
 
