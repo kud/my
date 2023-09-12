@@ -42,6 +42,7 @@ echo_title_install "brew packages"
 ### tap
 brewtap homebrew/cask
 brewtap homebrew/cask-versions
+brewtap ejoffe/homebrew-tap
 
 ### system
 brewinstall ssh-copy-id
@@ -94,6 +95,8 @@ gh extension install dlvhdr/gh-dash
 brewinstall tig
 brewinstall lazygit
 brewinstall git-delta
+brewinstall ejoffe/tap/spr
+brewinstall spr
 
 ### editors
 brewinstall vim
@@ -114,7 +117,6 @@ brewinstall node
 brewinstall fnm
 brewinstall yarn
 brewinstall jesseduffield/lazynpm/lazynpm
-
 ### others
 brewinstall heroku/brew/heroku
 brewinstall yt-dlp
