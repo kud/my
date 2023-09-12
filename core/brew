@@ -95,8 +95,8 @@ gh extension install dlvhdr/gh-dash
 brewinstall tig
 brewinstall lazygit
 brewinstall git-delta
+# brewinstall spr
 brewinstall ejoffe/tap/spr
-brewinstall spr
 
 ### editors
 brewinstall vim
