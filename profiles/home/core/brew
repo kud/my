@@ -10,8 +10,8 @@ echo_title_install "apps @ $OS_PROFILE"
 
 caskinstall deluge
 caskinstall steam
-caskinstall molotov
+# caskinstall molotov
 caskinstall rawtherapee
 caskinstall darktable
 caskinstall signal
-caskinstall whalebird
+# caskinstall whalebird
