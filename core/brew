@@ -50,7 +50,7 @@ brewinstall neofetch # system information
 brewinstall mitmproxy
 brewinstall pv
 brewinstall fd
-brewinstall md5sha1sum
+# brewinstall md5sha1sum
 brewinstall tree
 brewinstall ncdu
 brewinstall htop
@@ -64,7 +64,6 @@ brewinstall mozjpeg
 brewinstall gifsicle
 brewinstall ffmpeg
 brewinstall rename
-brewinstall neurobin/pkg/rnm
 brewinstall exa  # Modern replacement for 'ls' — https://the.exa.website
 brewinstall less # because the macOS built-in version is old
 brewinstall p7zip
@@ -98,18 +97,17 @@ brewinstall spr
 
 ### editors
 brewinstall vim
-brewinstall nvim
+brewinstall neovim
 
 ### languages
 brewinstall zlib     # needed for python
 brewinstall readline # needed for python
 brewinstall xz       # needed for python
 
-brewinstall java
+brewinstall openjdk
 sudo ln -sfn ${HOMEBREW_PREFIX}/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
-brewinstall zulu11
 brewinstall ruby
-brewinstall python # however, will be installed via pyenv after
+brewinstall python@3.11 # however, will be installed via pyenv after
 brewinstall pyenv
 brewinstall pyenv-virtualenv
 brewinstall node
@@ -126,11 +124,10 @@ brewinstall httpie
 brewinstall jq
 brewinstall ipcalc
 brewinstall asciinema
-brewinstall openssl
+brewinstall openssl@3
 brewinstall glow
-brewinstall loom
-brewinstall svn # for Ubuntu fonts
-brewinstall gnupg2
+brewinstall subversion # for Ubuntu fonts
+brewinstall gnupg
 brewinstall duf
 brewinstall pandoc
 brewinstall jless
@@ -149,7 +146,6 @@ caskinstall appcleaner
 caskinstall rectangle
 caskinstall grandperspective
 caskinstall xquartz
-caskinstall flash-player
 caskinstall prefs-editor
 caskinstall android-file-transfer
 caskinstall etrecheckpro
@@ -194,6 +190,13 @@ caskinstall hyperkey
 caskinstall signal
 caskinstall redisinsight
 caskinstall android-studio
+caskinstall zulu11
+caskinstall loom
+caskinstall min
+caskinstall cron
+caskinstall kap
+caskinstall shadow
+caskinstall qr-journal
 # caskinstall yulrizka/tap/pushtotalk
 # caskinstall kap
 # caskinstall background-music
