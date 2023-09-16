@@ -42,7 +42,6 @@ echo_title_install "brew packages"
 ### tap
 brewtap homebrew/cask
 brewtap homebrew/cask-versions
-brewtap ejoffe/homebrew-tap
 
 ### system
 brewinstall ssh-copy-id
@@ -95,8 +94,7 @@ gh extension install dlvhdr/gh-dash
 brewinstall tig
 brewinstall lazygit
 brewinstall git-delta
-# brewinstall spr
-brewinstall ejoffe/tap/spr
+brewinstall spr
 
 ### editors
 brewinstall vim
