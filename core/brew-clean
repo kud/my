@@ -1,105 +1,95 @@
-# #! /usr/bin/env zsh
+#! /usr/bin/env zsh
 
-# source $MY/core/helper
+source $MY/core/helper
 
-# # BREW
-# # MAIN_ARRAY=()
-# # MAIN_LINES=$(grep -oE '^[ ]*brewinstall [0-9a-zA-Z/.@-]*' $MY/core/brew|sed -E 's/^[ ]*brewinstall //')
+file_paths=("$MY/core/brew" "$MY/core/fonts" "$MY/profiles/$OS_PROFILE/core/brew")
 
-# # printf '%s\n' "$MAIN_LINES"|while IFS= read -r line
-# # do
-# #    MAIN_ARRAY+=($line)
-# # done
+declare -A file_casks_map
+for file_path in "${file_paths[@]}"; do
+    while read -r line || [[ -n "$line" ]]; do
+        # Remove any content after the # symbol
+        line_without_comment=${line%%#*}
 
-# # PROFILE_ARRAY=()
-# # PROFILE_LINES=$(grep -oE '^[ ]*brewinstall [0-9a-zA-Z/.@-]*' $MY/profiles/$OS_PROFILE/core/brew|sed -E 's/^[ ]*brewinstall //')
+        # Trim any leading/trailing spaces
+        trimmed_line=$(echo "$line_without_comment" | xargs)
 
-# # printf '%s\n' "$PROFILE_LINES"|while IFS= read -r line
-# # do
-# #    PROFILE_ARRAY+=($line)
-# # done
+        if [[ "$trimmed_line" =~ ^caskinstall\ (.+)$ ]]; then
+            cask_name=${match[1]}
 
-# # MERGED_ARRAY=( "${MAIN_ARRAY[@]}" "${PROFILE_ARRAY[@]}" )
+            # Sanitize the cask name to get only the last part after "/"
+            sanitized_cask_name=$(echo "$cask_name" | awk -F/ '{print $NF}')
+            file_casks_map[$sanitized_cask_name]=1
+        fi
+    done <"$file_path"
+done
 
-# # CMD_ARRAY=()
-# # CMD_LINES=$(brew list)
+# Capture the list of installed casks
+installed_casks=$(brew list --cask)
 
-# # printf '%s\n' "$CMD_LINES"|while IFS= read -r line
-# # do
-# #    CMD_ARRAY+=($line)
-# # done
+declare -A installed_casks_map
+for cask in ${(f)installed_casks}; do
+    installed_casks_map[$cask]=1
+done
 
+# Check for casks in brew or fonts files but not installed
+missing_casks=()
+for cask in ${(k)file_casks_map}; do
+    if [[ -z "${installed_casks_map[$cask]}" ]]; then
+        missing_casks+=($cask)
+    fi
+done
 
-# # FINAL_ARRAY=(`echo ${MERGED_ARRAY[@]} ${CMD_ARRAY[@]}|tr ' ' '\n'|sort|uniq -u `)
+if [[ ${#missing_casks[@]} -gt 0 ]]; then
+    echo_info "Casks in files but not installed:"
+    for cask in "${missing_casks[@]}"; do
+        echo "$cask"
+    done
+    exit 1  # Exit the script with a non-zero status to indicate an error
+fi
 
-# # CASK
-# CASK_MAIN_ARRAY=()
-# CASK_MAIN_LINES=$(grep -oE '^[ ]*caskinstall [0-9a-zA-Z/.@-]*' $MY/core/brew|sed -E 's/^[ ]*caskinstall //')
+echo_space
+echo_success "All casks in files are installed."
+echo_space
 
-# printf '%s\n' "$CASK_MAIN_LINES"|while IFS= read -r line
-# do
-#   CASK_MAIN_ARRAY+=($line)
-# done
+# Check for casks installed but not in brew or fonts files and act upon them
+casks_to_keep=()
+for cask in ${(k)installed_casks_map}; do
+    if [[ -z "${file_casks_map[$cask]}" ]]; then
+        echo_space
+        echo_info "Cask '$cask' is installed but not in files."
+        echo_space
+        echo "What would you like to do?"
+        echo "1) Use 'soap'"
+        echo "2) Use 'brew uninstall'"
+        echo "3) Keep and list at the end"
+        echo_space
+        read -k choice
+        echo_spacex2
 
-# CASK_PROFILE_ARRAY=()
-# CASK_PROFILE_LINES=$(grep -oE '^[ ]*caskinstall [0-9a-zA-Z/.@-]*' $MY/profiles/$OS_PROFILE/core/brew|sed -E 's/^[ ]*caskinstall //')
+        case $choice in
+            1)
+                soap "$cask"
+                ;;
+            2)
+                brew uninstall "$cask"
+                ;;
+            3)
+                casks_to_keep+=($cask)
+                ;;
+            *)
+                echo "Invalid choice. Keeping '$cask' for now."
+                casks_to_keep+=($cask)
+                ;;
+        esac
+    fi
+done
 
-# printf '%s\n' "$CASK_PROFILE_LINES"|while IFS= read -r line
-# do
-#   CASK_PROFILE_ARRAY+=($line)
-# done
-
-# CASK_MERGED_ARRAY=( "${CASK_MAIN_ARRAY[@]}" "${CASK_PROFILE_ARRAY[@]}" )
-
-# CASK_CMD_ARRAY=()
-# CASK_CMD_LINES=$(brew cask list|sed -E 's/^font.*//')
-
-# printf '%s\n' "$CASK_CMD_LINES"|while IFS= read -r line
-# do
-#   CASK_CMD_ARRAY+=($line)
-# done
-
-# CASK_FINAL_ARRAY=(`echo ${CASK_MERGED_ARRAY[@]} ${CASK_CMD_ARRAY[@]}|tr ' ' '\n'|sort|uniq -u `)
-
-# # SCRIPT
-# echo_title "Cleaning the machine"
-# echo_space
-
-# # if [[ -v FINAL_ARRAY ]]; then
-# #   echo_info "It will remove these commands:"
-# #   echo_space
-
-# #   for app in $FINAL_ARRAY; do
-# #     echo $app
-# #   done
-
-# #   echo_space
-# #   read "?Press any key to continue the deletion… or ctrl+c to stop."  < /dev/tty
-
-# #   echo_space
-# #   for app in $CASK_FINAL_ARRAY; do
-# #     brewuninstall $app
-# #   done
-# # else
-# #   echo "Nothing to clean."
-# # fi
-
-# if [[ -v CASK_FINAL_ARRAY ]]; then
-#   echo_info "It will remove these apps:"
-#   echo_space
-
-#   for app in $CASK_FINAL_ARRAY; do
-#     echo $app
-#   done
-
-#   echo_space
-#   read "?Press any key to continue the deletion… or ctrl+c to stop."  < /dev/tty
-
-#   echo_space
-#   for app in $CASK_FINAL_ARRAY; do
-#     caskuninstall $app
-#   done
-# else
-#   echo "Nothing to clean."
-# fi
-
+if [[ ${#casks_to_keep[@]} -gt 0 ]]; then
+    echo_space
+    echo_info "Casks you chose to keep:"
+    for cask in "${casks_to_keep[@]}"; do
+        echo "$cask"
+    done
+else
+    echo_info "No casks kept."
+fi
