@@ -1,18 +1,22 @@
 #!/usr/bin/env zsh
 
+# Check if the right number of arguments are provided.
 if [[ $# -ne 1 ]]; then
   echo "Usage: $0 <file_or_directory>"
   exit 1
 fi
 
+# Capture the target file or directory.
 target="$1"
 
+# Check if the target exists.
 if [[ ! -e "$target" ]]; then
   echo "The file or directory '$target' does not exist."
   exit 1
 fi
 
-command="sudo chown -R \$(whoami):staff '$target'"
-eval "$command"
-echo "Executed command: $command"
-echo "Changed ownership of '$target' to \$(whoami):staff"
+# Change the ownership of the target to the current user (in the 'staff' group).
+sudo chown -R "$(whoami):staff" "$target"
+
+# Display the executed command and result.
+echo "Changed ownership of '$target' to $(whoami):staff"
