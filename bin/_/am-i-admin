@@ -1,11 +1,12 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-NC='\033[0m'
+NC='\033[0m' # Reset code
+UNDERLINE='\033[4m'
 
 if dscl . -read /Groups/admin GroupMembership | grep -q $USER; then
-  echo -e "${GREEN}✓ ${NC}${USER}, you are an admin on this computer!"
+  echo -e "${GREEN}✓ ${NC}${UNDERLINE}${USER}${NC}, you are an admin on this computer. 🎉"
 else
-  echo -e "${RED}✗ ${NC}${USER}, you are not an admin on this computer."
+  echo -e "${RED}✗ ${NC}${UNDERLINE}${USER}${NC}, you are sadly not an admin on this computer."
 fi
