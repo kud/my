@@ -1,5 +1,13 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
-NAME=yt-dlp-$(date +%s)
-yt-dlp-o /tmp/$NAME $@
-open /tmp/$NAME*
+# Set the file name using the current timestamp.
+NAME="yt-dlp-$(date +%s)"
+
+# Set the download directory.
+DOWNLOAD_DIR="/tmp"
+
+# Download the video using yt-dlp.
+yt-dlp -o "${DOWNLOAD_DIR}/${NAME}" "$@"
+
+# Open the downloaded file.
+open "${DOWNLOAD_DIR}/${NAME}*"
