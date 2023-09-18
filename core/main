@@ -12,6 +12,7 @@ $MY/core/gem
 $MY/core/pip
 $MY/core/npm
 $MY/core/mas
+$MY/core/aicommits
 
 # done!
 echo_space
