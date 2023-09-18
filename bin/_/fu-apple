@@ -1,3 +1,6 @@
 #! /usr/bin/env zsh
 
 xattr -d com.apple.quarantine $1
+
+echo ""
+echo "💥 It's done."
