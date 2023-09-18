@@ -1,74 +1,84 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
-source $MY/core/helper
+# Source helper functions
+source "${MY}/core/helper"
 
+# Get public IP and copy to clipboard
 ip() {
   IP=$(dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com)
   echo "${IP}"
-  echo ${IP}|pbcopy
+  echo "${IP}" | pbcopy
 }
 
+# Get local IP(s) and copy to clipboard
 localIp() {
-  IP=$(ipconfig getifaddr en0)
+  IP1=$(ipconfig getifaddr en0)
   IP2=$(ipconfig getifaddr en4)
-  echo "${IP}${IP2}"
-  echo ${IP}${IP2}|pbcopy
+  echo "${IP1}${IP2}"
+  echo "${IP1}${IP2}" | pbcopy
 }
 
+# Display screen resolution
 resolution() {
-  system_profiler SPDisplaysDataType|grep Resolution
+  system_profiler SPDisplaysDataType | grep Resolution
 }
 
+# Copy SSH key to clipboard
 sshKey() {
-  pbcopy < ~/.ssh/id_rsa.pub
+  pbcopy <~/.ssh/id_rsa.pub
   echo "Copied!"
 }
 
+# Display CPU features
 cpuFeatures() {
-  STRING=$(sysctl -a|grep machdep.cpu.features)
+  STRING=$(sysctl -a | grep machdep.cpu.features)
   echo "${STRING}"
 }
 
+# Display help message
+display_help() {
+  echo_space
+  printf "Usage:"
+  echo_spacex2
+  printf "    ${COLOUR_CYAN}geeet${COLOUR_RESET} [<command>|--help]"
+  echo_spacex3
+  printf "Commands:"
+  echo_spacex2
+  printf "    ip               ${COLOUR_BLACK}Get public ip${COLOUR_RESET}"
+  echo_space
+  printf "    local-ip         ${COLOUR_BLACK}Get local ip${COLOUR_RESET}"
+  echo_space
+  printf "    resolution       ${COLOUR_BLACK}Get resolution${COLOUR_RESET}"
+  echo_space
+  printf "    ssh-key          ${COLOUR_BLACK}Copy ssh-key${COLOUR_RESET}"
+  echo_spacex2
+}
+
+# Main script logic
 if [[ $# -eq 0 ]]; then
-  $0 --help
+  display_help
 else
-
   case "$1" in
-      ip)
-        ip
-      ;;
-      local-ip)
-        localIp
-      ;;
-      resolution)
-        resolution
-      ;;
-      ssh-key)
-        sshKey
-      ;;
-      cpu-features)
-        cpuFeatures
-      ;;
-      --help)
-          echo_space
-          printf "Usage:"
-          echo_spacex2
-          printf "    ${COLOUR_CYAN}geeet${COLOUR_RESET} [<command>|--help]"
-          echo_spacex3
-          printf "Commands:"
-          echo_spacex2
-          printf "    ip               ${COLOUR_BLACK}Get public ip${COLOUR_RESET}"
-          echo_space
-          printf "    local-ip         ${COLOUR_BLACK}Get local ip${COLOUR_RESET}"
-          echo_space
-          printf "    resolution       ${COLOUR_BLACK}Get resolution${COLOUR_RESET}"
-          echo_space
-          printf "    ssh-key          ${COLOUR_BLACK}Copy ssh-key${COLOUR_RESET}"
-          echo_spacex2
-          ;;
-      *)
-        echo 'What did you say?'
-      ;;
+  ip)
+    ip
+    ;;
+  local-ip)
+    localIp
+    ;;
+  resolution)
+    resolution
+    ;;
+  ssh-key)
+    sshKey
+    ;;
+  cpu-features)
+    cpuFeatures
+    ;;
+  --help)
+    display_help
+    ;;
+  *)
+    echo 'Invalid command. Use --help for usage.'
+    ;;
   esac
-
 fi
