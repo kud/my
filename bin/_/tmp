@@ -1,7 +1,9 @@
 #!/usr/bin/env zsh
 
-source $MY/core/helper
+# Source helper functions
+source "${MY}/core/helper"
 
+# Display help message
 display_help() {
   echo_space
   echo "Usage:"
@@ -11,14 +13,15 @@ display_help() {
   echo "Commands:"
   echo_spacex2
   echo "    open    ${COLOUR_BLACK}Open tmp folder${COLOUR_RESET}"
-  echo_spacex2
+  echo_space
   echo "    clean   ${COLOUR_BLACK}Clean tmp folder${COLOUR_RESET}"
-  echo_spacex2
+  echo_space
   echo "    from    ${COLOUR_BLACK}Move files/folder to tmp folder${COLOUR_RESET}"
   echo_spacex2
 }
 
 main() {
+  # If no arguments, display help.
   if [[ $# -eq 0 ]]; then
     display_help
     return
@@ -26,25 +29,29 @@ main() {
 
   case "$1" in
   clean)
+    # Move files to trash
     find ~/__tmp/ -type f -exec trash {} \;
     ;;
   open)
+    # Open the temp directory
     open ~/__tmp
     ;;
   from)
-    [[ -z $2 ]] && {
+    # Check if second argument exists
+    if [[ -z "$2" ]]; then
       echo "Specify a file or folder to move."
       return
-    }
+    fi
     mv "$2" ~/__tmp/
     ;;
   --help)
     display_help
     ;;
   *)
-    echo 'What did you say?'
+    echo 'Invalid command. Use --help for usage.'
     ;;
   esac
 }
 
+# Call the main function with provided arguments.
 main "$@"
