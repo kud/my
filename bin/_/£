@@ -1,7 +1,6 @@
 #! /usr/bin/env zsh
 
 # main command
-
 source $MY/core/helper
 
 if [[ $# -eq 0 ]]; then
@@ -9,83 +8,92 @@ if [[ $# -eq 0 ]]; then
 else
 
   case "$1" in
-      update)
-        $MY/core/update
+  update)
+    $MY/core/update
+    ;;
+  doc)
+    case "$2" in
+    --offline)
+      mdlive --dir $MY/doc
       ;;
-      doc)
-        case "$2" in
-          --offline)
-            mdlive --dir $MY/doc
-          ;;
-          *)
-            open https://github.com/kud/my/tree/master/doc
-          ;;
-        esac
+    *)
+      open https://github.com/kud/my/tree/master/doc
       ;;
-      os)
-        $MY/core/os
-      ;;
-      dotfiles)
-        $MY/core/dotfiles
-      ;;
-      symlink)
-        $MY/core/symlink
-      ;;
-      fonts)
-        $MY/core/fonts
-      ;;
-      firefox-settings)
-        $MY/core/firefox-settings
-      ;;
-      shims)
-        $MY/core/shims
-      ;;
-      install)
-        $MY/core/install
-      ;;
-      edit)
-        code $MY
-      ;;
-      open)
-        open $MY
-      ;;
-      --help)
+    esac
+    ;;
+  os)
+    $MY/core/os
+    ;;
+  dotfiles)
+    $MY/core/dotfiles
+    ;;
+  symlink)
+    $MY/core/symlink
+    ;;
+  fonts)
+    $MY/core/fonts
+    ;;
+  firefox-settings)
+    $MY/core/firefox-settings
+    ;;
+  shims)
+    $MY/core/shims
+    ;;
+  install)
+    $MY/core/install
+    ;;
+  brew-clean)
+    $MY/core/brew-clean
+    ;;
+  npm-clean)
+    $MY/core/npm-clean
+    ;;
+  edit)
+    code $MY
+    ;;
+  open)
+    open $MY
+    ;;
+  --help)
+    source $MY/core/intro
 
-        source $MY/core/intro
-
-        echo_space
-        printf "Usage:"
-        echo_spacex2
-        printf "    ${COLOUR_CYAN}£${COLOUR_RESET} [<command>|--help]"
-        echo_spacex3
-        printf "Commands:"
-        echo_spacex2
-        printf "    update            ${COLOUR_BLACK}Start the install/update process${COLOUR_RESET}"
-        echo_space
-        printf "    doc               ${COLOUR_BLACK}Start a server to read the doc${COLOUR_RESET}"
-        echo_space
-        printf "    os                ${COLOUR_BLACK}Update os setttings${COLOUR_RESET}"
-        echo_space
-        printf "    dotfiles          ${COLOUR_BLACK}Update dotfiles${COLOUR_RESET}"
-        echo_space
-        printf "    symlink           ${COLOUR_BLACK}Update symlinks${COLOUR_RESET}"
-        echo_space
-        printf "    fonts             ${COLOUR_BLACK}Update fonts${COLOUR_RESET}"
-        echo_space
-        printf "    firefox-settings  ${COLOUR_BLACK}Update firefox settings${COLOUR_RESET}"
-        echo_space
-        printf "    shims             ${COLOUR_BLACK}Create shell command for .app${COLOUR_RESET}"
-        echo_space
-        printf "    install           ${COLOUR_BLACK}Make everything${COLOUR_RESET}"
-        echo_space
-        printf "    edit              ${COLOUR_BLACK}Open with \$EDITOR${COLOUR_RESET}"
-        echo_space
-        printf "    open              ${COLOUR_BLACK}Open with Finder${COLOUR_RESET}"
-        echo_spacex2
-      ;;
-      *)
-        echo 'What did you say?'
-      ;;
+    echo_space
+    printf "Usage:"
+    echo_spacex2
+    printf "    ${COLOUR_CYAN}£${COLOUR_RESET} [<command>|--help]"
+    echo_spacex3
+    printf "Commands:"
+    echo_spacex2
+    printf "    update            ${COLOUR_BLACK}Start the install/update process${COLOUR_RESET}"
+    echo_space
+    printf "    doc               ${COLOUR_BLACK}Start a server to read the doc${COLOUR_RESET}"
+    echo_space
+    printf "    os                ${COLOUR_BLACK}Update os settings${COLOUR_RESET}"
+    echo_space
+    printf "    dotfiles          ${COLOUR_BLACK}Update dotfiles${COLOUR_RESET}"
+    echo_space
+    printf "    symlink           ${COLOUR_BLACK}Update symlinks${COLOUR_RESET}"
+    echo_space
+    printf "    fonts             ${COLOUR_BLACK}Update fonts${COLOUR_RESET}"
+    echo_space
+    printf "    firefox-settings  ${COLOUR_BLACK}Update firefox settings${COLOUR_RESET}"
+    echo_space
+    printf "    shims             ${COLOUR_BLACK}Create shell command for .app${COLOUR_RESET}"
+    echo_space
+    printf "    install           ${COLOUR_BLACK}Make everything${COLOUR_RESET}"
+    echo_space
+    printf "    brew-clean        ${COLOUR_BLACK}Clean the casks${COLOUR_RESET}"
+    echo_space
+    printf "    npm-clean         ${COLOUR_BLACK}Clean the global node packages${COLOUR_RESET}"
+    echo_space
+    printf "    edit              ${COLOUR_BLACK}Open with \$EDITOR${COLOUR_RESET}"
+    echo_space
+    printf "    open              ${COLOUR_BLACK}Open with Finder${COLOUR_RESET}"
+    echo_spacex2
+    ;;
+  *)
+    echo 'What did you say?'
+    ;;
   esac
 
 fi

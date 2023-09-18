@@ -4,6 +4,7 @@
   "type": "module",
   "license": "ISC",
   "dependencies": {
+    "inquirer": "9.2.11",
     "simple-git": "3.18.0",
     "zx": "7.2.2"
   }
