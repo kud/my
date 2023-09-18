@@ -1,19 +1,33 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
-source $MY/core/helper
+source "${MY}/core/helper"
+
+# Helper function to get PID for a specific service.
+getPid() {
+  serviceName=$1
+  sudo lsof -i :53 | grep "$serviceName" | head -1 | awk '{print $2}'
+}
 
 killMdnsresponder() {
   echo_title "Killing mdnsresponder..."
-  PID=$(sudo lsof -i :53 | grep _mdnsresponder | head -1 | sed 's/  */ /g' | cut -d' ' -f2)
-  sudo kill -9 $PID
-  echo_success "mdnsresponder killed."
+  PID=$(getPid "_mdnsresponder")
+  if [[ -n "$PID" ]]; then
+    sudo kill -9 "$PID"
+    echo_success "mdnsresponder killed."
+  else
+    echo_error "mdnsresponder not found."
+  fi
 }
 
 killDnsmasq() {
   echo_title "Killing dnsmasq..."
-  PID=$(sudo lsof -i :53 | grep dnsmasq | head -1 | sed 's/  */ /g' | cut -d' ' -f2)
-  sudo kill -9 $PID
-  echo_success "dnsmasq killed."
+  PID=$(getPid "dnsmasq")
+  if [[ -n "$PID" ]]; then
+    sudo kill -9 "$PID"
+    echo_success "dnsmasq killed."
+  else
+    echo_error "dnsmasq not found."
+  fi
 }
 
 startDnsmasq() {
@@ -25,41 +39,39 @@ startDnsmasq() {
 if [[ $# -eq 0 ]]; then
   $0 --help
 else
-
   case "$1" in
-      start)
-        sudo -v
-        killMdnsresponder
-        startDnsmasq
-      ;;
-      stop)
-        sudo -v
-        killDnsmasq
-      ;;
-      restart)
-        sudo -v
-        killMdnsresponder
-        killDnsmasq
-        startDnsmasq
-      ;;
-      --help)
-          echo_space
-          printf "Usage:"
-          echo_spacex2
-          printf "    ${COLOUR_CYAN}dnsmasq-manager${COLOUR_RESET} [<command>|--help]"
-          echo_spacex3
-          printf "Commands:"
-          echo_spacex2
-          printf "    start    ${COLOUR_BLACK}Start dnsmasq${COLOUR_RESET}"
-          echo_space
-          printf "    stop     ${COLOUR_BLACK}Stop dnsmasq${COLOUR_RESET}"
-          echo_space
-          printf "    restart  ${COLOUR_BLACK}Restart dnsmasq${COLOUR_RESET}"
-          echo_spacex2
-          ;;
-      *)
-        echo 'What did you say?'
-      ;;
+  start)
+    sudo -v
+    killMdnsresponder
+    startDnsmasq
+    ;;
+  stop)
+    sudo -v
+    killDnsmasq
+    ;;
+  restart)
+    sudo -v
+    killMdnsresponder
+    killDnsmasq
+    startDnsmasq
+    ;;
+  --help)
+    echo_space
+    printf "Usage:"
+    echo_spacex2
+    printf "    ${COLOUR_CYAN}dnsmasq-manager${COLOUR_RESET} [<command>|--help]"
+    echo_spacex3
+    printf "Commands:"
+    echo_spacex2
+    printf "    start    ${COLOUR_BLACK}Start dnsmasq${COLOUR_RESET}"
+    echo_space
+    printf "    stop     ${COLOUR_BLACK}Stop dnsmasq${COLOUR_RESET}"
+    echo_space
+    printf "    restart  ${COLOUR_BLACK}Restart dnsmasq${COLOUR_RESET}"
+    echo_spacex2
+    ;;
+  *)
+    echo 'Invalid command. Use --help for usage.'
+    ;;
   esac
-
 fi
