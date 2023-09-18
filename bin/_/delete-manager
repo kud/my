@@ -1,57 +1,64 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
-source $MY/core/helper
+source "${MY}/core/helper"
 
 asl() {
   echo_title "Deleting ASL..."
-  sudo rm /var/log/asl/*.asl
-  echo_success "ASL deleted."
+  if sudo rm -rf /var/log/asl/*.asl; then
+    echo_success "ASL logs deleted."
+  else
+    echo_error "Failed to delete ASL logs."
+  fi
 }
 
 dsstore() {
   echo_title "Deleting .DS_Store..."
-  find . -name '*.DS_Store' -type f -delete
-  echo_success ".DS_Store deleted."
+  if find . -name '*.DS_Store' -type f -delete; then
+    echo_success ".DS_Store files deleted."
+  else
+    echo_error "Failed to delete .DS_Store files."
+  fi
 }
 
 screenshots() {
   echo_title "Deleting screenshots..."
-  rm ${HOME}/Screenshots/*
-  echo_success "Screenshots deleted."
+  if rm -f "${HOME}/Screenshots/"*; then
+    echo_success "Screenshots deleted."
+  else
+    echo_error "Failed to delete screenshots."
+  fi
 }
 
 if [[ $# -eq 0 ]]; then
   $0 --help
 else
-
   case "$1" in
-      asl)
-        asl
-      ;;
-      dsstore)
-        dsstore
-      ;;
-      screenshots)
-        screenshots
-      ;;
-      --help)
-          echo_space
-          printf "Usage:"
-          echo_spacex2
-          printf "    ${COLOUR_CYAN}delete${COLOUR_RESET} [<command>|--help]"
-          echo_spacex3
-          printf "Commands:"
-          echo_spacex2
-          printf "    asl          ${COLOUR_BLACK}Delete ASL${COLOUR_RESET}"
-          echo_space
-          printf "    dsstore      ${COLOUR_BLACK}Delete .DS_Store from where you are${COLOUR_RESET}"
-          echo_space
-          printf "    screenshots  ${COLOUR_BLACK}Delete screenshots${COLOUR_RESET}"
-          echo_spacex2
-          ;;
-      *)
-        echo 'What did you say?'
-      ;;
+  asl)
+    asl
+    ;;
+  dsstore)
+    dsstore
+    ;;
+  screenshots)
+    screenshots
+    ;;
+  --help)
+    echo_space
+    printf "Usage:"
+    echo_spacex2
+    printf "    ${COLOUR_CYAN}delete${COLOUR_RESET} [<command>|--help]"
+    echo_spacex3
+    printf "Commands:"
+    echo_spacex2
+    printf "    asl          ${COLOUR_BLACK}Delete ASL logs${COLOUR_RESET}"
+    echo_space
+    printf "    dsstore      ${COLOUR_BLACK}Delete .DS_Store files in the current directory${COLOUR_RESET}"
+    echo_space
+    printf "    screenshots  ${COLOUR_BLACK}Delete screenshots${COLOUR_RESET}"
+    echo_spacex2
+    ;;
+  *)
+    echo 'Invalid command. Use --help for usage.'
+    ;;
   esac
-
 fi
