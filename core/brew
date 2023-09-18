@@ -142,7 +142,7 @@ caskinstall flux
 # caskinstall iterm2
 # caskinstall iterm2-beta
 caskinstall iterm2-nightly
-caskinstall appcleaner
+# caskinstall appcleaner
 caskinstall rectangle
 caskinstall grandperspective
 caskinstall xquartz
@@ -198,12 +198,10 @@ caskinstall kap
 caskinstall shadow
 caskinstall qr-journal
 # caskinstall yulrizka/tap/pushtotalk
-# caskinstall kap
 # caskinstall background-music
 # caskinstall background-music-pre
 # caskinstall tyke
 # caskinstall sip
-# caskinstall typora
 # caskinstall zettlr
 # caskinstall flashlight
 # caskinstall mysimbl
