@@ -75,6 +75,7 @@ npminstall @kud/soap
 npminstall tslint
 npminstall eslint
 npminstall prettier-plugin-ini
+npminstall envinfo
 
 # config
 npm config set save-exact true
