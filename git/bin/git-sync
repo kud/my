@@ -6,8 +6,8 @@ HEAD_BRANCH=$(basename $(git symbolic-ref --short refs/remotes/origin/HEAD))
 
 git stash push -m "tmp-sync-command" >/dev/null 2>&1
 gh repo sync $ORIGIN_REPO --source $UPSTREAM_REPO
-git switch $HEAD_BRANCH
+git checkout $HEAD_BRANCH
 git fetch --all
 git pull origin $HEAD_BRANCH
-git switch -
+git checkout -
 git stash pop tmp-sync-command >/dev/null 2>&1
