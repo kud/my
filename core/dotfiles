@@ -29,6 +29,7 @@ fi
 # local files
 if [ ! -f "$HOME/.zshrc_local" ]; then
   echo "export OS_PROFILE=DEFINE_ME" >"$HOME/.zshrc_local"
+
   read -p "Configure now your 'OS_PROFILE' in '~/.zshrc_local' and press [Enter] when you've finished..." </dev/tty
 fi
 
@@ -37,7 +38,10 @@ if [ ! -f "$HOME/.gitconfig_local" ]; then
   user = USERNAME
 [user]
   name = FIRSTNAME LASTNAME
-  email = EMAIL" >"$HOME/.gitconfig_local"
+  email = EMAIL
+[includeIf \"gitdir:~/Projects/work/\"]
+  path = .gitconfig_local_work" >"$HOME/.gitconfig_local"
+
   read -p "Configure now your git informations in '~/.gitconfig_local' and press [Enter] when you've finished..." </dev/tty
 fi
 
