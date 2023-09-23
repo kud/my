@@ -1,2 +1,0 @@
-#! /usr/bin/env zsh
-open -a "/Applications/GraphQL Playground.app" $@
