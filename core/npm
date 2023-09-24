@@ -78,6 +78,7 @@ npminstall envinfo
 
 npminstall @kud/soap-cli
 npminstall @kud/wifi-tool-cli
+npminstall @kud/am-i-admin-cli
 
 # config
 npm config set save-exact true
