@@ -71,7 +71,7 @@ npminstall zx
 npminstall web-ext
 npminstall aicommits
 npminstall nativefier
-npminstall @kud/soap
+npminstall @kud/soap-cli
 npminstall tslint
 npminstall eslint
 npminstall prettier-plugin-ini
