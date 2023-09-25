@@ -62,7 +62,6 @@ npminstall ntl  # Npm Task List: Interactive cli menu to list/run npm tasks - ht
 npminstall kmdr # Learn CLI commands with kmdr explain - https://kmdr.sh
 npminstall bodybuilder
 npminstall fixme
-npminstall git-branch-select
 npminstall envinfo
 npminstall vercel
 npminstall jscodeshift
@@ -75,6 +74,8 @@ npminstall tslint
 npminstall eslint
 npminstall prettier-plugin-ini
 npminstall envinfo
+npminstall git-branch-select
+npminstall git-branch-delete
 
 npminstall @kud/soap-cli
 npminstall @kud/wifi-tool-cli
