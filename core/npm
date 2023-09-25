@@ -80,6 +80,7 @@ npminstall git-branch-delete
 npminstall @kud/soap-cli
 npminstall @kud/wifi-tool-cli
 npminstall @kud/am-i-admin-cli
+npminstall @kud/git-cherry-pick-interactive-cli
 
 # config
 npm config set save-exact true
