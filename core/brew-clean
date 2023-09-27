@@ -3,24 +3,22 @@
 # Load helper functions and variables
 source $MY/core/helper
 
-### CASKS CHECK ###
+echo_title "Starting Cleanup Process..."
+echo_space
 
-# Paths where the casks installation list is maintained
+### LOAD CASKS FROM FILES ###
+
+echo_info "Loading casks..."
+echo_space
+
 file_paths=("$MY/core/brew" "$MY/core/fonts" "$MY/profiles/$OS_PROFILE/core/brew")
-
-# Associative array to store the casks from the files
 declare -A file_casks_map
 
-# Loop through each file path to extract the casks
 for file_path in "${file_paths[@]}"; do
     while read -r line || [[ -n "$line" ]]; do
-        # Strip out comments from the line
         line_without_comment=${line%%#*}
-
-        # Remove any extra spaces or tabs
         trimmed_line=$(echo "$line_without_comment" | xargs)
 
-        # Extract cask name if it's prefixed with a path
         if [[ "$trimmed_line" =~ ^caskinstall\ (.+)$ ]]; then
             cask_name=${match[1]}
             sanitized_cask_name=$(echo "$cask_name" | awk -F/ '{print $NF}')
@@ -29,16 +27,28 @@ for file_path in "${file_paths[@]}"; do
     done <"$file_path"
 done
 
-# Get a list of all installed casks
-installed_casks=$(brew list --cask)
+echo_success "Casks loaded"
+echo_space
 
-# Map to store the installed casks
+### CHECK INSTALLED CASKS ###
+
+echo_info "Checking installed casks..."
+echo_space
+
+installed_casks=$(brew list --cask)
 declare -A installed_casks_map
 for cask in ${(f)installed_casks}; do
     installed_casks_map[$cask]=1
 done
 
-# Check which casks are mentioned in files but not installed
+echo_success "Installed casks checked"
+echo_space
+
+### COMPARE CASKS ###
+
+echo_info "Comparing casks..."
+echo_space
+
 missing_casks=()
 for cask in ${(k)file_casks_map}; do
     if [[ -z "${installed_casks_map[$cask]}" ]]; then
@@ -47,30 +57,31 @@ for cask in ${(k)file_casks_map}; do
 done
 
 if [[ ${#missing_casks[@]} -gt 0 ]]; then
-    echo_info "Casks in files but not installed:"
+    echo_info "Some casks are missing"
     for cask in "${missing_casks[@]}"; do
         echo "$cask"
     done
     exit 1
+else
+    echo_success "All casks are in order"
 fi
 
 echo_space
-echo_success "All casks in files are installed."
+
+### HANDLE DISCREPANCIES ###
+
+echo_info "Checking for discrepancies..."
 echo_space
 
-# Handle discrepancies: casks installed but not listed in files
 casks_to_keep=()
 for cask in ${(k)installed_casks_map}; do
     if [[ -z "${file_casks_map[$cask]}" ]]; then
         echo_space
-        echo_info "Cask '$cask' is installed but not in files."
 
-        # User prompt to handle this discrepancy
-        echo_space
-        echo "What would you like to do?"
+        echo "Cask '$cask' discrepancy found. What would you like to do?"
         echo "1) Use 'soap'"
-        echo "2) Use 'brew uninstall'"
-        echo "3) Keep and list at the end"
+        echo "2) Uninstall"
+        echo "3) Keep"
         echo_space
 
         read -k choice
@@ -87,19 +98,18 @@ for cask in ${(k)installed_casks_map}; do
                 casks_to_keep+=($cask)
                 ;;
             *)
-                echo "Invalid choice. Keeping '$cask' for now."
                 casks_to_keep+=($cask)
                 ;;
         esac
+        echo_space
     fi
 done
 
 if [[ ${#casks_to_keep[@]} -gt 0 ]]; then
-    echo_space
-    echo_info "Casks you chose to keep:"
-    for cask in "${casks_to_keep[@]}"; do
-        echo "$cask"
-    done
+    echo_info "Kept casks listed"
 else
-    echo_info "No casks kept."
+    echo_success "No discrepancies found"
 fi
+
+echo_space
+echo_final_success "Cleanup Process Completed"

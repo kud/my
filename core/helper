@@ -1,4 +1,4 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
 # set colours
 autoload colors
@@ -12,31 +12,79 @@ for COLOUR in RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; do
 done
 eval COLOUR_RESET='$reset_color'
 
+# --- Icons/Emoji Constants ---
 export CHAR_OK=✔
 export CHAR_ERROR=✗
 export CHAR_STARTER=❯
+export CHAR_INFO="[i]"
+export CHAR_USER="[?]"
+export CHAR_WARN="[!]"
+export CHAR_TASK_START="🚀"
+export CHAR_INPUT="[>]"
+export CHAR_FINAL_SUCCESS="👍"
+export CHAR_FINAL_FAIL="🚫"
 
-function echo_info () { echo "${COLOUR_BLUE}[i]${COLOUR_RESET} $1" }
-function echo_user () { echo "${COLOUR_YELLOW}[?]${COLOUR_RESET} $1" }
-function echo_success () { echo "${COLOUR_GREEN}${CHAR_OK}${COLOUR_RESET} $1" }
-function echo_fail () { echo "${COLOUR_RED}${CHAR_ERROR}${COLOUR_RESET} $1|n"; exit }
-function echo_title () { echo "${COLOUR_CYAN}${CHAR_STARTER} $@${COLOUR_RESET}" }
-function echo_title_install () { echo_title "Installing" $1"..." }
-function echo_title_update () { echo_title "Updating" $1"..." }
-function echo_space () { printf "\n" }
-function echo_spacex2 () {
+# --- Basic Messages ---
+
+function echo_info() { echo "${COLOUR_BLUE}${CHAR_INFO}${COLOUR_RESET} $1" }
+function echo_user() { echo "${COLOUR_YELLOW}${CHAR_USER}${COLOUR_RESET} $1" }
+function echo_success() { echo "${COLOUR_GREEN}${CHAR_OK}${COLOUR_RESET} $1" }
+function echo_fail() { echo "${COLOUR_RED}${CHAR_ERROR}${COLOUR_RESET} $1|n"; exit }
+function echo_warn() { echo "${COLOUR_BOLD_YELLOW}${CHAR_WARN}${COLOUR_RESET} $1" }
+function echo_task_start() { echo "${COLOUR_CYAN}${CHAR_TASK_START} ${COLOUR_RESET}$1..." }
+function echo_task_done() { echo "${COLOUR_GREEN}${CHAR_OK} ${COLOUR_RESET}$1 done!" }
+function echo_input() { echo "${COLOUR_BOLD_CYAN}${CHAR_INPUT} ${COLOUR_RESET}$1" }
+function echo_final_success() {
+    echo "${COLOUR_GREEN}${CHAR_FINAL_SUCCESS} Process completed successfully!${COLOUR_RESET}"
+}
+function echo_final_fail() {
+    echo "${COLOUR_RED}${CHAR_FINAL_FAIL} Process failed!${COLOUR_RESET}"
+}
+
+# --- Title Messages ---
+
+function echo_title() { echo "${COLOUR_CYAN}${CHAR_STARTER} $@${COLOUR_RESET}" }
+function echo_title_install() { echo_title "Installing" $1"..." }
+function echo_title_update() { echo_title "Updating" $1"..." }
+
+# --- Special Formats ---
+
+function echo_bold() { echo "${COLOUR_BOLD_WHITE}$1${COLOUR_RESET}" }
+function echo_highlight() { echo "${COLOUR_MAGENTA}$1${COLOUR_RESET}" }
+function echo_subtle() { echo "${COLOUR_BLACK}$1${COLOUR_RESET}" }
+
+# --- Spacing ---
+
+function echo_space() {
+  printf "\n"
+}
+function echo_spacex2() {
   echo_space
   echo_space
 }
-function echo_spacex3 () {
+function echo_spacex3() {
   echo_space
   echo_space
   echo_space
 }
 
-# easy brew install function
+# --- Separators ---
+
+function echo_hr() {
+  echo "${COLOUR_BOLD_CYAN}----------------------------------------${COLOUR_RESET}"
+  echo "$1"
+  echo "${COLOUR_BOLD_CYAN}----------------------------------------${COLOUR_RESET}"
+}
+
+# --- Sugar functions ---
+
+function brewtap() {
+  if ! brew tap | grep "${@}" > /dev/null; then
+    brew tap "${@}"
+  fi
+}
+
 function brewinstall() {
-  # brew install "${@}" 2> /dev/null
   brew install "${@}"
   brew upgrade "${@}"
 }
@@ -45,9 +93,7 @@ function brewuninstall() {
   brew uninstall "${@}"
 }
 
-# easy cask install function
 function caskinstall() {
-  # brew cask install "${@}" 2> /dev/null
   brew install --cask "${@}"
 }
 
@@ -55,22 +101,19 @@ function caskuninstall() {
   brew uninstall --cask "${@}"
 }
 
-# easy ruby package install function
 function geminstall() {
   if ! type "${@}" > /dev/null; then
     gem install "${@}"
   fi
 }
 
-# easy global node package install function
 function npminstall() {
   if ! type "${@}" > /dev/null; then
     npm install "${@}" -g --quiet
   fi
 }
 
-# easy global python package install function
-function pipi2nstall() {
+function pip2install() {
   if ! type "${@}" > /dev/null; then
     pip2 install --upgrade "${@}"
   fi
@@ -79,12 +122,5 @@ function pipi2nstall() {
 function pip3install() {
   if ! type "${@}" > /dev/null; then
     pip3 install --upgrade "${@}"
-  fi
-}
-
-# easy brew tap function
-function brewtap() {
-  if ! brew tap | grep "${@}" > /dev/null; then
-    brew tap "${@}"
   fi
 }
