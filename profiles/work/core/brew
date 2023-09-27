@@ -9,5 +9,5 @@ brewinstall awscli
 echo_space
 echo_title_install "apps @ $OS_PROFILE"
 
-caskinstall neo4j
 caskinstall eloston-chromium
+caskinstall neo4j
