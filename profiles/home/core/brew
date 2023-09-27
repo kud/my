@@ -8,10 +8,8 @@ source $MY/core/helper
 echo_space
 echo_title_install "apps @ $OS_PROFILE"
 
-caskinstall deluge
-caskinstall steam
-# caskinstall molotov
-caskinstall rawtherapee
 caskinstall darktable
+caskinstall deluge
+caskinstall rawtherapee
 caskinstall signal
-# caskinstall whalebird
+caskinstall steam

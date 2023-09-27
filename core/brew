@@ -44,192 +44,166 @@ brewtap homebrew/cask
 brewtap homebrew/cask-versions
 
 ### system
-brewinstall ssh-copy-id
-brewinstall make
-brewinstall neofetch # system information
-brewinstall mitmproxy
-brewinstall pv
-brewinstall fd
-# brewinstall md5sha1sum
-brewinstall tree
-brewinstall ncdu
-brewinstall htop
-brewinstall iftop
-brewinstall pwgen
-brewinstall exiftool
-brewinstall grep
-brewinstall pcre2
-brewinstall htmlcompressor
-brewinstall mozjpeg
-brewinstall gifsicle
-brewinstall ffmpeg
-brewinstall rename
-brewinstall exa  # Modern replacement for 'ls' — https://the.exa.website
-brewinstall less # because the macOS built-in version is old
-brewinstall p7zip
 brewinstall autojump
 brewinstall brightness
-brewinstall z
-brewinstall ripgrep
-brewinstall gnu-sed
+brewinstall exa # Modern replacement for 'ls' — https://the.exa.website
+brewinstall exiftool
+brewinstall fd
+brewinstall ffmpeg
 brewinstall fzf
+brewinstall gifsicle
+brewinstall gnu-sed
+brewinstall grep
+brewinstall htmlcompressor
+brewinstall htop
+brewinstall iftop
+brewinstall less # because the macOS built-in version is old
+brewinstall make
+brewinstall mitmproxy
+brewinstall mozjpeg
+brewinstall ncdu
+brewinstall neofetch # system information
+brewinstall p7zip
+brewinstall pcre2
+brewinstall pv
+brewinstall pwgen
+brewinstall rename
+brewinstall ripgrep
+brewinstall ssh-copy-id
+brewinstall tree
+brewinstall z
 
 ### network
-brewinstall rsync
-brewinstall rclone
-brewinstall wget
 brewinstall curl
-brewinstall lsof
-brewinstall tcpflow # analyse tcp requests
-brewinstall mtr
 brewinstall dnsmasq
+brewinstall lsof
+brewinstall mtr
+brewinstall rclone
+brewinstall rsync
 brewinstall syncthing
+brewinstall tcpflow # analyse tcp requests
+brewinstall wget
 
 ### git
-brewinstall git
 brewinstall gh
 gh extension install dlvhdr/gh-dash
-# brewinstall ghi
-brewinstall tig
-brewinstall lazygit
+brewinstall git
 brewinstall git-delta
+brewinstall lazygit
 brewinstall spr
+brewinstall tig
 
 ### editors
-brewinstall vim
 brewinstall neovim
+brewinstall vim
 
 ### languages
-brewinstall zlib     # needed for python
 brewinstall readline # needed for python
 brewinstall xz       # needed for python
+brewinstall zlib     # needed for python
 
+### others
+brewinstall antibody
+brewinstall asciinema
+brewinstall bat # https://github.com/sharkdp/bat
+brewinstall duf
+brewinstall fnm
+brewinstall glow
+brewinstall gnupg
+brewinstall heroku/brew/heroku
+brewinstall httpie
+brewinstall imagemagick
+brewinstall ipcalc
+brewinstall jesseduffield/lazynpm/lazynpm
+brewinstall jless
+brewinstall jq
+brewinstall mas # Mac App Store command line interface - https://github.com/mas-cli/mas
+brewinstall noborus/tap/trdsql
+brewinstall node
 brewinstall openjdk
 sudo ln -sfn ${HOMEBREW_PREFIX}/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
-brewinstall ruby
-brewinstall python@3.11 # however, will be installed via pyenv after
+brewinstall openssl@3
+brewinstall pandoc
 brewinstall pyenv
 brewinstall pyenv-virtualenv
-brewinstall node
-brewinstall fnm
-brewinstall yarn
-brewinstall jesseduffield/lazynpm/lazynpm
-### others
-brewinstall heroku/brew/heroku
-brewinstall yt-dlp
-brewinstall imagemagick
-brewinstall mas # Mac App Store command line interface - https://github.com/mas-cli/mas
-brewinstall bat # https://github.com/sharkdp/bat
-brewinstall httpie
-brewinstall jq
-brewinstall ipcalc
-brewinstall asciinema
-brewinstall openssl@3
-brewinstall glow
+brewinstall python@3.11 # however, will be installed via pyenv after
+brewinstall ruby
 brewinstall subversion # for Ubuntu fonts
-brewinstall gnupg
-brewinstall duf
-brewinstall pandoc
-brewinstall jless
-brewinstall noborus/tap/trdsql
-brewinstall antibody
+brewinstall yarn
+brewinstall yt-dlp
 
 ## install apps
 echo_space
 echo_title_install "apps"
 
-caskinstall flux
-# caskinstall iterm2
-# caskinstall iterm2-beta
-caskinstall iterm2-nightly
-# caskinstall appcleaner
-caskinstall rectangle
-caskinstall grandperspective
-caskinstall xquartz
-caskinstall prefs-editor
+caskinstall adoptopenjdk
+caskinstall altair-graphql-client
 caskinstall android-file-transfer
-caskinstall etrecheckpro
-caskinstall monodraw
-# caskinstall gitup
-caskinstall xrg
-caskinstall insomnia # REST Client — https://insomnia.rest/
-caskinstall sublime-merge-dev
-caskinstall firefox-nightly
+caskinstall android-studio
+caskinstall bartender
+caskinstall cleanshot
+caskinstall cron
 caskinstall discord
+caskinstall etrecheckpro
+caskinstall firefox-nightly
+caskinstall fliqlo
+caskinstall flux
+caskinstall google-chrome-canary
+caskinstall grandperspective
+caskinstall hyperkey
+caskinstall image2icon
 caskinstall imagealpha
 caskinstall imageoptim
-caskinstall spotify
-caskinstall vlc
-caskinstall slack
-caskinstall image2icon
-caskinstall rocket
-caskinstall macmediakeyforwarder
-caskinstall mark-text  # https://marktext.github.io/website/
-caskinstall steermouse # http://plentycom.jp/en/steermouse/
-caskinstall fliqlo
-caskinstall raycast
-caskinstall visual-studio-code
-caskinstall proxyman
-caskinstall adoptopenjdk
-caskinstall removebg
-caskinstall openmtp
-caskinstall altair-graphql-client
-caskinstall xcodes
-caskinstall keepassxc
-caskinstall cleanshot
-caskinstall pixelsnap
-caskinstall pika
-caskinstall runjs
-caskinstall monitorcontrol
-caskinstall meetingbar
-caskinstall bartender
-caskinstall osquery
-caskinstall google-chrome-canary
-caskinstall obsidian
-caskinstall hyperkey
-caskinstall signal
-caskinstall redisinsight
-caskinstall android-studio
-caskinstall zulu11
-caskinstall loom
-caskinstall min
-caskinstall cron
+caskinstall insomnia # REST Client — https://insomnia.rest/
+caskinstall iterm2-nightly
 caskinstall kap
-caskinstall shadow
+caskinstall keepassxc
+caskinstall loom
+caskinstall macmediakeyforwarder
+caskinstall mark-text # https://marktext.github.io/website/
+caskinstall meetingbar
+caskinstall min
+caskinstall monitorcontrol
+caskinstall monodraw
+caskinstall obsidian
+caskinstall openmtp
+caskinstall osquery
+caskinstall pika
+caskinstall pixelsnap
+caskinstall prefs-editor
+caskinstall proxyman
 caskinstall qr-journal
-# caskinstall yulrizka/tap/pushtotalk
-# caskinstall background-music
-# caskinstall background-music-pre
-# caskinstall tyke
-# caskinstall sip
-# caskinstall zettlr
-# caskinstall flashlight
-# caskinstall mysimbl
-# caskinstall vlc-nightly
-# caskinstall beardedspice # http://beardedspice.github.io/
-# caskinstall gfxcardstatus # https://gfx.io/
-# caskinstall monitorcontrol
-# caskinstall nativedisplaybrightness
-# caskinstall cheatsheet
-# caskinstall kodi
-# caskinstall sublime-text-dev
-# if ! type "subl" > /dev/null; then
-#   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl ${HOMEBREW_PREFIX}/bin/subl
-# fi
-# caskinstall github-beta
-# caskinstall gitkraken
+caskinstall raycast
+caskinstall rectangle
+caskinstall redisinsight
+caskinstall removebg
+caskinstall rocket
+caskinstall runjs
+caskinstall shadow
+caskinstall signal
+caskinstall slack
+caskinstall spotify
+caskinstall steermouse # http://plentycom.jp/en/steermouse/
+caskinstall sublime-merge-dev
+caskinstall visual-studio-code
+caskinstall vlc
+caskinstall xcodes
+caskinstall xquartz
+caskinstall xrg
+caskinstall zulu11
 
 # quicklook plugins
 caskinstall qlcolorcode
-caskinstall qlstephen
-caskinstall qlmarkdown
-caskinstall quicklook-json
-caskinstall quicklook-csv
 caskinstall qlimagesize
-caskinstall suspicious-package
-caskinstall quicklookase
-caskinstall qlvideo
+caskinstall qlmarkdown
 caskinstall qlprettypatch
+caskinstall qlstephen
+caskinstall qlvideo
+caskinstall quicklook-csv
+caskinstall quicklook-json
+caskinstall quicklookase
+caskinstall suspicious-package
+
 xattr -d -r com.apple.quarantine ~/Library/QuickLook # remove quarantine attr since Catalina
 
 source $MY/profiles/$OS_PROFILE/core/brew 2>/dev/null
