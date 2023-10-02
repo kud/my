@@ -1,11 +1,15 @@
 #! /usr/bin/env zsh
 
-BRANCHES_ARRAY=($(git branch -vv | awk '/: gone]/{print $1}' | tr '\n' ' '))
+# Get the list of branches marked as gone but filter out origin/HEAD
+BRANCHES_ARRAY=($(git branch -vv | grep -v 'origin/HEAD' | awk '/: gone]/{print $1}' | tr '\n' ' '))
 
-git sync
+# Sync the local repository with the remote
+git fetch
+git pull
 
 echo ""
 
+# Check if there are any branches to delete
 if [ -n "${BRANCHES_ARRAY}" ]; then
   for branch in $BRANCHES_ARRAY; do
     echo "❯ ${branch}"
@@ -17,8 +21,16 @@ if [ -n "${BRANCHES_ARRAY}" ]; then
 
   echo ""
 
+  # Get the currently checked-out branch
+  CURRENT_BRANCH=$(git symbolic-ref --short HEAD)
+
+  # Delete the branches that are no longer on the remote
   for branch in $BRANCHES_ARRAY; do
-    git branch -D $branch
+    if [ "$branch" != "$CURRENT_BRANCH" ]; then
+      git branch -D $branch
+    else
+      echo "Skipping deletion of currently checked-out branch: $branch"
+    fi
   done
 
 else
