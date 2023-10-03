@@ -11,3 +11,4 @@ echo_space
 echo_title_install "global ruby packages"
 
 geminstall gist
+geminstall bundler
