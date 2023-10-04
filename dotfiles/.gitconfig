@@ -44,6 +44,7 @@
 [push]
   # default = tracking
   default = simple
+	autoSetupRemote = true
 [filter "hawser"]
   clean = git hawser clean %f
   smudge = git hawser smudge %f
