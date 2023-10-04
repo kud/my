@@ -217,3 +217,4 @@ export PATH=$MY/profiles/$OS_PROFILE/bin/_:$PATH
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 eval "$(fnm env --use-on-cd)" > /dev/null 2>&1
+eval "$(frum init)"
