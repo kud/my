@@ -128,6 +128,7 @@ brewinstall pyenv
 brewinstall pyenv-virtualenv
 brewinstall python@3.11 # however, will be installed via pyenv after
 brewinstall ruby
+brewinstall frum
 brewinstall subversion # for Ubuntu fonts
 brewinstall yarn
 brewinstall yt-dlp
