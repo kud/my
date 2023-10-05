@@ -19,7 +19,7 @@ source <(antibody init)
 antibody bundle mtxr/zsh-change-case
 antibody bundle bigH/git-fuzzy path:bin kind:path
 antibody bundle unixorn/git-extra-commands
-# antibody bundle marlonrichert/zsh-autocomplete
+antibody bundle marlonrichert/zsh-autocomplete
 
 
 # # change prompt
