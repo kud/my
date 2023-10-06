@@ -1,6 +1,6 @@
 {
   "name": "my",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "type": "module",
   "bin": {
     "git-branches-clean-node": "./bin-node/git-branches-clean-node.js"
