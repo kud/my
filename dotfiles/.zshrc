@@ -197,6 +197,9 @@ export HOMEBREW_CASK_OPTS=--appdir=/Applications
 # babel
 export BABEL_CACHE_PATH=/tmp/babel.cache.json
 
+# ssl
+export SSL_CERT_FILE=/opt/homebrew/etc/openssl@3/cert.pem
+
 # PATH - must be in the end
 export PATH=/usr/local/sbin:$PATH # brew
 export PATH=${HOMEBREW_PREFIX}/Cellar/:$PATH # brew
