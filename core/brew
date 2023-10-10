@@ -132,6 +132,7 @@ brewinstall frum
 brewinstall subversion # for Ubuntu fonts
 brewinstall yarn
 brewinstall yt-dlp
+brewinstall molovo/revolver/revolver
 
 ## install apps
 echo_space
