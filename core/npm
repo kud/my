@@ -77,6 +77,7 @@ npminstall envinfo
 npminstall git-branch-select
 npminstall git-branch-delete
 npminstall is-up-cli
+npminstall brightness-cli
 
 npminstall @kud/soap-cli
 npminstall @kud/wifi-tool-cli
