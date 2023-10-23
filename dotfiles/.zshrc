@@ -19,7 +19,7 @@ source <(antibody init)
 antibody bundle mtxr/zsh-change-case
 antibody bundle bigH/git-fuzzy path:bin kind:path
 antibody bundle unixorn/git-extra-commands
-antibody bundle marlonrichert/zsh-autocomplete
+# antibody bundle marlonrichert/zsh-autocomplete
 
 
 # # change prompt
@@ -177,8 +177,8 @@ fi
 export ANDROID_HOME=$HOME/Library/Android/sdk
 
 # java
-# export JAVA_HOME=$(/usr/libexec/java_home -v15)
 export JAVA_HOME="/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home"
+# export JAVA_HOME=$(/usr/libexec/java_home -v15)
 # export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
 # export JAVA_14_HOME=$(/usr/libexec/java_home -v14)
 # export JAVA_15_HOME=$(/usr/libexec/java_home -v15)
@@ -220,8 +220,12 @@ export PATH=$PATH:$MY/bin/shims # add commands to open applications
 # add or override commands by via profiled ones
 export PATH=$MY/profiles/$OS_PROFILE/bin/_:$PATH
 
+# ruby
+eval "$(frum init)"
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# Should be always the last line
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# For some strange reason, `fnm` needs to be at the end in order to view the local version in the shell.
 eval "$(fnm env --use-on-cd)" > /dev/null 2>&1
-eval "$(frum init)"
