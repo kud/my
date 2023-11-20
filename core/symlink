@@ -4,14 +4,14 @@ source $MY/core/helper
 echo_title_install "symlinks"
 
 # Screenshots
-ln -sfn ${SYNC_FOLDER}/Screenshots ~/Screenshots 2> /dev/null
+ln -sfn ${SYNC_FOLDER}/Screenshots ~/Screenshots 2>/dev/null
 
 # App:espanso
-ln -sfn ${SYNC_FOLDER}/Appdata/espanso/espanso ~/Library/Preferences/espanso 2> /dev/null
+ln -sfn ${SYNC_FOLDER}/Appdata/espanso/espanso ~/Library/Application\ Support/espanso 2>/dev/null
 
 # App:Rocket
-ln -sfn ${SYNC_FOLDER}/Appdata/Rocket/net.matthewpalmer.Rocket.plist ~/Library/Preferences/net.matthewpalmer.Rocket.plist 2> /dev/null
-ln -sfn ${SYNC_FOLDER}/Appdata/Rocket/Rocket ~/Library/Application\ Support/Rocket 2> /dev/null
+ln -sfn ${SYNC_FOLDER}/Appdata/Rocket/net.matthewpalmer.Rocket.plist ~/Library/Preferences/net.matthewpalmer.Rocket.plist 2>/dev/null
+ln -sfn ${SYNC_FOLDER}/Appdata/Rocket/Rocket ~/Library/Application\ Support/Rocket 2>/dev/null
 
 # Resource!
 source $HOME/.zshrc
