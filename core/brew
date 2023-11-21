@@ -193,6 +193,7 @@ caskinstall xcodes
 caskinstall xquartz
 caskinstall xrg
 caskinstall zulu11
+caskinstall react-native-debugger
 
 # quicklook plugins
 caskinstall qlcolorcode
