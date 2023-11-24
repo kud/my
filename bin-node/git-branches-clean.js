@@ -5,6 +5,8 @@ import chalk from "chalk"
 import inquirer from "inquirer"
 import simpleGit from "simple-git"
 
+$.verbose = false
+
 const git = simpleGit()
 
 const main = async () => {

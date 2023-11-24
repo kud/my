@@ -209,7 +209,6 @@ export PATH=${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH # gnu-sed
 export PATH=$PATH:$ANDROID_HOME/emulator # android emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools # android platform-tools
 
-export PATH=$MY/git/bin:$PATH # git commands
 export PATH=$MY/bin/_:$PATH # own commands
 
 export PATH=$PATH:$MY/bin/shims # add commands to open applications

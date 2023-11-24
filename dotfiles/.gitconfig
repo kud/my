@@ -35,7 +35,7 @@
   # editor       = subl -n -w
   editor = nvim
   excludesfile = ~/.gitignore_global
-  hooksPath = ~/my/git/hooks
+  # hooksPath = ~/my/git/hooks
 	ignoreCase = true
 	# pager = diff-so-fancy | less --tabs=4 -RFX
   pager = delta
