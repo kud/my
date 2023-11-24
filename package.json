@@ -3,7 +3,7 @@
   "version": "2.7.0",
   "type": "module",
   "bin": {
-    "git-branches-clean-node": "./bin-node/git-branches-clean-node.js"
+    "git-branches-clean": "./bin-node/git-branches-clean.js"
   },
   "dependencies": {
     "chalk": "5.3.0",
