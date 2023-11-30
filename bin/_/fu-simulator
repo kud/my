@@ -1,0 +1,6 @@
+#! /usr/bin/env zsh
+
+sudo killall -10 com.apple.CoreSimulator.CoreSimulatorService
+
+echo ""
+echo "💥 It's done."
