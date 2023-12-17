@@ -3,7 +3,6 @@
 ## Applications
 
 - [earsafe](https://earsafe.io/)
-- [espanso](https://github.com/espanso/espanso/releases)
 
 ## MY, change remote
 
