@@ -42,6 +42,7 @@ echo_title_install "brew packages"
 ### tap
 brewtap homebrew/cask
 brewtap homebrew/cask-versions
+brewtap espanso/espanso
 
 ### system
 brewinstall autojump
@@ -134,6 +135,7 @@ brewinstall yarn
 brewinstall yt-dlp
 brewinstall molovo/revolver/revolver
 brewinstall switchaudio-osx
+brewinstall espanso
 
 ## install apps
 echo_space
