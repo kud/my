@@ -38,7 +38,7 @@ const barTender = processes.byName("Bartender")
 const globalProtect = processes.byName("GlobalProtect")
 
 // Closing Bartender as it makes more difficult the situation
-const bartender = Application("Bartender 4")
+const bartender = Application("Bartender 5")
 bartender.quit()
 
 // Opening GlobalProtect
