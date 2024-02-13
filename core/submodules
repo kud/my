@@ -1,0 +1,28 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+echo_title "Checking submodules..."
+
+# handle git-diff-image
+if [ -d "$HOME/my/modules/git-diff-image" ]; then
+  echo_space
+  echo_title_update "git-diff-image"
+  git --git-dir="$HOME/my/modules/git-diff-image/.git" --work-tree="$HOME/my/modules/git-diff-image/" pull
+else
+  echo_space
+  echo_title_install "git-diff-image"
+  git clone --recursive https://github.com/ewanmellor/git-diff-image.git "$HOME/my/modules/git-diff-image"
+
+fi
+
+# handle themes
+if [ -d "$HOME/my/modules/themes" ]; then
+  echo_space
+  echo_title_update "themes"
+  git --git-dir="$HOME/my/modules/themes/.git" --work-tree="$HOME/my/modules/themes/" pull
+else
+  echo_space
+  echo_title_install "themes"
+  git clone --recursive https://github.com/kud/themes.git "$HOME/my/modules/themes"
+fi

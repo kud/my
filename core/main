@@ -6,7 +6,7 @@ source $MY/core/helper
 $MY/core/pcloud
 $MY/core/prezto
 $MY/core/brew
-$MY/core/themes
+$MY/core/submodules
 $MY/core/vim
 $MY/core/gem
 $MY/core/pip
