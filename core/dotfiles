@@ -6,16 +6,17 @@ echo_title_install "dotfiles"
 
 dotfiles=(
   ".aliases"
+  ".config/nvim/init.vim"
   ".editorconfig"
   ".gemrc"
+  ".gitattributes"
   ".gitconfig"
   ".gitignore_global"
+  ".p10k.zsh"
   ".prettierrc"
   ".vimrc"
-  ".zshrc"
   ".zpreztorc"
-  ".p10k.zsh"
-  ".config/nvim/init.vim"
+  ".zshrc"
 )
 
 for file in "${dotfiles[@]}"; do

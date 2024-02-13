@@ -39,6 +39,7 @@
 	ignoreCase = true
 	# pager = diff-so-fancy | less --tabs=4 -RFX
   pager = delta
+	attributesfile = ~/.gitattributes
 [branch]
   autosetuprebase = always
 [push]
@@ -124,6 +125,7 @@
   dc = diff --cached
   df = diff
   diff-alt = "!git diff --color|diff-so-fancy"
+	diff-image = "!f() { cd -- \"${GIT_PREFIX:-.}\"; GIT_DIFF_IMAGE_ENABLED=1 git diff \"$@\"; }; f"
   export = "!git clone --depth 1 $1 && rm -rf \"$(basename $1 .git)/.git\" -"
   fix = "!git add -A && git commit --amend --no-edit"
   history = reflog --relative-date
@@ -152,3 +154,5 @@
   unstash = stash pop
   unwip = "!git reset --soft HEAD~1 && git unstage"
   wip = "!git add -A && git commit -m '🚧 WIP'"
+[diff "image"]
+	command = ~/my/modules/git-diff-image/git_diff_image
