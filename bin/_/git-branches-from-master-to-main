@@ -1,0 +1,16 @@
+#!/usr/bin/env zsh
+
+if git rev-parse --verify main >/dev/null 2>&1; then
+  echo "'main' branch already exists in the current repository."
+  exit 1
+fi
+
+# Check if 'master' branch exists and switch to it
+if ! git switch master 2>/dev/null; then
+  echo "'master' branch does not exist in the current repository."
+  exit 1
+fi
+
+git branch -m master main
+git push origin main:master
+git push -u origin main:master
