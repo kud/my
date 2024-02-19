@@ -208,6 +208,7 @@ export PATH=${HOMEBREW_PREFIX}/opt/ruby/bin:$PATH # ruby
 export PATH=${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH # gnu-sed
 export PATH=$PATH:$ANDROID_HOME/emulator # android emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools # android platform-tools
+export PATH=$HOME/.console-ninja/.bin:$PATH # console-ninja
 
 export PATH=$MY/bin/_:$PATH # own commands
 
