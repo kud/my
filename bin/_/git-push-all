@@ -4,6 +4,6 @@ params="$@"
 IFS=$'\n' remotes=($(git remote))
 
 for remote in "${remotes[@]}"; do
-  echo "Pushing to $remote"
+  echo "Pushing to $remote..."
   git push $remote $params
 done
