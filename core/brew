@@ -147,6 +147,7 @@ caskinstall adoptopenjdk
 caskinstall altair-graphql-client
 caskinstall android-file-transfer
 caskinstall android-studio
+caskinstall android-commandlinetools
 caskinstall bartender
 caskinstall cleanshot
 caskinstall cron
