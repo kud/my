@@ -183,6 +183,9 @@ export JAVA_HOME="/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home"
 # export JAVA_14_HOME=$(/usr/libexec/java_home -v14)
 # export JAVA_15_HOME=$(/usr/libexec/java_home -v15)
 
+export SDKMAN_DIR=$(brew --prefix sdkman-cli)/libexec
+[[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
+
 # python
 if which pyenv > /dev/null; then eval "$(pyenv init --path)"; fi
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
