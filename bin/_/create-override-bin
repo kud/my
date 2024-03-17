@@ -1,0 +1,11 @@
+#!/usr/bin/env zsh
+# Usage: ./create-override-bin binPath
+
+# Extract the binary name
+binName=${1##*/}
+
+# Ensure that the ~/.bin/override/<binName> directory exists
+mkdir -p ~/.bin/override/$binName
+
+# Create a symbolic link of the specified binary in the custom directory, force link creation
+ln -sf $1 ~/.bin/override/$binName/$binName
