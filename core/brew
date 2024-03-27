@@ -164,12 +164,12 @@ caskinstall imagealpha
 caskinstall imageoptim
 caskinstall insomnia # REST Client — https://insomnia.rest/
 caskinstall iterm2-nightly
-caskinstall kap
+# caskinstall kap
 caskinstall keepassxc
 caskinstall loom
 caskinstall macmediakeyforwarder
-caskinstall mark-text # https://marktext.github.io/website/
-caskinstall meetingbar
+# caskinstall mark-text # https://marktext.github.io/website/
+# caskinstall meetingbar
 caskinstall min
 caskinstall monitorcontrol
 caskinstall monodraw
@@ -184,14 +184,12 @@ caskinstall qr-journal
 caskinstall raycast
 caskinstall rectangle
 caskinstall redisinsight
-caskinstall removebg
-caskinstall rocket
+# caskinstall removebg
+# caskinstall rocket
 caskinstall runjs
-caskinstall shadow
 caskinstall signal
 caskinstall slack
 caskinstall spotify
-caskinstall steermouse # http://plentycom.jp/en/steermouse/
 caskinstall sublime-merge-dev
 caskinstall visual-studio-code
 caskinstall vlc
