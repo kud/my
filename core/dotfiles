@@ -31,7 +31,7 @@ fi
 if [ ! -f "$HOME/.zshrc_local" ]; then
   echo "export OS_PROFILE=DEFINE_ME" >"$HOME/.zshrc_local"
 
-  read -p "Configure now your 'OS_PROFILE' in '~/.zshrc_local' and press [Enter] when you've finished..." </dev/tty
+  read "?Configure now your 'OS_PROFILE' in '~/.zshrc_local' and press [Enter] when you've finished..." </dev/tty
 fi
 
 if [ ! -f "$HOME/.gitconfig_local" ]; then
@@ -43,7 +43,7 @@ if [ ! -f "$HOME/.gitconfig_local" ]; then
 [includeIf \"gitdir:~/Projects/work/\"]
   path = .gitconfig_local_work" >"$HOME/.gitconfig_local"
 
-  read -p "Configure now your git informations in '~/.gitconfig_local' and press [Enter] when you've finished..." </dev/tty
+  read "?Configure now your git informations in '~/.gitconfig_local' and press [Enter] when you've finished..." </dev/tty
 fi
 
 # reload the shell

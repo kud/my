@@ -1,5 +1,5 @@
 #! /usr/bin/env zsh
-read -p "Enter the name of the orphan branch: " ORPHAN_NAME
+read "?Enter the name of the orphan branch: " ORPHAN_NAME
 
 git checkout --orphan "$ORPHAN_NAME"
 git rm -rf .
