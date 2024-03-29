@@ -963,7 +963,6 @@ for app in "Activity Monitor" \
   "Photos" \
   "Safari" \
   "SystemUIServer" \
-  "Terminal" \
   "Tweetbot" \
   "iCal"; do
   killall "${app}" &>/dev/null
