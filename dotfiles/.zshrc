@@ -389,10 +389,10 @@ export HOMEBREW_CASK_OPTS=--appdir=/Applications
 export BABEL_CACHE_PATH=/tmp/babel.cache.json
 
 # ssl
-export SSL_CERT_FILE=/opt/homebrew/etc/openssl@3/cert.pem
+export SSL_CERT_FILE=${HOMEBREW_PREFIX}/etc/openssl@3/cert.pem
 
 # PATH - must be in the end
-export PATH=/usr/local/sbin:$PATH # brew
+export PATH=${HOMEBREW_PREFIX}/sbin:$PATH # brew
 export PATH=${HOMEBREW_PREFIX}/Cellar/:$PATH # brew
 export PATH=${HOMEBREW_PREFIX}/lib/node_modules:$PATH # npm
 export PATH=${HOMEBREW_PREFIX}/opt/ruby/bin:$PATH # ruby
