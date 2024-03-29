@@ -7,8 +7,7 @@
 ## MY, change remote
 
 ```shell
-$ cd MY
-$ git remote set-url origin git@github.com:kud/my.git
+cd MY && git remote set-url origin git@github.com:kud/my.git
 ```
 
 ## Security & Privacy
