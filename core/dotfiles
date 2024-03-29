@@ -29,21 +29,30 @@ fi
 
 # local files
 if [ ! -f "$HOME/.zshrc_local" ]; then
-  echo "export OS_PROFILE=DEFINE_ME" >"$HOME/.zshrc_local"
-
-  read "?Configure now your 'OS_PROFILE' in '~/.zshrc_local' and press [Enter] when you've finished..." </dev/tty
+  while true; do
+    read "?Enter the profile of this computer (home/work): " OS_PROFILE </dev/tty
+    if [[ "$OS_PROFILE" == "home" || "$OS_PROFILE" == "work" ]]; then
+      echo "export OS_PROFILE=$OS_PROFILE" >"$HOME/.zshrc_local"
+      break
+    else
+      echo "Invalid input, please enter either 'home' or 'work'"
+    fi
+  done
 fi
 
 if [ ! -f "$HOME/.gitconfig_local" ]; then
+  read "?Enter your GitHub username: " GITHUB_USERNAME </dev/tty
+  read "?Enter your first name: " GITHUB_FIRSTNAME </dev/tty
+  read "?Enter your last name: " GITHUB_LASTNAME </dev/tty
+  read "?Enter your email: " GITHUB_EMAIL </dev/tty
+
   echo "[github]
-  user = USERNAME
+  user = $GITHUB_USERNAME
 [user]
-  name = FIRSTNAME LASTNAME
-  email = EMAIL
+  name = $GITHUB_FIRSTNAME $GITHUB_LASTNAME
+  email = $GITHUB_EMAIL
 [includeIf \"gitdir:~/Projects/work/\"]
   path = .gitconfig_local_work" >"$HOME/.gitconfig_local"
-
-  read "?Configure now your git informations in '~/.gitconfig_local' and press [Enter] when you've finished..." </dev/tty
 fi
 
 # reload the shell
