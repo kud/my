@@ -25,16 +25,16 @@ Everything should be simple, your first step on your Mac too. Just follow these 
 - and accept the licence / install command lines / enable command lines via:
 
 ```shell
-$ sudo xcodebuild -license
-$ xcode-select --install
-$ sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
-$ xcodebuild -runFirstLaunch
+sudo xcodebuild -license &&
+xcode-select --install &&
+sudo xcode-select -s /Applications/Xcode.app/Contents/Developer &&
+xcodebuild -runFirstLaunch
 ```
 
 ### Step 2: Run the script and watch the sky!
 
 ```shell
-$ curl --silent https://raw.githubusercontent.com/kud/my/master/core/install|zsh
+curl --silent https://raw.githubusercontent.com/kud/my/master/core/install|zsh
 ```
 
 ## Usage
@@ -42,7 +42,7 @@ $ curl --silent https://raw.githubusercontent.com/kud/my/master/core/install|zsh
 The main command is:
 
 ```shell
-$ £
+£
 ```
 
 #### Preview
