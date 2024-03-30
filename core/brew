@@ -48,7 +48,8 @@ brewtap sdkman/tap
 ### system
 brewinstall autojump
 brewinstall brightness
-brewinstall exa # Modern replacement for 'ls' — https://the.exa.website
+# brewinstall exa # Modern replacement for 'ls' — https://the.exa.website
+brewinstall lsd # Modern replacement for 'ls'
 brewinstall exiftool
 brewinstall fd
 brewinstall ffmpeg
@@ -105,7 +106,7 @@ brewinstall xz       # needed for python
 brewinstall zlib     # needed for python
 
 ### others
-brewinstall antibody
+brewinstall --formula ./patches/antibody/antibody.rb
 brewinstall asciinema
 brewinstall bat # https://github.com/sharkdp/bat
 brewinstall duf
