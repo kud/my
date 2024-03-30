@@ -106,7 +106,7 @@ brewinstall xz       # needed for python
 brewinstall zlib     # needed for python
 
 ### others
-brewinstall --formula ./patches/antibody/antibody.rb
+brewinstall --formula ./patches/antibody/antibody.rb # @TODO: deprecated, change for another manager
 brewinstall asciinema
 brewinstall bat # https://github.com/sharkdp/bat
 brewinstall duf
