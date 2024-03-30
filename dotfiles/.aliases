@@ -12,11 +12,11 @@ alias _='sudo'
 # alias ll='ls -l'
 # alias la='ls -lap'
 
-alias l='exa -la --git --colour-scale --icons'
-alias lg='exa -la -G --git --colour-scale --icons'
-alias ll='exa -l --git --colour-scale --icons'
-alias llg='exa -l -G --git --colour-scale --icons'
-alias le='exa -a -T -L=1 --git --colour-scale --icons'
+alias l='lsd -la --git'
+# alias lg='lsd -la -G --git'
+# alias ll='lsd -l --git'
+# alias llg='lsd -l -G --git'
+# alias le='lsd -a -T -L=1 --git'
 
 # ease folder creation
 alias md=mkdir

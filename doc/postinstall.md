@@ -1,22 +1,72 @@
 # postinstall
 
-## Applications
+## KeePassXC
 
-- [earsafe](https://earsafe.io/)
+- Set dark as theme
+- Set up KeePassXC Browser Addon
+
+
+##  System Preferences 
+
+### Display
+
+- More Space
+- Disable True Tone
+
+### Accessibility
+
+Trackpad Options
+- Use trackpad for dragging
+- Three-Finger Drag
+
+### Privacy & Security
+
+- lock screen > Require password "immediately"
+- filevault > enable
+
+
+### Keyboard
+
+- Keyboard Shortcuts > Disable (quite) all the keyboard shortcuts
+
+
+## Raycast
+
+- Login
+- Enable Sync
+- Linear Theme
+
+## Hyperkey
+
+- Setup
+
+## Firefox
+
+- Start firefox
+- Quit firefox and wait 5s
+- `£ firefox-settings`
+- Start firefox
+- Enter sync account
+- Redefine GUI
+- Set gmail as mailto
+
+## Spotify
+
+- Presets : Jazz
+
+## iTerm2
+
+- Load data
+
+## ssh
+
+- [Add SSH key for GitHub](https://help.github.com/articles/connecting-to-github-with-ssh/)
 
 ## MY, change remote
 
 ```shell
 cd MY && git remote set-url origin git@github.com:kud/my.git
 ```
-
-## Security & Privacy
-
-- System Preferences > Security & Privacy > Require password "immediately"
-
-## Keyboard
-
-- Disable (quite) all the keyboard shortcuts
 
 ## Dock
 
@@ -30,46 +80,31 @@ cd MY && git remote set-url origin git@github.com:kud/my.git
 
 - Configure Sync via GitHub
 
-## Screensaver
 
-- Set `fliqlo`
 
-## iTerm2
 
-- Import appdata file
-
-## Raycast
-
-- Import appdata file
 
 ## Sublime Merge
 
 - [Install Meetio Theme](https://github.com/meetio-theme/merge-meetio-theme)
 
-## ssh
 
-- [Add SSH key for GitHub](https://help.github.com/articles/connecting-to-github-with-ssh/)
 
-## Firefox
 
-- Start firefox
-- Quit firefox and wait 5s
-- `$ £ firefox-settings`
-- Start firefox
-- Enter sync account
-- Redefine GUI
-- Set gmail as mailto
-
-## KeePassXC
-
-- Set dark as theme
-- Set up KeePassXC Browser Addon
 
 ## Slack
 
 - Change font-family via `/slackfont Helvetica`
 
+## Applications
+
+- [earsafe](https://earsafe.io/)
+
 ---
+
+## Screensaver
+
+- Set `fliqlo`
 
 ## sip protection (optional)
 
