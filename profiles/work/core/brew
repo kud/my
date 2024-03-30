@@ -11,3 +11,4 @@ echo_title_install "apps @ $OS_PROFILE"
 
 caskinstall eloston-chromium
 caskinstall neo4j
+caskinstall redisinsight
