@@ -1,5 +1,24 @@
 #! /usr/bin/env zsh
 
+open https://apps.apple.com/us/app/xcode/id497799835
+
+echo "Please install Xcode from the App Store, then press Enter here to continue."
+read pause
+
+echo "Confirming agreement with Xcode license..."
+sudo xcodebuild -license accept
+
+echo "Installing Xcode command line tools..."
+xcode-select --install
+
+echo "Setting Xcode developer directory..."
+sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+
+echo "Running Xcode first launch..."
+xcodebuild -runFirstLaunch
+
+echo "and now the magic 💫..."
+
 if [ ! -d "$HOME/my/" ]; then
   git clone https://github.com/kud/my.git ~/my &&
 fi
