@@ -1,0 +1,23 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+DIR="$HOME/Library/Application Support/Sublime Merge/Packages"
+
+if [ ! -d "$DIR/Meetio Theme" ]; then
+  echo_title_install "Sublime Merge"
+
+  cd "$DIR"
+
+  git clone git@github.com:meetio-theme/merge-meetio-theme.git "Meetio Theme"
+
+  echo '{
+  "font_face": "JetBrains Mono",
+  "theme": "Merge Palenight.sublime-theme",
+  "color_scheme": "Meetio Palenight.sublime-color-scheme",
+}' >'User/Preferences.sublime-settings'
+else
+  echo_title_update "Sublime Merge"
+  cd "$DIR/Meetio Theme"
+  git pull
+fi

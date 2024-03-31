@@ -71,12 +71,6 @@ This document serves as a detailed configuration guide, breaking down each setup
 | ------------- | ------------------------------- |
 | Settings Sync | Enable settings sync via GitHub |
 
-### Sublime Merge
-
-| Action | Description                                                                                |
-| ------ | ------------------------------------------------------------------------------------------ |
-| Theme  | Install the Meetio Theme from [GitHub](https://github.com/meetio-theme/merge-meetio-theme) |
-
 ### Slack
 
 | Action      | Description                                                                    |
