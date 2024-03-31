@@ -13,6 +13,7 @@ $MY/core/pip
 $MY/core/npm
 $MY/core/mas
 $MY/core/aicommits
+$MY/core/sublime-merge
 
 # done!
 echo_space
