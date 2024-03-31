@@ -7,16 +7,11 @@
 alias _='sudo'
 
 # list directory contents
-# alias lsa='ls -lah'
-# alias l='ls -la'
-# alias ll='ls -l'
-# alias la='ls -lap'
-
 alias l='lsd -la --git'
-# alias lg='lsd -la -G --git'
-# alias ll='lsd -l --git'
-# alias llg='lsd -l -G --git'
-# alias le='lsd -a -T -L=1 --git'
+# alias lg='exa -la --git'
+# alias ll='exa -l --git'
+# alias llg='exa -l --git'
+# alias le='exa -a -T -L=1 --git'
 
 # ease folder creation
 alias md=mkdir
