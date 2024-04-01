@@ -8,6 +8,7 @@ source $MY/core/helper
 echo_space
 echo_title_install "apps @ $OS_PROFILE"
 
+caskinstall gswitch
 caskinstall darktable
 caskinstall deluge
 caskinstall rawtherapee
