@@ -64,6 +64,7 @@
 [merge]
   ff = false
   conflictstyle = diff3
+	tool = smerge
 [color]
   ui = true
 [color "branch"]
@@ -156,3 +157,6 @@
   wip = "!git add -A && git commit -m '🚧 WIP'"
 [diff "image"]
 	command = ~/my/modules/git-diff-image/git_diff_image
+[mergetool "smerge"]
+	cmd = smerge mergetool \"$BASE\" \"$LOCAL\" \"$REMOTE\" -o \"$MERGED\"
+	trustExitCode = true
