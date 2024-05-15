@@ -8,10 +8,12 @@ echo`Enter password to unlock the database:`
 
 try {
   const { stdout: result } =
-    // await $`keepassxc-cli show ${process.env.DATABASE_PATH} -k ${process.env.KEY_PATH} ${process.env.ENTRY_TITLE} -a username -a password -t`
     await $`keepassxc-cli show ${process.env.DATABASE_PATH} ${process.env.ENTRY_TITLE} -a username -a password -t`
+  // await $`keepassxc-cli show ${process.env.DATABASE_PATH} -k ${process.env.KEY_PATH} ${process.env.ENTRY_TITLE} -a username -a password -t`
 
   const [username, password, totp] = result.split("\n")
+
+  console.log("Right password 👏. Let's proceed then.")
 
   const script = `
 const waitForButton = (window, name) => {
@@ -65,6 +67,8 @@ bartender.activate()
 `
 
   await $`osascript -l JavaScript -e ${script}`
+
+  console.log("All good now, you're connected. 🌐")
 } catch (error) {
   console.log(``)
   console.log(`🤭 Oops, there is an error:`)
