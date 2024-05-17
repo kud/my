@@ -41,6 +41,12 @@ echo 'user_pref("browser.search.hiddenOneOffs", "Google,Bing,Amazon.co.uk,Chambe
 # disable close window when last tab is closing
 echo 'user_pref("browser.tabs.closeWindowWithLastTab", false);' >>$PREFS_JS
 
+# disable to be able to use "resend" network queries
+echo 'user_pref("browser.opaqueResponseBlocking.javascriptValidator", false);' >>$PREFS_JS
+
+# enable autohide on fullscreen to have a better fullscreen mode
+echo 'user_pref("browser.fullscreen.autohide", true);' >>$PREFS_JS
+
 # find like safari
 echo 'user_pref("findbar.modalHighlight", false);' >>$PREFS_JS
 
