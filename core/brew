@@ -199,6 +199,7 @@ caskinstall xrg
 caskinstall zulu11
 caskinstall react-native-debugger
 caskinstall minisim
+caskinstall middleclick
 
 # quicklook plugins
 caskinstall qlcolorcode

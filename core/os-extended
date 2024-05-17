@@ -20,6 +20,15 @@ defaults write NSGlobalDomain AppleICUNumberSymbols -dict 0 '.' 1 '' 10 '.' 17 '
 sudo nvram AutoBoot=%00
 # sudo nvram AutoBoot=%03
 
+# Enable App Expose
+defaults write com.apple.dock showAppExposeGestureEnabled -int 1
+
+# Disable showing Desktop
+defaults write com.apple.dock showDesktopGestureEnabled -int 0
+
+# Disable showing Launchpad
+defaults write com.apple.dock showLaunchpadGestureEnabled -int 0
+
 ###############################################################################
 # Screen                                                                      #
 ###############################################################################
@@ -66,9 +75,14 @@ defaults write com.apple.finder "FXPreferredViewStyle" -string "clmv"
 defaults write com.apple.dock orientation -string "bottom"
 
 ###############################################################################
+# MiddleClick                                                                 #
+###############################################################################
+
+# Use 4 fingers instead of 3
+defaults write com.rouge41.middleClick fingers 4
+
+###############################################################################
 # Remove shits                                                                #
 ###############################################################################
 
 defaults write ~/Library/Application\ Support/JREInstaller/ThirdParty SPONSORS -string "0"
-
-
