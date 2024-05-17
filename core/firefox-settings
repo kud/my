@@ -56,6 +56,9 @@ echo 'user_pref("browser.urlbar.megabar", false);' >>$PREFS_JS
 # remove query strings
 echo 'user_pref("privacy.query_stripping.enabled", true);' >>$PREFS_JS
 
+# remove scroll on middleclick
+echo 'user_pref("general.autoScroll", false);' >>$PREFS_JS
+
 # devtools
 echo 'user_pref("devtools.chrome.enabled", true);' >>$PREFS_JS
 echo 'user_pref("devtools.command-button-eyedropper.enabled", true);' >>$PREFS_JS
