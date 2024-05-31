@@ -3,7 +3,7 @@
 source $MY/core/helper
 
 MIMETYPE=$(file -b --mime-type $argv)
-ELBASE64=$(base64 $argv)
+ELBASE64=$(base64 -i $argv)
 
 echo "data:$MIMETYPE;base64,$ELBASE64" | pbcopy
 echo_success 'Copied in the clipboard!'
