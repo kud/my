@@ -120,6 +120,7 @@ brewinstall ipcalc
 brewinstall jesseduffield/lazynpm/lazynpm
 brewinstall jless
 brewinstall jq
+brewinstall jnv
 brewinstall mas # Mac App Store command line interface - https://github.com/mas-cli/mas
 brewinstall noborus/tap/trdsql
 brewinstall node
