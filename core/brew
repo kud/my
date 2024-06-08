@@ -140,6 +140,7 @@ brewinstall molovo/revolver/revolver
 brewinstall switchaudio-osx
 brewinstall espanso
 brewinstall sdkman-cli
+brewinstall git-recent
 
 ## install apps
 echo_space
