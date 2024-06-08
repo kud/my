@@ -413,6 +413,9 @@ export PATH=$PATH:$MY/bin/shims # add commands to open applications
 # add or override commands by via profiled ones
 export PATH=$MY/profiles/$OS_PROFILE/bin/_:$PATH
 
+# fzf
+source <(fzf --zsh)
+
 # ruby
 eval "$(frum init)"
 
