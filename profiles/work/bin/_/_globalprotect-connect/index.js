@@ -4,7 +4,7 @@ $.verbose = false
 import { config } from "dotenv"
 config()
 
-echo`Enter password to unlock the database:`
+echo`🔑 Enter password to unlock the database:`
 
 try {
   const { stdout: result } =
@@ -13,7 +13,11 @@ try {
 
   const [username, password, totp] = result.split("\n")
 
-  console.log("Right password 👏. Let's proceed then.")
+  console.log("")
+  console.log(
+    "It's the right password 🙌. Let's connect you to the VPN then 🚀.",
+  )
+  console.log("(Please do not do anything on the computer in the meantime.)")
 
   const script = `
 const waitForButton = (window, name) => {
@@ -68,7 +72,8 @@ bartender.activate()
 
   await $`osascript -l JavaScript -e ${script}`
 
-  console.log("All good now, you're connected. 🌐")
+  console.log("")
+  console.log("All good now, you're connected to the VPN. 🎉")
 } catch (error) {
   console.log(``)
   console.log(`🤭 Oops, there is an error:`)
