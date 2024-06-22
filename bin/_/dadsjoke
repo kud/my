@@ -1,0 +1,9 @@
+#! /usr/bin/env zsh
+
+JOKE=$(curl -s -H 'Accept: text/plain' https://icanhazdadjoke.com/)
+
+if [ $? -eq 0 ]; then
+  echo "${JOKE}"
+else
+  echo "Error: Unable to fetch the joke"
+fi
