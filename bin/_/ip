@@ -1,0 +1,9 @@
+#! /usr/bin/env zsh
+
+PUBLIC_IP=$(curl -s 'https://api.ipify.org')
+
+if [ $? -eq 0 ]; then
+  echo "${PUBLIC_IP}"
+else
+  echo "Error: Unable to fetch public IP address"
+fi

@@ -1,0 +1,3 @@
+#! /usr/bin/env zsh
+
+echo "$(openssl rand -hex 5)@gmail.com"
