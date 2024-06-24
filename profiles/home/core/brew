@@ -8,6 +8,9 @@ source $MY/core/helper
 echo_space
 echo_title_install "apps @ $OS_PROFILE"
 
+caskinstall notion
+caskinstall whatsapp
+caskinstall todoist
 caskinstall gswitch
 caskinstall darktable
 caskinstall deluge
