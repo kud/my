@@ -141,6 +141,16 @@ brewinstall switchaudio-osx
 brewinstall espanso
 brewinstall sdkman-cli
 brewinstall git-recent
+brewinstall yazi
+brewinstall ffmpegthumbnailer
+brewinstall unar
+brewinstall jq
+brewinstall poppler
+brewinstall fd
+brewinstall ripgrep
+brewinstall fzf
+brewinstall zoxide
+brewinstall font-symbols-only-nerd-font
 
 ## install apps
 echo_space
