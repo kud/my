@@ -63,11 +63,19 @@ precmd() {
   echo -ne "\e]1;$title\a"
 }
 
-
-
 ## create a folder and go in it
 function mcd() {
   mkdir -p "$1" && cd "$1";
+}
+
+## yazi
+function yy() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
 }
 
 # export MY
