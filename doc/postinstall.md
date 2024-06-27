@@ -126,9 +126,3 @@ This document serves as a detailed configuration guide, breaking down each setup
 | Action | Description                     |
 | ------ | ------------------------------- |
 | Set    | Set the screensaver to `fliqlo` |
-
-<!-- ### System Integrity Protection
-
-| Action    | Description                                                                                                                                                                      |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Configure | To disable or configure SIP, restart in recovery mode (cmd + r), open Terminal from Utilities, and execute <br> `$ csrutil enable --without fs`. <br>Then restart your computer. | -->
