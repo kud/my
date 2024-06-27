@@ -2,28 +2,6 @@
 
 Ce document sert de guide de configuration détaillé, décomposant chaque étape de configuration et ajustement des préférences pour les applications logicielles et les préférences système après une nouvelle installation dans un tableau unifié.
 
-## Table des Matières
-
-- [Applications Générales](#applications-générales)
-  - [KeePassXC](#keepassxc)
-  - [Raycast](#raycast)
-  - [Hyperkey](#hyperkey)
-  - [Firefox](#firefox)
-  - [Spotify](#spotify)
-  - [iTerm2](#iterm2)
-  - [Visual Studio Code](#visual-studio-code)
-  - [Sublime Merge](#sublime-merge)
-  - [Slack](#slack)
-  - [Applications](#applications)
-- [Configuration SSH](#configuration-ssh)
-- [Configuration de Projet](#configuration-de-projet)
-- [Dock](#dock)
-- [Préférences Système](#préférences-système)
-- [Table des Raccourcis](#table-des-raccourcis)
-- [Configurations Supplémentaires](#configurations-supplémentaires)
-
-## Configuration Table
-
 | Applications                  | Catégorie             | Actions                                                                                                                                                  |
 | ----------------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **KeePassXC**                 | Theme                 | Set to `dark`                                                                                                                                            |
