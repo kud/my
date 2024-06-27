@@ -1,14 +1,27 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
+
+usage() {
+  echo "Usage: git auto-version {patch|minor|major} [--npm]"
+  exit 1
+}
 
 if [ -z "$1" ]; then
-  echo "Usage: git lazy-version {patch|minor|major}"
-  exit 1
+  usage
 fi
 
 VERSION_TYPE=$1
+USE_NPM=false
+
+if [ "$2" = "--npm" ]; then
+  USE_NPM=true
+fi
 
 git add .
 git aicommit
-npm version $VERSION_TYPE
+
 git push
 git push --tags
+
+if $USE_NPM; then
+  npm version $VERSION_TYPE
+fi
