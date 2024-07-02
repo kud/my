@@ -213,6 +213,7 @@ caskinstall react-native-debugger
 caskinstall minisim
 caskinstall middleclick
 caskinstall upscayl
+caskinstall syncthing
 
 # quicklook plugins
 caskinstall qlcolorcode
