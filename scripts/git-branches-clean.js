@@ -51,7 +51,7 @@ const main = async () => {
         {
           type: "confirm",
           name: "proceed",
-          message: "Continue the deletion… or ctrl+c to stop.",
+          message: "Are you sure you want to delete the selected branches?",
           default: false,
         },
       ])
