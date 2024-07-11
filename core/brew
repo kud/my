@@ -151,6 +151,7 @@ brewinstall ripgrep
 brewinstall fzf
 brewinstall zoxide
 brewinstall font-symbols-only-nerd-font
+brewinstall dust
 
 ## install apps
 echo_space
