@@ -207,7 +207,8 @@ caskinstall visual-studio-code
 caskinstall vlc
 caskinstall xcodes
 caskinstall xquartz
-caskinstall xrg
+# caskinstall xrg
+caskinstall stats
 caskinstall zulu11
 caskinstall react-native-debugger
 caskinstall minisim
