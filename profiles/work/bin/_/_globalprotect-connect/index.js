@@ -40,12 +40,12 @@ const waitForButton = (window, name) => {
 
 const { processes } = Application("System Events")
 
-const barTender = processes.byName("Bartender")
+const ice = processes.byName("Ice")
 const globalProtect = processes.byName("GlobalProtect")
 
 // Closing Bartender as it makes more difficult the situation
-const bartender = Application("Bartender 5")
-bartender.quit()
+const ice = Application("Ice")
+ice.quit()
 
 // Opening GlobalProtect
 globalProtect.menuBars[1].menuBarItems[0].click()
@@ -67,7 +67,7 @@ window.textFields[0].value = "${totp}"
 okButton.click()
 
 // Open Bartender back
-bartender.activate()
+ice.activate()
 `
 
   await $`osascript -l JavaScript -e ${script}`
