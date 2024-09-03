@@ -4,4 +4,4 @@ source $MY/core/helper
 
 aicommits config set type=conventional
 aicommits config set max-length=100
-aicommits config set model=gpt-4o
+aicommits config set model=gpt-4o-mini
