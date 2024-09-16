@@ -4,22 +4,25 @@ $.verbose = false
 import { config } from "dotenv"
 config()
 
-echo`🔑 Enter password to unlock the database:`
+const maxRetries = 3
 
-try {
-  const { stdout: result } =
-    await $`keepassxc-cli show ${process.env.DATABASE_PATH} ${process.env.ENTRY_TITLE} -a username -a password -t`
-  // await $`keepassxc-cli show ${process.env.DATABASE_PATH} -k ${process.env.KEY_PATH} ${process.env.ENTRY_TITLE} -a username -a password -t`
+const main = async (attempt) => {
+  echo`🔑 Enter password to unlock the database (Attempt ${attempt} of ${maxRetries}):`
 
-  const [username, password, totp] = result.split("\n")
+  try {
+    const { stdout: result } =
+      await $`keepassxc-cli show ${process.env.DATABASE_PATH} ${process.env.ENTRY_TITLE} -a username -a password -t`
+    // await $`keepassxc-cli show ${process.env.DATABASE_PATH} -k ${process.env.KEY_PATH} ${process.env.ENTRY_TITLE} -a username -a password -t`
 
-  console.log("")
-  console.log(
-    "It's the right password 🙌. Let's connect you to the VPN then 🚀.",
-  )
-  console.log("(Please do not do anything on the computer in the meantime.)")
+    const [username, password, totp] = result.split("\n")
 
-  const script = `
+    console.log("")
+    console.log(
+      "It's the right password 🙌. Let's connect you to the VPN then 🚀.",
+    )
+    console.log("(Please do not do anything on the computer in the meantime.)")
+
+    const script = `
 const waitForButton = (window, name) => {
   let button = null
 
@@ -27,22 +30,18 @@ const waitForButton = (window, name) => {
     for (let i = 0; i < window.buttons.length; i++) {
       if (window.buttons[i].name() === name) {
         button = window.buttons[i]
-
         break
       }
     }
-
     delay(0.1)
   }
-
   return button
 }
 
 const { processes } = Application("System Events")
-
 const globalProtect = processes.byName("GlobalProtect")
 
-// Closing Bartender as it makes more difficult the situation
+// Closing Ice as it makes more difficult the situation
 const ice = Application("Ice")
 ice.quit()
 
@@ -65,17 +64,34 @@ window.textFields[0].value = "${totp}"
 
 verifyButton.click()
 
-// Open Bartender back
+// Open Ice back
 ice.activate()
 `
 
-  await $`osascript -l JavaScript -e ${script}`
+    await $`osascript -l JavaScript -e ${script}`
 
-  console.log("")
-  console.log("All good now, you're connected to the VPN. 🎉")
-} catch (error) {
-  console.log(``)
-  console.log(`🤭 Oops, there is an error:`)
-  console.log(``)
-  console.error(chalk.red(error.stderr))
+    console.log("")
+    console.log("All good now, you're connected to the VPN. 🎉")
+    return true // Indicate success
+  } catch (error) {
+    console.log(``)
+    console.log(`🤭 Oops, there is an error:`)
+    console.log(``)
+    console.error(chalk.red(error.stderr))
+    return false // Indicate failure
+  }
 }
+
+const runWithRetries = async () => {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    const success = await main(attempt)
+    if (success) {
+      break
+    }
+    if (attempt === maxRetries) {
+      console.log(`Failed after ${maxRetries} attempts.`)
+    }
+  }
+}
+
+runWithRetries()
