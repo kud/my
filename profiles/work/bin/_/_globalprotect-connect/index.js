@@ -40,7 +40,6 @@ const waitForButton = (window, name) => {
 
 const { processes } = Application("System Events")
 
-const ice = processes.byName("Ice")
 const globalProtect = processes.byName("GlobalProtect")
 
 // Closing Bartender as it makes more difficult the situation
@@ -53,18 +52,18 @@ globalProtect.menuBars[1].menuBarItems[0].click()
 const window = globalProtect.windows[0]
 waitForButton(window, "Connect").click()
 
-const signInButton = waitForButton(window, "Sign In")
+const connectButton = waitForButton(window, "Connect")
 
 window.textFields[0].value = "${username}"
 window.textFields[1].value = "${password}"
 
-signInButton.click()
+connectButton.click()
 
-const okButton = waitForButton(window, "OK")
+const verifyButton = waitForButton(window, "Verify")
 
 window.textFields[0].value = "${totp}"
 
-okButton.click()
+verifyButton.click()
 
 // Open Bartender back
 ice.activate()
