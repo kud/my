@@ -69,6 +69,7 @@ npminstall fx # https://github.com/antonmedv/fx
 npminstall zx
 npminstall web-ext
 npminstall aicommits
+npminstall opencommit
 npminstall nativefier
 npminstall tslint
 npminstall eslint
