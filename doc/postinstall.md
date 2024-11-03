@@ -31,3 +31,9 @@ Ce document sert de guide de configuration détaillé, décomposant chaque étap
 |                               | Pika                  | Hyperkey + `I`                                                                                                                                                                                                                                     |
 | **Additional Configurations** | Screensaver           | Set the screensaver to `fliqlo`                                                                                                                                                                                                                    |
 | **pCloud**                    | Ignore Files          | `.ds_store; .ds_store?; .appledouble; ._*; .spotlight-v100; .documentrevisions-v100; .temporaryitems; .trashes; .fseventsd; .~lock.*; ehthumbs.db; thumbs.db; hiberfil.sys; pagefile.sys; $recycle.bin; *.part; .pcloud; node_modules; .stfolder;` |
+
+## Attachements
+
+### Firefox GUI
+
+![](./firefox.png)
