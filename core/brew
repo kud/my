@@ -124,8 +124,8 @@ brewinstall jnv
 brewinstall mas # Mac App Store command line interface - https://github.com/mas-cli/mas
 brewinstall noborus/tap/trdsql
 brewinstall node
-brewinstall openjdk
-sudo ln -sfn ${HOMEBREW_PREFIX}/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+# brewinstall openjdk
+# sudo ln -sfn ${HOMEBREW_PREFIX}/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
 brewinstall openssl@3
 brewinstall pandoc
 brewinstall pyenv
