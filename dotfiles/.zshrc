@@ -374,7 +374,8 @@ _frum__versions_commands() {
 export ANDROID_HOME=$HOME/Library/Android/sdk
 
 # java
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home"
+# export JAVA_HOME="/usr/local/opt/sdkman-cli/libexec/candidates/java/current/bin/java"
+# export JAVA_HOME="/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home"
 # export JAVA_HOME=$(/usr/libexec/java_home -v15)
 # export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
 # export JAVA_14_HOME=$(/usr/libexec/java_home -v14)
