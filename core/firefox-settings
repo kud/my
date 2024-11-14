@@ -2,12 +2,19 @@
 
 source $MY/core/helper
 
-echo_title_update "firefox settings"
-
 DEFAULT_FOLDER=$(ls "$HOME/Library/Application Support/Firefox/Profiles" | grep .default-nightly)
 PREFS_JS="$HOME/Library/Application Support/Firefox/Profiles/$DEFAULT_FOLDER/prefs.js"
 
-# global
+quit "Firefox Nightly"
+
+sleep 5
+
+echo_title_update "Applying Firefox settings"
+
+# ╔═══════════════════════════════════════════╗
+# ║               Global Preferences          ║
+# ╚═══════════════════════════════════════════╝
+
 # disable warning on about:config
 echo 'user_pref("browser.aboutConfig.showWarning", false);' >>$PREFS_JS
 
@@ -23,7 +30,7 @@ echo 'user_pref("browser.tabs.warnOnClose", false);' >>$PREFS_JS
 # turning off the web search in the address bar
 echo 'user_pref("keyword.enabled", false);' >>$PREFS_JS
 
-# fix against fucking phishing
+# fix against phishing
 echo 'user_pref("network.IDN_show_punycode", true);' >>$PREFS_JS
 
 # compact theme
@@ -59,7 +66,20 @@ echo 'user_pref("privacy.query_stripping.enabled", true);' >>$PREFS_JS
 # remove scroll on middleclick
 echo 'user_pref("general.autoScroll", false);' >>$PREFS_JS
 
-# devtools
+# ╔═══════════════════════════════════════════╗
+# ║               Sync Preferences            ║
+# ╚═══════════════════════════════════════════╝
+
+# do not sync addons' status
+echo 'user_pref("services.sync.prefs.sync.addons.ignoreUserEnabledChanges", true);' >>$PREFS_JS
+
+# do not sync history
+echo 'user_pref("services.sync.declinedEngines", "forms,history");' >>$PREFS_JS
+
+# ╔═══════════════════════════════════════════╗
+# ║             Developer Tools Settings      ║
+# ╚═══════════════════════════════════════════╝
+
 echo 'user_pref("devtools.chrome.enabled", true);' >>$PREFS_JS
 echo 'user_pref("devtools.command-button-eyedropper.enabled", true);' >>$PREFS_JS
 echo 'user_pref("devtools.command-button-paintflashing.enabled", true);' >>$PREFS_JS
@@ -82,4 +102,8 @@ echo 'user_pref("devtools.aboutdebugging.local-tab-debugging", true);' >>$PREFS_
 
 source $MY/profiles/$OS_PROFILE/core/firefox-settings 2>/dev/null
 
-echo_success "Firefox settings are set!"
+echo_success "Firefox settings have been applied!"
+
+sleep 2
+
+open -a "Firefox Nightly"
