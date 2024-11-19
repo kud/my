@@ -124,6 +124,7 @@ brewinstall jnv
 brewinstall mas # Mac App Store command line interface - https://github.com/mas-cli/mas
 brewinstall noborus/tap/trdsql
 brewinstall node
+brew link --overwrite node # @TODO: need to understand why this is needed
 # brewinstall openjdk
 # sudo ln -sfn ${HOMEBREW_PREFIX}/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
 brewinstall openssl@3
