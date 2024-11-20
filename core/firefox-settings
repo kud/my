@@ -66,6 +66,21 @@ echo 'user_pref("privacy.query_stripping.enabled", true);' >>$PREFS_JS
 # remove scroll on middleclick
 echo 'user_pref("general.autoScroll", false);' >>$PREFS_JS
 
+# switch to pip when switching tabs
+echo 'user_pref("media.videocontrols.picture-in-picture.enable-when-switching-tabs.enabled", true);' >>$PREFS_JS
+
+# enable ai chat
+echo 'user_pref("browser.ml.chat.enabled", true);' >>$PREFS_JS
+
+# set ai chat provider
+echo 'user_pref("browser.ml.chat.provider", "https://chatgpt.com");' >>$PREFS_JS
+
+# enable sidebar
+echo 'user_pref("sidebar.revamp", true);' >>$PREFS_JS
+
+# enable tabs in sidebar
+echo 'user_pref("sidebar.verticalTabs", true);' >>$PREFS_JS
+
 # ╔═══════════════════════════════════════════╗
 # ║               Sync Preferences            ║
 # ╚═══════════════════════════════════════════╝
@@ -102,7 +117,58 @@ echo 'user_pref("devtools.aboutdebugging.local-tab-debugging", true);' >>$PREFS_
 
 source $MY/profiles/$OS_PROFILE/core/firefox-settings 2>/dev/null
 
-echo_success "Firefox settings have been applied!"
+echo_success "Firefox settings have been applied."
+
+# ╔═══════════════════════════════════════════╗
+# ║             Patch for containers          ║
+# ╚═══════════════════════════════════════════╝
+CONTAINERS_JSON="$HOME/Library/Application Support/Firefox/Profiles/$DEFAULT_FOLDER/containers.json"
+
+cat <<EOF >"$CONTAINERS_JSON"
+{
+  "version": 5,
+  "lastUserContextId": 322,
+  "identities": [
+    {
+      "icon": "fingerprint",
+      "color": "blue",
+      "public": true,
+      "userContextId": 1,
+      "name": "Personal"
+    },
+    {
+      "icon": "briefcase",
+      "color": "red",
+      "public": true,
+      "userContextId": 2,
+      "name": "Work"
+    },
+    {
+      "icon": "chill",
+      "color": "yellow",
+      "public": true,
+      "userContextId": 318,
+      "name": "Streaming"
+    },
+    {
+      "icon": "fingerprint",
+      "color": "turquoise",
+      "public": true,
+      "userContextId": 649,
+      "name": "Personal at Work"
+    },
+    {
+      "icon": "fence",
+      "color": "blue",
+      "public": true,
+      "userContextId": 322,
+      "name": "Facebook"
+    }
+  ]
+}
+EOF
+
+echo_success "Custom containers have been applied."
 
 sleep 2
 
