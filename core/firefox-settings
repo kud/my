@@ -34,7 +34,7 @@ echo 'user_pref("keyword.enabled", false);' >>$PREFS_JS
 echo 'user_pref("network.IDN_show_punycode", true);' >>$PREFS_JS
 
 # compact theme
-echo 'user_pref("browser.uidensity", 1);' >>$PREFS_JS
+# echo 'user_pref("browser.uidensity", 1);' >>$PREFS_JS
 
 # disable pocket
 echo 'user_pref("extensions.pocket.enabled", false);' >>$PREFS_JS
