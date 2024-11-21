@@ -114,6 +114,7 @@
   aicommit = "!aicommits"
   apc = "!git add -p && git commit"
   br = branch
+  branches-delete = branch-delete
   branches = branch -avv
   branchv = branch -v
   browse = "!gh browse"
