@@ -1,121 +1,79 @@
 # Post-Installation Configuration Guide
 
-## Applications
+## Project Configuration
 
-### KeePassXC
-
-- Set the theme to `dark`.
-- Configure the KeePassXC Browser Addon.
-
-### Raycast
-
-- Log in and enable sync.
-- Set the theme to `Linear`.
-
-### Hyperkey
-
-- Complete the setup according to your preferences.
-
-### Firefox
-
-#### Initial Setup
-
-- Launch Firefox, close it after 5 seconds, and execute the command `£ firefox-settings`.
-- Relaunch Firefox and log into your sync account.
-
-#### GUI Customisation
-
-- Customise the GUI and set Gmail as the default mail client.
-- Add `!g` for Google auto-search functionality.
-
-![](./firefox.png)
-
-### Spotify
-
-- Select `Jazz` as the preset.
-
-### iTerm2
-
-- Import and load data/settings.
-
-### Visual Studio Code
-
-- Enable settings sync via GitHub.
-
-### Slack
-
-- Change the font family to `Helvetica` by running `/slackfont Helvetica`.
-
-### Hearing Protection
-
-- Install [earsafe](https://earsafe.io/) for hearing protection.
-
-## Configuration and Preferences
-
-### SSH Configuration
-
-- Add an SSH key for GitHub integration following the [official guide](https://help.github.com/articles/connecting-to-github-with-ssh/).
-
-### Project Configuration
-
-- Navigate to the project directory and update the remote URL to GitHub using SSH:
+- Navigate to your project directory and update the GitHub remote URL to use SSH:
   ```bash
   cd MY
   git remote set-url origin git@github.com:kud/my.git
   ```
 
-### Dock Preferences
+## SSH Configuration
 
-- Set Finder to "Options > All Desktops" for a consistent experience across multiple desktops.
+- Generate and add an SSH key for GitHub integration, following the [official guide](https://help.github.com/articles/connecting-to-github-with-ssh/).
 
-### System Preferences
+## System Preferences
 
-#### Display
+- **Display**: Adjust to `More Space` for a broader workspace.
+- **True Tone**: Disable this feature to maintain consistent colour accuracy.
+- **Trackpad**: Enable `Use trackpad for dragging` with `Three-Finger Drag`.
+- **Lock Screen**: Set the lock screen to require a password immediately after sleep or screen saver begins.
+- **FileVault**: Enable FileVault for enhanced disk encryption and data protection.
+- **Keyboard Shortcuts**: Disable most keyboard shortcuts to minimise accidental triggers.
 
-- Adjust the display to `More Space`.
+## Dock Preferences
 
-#### True Tone
+- Set Finder to appear on all desktops ("Options > All Desktops") for consistent navigation across virtual spaces.
 
-- Disable True Tone.
+## Firefox
 
-#### Trackpad
+- **Initial Setup**: Launch Firefox, close it after 5 seconds, and run the command `£ firefox-settings` to configure default settings. Relaunch Firefox and log into your sync account for access to bookmarks and preferences.
+- **GUI Customisation**: Customise the GUI for a personalised browser layout. Set Gmail as the default mail client for email links. Enable Google auto-search functionality by adding `!g`.
 
-- Enable `Use trackpad for dragging` with `Three-Finger Drag`.
+![](./firefox.png)
 
-#### Lock Screen
+## Visual Studio Code
 
-- Set the lock screen to require a password immediately after sleep or screen saver begins.
+- Enable settings sync via GitHub to access your workspace preferences anywhere.
 
-#### FileVault
+## KeePassXC
 
-- Enable FileVault for disk encryption.
+- Configure the theme to `dark` for a sleek appearance.
+- Set up the KeePassXC Browser Addon for secure password management integration.
 
-#### Keyboard Shortcuts
+## iTerm2
 
-- Disable most keyboard shortcuts.
+- Import and load your data/settings for a seamless terminal configuration.
 
-## Hotkeys
+## Raycast
 
-### PixelSnap
+- Log in to your account and enable sync to access personalised settings across devices.
+- Choose the `Linear` theme for a clean user interface.
 
-- Hyperkey + `P`
+## Spotify
 
-### Pika
+- Set the `Jazz` preset for an optimised listening experience.
 
-- Hyperkey + `I`
+## Slack
 
-### pCloud Ignore Files
+- Change the font family to `Helvetica` using the command `/slackfont Helvetica` for a refined chat interface.
 
-- Configure the following patterns to be ignored:
+## earsafe
+
+- Install [earsafe](https://earsafe.io/) to monitor and manage sound levels for hearing safety.
+
+## pCloud
+
+- Configure ignored file patterns to optimise syncing and storage:
   ```
   .ds_store; .ds_store?; .appledouble; ._*; .spotlight-v100; .documentrevisions-v100;
   .temporaryitems; .trashes; .fseventsd; .~lock.*; ehthumbs.db; thumbs.db;
   hiberfil.sys; pagefile.sys; $recycle.bin; *.part; .pcloud; node_modules; .stfolder;
   ```
 
-## DNSCrypt-Proxy Configuration
+## DNSCrypt-Proxy
 
-Update the `dnscrypt-proxy` configuration as follows:
+- Update the configuration to use the following settings for secure DNS resolution:
 
 ```toml
 server_names = ['rethinkdns-doh', 'rethinkdns-doh-max']
@@ -128,10 +86,8 @@ server_names = ['rethinkdns-doh', 'rethinkdns-doh-max']
     stamp = 'sdns://AgYAAAAAAAAAACCaOjT3J965vKUQA9nOnDn48n3ZxSQpAcK6saROY1oCGRJtYXgucmV0aGlua2Rucy5jb20KL2Rucy1xdWVyeQ'
 ```
 
-Then use `127.0.0.1` as DNS in your network configuration.
+- Set `127.0.0.1` as the DNS in your network configuration.
 
-## Additional Configurations
+## Screensaver
 
-### Screensaver
-
-- Set the screensaver to `fliqlo`.
+- Choose the `fliqlo` screensaver for a minimalist clock display.
