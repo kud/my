@@ -1,39 +1,137 @@
 # Post-Installation Configuration Guide
 
-Ce document sert de guide de configuration détaillé, décomposant chaque étape de configuration et ajustement des préférences pour les applications logicielles et les préférences système après une nouvelle installation dans un tableau unifié.
+## Applications
 
-| Applications                  | Catégorie             | Actions                                                                                                                                                                                                                                            |
-| ----------------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **KeePassXC**                 | Theme                 | Set to `dark`                                                                                                                                                                                                                                      |
-|                               | Browser Addon         | Setup KeePassXC Browser Addon                                                                                                                                                                                                                      |
-| **Raycast**                   | Account               | Log in and enable sync                                                                                                                                                                                                                             |
-|                               | Appearance            | Set to `Linear` Theme                                                                                                                                                                                                                              |
-| **Hyperkey**                  | Setup                 | Complete setup according to preferences                                                                                                                                                                                                            |
-| **Firefox**                   | Setup & Configuration | 1. Launch Firefox, then close it after 5 seconds.<br>2. Execute the command `£ firefox-settings`.<br>3. Relaunch Firefox and log into your sync account.                                                                                           |
-|                               | GUI Customization     | Customize the GUI                                                                                                                                                                                                                                  |
-|                               | Default Mail Client   | Set Gmail as the default mail client                                                                                                                                                                                                               |
-|                               | Google Auto-Search    | Add `!g` for Google auto-search                                                                                                                                                                                                                    |
-| **Spotify**                   | Presets               | Select `Jazz` as preset                                                                                                                                                                                                                            |
-| **iTerm2**                    | Import Settings       | Import and load data/settings                                                                                                                                                                                                                      |
-| **Visual Studio Code**        | Settings Sync         | Enable settings sync via GitHub                                                                                                                                                                                                                    |
-| **Slack**                     | Font Family           | Change the font family to `Helvetica` using the `/slackfont Helvetica` command                                                                                                                                                                     |
-| **Applications**              | Hearing Protection    | Install [earsafe](https://earsafe.io/) for hearing protection                                                                                                                                                                                      |
-| **SSH Configuration**         | SSH Key               | Add SSH key for GitHub integration as per the [official guide](https://help.github.com/articles/connecting-to-github-with-ssh/)                                                                                                                    |
-| **Project Configuration**     | Remote URL            | Navigate to the project directory and change the remote URL to GitHub using SSH: `cd MY && git remote set-url origin git@github.com:kud/my.git`                                                                                                    |
-| **Dock**                      | Finder                | Set: Options > All Desktops. Useful if you use different desktops                                                                                                                                                                                  |
-| **System Preferences**        | Screen Real Estate    | Adjust to `More Space`                                                                                                                                                                                                                             |
-|                               | True Tone             | Disable this feature                                                                                                                                                                                                                               |
-|                               | Trackpad Options      | Enable `Use trackpad for dragging` with `Three-Finger Drag`                                                                                                                                                                                        |
-|                               | Lock Screen           | Set to require password `immediately` after sleep or screen saver begins                                                                                                                                                                           |
-|                               | FileVault             | Enable FileVault for disk encryption                                                                                                                                                                                                               |
-|                               | Shortcuts             | Disable (almost) all the keyboard shortcuts                                                                                                                                                                                                        |
-| **Hotkeys Table**             | PixelSnap             | Hyperkey + `P`                                                                                                                                                                                                                                     |
-|                               | Pika                  | Hyperkey + `I`                                                                                                                                                                                                                                     |
-| **Additional Configurations** | Screensaver           | Set the screensaver to `fliqlo`                                                                                                                                                                                                                    |
-| **pCloud**                    | Ignore Files          | `.ds_store; .ds_store?; .appledouble; ._*; .spotlight-v100; .documentrevisions-v100; .temporaryitems; .trashes; .fseventsd; .~lock.*; ehthumbs.db; thumbs.db; hiberfil.sys; pagefile.sys; $recycle.bin; *.part; .pcloud; node_modules; .stfolder;` |
+### KeePassXC
 
-## Attachements
+- Set the theme to `dark`.
+- Configure the KeePassXC Browser Addon.
 
-### Firefox GUI
+### Raycast
+
+- Log in and enable sync.
+- Set the theme to `Linear`.
+
+### Hyperkey
+
+- Complete the setup according to your preferences.
+
+### Firefox
+
+#### Initial Setup
+
+- Launch Firefox, close it after 5 seconds, and execute the command `£ firefox-settings`.
+- Relaunch Firefox and log into your sync account.
+
+#### GUI Customisation
+
+- Customise the GUI and set Gmail as the default mail client.
+- Add `!g` for Google auto-search functionality.
 
 ![](./firefox.png)
+
+### Spotify
+
+- Select `Jazz` as the preset.
+
+### iTerm2
+
+- Import and load data/settings.
+
+### Visual Studio Code
+
+- Enable settings sync via GitHub.
+
+### Slack
+
+- Change the font family to `Helvetica` by running `/slackfont Helvetica`.
+
+### Hearing Protection
+
+- Install [earsafe](https://earsafe.io/) for hearing protection.
+
+## Configuration and Preferences
+
+### SSH Configuration
+
+- Add an SSH key for GitHub integration following the [official guide](https://help.github.com/articles/connecting-to-github-with-ssh/).
+
+### Project Configuration
+
+- Navigate to the project directory and update the remote URL to GitHub using SSH:
+  ```bash
+  cd MY
+  git remote set-url origin git@github.com:kud/my.git
+  ```
+
+### Dock Preferences
+
+- Set Finder to "Options > All Desktops" for a consistent experience across multiple desktops.
+
+### System Preferences
+
+#### Display
+
+- Adjust the display to `More Space`.
+
+#### True Tone
+
+- Disable True Tone.
+
+#### Trackpad
+
+- Enable `Use trackpad for dragging` with `Three-Finger Drag`.
+
+#### Lock Screen
+
+- Set the lock screen to require a password immediately after sleep or screen saver begins.
+
+#### FileVault
+
+- Enable FileVault for disk encryption.
+
+#### Keyboard Shortcuts
+
+- Disable most keyboard shortcuts.
+
+## Hotkeys
+
+### PixelSnap
+
+- Hyperkey + `P`
+
+### Pika
+
+- Hyperkey + `I`
+
+## Additional Configurations
+
+### Screensaver
+
+- Set the screensaver to `fliqlo`.
+
+### pCloud Ignore Files
+
+- Configure the following patterns to be ignored:
+  ```
+  .ds_store; .ds_store?; .appledouble; ._*; .spotlight-v100; .documentrevisions-v100;
+  .temporaryitems; .trashes; .fseventsd; .~lock.*; ehthumbs.db; thumbs.db;
+  hiberfil.sys; pagefile.sys; $recycle.bin; *.part; .pcloud; node_modules; .stfolder;
+  ```
+
+## DNSCrypt-Proxy Configuration
+
+Update the `dnscrypt-proxy` configuration as follows:
+
+```toml
+server_names = ['rethinkdns-doh', 'rethinkdns-doh-max']
+
+[static]
+  [static.'rethinkdns-doh']
+    stamp = 'sdns://AgYAAAAAAAAAACBdzvEcz84tL6QcR78t69kc0nufblyYal5di10An6SyUBJza3kucmV0aGlua2Rucy5jb20KL2Rucy1xdWVyeQ'
+
+  [static.'rethinkdns-doh-max']
+    stamp = 'sdns://AgYAAAAAAAAAACCaOjT3J965vKUQA9nOnDn48n3ZxSQpAcK6saROY1oCGRJtYXgucmV0aGlua2Rucy5jb20KL2Rucy1xdWVyeQ'
+```
+
+Then use `127.0.0.1` as DNS in your network configuration.
