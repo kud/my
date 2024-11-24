@@ -1,16 +1,16 @@
 # Post-Installation Configuration Guide
 
-## Project Configuration
+<!-- ## Project Configuration
 
 - Navigate to your project directory and update the GitHub remote URL to use SSH:
   ```bash
   cd MY
   git remote set-url origin git@github.com:kud/my.git
-  ```
+  ``` -->
 
-## SSH Configuration
+<!-- ## SSH Configuration
 
-- Generate and add an SSH key for GitHub integration, following the [official guide](https://help.github.com/articles/connecting-to-github-with-ssh/).
+- Generate and add an SSH key for GitHub integration, following the [official guide](https://help.github.com/articles/connecting-to-github-with-ssh/). -->
 
 ## System Preferences
 

@@ -8,27 +8,23 @@ if [[ $# -eq 0 ]]; then
 else
 
   case "$1" in
+  install)
+    $MY/core/install
+    ;;
   update)
     $MY/core/update
     ;;
-  doc)
-    case "$2" in
-    --offline)
-      mdlive --dir $MY/doc
-      ;;
-    *)
-      open https://github.com/kud/my/tree/master/doc
-      ;;
-    esac
-    ;;
-  os)
-    $MY/core/os
+  ssh-setup)
+    $MY/core/ssh-setup
     ;;
   dotfiles)
     $MY/core/dotfiles
     ;;
   symlink)
     $MY/core/symlink
+    ;;
+  os)
+    $MY/core/os
     ;;
   fonts)
     $MY/core/fonts
@@ -39,14 +35,21 @@ else
   shims)
     $MY/core/shims
     ;;
-  install)
-    $MY/core/install
-    ;;
   brew-clean)
     $MY/core/brew-clean
     ;;
   npm-clean)
     $MY/core/npm-clean
+    ;;
+  doc)
+    case "$2" in
+    --offline)
+      mdlive --dir $MY/doc
+      ;;
+    *)
+      open https://github.com/kud/my/tree/master/doc
+      ;;
+    esac
     ;;
   edit)
     code $MY
@@ -60,36 +63,34 @@ else
     echo_space
     printf "Usage:"
     echo_spacex2
-    printf "    ${COLOUR_CYAN}£${COLOUR_RESET} [<command>|--help]"
-    echo_spacex3
-    printf "Commands:"
-    echo_spacex2
-    printf "    update            ${COLOUR_BLACK}Start the install/update process${COLOUR_RESET}"
+    printf "    install           Start the installation process"
     echo_space
-    printf "    doc               ${COLOUR_BLACK}Start a server to read the doc${COLOUR_RESET}"
+    printf "    update            Update the project"
     echo_space
-    printf "    os                ${COLOUR_BLACK}Update os settings${COLOUR_RESET}"
+    printf "    ssh-setup         Configure SSH keys for GitHub"
     echo_space
-    printf "    dotfiles          ${COLOUR_BLACK}Update dotfiles${COLOUR_RESET}"
+    printf "    dotfiles          Update dotfiles"
     echo_space
-    printf "    symlink           ${COLOUR_BLACK}Update symlinks${COLOUR_RESET}"
+    printf "    symlink           Update symlinks"
     echo_space
-    printf "    fonts             ${COLOUR_BLACK}Update fonts${COLOUR_RESET}"
+    printf "    os                Update OS settings"
     echo_space
-    printf "    firefox-settings  ${COLOUR_BLACK}Update firefox settings${COLOUR_RESET}"
+    printf "    fonts             Update fonts"
     echo_space
-    printf "    shims             ${COLOUR_BLACK}Create shell command for .app${COLOUR_RESET}"
+    printf "    firefox-settings  Update Firefox settings"
     echo_space
-    printf "    install           ${COLOUR_BLACK}Make everything${COLOUR_RESET}"
+    printf "    shims             Create shell command for .app"
     echo_space
-    printf "    brew-clean        ${COLOUR_BLACK}Clean the casks${COLOUR_RESET}"
+    printf "    brew-clean        Clean the casks"
     echo_space
-    printf "    npm-clean         ${COLOUR_BLACK}Clean the global node packages${COLOUR_RESET}"
+    printf "    npm-clean         Clean global Node packages"
     echo_space
-    printf "    edit              ${COLOUR_BLACK}Open with \$EDITOR${COLOUR_RESET}"
+    printf "    doc               Access project documentation"
     echo_space
-    printf "    open              ${COLOUR_BLACK}Open with Finder${COLOUR_RESET}"
-    echo_spacex2
+    printf "    edit              Open project in \$EDITOR"
+    echo_space
+    printf "    open              Open project directory in Finder"
+    echo_space
     ;;
   *)
     echo "Error: Unrecognized command '$1'. Use --help for a list of commands."
