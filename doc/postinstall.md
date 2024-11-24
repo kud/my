@@ -90,8 +90,8 @@ server_names = ['rethinkdns-doh', 'rethinkdns-doh-max']
     stamp = 'sdns://AgYAAAAAAAAAACCaOjT3J965vKUQA9nOnDn48n3ZxSQpAcK6saROY1oCGRJtYXgucmV0aGlua2Rucy5jb20KL2Rucy1xdWVyeQ'
 ```
 
-- Set `127.0.0.1` as the DNS in your network configuration.
+- `sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1`
 
-## Screensaver
+<!-- ## Screensaver
 
-- Choose the `fliqlo` screensaver for a minimalist clock display.
+- Choose the `fliqlo` screensaver for a minimalist clock display. -->
