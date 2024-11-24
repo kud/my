@@ -92,7 +92,8 @@ else
     echo_spacex2
     ;;
   *)
-    echo 'What did you say?'
+    echo "Error: Unrecognized command '$1'. Use --help for a list of commands."
+    exit 1
     ;;
   esac
 
