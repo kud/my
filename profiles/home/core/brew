@@ -2,8 +2,11 @@
 
 source $MY/core/helper
 
-# echo_space
-# echo_title_install "brew packages @ $OS_PROFILE"
+echo_space
+echo_title_install "brew packages @ $OS_PROFILE"
+
+brewinstall dnscrypt-proxy
+sudo brew services start dnscrypt-proxy
 
 echo_space
 echo_title_install "apps @ $OS_PROFILE"
