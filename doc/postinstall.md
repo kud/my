@@ -104,12 +104,6 @@
 
 - Hyperkey + `I`
 
-## Additional Configurations
-
-### Screensaver
-
-- Set the screensaver to `fliqlo`.
-
 ### pCloud Ignore Files
 
 - Configure the following patterns to be ignored:
@@ -135,3 +129,9 @@ server_names = ['rethinkdns-doh', 'rethinkdns-doh-max']
 ```
 
 Then use `127.0.0.1` as DNS in your network configuration.
+
+## Additional Configurations
+
+### Screensaver
+
+- Set the screensaver to `fliqlo`.
