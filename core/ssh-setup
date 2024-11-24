@@ -1,0 +1,45 @@
+#!/usr/bin/env zsh
+
+# Define variables
+SSH_DIR="$HOME/.ssh"
+SSH_KEY="$SSH_DIR/id_ed25519"
+GITHUB_URL="https://github.com/settings/keys"
+GUIDE_URL="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account"
+
+# Check for existing SSH keys
+if [[ -f "$SSH_KEY" ]]; then
+    echo "An existing SSH key was found at $SSH_KEY."
+    read "overwrite?Do you want to overwrite it? (yes/no): "
+    if [[ "$overwrite" != "yes" ]]; then
+        echo "Exiting without changes."
+        exit 0
+    fi
+fi
+
+# Prompt for email address
+read "EMAIL?Enter your GitHub email address: "
+
+# Create .ssh directory if it doesn't exist
+mkdir -p "$SSH_DIR"
+chmod 700 "$SSH_DIR"
+
+# Generate a new SSH key
+ssh-keygen -t ed25519 -C "$EMAIL" -f "$SSH_KEY" -N ""
+
+# Start the ssh-agent
+eval "$(ssh-agent -s)"
+
+# Add the SSH key to the ssh-agent
+ssh-add "$SSH_KEY"
+
+# Display the public key
+echo "Your SSH public key has been generated:"
+cat "$SSH_KEY.pub"
+
+# Provide instructions to add the SSH key to GitHub
+echo -e "\nTo complete the setup, add your new SSH key to your GitHub account."
+echo "Follow the instructions at $GUIDE_URL"
+echo "Opening GitHub SSH keys settings in your default browser..."
+open "$GITHUB_URL"
+
+echo "SSH configuration complete."
