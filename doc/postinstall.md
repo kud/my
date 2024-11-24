@@ -64,7 +64,7 @@
 
 ## earsafe
 
-- Install [earsafe](https://earsafe.io/) to monitor and manage sound levels for hearing safety.
+- Install [earsafe](https://kristofdombi.gumroad.com/l/earsafe) to monitor and manage sound levels for hearing safety.
 
 ## pCloud
 
