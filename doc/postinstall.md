@@ -12,7 +12,7 @@
 
 - Generate and add an SSH key for GitHub integration, following the [official guide](https://help.github.com/articles/connecting-to-github-with-ssh/). -->
 
-## System Preferences
+## System Preferences (maybe deprecated thanks to `defaults write`)
 
 - **Display**: Adjust to `More Space` for a broader workspace.
 - **True Tone**: Disable this feature to maintain consistent colour accuracy.
@@ -28,7 +28,10 @@
 ## Firefox
 
 - **Initial Setup**: Launch Firefox, close it after 5 seconds, and run the command `£ firefox-settings` to configure default settings. Relaunch Firefox and log into your sync account for access to bookmarks and preferences.
-- **GUI Customisation**: Customise the GUI for a personalised browser layout. Set Gmail as the default mail client for email links. Enable Google auto-search functionality by adding `!g`.
+- **GUI Customisation**:
+  - Customise the GUI for a personalised browser layout.
+  - Set Gmail as the default mail client for email links.
+  - Enable Google auto-search functionality by adding `!g`.
 
 ![](./firefox.png)
 
@@ -38,7 +41,8 @@
 
 ## KeePassXC
 
-- Configure the theme to `dark` for a sleek appearance.
+<!-- - Configure the theme to `dark` for a sleek appearance. -->
+
 - Set up the KeePassXC Browser Addon for secure password management integration.
 
 ## iTerm2

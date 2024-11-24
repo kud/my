@@ -3,10 +3,11 @@
 # Ask for the administrator password upfront
 sudo -v
 
-# Menu bar
-# defaults write com.apple.systemuiserver menuExtras -array "/System/Library/CoreServices/Menu Extras/Clock.menu" "/System/Library/CoreServices/Menu Extras/Battery.menu" "/System/Library/CoreServices/Menu Extras/AirPort.menu" "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" "/System/Library/CoreServices/Menu Extras/Volume.menu" "/System/Library/CoreServices/Menu Extras/Displays.menu"
+###############################################################################
+# General System Preferences                                                  #
+###############################################################################
 
-# Disable sounds
+# Disable system sounds
 defaults write NSGlobalDomain com.apple.sound.beep.volume -float 0
 defaults write NSGlobalDomain com.apple.sound.uiaudio.enabled -int 0
 
@@ -16,73 +17,73 @@ defaults -currentHost write com.apple.screensaver idleTime -int 0
 # Set language and text formats
 defaults write NSGlobalDomain AppleICUNumberSymbols -dict 0 '.' 1 '' 10 '.' 17 ''
 
-# Disable to boot when open the lib
+# Disable automatic boot when opening the lid
 sudo nvram AutoBoot=%00
-# sudo nvram AutoBoot=%03
+# To re-enable: sudo nvram AutoBoot=%03
 
-# Enable App Expose
+###############################################################################
+# Dock                                                                        #
+###############################################################################
+
+# Set Dock orientation to bottom
+defaults write com.apple.dock orientation -string "bottom"
+
+# Enable App Expose gesture
 defaults write com.apple.dock showAppExposeGestureEnabled -int 1
 
-# Disable showing Desktop
+# Disable Desktop gesture
 defaults write com.apple.dock showDesktopGestureEnabled -int 0
 
-# Disable showing Launchpad
+# Disable Launchpad gesture
 defaults write com.apple.dock showLaunchpadGestureEnabled -int 0
 
 ###############################################################################
 # Screen                                                                      #
 ###############################################################################
 
-# Add/Remove date on screenshot name
-defaults write com.apple.screencapture "include-date" 1
+# Include date in screenshot filenames
+defaults write com.apple.screencapture "include-date" -int 1
 
-# Rename screenshot name
-defaults write com.apple.screencapture name macos
+# Rename screenshot prefix
+defaults write com.apple.screencapture name -string "macos"
 
 ###############################################################################
 # Finder                                                                      #
 ###############################################################################
 
-# Hide tags
+# Hide tags in Finder
 defaults write com.apple.finder ShowRecentTags -bool false
 
 # Hide icons on Desktop
-defaults write com.apple.finder CreateDesktop false
+defaults write com.apple.finder CreateDesktop -bool false
 
-# Column view
-defaults write com.apple.finder "FXPreferredViewStyle" -string "clmv"
+# Set Finder default view to column view
+defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
 
 ###############################################################################
 # Menu Bar & Control Centre                                                   #
 ###############################################################################
 
-# defaults write com.apple.controlcenter  "NSStatusItem Visible AirDrop" -int 0
-# defaults write com.apple.controlcenter  "NSStatusItem Visible Battery" -int 1
-# defaults write com.apple.controlcenter  "NSStatusItem Visible BentoBox" -int 1
-# defaults write com.apple.controlcenter  "NSStatusItem Visible Clock" -int 1
-# defaults write com.apple.controlcenter  "NSStatusItem Visible KeyboardBrightness" -int 0
-# defaults write com.apple.controlcenter  "NSStatusItem Visible NowPlaying"  -int 0
-# defaults write com.apple.controlcenter  "NSStatusItem Visible Sound" -int 0
-# defaults write com.apple.controlcenter  "NSStatusItem Visible UserSwitcher" -int 0
-# defaults write com.apple.controlcenter  "NSStatusItem Visible WiFi" -int 0
-# defaults write com.apple.controlcenter  "NSStatusItem Visible Bluetooth" -int 0
-
-###############################################################################
-# Dock                                                                        #
-###############################################################################
-
-# Orientation
-defaults write com.apple.dock orientation -string "bottom"
+# Example: Enable/disable Control Centre items (uncomment to customise)
+# defaults write com.apple.controlcenter "NSStatusItem Visible AirDrop" -int 0
+# defaults write com.apple.controlcenter "NSStatusItem Visible Battery" -int 1
+# defaults write com.apple.controlcenter "NSStatusItem Visible Bluetooth" -int 1
+# defaults write com.apple.controlcenter "NSStatusItem Visible Clock" -int 1
+# defaults write com.apple.controlcenter "NSStatusItem Visible Sound" -int 1
 
 ###############################################################################
 # MiddleClick                                                                 #
 ###############################################################################
 
-# Use 4 fingers instead of 3
-defaults write com.rouge41.middleClick fingers 4
+# Configure MiddleClick to use 4 fingers instead of 3
+defaults write com.rouge41.middleClick fingers -int 4
 
 ###############################################################################
-# Remove shits                                                                #
+# Miscellaneous Tweaks                                                        #
 ###############################################################################
 
+# Disable third-party sponsors in JRE Installer
 defaults write ~/Library/Application\ Support/JREInstaller/ThirdParty SPONSORS -string "0"
+
+# Disable "recent items" in the Apple menu
+defaults write NSGlobalDomain NSRecentDocumentsLimit -int 0

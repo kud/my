@@ -14,8 +14,8 @@ else
   update)
     $MY/core/update
     ;;
-  ssh-setup)
-    $MY/core/ssh-setup
+  ssh)
+    $MY/core/ssh
     ;;
   dotfiles)
     $MY/core/dotfiles
@@ -29,8 +29,17 @@ else
   fonts)
     $MY/core/fonts
     ;;
-  firefox-settings)
-    $MY/core/firefox-settings
+  firefox)
+    $MY/core/firefox
+    ;;
+  keepassxc)
+    $MY/core/keepassxc
+    ;;
+  sublime-merge)
+    $MY/core/sublime-merge
+    ;;
+  aicommits)
+    $MY/core/aicommits
     ;;
   shims)
     $MY/core/shims
@@ -67,7 +76,7 @@ else
     echo_space
     printf "    update            Update the project"
     echo_space
-    printf "    ssh-setup         Configure SSH keys for GitHub"
+    printf "    ssh               Configure SSH keys for GitHub"
     echo_space
     printf "    dotfiles          Update dotfiles"
     echo_space
@@ -77,7 +86,13 @@ else
     echo_space
     printf "    fonts             Update fonts"
     echo_space
-    printf "    firefox-settings  Update Firefox settings"
+    printf "    firefox           Update Firefox settings"
+    echo_space
+    printf "    keepassxc         Configure KeePassXC settings"
+    echo_space
+    printf "    sublime-merge     Configure Sublime Merge settings"
+    echo_space
+    printf "    aicommits         Configure AI-powered commit messages"
     echo_space
     printf "    shims             Create shell command for .app"
     echo_space
