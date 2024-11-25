@@ -1,130 +1,174 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
+# Load helper functions
 source $MY/core/helper
 
-DEFAULT_FOLDER=$(ls "$HOME/Library/Application Support/Firefox/Profiles" | grep .default-nightly)
-PREFS_JS="$HOME/Library/Application Support/Firefox/Profiles/$DEFAULT_FOLDER/prefs.js"
+# Determine Firefox profile path
+PROFILE_DIR="$HOME/Library/Application Support/Firefox/Profiles"
+DEFAULT_FOLDER=$(ls "$PROFILE_DIR" | grep .default-nightly)
+PREFS_FILE="$PROFILE_DIR/$DEFAULT_FOLDER/prefs.js"
+CONTAINERS_FILE="$PROFILE_DIR/$DEFAULT_FOLDER/containers.json"
 
+# Close Firefox Nightly to safely apply changes
 quit "Firefox Nightly"
-
 sleep 5
 
 echo_title_update "Applying Firefox settings"
 
-# ╔═══════════════════════════════════════════╗
-# ║               Global Preferences          ║
-# ╚═══════════════════════════════════════════╝
+# Function to update Firefox preferences
+update_pref() {
+  local key="$1"
+  local value="$2"
+  echo "user_pref(\"$key\", $value);" >>"$PREFS_FILE"
+}
 
-# disable warning on about:config
-echo 'user_pref("browser.aboutConfig.showWarning", false);' >>$PREFS_JS
+# ╔═════════════════════════════════════════════╗
+# ║                Global Preferences           ║
+# ╚═════════════════════════════════════════════╝
 
-# disable zoom on cmd + mousewheel
-echo 'user_pref("mousewheel.with_meta.action", 0);' >>$PREFS_JS
+# Disable warning on about:config
+update_pref "browser.aboutConfig.showWarning" false
 
-# turning off domain guessing
-echo 'user_pref("browser.fixup.alternate.enabled", false);' >>$PREFS_JS
+# Disable zoom with Cmd + Mousewheel
+update_pref "mousewheel.with_meta.action" 0
 
-# turning off warn when closing tab
-echo 'user_pref("browser.tabs.warnOnClose", false);' >>$PREFS_JS
+# Turn off domain guessing
+update_pref "browser.fixup.alternate.enabled" false
 
-# turning off the web search in the address bar
-echo 'user_pref("keyword.enabled", false);' >>$PREFS_JS
+# Disable warning when closing tabs
+update_pref "browser.tabs.warnOnClose" false
 
-# fix against phishing
-echo 'user_pref("network.IDN_show_punycode", true);' >>$PREFS_JS
+# Disable web search in the address bar
+update_pref "keyword.enabled" false
 
-# compact theme
-# echo 'user_pref("browser.uidensity", 1);' >>$PREFS_JS
+# Enable punycode to prevent phishing
+update_pref "network.IDN_show_punycode" true
 
-# disable pocket
-echo 'user_pref("extensions.pocket.enabled", false);' >>$PREFS_JS
+# Disable Pocket
+update_pref "extensions.pocket.enabled" false
 
-# disable suggestion
-echo 'user_pref("browser.search.suggest.enabled", false);' >>$PREFS_JS
+# Disable search suggestions
+update_pref "browser.search.suggest.enabled" false
 
-# disable search engines
-echo 'user_pref("browser.search.hiddenOneOffs", "Google,Bing,Amazon.co.uk,Chambers (UK),DuckDuckGo,eBay,Twitter,Wikipedia (en)");' >>$PREFS_JS
+# Hide specific search engines
+update_pref "browser.search.hiddenOneOffs" '"Google,Bing,Amazon.co.uk,Chambers (UK),DuckDuckGo,eBay,Twitter,Wikipedia (en)"'
 
-# disable close window when last tab is closing
-echo 'user_pref("browser.tabs.closeWindowWithLastTab", false);' >>$PREFS_JS
+# Prevent closing the window when the last tab is closed
+update_pref "browser.tabs.closeWindowWithLastTab" false
 
-# disable to be able to use "resend" network queries
-echo 'user_pref("browser.opaqueResponseBlocking.javascriptValidator", false);' >>$PREFS_JS
+# Allow "resend" network queries
+update_pref "browser.opaqueResponseBlocking.javascriptValidator" false
 
-# enable autohide on fullscreen to have a better fullscreen mode
-echo 'user_pref("browser.fullscreen.autohide", true);' >>$PREFS_JS
+# Enable auto-hide in fullscreen mode
+update_pref "browser.fullscreen.autohide" true
 
-# find like safari
-echo 'user_pref("findbar.modalHighlight", false);' >>$PREFS_JS
+# Disable Safari-like modal highlights for Find
+update_pref "findbar.modalHighlight" false
 
-# disable megabar when searching
-echo 'user_pref("browser.urlbar.megabar", false);' >>$PREFS_JS
+# Disable the megabar for URL search
+update_pref "browser.urlbar.megabar" false
 
-# remove query strings
-echo 'user_pref("privacy.query_stripping.enabled", true);' >>$PREFS_JS
+# Enable query stripping for privacy
+update_pref "privacy.query_stripping.enabled" true
 
-# remove scroll on middleclick
-echo 'user_pref("general.autoScroll", false);' >>$PREFS_JS
+# Disable auto-scroll on middle click
+update_pref "general.autoScroll" false
 
-# switch to pip when switching tabs
-echo 'user_pref("media.videocontrols.picture-in-picture.enable-when-switching-tabs.enabled", true);' >>$PREFS_JS
+# Enable Picture-in-Picture (PiP) when switching tabs
+update_pref "media.videocontrols.picture-in-picture.enable-when-switching-tabs.enabled" true
 
-# enable ai chat
-echo 'user_pref("browser.ml.chat.enabled", true);' >>$PREFS_JS
+# Enable AI chat feature
+update_pref "browser.ml.chat.enabled" true
 
-# set ai chat provider
-echo 'user_pref("browser.ml.chat.provider", "https://chatgpt.com");' >>$PREFS_JS
+# Set the AI chat provider
+update_pref "browser.ml.chat.provider" '"https://chatgpt.com"'
 
-# enable sidebar
-echo 'user_pref("sidebar.revamp", true);' >>$PREFS_JS
+# Enable sidebar revamp
+update_pref "sidebar.revamp" true
 
-# enable tabs in sidebar
-echo 'user_pref("sidebar.verticalTabs", true);' >>$PREFS_JS
+# Enable vertical tabs in the sidebar
+update_pref "sidebar.verticalTabs" true
 
-# ╔═══════════════════════════════════════════╗
-# ║               Sync Preferences            ║
-# ╚═══════════════════════════════════════════╝
+# ╔═════════════════════════════════════════════╗
+# ║                Sync Preferences             ║
+# ╚═════════════════════════════════════════════╝
 
-# do not sync addons' status
-echo 'user_pref("services.sync.prefs.sync.addons.ignoreUserEnabledChanges", true);' >>$PREFS_JS
+# Ignore addon enable/disable during sync
+update_pref "services.sync.prefs.sync.addons.ignoreUserEnabledChanges" true
 
-# do not sync history
-echo 'user_pref("services.sync.declinedEngines", "forms,history");' >>$PREFS_JS
+# Decline syncing form data and history
+update_pref "services.sync.declinedEngines" '"forms,history"'
 
-# ╔═══════════════════════════════════════════╗
-# ║             Developer Tools Settings      ║
-# ╚═══════════════════════════════════════════╝
+# ╔═════════════════════════════════════════════╗
+# ║             Developer Tools Settings        ║
+# ╚═════════════════════════════════════════════╝
 
-echo 'user_pref("devtools.chrome.enabled", true);' >>$PREFS_JS
-echo 'user_pref("devtools.command-button-eyedropper.enabled", true);' >>$PREFS_JS
-echo 'user_pref("devtools.command-button-paintflashing.enabled", true);' >>$PREFS_JS
-echo 'user_pref("devtools.command-button-responsive.enabled", false);' >>$PREFS_JS
-echo 'user_pref("devtools.command-button-scratchpad.enabled", true);' >>$PREFS_JS
-echo 'user_pref("devtools.command-button-screenshot.enabled", true);' >>$PREFS_JS
-echo 'user_pref("devtools.command-button-splitconsole.enabled", false);' >>$PREFS_JS
-echo 'user_pref("devtools.debugger.remote-enabled", true);' >>$PREFS_JS
-echo 'user_pref("devtools.dom.enabled", true);' >>$PREFS_JS
-echo 'user_pref("devtools.editor.keymap", "sublime");' >>$PREFS_JS
-echo 'user_pref("devtools.onboarding.telemetry.logged", true);' >>$PREFS_JS
-echo 'user_pref("devtools.performance.new-panel-enabled", true);' >>$PREFS_JS
-echo 'user_pref("devtools.scratchpad.enabled", true);' >>$PREFS_JS
-echo 'user_pref("devtools.screenshot.audio.enabled", false);' >>$PREFS_JS
-echo 'user_pref("devtools.toolbox.host", "side");' >>$PREFS_JS
-echo 'user_pref("devtools.webconsole.timestampMessages", true);' >>$PREFS_JS
-echo 'user_pref("devtools.webide.widget.enabled", true);' >>$PREFS_JS
-echo 'user_pref("devtools.cache.disabled", true);' >>$PREFS_JS
-echo 'user_pref("devtools.aboutdebugging.local-tab-debugging", true);' >>$PREFS_JS
+# Enable browser chrome debugging
+update_pref "devtools.chrome.enabled" true
+
+# Enable eyedropper tool
+update_pref "devtools.command-button-eyedropper.enabled" true
+
+# Enable paint flashing tool
+update_pref "devtools.command-button-paintflashing.enabled" true
+
+# Disable responsive design mode
+update_pref "devtools.command-button-responsive.enabled" false
+
+# Enable Scratchpad tool
+update_pref "devtools.command-button-scratchpad.enabled" true
+
+# Enable screenshot tool
+update_pref "devtools.command-button-screenshot.enabled" true
+
+# Disable split console
+update_pref "devtools.command-button-splitconsole.enabled" false
+
+# Enable remote debugging
+update_pref "devtools.debugger.remote-enabled" true
+
+# Enable DOM inspection
+update_pref "devtools.dom.enabled" true
+
+# Set editor keymap to Sublime Text
+update_pref "devtools.editor.keymap" '"sublime"'
+
+# Log telemetry onboarding
+update_pref "devtools.onboarding.telemetry.logged" true
+
+# Enable new performance panel
+update_pref "devtools.performance.new-panel-enabled" true
+
+# Enable Scratchpad tool
+update_pref "devtools.scratchpad.enabled" true
+
+# Disable audio in screenshots
+update_pref "devtools.screenshot.audio.enabled" false
+
+# Set DevTools to open in a side pane
+update_pref "devtools.toolbox.host" '"side"'
+
+# Enable timestamps in console messages
+update_pref "devtools.webconsole.timestampMessages" true
+
+# Enable WebIDE widget
+update_pref "devtools.webide.widget.enabled" true
+
+# Disable cache during development
+update_pref "devtools.cache.disabled" true
+
+# Enable local tab debugging
+update_pref "devtools.aboutdebugging.local-tab-debugging" true
 
 source $MY/profiles/$OS_PROFILE/core/firefox-settings 2>/dev/null
 
 echo_success "Firefox settings have been applied."
 
-# ╔═══════════════════════════════════════════╗
-# ║             Patch for containers          ║
-# ╚═══════════════════════════════════════════╝
-CONTAINERS_JSON="$HOME/Library/Application Support/Firefox/Profiles/$DEFAULT_FOLDER/containers.json"
+# ╔═════════════════════════════════════════════╗
+# ║               Containers                    ║
+# ╚═════════════════════════════════════════════╝
 
-cat <<EOF >"$CONTAINERS_JSON"
+cat <<EOF >"$CONTAINERS_FILE"
 {
   "version": 5,
   "lastUserContextId": 322,
@@ -168,7 +212,7 @@ cat <<EOF >"$CONTAINERS_JSON"
 }
 EOF
 
-echo_success "Custom containers have been applied."
+echo_success "Firefox containers have been synchronised."
 
 sleep 2
 
