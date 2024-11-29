@@ -166,20 +166,19 @@ caskinstall android-studio
 caskinstall android-commandlinetools
 caskinstall jordanbaird-ice
 caskinstall cleanshot
-caskinstall cron
 caskinstall discord
 caskinstall etrecheckpro
-caskinstall firefox-nightly
+caskinstall firefox@nightly
 caskinstall fliqlo
 caskinstall flux
-caskinstall google-chrome-canary
+caskinstall google-chrome@canary
 caskinstall grandperspective
 caskinstall hyperkey
 caskinstall image2icon
 caskinstall imagealpha
 caskinstall imageoptim
 caskinstall insomnia # REST Client — https://insomnia.rest/
-caskinstall iterm2-nightly
+caskinstall iterm2@nightly
 # caskinstall kap
 caskinstall keepassxc
 caskinstall loom
@@ -205,7 +204,7 @@ caskinstall runjs
 caskinstall signal
 caskinstall slack
 caskinstall spotify
-caskinstall sublime-merge-dev
+caskinstall sublime-merge@dev
 caskinstall visual-studio-code
 caskinstall vlc
 caskinstall xcodes
@@ -218,6 +217,7 @@ caskinstall minisim
 caskinstall middleclick
 caskinstall upscayl
 caskinstall syncthing
+caskinstall notion-calendar
 
 # quicklook plugins
 caskinstall qlcolorcode
