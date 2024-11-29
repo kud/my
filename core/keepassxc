@@ -1,4 +1,11 @@
-#!/usr/bin/env zsh
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+echo_space
+
+echo_title_update "KeepassXC"
+
 
 # KeePassXC configuration file path
 CONFIG_FILE="$HOME/Library/Application Support/keepassxc/keepassxc.ini"
