@@ -197,7 +197,7 @@ caskinstall prefs-editor
 caskinstall proxyman
 caskinstall qr-journal
 caskinstall raycast
-caskinstall rectangle
+# caskinstall rectangle
 # caskinstall removebg
 # caskinstall rocket
 caskinstall runjs
