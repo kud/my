@@ -21,6 +21,18 @@ defaults write NSGlobalDomain AppleICUNumberSymbols -dict 0 '.' 1 '' 10 '.' 17 '
 sudo nvram AutoBoot=%00
 # To re-enable: sudo nvram AutoBoot=%03
 
+# Disable "Drag windows to screen edges to tile"
+defaults write -g EnableTilingByEdgeDrag -bool false
+
+# Enable "Drag windows to menu bar to fill screen"
+defaults write -g EnableTopTilingByEdgeDrag -bool true
+
+# Enable "Hold ⌃ key while dragging windows to tile"
+defaults write -g EnableTilingOptionAccelerator -bool true
+
+# Disable "Tiled windows have margins"
+defaults write -g EnableTiledWindowMargins -bool false
+
 ###############################################################################
 # Dock                                                                        #
 ###############################################################################
