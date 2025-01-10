@@ -180,6 +180,7 @@ caskinstall imageoptim
 caskinstall insomnia # REST Client — https://insomnia.rest/
 caskinstall iterm2@nightly
 # caskinstall kap
+caskinstall cap
 caskinstall keepassxc
 caskinstall loom
 caskinstall macmediakeyforwarder
