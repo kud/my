@@ -5,28 +5,44 @@ source "${MY}/core/helper"
 
 # Get public IP and copy to clipboard
 ip() {
-  IP=$(dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com)
+  IP=$(dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"')
   echo "${IP}"
-  echo "${IP}" | pbcopy
+  echo "${IP}" | pbcopy  # Copy to clipboard without outputting a message
 }
 
 # Get local IP(s) and copy to clipboard
 localIp() {
   IP1=$(ipconfig getifaddr en0)
   IP2=$(ipconfig getifaddr en4)
-  echo "${IP1}${IP2}"
-  echo "${IP1}${IP2}" | pbcopy
+  if [ -n "$IP1" ]; then
+    echo "${IP1}"
+    echo "${IP1}" | pbcopy  # Copy to clipboard without outputting a message
+  fi
+  if [ -n "$IP2" ]; then
+    echo "${IP2}"
+    echo "${IP2}" | pbcopy  # Copy to clipboard without outputting a message
+  fi
+}
+
+# Display DNS servers
+dns() {
+  DNS_SERVERS=$(scutil --dns | grep 'nameserver' | awk '{print $3}')
+  if [ -z "$DNS_SERVERS" ]; then
+    echo "No DNS servers configured."
+  else
+    echo "${DNS_SERVERS}" | sed 's/^/ /'  # Add a space before each DNS entry
+  fi
 }
 
 # Display screen resolution
 resolution() {
-  system_profiler SPDisplaysDataType | grep Resolution
+  RESOLUTION=$(system_profiler SPDisplaysDataType | grep Resolution)
+  echo "${RESOLUTION##*: }"  # Print only the resolution value
 }
 
 # Copy SSH key to clipboard
 sshKey() {
   pbcopy <~/.ssh/id_rsa.pub
-  echo "Copied!"
 }
 
 # Display CPU features
@@ -35,22 +51,48 @@ cpuFeatures() {
   echo "${STRING}"
 }
 
+# Display detailed macOS version
+macOSVersion() {
+  PRODUCT_NAME=$(sw_vers -productName)
+  PRODUCT_VERSION=$(sw_vers -productVersion)
+  BUILD_VERSION=$(sw_vers -buildVersion)
+  echo "${PRODUCT_NAME} ${PRODUCT_VERSION} (Build ${BUILD_VERSION})"
+}
+
+# Display Firefox version
+firefoxVersion() {
+  if [ -d "/Applications/Firefox Nightly.app" ]; then
+    VERSION=$(/Applications/Firefox\ Nightly.app/Contents/MacOS/firefox --version | awk '{print $3}')
+    echo "${VERSION}"
+  else
+    echo "Firefox is not installed."
+  fi
+}
+
 # Display help message
 display_help() {
   echo_space
   printf "Usage:"
   echo_spacex2
-  printf "    ${COLOUR_CYAN}geeet${COLOUR_RESET} [<command>|--help]"
+  printf "    ${COLOUR_CYAN}tell-me-my${COLOUR_RESET} [<command>|--help]"
   echo_spacex3
   printf "Commands:"
   echo_spacex2
-  printf "    ip               ${COLOUR_BLACK}Get public ip${COLOUR_RESET}"
+  printf "    ip               Get public IP${COLOUR_RESET}"
   echo_space
-  printf "    local-ip         ${COLOUR_BLACK}Get local ip${COLOUR_RESET}"
+  printf "    local-ip         Get local IP(s)${COLOUR_RESET}"
   echo_space
-  printf "    resolution       ${COLOUR_BLACK}Get resolution${COLOUR_RESET}"
+  printf "    dns              Display configured DNS servers${COLOUR_RESET}"
   echo_space
-  printf "    ssh-key          ${COLOUR_BLACK}Copy ssh-key${COLOUR_RESET}"
+  printf "    resolution       Get screen resolution${COLOUR_RESET}"
+  echo_space
+  printf "    ssh-key          Copy SSH key to clipboard${COLOUR_RESET}"
+  echo_space
+  printf "    cpu-features     Display CPU features${COLOUR_RESET}"
+  echo_space
+  printf "    macos-version     Display detailed macOS version${COLOUR_RESET}"
+  echo_space
+  printf "    firefox-version   Display Firefox version${COLOUR_RESET}"
   echo_spacex2
 }
 
@@ -65,6 +107,9 @@ else
   local-ip)
     localIp
     ;;
+  dns)
+    dns
+    ;;
   resolution)
     resolution
     ;;
@@ -73,6 +118,12 @@ else
     ;;
   cpu-features)
     cpuFeatures
+    ;;
+  macos-version)
+    macOSVersion
+    ;;
+  firefox-version)
+    firefoxVersion
     ;;
   --help)
     display_help
