@@ -21,19 +21,17 @@ update_setting() {
   local key="$2"
   local value="$3"
 
-  # Check if section exists, add it if missing
+  local escaped_value=$(echo "$value" | sed -e 's/[\/&]/\\&/g')
+
   if ! grep -q "^\[$section\]" "$CONFIG_FILE"; then
     echo -e "\n[$section]" >> "$CONFIG_FILE"
   fi
 
-  # Check if key exists within the section
   if sed -n "/^\[$section\]/,/^\[.*\]/p" "$CONFIG_FILE" | grep -q "^$key="; then
-    # Update the key's value
-    sed -i "/^\[$section\]/,/^\[.*\]/ s|^$key=.*|$key=$value|" "$CONFIG_FILE"
+    sed -i "/^\[$section\]/,/^\[.*\]/ s|^$key=.*|$key=$escaped_value|" "$CONFIG_FILE"
   else
-    # Add the key-value pair to the section
     sed -i "/^\[$section\]/ a\\
-$key=$value
+$key=$escaped_value
 " "$CONFIG_FILE"
   fi
 }
