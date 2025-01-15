@@ -8,6 +8,7 @@ PROFILE_DIR="$HOME/Library/Application Support/Firefox/Profiles"
 DEFAULT_FOLDER=$(ls "$PROFILE_DIR" | grep .default-nightly)
 PREFS_FILE="$PROFILE_DIR/$DEFAULT_FOLDER/prefs.js"
 CONTAINERS_FILE="$PROFILE_DIR/$DEFAULT_FOLDER/containers.json"
+EXTENSION_SETTINGS_FILE="$PROFILE_DIR/$DEFAULT_FOLDER/extension-settings.json"
 
 # Close Firefox Nightly to safely apply changes
 quit "Firefox Nightly"
@@ -213,6 +214,41 @@ cat <<EOF >"$CONTAINERS_FILE"
 EOF
 
 echo_success "Firefox containers have been synchronised."
+
+# ╔═════════════════════════════════════════════╗
+# ║        Update Shortcuts in Extensions       ║
+# ╚═════════════════════════════════════════════╝
+
+# Define shortcuts
+# declare -A SHORTCUTS=(
+#     ["open_container_0"]="Alt+Shift+1"
+#     ["open_container_1"]="Alt+Shift+2"
+#     ["open_container_2"]="Alt+Shift+3"
+#     ["open_container_3"]="Alt+Shift+4"
+#     ["open_container_4"]="Alt+Shift+5"
+#     ["open_container_5"]="Alt+Shift+6"
+#     ["open_container_6"]="Alt+Shift+7"
+#     ["open_container_7"]="Alt+Shift+8"
+#     ["open_container_8"]="Alt+Shift+9"
+#     ["open_container_9"]="Alt+Shift+0"
+#     ["copy_tab_as_markdown"]=""
+#     ["download_tab_as_markdown"]=""
+#     ["copy_tab_as_markdown_link"]=""
+#     ["_execute_browser_action"]="Alt+Shift+R"
+#     ["ecs-new-tab-container-1"]="Alt+Shift+1"
+#     ["save_credentials"]="MacCtrl+Shift+S"
+#     ["new_no_container_window_tab"]=""
+#     ["new_temporary_container_tab"]="MacCtrl+Command+T"
+#     ["new_same_container_tab"]=""
+#     ["new_no_container_tab"]=""
+#     ["new_temporary_container_tab_current_url"]=""
+#     ["new_no_history_tab"]=""
+#     ["toggle_isolation"]=""
+#     ["_execute_sidebar_action"]=""
+#     ["save_page"]="Alt+Shift+S"
+#     ["move-tab"]="Alt+Shift+N"
+#     ["sort_tabs"]=""
+# )
 
 sleep 2
 
