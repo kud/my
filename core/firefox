@@ -90,6 +90,9 @@ update_pref "sidebar.revamp" true
 # Enable vertical tabs in the sidebar
 update_pref "sidebar.verticalTabs" true
 
+# Enable userChrome.css
+update_pref "toolkit.legacyUserProfileCustomizations.stylesheets" true
+
 # ╔═════════════════════════════════════════════╗
 # ║                Sync Preferences             ║
 # ╚═════════════════════════════════════════════╝
@@ -164,6 +167,26 @@ update_pref "devtools.aboutdebugging.local-tab-debugging" true
 source $MY/profiles/$OS_PROFILE/core/firefox-settings 2>/dev/null
 
 echo_success "Firefox settings have been applied."
+
+# ╔═════════════════════════════════════════════╗
+# ║          Manage userChrome.css File         ║
+# ╚═════════════════════════════════════════════╝
+
+USER_CHROME_DIR="$PROFILE_DIR/$DEFAULT_FOLDER/chrome"
+USER_CHROME_FILE="$USER_CHROME_DIR/userChrome.css"
+
+if [[ ! -d "$USER_CHROME_DIR" ]]; then
+  mkdir -p "$USER_CHROME_DIR"
+  echo "Created directory: $USER_CHROME_DIR"
+fi
+
+cat <<EOF >"$USER_CHROME_FILE"
+.tab-close-button.close-icon {
+  display: none !important;
+}
+EOF
+
+echo_success "userChrome.css file has been updated."
 
 # ╔═════════════════════════════════════════════╗
 # ║               Containers                    ║
@@ -250,6 +273,6 @@ echo_success "Firefox containers have been synchronised."
 #     ["sort_tabs"]=""
 # )
 
+# Open Firefox Nightly
 sleep 2
-
 open -a "Firefox Nightly"
