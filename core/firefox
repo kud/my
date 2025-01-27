@@ -10,18 +10,18 @@ PREFS_FILE="$PROFILE_DIR/$DEFAULT_FOLDER/prefs.js"
 CONTAINERS_FILE="$PROFILE_DIR/$DEFAULT_FOLDER/containers.json"
 EXTENSION_SETTINGS_FILE="$PROFILE_DIR/$DEFAULT_FOLDER/extension-settings.json"
 
-# Close Firefox Nightly to safely apply changes
-quit "Firefox Nightly"
-sleep 5
-
-echo_title_update "Applying Firefox settings"
-
 # Function to update Firefox preferences
 update_pref() {
   local key="$1"
   local value="$2"
   echo "user_pref(\"$key\", $value);" >>"$PREFS_FILE"
 }
+
+echo_title_update "Firefox configuration"
+
+# Close Firefox Nightly to safely apply changes
+quit "Firefox Nightly"
+sleep 5
 
 # ╔═════════════════════════════════════════════╗
 # ║                Global Preferences           ║
@@ -150,7 +150,7 @@ update_pref "devtools.scratchpad.enabled" true
 update_pref "devtools.screenshot.audio.enabled" false
 
 # Set DevTools to open in a side pane
-update_pref "devtools.toolbox.host" '"side"'
+update_pref "devtools.toolbox.host" '"right"'
 
 # Enable timestamps in console messages
 update_pref "devtools.webconsole.timestampMessages" true
@@ -166,7 +166,7 @@ update_pref "devtools.aboutdebugging.local-tab-debugging" true
 
 source $MY/profiles/$OS_PROFILE/core/firefox-settings 2>/dev/null
 
-echo_success "Firefox settings have been applied."
+echo_success "Settings have been applied"
 
 # ╔═════════════════════════════════════════════╗
 # ║          Manage userChrome.css File         ║
@@ -186,7 +186,7 @@ cat <<EOF >"$USER_CHROME_FILE"
 }
 EOF
 
-echo_success "userChrome.css file has been updated."
+echo_success "Styles have been applied"
 
 # ╔═════════════════════════════════════════════╗
 # ║               Containers                    ║
@@ -236,7 +236,7 @@ cat <<EOF >"$CONTAINERS_FILE"
 }
 EOF
 
-echo_success "Firefox containers have been synchronised."
+echo_success "Containers have been synchronised"
 
 # ╔═════════════════════════════════════════════╗
 # ║        Update Shortcuts in Extensions       ║
