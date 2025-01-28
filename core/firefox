@@ -181,6 +181,10 @@ if [[ ! -d "$USER_CHROME_DIR" ]]; then
 fi
 
 cat <<EOF >"$USER_CHROME_FILE"
+#vertical-pinned-tabs-container {
+  max-height: 100% !important;
+}
+
 .tab-close-button.close-icon {
   display: none !important;
 }

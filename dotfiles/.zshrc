@@ -372,6 +372,7 @@ _frum__versions_commands() {
 # android
 # export ANDROID_HOME=${HOMEBREW_PREFIX}/opt/android-sdk
 export ANDROID_HOME=$HOME/Library/Android/sdk
+export ANDROID_SDK_ROOT=$ANDROID_HOME
 
 # java
 # export JAVA_HOME="/usr/local/opt/sdkman-cli/libexec/candidates/java/current/bin/java"
