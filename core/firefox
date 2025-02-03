@@ -185,8 +185,34 @@ cat <<EOF >"$USER_CHROME_FILE"
   max-height: 100% !important;
 }
 
+#tabbrowser-arrowscrollbox {
+  & .tab-background {
+  .tabbrowser-tab:not(:hover) > .tab-stack > &:not([selected], [multiselected]) {
+      background-color: color-mix(in srgb, currentColor 7%, transparent) !important;
+    }
+  }
+}
+
+.tabbrowser-tab[usercontextid] > .tab-stack > .tab-background > .tab-context-line {
+  #vertical-pinned-tabs-container &, #tabbrowser-tabs[orient="vertical"] & {
+    margin: 4px -6px !important;
+  }
+}
+
 .tab-close-button.close-icon {
   display: none !important;
+}
+
+#navigator-toolbox {
+  :root[privatebrowsingmode] & {
+    background-color: #281f4d !important;
+  }
+}
+
+#sidebar-main {
+  :root[privatebrowsingmode] & {
+    background-color: #281f4d !important;
+  }
 }
 EOF
 
