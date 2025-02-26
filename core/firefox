@@ -99,6 +99,7 @@ update_pref "toolkit.legacyUserProfileCustomizations.stylesheets" true
 
 # Ignore addon enable/disable during sync
 update_pref "services.sync.prefs.sync.addons.ignoreUserEnabledChanges" true
+update_pref "services.sync.addons.ignoreUserEnabledChanges" true
 
 # Decline syncing form data and history
 update_pref "services.sync.declinedEngines" '"forms,history"'
