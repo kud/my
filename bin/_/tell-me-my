@@ -42,7 +42,7 @@ resolution() {
 
 # Copy SSH key to clipboard
 sshKey() {
-  pbcopy <~/.ssh/id_rsa.pub
+  pbcopy <~/.ssh/id_ed25519.pub
 }
 
 # Display CPU features
