@@ -182,10 +182,12 @@ if [[ ! -d "$USER_CHROME_DIR" ]]; then
 fi
 
 cat <<EOF >"$USER_CHROME_FILE"
+/* No scroll on sidebar */
 #vertical-pinned-tabs-container {
   max-height: 100% !important;
 }
 
+/* Give background to any tab */
 #tabbrowser-arrowscrollbox {
   & .tab-background {
   .tabbrowser-tab:not(:hover) > .tab-stack > &:not([selected], [multiselected]) {
@@ -194,16 +196,23 @@ cat <<EOF >"$USER_CHROME_FILE"
   }
 }
 
+/* Move container indicator */
+/*
 .tabbrowser-tab[usercontextid] > .tab-stack > .tab-background > .tab-context-line {
   #vertical-pinned-tabs-container &, #tabbrowser-tabs[orient="vertical"] & {
     margin: 4px -6px !important;
   }
 }
+*/
 
+/* Hide close button on tab */
+/*
 .tab-close-button.close-icon {
   display: none !important;
 }
+*/
 
+/* Set the right background for private window */
 #navigator-toolbox {
   :root[privatebrowsingmode] & {
     background-color: #281f4d !important;
