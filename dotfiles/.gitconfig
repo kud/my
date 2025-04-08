@@ -122,6 +122,7 @@
   ci = commit
   cleanup = "!git remote prune origin && git repack && git gc"
   co = checkout
+  branch-current = "branch --show-current"
   dash = "!gh dash"
   dc = diff --cached
   df = diff
