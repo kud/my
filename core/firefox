@@ -224,6 +224,14 @@ cat <<EOF >"$USER_CHROME_FILE"
     background-color: #281f4d !important;
   }
 }
+
+/* Fix container line with Adaptive Tab Bar Colour addon */
+.tabbrowser-tab[usercontextid] > .tab-stack > .tab-background > .tab-context-line {
+#vertical-pinned-tabs-container &, #tabbrowser-tabs[orient="vertical"] & {
+    margin-left: -2px !important;
+    margin-right: -2px !important;
+  }
+}
 EOF
 
 echo_success "Styles have been applied"
