@@ -48,7 +48,6 @@ brewtap sdkman/tap
 ### system
 brewinstall autojump
 brewinstall brightness
-# brewinstall exa # Modern replacement for 'ls' — https://the.exa.website
 brewinstall lsd # Modern replacement for 'ls'
 brewinstall exiftool
 brewinstall fd
@@ -159,7 +158,6 @@ brewinstall xcodesorg/made/xcodes
 echo_space
 echo_title_install "apps"
 
-caskinstall adoptopenjdk
 caskinstall altair-graphql-client
 caskinstall android-file-transfer
 caskinstall android-studio
@@ -175,7 +173,6 @@ caskinstall google-chrome@canary
 caskinstall grandperspective
 caskinstall hyperkey
 caskinstall image2icon
-caskinstall imagealpha
 caskinstall imageoptim
 caskinstall insomnia # REST Client — https://insomnia.rest/
 caskinstall iterm2@nightly
@@ -222,7 +219,6 @@ caskinstall notion-calendar
 
 # quicklook plugins
 caskinstall qlcolorcode
-caskinstall qlimagesize
 caskinstall qlmarkdown
 caskinstall qlprettypatch
 caskinstall qlstephen
