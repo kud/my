@@ -8,8 +8,8 @@ echo_title_update "Aicommits"
 
 aicommits config set type=conventional
 aicommits config set max-length=100
-aicommits config set model=o3
+aicommits config set model=gpt-4o-mini
 
 oco config set OCO_PROMPT_MODULE=conventional-commit
 oco config set OCO_EMOJI=true
-oco config set OCO_MODEL=o3
+oco config set OCO_MODEL=gpt-4o-mini
