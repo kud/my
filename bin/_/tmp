@@ -7,17 +7,15 @@ source "${MY}/core/helper"
 display_help() {
   echo_space
   echo "Usage:"
-  echo_spacex2
+  echo_space
   echo "    ${COLOUR_CYAN}tmp${COLOUR_RESET} [<command>|--help]"
-  echo_spacex3
+  echo_spacex2
   echo "Commands:"
-  echo_spacex2
+  echo_space
   echo "    open    ${COLOUR_BLACK}Open tmp folder${COLOUR_RESET}"
-  echo_space
   echo "    clean   ${COLOUR_BLACK}Clean tmp folder${COLOUR_RESET}"
+  echo "    move    ${COLOUR_BLACK}Move files/folder to tmp folder${COLOUR_RESET}"
   echo_space
-  echo "    from    ${COLOUR_BLACK}Move files/folder to tmp folder${COLOUR_RESET}"
-  echo_spacex2
 }
 
 main() {
