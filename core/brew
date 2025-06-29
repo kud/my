@@ -153,6 +153,7 @@ brewinstall zoxide
 brewinstall font-symbols-only-nerd-font
 brewinstall dust
 brewinstall xcodesorg/made/xcodes
+brewinstall biome
 
 ## install apps
 echo_space
