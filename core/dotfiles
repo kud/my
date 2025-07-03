@@ -16,6 +16,7 @@ dotfiles=(
   ".prettierrc"
   ".vimrc"
   ".zpreztorc"
+  ".zsh_plugins.txt"
   ".zshrc"
 )
 

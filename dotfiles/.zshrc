@@ -13,14 +13,14 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# antibody
-source <(antibody init)
+# antidote
+source $(brew --prefix)/share/antidote/antidote.zsh
 
-antibody bundle mtxr/zsh-change-case
-antibody bundle bigH/git-fuzzy path:bin kind:path
-antibody bundle unixorn/git-extra-commands
-antibody bundle reegnz/jq-zsh-plugin
-# antibody bundle marlonrichert/zsh-autocomplete
+if [[ ! -f ~/.zsh_plugins.zsh ]]; then
+  antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
+fi
+
+source ~/.zsh_plugins.zsh
 
 
 # # change prompt
