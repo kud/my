@@ -42,7 +42,6 @@ echo_title_install "brew packages"
 ### tap
 brewtap homebrew/cask
 brewtap homebrew/cask-versions
-brewtap espanso/espanso
 brewtap sdkman/tap
 
 ### system
@@ -112,7 +111,7 @@ brewinstall duf
 brewinstall fnm
 brewinstall glow
 brewinstall gnupg
-brewinstall heroku/brew/heroku
+brewinstall heroku
 brewinstall httpie
 brewinstall imagemagick
 brewinstall ipcalc
@@ -121,7 +120,7 @@ brewinstall jless
 brewinstall jq
 brewinstall jnv
 brewinstall mas # Mac App Store command line interface - https://github.com/mas-cli/mas
-brewinstall noborus/tap/trdsql
+brewinstall trdsql
 brewinstall node
 brew link --overwrite node # @TODO: need to understand why this is needed
 # brewinstall openjdk
@@ -152,7 +151,7 @@ brewinstall fzf
 brewinstall zoxide
 brewinstall font-symbols-only-nerd-font
 brewinstall dust
-brewinstall xcodesorg/made/xcodes
+brewinstall xcodes
 brewinstall biome
 
 ## install apps
