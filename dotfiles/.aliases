@@ -58,7 +58,7 @@ alias yarn-check='yarn upgrade-interactive --latest'
 
 # ease
 alias c='code .'
-alias about='neofetch'
+alias about='fastfetch'
 alias dns-flush='sudo killall -HUP mDNSResponder'
 alias shell-reload='exec $SHELL'
 alias gem-back='gem pristine --all --only-executables'
