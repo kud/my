@@ -64,7 +64,7 @@ brewinstall make
 brewinstall mitmproxy
 brewinstall mozjpeg
 brewinstall ncdu
-brewinstall neofetch # system information
+brewinstall fastfetch # system information
 brewinstall p7zip
 brewinstall pcre2
 brewinstall pv
