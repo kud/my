@@ -32,29 +32,15 @@ for zsh_file in \
   node.zsh \
   completions.zsh \
   java.zsh \
-  python.zsh
+  python.zsh \
+  android.zsh \
+  openssl.zsh \
+  homebrew.zsh \
+  babel.zsh \
+  path.zsh
 do
   [[ -f $HOME/.config/zsh/$zsh_file ]] && source $HOME/.config/zsh/$zsh_file
 done
-
-# android
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export ANDROID_SDK_ROOT=$ANDROID_HOME
-
-export LDFLAGS="-L${HOMEBREW_PREFIX}/opt/openssl/lib"
-export CPPFLAGS="-I${HOMEBREW_PREFIX}/opt/openssl/include"
-
-# homebrew cask
-export HOMEBREW_CASK_OPTS=--appdir=/Applications
-
-# babel
-export BABEL_CACHE_PATH=/tmp/babel.cache.json
-
-# ssl
-export SSL_CERT_FILE=${HOMEBREW_PREFIX}/etc/openssl@3/cert.pem
-
-# PATH
-[[ -f $HOME/.config/zsh/path.zsh ]] && source $HOME/.config/zsh/path.zsh
 
 # local config migration and sourcing
 if [[ -f $HOME/.zshrc_local ]]; then
