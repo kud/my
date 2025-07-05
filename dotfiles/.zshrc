@@ -67,19 +67,16 @@ export EDITOR="nvim"
 # node
 export NODE_PATH=${HOMEBREW_PREFIX}/lib/node_modules
 
-
 # completions
 [[ -f $HOME/.config/zsh/completions.zsh ]] && source $HOME/.config/zsh/completions.zsh
-
 
 # android
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export ANDROID_SDK_ROOT=$ANDROID_HOME
 
-# java
-export SDKMAN_DIR=$(brew --prefix sdkman-cli)/libexec
-[[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
 
+# Java
+[[ -f $HOME/.config/zsh/java.zsh ]] && source $HOME/.config/zsh/java.zsh
 
 # Python
 [[ -f $HOME/.config/zsh/python.zsh ]] && source $HOME/.config/zsh/python.zsh
