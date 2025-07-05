@@ -7,16 +7,13 @@ HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-/usr/local}"
 
 for zsh_file in \
   zprezto.zsh \
-  antidote.zsh
+  antidote.zsh \
+  autojump.zsh
 do
   [[ -f $HOME/.config/zsh/$zsh_file ]] && source $HOME/.config/zsh/$zsh_file
 done
 
-# autojump
-[ -f ${HOMEBREW_PREFIX}/etc/profile.d/autojump.sh ] && . ${HOMEBREW_PREFIX}/etc/profile.d/autojump.sh
 autoload -U compinit && compinit
-
-# zmv
 autoload zmv
 
 for zsh_file in \
