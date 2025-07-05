@@ -8,10 +8,9 @@ fi
 # Set homebrew prefix depending on Intel or Apple Silicon
 HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-/usr/local}"
 
-# prezto
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-fi
+
+# Prezto (modularized)
+[[ -f $HOME/.config/zsh/zprezto.zsh ]] && source $HOME/.config/zsh/zprezto.zsh
 
 # Antidote
 [[ -f $HOME/.config/zsh/antidote.zsh ]] && source $HOME/.config/zsh/antidote.zsh

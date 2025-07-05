@@ -41,11 +41,11 @@ if [ ! -f "$HOME/.ssh/config" ]; then
   cp "$MY/templates/ssh/config" "$HOME/.ssh/"
 fi
 
-if [ ! -f "$HOME/.zshrc_local" ]; then
+if [ ! -f "$HOME/.config/zsh/local.zsh" ]; then
   while true; do
     read "?Enter the profile of this computer (home/work): " OS_PROFILE </dev/tty
     if [[ "$OS_PROFILE" == "home" || "$OS_PROFILE" == "work" ]]; then
-      echo "export OS_PROFILE=$OS_PROFILE" >"$HOME/.zshrc_local"
+      echo "export OS_PROFILE=$OS_PROFILE" >"$HOME/.config/zsh/local.zsh"
       break
     else
       echo "Invalid input, please enter either 'home' or 'work'"
