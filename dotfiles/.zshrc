@@ -98,20 +98,8 @@ export BABEL_CACHE_PATH=/tmp/babel.cache.json
 # ssl
 export SSL_CERT_FILE=${HOMEBREW_PREFIX}/etc/openssl@3/cert.pem
 
-# PATH - must be in the end
-export PATH=${HOMEBREW_PREFIX}/sbin:$PATH # brew
-export PATH=${HOMEBREW_PREFIX}/Cellar/:$PATH # brew
-export PATH=${HOMEBREW_PREFIX}/opt/curl/bin:$PATH # curl
-export PATH=${HOMEBREW_PREFIX}/opt/ruby/bin:$PATH # ruby
-export PATH=${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH # gnu-sed
-export PATH=${HOMEBREW_PREFIX}/lib/node_modules:$PATH # npm
-export PATH=$PATH:$ANDROID_HOME/emulator # android emulator
-export PATH=$PATH:$ANDROID_HOME/platform-tools # android platform-tools
-export PATH=$HOME/.console-ninja/.bin:$PATH # console-ninja
-
-export PATH=$MY/bin/_:$PATH # own commands
-
-export PATH=$PATH:$MY/bin/shims # add commands to open applications
+# PATH
+[[ -f $HOME/.config/zsh/path.zsh ]] && source $HOME/.config/zsh/path.zsh
 
 # local config migration and sourcing
 if [[ -f $HOME/.zshrc_local ]]; then
