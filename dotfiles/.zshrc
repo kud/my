@@ -37,6 +37,8 @@ for zsh_file in \
   openssl.zsh \
   homebrew.zsh \
   babel.zsh \
+  fzf.zsh \
+  ruby.zsh \
   path.zsh
 do
   [[ -f $HOME/.config/zsh/$zsh_file ]] && source $HOME/.config/zsh/$zsh_file
@@ -54,15 +56,8 @@ fi
 # add or override commands by via profiled ones
 export PATH=$MY/profiles/$OS_PROFILE/bin/_:$PATH
 
-# fzf
-source <(fzf --zsh)
-
-# ruby
-eval "$(frum init)"
-
-# To customize prompt, run `p10k configure` or edit ~/.config/zsh/p10k.zsh.
-# Should be always the last line
+# prompt (should be always the last line)
 [[ ! -f ~/.config/zsh/p10k.zsh ]] || source ~/.config/zsh/p10k.zsh
 
-# For some strange reason, `fnm` needs to be at the end in order to view the local version in the shell.
-eval "$(fnm env --use-on-cd)" > /dev/null 2>&1
+# fnm (for some strange reason, `fnm` needs to be at the end in order to view the local version in the shell)
+[[ -f $HOME/.config/zsh/fnm.zsh ]] && source $HOME/.config/zsh/fnm.zsh
