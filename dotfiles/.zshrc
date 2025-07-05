@@ -113,8 +113,14 @@ export PATH=$MY/bin/_:$PATH # own commands
 
 export PATH=$PATH:$MY/bin/shims # add commands to open applications
 
-# local
-. ~/.zshrc_local
+# local config migration and sourcing
+if [[ -f $HOME/.zshrc_local ]]; then
+  echo "[zshrc] Migrating ~/.zshrc_local to ~/.config/zsh/local.zsh..."
+  mkdir -p $HOME/.config/zsh
+  mv $HOME/.zshrc_local $HOME/.config/zsh/local.zsh
+  echo "[zshrc] Migration complete. Please remove this migration block from your .zshrc."
+fi
+[[ -f $HOME/.config/zsh/local.zsh ]] && source $HOME/.config/zsh/local.zsh
 
 # add or override commands by via profiled ones
 export PATH=$MY/profiles/$OS_PROFILE/bin/_:$PATH
