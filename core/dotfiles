@@ -4,8 +4,9 @@ source "$MY/core/helper"
 
 echo_title_install "dotfiles"
 
+
+# Standard dotfiles
 dotfiles=(
-  ".aliases"
   ".config/nvim/init.vim"
   ".editorconfig"
   ".gemrc"
@@ -23,6 +24,10 @@ dotfiles=(
 for file in "${dotfiles[@]}"; do
   ln -sf "$MY/dotfiles/$file" "${ZDOTDIR:-$HOME}/$file" 2>/dev/null
 done
+
+# Zsh modular config symlinks
+mkdir -p "$HOME/.config/zsh"
+ln -sf "$MY/dotfiles/.config/zsh/aliases.zsh" "$HOME/.config/zsh/aliases.zsh"
 
 if [ ! -f "$HOME/.ssh/config" ]; then
   cp "$MY/templates/ssh/config" "$HOME/.ssh/"
