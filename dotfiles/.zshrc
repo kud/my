@@ -48,35 +48,9 @@ autoload zmv
 # z
 [ -f ${HOMEBREW_PREFIX}/etc/profile.d/z.sh ] && . ${HOMEBREW_PREFIX}/etc/profile.d/z.sh
 
+
 # functions
-
-## set the tab title to current dir
-precmd() {
-  local title=""
-
-  if [[ "$PWD" == "$HOME" ]]; then
-    title="~"
-  else
-    title="${PWD##*/}"
-  fi
-
-  echo -ne "\e]1;$title\a"
-}
-
-## create a folder and go in it
-function mcd() {
-  mkdir -p "$1" && cd "$1";
-}
-
-## yazi
-function yy() {
-  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-  yazi "$@" --cwd-file="$tmp"
-  if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-    cd -- "$cwd"
-  fi
-  rm -f -- "$tmp"
-}
+[[ -f $HOME/.config/zsh/functions.zsh ]] && source $HOME/.config/zsh/functions.zsh
 
 # export MY
 export MY=$HOME/my

@@ -28,6 +28,7 @@ done
 mkdir -p "$HOME/.config/zsh"
 ln -sf "$MY/dotfiles/.config/zsh/aliases.zsh" "$HOME/.config/zsh/aliases.zsh"
 ln -sf "$MY/dotfiles/.config/zsh/p10k.zsh" "$HOME/.config/zsh/p10k.zsh"
+ln -sf "$MY/dotfiles/.config/zsh/functions.zsh" "$HOME/.config/zsh/functions.zsh"
 
 if [ ! -f "$HOME/.ssh/config" ]; then
   cp "$MY/templates/ssh/config" "$HOME/.ssh/"
