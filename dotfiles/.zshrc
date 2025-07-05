@@ -13,30 +13,8 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# antidote
-source $(brew --prefix)/share/antidote/antidote.zsh
-
-if [[ ! -f ~/.zsh_plugins.zsh ]]; then
-  antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
-fi
-
-source ~/.zsh_plugins.zsh
-
-
-# # change prompt
-# prompt_context() {
-#   # local user=`whoami`
-
-#   # if [[ "$user" != "$DEFAULT_USER" || -n "$SSH_CONNECTION" ]]; then
-#   #   prompt_segment $PRIMARY_FG default " %(!.%{%F{yellow}%}.)$user@%m "
-#   # fi
-
-#   prompt_segment $PRIMARY_FG default  ""
-# }
-
-# prompt_dir() {
-#   prompt_segment blue $PRIMARY_FG ' %c '
-# }
+# Antidote
+[[ -f $HOME/.config/zsh/antidote.zsh ]] && source $HOME/.config/zsh/antidote.zsh
 
 # autojump
 [ -f ${HOMEBREW_PREFIX}/etc/profile.d/autojump.sh ] && . ${HOMEBREW_PREFIX}/etc/profile.d/autojump.sh
@@ -47,7 +25,6 @@ autoload zmv
 
 # z
 [ -f ${HOMEBREW_PREFIX}/etc/profile.d/z.sh ] && . ${HOMEBREW_PREFIX}/etc/profile.d/z.sh
-
 
 # functions
 [[ -f $HOME/.config/zsh/functions.zsh ]] && source $HOME/.config/zsh/functions.zsh
@@ -81,8 +58,6 @@ ulimit -n 1024
 [[ -f $HOME/.config/zsh/bindings.zsh ]] && source $HOME/.config/zsh/bindings.zsh
 
 # global variable
-# export FIREFOXNIGHTLY_BIN="/Applications/FirefoxNightly.app/Contents/MacOS/firefox"
-# export BROWSER=$FIREFOXNIGHTLY_BIN # bug with python
 export GIT_EDITOR="nvim"
 export VISUAL="code"
 export EDITOR="nvim"
@@ -99,18 +74,10 @@ export NODE_PATH=${HOMEBREW_PREFIX}/lib/node_modules
 
 
 # android
-# export ANDROID_HOME=${HOMEBREW_PREFIX}/opt/android-sdk
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export ANDROID_SDK_ROOT=$ANDROID_HOME
 
 # java
-# export JAVA_HOME="/usr/local/opt/sdkman-cli/libexec/candidates/java/current/bin/java"
-# export JAVA_HOME="/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home"
-# export JAVA_HOME=$(/usr/libexec/java_home -v15)
-# export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
-# export JAVA_14_HOME=$(/usr/libexec/java_home -v14)
-# export JAVA_15_HOME=$(/usr/libexec/java_home -v15)
-
 export SDKMAN_DIR=$(brew --prefix sdkman-cli)/libexec
 [[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
 
