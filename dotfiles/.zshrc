@@ -76,11 +76,9 @@ export LC_ALL="en_GB.UTF-8"
 # increase opened files size
 ulimit -n 1024
 
-# bind
-bindkey '^R' history-incremental-search-backward
-bindkey -r '^K'
-bindkey '^K^U' _mtxr-to-upper # Ctrl+K + Ctrl+U
-bindkey '^K^L' _mtxr-to-lower # Ctrl+K + Ctrl+L
+
+# bindings
+[[ -f $HOME/.config/zsh/bindings.zsh ]] && source $HOME/.config/zsh/bindings.zsh
 
 # global variable
 # export FIREFOXNIGHTLY_BIN="/Applications/FirefoxNightly.app/Contents/MacOS/firefox"
