@@ -8,15 +8,7 @@ HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-/usr/local}"
 for zsh_file in \
   zprezto.zsh \
   antidote.zsh \
-  autojump.zsh
-do
-  [[ -f $HOME/.config/zsh/$zsh_file ]] && source $HOME/.config/zsh/$zsh_file
-done
-
-autoload -U compinit && compinit
-autoload zmv
-
-for zsh_file in \
+  autojump.zsh \
   functions.zsh \
   z.zsh \
   globals.zsh \
@@ -40,6 +32,9 @@ do
   [[ -f $HOME/.config/zsh/$zsh_file ]] && source $HOME/.config/zsh/$zsh_file
 done
 
+autoload -U compinit && compinit
+autoload zmv
+
 # local config migration and sourcing
 if [[ -f $HOME/.zshrc_local ]]; then
   echo "[zshrc] Migrating ~/.zshrc_local to ~/.config/zsh/local.zsh..."
@@ -52,8 +47,11 @@ fi
 # add or override commands by via profiled ones
 export PATH=$MY/profiles/$OS_PROFILE/bin/_:$PATH
 
-# prompt (should be always the last line)
-[[ ! -f ~/.config/zsh/p10k.zsh ]] || source ~/.config/zsh/p10k.zsh
-
+# p10k (should be always the last line)
 # fnm (for some strange reason, `fnm` needs to be at the end in order to view the local version in the shell)
-[[ -f $HOME/.config/zsh/fnm.zsh ]] && source $HOME/.config/zsh/fnm.zsh
+for zsh_file in \
+  p10k.zsh \
+  fnm.zsh
+do
+  [[ -f $HOME/.config/zsh/$zsh_file ]] && source $HOME/.config/zsh/$zsh_file
+done
