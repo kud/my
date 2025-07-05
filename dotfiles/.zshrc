@@ -80,10 +80,9 @@ export ANDROID_SDK_ROOT=$ANDROID_HOME
 export SDKMAN_DIR=$(brew --prefix sdkman-cli)/libexec
 [[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
 
-# python
-if which pyenv > /dev/null; then eval "$(pyenv init --path)"; fi
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+
+# Python
+[[ -f $HOME/.config/zsh/python.zsh ]] && source $HOME/.config/zsh/python.zsh
 
 export LDFLAGS="-L${HOMEBREW_PREFIX}/opt/openssl/lib"
 export CPPFLAGS="-I${HOMEBREW_PREFIX}/opt/openssl/include"
