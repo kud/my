@@ -64,8 +64,9 @@ export EDITOR="nvim"
 # aliases
 [[ -f $HOME/.config/zsh/aliases.zsh ]] && source $HOME/.config/zsh/aliases.zsh
 
-# node
-export NODE_PATH=${HOMEBREW_PREFIX}/lib/node_modules
+
+# Node.js
+[[ -f $HOME/.config/zsh/node.zsh ]] && source $HOME/.config/zsh/node.zsh
 
 # completions
 [[ -f $HOME/.config/zsh/completions.zsh ]] && source $HOME/.config/zsh/completions.zsh
