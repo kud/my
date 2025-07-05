@@ -13,7 +13,6 @@ dotfiles=(
   ".gitattributes"
   ".gitconfig"
   ".gitignore_global"
-  ".p10k.zsh"
   ".prettierrc"
   ".vimrc"
   ".zpreztorc"
@@ -28,6 +27,7 @@ done
 # Zsh modular config symlinks
 mkdir -p "$HOME/.config/zsh"
 ln -sf "$MY/dotfiles/.config/zsh/aliases.zsh" "$HOME/.config/zsh/aliases.zsh"
+ln -sf "$MY/dotfiles/.config/zsh/p10k.zsh" "$HOME/.config/zsh/p10k.zsh"
 
 if [ ! -f "$HOME/.ssh/config" ]; then
   cp "$MY/templates/ssh/config" "$HOME/.ssh/"

@@ -429,9 +429,9 @@ source <(fzf --zsh)
 # ruby
 eval "$(frum init)"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# To customize prompt, run `p10k configure` or edit ~/.config/zsh/p10k.zsh.
 # Should be always the last line
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f ~/.config/zsh/p10k.zsh ]] || source ~/.config/zsh/p10k.zsh
 
 # For some strange reason, `fnm` needs to be at the end in order to view the local version in the shell.
 eval "$(fnm env --use-on-cd)" > /dev/null 2>&1
