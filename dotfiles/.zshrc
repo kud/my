@@ -8,11 +8,7 @@ fi
 # Set homebrew prefix depending on Intel or Apple Silicon
 HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-/usr/local}"
 
-
-# Prezto (modularized)
 [[ -f $HOME/.config/zsh/zprezto.zsh ]] && source $HOME/.config/zsh/zprezto.zsh
-
-# Antidote
 [[ -f $HOME/.config/zsh/antidote.zsh ]] && source $HOME/.config/zsh/antidote.zsh
 
 # autojump
@@ -25,62 +21,21 @@ autoload zmv
 # z
 [ -f ${HOMEBREW_PREFIX}/etc/profile.d/z.sh ] && . ${HOMEBREW_PREFIX}/etc/profile.d/z.sh
 
-# functions
 [[ -f $HOME/.config/zsh/functions.zsh ]] && source $HOME/.config/zsh/functions.zsh
-
-# export MY
-export MY=$HOME/my
-
-# export TMP
-export TMP=$HOME/__tmp
-
-# export Sync Folder
-export SYNC_FOLDER=$HOME/pCloud
-
-# colours
-export TERM=xterm-256color
-export GREP_OPTIONS='--color=auto' GREP_COLOR='1;32'
-export CLICOLOR=1
-
-# display
-DISPLAY=:0.0; export DISPLAY
-
-# british and utf-8
-export LANG="en_GB"
-export LC_ALL="en_GB.UTF-8"
-
-# increase opened files size
-ulimit -n 1024
-
-
-# bindings
+[[ -f $HOME/.config/zsh/globals.zsh ]] && source $HOME/.config/zsh/globals.zsh
+[[ -f $HOME/.config/zsh/display.zsh ]] && source $HOME/.config/zsh/display.zsh
+[[ -f $HOME/.config/zsh/locale.zsh ]] && source $HOME/.config/zsh/locale.zsh
+[[ -f $HOME/.config/zsh/limits.zsh ]] && source $HOME/.config/zsh/limits.zsh
 [[ -f $HOME/.config/zsh/bindings.zsh ]] && source $HOME/.config/zsh/bindings.zsh
-
-# global variable
-export GIT_EDITOR="nvim"
-export VISUAL="code"
-export EDITOR="nvim"
-
-# aliases
 [[ -f $HOME/.config/zsh/aliases.zsh ]] && source $HOME/.config/zsh/aliases.zsh
-
-
-# Node.js
 [[ -f $HOME/.config/zsh/node.zsh ]] && source $HOME/.config/zsh/node.zsh
-
-# completions
 [[ -f $HOME/.config/zsh/completions.zsh ]] && source $HOME/.config/zsh/completions.zsh
+[[ -f $HOME/.config/zsh/java.zsh ]] && source $HOME/.config/zsh/java.zsh
+[[ -f $HOME/.config/zsh/python.zsh ]] && source $HOME/.config/zsh/python.zsh
 
 # android
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export ANDROID_SDK_ROOT=$ANDROID_HOME
-
-
-# Java
-[[ -f $HOME/.config/zsh/java.zsh ]] && source $HOME/.config/zsh/java.zsh
-
-# Python
-[[ -f $HOME/.config/zsh/python.zsh ]] && source $HOME/.config/zsh/python.zsh
 
 export LDFLAGS="-L${HOMEBREW_PREFIX}/opt/openssl/lib"
 export CPPFLAGS="-I${HOMEBREW_PREFIX}/opt/openssl/include"
