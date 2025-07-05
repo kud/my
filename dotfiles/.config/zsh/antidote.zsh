@@ -12,7 +12,7 @@ source $(brew --prefix)/share/antidote/antidote.zsh
 
 # Bundle plugins if not already bundled
 if [[ ! -f ~/.zsh_plugins.zsh ]]; then
-  antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
+  antidote bundle < ~/.config/zsh/plugins.txt > ~/.zsh_plugins.zsh
 fi
 
 # Source bundled plugins
