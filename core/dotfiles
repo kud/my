@@ -5,7 +5,10 @@ source "$MY/core/helper"
 echo_title_install "dotfiles"
 
 
-# Standard dotfiles
+
+############################################################
+# 📦 Standard dotfiles
+############################################################
 dotfiles=(
   ".config/nvim/init.vim"
   ".editorconfig"
@@ -24,17 +27,20 @@ for file in "${dotfiles[@]}"; do
   ln -sf "$MY/dotfiles/$file" "${ZDOTDIR:-$HOME}/$file" 2>/dev/null
 done
 
-# Zsh modular config symlinks
+
+
+############################################################
+# 🧩 Zsh modular config symlinks (link all files in .config/zsh)
+############################################################
 mkdir -p "$HOME/.config/zsh"
-ln -sf "$MY/dotfiles/.config/zsh/aliases.zsh" "$HOME/.config/zsh/aliases.zsh"
-ln -sf "$MY/dotfiles/.config/zsh/p10k.zsh" "$HOME/.config/zsh/p10k.zsh"
-ln -sf "$MY/dotfiles/.config/zsh/functions.zsh" "$HOME/.config/zsh/functions.zsh"
+for file in "$MY/dotfiles/.config/zsh"/*; do
+  ln -sf "$file" "$HOME/.config/zsh/$(basename "$file")"
+done
 
 if [ ! -f "$HOME/.ssh/config" ]; then
   cp "$MY/templates/ssh/config" "$HOME/.ssh/"
 fi
 
-# local files
 if [ ! -f "$HOME/.zshrc_local" ]; then
   while true; do
     read "?Enter the profile of this computer (home/work): " OS_PROFILE </dev/tty
