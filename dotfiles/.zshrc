@@ -1,15 +1,16 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+
+# Powerlevel10k instant prompt (must be at the very top)
+[[ -f $HOME/.config/zsh/p10k-instant-prompt.zsh ]] && source $HOME/.config/zsh/p10k-instant-prompt.zsh
 
 # Set homebrew prefix depending on Intel or Apple Silicon
 HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-/usr/local}"
 
-[[ -f $HOME/.config/zsh/zprezto.zsh ]] && source $HOME/.config/zsh/zprezto.zsh
-[[ -f $HOME/.config/zsh/antidote.zsh ]] && source $HOME/.config/zsh/antidote.zsh
+for zsh_file in \
+  zprezto.zsh \
+  antidote.zsh
+do
+  [[ -f $HOME/.config/zsh/$zsh_file ]] && source $HOME/.config/zsh/$zsh_file
+done
 
 # autojump
 [ -f ${HOMEBREW_PREFIX}/etc/profile.d/autojump.sh ] && . ${HOMEBREW_PREFIX}/etc/profile.d/autojump.sh
@@ -18,11 +19,9 @@ autoload -U compinit && compinit
 # zmv
 autoload zmv
 
-# z
-[ -f ${HOMEBREW_PREFIX}/etc/profile.d/z.sh ] && . ${HOMEBREW_PREFIX}/etc/profile.d/z.sh
-
 for zsh_file in \
   functions.zsh \
+  z.zsh \
   globals.zsh \
   display.zsh \
   locale.zsh \
