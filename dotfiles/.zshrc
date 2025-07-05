@@ -21,17 +21,21 @@ autoload zmv
 # z
 [ -f ${HOMEBREW_PREFIX}/etc/profile.d/z.sh ] && . ${HOMEBREW_PREFIX}/etc/profile.d/z.sh
 
-[[ -f $HOME/.config/zsh/functions.zsh ]] && source $HOME/.config/zsh/functions.zsh
-[[ -f $HOME/.config/zsh/globals.zsh ]] && source $HOME/.config/zsh/globals.zsh
-[[ -f $HOME/.config/zsh/display.zsh ]] && source $HOME/.config/zsh/display.zsh
-[[ -f $HOME/.config/zsh/locale.zsh ]] && source $HOME/.config/zsh/locale.zsh
-[[ -f $HOME/.config/zsh/limits.zsh ]] && source $HOME/.config/zsh/limits.zsh
-[[ -f $HOME/.config/zsh/bindings.zsh ]] && source $HOME/.config/zsh/bindings.zsh
-[[ -f $HOME/.config/zsh/aliases.zsh ]] && source $HOME/.config/zsh/aliases.zsh
-[[ -f $HOME/.config/zsh/node.zsh ]] && source $HOME/.config/zsh/node.zsh
-[[ -f $HOME/.config/zsh/completions.zsh ]] && source $HOME/.config/zsh/completions.zsh
-[[ -f $HOME/.config/zsh/java.zsh ]] && source $HOME/.config/zsh/java.zsh
-[[ -f $HOME/.config/zsh/python.zsh ]] && source $HOME/.config/zsh/python.zsh
+for zsh_file in \
+  functions.zsh \
+  globals.zsh \
+  display.zsh \
+  locale.zsh \
+  limits.zsh \
+  bindings.zsh \
+  aliases.zsh \
+  node.zsh \
+  completions.zsh \
+  java.zsh \
+  python.zsh
+do
+  [[ -f $HOME/.config/zsh/$zsh_file ]] && source $HOME/.config/zsh/$zsh_file
+done
 
 # android
 export ANDROID_HOME=$HOME/Library/Android/sdk
