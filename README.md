@@ -6,8 +6,6 @@
 
 Scripts, themes, dotfiles — all I need.
 
----
-
 ## 🚀 Quick Start
 
 Run the install script:
@@ -16,8 +14,6 @@ Run the install script:
 curl -L --silent https://install.my.kud.io | zsh
 ```
 
----
-
 ## 💡 Usage
 
 The main command is:
@@ -25,8 +21,6 @@ The main command is:
 ```shell
 £
 ```
-
----
 
 ## 🖼️ Preview
 
