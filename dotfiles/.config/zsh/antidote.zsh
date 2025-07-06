@@ -1,11 +1,11 @@
-################################################################################
-#                                                                              #
-#   🧪 ANTIDOTE PLUGIN MANAGER INITIALIZATION                                  #
-#   ------------------------------------------                                 #
-#   Loads and manages Zsh plugins using Antidote.                              #
-#   https://getantidote.github.io/antidote/                                    #
-#                                                                              #
-################################################################################
+# ################################################################################
+#                                                                                #
+#   � ANTIDOTE PLUGIN MANAGER INITIALISATION                                    #
+#   ------------------------------------------                                   #
+#   Loads and manages Zsh plugins using Antidote.                                #
+#   https://getantidote.github.io/antidote/                                      #
+#                                                                                #
+# ################################################################################
 
 # Load Antidote
 source $(brew --prefix)/share/antidote/antidote.zsh
