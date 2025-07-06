@@ -23,6 +23,7 @@ dotfiles=(
   ".zshrc"
 )
 
+mkdir -p "${ZDOTDIR:-$HOME}/.config/nvim"
 for file in "${dotfiles[@]}"; do
   ln -sf "$MY/dotfiles/$file" "${ZDOTDIR:-$HOME}/$file" 2>/dev/null
 done
