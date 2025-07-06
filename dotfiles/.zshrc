@@ -29,6 +29,8 @@ HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-/usr/local}"
 ################################################################################
 #   🧩 SOURCE MODULAR ZSH FILES (order matters)
 ################################################################################
+
+# Modular Zsh config sourcing (order matters)
 for zsh_file in \
   zprezto.zsh \
   antidote.zsh \
@@ -51,7 +53,8 @@ for zsh_file in \
   babel.zsh \
   fzf.zsh \
   ruby.zsh \
-  path.zsh
+  path.zsh \
+  autosuggestions.zsh
 do
   [[ -f $HOME/.config/zsh/$zsh_file ]] && source $HOME/.config/zsh/$zsh_file
 done
@@ -60,7 +63,16 @@ done
 ################################################################################
 #   🧠 ZSH COMPLETION & ZMV AUTOLOAD
 ################################################################################
-autoload -U compinit && compinit
+
+# Only rebuild completions if needed, otherwise use cached (from Scott Spence's guide)
+autoload -Uz compinit
+
+if [ "$(date +'%j')" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
+    compinit
+else
+    compinit -C
+fi
+
 autoload zmv
 
 ################################################################################
