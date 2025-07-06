@@ -1,27 +1,24 @@
 # My! Oh My!
 
-<img align="right" height="282" height="500" src="everybodydancenow.gif">
+![Everybody Dance Now](everybodydancenow.gif)
 
-My own environment for macOS.<br>
-Scripts, themes, dotfiles.<br>
-All what I need.<br>
+**My own environment for macOS.**
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+Scripts, themes, dotfiles — all I need.
 
-## Run the script and watch the sky!
+---
+
+## 🚀 Quick Start
+
+Run the install script:
 
 ```shell
-curl -L --silent https://install.my.kud.io|zsh
+curl -L --silent https://install.my.kud.io | zsh
 ```
 
-## Usage
+---
+
+## 💡 Usage
 
 The main command is:
 
@@ -29,6 +26,35 @@ The main command is:
 £
 ```
 
-#### Preview
+---
 
-<img src="preview.png">
+## 🖼️ Preview
+
+```
+    ███╗   ███╗██╗   ██╗
+    ████╗ ████║╚██╗ ██╔╝
+    ██╔████╔██║ ╚████╔╝
+    ██║╚██╔╝██║  ╚██╔╝
+    ██║ ╚═╝ ██║   ██║
+    ╚═╝     ╚═╝   ╚═╝
+
+Usage:
+
+    install           Start the installation process
+    update            Update the project
+    ssh               Configure SSH keys for GitHub
+    dotfiles          Update dotfiles
+    symlink           Update symlinks
+    os                Update OS settings
+    fonts             Update fonts
+    firefox           Update Firefox settings
+    keepassxc         Configure KeePassXC settings
+    sublime-merge     Configure Sublime Merge settings
+    aicommits         Configure AI-powered commit messages
+    shims             Create shell command for .app
+    brew-clean        Clean the casks
+    npm-clean         Clean global Node packages
+    doc               Access project documentation
+    edit              Open project in $EDITOR
+    open              Open project directory in Finder
+```
