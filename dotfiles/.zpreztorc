@@ -1,13 +1,12 @@
-#
-# Sets Prezto options.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
 
-#
-# General
-#
+# ──────────────────────────────────────────────
+# Prezto Configuration File
+
+# Main configuration for Prezto modules, options, and styles.
+# ──────────────────────────────────────────────
+
+
+# ────────────── General ──────────────
 
 # Set case-sensitivity for completion, history lookup, etc.
 # zstyle ':prezto:*:*' case-sensitive 'yes'
@@ -42,24 +41,21 @@ zstyle ':prezto:load' pmodule \
   'history-substring-search' \
   'prompt'
 
-#
-# Autosuggestions
-#
+
+# ────────── Autosuggestions ──────────
 
 # Set the query found color.
 # zstyle ':prezto:module:autosuggestions:color' found ''
 
-#
-# Completions
-#
+
+# ─────────── Completions ────────────
 
 # Set the entries to ignore in static */etc/hosts* for host completion.
 # zstyle ':prezto:module:completion:*:hosts' etc-host-ignores \
 #   '0.0.0.0' '127.0.0.1'
 
-#
-# Editor
-#
+
+# ────────────── Editor ──────────────
 
 # Set the key mapping style to 'emacs' or 'vi'.
 zstyle ':prezto:module:editor' key-bindings 'vi'
@@ -70,24 +66,21 @@ zstyle ':prezto:module:editor' dot-expansion 'yes'
 # Allow the zsh prompt context to be shown.
 #zstyle ':prezto:module:editor' ps-context 'yes'
 
-#
-# Git
-#
+
+# ─────────────── Git ────────────────
 
 # Ignore submodules when they are 'dirty', 'untracked', 'all', or 'none'.
 # zstyle ':prezto:module:git:status:ignore' submodules 'all'
 # zstyle ':prezto:module:git:alias' skip 'yes'
 
-#
-# GNU Utility
-#
+
+# ─────────── GNU Utility ────────────
 
 # Set the command prefix on non-GNU systems.
 # zstyle ':prezto:module:gnu-utility' prefix 'g'
 
-#
-# History Substring Search
-#
+
+# ────── History Substring Search ─────
 
 # Set the query found color.
 zstyle ':prezto:module:history-substring-search:color' found ''
@@ -98,23 +91,20 @@ zstyle ':prezto:module:history-substring-search:color' not-found ''
 # Set the search globbing flags.
 zstyle ':prezto:module:history-substring-search' globbing-flags ''
 
-#
-# macOS
-#
+
+# ────────────── macOS ───────────────
 
 # Set the keyword used by `mand` to open man pages in Dash.app
 # zstyle ':prezto:module:osx:man' dash-keyword 'manpages'
 
-#
-# Pacman
-#
+
+# ───────────── Pacman ───────────────
 
 # Set the Pacman frontend.
 # zstyle ':prezto:module:pacman' frontend 'yaourt'
 
-#
-# Prompt
-#
+
+# ────────────── Prompt ──────────────
 
 # Set the prompt theme to load.
 # Setting it to 'random' loads a random theme.
@@ -132,9 +122,8 @@ zstyle ':prezto:module:prompt' pwd-length 'short'
 # return codes. This is not supported by all prompts.
 # zstyle ':prezto:module:prompt' show-return-val 'yes'
 
-#
-# Python
-#
+
+# ────────────── Python ──────────────
 
 # Auto switch the Python virtualenv on directory change.
 # zstyle ':prezto:module:python:virtualenv' auto-switch 'yes'
@@ -142,16 +131,14 @@ zstyle ':prezto:module:prompt' pwd-length 'short'
 # Automatically initialize virtualenvwrapper if pre-requisites are met.
 # zstyle ':prezto:module:python:virtualenv' initialize 'yes'
 
-#
-# Ruby
-#
+
+# ─────────────── Ruby ───────────────
 
 # Auto switch the Ruby version on directory change.
 # zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
 
-#
-# Screen
-#
+
+# ────────────── Screen ──────────────
 
 # Auto start a session when Zsh is launched in a local terminal.
 # zstyle ':prezto:module:screen:auto-start' local 'yes'
@@ -159,16 +146,14 @@ zstyle ':prezto:module:prompt' pwd-length 'short'
 # Auto start a session when Zsh is launched in a SSH connection.
 # zstyle ':prezto:module:screen:auto-start' remote 'yes'
 
-#
-# SSH
-#
+
+# ─────────────── SSH ────────────────
 
 # Set the SSH identities to load into the agent.
 # zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'id_rsa2' 'id_github'
 
-#
-# Syntax Highlighting
-#
+
+# ────── Syntax Highlighting ─────────
 
 # Set syntax highlighters
 
@@ -201,9 +186,8 @@ zstyle ':prezto:module:syntax-highlighting' styles 'path' 'fg=white'
 zstyle ':prezto:module:syntax-highlighting' pattern \
   'rm*-rf*' 'fg=white,bold,bg=red'
 
-#
-# Terminal
-#
+
+# ───────────── Terminal ─────────────
 
 # Auto set the tab and window titles.
 # zstyle ':prezto:module:terminal' auto-title 'yes'
@@ -217,9 +201,8 @@ zstyle ':prezto:module:syntax-highlighting' pattern \
 # Set the terminal multiplexer title format.
 # zstyle ':prezto:module:terminal:multiplexer-title' format '%s'
 
-#
-# Tmux
-#
+
+# ─────────────── Tmux ───────────────
 
 # Auto start a session when Zsh is launched in a local terminal.
 # zstyle ':prezto:module:tmux:auto-start' local 'yes'
@@ -233,9 +216,8 @@ zstyle ':prezto:module:syntax-highlighting' pattern \
 # Set the default session name:
 # zstyle ':prezto:module:tmux:session' name 'YOUR DEFAULT SESSION NAME'
 
-#
-# Utility
-#
+
+# ────────────── Utility ─────────────
 
 # Enabled safe options. This aliases cp, ln, mv and rm so that they prompt
 # before deleting or overwriting files. Set to 'no' to disable this safer
