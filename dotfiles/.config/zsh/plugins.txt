@@ -3,4 +3,4 @@ bigH/git-fuzzy path:bin kind:path
 unixorn/git-extra-commands
 reegnz/jq-zsh-plugin
 zsh-users/zsh-autosuggestions kind:defer
-zdharma-continuum/fast-syntax-highlighting kind:defer
+zsh-users/zsh-syntax-highlighting kind:defer
