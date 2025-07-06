@@ -7,13 +7,25 @@
 #                                                                                #
 # ################################################################################
 
-# Load Antidote
-source $(brew --prefix)/share/antidote/antidote.zsh
+# Ultra high performance Antidote plugin management
+# -----------------------------------------------
+# Uses static plugin files in $ZDOTDIR or $HOME for maximum speed and portability.
 
-# Bundle plugins if not already bundled
-if [[ ! -f ~/.zsh_plugins.zsh ]]; then
-  antidote bundle < ~/.config/zsh/plugins.txt > ~/.zsh_plugins.zsh
+# Set plugin file paths (using ~/.config/zsh/plugins.txt as the source)
+zsh_plugins_txt="$HOME/.config/zsh/plugins.txt"
+zsh_plugins_zsh="$HOME/.zsh_plugins.zsh"
+
+# Ensure the plugins.txt file exists
+[[ -f "$zsh_plugins_txt" ]] || touch "$zsh_plugins_txt"
+
+# Lazy-load Antidote from its functions directory (fastest method)
+fpath=( $(brew --prefix)/share/antidote/functions $fpath )
+autoload -Uz antidote
+
+# Generate a new static file whenever plugins.txt is updated
+if [[ ! -f "$zsh_plugins_zsh" || "$zsh_plugins_txt" -nt "$zsh_plugins_zsh" ]]; then
+  antidote bundle <"$zsh_plugins_txt" >! "$zsh_plugins_zsh"
 fi
 
-# Source bundled plugins
-source ~/.zsh_plugins.zsh
+# Source your static plugins file
+source "$zsh_plugins_zsh"
