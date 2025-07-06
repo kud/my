@@ -1,3 +1,54 @@
 #! /usr/bin/env zsh
 
-find . -type l ! -exec test -e {} \; -print
+# find-all-dead-symlinks: Check or delete broken symlinks in the current directory tree
+#
+#  🕵️  Usage:
+#    find-all-dead-symlinks check    # List all broken symlinks
+#    find-all-dead-symlinks delete   # Delete all broken symlinks (with confirmation)
+#
+#  Examples:
+#    find-all-dead-symlinks          # Default: check mode
+#    find-all-dead-symlinks delete   # Delete mode
+
+set -e
+
+MODE=${1:-check}
+
+case $MODE in
+  check)
+    echo "Listing broken symlinks in $(pwd):"
+    dead_symlinks=($(find . -type l ! -exec test -e {} \; -print))
+    if [[ ${#dead_symlinks[@]} -eq 0 ]]; then
+      echo "No broken symlinks found."
+      exit 0
+    fi
+    printf '%s\n' "${dead_symlinks[@]}"
+    ;;
+  delete)
+    dead_symlinks=($(find . -type l ! -exec test -e {} \; -print))
+    if [[ ${#dead_symlinks[@]} -eq 0 ]]; then
+      echo "No broken symlinks to delete."
+      exit 0
+    fi
+    echo "The following broken symlinks will be deleted:"
+    printf '%s\n' "${dead_symlinks[@]}"
+    echo
+    read "?Proceed to delete these symlinks? [y/N] " ans
+    if [[ $ans == [yY]* ]]; then
+      for symlink in "${dead_symlinks[@]}"; do
+        rm "$symlink"
+      done
+      echo "Broken symlinks deleted."
+    else
+      echo "Aborted."
+    fi
+    ;;
+  *|--help|-h)
+    echo "\n\033[1;36m🕵️  find-all-dead-symlinks\033[0m — Find and optionally delete broken symlinks recursively.\n"
+    echo "\033[1mUsage:\033[0m"
+    echo "  find-all-dead-symlinks check    List all broken symlinks (default)"
+    echo "  find-all-dead-symlinks delete   Delete all broken symlinks (with confirmation)"
+    echo
+    exit 0
+    ;;
+esac
