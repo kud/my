@@ -1,10 +1,10 @@
-################################################################################
-#                                                                              #
-#   🐍 PYTHON ENVIRONMENT INITIALIZATION                                       #
-#   ------------------------------------                                       #
-#   Sets up pyenv, pyenv-virtualenv, and related Python environment variables.  #
-#                                                                              #
-################################################################################
+# ################################################################################
+#                                                                                #
+#   🐍 PYTHON ENVIRONMENT INITIALISATION                                         #
+#   ------------------------------------                                         #
+#   Sets up pyenv, pyenv-virtualenv, and related Python environment variables.   #
+#                                                                                #
+# ################################################################################
 
 # pyenv
 if which pyenv > /dev/null; then
