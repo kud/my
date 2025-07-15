@@ -39,26 +39,46 @@ update_pref "browser.fixup.alternate.enabled" false
 # Disable warning when closing tabs
 update_pref "browser.tabs.warnOnClose" false
 
+# Prevent closing the window when the last tab is closed
+update_pref "browser.tabs.closeWindowWithLastTab" false
+
+# Hide "Firefox View" button
+update_pref "browser.tabs.firefox-view" false
+
+# Show tabs in titlebar
+update_pref "browser.tabs.inTitlebar" 1
+
 # Disable web search in the address bar
 update_pref "keyword.enabled" false
+
+# Hide specific search engines
+update_pref "browser.search.hiddenOneOffs" '"Google,Bing,Amazon.co.uk,Chambers (UK),DuckDuckGo,eBay,Twitter,Wikipedia (en)"'
+
+# Disable search suggestions
+update_pref "browser.search.suggest.enabled" false
+
+# Hide search bar on new tab page
+update_pref "browser.newtabpage.activity-stream.showSearch" false
+
+# Hide sponsored content on new tab page
+update_pref "browser.newtabpage.activity-stream.showSponsored" false
+update_pref "browser.newtabpage.activity-stream.showSponsoredTopSites" false
+
+# Hide top stories and top sites on new tab page
+update_pref "browser.newtabpage.activity-stream.feeds.section.topstories" false
+update_pref "browser.newtabpage.activity-stream.feeds.topsites" false
+
+# Disable new tab page entirely (shows blank)
+update_pref "browser.newtabpage.enabled" false
+
+# Set homepage to blank
+update_pref "browser.startup.homepage" '"about:blank"'
 
 # Enable punycode to prevent phishing
 update_pref "network.IDN_show_punycode" true
 
 # Disable Pocket
 update_pref "extensions.pocket.enabled" false
-
-# Disable search suggestions
-update_pref "browser.search.suggest.enabled" false
-
-# Hide specific search engines
-update_pref "browser.search.hiddenOneOffs" '"Google,Bing,Amazon.co.uk,Chambers (UK),DuckDuckGo,eBay,Twitter,Wikipedia (en)"'
-
-# Prevent closing the window when the last tab is closed
-update_pref "browser.tabs.closeWindowWithLastTab" false
-
-# Allow "resend" network queries
-update_pref "browser.opaqueResponseBlocking.javascriptValidator" false
 
 # Enable auto-hide in fullscreen mode
 update_pref "browser.fullscreen.autohide" true
@@ -92,6 +112,15 @@ update_pref "sidebar.verticalTabs" true
 
 # Enable userChrome.css
 update_pref "toolkit.legacyUserProfileCustomizations.stylesheets" true
+
+# Hide bookmarks bar (set to "never", or use "always" if you want it visible)
+update_pref "browser.toolbars.bookmarks.visibility" '"never"'
+
+# Hide mobile bookmarks in bookmarks menu
+update_pref "browser.bookmarks.showMobileBookmarks" false
+
+# Set spellcheck language (0 = off, 1 = multi-lingual, 2 = single)
+update_pref "layout.spellcheckDefault" 0
 
 # ╔═════════════════════════════════════════════╗
 # ║                Sync Preferences             ║
@@ -324,3 +353,34 @@ echo_success "Containers have been synchronised"
 # Open Firefox Nightly
 sleep 2
 open -a "Firefox Nightly"
+
+
+# Hide bookmarks bar (set to "never", or use "always" if you want it visible)
+update_pref "browser.toolbars.bookmarks.visibility" '"never"'
+
+# Hide mobile bookmarks in bookmarks menu
+update_pref "browser.bookmarks.showMobileBookmarks" false
+
+# Set homepage to blank
+update_pref "browser.startup.homepage" '"about:blank"'
+
+# Hide search bar on new tab page
+update_pref "browser.newtabpage.activity-stream.showSearch" false
+
+# Hide sponsored content on new tab page
+update_pref "browser.newtabpage.activity-stream.showSponsored" false
+update_pref "browser.newtabpage.activity-stream.showSponsoredTopSites" false
+
+# Hide top stories and top sites on new tab page
+update_pref "browser.newtabpage.activity-stream.feeds.section.topstories" false
+update_pref "browser.newtabpage.activity-stream.feeds.topsites" false
+
+# Disable new tab page entirely (shows blank)
+update_pref "browser.newtabpage.enabled" false
+
+# Hide "Firefox View" button
+update_pref "browser.tabs.firefox-view" false
+
+# Set spellcheck language (0 = off, 1 = multi-lingual, 2 = single)
+update_pref "layout.spellcheckDefault" 0
+
