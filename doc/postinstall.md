@@ -35,6 +35,11 @@
 
 ![](./firefox.png)
 
+### Adaptive Tab Bar Colour
+
+![](./firefox-adaptive-colours-1.png)
+![](./firefox-adaptive-colours-2.png)
+
 ## Visual Studio Code
 
 - Enable settings sync via GitHub to access your workspace preferences anywhere.
