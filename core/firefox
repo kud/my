@@ -89,6 +89,10 @@ update_pref "findbar.modalHighlight" false
 # Disable the megabar for URL search
 update_pref "browser.urlbar.megabar" false
 
+# Disable Quick Suggest (sponsored and non-sponsored)
+update_pref "browser.urlbar.suggest.quicksuggest.nonsponsored" false
+update_pref "browser.urlbar.suggest.quicksuggest.sponsored" false
+
 # Enable query stripping for privacy
 update_pref "privacy.query_stripping.enabled" true
 
