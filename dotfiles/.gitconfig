@@ -1,51 +1,19 @@
-[delta "mellow-barbet"]
-    dark = true
-    syntax-theme = base16
-    line-numbers = true
-    side-by-side = true
-    file-style = brightwhite
-    file-decoration-style = none
-    file-added-label = [+]
-    file-copied-label = [==]
-    file-modified-label = [*]
-    file-removed-label = [-]
-    file-renamed-label = [->]
-    hunk-header-decoration-style = "#3e3e43" box ul
-    plus-style = brightgreen black
-    plus-emph-style = black green
-    minus-style = brightred black
-    minus-emph-style = black red
-    line-numbers-minus-style = brightred
-    line-numbers-plus-style = brightgreen
-    line-numbers-left-style = "#3e3e43"
-    line-numbers-right-style = "#3e3e43"
-    line-numbers-zero-style = "#57575f"
-    zero-style = syntax
-    whitespace-error-style = black bold
-    blame-code-style = syntax
-    blame-palette = "#161617" "#1b1b1d" "#2a2a2d" "#3e3e43"
-    merge-conflict-begin-symbol = ~
-    merge-conflict-end-symbol = ~
-    merge-conflict-ours-diff-header-style = yellow bold
-    merge-conflict-ours-diff-header-decoration-style = "#3e3e43" box
-    merge-conflict-theirs-diff-header-style = yellow bold
-    merge-conflict-theirs-diff-header-decoration-style = "#3e3e43" box
 [core]
   whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
   # editor       = subl -n -w
   editor = nvim
   excludesfile = ~/.gitignore_global
   # hooksPath = ~/my/git/hooks
-	ignoreCase = true
-	# pager = diff-so-fancy | less --tabs=4 -RFX
+  ignoreCase = true
+  # pager = diff-so-fancy | less --tabs=4 -RFX
   pager = delta
-	attributesfile = ~/.gitattributes
+  attributesfile = ~/.gitattributes
 [branch]
   autosetuprebase = always
 [push]
   # default = tracking
   default = simple
-	autoSetupRemote = true
+  autoSetupRemote = true
 [filter "hawser"]
   clean = git hawser clean %f
   smudge = git hawser smudge %f
@@ -64,7 +32,7 @@
 [merge]
   ff = false
   conflictstyle = diff3
-	tool = smerge
+  tool = smerge
 [color]
   ui = true
 [color "branch"]
@@ -92,7 +60,7 @@
   markIgnoredLines = true
   markUnblamableLines = true
 [interactive]
-	# diffFilter = diff-so-fancy --patch
+  # diffFilter = diff-so-fancy --patch
   diffFilter = delta --color-only
 [delta]
   features = mellow-barbet
@@ -105,8 +73,45 @@
   true-color = always
   plus-style = syntax "#003800"
   minus-style = syntax "#3f0001"
+[delta "mellow-barbet"]
+  dark = true
+  syntax-theme = base16
+  line-numbers = true
+  side-by-side = true
+  file-style = brightwhite
+  file-decoration-style = none
+  file-added-label = [+]
+  file-copied-label = [==]
+  file-modified-label = [*]
+  file-removed-label = [-]
+  file-renamed-label = [->]
+  hunk-header-decoration-style = "#3e3e43" box ul
+  plus-style = brightgreen black
+  plus-emph-style = black green
+  minus-style = brightred black
+  minus-emph-style = black red
+  line-numbers-minus-style = brightred
+  line-numbers-plus-style = brightgreen
+  line-numbers-left-style = "#3e3e43"
+  line-numbers-right-style = "#3e3e43"
+  line-numbers-zero-style = "#57575f"
+  zero-style = syntax
+  whitespace-error-style = black bold
+  blame-code-style = syntax
+  blame-palette = "#161617" "#1b1b1d" "#2a2a2d" "#3e3e43"
+  merge-conflict-begin-symbol = ~
+  merge-conflict-end-symbol = ~
+  merge-conflict-ours-diff-header-style = yellow bold
+  merge-conflict-ours-diff-header-decoration-style = "#3e3e43" box
+  merge-conflict-theirs-diff-header-style = yellow bold
+  merge-conflict-theirs-diff-header-decoration-style = "#3e3e43" box
 [diff]
   colorMoved = default
+[diff "image"]
+  command = ~/my/modules/git-diff-image/git_diff_image
+[mergetool "smerge"]
+  cmd = smerge mergetool \"$BASE\" \"$LOCAL\" \"$REMOTE\" -o \"$MERGED\"
+  trustExitCode = true
 [alias]
   aa = add -A
   aac = "!git add -A && git commit"
@@ -114,15 +119,15 @@
   aicommit = "!aicommits"
   apc = "!git add -p && git commit"
   br = branch
-  branches-delete = branch-delete
+  branch-current = "branch --show-current"
   branches = branch -avv
+  branches-delete = branch-delete
   branchv = branch -v
   browse = "!gh browse"
   bs = branch-select
   ci = commit
   cleanup = "!git remote prune origin && git repack && git gc"
   co = checkout
-  branch-current = "branch --show-current"
   dash = "!gh dash"
   dc = diff --cached
   df = diff
@@ -157,8 +162,3 @@
   unstash = stash pop
   unwip = "!git reset --soft HEAD~1 && git unstage"
   wip = "!git add -A && git commit -m '🚧 WIP'"
-[diff "image"]
-	command = ~/my/modules/git-diff-image/git_diff_image
-[mergetool "smerge"]
-	cmd = smerge mergetool \"$BASE\" \"$LOCAL\" \"$REMOTE\" -o \"$MERGED\"
-	trustExitCode = true
