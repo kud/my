@@ -26,10 +26,10 @@ caskinstall font-monoid-nerd-font
 caskinstall font-mononoki-nerd-font
 caskinstall font-noto-nerd-font
 caskinstall font-profont-nerd-font
+caskinstall font-symbols-only-nerd-font
 caskinstall font-tinos-nerd-font
 caskinstall font-ubuntu
 caskinstall font-ubuntu-mono-derivative-powerline
 caskinstall font-ubuntu-nerd-font
-caskinstall font-symbols-only-nerd-font
 
 echo_success "Fonts are done!"

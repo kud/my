@@ -21,71 +21,69 @@ npm update -g --quiet
 echo_space
 echo_title_install "global node packages"
 
-npminstall tldr
-npminstall nodemon
-npminstall jake
-npminstall vtop
-npminstall http-server
-npminstall serve
-npminstall hicat # command-line syntax highlighter — https://www.npmjs.com/package/hicat
-npminstall figlet-cli
-npminstall tmi       # too many images
-npminstall trash-cli # can be a conflict with mas dependencies
-npminstall svgo
-npminstall fraktur           # write with great font
-npminstall weinre            # debugger for web pages — http://people.apache.org/~pmuellr/weinre-docs/latest/
-npminstall pageres-cli       # responsive website screenshots — https://github.com/sindresorhus/pageres
-npminstall npm-check-updates # check if npm modules are updated
-npminstall npm-check         # check if npm modules are updated
-npminstall npm-upgrade       # check if npm modules are updated
-npminstall react-native-cli
-npminstall gulp-cli
-npminstall markdown-live
-npminstall caniuse-cmd
-npminstall imagemin
-npminstall speed-test
-npminstall fast-cli
-npminstall localtunnel # expose localhost to world — https://github.com/localtunnel/localtunnel
-# npminstall Automattic/cloudup-cli # cloudup
-npminstall uncss          # remove useless css
-npminstall how2           # stackoverflow from the terminal
-npminstall iterm2-tab-set # set iTerm2 tab color, title, and/or badge
-npminstall gh-pages       # deploy on gh-pages — https://github.com/tschaub/gh-pages
-npminstall diff-so-fancy  # Good-lookin' diffs. Actually… nah… The best-lookin' diffs. — https://github.com/so-fancy/diff-so-fancy
-npminstall fkill-cli      # Fabulously kill processes. — https://github.com/sindresorhus/fkill-cli
-npminstall import-cost
-npminstall gnomon
-npminstall lighthouse # Auditing, performance metrics, and best practices for Progressive Web Apps - https://github.com/GoogleChrome/lighthouse
-npminstall typescript@next
-npminstall prettier
-npminstall ntl  # Npm Task List: Interactive cli menu to list/run npm tasks - https://github.com/ruyadorno/ntl
+npminstall aicommits # Automated AI commit messages for git - https://github.com/Nutlope/aicommits
+npminstall battery-level-cli # Get battery level from the command line - https://github.com/sindresorhus/battery-level-cli
+npminstall bodybuilder # ElasticSearch query body builder - https://github.com/danpaz/bodybuilder
+npminstall caniuse-cmd # Can I use... from the command line - https://github.com/sgentle/caniuse-cmd
+npminstall diff-so-fancy # Good-lookin' diffs for git - https://github.com/so-fancy/diff-so-fancy
+npminstall envinfo # Print environment info for debugging - https://github.com/tabrindle/envinfo
+npminstall eslint # Pluggable JavaScript linter - https://eslint.org/
+npminstall fast-cli # Test your download/upload speed from the command line - https://github.com/sindresorhus/fast-cli
+npminstall figlet-cli # Create ASCII art from text - https://github.com/patorjk/figlet-cli
+npminstall fixme # Find and list FIXME/TODO comments in code - https://www.npmjs.com/package/fixme
+npminstall fkill-cli # Fabulously kill processes - https://github.com/sindresorhus/fkill-cli
+npminstall fraktur # Write with great font in terminal - https://www.npmjs.com/package/fraktur
+npminstall fx # Command-line JSON processing tool - https://github.com/antonmedv/fx
+npminstall gh-pages # Deploy to GitHub Pages - https://github.com/tschaub/gh-pages
+npminstall git-branch-delete # Delete git branches from the CLI - https://github.com/paulirish/git-branch-delete
+npminstall git-branch-select # Select git branches interactively - https://github.com/paulirish/git-branch-select
+npminstall gnomon # Pretty-print timestamps in logs - https://github.com/chronomaniac/gnomon
+npminstall gulp-cli # Command line interface for gulp.js - https://gulpjs.com/
+npminstall hicat # Command-line syntax highlighter - https://www.npmjs.com/package/hicat
+npminstall how2 # Stack Overflow from the terminal - https://github.com/santinic/how2
+npminstall http-server # Simple, zero-config command-line http server - https://github.com/http-party/http-server
+npminstall imagemin # Minify images - https://github.com/imagemin/imagemin
+npminstall import-cost # Display import size in the terminal - https://github.com/wix/import-cost
+npminstall is-up-cli # Check if a website is up - https://github.com/sindresorhus/is-up-cli
+npminstall iterm2-tab-set # Set iTerm2 tab color, title, and/or badge - https://github.com/mbadolato/iterm2-tab-set
+npminstall jake # JavaScript build tool - https://github.com/jakejs/jake
+npminstall jscodeshift # Codemod toolkit for JavaScript - https://github.com/facebook/jscodeshift
 npminstall kmdr # Learn CLI commands with kmdr explain - https://kmdr.sh
-npminstall bodybuilder
-npminstall fixme
-npminstall envinfo
-npminstall vercel
-npminstall jscodeshift
-npminstall fx # https://github.com/antonmedv/fx
-npminstall zx
-npminstall web-ext
-npminstall aicommits
-npminstall opencommit
-npminstall nativefier
-npminstall tslint
-npminstall eslint
-npminstall prettier-plugin-ini
-npminstall envinfo
-npminstall git-branch-select
-npminstall git-branch-delete
-npminstall is-up-cli
-npminstall battery-level-cli
-npminstall open-pip-cli
-npminstall np
+npminstall lighthouse # Auditing, performance metrics, and best practices for Progressive Web Apps - https://github.com/GoogleChrome/lighthouse
+npminstall localtunnel # Expose localhost to the world - https://github.com/localtunnel/localtunnel
+npminstall markdown-live # Live preview markdown files - https://www.npmjs.com/package/markdown-live
+npminstall nativefier # Make any web page a desktop app - https://github.com/nativefier/nativefier
+npminstall nodemon # Monitor for changes and automatically restart node app - https://github.com/remy/nodemon
+npminstall np # Better npm publish - https://github.com/sindresorhus/np
+npminstall npm-check # Check if npm modules are updated - https://github.com/dylang/npm-check
+npminstall npm-check-updates # Find newer versions of dependencies - https://github.com/raineorshine/npm-check-updates
+npminstall npm-upgrade # Upgrade npm dependencies interactively - https://github.com/knownasilya/npm-upgrade
+npminstall ntl # Npm Task List: Interactive cli menu to list/run npm tasks - https://github.com/ruyadorno/ntl
+npminstall open-pip-cli # Open a pip package's PyPI page from the CLI - https://github.com/sindresorhus/open-pip-cli
+npminstall opencommit # AI-powered commit message generator - https://github.com/di-sukharev/opencommit
+npminstall pageres-cli # Responsive website screenshots - https://github.com/sindresorhus/pageres
+npminstall prettier # Opinionated code formatter - https://prettier.io/
+npminstall prettier-plugin-ini # Prettier plugin for INI files - https://github.com/ArnaudBarre/prettier-plugin-ini
+npminstall react-native-cli # React Native command line tools - https://github.com/react-native-community/cli
+npminstall serve # Static file serving and directory listing - https://github.com/vercel/serve
+npminstall speed-test # Test internet connection speed - https://github.com/sindresorhus/speed-test
+npminstall svgo # SVG Optimizer - https://github.com/svg/svgo
+npminstall tldr # Simplified and community-driven man pages - https://github.com/tldr-pages/tldr
+npminstall tmi # Too many images: download all images from a page - https://www.npmjs.com/package/tmi
+npminstall trash-cli # Move files and folders to the trash - https://github.com/sindresorhus/trash-cli
+npminstall tslint # Linter for TypeScript - https://github.com/palantir/tslint
+npminstall typescript@next # TypeScript nightly build - https://github.com/microsoft/TypeScript
+npminstall uncss # Remove unused CSS from your stylesheets - https://github.com/uncss/uncss
+npminstall vercel # Deploy web projects with Vercel - https://vercel.com/docs/cli
+npminstall vtop # Graphical activity monitor for the command line - https://github.com/MrRio/vtop
+npminstall web-ext # Command line tool for web extension development - https://github.com/mozilla/web-ext
+npminstall weinre # Debugger for web pages - http://people.apache.org/~pmuellr/weinre-docs/latest/
+npminstall zx # A tool for writing better scripts - https://github.com/google/zx
 
-npminstall @kud/soap-cli
-npminstall @kud/wifi-tool-cli
 npminstall @kud/am-i-admin-cli
 npminstall @kud/git-cherry-pick-interactive-cli
+npminstall @kud/soap-cli
+npminstall @kud/wifi-tool-cli
 
 # config
 npm config set save-exact true
