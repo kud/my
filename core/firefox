@@ -319,72 +319,70 @@ EOF
 
 echo_success "Containers have been synchronised"
 
-# ╔═════════════════════════════════════════════╗
-# ║        Update Shortcuts in Extensions       ║
-# ╚═════════════════════════════════════════════╝
 
-# Define shortcuts
-# declare -A SHORTCUTS=(
-#     ["open_container_0"]="Alt+Shift+1"
-#     ["open_container_1"]="Alt+Shift+2"
-#     ["open_container_2"]="Alt+Shift+3"
-#     ["open_container_3"]="Alt+Shift+4"
-#     ["open_container_4"]="Alt+Shift+5"
-#     ["open_container_5"]="Alt+Shift+6"
-#     ["open_container_6"]="Alt+Shift+7"
-#     ["open_container_7"]="Alt+Shift+8"
-#     ["open_container_8"]="Alt+Shift+9"
-#     ["open_container_9"]="Alt+Shift+0"
-#     ["copy_tab_as_markdown"]=""
-#     ["download_tab_as_markdown"]=""
-#     ["copy_tab_as_markdown_link"]=""
-#     ["_execute_browser_action"]="Alt+Shift+R"
-#     ["ecs-new-tab-container-1"]="Alt+Shift+1"
-#     ["save_credentials"]="MacCtrl+Shift+S"
-#     ["new_no_container_window_tab"]=""
-#     ["new_temporary_container_tab"]="MacCtrl+Command+T"
-#     ["new_same_container_tab"]=""
-#     ["new_no_container_tab"]=""
-#     ["new_temporary_container_tab_current_url"]=""
-#     ["new_no_history_tab"]=""
-#     ["toggle_isolation"]=""
-#     ["_execute_sidebar_action"]=""
-#     ["save_page"]="Alt+Shift+S"
-#     ["move-tab"]="Alt+Shift+N"
-#     ["sort_tabs"]=""
-# )
+print_firefox_hotkeys_table() {
+  cat <<EOT
+╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║                                   Firefox Extension Hotkeys Overview                                                  ║
+╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣
+║ Extension (Section)                │ Action/Description                                      │ Shortcut               ║
+╟────────────────────────────────────┼─────────────────────────────────────────────────────────┼────────────────────────╢
+║ Easy Container Shortcuts           │ Open a new tab on the current container                 │ ⌘T                     ║
+║                                    │ Open a tab on the first non-default container           │ ⌘1                     ║
+║                                    │ Open a tab on the second non-default container          │ ⌘2                     ║
+║                                    │ Open a tab on the third non-default container           │ ⌘3                     ║
+║                                    │ Open a tab on the fourth non-default container          │ ⌘4                     ║
+║                                    │ Open a tab on the fifth non-default container           │ ⌘5                     ║
+║                                    │ Open a tab on the sixth non-default container           │ ⌘6                     ║
+║                                    │ Open a tab on the seventh non-default container         │ ⌘7                     ║
+║                                    │ Open a tab on the eighth non-default container          │ ⌘8                     ║
+║                                    │ Open a tab on the ninth non-default container           │ ⌘9                     ║
+║                                    │ Reopen the current tab on the default container         │ ⌘0                     ║
+║                                    │ Reopen the current tab on the first non-default cont.   │ ⌘⇧1                    ║
+║                                    │ Reopen the current tab on the second non-default cont.  │ ⌘⇧2                    ║
+║                                    │ Reopen the current tab on the third non-default cont.   │ ⌘⇧3                    ║
+║                                    │ Reopen the current tab on the fourth non-default cont.  │ ⌘⇧4                    ║
+║                                    │ Reopen the current tab on the fifth non-default cont.   │ ⌘⇧5                    ║
+║                                    │ Reopen the current tab on the sixth non-default cont.   │ ⌘⇧6                    ║
+║                                    │ Reopen the current tab on the seventh non-default cont. │ ⌘⇧7                    ║
+║                                    │ Reopen the current tab on the eighth non-default cont.  │ ⌘⇧8                    ║
+║                                    │ Reopen the current tab on the ninth non-default cont.   │ ⌘⇧9                    ║
+║                                    │ Open a new window on the current container              │ ⌥T                     ║
+║                                    │ Open a window on the first non-default container        │ ⌥1                     ║
+║                                    │ Open a window on the second non-default container       │ ⌥2                     ║
+║                                    │ Open a window on the third non-default container        │ ⌥3                     ║
+║                                    │ Open a window on the fourth non-default container       │ ⌥4                     ║
+║                                    │ Open a window on the fifth non-default container        │ ⌥5                     ║
+║                                    │ Open a window on the sixth non-default container        │ ⌥6                     ║
+║                                    │ Open a window on the seventh non-default container      │ ⌥7                     ║
+║                                    │ Open a window on the eighth non-default container       │ ⌥8                     ║
+║                                    │ Open a window on the ninth non-default container        │ ⌥9                     ║
+║                                    │                                                         │                        ║
+║ Firefox Multi-Account Containers   │ Open container panel                                    │ ^Period                ║
+║                                    │                                                         │                        ║
+║ Email Address Plus                 │ Copy labeled email address                              │ ⇧⌘Y                    ║
+║                                    │                                                         │                        ║
+║ Move Tab to Next Window            │ Move Tab to Next Window                                 │ ⇧⌥N                    ║
+║                                    │                                                         │                        ║
+║ Raindrop.io                        │ Bookmark / Save highlights                              │ ⇧⌥S                    ║
+║                                    │ Open sidebar                                            │ ⌘Period                ║
+║                                    │                                                         │                        ║
+║ Readwise Highlighter               │ Activate toolbar button                                 │ ⌥R                     ║
+║                                    │                                                         │                        ║
+║ KeePassXC-Browser                  │ Fill Username and Password                              │ ⇧^U                    ║
+║                                    │ Fill Password Only                                      │ ⇧^I                    ║
+║                                    │ Fill TOTP                                               │ ⇧^O                    ║
+║                                    │ Show Password Generator                                 │ ⇧^G                    ║
+║                                    │ Save Credentials                                        │ ⇧^S                    ║
+╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+See Firefox > Add-ons (about:addons) > Manage Extension Shortcuts for editing.
+EOT
+}
+
+# Print the hotkeys table before launching Firefox
+print_firefox_hotkeys_table
 
 # Open Firefox Nightly
 sleep 2
 open -a "Firefox Nightly"
-
-
-# Hide bookmarks bar (set to "never", or use "always" if you want it visible)
-update_pref "browser.toolbars.bookmarks.visibility" '"never"'
-
-# Hide mobile bookmarks in bookmarks menu
-update_pref "browser.bookmarks.showMobileBookmarks" false
-
-# Set homepage to blank
-update_pref "browser.startup.homepage" '"about:blank"'
-
-# Hide search bar on new tab page
-update_pref "browser.newtabpage.activity-stream.showSearch" false
-
-# Hide sponsored content on new tab page
-update_pref "browser.newtabpage.activity-stream.showSponsored" false
-update_pref "browser.newtabpage.activity-stream.showSponsoredTopSites" false
-
-# Hide top stories and top sites on new tab page
-update_pref "browser.newtabpage.activity-stream.feeds.section.topstories" false
-update_pref "browser.newtabpage.activity-stream.feeds.topsites" false
-
-# Disable new tab page entirely (shows blank)
-update_pref "browser.newtabpage.enabled" false
-
-# Hide "Firefox View" button
-update_pref "browser.tabs.firefox-view" false
-
-# Set spellcheck language (0 = off, 1 = multi-lingual, 2 = single)
-update_pref "layout.spellcheckDefault" 0
-
