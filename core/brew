@@ -58,7 +58,6 @@ brewinstall htop
 brewinstall iftop
 brewinstall less # because the macOS built-in version is old
 brewinstall make
-brewinstall mitmproxy
 brewinstall mozjpeg
 brewinstall ncdu
 brewinstall fastfetch # system information
@@ -146,7 +145,6 @@ brewinstall fd
 brewinstall ripgrep
 brewinstall fzf
 brewinstall zoxide
-brewinstall font-symbols-only-nerd-font
 brewinstall dust
 brewinstall xcodes
 brewinstall biome
@@ -173,6 +171,7 @@ caskinstall image2icon
 caskinstall imageoptim
 caskinstall insomnia # REST Client — https://insomnia.rest/
 caskinstall iterm2@nightly
+caskinstall mitmproxy
 # caskinstall kap
 caskinstall cap
 caskinstall keepassxc

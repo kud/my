@@ -3,8 +3,6 @@ source $MY/core/helper
 
 echo_title_install "fonts"
 
-brewtap homebrew/cask-fonts
-
 cp ${SYNC_FOLDER}/Lib/fonts/Operator\ Mono/* ~/Library/Fonts &>/dev/null
 cp ${SYNC_FOLDER}/Lib/fonts/Operator\ Mono\ Lig/* ~/Library/Fonts &>/dev/null
 
@@ -32,5 +30,6 @@ caskinstall font-tinos-nerd-font
 caskinstall font-ubuntu
 caskinstall font-ubuntu-mono-derivative-powerline
 caskinstall font-ubuntu-nerd-font
+caskinstall font-symbols-only-nerd-font
 
 echo_success "Fonts are done!"
