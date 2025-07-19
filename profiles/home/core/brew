@@ -13,7 +13,7 @@ echo_title_install "apps @ $OS_PROFILE"
 
 caskinstall notion
 caskinstall whatsapp
-caskinstall todoist
+caskinstall todoist-app
 caskinstall gswitch
 caskinstall darktable
 caskinstall deluge

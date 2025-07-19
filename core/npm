@@ -78,7 +78,6 @@ npminstall envinfo
 npminstall git-branch-select
 npminstall git-branch-delete
 npminstall is-up-cli
-npminstall brightness-cli
 npminstall battery-level-cli
 npminstall open-pip-cli
 npminstall np
