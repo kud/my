@@ -12,6 +12,6 @@ brewinstall jira-cli
 echo_space
 echo_title_install "apps @ $OS_PROFILE"
 
-caskinstall eloston-chromium
-caskinstall neo4j
-caskinstall redisinsight
+caskinstall eloston-chromium # Privacy-focused, open-source Chromium browser - https://chromium.woolyss.com/
+caskinstall neo4j # Graph database management system - https://neo4j.com/download/
+caskinstall redisinsight # GUI for Redis database - https://redis.com/redis-enterprise/redis-insight/

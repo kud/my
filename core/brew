@@ -35,195 +35,257 @@ echo_space
 echo_title_update "brew"
 brew update && brew upgrade
 
-## install brew packages
-echo_space
-echo_title_install "brew packages"
 
-### tap
+###################################################################################################
+# 🏗️  BREW PACKAGES (FORMULAE)
+###################################################################################################
+
+################################################################################
+# 🔗 Tap Repositories
+################################################################################
 brewtap sdkman/tap
 
-### system
-brewinstall autojump
-brewinstall brightness
-brewinstall lsd # Modern replacement for 'ls'
-brewinstall exiftool
-brewinstall fd
-brewinstall ffmpeg
-brewinstall fzf
-brewinstall gifsicle
-brewinstall gnu-sed
-brewinstall grep
-brewinstall htmlcompressor
-brewinstall htop
-brewinstall iftop
-brewinstall less # because the macOS built-in version is old
-brewinstall make
-brewinstall mozjpeg
-brewinstall ncdu
-brewinstall fastfetch # system information
-brewinstall p7zip
-brewinstall pcre2
-brewinstall pv
-brewinstall pwgen
-brewinstall rename
-brewinstall ripgrep
-brewinstall ssh-copy-id
-brewinstall tree
-brewinstall z
+################################################################################
+# 🖥️  System Utilities
+################################################################################
+brewinstall autojump # Directory jumping utility - https://github.com/wting/autojump
+brewinstall brightness # Adjust display brightness - https://github.com/nriley/brightness
+brewinstall exiftool # Read/write meta information in files - https://exiftool.org/
+brewinstall fastfetch # System information tool - https://github.com/fastfetch-cli/fastfetch
+brewinstall fd # Simple, fast and user-friendly alternative to 'find' - https://github.com/sharkdp/fd
+brewinstall ffmpeg # Video/audio converter - https://ffmpeg.org/
+brewinstall fzf # Fuzzy finder - https://github.com/junegunn/fzf
+brewinstall gifsicle # GIF image tools - https://www.lcdf.org/gifsicle/
+brewinstall gnu-sed # GNU version of sed - https://www.gnu.org/software/sed/
+brewinstall grep # GNU grep - https://www.gnu.org/software/grep/
+brewinstall htmlcompressor # HTML compressor - https://github.com/google/htmlcompressor
+brewinstall htop # Interactive process viewer - https://htop.dev/
+brewinstall iftop # Network bandwidth monitor - https://www.ex-parrot.com/pdw/iftop/
+brewinstall less # Pager program (newer than macOS default) - https://www.greenwoodsoftware.com/less/
+brewinstall lsd # Modern replacement for 'ls' - https://github.com/lsd-rs/lsd
+brewinstall make # Build automation tool - https://www.gnu.org/software/make/
+brewinstall mozjpeg # Improved JPEG encoder - https://github.com/mozilla/mozjpeg
+brewinstall ncdu # Disk usage analyzer - https://dev.yorhel.nl/ncdu
+brewinstall p7zip # 7-Zip file archiver - https://sourceforge.net/projects/p7zip/
+brewinstall pcre2 # Perl Compatible Regular Expressions - https://www.pcre.org/
+brewinstall pv # Monitor data progress through a pipe - https://www.ivarch.com/programs/pv.shtml
+brewinstall pwgen # Password generator - https://github.com/tytso/pwgen
+brewinstall rename # File renaming utility - https://plasmasturm.org/code/rename/
+brewinstall ripgrep # Fast search tool like grep - https://github.com/BurntSushi/ripgrep
+brewinstall ssh-copy-id # Install SSH keys on a server - https://www.openssh.com/
+brewinstall tree # Directory listing in tree format - http://mama.indstate.edu/users/ice/tree/
+brewinstall z # Directory jumping - https://github.com/rupa/z
 
-### network
-brewinstall curl
-brewinstall dnsmasq
-brewinstall lsof
-brewinstall mtr
-brewinstall rclone
-brewinstall rsync
-brewinstall syncthing
-brewinstall tcpflow # analyse tcp requests
-brewinstall wget
+################################################################################
+# 🌐 Networking Tools
+################################################################################
+brewinstall curl # Data transfer tool - https://curl.se/
+brewinstall dnsmasq # Lightweight DNS/DHCP server - https://thekelleys.org.uk/dnsmasq/doc.html
+brewinstall lsof # List open files - https://github.com/lsof-org/lsof
+brewinstall mtr # Network diagnostic tool - https://www.bitwizard.nl/mtr/
+brewinstall rclone # Sync files to cloud storage - https://rclone.org/
+brewinstall rsync # Fast file transfer/sync - https://rsync.samba.org/
+brewinstall syncthing # Continuous file sync - https://syncthing.net/
+brewinstall tcpflow # Analyze TCP traffic - https://github.com/simsong/tcpflow
+brewinstall wget # Network downloader - https://www.gnu.org/software/wget/
 
-### git
-brewinstall gh
-gh extension install dlvhdr/gh-dash
-brewinstall git
-brewinstall git-delta
-brewinstall lazygit
-brewinstall spr
-brewinstall tig
+################################################################################
+# 🗂️  Git & Version Control
+################################################################################
+brewinstall gh # GitHub CLI - https://cli.github.com/
+gh extension install dlvhdr/gh-dash # GitHub project dashboard - https://github.com/dlvhdr/gh-dash
+brewinstall git # Distributed version control - https://git-scm.com/
+brewinstall git-delta # Syntax-highlighting pager for git - https://github.com/dandavison/delta
+brewinstall lazygit # Simple terminal UI for git - https://github.com/jesseduffield/lazygit
+brewinstall spr # GitHub PR helper - https://github.com/samhh/spr
+brewinstall tig # Text-mode interface for git - https://jonas.github.io/tig/
 
-### editors
-brewinstall neovim
-brewinstall vim
+################################################################################
+# ✍️  Editors
+################################################################################
+brewinstall neovim # Modern Vim-based editor - https://neovim.io/
+brewinstall vim # Classic text editor - https://www.vim.org/
 
-### languages
-brewinstall readline # needed for python
-brewinstall xz       # needed for python
-brewinstall zlib     # needed for python
+################################################################################
+# 🧑‍💻 Programming Languages & Runtimes
+################################################################################
+brewinstall readline # GNU readline library (needed for Python) - https://tiswww.case.edu/php/chet/readline/rltop.html
+brewinstall xz # Compression library (needed for Python) - https://tukaani.org/xz/
+brewinstall zlib # Compression library (needed for Python) - https://zlib.net/
 
-### others
-brewinstall antidote
-brewinstall asciinema
-brewinstall bat # https://github.com/sharkdp/bat
-brewinstall duf
-brewinstall fnm
-brewinstall glow
-brewinstall gnupg
-brewinstall heroku
-brewinstall httpie
-brewinstall imagemagick
-brewinstall ipcalc
-brewinstall jesseduffield/lazynpm/lazynpm
-brewinstall jless
-brewinstall jq
-brewinstall jnv
-brewinstall mas # Mac App Store command line interface - https://github.com/mas-cli/mas
-brewinstall trdsql
-brewinstall node
-brew link --overwrite node # @TODO: need to understand why this is needed
-# brewinstall openjdk
-# sudo ln -sfn ${HOMEBREW_PREFIX}/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
-brewinstall openssl@3
-brewinstall pandoc
-brewinstall pyenv
-brewinstall pyenv-virtualenv
-brewinstall python@3.11 # however, will be installed via pyenv after
-brewinstall ruby
-brewinstall frum
-brewinstall subversion # for Ubuntu fonts
-brewinstall yarn
-brewinstall yt-dlp
-brewinstall molovo/revolver/revolver
-brewinstall switchaudio-osx
-brewinstall sdkman-cli
-brewinstall git-recent
-brewinstall yazi
-brewinstall ffmpegthumbnailer
-brewinstall unar
-brewinstall jq
-brewinstall poppler
-brewinstall fd
-brewinstall ripgrep
-brewinstall fzf
-brewinstall zoxide
-brewinstall dust
-brewinstall xcodes
-brewinstall biome
+################################################################################
+# 🧰 Other Tools & Utilities
+################################################################################
+brewinstall antidote # Zsh plugin manager - https://getantidote.github.io/
+brewinstall asciinema # Terminal session recorder - https://asciinema.org/
+brewinstall bat # Cat clone with syntax highlighting - https://github.com/sharkdp/bat
+brewinstall biome # Code formatter & linter - https://biomejs.dev/
+brewinstall duf # Disk usage/free utility - https://github.com/muesli/duf
+brewinstall dust # More intuitive du - https://github.com/bootandy/dust
+brewinstall ffmpegthumbnailer # Create thumbnails from videos - https://github.com/dirkvdb/ffmpegthumbnailer
+brewinstall fnm # Fast Node.js version manager - https://github.com/Schniz/fnm
+brewinstall font-symbols-only-nerd-font # Nerd Font symbols - https://github.com/ryanoasis/nerd-fonts
+brewinstall frum # Fast Ruby version manager - https://github.com/TaKO8Ki/frum
+brewinstall git-recent # Show your most recent git branches - https://github.com/paulirish/git-recent
+brewinstall glow # Markdown renderer in terminal - https://github.com/charmbracelet/glow
+brewinstall gnupg # OpenPGP encryption tool - https://gnupg.org/
+brewinstall heroku # Heroku CLI - https://devcenter.heroku.com/articles/heroku-cli
+brewinstall httpie # User-friendly HTTP client - https://httpie.io/
+brewinstall imagemagick # Image manipulation tools - https://imagemagick.org/
+brewinstall ipcalc # IP address calculator - http://jodies.de/ipcalc
+brewinstall jesseduffield/lazynpm/lazynpm # Terminal UI for npm - https://github.com/jesseduffield/lazynpm
+brewinstall jless # Command-line JSON viewer - https://pauljuliusmartinez.github.io/jless/
+brewinstall jnv # Explore JSON interactively - https://github.com/ynqa/jnv
+brewinstall jq # Command-line JSON processor - https://stedolan.github.io/jq/
+brewinstall mas # Mac App Store CLI - https://github.com/mas-cli/mas
+brewinstall molovo/revolver/revolver # Zsh prompt theme engine - https://github.com/molovo/revolver
+brewinstall node # Node.js runtime - https://nodejs.org/
+brewinstall openssl@3 # SSL/TLS toolkit - https://www.openssl.org/
+brewinstall pandoc # Document converter - https://pandoc.org/
+brewinstall poppler # PDF rendering tools - https://poppler.freedesktop.org/
+brewinstall pyenv # Python version manager - https://github.com/pyenv/pyenv
+brewinstall pyenv-virtualenv # Python virtualenv plugin for pyenv - https://github.com/pyenv/pyenv-virtualenv
+brewinstall python@3.11 # Python 3.11 (will be managed by pyenv) - https://www.python.org/
+brewinstall ruby # Ruby language - https://www.ruby-lang.org/
+brewinstall sdkman-cli # SDK manager for JVM languages - https://sdkman.io/
+brewinstall subversion # Version control (for Ubuntu fonts) - https://subversion.apache.org/
+brewinstall switchaudio-osx # Audio output switcher - https://github.com/deweller/switchaudio-osx
+brewinstall trdsql # Execute SQL on CSV/TSV/JSON - https://github.com/noborus/trdsql
+brewinstall unar # Extractor for many archive formats - https://theunarchiver.com/command-line
+brewinstall xcodes # Install and manage Xcode versions - https://github.com/XcodesOrg/xcodes
+brewinstall yarn # JavaScript package manager - https://yarnpkg.com/
+brewinstall yazi # Blazing fast terminal file manager - https://github.com/sxyazi/yazi
+brewinstall yt-dlp # YouTube downloader - https://github.com/yt-dlp/yt-dlp
 
-## install apps
-echo_space
-echo_title_install "apps"
 
-caskinstall altair-graphql-client
-caskinstall android-file-transfer
-caskinstall android-studio
-caskinstall android-commandlinetools
-caskinstall jordanbaird-ice
-caskinstall cleanshot
-caskinstall discord
-caskinstall etrecheckpro
-caskinstall firefox@nightly
-caskinstall fliqlo
-caskinstall flux-app
-caskinstall google-chrome@canary
-caskinstall grandperspective
-caskinstall hyperkey
-caskinstall image2icon
-caskinstall imageoptim
-caskinstall insomnia # REST Client — https://insomnia.rest/
-caskinstall iterm2@nightly
-caskinstall mitmproxy
-# caskinstall kap
-caskinstall cap
-caskinstall keepassxc
-caskinstall loom
-caskinstall macmediakeyforwarder
-# caskinstall mark-text # https://marktext.github.io/website/
-# caskinstall meetingbar
-caskinstall min
-caskinstall monitorcontrol
-caskinstall monodraw
-caskinstall obsidian
-caskinstall openmtp
-caskinstall osquery
-caskinstall pika
-caskinstall pixelsnap
-caskinstall prefs-editor
-caskinstall proxyman
-caskinstall qr-journal
-caskinstall raycast
-# caskinstall rectangle
-# caskinstall removebg
-# caskinstall rocket
-caskinstall runjs
-caskinstall signal
-caskinstall slack
-caskinstall spotify
-caskinstall sublime-merge@dev
-caskinstall visual-studio-code
-caskinstall vlc
-caskinstall xcodes-app
-caskinstall xquartz
-# caskinstall xrg
-caskinstall stats
-caskinstall react-native-debugger
-caskinstall minisim
-caskinstall middleclick
-caskinstall upscayl
-caskinstall syncthing-app
-caskinstall notion-calendar
-caskinstall espanso
+###################################################################################################
+# 🍺 CASK PACKAGES (APPS & PLUGINS)
+###################################################################################################
 
-# quicklook plugins
-caskinstall qlcolorcode
-caskinstall qlmarkdown
-caskinstall qlprettypatch
-caskinstall qlstephen
-caskinstall qlvideo
-caskinstall quicklook-csv
-caskinstall quicklook-json
-caskinstall quicklookase
-caskinstall suspicious-package
+################################################################################
+# ⚡ Productivity & Utilities
+################################################################################
+caskinstall altair-graphql-client # GraphQL client - https://altair.sirmuel.design/
+caskinstall android-commandlinetools # Android SDK command-line tools - https://developer.android.com/studio
+caskinstall android-studio # Android IDE - https://developer.android.com/studio
+caskinstall cap # Screenshot utility - https://github.com/lvillani/cap
+caskinstall cleanshot # Screenshot tool - https://cleanshot.com/
+caskinstall discord # Chat for communities - https://discord.com/
+caskinstall espanso # Text expander - https://espanso.org/
+caskinstall etrecheckpro # Mac diagnostics - https://etrecheck.com/
+caskinstall firefox@nightly # Firefox Nightly browser - https://www.mozilla.org/firefox/channel/desktop/#nightly
+caskinstall fliqlo # Flip clock screensaver - https://fliqlo.com/
+caskinstall flux-app # Adjusts display color temperature - https://justgetflux.com/
+caskinstall google-chrome@canary # Chrome Canary browser - https://www.google.com/chrome/canary/
+caskinstall grandperspective # Disk usage visualizer - https://grandperspectiv.sourceforge.io/
+caskinstall hyperkey # Remap keys - https://hyperkey.app/
+caskinstall image2icon # Create icons from images - https://www.img2icnsapp.com/
+caskinstall imageoptim # Image optimizer - https://imageoptim.com/
+caskinstall insomnia # REST Client - https://insomnia.rest/
+caskinstall iterm2@nightly # Terminal emulator - https://iterm2.com/
+caskinstall jordanbaird-ice # ICE: Clipboard manager - https://github.com/jordanbaird/ICE
+caskinstall keepassxc # Password manager - https://keepassxc.org/
+caskinstall loom # Video messaging - https://www.loom.com/
+caskinstall macmediakeyforwarder # Media key forwarding - https://github.com/milgra/macmediakeyforwarder
+caskinstall middleclick # Middle click for Mac trackpads - https://middleclick.app/
+caskinstall min # Minimal web browser - https://minbrowser.org/
+caskinstall minisim # Mobile device simulator - https://github.com/zydeco/minisim
+caskinstall mitmproxy # Intercepting proxy for HTTP/S - https://mitmproxy.org/
+caskinstall monitorcontrol # Control external monitor brightness - https://github.com/MonitorControl/MonitorControl
+caskinstall monodraw # ASCII art editor - https://monodraw.helftone.com/
+caskinstall notion-calendar # Notion calendar app - https://www.notion.so/product/calendar
+caskinstall obsidian # Knowledge base & note-taking - https://obsidian.md/
+caskinstall openmtp # Android file transfer - https://openmtp.ganeshrvel.com/
+caskinstall osquery # SQL-powered operating system instrumentation - https://osquery.io/
+caskinstall pika # Color picker - https://pika.style/
+caskinstall pixelsnap # Measure anything on screen - https://getpixelsnap.com/
+caskinstall prefs-editor # Edit app preferences - https://github.com/knollsoft/prefs-editor
+caskinstall proxyman # Web debugging proxy - https://proxyman.io/
+caskinstall qr-journal # QR code scanner - https://github.com/marcboquet/QRJournal
+caskinstall raycast # Productivity launcher - https://www.raycast.com/
+caskinstall react-native-debugger # Debugger for React Native - https://github.com/jhen0409/react-native-debugger
+caskinstall runjs # JavaScript playground - https://runjs.app/
+caskinstall signal # Encrypted messaging - https://signal.org/
+caskinstall slack # Team chat - https://slack.com/
+caskinstall spotify # Music streaming - https://spotify.com/
+caskinstall stats # System monitor - https://github.com/exelban/stats
+caskinstall sublime-merge@dev # Git GUI - https://www.sublimemerge.com/
+caskinstall syncthing-app # Syncthing GUI - https://github.com/syncthing/syncthing-macos
+caskinstall upscayl # AI image upscaler - https://upscayl.org/
+caskinstall visual-studio-code # Code editor - https://code.visualstudio.com/
+caskinstall vlc # Media player - https://www.videolan.org/vlc/
+caskinstall xcodes-app # Manage Xcode installations - https://xcodes.dev/
+caskinstall xquartz # X11 windowing system - https://www.xquartz.org/
 
+################################################################################
+# 👁️ QuickLook Plugins
+################################################################################
+caskinstall qlcolorcode # Syntax highlighting in Quick Look - https://github.com/anthonygelibert/QLColorCode
+caskinstall qlmarkdown # Markdown preview in Quick Look - https://github.com/toland/qlmarkdown
+caskinstall qlprettypatch # Patch preview in Quick Look - https://github.com/atnan/QLPrettyPatch
+caskinstall qlstephen # Plain text preview in Quick Look - https://github.com/whomwah/qlstephen
+caskinstall qlvideo # Video preview in Quick Look - https://github.com/QLVideo/QLVideo
+caskinstall quicklook-csv # CSV preview in Quick Look - https://github.com/p2/quicklook-csv
+caskinstall quicklook-json # JSON preview in Quick Look - https://github.com/sindresorhus/quicklook-json
+caskinstall quicklookase # Adobe Swatch Exchange preview - https://github.com/andrewsardone/quicklookase
+caskinstall suspicious-package # Inspect installer packages - https://www.mothersruin.com/software/SuspiciousPackage/
+
+############################################################
+# 🖥️  Productivity & Utilities
+############################################################
+caskinstall altair-graphql-client # GraphQL client - https://altair.sirmuel.design/
+caskinstall android-commandlinetools # Android SDK command-line tools - https://developer.android.com/studio
+caskinstall android-studio # Android IDE - https://developer.android.com/studio
+caskinstall cap # Screenshot utility - https://github.com/lvillani/cap
+caskinstall cleanshot # Screenshot tool - https://cleanshot.com/
+caskinstall discord # Chat for communities - https://discord.com/
+caskinstall espanso # Text expander - https://espanso.org/
+caskinstall etrecheckpro # Mac diagnostics - https://etrecheck.com/
+caskinstall firefox@nightly # Firefox Nightly browser - https://www.mozilla.org/firefox/channel/desktop/#nightly
+caskinstall fliqlo # Flip clock screensaver - https://fliqlo.com/
+caskinstall flux-app # Adjusts display color temperature - https://justgetflux.com/
+caskinstall google-chrome@canary # Chrome Canary browser - https://www.google.com/chrome/canary/
+caskinstall grandperspective # Disk usage visualizer - https://grandperspectiv.sourceforge.io/
+caskinstall hyperkey # Remap keys - https://hyperkey.app/
+caskinstall image2icon # Create icons from images - https://www.img2icnsapp.com/
+caskinstall imageoptim # Image optimizer - https://imageoptim.com/
+caskinstall insomnia # REST Client - https://insomnia.rest/
+caskinstall iterm2@nightly # Terminal emulator - https://iterm2.com/
+caskinstall jordanbaird-ice # ICE: Clipboard manager - https://github.com/jordanbaird/ICE
+caskinstall keepassxc # Password manager - https://keepassxc.org/
+caskinstall loom # Video messaging - https://www.loom.com/
+caskinstall macmediakeyforwarder # Media key forwarding - https://github.com/milgra/macmediakeyforwarder
+caskinstall middleclick # Middle click for Mac trackpads - https://middleclick.app/
+caskinstall min # Minimal web browser - https://minbrowser.org/
+caskinstall minisim # Mobile device simulator - https://github.com/zydeco/minisim
+caskinstall mitmproxy # Intercepting proxy for HTTP/S - https://mitmproxy.org/
+caskinstall monitorcontrol # Control external monitor brightness - https://github.com/MonitorControl/MonitorControl
+caskinstall monodraw # ASCII art editor - https://monodraw.helftone.com/
+caskinstall notion-calendar # Notion calendar app - https://www.notion.so/product/calendar
+caskinstall obsidian # Knowledge base & note-taking - https://obsidian.md/
+caskinstall openmtp # Android file transfer - https://openmtp.ganeshrvel.com/
+caskinstall osquery # SQL-powered operating system instrumentation - https://osquery.io/
+caskinstall pika # Color picker - https://pika.style/
+caskinstall pixelsnap # Measure anything on screen - https://getpixelsnap.com/
+caskinstall prefs-editor # Edit app preferences - https://github.com/knollsoft/prefs-editor
+caskinstall proxyman # Web debugging proxy - https://proxyman.io/
+caskinstall qr-journal # QR code scanner - https://github.com/marcboquet/QRJournal
+caskinstall raycast # Productivity launcher - https://www.raycast.com/
+caskinstall react-native-debugger # Debugger for React Native - https://github.com/jhen0409/react-native-debugger
+caskinstall runjs # JavaScript playground - https://runjs.app/
+caskinstall signal # Encrypted messaging - https://signal.org/
+caskinstall slack # Team chat - https://slack.com/
+caskinstall spotify # Music streaming - https://spotify.com/
+caskinstall stats # System monitor - https://github.com/exelban/stats
+caskinstall sublime-merge@dev # Git GUI - https://www.sublimemerge.com/
+caskinstall syncthing-app # Syncthing GUI - https://github.com/syncthing/syncthing-macos
+caskinstall upscayl # AI image upscaler - https://upscayl.org/
+caskinstall visual-studio-code # Code editor - https://code.visualstudio.com/
+caskinstall vlc # Media player - https://www.videolan.org/vlc/
+caskinstall xcodes-app # Manage Xcode installations - https://xcodes.dev/
+caskinstall xquartz # X11 windowing system - https://www.xquartz.org/
+
+brew link --overwrite node # Ensure node is linked
 xattr -d -r com.apple.quarantine ~/Library/QuickLook # remove quarantine attr since Catalina
 
 source $MY/profiles/$OS_PROFILE/core/brew 2>/dev/null
