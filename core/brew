@@ -135,7 +135,6 @@ brewinstall yarn
 brewinstall yt-dlp
 brewinstall molovo/revolver/revolver
 brewinstall switchaudio-osx
-brewinstall espanso
 brewinstall sdkman-cli
 brewinstall git-recent
 brewinstall yazi
@@ -166,7 +165,7 @@ caskinstall discord
 caskinstall etrecheckpro
 caskinstall firefox@nightly
 caskinstall fliqlo
-caskinstall flux
+caskinstall flux-app
 caskinstall google-chrome@canary
 caskinstall grandperspective
 caskinstall hyperkey
@@ -203,17 +202,17 @@ caskinstall spotify
 caskinstall sublime-merge@dev
 caskinstall visual-studio-code
 caskinstall vlc
-caskinstall xcodes
+caskinstall xcodes-app
 caskinstall xquartz
 # caskinstall xrg
 caskinstall stats
-caskinstall zulu11
 caskinstall react-native-debugger
 caskinstall minisim
 caskinstall middleclick
 caskinstall upscayl
-caskinstall syncthing
+caskinstall syncthing-app
 caskinstall notion-calendar
+caskinstall espanso
 
 # quicklook plugins
 caskinstall qlcolorcode
