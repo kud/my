@@ -35,6 +35,9 @@ echo_space
 echo_title_update "brew"
 brew update && brew upgrade
 
+# Initialize brew cache for faster package checking
+init_brew_cache
+
 
 ###################################################################################################
 # 🏗️  BREW PACKAGES (FORMULAE)
