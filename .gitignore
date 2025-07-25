@@ -1,2 +1,4 @@
 modules/*
 !modules/.gitkeep
+node_modules/
+*.log
