@@ -85,8 +85,22 @@ function brewtap() {
 }
 
 function brewinstall() {
-  brew install "${@}"
-  brew upgrade "${@}"
+  local package="${@}"
+
+  # Check if already installed and up-to-date
+  if brew list --formula | grep -q "^${package}$" && ! brew outdated | grep -q "^${package}$"; then
+    echo_subtle "✓ ${package} (already installed and up-to-date)"
+    return 0
+  fi
+
+  # Install or upgrade
+  if brew list --formula | grep -q "^${package}$"; then
+    echo_task_start "Upgrading ${package}"
+    brew upgrade "${package}"
+  else
+    echo_task_start "Installing ${package}"
+    brew install "${package}"
+  fi
 }
 
 function brewuninstall() {
@@ -94,7 +108,16 @@ function brewuninstall() {
 }
 
 function caskinstall() {
-  brew install --cask "${@}"
+  local package="${@}"
+
+  # Check if already installed
+  if brew list --cask | grep -q "^${package}$"; then
+    echo_subtle "✓ ${package} (already installed)"
+    return 0
+  fi
+
+  echo_task_start "Installing ${package}"
+  brew install --cask "${package}"
 }
 
 function caskuninstall() {
@@ -108,9 +131,16 @@ function geminstall() {
 }
 
 function npminstall() {
-  if ! type "${@}" > /dev/null; then
-    npm install "${@}" -g --quiet
+  local package="${@}"
+
+  # Check if command exists (more reliable than type)
+  if command -v "${package}" >/dev/null 2>&1; then
+    echo_subtle "✓ ${package} (already installed)"
+    return 0
   fi
+
+  echo_task_start "Installing ${package}"
+  npm install "${package}" -g --quiet
 }
 
 function pip2install() {
