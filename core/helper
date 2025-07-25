@@ -122,15 +122,23 @@ function brewtap() {
 function brewinstall() {
   local package="${@}"
 
+  # Extract actual package name (remove tap prefix if present)
+  local package_name
+  if [[ "$package" == */* ]]; then
+    package_name="${package##*/}"  # Get everything after the last slash
+  else
+    package_name="$package"
+  fi
+
   # Check if already installed and up-to-date using cached lists
-  if echo "$_BREW_FORMULAE_CACHE" | grep -q "^${package}$" && ! echo "$_BREW_OUTDATED_CACHE" | grep -q "^${package}"; then
+  if echo "$_BREW_FORMULAE_CACHE" | grep -q "^${package_name}$" && ! echo "$_BREW_OUTDATED_CACHE" | grep -q "^${package_name}"; then
     echo_subtle "✓ ${package} (already installed and up-to-date)"
     return 0
   fi
 
   # Add to batch installation array
   _BREW_PACKAGES_TO_INSTALL+=("${package}")
-  if echo "$_BREW_FORMULAE_CACHE" | grep -q "^${package}$"; then
+  if echo "$_BREW_FORMULAE_CACHE" | grep -q "^${package_name}$"; then
     echo_info "🔄 ${package} (queued for upgrade)"
   else
     echo_info "🍺 ${package} (queued for installation)"
@@ -164,8 +172,16 @@ function brewuninstall() {
 function caskinstall() {
   local package="${@}"
 
+  # Extract actual package name (remove tap prefix if present)
+  local package_name
+  if [[ "$package" == */* ]]; then
+    package_name="${package##*/}"  # Get everything after the last slash
+  else
+    package_name="$package"
+  fi
+
   # Check if already installed using cached list
-  if echo "$_BREW_CASKS_CACHE" | grep -q "^${package}$"; then
+  if echo "$_BREW_CASKS_CACHE" | grep -q "^${package_name}$"; then
     echo_subtle "✓ ${package} (already installed)"
     return 0
   fi

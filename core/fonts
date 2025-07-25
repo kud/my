@@ -6,6 +6,7 @@ echo_title_install "fonts"
 cp ${SYNC_FOLDER}/Lib/fonts/Operator\ Mono/* ~/Library/Fonts &>/dev/null
 cp ${SYNC_FOLDER}/Lib/fonts/Operator\ Mono\ Lig/* ~/Library/Fonts &>/dev/null
 
+caskinstall font-symbols-only-nerd-font # Nerd Font symbols - https://github.com/ryanoasis/nerd-fonts
 caskinstall font-3270-nerd-font
 caskinstall font-arimo-nerd-font
 caskinstall font-cascadia-code
