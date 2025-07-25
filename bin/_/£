@@ -14,41 +14,41 @@ else
   update)
     $MY/core/update
     ;;
-  ssh)
-    $MY/core/ssh
-    ;;
-  dotfiles)
-    $MY/core/dotfiles
-    ;;
-  symlink)
-    $MY/core/symlink
-    ;;
-  os)
-    $MY/core/os
-    ;;
-  fonts)
-    $MY/core/fonts
-    ;;
-  firefox)
-    $MY/core/firefox
-    ;;
-  keepassxc)
-    $MY/core/keepassxc
-    ;;
-  sublime-merge)
-    $MY/core/sublime-merge
-    ;;
-  aicommits)
-    $MY/core/aicommits
-    ;;
-  shims)
-    $MY/core/shims
-    ;;
   brew-clean)
     $MY/core/brew-clean
     ;;
   npm-clean)
     $MY/core/npm-clean
+    ;;
+  shims)
+    $MY/core/shims
+    ;;
+  doctor)
+    $MY/core/doctor
+    ;;
+  run)
+    if [[ -z "$2" ]]; then
+      echo "Error: 'run' requires a module name. Available modules:"
+      echo "  ssh, dotfiles, symlink, os, fonts, firefox, keepassxc,"
+      echo "  sublime-merge, aicommits, brew, npm, mas, gem, pip, vim,"
+      echo "  prezto, pcloud, main"
+      exit 1
+    fi
+
+    case "$2" in
+    ssh|dotfiles|symlink|os|fonts|firefox|keepassxc|sublime-merge|aicommits|brew|npm|mas|gem|pip|vim|prezto|pcloud|main)
+      if [[ -f "$MY/core/$2" ]]; then
+        $MY/core/$2
+      else
+        echo "Error: Module '$2' not found in core/"
+        exit 1
+      fi
+      ;;
+    *)
+      echo "Error: Unknown module '$2'. Use '£ run' without arguments to see available modules."
+      exit 1
+      ;;
+    esac
     ;;
   doc)
     case "$2" in
@@ -76,30 +76,52 @@ else
     echo_space
     printf "    update            Update the project"
     echo_space
-    printf "    ssh               Configure SSH keys for GitHub"
-    echo_space
-    printf "    dotfiles          Update dotfiles"
-    echo_space
-    printf "    symlink           Update symlinks"
-    echo_space
-    printf "    os                Update OS settings"
-    echo_space
-    printf "    fonts             Update fonts"
-    echo_space
-    printf "    firefox           Update Firefox settings"
-    echo_space
-    printf "    keepassxc         Configure KeePassXC settings"
-    echo_space
-    printf "    sublime-merge     Configure Sublime Merge settings"
-    echo_space
-    printf "    aicommits         Configure AI-powered commit messages"
-    echo_space
-    printf "    shims             Create shell command for .app"
-    echo_space
     printf "    brew-clean        Clean the casks"
     echo_space
     printf "    npm-clean         Clean global Node packages"
     echo_space
+    printf "    shims             Create shell command for .app"
+    echo_space
+    printf "    doctor            Run system health checks"
+    echo_spacex2
+    printf "    run <module>      Run a specific core module:"
+    echo_space
+    printf "      ssh             Configure SSH keys for GitHub"
+    echo_space
+    printf "      dotfiles        Update dotfiles"
+    echo_space
+    printf "      symlink         Update symlinks"
+    echo_space
+    printf "      os              Update OS settings"
+    echo_space
+    printf "      fonts           Update fonts"
+    echo_space
+    printf "      firefox         Update Firefox settings"
+    echo_space
+    printf "      keepassxc       Configure KeePassXC settings"
+    echo_space
+    printf "      sublime-merge   Configure Sublime Merge settings"
+    echo_space
+    printf "      aicommits       Configure AI-powered commit messages"
+    echo_space
+    printf "      brew            Install/update Homebrew packages"
+    echo_space
+    printf "      npm             Install/update npm packages"
+    echo_space
+    printf "      mas             Install/update Mac App Store apps"
+    echo_space
+    printf "      gem             Install/update Ruby gems"
+    echo_space
+    printf "      pip             Install/update Python packages"
+    echo_space
+    printf "      vim             Configure Vim settings"
+    echo_space
+    printf "      prezto          Configure Prezto (zsh framework)"
+    echo_space
+    printf "      pcloud          Configure pCloud settings"
+    echo_space
+    printf "      main            Run main setup sequence"
+    echo_spacex2
     printf "    doc               Access project documentation"
     echo_space
     printf "    edit              Open project in \$EDITOR"

@@ -85,6 +85,9 @@ npminstall @kud/git-cherry-pick-interactive-cli
 npminstall @kud/soap-cli
 npminstall @kud/wifi-tool-cli
 
+# Execute batch npm installation
+npminstall_run
+
 # config
 npm config set save-exact true
 npm config set tag-version-prefix ""
