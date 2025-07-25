@@ -230,61 +230,6 @@ caskinstall quicklook-json # JSON preview in Quick Look - https://github.com/sin
 caskinstall quicklookase # Adobe Swatch Exchange preview - https://github.com/andrewsardone/quicklookase
 caskinstall suspicious-package # Inspect installer packages - https://www.mothersruin.com/software/SuspiciousPackage/
 
-############################################################
-# 🖥️  Productivity & Utilities
-############################################################
-caskinstall altair-graphql-client # GraphQL client - https://altair.sirmuel.design/
-caskinstall android-commandlinetools # Android SDK command-line tools - https://developer.android.com/studio
-caskinstall android-studio # Android IDE - https://developer.android.com/studio
-caskinstall cap # Screenshot utility - https://github.com/lvillani/cap
-caskinstall cleanshot # Screenshot tool - https://cleanshot.com/
-caskinstall discord # Chat for communities - https://discord.com/
-caskinstall espanso # Text expander - https://espanso.org/
-caskinstall etrecheckpro # Mac diagnostics - https://etrecheck.com/
-caskinstall firefox@nightly # Firefox Nightly browser - https://www.mozilla.org/firefox/channel/desktop/#nightly
-caskinstall fliqlo # Flip clock screensaver - https://fliqlo.com/
-caskinstall flux-app # Adjusts display color temperature - https://justgetflux.com/
-caskinstall google-chrome@canary # Chrome Canary browser - https://www.google.com/chrome/canary/
-caskinstall grandperspective # Disk usage visualizer - https://grandperspectiv.sourceforge.io/
-caskinstall hyperkey # Remap keys - https://hyperkey.app/
-caskinstall image2icon # Create icons from images - https://www.img2icnsapp.com/
-caskinstall imageoptim # Image optimizer - https://imageoptim.com/
-caskinstall insomnia # REST Client - https://insomnia.rest/
-caskinstall iterm2@nightly # Terminal emulator - https://iterm2.com/
-caskinstall jordanbaird-ice # ICE: Clipboard manager - https://github.com/jordanbaird/ICE
-caskinstall keepassxc # Password manager - https://keepassxc.org/
-caskinstall loom # Video messaging - https://www.loom.com/
-caskinstall macmediakeyforwarder # Media key forwarding - https://github.com/milgra/macmediakeyforwarder
-caskinstall middleclick # Middle click for Mac trackpads - https://middleclick.app/
-caskinstall min # Minimal web browser - https://minbrowser.org/
-caskinstall minisim # Mobile device simulator - https://github.com/zydeco/minisim
-caskinstall mitmproxy # Intercepting proxy for HTTP/S - https://mitmproxy.org/
-caskinstall monitorcontrol # Control external monitor brightness - https://github.com/MonitorControl/MonitorControl
-caskinstall monodraw # ASCII art editor - https://monodraw.helftone.com/
-caskinstall notion-calendar # Notion calendar app - https://www.notion.so/product/calendar
-caskinstall obsidian # Knowledge base & note-taking - https://obsidian.md/
-caskinstall openmtp # Android file transfer - https://openmtp.ganeshrvel.com/
-caskinstall osquery # SQL-powered operating system instrumentation - https://osquery.io/
-caskinstall pika # Color picker - https://pika.style/
-caskinstall pixelsnap # Measure anything on screen - https://getpixelsnap.com/
-caskinstall prefs-editor # Edit app preferences - https://github.com/knollsoft/prefs-editor
-caskinstall proxyman # Web debugging proxy - https://proxyman.io/
-caskinstall qr-journal # QR code scanner - https://github.com/marcboquet/QRJournal
-caskinstall raycast # Productivity launcher - https://www.raycast.com/
-caskinstall react-native-debugger # Debugger for React Native - https://github.com/jhen0409/react-native-debugger
-caskinstall runjs # JavaScript playground - https://runjs.app/
-caskinstall signal # Encrypted messaging - https://signal.org/
-caskinstall slack # Team chat - https://slack.com/
-caskinstall spotify # Music streaming - https://spotify.com/
-caskinstall stats # System monitor - https://github.com/exelban/stats
-caskinstall sublime-merge@dev # Git GUI - https://www.sublimemerge.com/
-caskinstall syncthing-app # Syncthing GUI - https://github.com/syncthing/syncthing-macos
-caskinstall upscayl # AI image upscaler - https://upscayl.org/
-caskinstall visual-studio-code # Code editor - https://code.visualstudio.com/
-caskinstall vlc # Media player - https://www.videolan.org/vlc/
-caskinstall xcodes-app # Manage Xcode installations - https://xcodes.dev/
-caskinstall xquartz # X11 windowing system - https://www.xquartz.org/
-
 brew link --overwrite node # Ensure node is linked
 xattr -d -r com.apple.quarantine ~/Library/QuickLook # remove quarantine attr since Catalina
 
