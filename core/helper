@@ -78,6 +78,20 @@ function echo_hr() {
 
 # --- Sugar functions ---
 
+# Cache brew lists for performance (populated by init_brew_cache)
+_BREW_FORMULAE_CACHE=""
+_BREW_CASKS_CACHE=""
+_BREW_OUTDATED_CACHE=""
+
+function init_brew_cache() {
+  if command -v brew >/dev/null 2>&1; then
+    echo_task_start "Initializing brew cache"
+    _BREW_FORMULAE_CACHE=$(brew list --formula 2>/dev/null || echo "")
+    _BREW_CASKS_CACHE=$(brew list --cask 2>/dev/null || echo "")
+    _BREW_OUTDATED_CACHE=$(brew outdated 2>/dev/null || echo "")
+  fi
+}
+
 function brewtap() {
   if ! brew tap | grep "${@}" > /dev/null; then
     brew tap "${@}"
@@ -87,19 +101,23 @@ function brewtap() {
 function brewinstall() {
   local package="${@}"
 
-  # Check if already installed and up-to-date
-  if brew list --formula | grep -q "^${package}$" && ! brew outdated | grep -q "^${package}$"; then
+  # Check if already installed and up-to-date using cached lists
+  if echo "$_BREW_FORMULAE_CACHE" | grep -q "^${package}$" && ! echo "$_BREW_OUTDATED_CACHE" | grep -q "^${package}"; then
     echo_subtle "✓ ${package} (already installed and up-to-date)"
     return 0
   fi
 
   # Install or upgrade
-  if brew list --formula | grep -q "^${package}$"; then
+  if echo "$_BREW_FORMULAE_CACHE" | grep -q "^${package}$"; then
     echo_task_start "Upgrading ${package}"
     brew upgrade "${package}"
+    # Update cache after upgrade
+    _BREW_OUTDATED_CACHE=$(echo "$_BREW_OUTDATED_CACHE" | grep -v "^${package}")
   else
     echo_task_start "Installing ${package}"
     brew install "${package}"
+    # Add to cache after install
+    _BREW_FORMULAE_CACHE="${_BREW_FORMULAE_CACHE}${package}\n"
   fi
 }
 
@@ -110,14 +128,16 @@ function brewuninstall() {
 function caskinstall() {
   local package="${@}"
 
-  # Check if already installed
-  if brew list --cask | grep -q "^${package}$"; then
+  # Check if already installed using cached list
+  if echo "$_BREW_CASKS_CACHE" | grep -q "^${package}$"; then
     echo_subtle "✓ ${package} (already installed)"
     return 0
   fi
 
   echo_task_start "Installing ${package}"
   brew install --cask "${package}"
+  # Add to cache after install
+  _BREW_CASKS_CACHE="${_BREW_CASKS_CACHE}${package}\n"
 }
 
 function caskuninstall() {
