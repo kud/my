@@ -41,18 +41,19 @@ for zsh_file in \
   limits.zsh \
   bindings.zsh \
   aliases.zsh \
-  node.zsh \
   completions.zsh \
-  java.zsh \
-  python.zsh \
-  android.zsh \
   openssl.zsh \
   homebrew.zsh \
-  babel.zsh \
-  fzf.zsh \
-  ruby.zsh \
+  android.zsh \
+  python.zsh \
   path.zsh \
-  autosuggestions.zsh
+  fzf.zsh \
+  java.zsh \
+  ruby.zsh \
+  node.zsh \
+  babel.zsh \
+  autosuggestions.zsh \
+  starship.zsh
 do
   [[ -f $HOME/.config/zsh/$zsh_file ]] && source $HOME/.config/zsh/$zsh_file
 done
@@ -85,15 +86,14 @@ export PATH=$MY/profiles/$OS_PROFILE/bin/_:$PATH
 
 
 ################################################################################
-#   💎 PROMPT & FNM FINALISATION
+#   💎 ONLY IF NEEDED TO BE LOADED AT THE END
 ################################################################################
-# Powerlevel10k prompt and fnm must be sourced at the end for correct behaviour. fnm should be sourced after p10k to ensure prompt integration works correctly.
-for zsh_file in \
-  starship.zsh \
-  fnm.zsh
-do
-  [[ -f $HOME/.config/zsh/$zsh_file ]] && source $HOME/.config/zsh/$zsh_file
-done
+# for zsh_file in \
+#   fnm.zsh \
+#   starship.zsh
+# do
+#   [[ -f $HOME/.config/zsh/$zsh_file ]] && source $HOME/.config/zsh/$zsh_file
+# done
 
 
 ################################################################################
