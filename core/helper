@@ -24,12 +24,26 @@ export CHAR_INPUT="[>]"
 export CHAR_FINAL_SUCCESS="👍"
 export CHAR_FINAL_FAIL="🚫"
 
+# --- Progress tracking ---
+_CURRENT_STEP=0
+_TOTAL_STEPS=0
+
+function set_total_steps() {
+  _TOTAL_STEPS=$1
+  _CURRENT_STEP=0
+}
+
+function next_step() {
+  ((_CURRENT_STEP++))
+  echo_info "Step ${_CURRENT_STEP}/${_TOTAL_STEPS}: $1"
+}
+
 # --- Basic Messages ---
 
 function echo_info() { echo "${COLOUR_BLUE}${CHAR_INFO}${COLOUR_RESET} $1" }
 function echo_user() { echo "${COLOUR_YELLOW}${CHAR_USER}${COLOUR_RESET} $1" }
 function echo_success() { echo "${COLOUR_GREEN}${CHAR_OK}${COLOUR_RESET} $1" }
-function echo_fail() { echo "${COLOUR_RED}${CHAR_ERROR}${COLOUR_RESET} $1|n"; exit }
+function echo_fail() { echo "${COLOUR_RED}${CHAR_ERROR}${COLOUR_RESET} $1"; exit ${2:-1} }
 function echo_warn() { echo "${COLOUR_BOLD_YELLOW}${CHAR_WARN}${COLOUR_RESET} $1" }
 function echo_task_start() { echo "${COLOUR_CYAN}${CHAR_TASK_START} ${COLOUR_RESET}$1..." }
 function echo_task_done() { echo "${COLOUR_GREEN}${CHAR_OK} ${COLOUR_RESET}$1 done!" }
@@ -83,6 +97,13 @@ _BREW_FORMULAE_CACHE=""
 _BREW_CASKS_CACHE=""
 _BREW_OUTDATED_CACHE=""
 
+# Array to collect npm packages for batch installation
+_NPM_PACKAGES_TO_INSTALL=()
+
+# Arrays to collect brew packages for batch installation
+_BREW_PACKAGES_TO_INSTALL=()
+_CASK_PACKAGES_TO_INSTALL=()
+
 function init_brew_cache() {
   if command -v brew >/dev/null 2>&1; then
     echo_task_start "Initializing brew cache"
@@ -107,18 +128,33 @@ function brewinstall() {
     return 0
   fi
 
-  # Install or upgrade
+  # Add to batch installation array
+  _BREW_PACKAGES_TO_INSTALL+=("${package}")
   if echo "$_BREW_FORMULAE_CACHE" | grep -q "^${package}$"; then
-    echo_task_start "Upgrading ${package}"
-    brew upgrade "${package}"
-    # Update cache after upgrade
-    _BREW_OUTDATED_CACHE=$(echo "$_BREW_OUTDATED_CACHE" | grep -v "^${package}")
+    echo_info "🔄 ${package} (queued for upgrade)"
   else
-    echo_task_start "Installing ${package}"
-    brew install "${package}"
-    # Add to cache after install
-    _BREW_FORMULAE_CACHE="${_BREW_FORMULAE_CACHE}${package}\n"
+    echo_info "🍺 ${package} (queued for installation)"
   fi
+}
+
+function brewinstall_run() {
+  if [[ ${#_BREW_PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
+    echo_subtle "No brew packages to install"
+    return 0
+  fi
+
+  echo_task_start "Installing/upgrading ${#_BREW_PACKAGES_TO_INSTALL[@]} brew packages in batch"
+  brew install "${_BREW_PACKAGES_TO_INSTALL[@]}"
+
+  if [[ $? -eq 0 ]]; then
+    echo_success "Successfully processed ${#_BREW_PACKAGES_TO_INSTALL[@]} brew packages"
+  else
+    echo_warn "Some brew packages may have failed to install"
+  fi
+
+  # Clear the array and refresh cache
+  _BREW_PACKAGES_TO_INSTALL=()
+  init_brew_cache
 }
 
 function brewuninstall() {
@@ -134,10 +170,29 @@ function caskinstall() {
     return 0
   fi
 
-  echo_task_start "Installing ${package}"
-  brew install --cask "${package}"
-  # Add to cache after install
-  _BREW_CASKS_CACHE="${_BREW_CASKS_CACHE}${package}\n"
+  # Add to batch installation array
+  _CASK_PACKAGES_TO_INSTALL+=("${package}")
+  echo_info "📱 ${package} (queued for installation)"
+}
+
+function caskinstall_run() {
+  if [[ ${#_CASK_PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
+    echo_subtle "No cask packages to install"
+    return 0
+  fi
+
+  echo_task_start "Installing ${#_CASK_PACKAGES_TO_INSTALL[@]} cask packages in batch"
+  brew install --cask "${_CASK_PACKAGES_TO_INSTALL[@]}"
+
+  if [[ $? -eq 0 ]]; then
+    echo_success "Successfully installed ${#_CASK_PACKAGES_TO_INSTALL[@]} cask packages"
+  else
+    echo_warn "Some cask packages may have failed to install"
+  fi
+
+  # Clear the array and refresh cache
+  _CASK_PACKAGES_TO_INSTALL=()
+  init_brew_cache
 }
 
 function caskuninstall() {
@@ -159,8 +214,28 @@ function npminstall() {
     return 0
   fi
 
-  echo_task_start "Installing ${package}"
-  npm install "${package}" -g --quiet
+  # Add to batch installation array
+  _NPM_PACKAGES_TO_INSTALL+=("${package}")
+  echo_info "📦 ${package} (queued for installation)"
+}
+
+function npminstall_run() {
+  if [[ ${#_NPM_PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
+    echo_subtle "No npm packages to install"
+    return 0
+  fi
+
+  echo_task_start "Installing ${#_NPM_PACKAGES_TO_INSTALL[@]} npm packages in batch"
+  npm install -g --quiet "${_NPM_PACKAGES_TO_INSTALL[@]}"
+
+  if [[ $? -eq 0 ]]; then
+    echo_success "Successfully installed ${#_NPM_PACKAGES_TO_INSTALL[@]} npm packages"
+  else
+    echo_warn "Some npm packages may have failed to install"
+  fi
+
+  # Clear the array
+  _NPM_PACKAGES_TO_INSTALL=()
 }
 
 function pip2install() {

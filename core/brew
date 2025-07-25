@@ -234,6 +234,10 @@ caskinstall quicklook-json # JSON preview in Quick Look - https://github.com/sin
 caskinstall quicklookase # Adobe Swatch Exchange preview - https://github.com/andrewsardone/quicklookase
 caskinstall suspicious-package # Inspect installer packages - https://www.mothersruin.com/software/SuspiciousPackage/
 
+# Execute batch installations
+brewinstall_run
+caskinstall_run
+
 brew link --overwrite node # Ensure node is linked
 xattr -d -r com.apple.quarantine ~/Library/QuickLook # remove quarantine attr since Catalina
 
