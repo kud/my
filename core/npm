@@ -94,3 +94,5 @@ npm config set fetch-retry-mintimeout 15000
 npm config set fetch-retry-maxtimeout 90000
 
 yarn config set save-exact true
+
+source $MY/profiles/$OS_PROFILE/core/npm 2>/dev/null
