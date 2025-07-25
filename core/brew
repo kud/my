@@ -128,7 +128,6 @@ brewinstall duf # Disk usage/free utility - https://github.com/muesli/duf
 brewinstall dust # More intuitive du - https://github.com/bootandy/dust
 brewinstall ffmpegthumbnailer # Create thumbnails from videos - https://github.com/dirkvdb/ffmpegthumbnailer
 brewinstall fnm # Fast Node.js version manager - https://github.com/Schniz/fnm
-brewinstall font-symbols-only-nerd-font # Nerd Font symbols - https://github.com/ryanoasis/nerd-fonts
 brewinstall frum # Fast Ruby version manager - https://github.com/TaKO8Ki/frum
 brewinstall git-recent # Show your most recent git branches - https://github.com/paulirish/git-recent
 brewinstall glow # Markdown renderer in terminal - https://github.com/charmbracelet/glow

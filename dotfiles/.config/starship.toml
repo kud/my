@@ -1,5 +1,6 @@
 # Global format
 format = """
+$cmd_duration$line_break\
 $directory\
 $git_branch\
 $git_status\
@@ -12,7 +13,6 @@ $golang\
 $java\
 $line_break\
 $jobs\
-$cmd_duration\
 $character"""
 
 # Pure theme signature: newline before prompt for breathing room
@@ -67,7 +67,7 @@ format = "$symbol "
 [cmd_duration]
 min_time = 5_000
 style = "yellow"
-format = "[$duration]($style) "
+format = "[⏱ $duration]($style) "
 show_milliseconds = false
 
 # Background jobs
