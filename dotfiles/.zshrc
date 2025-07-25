@@ -1,5 +1,3 @@
-
-
 ################################################################################
 #                                                                              #
 #   🚀 ZSHRC MAIN CONFIGURATION                                                #
@@ -19,7 +17,7 @@ fi
 ################################################################################
 #   ⚡ Powerlevel10k instant prompt (must be at the very top for best performance)
 ################################################################################
-[[ -f $HOME/.config/zsh/p10k-instant-prompt.zsh ]] && source $HOME/.config/zsh/p10k-instant-prompt.zsh
+# [[ -f $HOME/.config/zsh/p10k-instant-prompt.zsh ]] && source $HOME/.config/zsh/p10k-instant-prompt.zsh
 
 ################################################################################
 #   🍺 HOMEBREW PREFIX SETUP (Apple Silicon or Intel)
@@ -91,7 +89,7 @@ export PATH=$MY/profiles/$OS_PROFILE/bin/_:$PATH
 ################################################################################
 # Powerlevel10k prompt and fnm must be sourced at the end for correct behaviour. fnm should be sourced after p10k to ensure prompt integration works correctly.
 for zsh_file in \
-  p10k.zsh \
+  starship.zsh \
   fnm.zsh
 do
   [[ -f $HOME/.config/zsh/$zsh_file ]] && source $HOME/.config/zsh/$zsh_file

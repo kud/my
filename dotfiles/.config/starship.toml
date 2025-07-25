@@ -1,0 +1,170 @@
+# Starship configuration replicating Powerlevel10k lean style
+# Based on p10k config: 2-line prompt, lean style, nerdfont icons
+
+# Global format - defines the prompt structure
+format = """
+$directory\
+$git_branch\
+$git_status\
+$git_state\
+$line_break\
+$character"""
+
+# Right side format - shows status info on the right (minimal like p10k)
+right_format = """
+$status\
+$cmd_duration\
+$jobs\
+$direnv\
+$nodejs"""
+
+# Add newline before each prompt (like POWERLEVEL9K_PROMPT_ADD_NEWLINE=true)
+add_newline = true
+
+# Character module - prompt symbol (❯ when OK, red when error)
+[character]
+success_symbol = "[❯](green)"
+error_symbol = "[❯](red)"
+format = "$symbol "
+
+# Directory module - replicates p10k dir settings
+[directory]
+style = "cyan"  # POWERLEVEL9K_DIR_FOREGROUND=31 (cyan)
+read_only = " 🔒"
+read_only_style = "red"
+truncation_length = 4  # Similar to p10k truncation
+truncate_to_repo = true
+truncation_symbol = "…/"
+home_symbol = "~"
+format = "[$path]($style)[$read_only]($read_only_style) "
+
+# Git branch - replicates p10k git branch settings
+[git_branch]
+symbol = " "  # Similar to POWERLEVEL9K_VCS_BRANCH_ICON
+style = "green"  # POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_COLOR=76 (green)
+format = "[$symbol$branch]($style)"
+truncation_length = 32  # Matches p10k branch truncation
+truncation_symbol = "…"
+
+# Git status - replicates p10k detailed git status
+[git_status]
+style = "green"
+ahead = "⇡"  # Matches p10k ahead symbol
+behind = "⇣"  # Matches p10k behind symbol
+diverged = "⇕"
+renamed = "»"
+deleted = "✘"
+stashed = "*"  # Matches p10k stash symbol
+modified = "!"  # Matches p10k modified symbol
+staged = "+"   # Matches p10k staged symbol
+untracked = "?" # Matches p10k untracked symbol
+conflicted = "~" # Matches p10k conflict symbol
+format = '([\[$all_status$ahead_behind\]]($style))'
+
+# Git state - shows merge, rebase, etc.
+[git_state]
+style = "red"
+format = '[\($state( $progress_current of $progress_total)\)]($style) '
+
+# Status module - exit code of last command (only show on error)
+[status]
+style = "red"
+symbol = "✘"  # POWERLEVEL9K_STATUS_ERROR_VISUAL_IDENTIFIER_EXPANSION
+success_symbol = ""  # Don't show success symbol (like p10k)
+format = '[\[$symbol$status\]]($style)'
+map_symbol = true
+disabled = false
+
+# Command duration - replicates p10k command execution time
+[cmd_duration]
+min_time = 3_000  # POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=3
+style = "yellow"  # POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND=101
+format = "[took $duration]($style)"
+show_milliseconds = false
+
+# Background jobs
+[jobs]
+style = "green"  # POWERLEVEL9K_BACKGROUND_JOBS_FOREGROUND=70
+symbol = "✦"
+format = "[$symbol$number]($style)"
+threshold = 1
+
+# Direnv status
+[direnv]
+style = "yellow"  # POWERLEVEL9K_DIRENV_FOREGROUND=178
+format = "[direnv $loaded/$allowed]($style)"
+disabled = false
+
+# Node.js version - matches p10k node_version (only show when in node project)
+[nodejs]
+style = "green"
+symbol = " "
+format = "[$symbol$version]($style)"
+detect_extensions = ["js", "mjs", "cjs", "ts"]
+detect_files = ["package.json", ".node-version", ".nvmrc"]
+detect_folders = ["node_modules"]
+disabled = false
+
+# Username and hostname - context module equivalent (only show when needed)
+[username]
+style_user = "green"
+style_root = "red"
+format = "[$user]($style)@"
+disabled = false
+show_always = false  # Only show when in SSH or as root
+
+[hostname]
+ssh_only = true  # Only show hostname when in SSH session
+style = "green"
+format = "[$hostname]($style)"
+disabled = false
+
+# Shell indicator - vim shell equivalent (only show when in vim)
+[shell]
+bash_indicator = "bash"
+fish_indicator = "fish"
+zsh_indicator = ""  # Don't show zsh since it's default
+style = "cyan"
+format = "[$indicator]($style)"
+disabled = true  # Disable by default, enable only when needed
+
+# Line break
+[line_break]
+disabled = false
+
+# Disabled modules that were commented out in p10k
+[aws]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[kubernetes]
+disabled = true
+
+[docker_context]
+disabled = true
+
+[python]
+disabled = true
+
+[ruby]
+disabled = true
+
+[rust]
+disabled = true
+
+[java]
+disabled = true
+
+[golang]
+disabled = true
+
+[php]
+disabled = true
+
+[package]
+disabled = true
+
+[terraform]
+disabled = true

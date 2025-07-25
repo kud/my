@@ -111,7 +111,8 @@ zstyle ':prezto:module:history-substring-search' globbing-flags ''
 # Auto set to 'off' on dumb terminals.
 # zstyle ':prezto:module:prompt' theme 'sorin'
 # zstyle ':prezto:module:prompt' theme 'agnoster'
-zstyle ':prezto:module:prompt' theme 'powerlevel10k'
+; zstyle ':prezto:module:prompt' theme 'powerlevel10k'
+zstyle ':prezto:module:prompt' theme 'off' # 'off' in favour of starship
 
 # Set the working directory prompt display length.
 # By default, it is set to 'short'. Set it to 'long' (without '~' expansion)

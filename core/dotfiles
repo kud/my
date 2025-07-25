@@ -11,6 +11,7 @@ echo_title_install "dotfiles"
 ############################################################
 dotfiles=(
   ".config/nvim/init.vim"
+  ".config/starship.toml"
   ".editorconfig"
   ".gemrc"
   ".gitattributes"
@@ -23,6 +24,7 @@ dotfiles=(
 )
 
 mkdir -p "${ZDOTDIR:-$HOME}/.config/nvim"
+
 for file in "${dotfiles[@]}"; do
   ln -sf "$MY/dotfiles/$file" "${ZDOTDIR:-$HOME}/$file" 2>/dev/null
 done
