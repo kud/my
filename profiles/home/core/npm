@@ -1,0 +1,6 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+echo_space
+echo_title_install "npm packages @ $OS_PROFILE"
