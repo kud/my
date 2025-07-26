@@ -20,9 +20,6 @@ else
   npm-clean)
     $MY/core/npm-clean
     ;;
-  shims)
-    $MY/core/shims
-    ;;
   doctor)
     $MY/core/doctor
     ;;
@@ -31,12 +28,12 @@ else
       echo "Error: 'run' requires a module name. Available modules:"
       echo "  ssh, dotfiles, symlink, os, fonts, firefox, keepassxc,"
       echo "  sublime-merge, aicommits, brew, npm, mas, gem, pip, vim,"
-      echo "  prezto, pcloud, main"
+      echo "  prezto, pcloud, shims, main"
       exit 1
     fi
 
     case "$2" in
-    ssh|dotfiles|symlink|os|fonts|firefox|keepassxc|sublime-merge|aicommits|brew|npm|mas|gem|pip|vim|prezto|pcloud|main)
+    ssh|dotfiles|symlink|os|fonts|firefox|keepassxc|sublime-merge|aicommits|brew|npm|mas|gem|pip|vim|prezto|pcloud|shims|main)
       if [[ -f "$MY/core/$2" ]]; then
         $MY/core/$2
       else
@@ -80,8 +77,6 @@ else
     echo_space
     printf "    npm-clean         Clean global Node packages"
     echo_space
-    printf "    shims             Create shell command for .app"
-    echo_space
     printf "    doctor            Run system health checks"
     echo_spacex2
     printf "    run <module>      Run a specific core module:"
@@ -119,6 +114,8 @@ else
     printf "      prezto          Configure Prezto (zsh framework)"
     echo_space
     printf "      pcloud          Configure pCloud settings"
+    echo_space
+    printf "      shims           Create shell commands for .app files"
     echo_space
     printf "      main            Run main setup sequence"
     echo_spacex2
