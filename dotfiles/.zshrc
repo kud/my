@@ -22,30 +22,30 @@ HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-/usr/local}"
 # -----------------------------------------------------------------------------
 # Modular ZSH Files
 # -----------------------------------------------------------------------------
-# Source modular ZSH files from shell/ directory (order matters)
+# Source modular ZSH files from shell/ directory (optimized order)
 for zsh_file in \
-  zprezto.zsh \
-  antidote.zsh \
-  autojump.zsh \
-  functions.zsh \
-  z.zsh \
   globals.zsh \
-  display.zsh \
   locale.zsh \
   limits.zsh \
+  homebrew.zsh \
+  path.zsh \
+  zprezto.zsh \
+  functions.zsh \
+  completions.zsh \
   bindings.zsh \
   aliases.zsh \
-  completions.zsh \
+  display.zsh \
   openssl.zsh \
-  homebrew.zsh \
-  android.zsh \
   python.zsh \
-  path.zsh \
-  fzf.zsh \
-  java.zsh \
   ruby.zsh \
+  java.zsh \
   node.zsh \
   babel.zsh \
+  android.zsh \
+  fzf.zsh \
+  z.zsh \
+  autojump.zsh \
+  antidote.zsh \
   autosuggestions.zsh \
   starship.zsh
 do
