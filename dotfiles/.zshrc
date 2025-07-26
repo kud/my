@@ -3,6 +3,9 @@
 # =============================================================================
 # Main shell initialization and modular sourcing
 
+# Define MY variable early (needed for sourcing other files)
+export MY="$HOME/my"
+
 # -----------------------------------------------------------------------------
 # ZSH Profiling
 # -----------------------------------------------------------------------------
@@ -19,7 +22,7 @@ HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-/usr/local}"
 # -----------------------------------------------------------------------------
 # Modular ZSH Files
 # -----------------------------------------------------------------------------
-# Modular Zsh config sourcing (order matters)
+# Source modular ZSH files from shell/ directory (order matters)
 for zsh_file in \
   zprezto.zsh \
   antidote.zsh \
@@ -46,7 +49,7 @@ for zsh_file in \
   autosuggestions.zsh \
   starship.zsh
 do
-  [[ -f $HOME/.config/zsh/$zsh_file ]] && source $HOME/.config/zsh/$zsh_file
+  [[ -f $MY/shell/$zsh_file ]] && source $MY/shell/$zsh_file
 done
 
 # -----------------------------------------------------------------------------
