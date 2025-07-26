@@ -2,3 +2,6 @@ modules/*
 !modules/.gitkeep
 node_modules/
 *.log
+
+# Benchmark results - these are temporary and shouldn't be versioned
+benchmark/results/
