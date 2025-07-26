@@ -15,11 +15,6 @@ if [[ "$ZPROF" == "TRUE" ]]; then
 fi
 
 ################################################################################
-#   ⚡ Powerlevel10k instant prompt (must be at the very top for best performance)
-################################################################################
-# [[ -f $HOME/.config/zsh/p10k-instant-prompt.zsh ]] && source $HOME/.config/zsh/p10k-instant-prompt.zsh
-
-################################################################################
 #   🍺 HOMEBREW PREFIX SETUP (Apple Silicon or Intel)
 ################################################################################
 HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-/usr/local}"
@@ -83,17 +78,6 @@ autoload zmv
 #   🛣️ PROFILED BIN OVERRIDES
 ################################################################################
 export PATH=$MY/profiles/$OS_PROFILE/bin/_:$PATH
-
-
-################################################################################
-#   💎 ONLY IF NEEDED TO BE LOADED AT THE END
-################################################################################
-# for zsh_file in \
-#   fnm.zsh \
-#   starship.zsh
-# do
-#   [[ -f $HOME/.config/zsh/$zsh_file ]] && source $HOME/.config/zsh/$zsh_file
-# done
 
 
 ################################################################################
