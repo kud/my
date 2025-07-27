@@ -1,0 +1,33 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+echo_space
+echo_title "Neovim Configuration"
+
+# Check if Neovim is installed
+if ! command -v nvim >/dev/null 2>&1; then
+    echo_warn "Neovim is not installed. Install it via brew:"
+    echo_info "brew install neovim"
+    exit 1
+fi
+
+# Check if the config directory exists
+if [[ ! -d "$HOME/.config/nvim" ]]; then
+    echo_task_start "Creating Neovim config directory"
+    mkdir -p "$HOME/.config/nvim"
+    echo_task_done "Neovim config directory created"
+fi
+
+# Install vim-plug if not present
+if [[ ! -f "$HOME/.config/nvim/autoload/plug.vim" ]]; then
+    echo_task_start "Installing vim-plug for Neovim"
+    curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    echo_task_done "vim-plug installed"
+fi
+
+echo_space
+echo_success "Neovim setup complete!"
+echo_info "Config location: ~/.config/nvim/init.vim"
+echo_info "Run 'nvim' and use :PlugInstall to install plugins"

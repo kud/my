@@ -103,7 +103,6 @@ brewinstall tig # Text-mode interface for git - https://jonas.github.io/tig/
 # ✍️  Editors
 ################################################################################
 brewinstall neovim # Modern Vim-based editor - https://neovim.io/
-brewinstall vim # Classic text editor - https://www.vim.org/
 
 ################################################################################
 # 🧑‍💻 Programming Languages & Runtimes
