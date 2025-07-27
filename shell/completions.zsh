@@ -1,13 +1,30 @@
 ################################################################################
 #                                                                              #
-#   📦 NPM COMMAND COMPLETION SCRIPT                                           #
-#   -----------------------------------                                        #
-#   Installation:                                                              #
-#     npm completion >> ~/.bashrc  (or ~/.zshrc)                               #
-#     npm completion > ${HOMEBREW_PREFIX}/etc/bash_completion.d/npm            #
+#   � ZSH COMPLETIONS CONFIGURATION                                           #
+#   ---------------------------------                                          #
+#   Central completion system setup and custom completions.                    #
 #                                                                              #
 ################################################################################
-# Modern Zsh-native npm completion:
+
+# -----------------------------------------------------------------------------
+# ZSH Completion System
+# -----------------------------------------------------------------------------
+# Only rebuild completions if needed, otherwise use cached (from Scott Spence's guide)
+autoload -Uz compinit
+
+if [ "$(date +'%j')" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
+    compinit
+else
+    compinit -C
+fi
+
+################################################################################
+#                                                                              #
+#   📦 NPM COMPLETION                                                          #
+#   -----------------                                                          #
+#   Modern Zsh-native npm completion support.                                  #
+#                                                                              #
+################################################################################
 if type compdef &>/dev/null; then
   _npm_completion() {
     local si=$IFS
