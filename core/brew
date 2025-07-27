@@ -93,8 +93,6 @@ brewinstall wget # Network downloader - https://www.gnu.org/software/wget/
 # 🗂️  Git & Version Control
 ################################################################################
 brewinstall gh # GitHub CLI - https://cli.github.com/
-gh extension install dlvhdr/gh-dash # GitHub project dashboard - https://github.com/dlvhdr/gh-dash
-gh extension install github/gh-copilot # GitHub Copilot - https://github.com/github/gh-copilot
 brewinstall git # Distributed version control - https://git-scm.com/
 brewinstall git-delta # Syntax-highlighting pager for git - https://github.com/dandavison/delta
 brewinstall lazygit # Simple terminal UI for git - https://github.com/jesseduffield/lazygit
@@ -265,13 +263,24 @@ caskinstall quicklook-json # JSON preview in Quick Look - https://github.com/sin
 caskinstall quicklookase # Adobe Swatch Exchange preview - https://github.com/andrewsardone/quicklookase
 caskinstall suspicious-package # Inspect installer packages - https://www.mothersruin.com/software/SuspiciousPackage/
 
-brew link --overwrite node # Ensure node is linked
-xattr -d -r com.apple.quarantine ~/Library/QuickLook # remove quarantine attr since Catalina
-
 source $MY/profiles/$OS_PROFILE/core/brew 2>/dev/null
 
 brewinstall_run
 caskinstall_run
+
+# Post-installation
+gh extension install dlvhdr/gh-dash # GitHub project dashboard - https://github.com/dlvhdr/gh-dash
+gh extension install github/gh-copilot # GitHub Copilot - https://github.com/github/gh-copilot
+
+brew link --overwrite node # Ensure node is linked
+
+xattr -d -r com.apple.quarantine ~/Library/QuickLook # remove quarantine attr since Catalina
+
+if [[ "$OS_PROFILE" == "home" ]]; then
+  echo_space
+  echo_title "Starting services..."
+  sudo brew services start dnscrypt-proxy
+fi
 
 echo_space
 echo_title "Cleaning brew cask..."

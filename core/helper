@@ -113,6 +113,15 @@ function init_brew_cache() {
   fi
 }
 
+function refresh_brew_cache() {
+  if command -v brew >/dev/null 2>&1; then
+    echo_subtle "Refreshing package cache..."
+    _BREW_FORMULAE_CACHE=$(brew list --formula 2>/dev/null || echo "")
+    _BREW_CASKS_CACHE=$(brew list --cask 2>/dev/null || echo "")
+    _BREW_OUTDATED_CACHE=$(brew outdated 2>/dev/null || echo "")
+  fi
+}
+
 function brewtap() {
   if ! brew tap | grep "${@}" > /dev/null; then
     brew tap "${@}"
@@ -162,7 +171,7 @@ function brewinstall_run() {
 
   # Clear the array and refresh cache
   _BREW_PACKAGES_TO_INSTALL=()
-  init_brew_cache
+  refresh_brew_cache
 }
 
 function brewuninstall() {
@@ -208,7 +217,7 @@ function caskinstall_run() {
 
   # Clear the array and refresh cache
   _CASK_PACKAGES_TO_INSTALL=()
-  init_brew_cache
+  refresh_brew_cache
 }
 
 function caskuninstall() {
