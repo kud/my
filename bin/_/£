@@ -33,7 +33,7 @@ else
     fi
 
     case "$2" in
-    ssh|dotfiles|symlink|os|firefox|keepassxc|sublime-merge|aicommits|brew|npm|mas|gem|pip|neovim|prezto|antidote|pcloud|shims|main)
+    ssh|dotfiles|symlink|os|firefox|keepassxc|sublime-merge|aicommits|brew|npm|mas|gem|pip|neovim|prezto|antidote|pcloud|shims|main|abbr)
       if [[ -f "$MY/core/$2" ]]; then
         $MY/core/$2
       else
@@ -118,6 +118,8 @@ else
     printf "      shims           Create shell commands for .app files"
     echo_space
     printf "      main            Run main setup sequence"
+    echo_space
+    printf "      abbr            Load shell abbreviations"
     echo_spacex2
     printf "    doc               Access project documentation"
     echo_space
