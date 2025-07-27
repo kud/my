@@ -7,7 +7,7 @@ $MY/core/pcloud
 $MY/core/prezto
 $MY/core/brew
 $MY/core/submodules
-$MY/core/vim
+$MY/core/neovim
 $MY/core/gem
 $MY/core/pip
 $MY/core/npm

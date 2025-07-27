@@ -10,15 +10,13 @@ echo_title_install "dotfiles"
 # 📦 Standard dotfiles
 ############################################################
 dotfiles=(
-  ".config/nvim/init.vim"
-  ".config/starship.toml"
+  ".asdfrc"
   ".editorconfig"
   ".gemrc"
   ".gitattributes"
   ".gitconfig"
   ".gitignore_global"
   ".prettierrc"
-  ".vimrc"
   ".zpreztorc"
   ".zshrc"
 )
@@ -29,7 +27,11 @@ for file in "${dotfiles[@]}"; do
   ln -sf "$MY/dotfiles/$file" "${ZDOTDIR:-$HOME}/$file" 2>/dev/null
 done
 
-
+############################################################
+# 🧩 Neovim config directory setup
+############################################################
+mkdir -p "$HOME/.config/nvim"
+ln -sf "$MY/dotfiles/.config/nvim/init.vim" "$HOME/.config/nvim/init.vim" 2>/dev/null
 
 ############################################################
 # 🧩 Zsh config directory setup
