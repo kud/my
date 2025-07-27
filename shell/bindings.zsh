@@ -15,7 +15,7 @@ function _mtxr-to-upper {
 }
 zle -N _mtxr-to-upper
 
-# Function to convert text to lowercase  
+# Function to convert text to lowercase
 function _mtxr-to-lower {
   LBUFFER=${LBUFFER:l}
 }

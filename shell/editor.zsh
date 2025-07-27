@@ -48,7 +48,7 @@ bindkey "." expand-dot-to-parent-directory-path
 # Fix Delete key in vi command mode
 bindkey -M vicmd 'x' delete-char
 
-# Fix backspace in vi insert mode  
+# Fix backspace in vi insert mode
 bindkey -M viins '^?' backward-delete-char
 
 # Fix arrow keys in vi insert mode
