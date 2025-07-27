@@ -18,8 +18,8 @@ fi
 # -----------------------------------------------------------------------------
 # Modular ZSH Files
 # -----------------------------------------------------------------------------
-# Source modular ZSH files from shell/ directory (optimized order)
-for zsh_file in \
+# Source shell modules (order matters for dependencies)
+for module in \
   globals.zsh \
   directory.zsh \
   editor.zsh \
@@ -42,44 +42,24 @@ for zsh_file in \
   node.zsh \
   babel.zsh \
   android.zsh \
-  fzf.zsh \
-  zoxide.zsh \
   antidote.zsh \
   autosuggestions.zsh \
   history-substring-search.zsh \
   you-should-use.zsh \
+  fzf.zsh \
+  zoxide.zsh \
+  local.zsh \
+  profile.zsh \
   starship.zsh
 do
-  [[ -f $MY/shell/$zsh_file ]] && source $MY/shell/$zsh_file
+  [[ -f $MY/shell/$module ]] && source $MY/shell/$module
 done
 
-# Create local config if it doesn't exist
-if [[ ! -f "$HOME/.config/zsh/local.zsh" ]]; then
-  mkdir -p "$HOME/.config/zsh"
-  echo "# Local machine configuration" > "$HOME/.config/zsh/local.zsh"
-  echo "# Add machine-specific settings here" >> "$HOME/.config/zsh/local.zsh"
-  echo "" >> "$HOME/.config/zsh/local.zsh"
-
-  # Prompt for OS profile if not set
-  if [[ -z "$OS_PROFILE" ]]; then
-    echo "Setting up local configuration..."
-    while true; do
-      read "?Enter the profile of this computer (home/work): " OS_PROFILE
-      if [[ "$OS_PROFILE" == "home" || "$OS_PROFILE" == "work" ]]; then
-        echo "export OS_PROFILE=$OS_PROFILE" >> "$HOME/.config/zsh/local.zsh"
-        break
-      else
-        echo "Invalid input, please enter either 'home' or 'work'"
-      fi
-    done
-  fi
-fi
-
-# Include local configuration
-[[ -f $HOME/.config/zsh/local.zsh ]] && source $HOME/.config/zsh/local.zsh
-
-# Add profile bins to PATH
-export PATH=$MY/profiles/$OS_PROFILE/bin/_:$PATH
+# Critical dependencies:
+# - completions.zsh must come before antidote.zsh (sets up compinit)
+# - antidote.zsh must come before plugin configs (loads plugins first)
+# - fzf.zsh and zoxide.zsh need plugins loaded first
+# - local.zsh must come before profile.zsh (sets OS_PROFILE variable)
 
 # -----------------------------------------------------------------------------
 # ZSH Profiling Report
