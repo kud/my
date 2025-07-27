@@ -37,7 +37,8 @@ echo_task_start "Running master branch shell startup benchmark"
 MASTER_RESULTS="$BENCHMARK_DIR/shell_startup_master_${TIMESTAMP}.json"
 # Switch back to our branch to access benchmark tools, then back to master for testing
 git checkout "$CURRENT_BRANCH"
-if $MY/benchmark/shell-startup-benchmark master > "$BENCHMARK_DIR/master_shell_benchmark_${TIMESTAMP}.log" 2>&1; then
+# Use ZPROF=TRUE for master branch compatibility
+if ZPROF=TRUE $MY/benchmark/shell-startup-benchmark master > "$BENCHMARK_DIR/master_shell_benchmark_${TIMESTAMP}.log" 2>&1; then
     # Find the most recent master results file
     MASTER_RESULTS=$(ls -t "$BENCHMARK_DIR"/shell_startup_master_*.json | head -1)
     echo_success "Master shell benchmark completed"
