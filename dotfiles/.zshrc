@@ -22,6 +22,7 @@ fi
 for zsh_file in \
   globals.zsh \
   directory.zsh \
+  editor.zsh \
   history.zsh \
   locale.zsh \
   limits.zsh \
