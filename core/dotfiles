@@ -9,40 +9,83 @@ echo_title_install "dotfiles"
 ############################################################
 # 📦 Standard dotfiles
 ############################################################
-dotfiles=(
-  ".asdfrc"
-  ".editorconfig"
-  ".gemrc"
-  ".gitattributes"
-  ".gitconfig"
-  ".gitignore_global"
-  ".prettierrc"
-  ".zpreztorc"
-  ".zshrc"
-)
+echo_info "Scanning dotfiles directory for files to symlink..."
+
+# Automatically discover all dotfiles (files starting with .)
+dotfiles=()
+for file in "$MY/dotfiles"/.* "$MY/dotfiles"/*; do
+  # Skip directories and special entries
+  if [[ -f "$file" && "$(basename "$file")" != "." && "$(basename "$file")" != ".." ]]; then
+    dotfiles+=($(basename "$file"))
+  fi
+done
+
+echo_info "Found ${#dotfiles[@]} dotfiles to process"
 
 mkdir -p "${ZDOTDIR:-$HOME}/.config/nvim"
 
+echo_info "Creating symbolic links..."
 for file in "${dotfiles[@]}"; do
-  ln -sf "$MY/dotfiles/$file" "${ZDOTDIR:-$HOME}/$file" 2>/dev/null
+  source_path="$MY/dotfiles/$file"
+  target_path="${ZDOTDIR:-$HOME}/$file"
+
+  if ln -sf "$source_path" "$target_path" 2>/dev/null; then
+    echo_success "  $file → $target_path"
+  else
+    echo_warn "  Failed to link $file"
+  fi
 done
 
 ############################################################
-# 🧩 Neovim config directory setup
+# 📁 Config directories
 ############################################################
-mkdir -p "$HOME/.config/nvim"
-ln -sf "$MY/dotfiles/.config/nvim/init.lua" "$HOME/.config/nvim/init.lua" 2>/dev/null
+echo_info "Setting up .config directory structure..."
+
+# Handle .config subdirectories
+if [[ -d "$MY/dotfiles/.config" ]]; then
+  mkdir -p "$HOME/.config"
+
+  # Find all files in .config subdirectories
+  find "$MY/dotfiles/.config" -type f | while read -r config_file; do
+    # Get relative path from .config
+    rel_path="${config_file#$MY/dotfiles/.config/}"
+    target_path="$HOME/.config/$rel_path"
+    target_dir="$(dirname "$target_path")"
+
+    # Create target directory if needed
+    mkdir -p "$target_dir"
+
+    # Create symlink
+    if ln -sf "$config_file" "$target_path" 2>/dev/null; then
+      echo_success "  .config/$rel_path → $target_path"
+    else
+      echo_warn "  Failed to link .config/$rel_path"
+    fi
+  done
+fi
 
 ############################################################
 # 🧩 Zsh config directory setup
 ############################################################
+echo_info "Setting up Zsh configuration directory..."
 mkdir -p "$HOME/.config/zsh"
+echo_success "  Created ~/.config/zsh directory"
 
+echo_info "Checking SSH configuration..."
 if [ ! -f "$HOME/.ssh/config" ]; then
-  cp "$MY/templates/ssh/config" "$HOME/.ssh/"
+  if cp "$MY/templates/ssh/config" "$HOME/.ssh/" 2>/dev/null; then
+    echo_success "  SSH config → ~/.ssh/config"
+  else
+    echo_warn "  Failed to copy SSH config"
+  fi
+else
+  echo_info "  SSH config already exists, skipping"
 fi
 
+echo_info "Checking Git local configuration..."
+
 if [ ! -f "$HOME/.gitconfig_local" ]; then
+  echo_info "  Creating Git local configuration..."
   read "?Enter your GitHub username: " GITHUB_USERNAME </dev/tty
   read "?Enter your first name: " GITHUB_FIRSTNAME </dev/tty
   read "?Enter your last name: " GITHUB_LASTNAME </dev/tty
@@ -55,9 +98,15 @@ if [ ! -f "$HOME/.gitconfig_local" ]; then
   email = $GITHUB_EMAIL
 [includeIf \"gitdir:~/Projects/work/\"]
   path = .gitconfig_local_work" >"$HOME/.gitconfig_local"
+
+  echo_success "  Git local config → ~/.gitconfig_local"
+else
+  echo_info "  Git local config already exists, skipping"
 fi
 
+echo_info "Reloading shell configuration..."
 # reload the shell
 source "$HOME/.zshrc"
+echo_success "  Shell configuration reloaded"
 
-echo_success "Dotfiles are installed!"
+echo_success "Dotfiles installation completed!"
