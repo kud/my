@@ -118,11 +118,34 @@ alias wtf='whence -v'
 alias npms='npm run start'
 alias wt='webtorrent --vlc --not-on-top download'
 
+# Useful prezto utility aliases
+alias e='${(z)VISUAL:-${(z)EDITOR}}'  # Quick editor
+alias p='${(z)PAGER}'                # Quick pager
+alias type='type -a'                 # Show all locations of command
+
+# macOS clipboard (if not already available)
+if [[ "$OSTYPE" == darwin* ]]; then
+  alias pbc='pbcopy'
+  alias pbp='pbpaste'
+fi
+
 
 ############################################################
 # 🚫 No Correct
 ############################################################
 alias sshfs='nocorrect sshfs'
+alias ack='nocorrect ack'
+alias cd='nocorrect cd'
+alias cp='nocorrect cp'
+alias gcc='nocorrect gcc'
+alias gist='nocorrect gist'
+alias grep='nocorrect grep'
+alias heroku='nocorrect heroku'
+alias ln='nocorrect ln'
+alias man='nocorrect man'
+alias mkdir='nocorrect mkdir'
+alias mv='nocorrect mv'
+alias mysql='nocorrect mysql'
 
 
 ############################################################
@@ -130,3 +153,13 @@ alias sshfs='nocorrect sshfs'
 ############################################################
 alias jake='noglob jake'
 alias npm='noglob npm'
+alias bower='noglob bower'
+alias fc='noglob fc'
+alias find='noglob find'
+alias ftp='noglob ftp'
+alias history='noglob history'
+alias locate='noglob locate'
+alias rake='noglob rake'
+alias rsync='noglob rsync'
+alias scp='noglob scp'
+alias sftp='noglob sftp'
