@@ -7,7 +7,7 @@
 ################################################################################
 
 # Performance settings
-ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="50"
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 
 # Appearance settings (from prezto module)
