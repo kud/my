@@ -47,6 +47,7 @@ for zsh_file in \
   antidote.zsh \
   autosuggestions.zsh \
   history-substring-search.zsh \
+  you-should-use.zsh \
   starship.zsh
 do
   [[ -f $MY/shell/$zsh_file ]] && source $MY/shell/$zsh_file

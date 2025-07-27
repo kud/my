@@ -5,3 +5,5 @@ reegnz/jq-zsh-plugin
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-history-substring-search
 Aloxaf/fzf-tab
+MichaelAquilina/zsh-you-should-use
+
