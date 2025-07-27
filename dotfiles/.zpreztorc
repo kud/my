@@ -38,8 +38,7 @@ zstyle ':prezto:load' pmodule \
   'command-not-found' \
   'git' \
   'syntax-highlighting' \
-  'history-substring-search' \
-  'prompt'
+  'history-substring-search'
 
 
 # ────────── Autosuggestions ──────────
