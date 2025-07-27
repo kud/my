@@ -9,15 +9,8 @@ alias ..='cd ..'
 alias d='dirs -v'          # Print contents of the directory stack
 alias -- -='cd -'          # Go to previous directory
 
-alias 1='cd +1'
-alias 2='cd +2'
-alias 3='cd +3'
-alias 4='cd +4'
-alias 5='cd +5'
-alias 6='cd +6'
-alias 7='cd +7'
-alias 8='cd +8'
-alias 9='cd +9'
+# Generate numbered directory aliases (1-9) efficiently
+for i in {1..9}; do alias "$i"="cd +$i"; done
 
 
 ############################################################
@@ -30,10 +23,6 @@ alias _='sudo'
 # 📁 List Directory Contents
 ############################################################
 alias l='lsd -la --git'
-# alias lg='exa -la --git'
-# alias ll='exa -l --git'
-# alias llg='exa -l --git'
-# alias le='exa -a -T -L=1 --git'
 
 
 ############################################################
@@ -131,21 +120,12 @@ fi
 
 
 ############################################################
-# 🚫 No Correct
+# 🚫 No Correct (Essential Only)
 ############################################################
-alias sshfs='nocorrect sshfs'
-alias ack='nocorrect ack'
-alias cd='nocorrect cd'
-alias cp='nocorrect cp'
-alias gcc='nocorrect gcc'
-alias gist='nocorrect gist'
-alias grep='nocorrect grep'
-alias heroku='nocorrect heroku'
-alias ln='nocorrect ln'
-alias man='nocorrect man'
 alias mkdir='nocorrect mkdir'
 alias mv='nocorrect mv'
-alias mysql='nocorrect mysql'
+alias cp='nocorrect cp'
+alias ln='nocorrect ln'
 
 
 ############################################################
