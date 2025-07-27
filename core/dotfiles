@@ -31,7 +31,7 @@ done
 # 🧩 Neovim config directory setup
 ############################################################
 mkdir -p "$HOME/.config/nvim"
-ln -sf "$MY/dotfiles/.config/nvim/init.vim" "$HOME/.config/nvim/init.vim" 2>/dev/null
+ln -sf "$MY/dotfiles/.config/nvim/init.lua" "$HOME/.config/nvim/init.lua" 2>/dev/null
 
 ############################################################
 # 🧩 Zsh config directory setup
