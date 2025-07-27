@@ -42,8 +42,6 @@ for zsh_file in \
   babel.zsh \
   android.zsh \
   fzf.zsh \
-  z.zsh \
-  autojump.zsh \
   antidote.zsh \
   autosuggestions.zsh \
   history-substring-search.zsh \
@@ -66,6 +64,9 @@ else
 fi
 
 autoload zmv
+
+# Load zoxide after compinit (required for completions)
+[[ -f $MY/shell/zoxide.zsh ]] && source $MY/shell/zoxide.zsh
 
 # Create local config if it doesn't exist
 if [[ ! -f "$HOME/.config/zsh/local.zsh" ]]; then
