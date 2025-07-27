@@ -21,6 +21,7 @@ fi
 # Source modular ZSH files from shell/ directory (optimized order)
 for zsh_file in \
   globals.zsh \
+  history.zsh \
   locale.zsh \
   limits.zsh \
   homebrew.zsh \
