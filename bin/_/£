@@ -26,14 +26,14 @@ else
   run)
     if [[ -z "$2" ]]; then
       echo "Error: 'run' requires a module name. Available modules:"
-      echo "  ssh, dotfiles, symlink, os, fonts, firefox, keepassxc,"
+      echo "  ssh, dotfiles, symlink, os, firefox, keepassxc,"
       echo "  sublime-merge, aicommits, brew, npm, mas, gem, pip, vim,"
       echo "  prezto, pcloud, shims, main"
       exit 1
     fi
 
     case "$2" in
-    ssh|dotfiles|symlink|os|fonts|firefox|keepassxc|sublime-merge|aicommits|brew|npm|mas|gem|pip|vim|prezto|pcloud|shims|main)
+    ssh|dotfiles|symlink|os|firefox|keepassxc|sublime-merge|aicommits|brew|npm|mas|gem|pip|vim|prezto|pcloud|shims|main)
       if [[ -f "$MY/core/$2" ]]; then
         $MY/core/$2
       else
@@ -89,8 +89,6 @@ else
     echo_space
     printf "      os              Update OS settings"
     echo_space
-    printf "      fonts           Update fonts"
-    echo_space
     printf "      firefox         Update Firefox settings"
     echo_space
     printf "      keepassxc       Configure KeePassXC settings"
@@ -99,7 +97,7 @@ else
     echo_space
     printf "      aicommits       Configure AI-powered commit messages"
     echo_space
-    printf "      brew            Install/update Homebrew packages"
+    printf "      brew            Install/update Homebrew packages (includes fonts)"
     echo_space
     printf "      npm             Install/update npm packages"
     echo_space
