@@ -29,6 +29,7 @@ for zsh_file in \
   homebrew.zsh \
   path.zsh \
   zprezto.zsh \
+  utility.zsh \
   functions.zsh \
   completions.zsh \
   bindings.zsh \
@@ -42,6 +43,7 @@ for zsh_file in \
   babel.zsh \
   android.zsh \
   fzf.zsh \
+  zoxide.zsh \
   antidote.zsh \
   autosuggestions.zsh \
   history-substring-search.zsh \
@@ -50,23 +52,6 @@ for zsh_file in \
 do
   [[ -f $MY/shell/$zsh_file ]] && source $MY/shell/$zsh_file
 done
-
-# -----------------------------------------------------------------------------
-# ZSH Completion & Autoload
-# -----------------------------------------------------------------------------
-# Only rebuild completions if needed, otherwise use cached (from Scott Spence's guide)
-autoload -Uz compinit
-
-if [ "$(date +'%j')" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
-    compinit
-else
-    compinit -C
-fi
-
-autoload zmv
-
-# Load zoxide after compinit (required for completions)
-[[ -f $MY/shell/zoxide.zsh ]] && source $MY/shell/zoxide.zsh
 
 # Create local config if it doesn't exist
 if [[ ! -f "$HOME/.config/zsh/local.zsh" ]]; then
