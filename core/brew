@@ -263,25 +263,29 @@ caskinstall quicklook-json # JSON preview in Quick Look - https://github.com/sin
 caskinstall quicklookase # Adobe Swatch Exchange preview - https://github.com/andrewsardone/quicklookase
 caskinstall suspicious-package # Inspect installer packages - https://www.mothersruin.com/software/SuspiciousPackage/
 
-source $MY/profiles/$OS_PROFILE/core/brew 2>/dev/null
-
 brewinstall_run
 caskinstall_run
 
-# Post-installation
+###################################################################################################
+# 🔧 POST-INSTALLATION CONFIGURATION
+###################################################################################################
+echo_space
+echo_title "Post-installation setup"
+
+# GitHub CLI extensions
+echo_subtitle "Installing GitHub CLI extensions"
 gh extension install dlvhdr/gh-dash # GitHub project dashboard - https://github.com/dlvhdr/gh-dash
 gh extension install github/gh-copilot # GitHub Copilot - https://github.com/github/gh-copilot
 
+echo_subtitle "Configuring system settings"
 brew link --overwrite node # Ensure node is linked
-
 xattr -d -r com.apple.quarantine ~/Library/QuickLook # remove quarantine attr since Catalina
 
-if [[ "$OS_PROFILE" == "home" ]]; then
-  echo_space
-  echo_title "Starting services..."
-  sudo brew services start dnscrypt-proxy
-fi
+###################################################################################################
+# PROFILE-SPECIFIC
+###################################################################################################
+source $MY/profiles/$OS_PROFILE/core/brew 2>/dev/null
 
 echo_space
 echo_title "Cleaning brew cask..."
-brew cleanup
+brew cleanup --verbose
