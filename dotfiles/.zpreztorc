@@ -29,8 +29,7 @@ zstyle ':prezto:load' pmodule \
   'environment' \
   'completion' \
   'git' \
-  'syntax-highlighting' \
-  'history-substring-search'
+  'syntax-highlighting'
 
 
 # ────────── Autosuggestions ──────────
