@@ -1,10 +1,11 @@
 # =============================================================================
 # ZSH Configuration
 # =============================================================================
-# Main shell initialization and modular sourcing
-
 # Define MY variable early (needed for sourcing other files)
 export MY="$HOME/my"
+
+# Populate HOMEBREW_PREFIX if not already set
+HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-/usr/local}"
 
 # -----------------------------------------------------------------------------
 # ZSH Profiling
@@ -13,11 +14,6 @@ export MY="$HOME/my"
 if [[ "$ZPROF" == "TRUE" ]]; then
   zmodload zsh/zprof
 fi
-
-# -----------------------------------------------------------------------------
-# Homebrew Setup
-# -----------------------------------------------------------------------------
-HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-/usr/local}"
 
 # -----------------------------------------------------------------------------
 # Modular ZSH Files
@@ -66,14 +62,32 @@ fi
 
 autoload zmv
 
-# -----------------------------------------------------------------------------
-# Local Configuration
-# -----------------------------------------------------------------------------
+# Create local config if it doesn't exist
+if [[ ! -f "$HOME/.config/zsh/local.zsh" ]]; then
+  mkdir -p "$HOME/.config/zsh"
+  echo "# Local machine configuration" > "$HOME/.config/zsh/local.zsh"
+  echo "# Add machine-specific settings here" >> "$HOME/.config/zsh/local.zsh"
+  echo "" >> "$HOME/.config/zsh/local.zsh"
+
+  # Prompt for OS profile if not set
+  if [[ -z "$OS_PROFILE" ]]; then
+    echo "Setting up local configuration..."
+    while true; do
+      read "?Enter the profile of this computer (home/work): " OS_PROFILE
+      if [[ "$OS_PROFILE" == "home" || "$OS_PROFILE" == "work" ]]; then
+        echo "export OS_PROFILE=$OS_PROFILE" >> "$HOME/.config/zsh/local.zsh"
+        break
+      else
+        echo "Invalid input, please enter either 'home' or 'work'"
+      fi
+    done
+  fi
+fi
+
+# Include local configuration
 [[ -f $HOME/.config/zsh/local.zsh ]] && source $HOME/.config/zsh/local.zsh
 
-# -----------------------------------------------------------------------------
-# Path Setup
-# -----------------------------------------------------------------------------
+# Add profile bins to PATH
 export PATH=$MY/profiles/$OS_PROFILE/bin/_:$PATH
 
 # -----------------------------------------------------------------------------
