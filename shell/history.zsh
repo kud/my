@@ -9,8 +9,8 @@
 # -----------------------------
 # History Size & Storage
 # -----------------------------
-HISTSIZE=10000                # Number of commands to keep in memory
-SAVEHIST=10000                # Number of commands to save to file
+HISTSIZE=50000                # Number of commands to keep in memory
+SAVEHIST=50000                # Number of commands to save to file
 HISTFILE=~/.zsh_history       # History file location
 
 # -----------------------------
@@ -33,3 +33,4 @@ setopt hist_reduce_blanks      # Remove extra whitespace from history entries
 setopt hist_verify             # Show command with history expansion to user before running it
 setopt hist_no_store           # Don't store history and fc commands in history
 setopt inc_append_history      # Write to the history file immediately, not when the shell exits
+setopt hist_fcntl_lock         # Better file locking for performance
