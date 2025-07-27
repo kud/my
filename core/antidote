@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+
+source ~/.zshrc
+
+source "$MY/core/helper"
+
+echo_info "Updating zsh plugins..."
+antidote update && echo_success "Zsh plugins updated successfully"
