@@ -287,5 +287,5 @@ xattr -d -r com.apple.quarantine ~/Library/QuickLook # remove quarantine attr si
 source $MY/profiles/$OS_PROFILE/core/brew 2>/dev/null
 
 echo_space
-echo_title "Cleaning brew cask..."
-brew cleanup --verbose
+echo_title "Cleaning brew..."
+brew cleanup
