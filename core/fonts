@@ -33,4 +33,6 @@ caskinstall font-ubuntu
 caskinstall font-ubuntu-mono-derivative-powerline
 caskinstall font-ubuntu-nerd-font
 
+caskinstall_run
+
 echo_success "Fonts are done!"
