@@ -13,19 +13,19 @@ if [[ ! -f "$HOME/.config/zsh/local.zsh" ]]; then
   echo "# Add machine-specific settings here" >> "$HOME/.config/zsh/local.zsh"
   echo "" >> "$HOME/.config/zsh/local.zsh"
 
-  # Prompt for OS profile if not set
-  if [[ -z "$OS_PROFILE" ]]; then
-    echo "Setting up local configuration..."
-    while true; do
-      read "?Enter the profile of this computer (home/work): " OS_PROFILE
-      if [[ "$OS_PROFILE" == "home" || "$OS_PROFILE" == "work" ]]; then
-        echo "export OS_PROFILE=$OS_PROFILE" >> "$HOME/.config/zsh/local.zsh"
-        break
-      else
-        echo "Invalid input, please enter either 'home' or 'work'"
-      fi
-    done
-  fi
+  # TODO: Prompt for OS profile if not set (temporarily disabled for benchmarking)
+  # if [[ -z "$OS_PROFILE" && "$-" == *i* && -t 0 && -t 1 ]]; then
+  #   echo "Setting up local configuration..."
+  #   while true; do
+  #     read "?Enter the profile of this computer (home/work): " OS_PROFILE
+  #     if [[ "$OS_PROFILE" == "home" || "$OS_PROFILE" == "work" ]]; then
+  #       echo "export OS_PROFILE=$OS_PROFILE" >> "$HOME/.config/zsh/local.zsh"
+  #       break
+  #     else
+  #       echo "Invalid input, please enter either 'home' or 'work'"
+  #     fi
+  #   done
+  # fi
 fi
 
 # Include local configuration
