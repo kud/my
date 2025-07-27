@@ -58,7 +58,8 @@ git checkout "$CURRENT_BRANCH"
 echo_task_done "Switched to $CURRENT_BRANCH"
 
 echo_task_start "Running optimization branch shell startup benchmark"
-if $MY/benchmark/shell-startup-benchmark "$CURRENT_BRANCH" > "$BENCHMARK_DIR/${CURRENT_BRANCH_CLEAN}_shell_benchmark_${TIMESTAMP}.log" 2>&1; then
+# Use ZPROF=1 for feature branch compatibility
+if ZPROF=1 $MY/benchmark/shell-startup-benchmark "$CURRENT_BRANCH" > "$BENCHMARK_DIR/${CURRENT_BRANCH_CLEAN}_shell_benchmark_${TIMESTAMP}.log" 2>&1; then
     # Find the most recent current branch results file
     CURRENT_RESULTS=$(ls -t "$BENCHMARK_DIR"/shell_startup_${CURRENT_BRANCH_CLEAN}_*.json | head -1)
     echo_success "Optimization shell benchmark completed"
