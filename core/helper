@@ -58,6 +58,7 @@ function echo_final_fail() {
 # --- Title Messages ---
 
 function echo_title() { echo "${COLOUR_CYAN}${CHAR_STARTER} $@${COLOUR_RESET}" }
+function echo_subtitle() { echo "${COLOUR_CYAN}${CHAR_STARTER}${COLOUR_RESET} $1" }
 function echo_title_install() { echo_title "Installing" $1"..." }
 function echo_title_update() { echo_title "Updating" $1"..." }
 
