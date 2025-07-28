@@ -27,19 +27,8 @@ zstyle ':prezto:*:*' color 'yes'
 # The order matters.
 zstyle ':prezto:load' pmodule \
   'environment' \
-  'terminal' \
-  'editor' \
-  'history' \
-  'directory' \
-  'spectrum' \
-  'utility' \
   'completion' \
-  'autosuggestions' \
-  'command-not-found' \
-  'git' \
-  'syntax-highlighting' \
-  'history-substring-search' \
-  'prompt'
+  'syntax-highlighting'
 
 
 # ────────── Autosuggestions ──────────
@@ -68,8 +57,13 @@ zstyle ':prezto:module:editor' dot-expansion 'yes'
 
 
 # ─────────────── Git ────────────────
+# Git module has been removed in favor of:
+# • Superior git aliases in ~/.gitconfig (50+ aliases)
+# • Advanced tools: lazygit, tig, gh, git-delta
+# • Custom automation scripts in ~/my/bin/_/git-*
+# • Starship prompt for git status display
 
-# Ignore submodules when they are 'dirty', 'untracked', 'all', or 'none'.
+# Legacy Prezto git settings (no longer needed):
 # zstyle ':prezto:module:git:status:ignore' submodules 'all'
 # zstyle ':prezto:module:git:alias' skip 'yes'
 

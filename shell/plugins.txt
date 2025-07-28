@@ -1,0 +1,14 @@
+# Fast, essential plugins first
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-history-substring-search
+Aloxaf/fzf-tab
+
+# Utility plugins
+mtxr/zsh-change-case
+reegnz/jq-zsh-plugin
+
+# Heavier plugins last
+bigH/git-fuzzy path:bin kind:path
+unixorn/git-extra-commands
+MichaelAquilina/zsh-you-should-use
+

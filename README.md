@@ -46,12 +46,11 @@ Usage:
       dotfiles        Update dotfiles
       symlink         Update symlinks
       os              Update OS settings
-      fonts           Update fonts
       firefox         Update Firefox settings
       keepassxc       Configure KeePassXC settings
       sublime-merge   Configure Sublime Merge settings
       aicommits       Configure AI-powered commit messages
-      brew            Install/update Homebrew packages
+      brew            Install/update Homebrew packages (includes fonts)
       npm             Install/update npm packages
       mas             Install/update Mac App Store apps
 

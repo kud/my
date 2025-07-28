@@ -10,15 +10,13 @@ echo_title_install "dotfiles"
 # 📦 Standard dotfiles
 ############################################################
 dotfiles=(
-  ".config/nvim/init.vim"
-  ".config/starship.toml"
+  ".asdfrc"
   ".editorconfig"
   ".gemrc"
   ".gitattributes"
   ".gitconfig"
   ".gitignore_global"
   ".prettierrc"
-  ".vimrc"
   ".zpreztorc"
   ".zshrc"
 )
@@ -29,30 +27,19 @@ for file in "${dotfiles[@]}"; do
   ln -sf "$MY/dotfiles/$file" "${ZDOTDIR:-$HOME}/$file" 2>/dev/null
 done
 
-
+############################################################
+# 🧩 Neovim config directory setup
+############################################################
+mkdir -p "$HOME/.config/nvim"
+ln -sf "$MY/dotfiles/.config/nvim/init.lua" "$HOME/.config/nvim/init.lua" 2>/dev/null
 
 ############################################################
-# 🧩 Zsh modular config symlinks (link all files in .config/zsh)
+# 🧩 Zsh config directory setup
 ############################################################
 mkdir -p "$HOME/.config/zsh"
-for file in "$MY/dotfiles/.config/zsh"/*; do
-  ln -sf "$file" "$HOME/.config/zsh/$(basename "$file")"
-done
 
 if [ ! -f "$HOME/.ssh/config" ]; then
   cp "$MY/templates/ssh/config" "$HOME/.ssh/"
-fi
-
-if [ ! -f "$HOME/.config/zsh/local.zsh" ]; then
-  while true; do
-    read "?Enter the profile of this computer (home/work): " OS_PROFILE </dev/tty
-    if [[ "$OS_PROFILE" == "home" || "$OS_PROFILE" == "work" ]]; then
-      echo "export OS_PROFILE=$OS_PROFILE" >"$HOME/.config/zsh/local.zsh"
-      break
-    else
-      echo "Invalid input, please enter either 'home' or 'work'"
-    fi
-  done
 fi
 
 if [ ! -f "$HOME/.gitconfig_local" ]; then

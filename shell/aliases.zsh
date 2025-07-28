@@ -6,6 +6,12 @@ alias ....='cd ../../..'
 alias ...='cd ../..'
 alias ..='cd ..'
 
+alias d='dirs -v'          # Print contents of the directory stack
+alias -- -='cd -'          # Go to previous directory
+
+# Generate numbered directory aliases (1-9) efficiently
+for i in {1..9}; do alias "$i"="cd +$i"; done
+
 
 ############################################################
 # ⚡ Super User
@@ -17,10 +23,6 @@ alias _='sudo'
 # 📁 List Directory Contents
 ############################################################
 alias l='lsd -la --git'
-# alias lg='exa -la --git'
-# alias ll='exa -l --git'
-# alias llg='exa -l --git'
-# alias le='exa -a -T -L=1 --git'
 
 
 ############################################################
@@ -50,7 +52,7 @@ alias .profile='$EDITOR -n ~/.profile'
 alias .zshrc='$EDITOR -n  ~/.zshrc'
 alias .zshrc_local='$EDITOR -n  ~/.zshrc_local'
 alias .npmrc='$EDITOR -n  ~/.npmrc'
-alias .vimrc='$EDITOR -n  ~/.vimrc'
+alias nvimconfig='$EDITOR ~/.config/nvim/init.lua'
 alias sshconfig='$EDITOR -n  ~/.ssh/config'
 alias .aliases='$EDITOR -n  ~/.aliases'
 alias hosts='$EDITOR -n  /private/etc/hosts'
@@ -105,11 +107,25 @@ alias wtf='whence -v'
 alias npms='npm run start'
 alias wt='webtorrent --vlc --not-on-top download'
 
+# Useful prezto utility aliases
+alias e='${(z)VISUAL:-${(z)EDITOR}}'  # Quick editor
+alias p='${(z)PAGER}'                # Quick pager
+alias type='type -a'                 # Show all locations of command
+
+# macOS clipboard (if not already available)
+if [[ "$OSTYPE" == darwin* ]]; then
+  alias pbc='pbcopy'
+  alias pbp='pbpaste'
+fi
+
 
 ############################################################
-# 🚫 No Correct
+# 🚫 No Correct (Essential Only)
 ############################################################
-alias sshfs='nocorrect sshfs'
+alias mkdir='nocorrect mkdir'
+alias mv='nocorrect mv'
+alias cp='nocorrect cp'
+alias ln='nocorrect ln'
 
 
 ############################################################
@@ -117,3 +133,13 @@ alias sshfs='nocorrect sshfs'
 ############################################################
 alias jake='noglob jake'
 alias npm='noglob npm'
+alias bower='noglob bower'
+alias fc='noglob fc'
+alias find='noglob find'
+alias ftp='noglob ftp'
+alias history='noglob history'
+alias locate='noglob locate'
+alias rake='noglob rake'
+alias rsync='noglob rsync'
+alias scp='noglob scp'
+alias sftp='noglob sftp'

@@ -119,7 +119,6 @@
   aicommit = "!aicommits"
   apc = "!git add -p && git commit"
   br = branch
-  branch-current = "branch --show-current"
   branches = branch -avv
   branches-delete = branch-delete
   branchv = branch -v

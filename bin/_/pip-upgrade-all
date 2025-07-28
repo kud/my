@@ -1,3 +1,4 @@
 #! /usr/bin/env zsh
 
-pip list --outdated | grep -v '^\-e' | awk '{print $1}' | xargs -n1 pip install -U
+# Safer pip upgrade that filters out problematic packages
+pip list --outdated --format=freeze | grep -v '^\-e' | grep -v '^Package==' | cut -d = -f 1 | xargs -n1 pip install -U

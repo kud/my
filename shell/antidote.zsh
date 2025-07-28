@@ -11,8 +11,8 @@
 # -----------------------------------------------
 # Uses static plugin files in $ZDOTDIR or $HOME for maximum speed and portability.
 
-# Set plugin file paths (using ~/.config/zsh/plugins.txt as the source)
-zsh_plugins_txt="$HOME/.config/zsh/plugins.txt"
+# Set plugin file paths (using shell/plugins.txt as the source)
+zsh_plugins_txt="$MY/shell/plugins.txt"
 zsh_plugins_zsh="$HOME/.zsh_plugins.zsh"
 
 # Ensure the plugins.txt file exists

@@ -1,56 +1,30 @@
 ################################################################################
 #                                                                              #
-#   📦 NPM COMMAND COMPLETION SCRIPT                                           #
-#   -----------------------------------                                        #
-#   Installation:                                                              #
-#     npm completion >> ~/.bashrc  (or ~/.zshrc)                               #
-#     npm completion > ${HOMEBREW_PREFIX}/etc/bash_completion.d/npm            #
+#   � ZSH COMPLETIONS CONFIGURATION                                           #
+#   ---------------------------------                                          #
+#   Central completion system setup and custom completions.                    #
 #                                                                              #
 ################################################################################
-## Legacy npm completion for Bash and old Zsh (kept for reference):
-# if type complete &>/dev/null; then
-#   _npm_completion () {
-#     local words cword
-#     if type _get_comp_words_by_ref &>/dev/null; then
-#       _get_comp_words_by_ref -n = -n @ -n : -w words -i cword
-#     else
-#       cword="$COMP_CWORD"
-#       words=("${COMP_WORDS[@]}")
-#     fi
-#
-#     local si="$IFS"
-#     IFS=$'\n' COMPREPLY=($(COMP_CWORD="$cword" \
-#                            COMP_LINE="$COMP_LINE" \
-#                            COMP_POINT="$COMP_POINT" \
-#                            npm completion -- "${words[@]}" \
-#                            2>/dev/null)) || return $?
-#     IFS="$si"
-#     if type __ltrim_colon_completions &>/dev/null; then
-#       __ltrim_colon_completions "${words[cword]}"
-#     fi
-#   }
-#   complete -o default -F _npm_completion npm
-# fi
-# if type compctl &>/dev/null; then
-#   _npm_completion () {
-#     local cword line point words si
-#     read -Ac words
-#     read -cn cword
-#     let cword-=1
-#     read -l line
-#     read -ln point
-#     si="$IFS"
-#     IFS=$'\n' reply=($(COMP_CWORD="$cword" \
-#                        COMP_LINE="$line" \
-#                        COMP_POINT="$point" \
-#                        npm completion -- "${words[@]}" \
-#                        2>/dev/null)) || return $?
-#     IFS="$si"
-#   }
-#   compctl -K _npm_completion npm
-# fi
 
-# Modern Zsh-native npm completion:
+# -----------------------------------------------------------------------------
+# ZSH Completion System
+# -----------------------------------------------------------------------------
+# Only rebuild completions if needed, otherwise use cached (from Scott Spence's guide)
+autoload -Uz compinit
+
+if [ "$(date +'%j')" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
+    compinit
+else
+    compinit -C
+fi
+
+################################################################################
+#                                                                              #
+#   📦 NPM COMPLETION                                                          #
+#   -----------------                                                          #
+#   Modern Zsh-native npm completion support.                                  #
+#                                                                              #
+################################################################################
 if type compdef &>/dev/null; then
   _npm_completion() {
     local si=$IFS

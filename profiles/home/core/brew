@@ -2,6 +2,9 @@
 
 source $MY/core/helper
 
+echo_space
+echo_title "Installing $OS_PROFILE profile packages"
+
 # Initialize brew cache for faster package checking
 init_brew_cache
 
@@ -9,7 +12,6 @@ echo_space
 echo_title_install "brew packages @ $OS_PROFILE"
 
 brewinstall dnscrypt-proxy
-sudo brew services start dnscrypt-proxy
 
 echo_space
 echo_title_install "apps @ $OS_PROFILE"
@@ -20,8 +22,17 @@ caskinstall gswitch # GPU switcher for MacBook Pro - https://github.com/CodySchr
 caskinstall notion # All-in-one workspace for notes, tasks, wikis, and databases - https://www.notion.so/
 caskinstall rawtherapee # Advanced RAW photo processing software - https://rawtherapee.com/
 caskinstall shadow # Cloud gaming service app - https://shadow.tech/
-caskinstall signal # Encrypted messaging app - https://signal.org/
 caskinstall steam # Digital distribution platform for games - https://store.steampowered.com/
 caskinstall steermouse # Advanced mouse driver for macOS - http://plentycom.jp/en/steermouse/
 caskinstall todoist-app # Task manager and to-do list app - https://todoist.com/downloads/mac
 caskinstall whatsapp # Messaging and voice/video call app - https://www.whatsapp.com/download/
+
+brewinstall_run
+caskinstall_run
+
+###################################################################################################
+# 🔧 POST-INSTALLATION CONFIGURATION
+###################################################################################################
+echo_space
+echo_title "Post-installation setup @ $OS_PROFILE"
+sudo brew services start dnscrypt-proxy
