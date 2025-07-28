@@ -1,11 +1,31 @@
+
 #!/usr/bin/env zsh
 # Usage: ./create-override-bin binPath
 
-# Extract the binary name
-binName=${1##*/}
+set -e
 
-# Ensure that the ~/.bin/override/<binName> directory exists
-mkdir -p ~/.bin/override/$binName
+if [[ -z "$1" ]]; then
+  echo "Error: No binary path provided."
+  echo "Usage: $0 <binPath>"
+  exit 1
+fi
 
-# Create a symbolic link of the specified binary in the custom directory, force link creation
-ln -sf $1 ~/.bin/override/$binName/$binName
+binPath="$1"
+binName="${binPath##*/}"
+overrideDir="$HOME/.bin/override/$binName"
+overrideBin="$overrideDir/$binName"
+
+if [[ ! -x "$binPath" ]]; then
+  echo "Error: '$binPath' does not exist or is not executable."
+  exit 2
+fi
+
+mkdir -p "$overrideDir"
+
+ln -sf "$binPath" "$overrideBin"
+if [[ $? -eq 0 ]]; then
+  echo "Symlink created: $overrideBin -> $binPath"
+else
+  echo "Failed to create symlink."
+  exit 3
+fi
