@@ -1,16 +1,35 @@
 #!/usr/bin/env zsh
 
+set -e
+
+if ! git rev-parse --is-inside-work-tree &>/dev/null; then
+  echo "Error: Not inside a git repository."
+  exit 1
+fi
+
 if git rev-parse --verify main >/dev/null 2>&1; then
-  echo "'main' branch already exists in the current repository."
-  exit 1
+  echo "Error: 'main' branch already exists in the current repository."
+  exit 2
 fi
 
-# Check if 'master' branch exists and switch to it
-if ! git switch master 2>/dev/null; then
-  echo "'master' branch does not exist in the current repository."
-  exit 1
+if ! git rev-parse --verify master >/dev/null 2>&1; then
+  echo "Error: 'master' branch does not exist in the current repository."
+  exit 3
 fi
 
+echo "Switching to 'master' branch..."
+git switch master
+
+echo "Renaming 'master' branch to 'main'..."
 git branch -m master main
+
+if ! git remote | grep -q '^origin$'; then
+  echo "Warning: No 'origin' remote found. Branch renamed locally only."
+  exit 0
+fi
+
+echo "Pushing 'main' branch and updating remote references..."
 git push origin main:master
 git push -u origin main:master
+
+echo "Branch successfully renamed and pushed to remote."
