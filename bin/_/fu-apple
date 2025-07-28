@@ -1,6 +1,23 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
-xattr -d com.apple.quarantine $1
+set -e
 
-echo ""
-echo "💥 It's done."
+if [[ -z "$1" ]]; then
+  echo "Error: No file provided."
+  echo "Usage: $0 <file>"
+  exit 1
+fi
+
+file="$1"
+if [[ ! -e "$file" ]]; then
+  echo "Error: File '$file' does not exist."
+  exit 2
+fi
+
+xattr -d com.apple.quarantine "$file" && {
+  echo ""
+  echo "💥 Quarantine attribute removed from '$file'."
+} || {
+  echo "Failed to remove quarantine attribute from '$file'."
+  exit 3
+}
