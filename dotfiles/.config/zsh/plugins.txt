@@ -1,4 +1,0 @@
-mtxr/zsh-change-case
-bigH/git-fuzzy path:bin kind:path
-unixorn/git-extra-commands
-reegnz/jq-zsh-plugin

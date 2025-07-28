@@ -2,9 +2,6 @@
 
 source $MY/core/helper
 
-## define cask application folder
-export HOMEBREW_CASK_OPTS=--appdir=/Applications
-
 ## install brew
 if ! type "brew" >/dev/null; then
   echo_space
@@ -96,8 +93,6 @@ brewinstall wget # Network downloader - https://www.gnu.org/software/wget/
 # 🗂️  Git & Version Control
 ################################################################################
 brewinstall gh # GitHub CLI - https://cli.github.com/
-gh extension install dlvhdr/gh-dash # GitHub project dashboard - https://github.com/dlvhdr/gh-dash
-gh extension install github/gh-copilot # GitHub Copilot - https://github.com/github/gh-copilot
 brewinstall git # Distributed version control - https://git-scm.com/
 brewinstall git-delta # Syntax-highlighting pager for git - https://github.com/dandavison/delta
 brewinstall lazygit # Simple terminal UI for git - https://github.com/jesseduffield/lazygit
@@ -108,7 +103,6 @@ brewinstall tig # Text-mode interface for git - https://jonas.github.io/tig/
 # ✍️  Editors
 ################################################################################
 brewinstall neovim # Modern Vim-based editor - https://neovim.io/
-brewinstall vim # Classic text editor - https://www.vim.org/
 
 ################################################################################
 # 🧑‍💻 Programming Languages & Runtimes
@@ -221,7 +215,42 @@ caskinstall xcodes-app # Manage Xcode installations - https://xcodes.dev/
 caskinstall xquartz # X11 windowing system - https://www.xquartz.org/
 
 ################################################################################
-# 👁️ QuickLook Plugins
+# � Fonts
+################################################################################
+# Copy custom fonts
+cp ${SYNC_FOLDER}/Lib/fonts/Operator\ Mono/* ~/Library/Fonts &>/dev/null
+cp ${SYNC_FOLDER}/Lib/fonts/Operator\ Mono\ Lig/* ~/Library/Fonts &>/dev/null
+
+# Install Nerd Fonts and other fonts via Homebrew Cask
+caskinstall font-symbols-only-nerd-font # Nerd Font symbols - https://github.com/ryanoasis/nerd-fonts
+caskinstall font-3270-nerd-font
+caskinstall font-arimo-nerd-font
+caskinstall font-cascadia-code
+caskinstall font-cascadia-mono
+caskinstall font-cousine-nerd-font
+caskinstall font-fira-code
+caskinstall font-go-mono-nerd-font
+caskinstall font-hack-nerd-font
+caskinstall font-hubot-sans
+caskinstall font-inconsolata-nerd-font
+caskinstall font-iosevka-nerd-font
+caskinstall font-jetbrains-mono
+caskinstall font-jetbrains-mono-nerd-font
+caskinstall font-lekton-nerd-font
+caskinstall font-mona-sans
+caskinstall font-monofur-nerd-font
+caskinstall font-monoid-nerd-font
+caskinstall font-mononoki-nerd-font
+caskinstall font-noto-nerd-font
+caskinstall font-profont-nerd-font
+caskinstall font-symbols-only-nerd-font
+caskinstall font-tinos-nerd-font
+caskinstall font-ubuntu
+caskinstall font-ubuntu-mono-derivative-powerline
+caskinstall font-ubuntu-nerd-font
+
+################################################################################
+# �👁️ QuickLook Plugins
 ################################################################################
 caskinstall qlcolorcode # Syntax highlighting in Quick Look - https://github.com/anthonygelibert/QLColorCode
 caskinstall qlmarkdown # Markdown preview in Quick Look - https://github.com/toland/qlmarkdown
@@ -233,15 +262,29 @@ caskinstall quicklook-json # JSON preview in Quick Look - https://github.com/sin
 caskinstall quicklookase # Adobe Swatch Exchange preview - https://github.com/andrewsardone/quicklookase
 caskinstall suspicious-package # Inspect installer packages - https://www.mothersruin.com/software/SuspiciousPackage/
 
-# Execute batch installations
 brewinstall_run
 caskinstall_run
 
+###################################################################################################
+# 🔧 POST-INSTALLATION CONFIGURATION
+###################################################################################################
+echo_space
+echo_title "Post-installation setup"
+
+# GitHub CLI extensions
+echo_subtitle "Installing GitHub CLI extensions"
+gh extension install dlvhdr/gh-dash # GitHub project dashboard - https://github.com/dlvhdr/gh-dash
+gh extension install github/gh-copilot # GitHub Copilot - https://github.com/github/gh-copilot
+
+echo_subtitle "Configuring system settings"
 brew link --overwrite node # Ensure node is linked
 xattr -d -r com.apple.quarantine ~/Library/QuickLook # remove quarantine attr since Catalina
 
+###################################################################################################
+# PROFILE-SPECIFIC
+###################################################################################################
 source $MY/profiles/$OS_PROFILE/core/brew 2>/dev/null
 
 echo_space
-echo_title "Cleaning brew cask..."
+echo_title "Cleaning brew..."
 brew cleanup

@@ -1,0 +1,148 @@
+#!/usr/bin/env zsh
+
+# Master shell startup benchmarking script for 'my' project optimization
+# This script will benchmark shell startup performance on both master and current branch
+
+set -euo pipefail
+
+source $MY/core/helper
+
+CURRENT_BRANCH=$(git branch --show-current)
+CURRENT_BRANCH_CLEAN=$(echo "$CURRENT_BRANCH" | sed 's/\//_/g')  # Replace / with _ for file names
+BENCHMARK_DIR="$MY/benchmark/results"
+TIMESTAMP=$(date '+%Y%m%d_%H%M%S')
+
+echo_title "⚡ Shell Startup Performance Benchmarking Suite"
+echo_info "Current branch: $CURRENT_BRANCH"
+echo_info "Master branch will be used as baseline"
+
+# Ensure we're in a clean state
+if [[ -n "$(git status --porcelain)" ]]; then
+    echo_warn "Working directory is not clean. Please commit or stash changes first."
+    exit 1
+fi
+
+# Create benchmark directory
+mkdir -p "$BENCHMARK_DIR"
+
+echo_space
+echo_title "⚡ Step 1: Benchmark Master Branch Shell Startup (Baseline)"
+
+# Switch to master and benchmark
+echo_task_start "Switching to master branch"
+git checkout master
+echo_task_done "Switched to master"
+
+echo_task_start "Running master branch shell startup benchmark"
+MASTER_RESULTS="$BENCHMARK_DIR/shell_startup_master_${TIMESTAMP}.json"
+# Switch back to our branch to access benchmark tools, then back to master for testing
+git checkout "$CURRENT_BRANCH"
+# Use ZPROF=TRUE for master branch compatibility
+if ZPROF=TRUE $MY/benchmark/shell-startup-benchmark master > "$BENCHMARK_DIR/master_shell_benchmark_${TIMESTAMP}.log" 2>&1; then
+    # Find the most recent master results file
+    MASTER_RESULTS=$(ls -t "$BENCHMARK_DIR"/shell_startup_master_*.json | head -1)
+    echo_success "Master shell benchmark completed"
+    echo_subtle "Results: $MASTER_RESULTS"
+else
+    echo_fail "Master shell benchmark failed. Check log: $BENCHMARK_DIR/master_shell_benchmark_${TIMESTAMP}.log"
+    exit 1
+fi
+echo_task_done "Master shell benchmark"
+
+echo_space
+echo_title "🚀 Step 2: Benchmark Current Branch Shell Startup (Test)"
+
+# Switch back to the optimization branch
+echo_task_start "Switching back to $CURRENT_BRANCH"
+git checkout "$CURRENT_BRANCH"
+echo_task_done "Switched to $CURRENT_BRANCH"
+
+echo_task_start "Running optimization branch shell startup benchmark"
+# Use ZPROF=1 for feature branch compatibility
+if ZPROF=1 $MY/benchmark/shell-startup-benchmark "$CURRENT_BRANCH" > "$BENCHMARK_DIR/${CURRENT_BRANCH_CLEAN}_shell_benchmark_${TIMESTAMP}.log" 2>&1; then
+    # Find the most recent current branch results file
+    CURRENT_RESULTS=$(ls -t "$BENCHMARK_DIR"/shell_startup_${CURRENT_BRANCH_CLEAN}_*.json | head -1)
+    echo_success "Optimization shell benchmark completed"
+    echo_subtle "Results: $CURRENT_RESULTS"
+else
+    echo_fail "Optimization shell benchmark failed. Check log: $BENCHMARK_DIR/${CURRENT_BRANCH_CLEAN}_shell_benchmark_${TIMESTAMP}.log"
+    exit 1
+fi
+echo_task_done "Optimization shell benchmark"
+
+echo_space
+echo_title "📊 Step 3: Shell Performance Comparison Analysis"
+
+echo_task_start "Comparing shell benchmark results"
+COMPARISON_LOG="$BENCHMARK_DIR/shell_comparison_${TIMESTAMP}.log"
+if $MY/benchmark/compare-shell-results "$MASTER_RESULTS" "$CURRENT_RESULTS" > "$COMPARISON_LOG" 2>&1; then
+    echo_success "Shell comparison analysis completed"
+    echo_subtle "Full report: $COMPARISON_LOG"
+else
+    echo_fail "Shell comparison failed. Check log: $COMPARISON_LOG"
+    exit 1
+fi
+echo_task_done "Shell performance comparison"
+
+echo_space
+echo_title "⚡ Quick Shell Performance Summary"
+
+# Display a quick summary from the comparison
+if [[ -f "$COMPARISON_LOG" ]]; then
+    echo_info "=== SHELL STARTUP PERFORMANCE SUMMARY ==="
+
+    # Extract key metrics from comparison log
+    if grep -q "SHELL PERFORMANCE IMPROVED" "$COMPARISON_LOG"; then
+        echo_success "🚀 Overall: SHELL PERFORMANCE IMPROVED"
+    elif grep -q "SHELL PERFORMANCE STABLE" "$COMPARISON_LOG"; then
+        echo_info "✅ Overall: SHELL PERFORMANCE STABLE"
+    elif grep -q "NET IMPROVEMENT" "$COMPARISON_LOG"; then
+        echo_info "📈 Overall: NET IMPROVEMENT"
+    elif grep -q "NET REGRESSION" "$COMPARISON_LOG"; then
+        echo_warn "📉 Overall: NET REGRESSION"
+    else
+        echo_info "⚖️  Overall: MIXED RESULTS"
+    fi
+
+    # Show improvements and regressions count
+    faster=$(grep "Faster:" "$COMPARISON_LOG" | grep -o '[0-9]*' | head -1 || echo "0")
+    slower=$(grep "Slower:" "$COMPARISON_LOG" | grep -o '[0-9]*' | head -1 || echo "0")
+
+    echo_info "Faster: $faster tests"
+    if [[ $slower -gt 0 ]]; then
+        echo_warn "Slower: $slower tests"
+    else
+        echo_info "Slower: $slower tests"
+    fi
+
+    # Show the key metric - full shell startup time
+    if grep -q "Full Shell Startup" "$COMPARISON_LOG"; then
+        echo_space
+        echo_title "⚡ Key Metric"
+        startup_info=$(grep -A 10 "Key Metric: Full Shell Startup" "$COMPARISON_LOG" | grep -E "(Baseline startup:|Test startup:|Change:)" | head -3)
+        echo "$startup_info" | while IFS= read -r line; do
+            if [[ -n "$line" ]]; then
+                echo_info "$line"
+            fi
+        done
+    fi
+fi
+
+echo_space
+echo_title "📁 Generated Files"
+echo_info "Master baseline: $MASTER_RESULTS"
+echo_info "Current results: $CURRENT_RESULTS"
+echo_info "Shell comparison report: $COMPARISON_LOG"
+echo_info "All files in: $BENCHMARK_DIR"
+
+echo_space
+echo_title "⚡ Shell Benchmarking Complete!"
+echo_success "Your shell startup optimization analysis is ready. Check the comparison report for detailed insights."
+
+# Offer to open the comparison report
+echo_space
+read "?Would you like to view the detailed shell performance report now? (y/N): " REPLY
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    cat "$COMPARISON_LOG"
+fi

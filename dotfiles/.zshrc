@@ -1,104 +1,47 @@
-################################################################################
-#                                                                              #
-#   🚀 ZSHRC MAIN CONFIGURATION                                                #
-#   -------------------------                                                  #
-#   Main shell initialisation and modular sourcing.                            #
-#                                                                              #
-################################################################################
+# =============================================================================
+# ZSH Configuration
+# =============================================================================
+export MY="$HOME/my"
 
-################################################################################
-#   🕵️ ZSH PROFILING (zprof)
-################################################################################
-# Set ZPROF=TRUE at the top of this file to enable zprof timing
-if [[ "$ZPROF" == "TRUE" ]]; then
-  zmodload zsh/zprof
-fi
+# Enable profiling if requested (set ZPROF=1)
+[[ -n "$ZPROF" ]] && zmodload zsh/zprof
 
-################################################################################
-#   ⚡ Powerlevel10k instant prompt (must be at the very top for best performance)
-################################################################################
-# [[ -f $HOME/.config/zsh/p10k-instant-prompt.zsh ]] && source $HOME/.config/zsh/p10k-instant-prompt.zsh
-
-################################################################################
-#   🍺 HOMEBREW PREFIX SETUP (Apple Silicon or Intel)
-################################################################################
-HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-/usr/local}"
-
-################################################################################
-#   🧩 SOURCE MODULAR ZSH FILES (order matters)
-################################################################################
-
-# Modular Zsh config sourcing (order matters)
-for zsh_file in \
-  zprezto.zsh \
-  antidote.zsh \
-  autojump.zsh \
-  functions.zsh \
-  z.zsh \
+# Load shell modules (order matters for dependencies)
+for module in \
   globals.zsh \
-  display.zsh \
+  directory.zsh \
+  editor.zsh \
+  history.zsh \
   locale.zsh \
   limits.zsh \
+  homebrew.zsh \
+  path.zsh \
+  zprezto.zsh \
+  utility.zsh \
+  functions.zsh \
+  completions.zsh \
   bindings.zsh \
   aliases.zsh \
-  completions.zsh \
+  display.zsh \
   openssl.zsh \
-  homebrew.zsh \
-  android.zsh \
   python.zsh \
-  path.zsh \
-  fzf.zsh \
-  java.zsh \
   ruby.zsh \
+  java.zsh \
   node.zsh \
   babel.zsh \
+  android.zsh \
+  antidote.zsh \
   autosuggestions.zsh \
+  history-substring-search.zsh \
+  you-should-use.zsh \
+  fzf.zsh \
+  zoxide.zsh \
+  local.zsh \
+  profile.zsh \
   starship.zsh
 do
-  [[ -f $HOME/.config/zsh/$zsh_file ]] && source $HOME/.config/zsh/$zsh_file
+  [[ -f $MY/shell/$module ]] && source $MY/shell/$module
 done
 
-
-################################################################################
-#   🧠 ZSH COMPLETION & ZMV AUTOLOAD
-################################################################################
-
-# Only rebuild completions if needed, otherwise use cached (from Scott Spence's guide)
-autoload -Uz compinit
-
-if [ "$(date +'%j')" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
-    compinit
-else
-    compinit -C
-fi
-
-autoload zmv
-
-################################################################################
-#   🗃️ LOCAL CONFIGURATION SOURCING
-################################################################################
-[[ -f $HOME/.config/zsh/local.zsh ]] && source $HOME/.config/zsh/local.zsh
-
-################################################################################
-#   🛣️ PROFILED BIN OVERRIDES
-################################################################################
-export PATH=$MY/profiles/$OS_PROFILE/bin/_:$PATH
-
-
-################################################################################
-#   💎 ONLY IF NEEDED TO BE LOADED AT THE END
-################################################################################
-# for zsh_file in \
-#   fnm.zsh \
-#   starship.zsh
-# do
-#   [[ -f $HOME/.config/zsh/$zsh_file ]] && source $HOME/.config/zsh/$zsh_file
-# done
-
-
-################################################################################
-#   🕵️ ZSH PROFILING REPORT (zprof)
-################################################################################
-if [[ "$ZPROF" == "TRUE" ]]; then
-  zprof
-fi
+# Show profiling report if enabled
+[[ -n "$ZPROF" ]] && zprof

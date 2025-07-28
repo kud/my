@@ -7,8 +7,6 @@ git --git-dir="$MY/.git" --work-tree="$MY/" pull &&
 
 $MY/core/intro &&
 $MY/core/default-folders &&
-$MY/core/main
-
-exec $SHELL
-
+$MY/core/main &&
 $MY/core/doctor
+

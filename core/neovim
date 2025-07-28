@@ -1,0 +1,42 @@
+#! /usr/bin/env zsh
+
+source $MY/core/helper
+
+echo_space
+echo_title "Modern Neovim Configuration"
+
+# Check if Neovim is installed
+if ! command -v nvim >/dev/null 2>&1; then
+    echo_warn "Neovim is not installed. Install it via brew:"
+    echo_info "brew install neovim"
+    exit 1
+fi
+
+# Check if the config directory exists
+if [[ ! -d "$HOME/.config/nvim" ]]; then
+    echo_task_start "Creating Neovim config directory"
+    mkdir -p "$HOME/.config/nvim"
+    echo_task_done "Neovim config directory created"
+fi
+
+# Clean up old vim-plug installation if it exists
+if [[ -d "$HOME/.config/nvim/autoload" ]]; then
+    echo_task_start "Cleaning up old vim-plug installation"
+    rm -rf "$HOME/.config/nvim/autoload"
+    rm -rf "$HOME/.config/nvim/plugged"
+    echo_task_done "Old vim-plug removed"
+fi
+
+echo_space
+echo_success "Modern Neovim setup complete!"
+echo_info "Config location: ~/.config/nvim/init.lua"
+echo_info "Features included:"
+echo_info "  🔍 Telescope (fuzzy finder)"
+echo_info "  🌳 TreeSitter (syntax highlighting)"
+echo_info "  🔧 Mason (LSP installer)"
+echo_info "  💬 nvim-cmp (autocompletion)"
+echo_info "  🤖 GitHub Copilot"
+echo_info "  📁 Neo-tree (file explorer)"
+echo_info "  ⚡ Gitsigns (git integration)"
+echo_info "  💅 Lualine (status line)"
+echo_info "Run 'nvim' to automatically install all plugins!"

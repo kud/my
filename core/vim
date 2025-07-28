@@ -1,7 +1,0 @@
-#! /usr/bin/env zsh
-
-source $MY/core/helper
-
-# vim theme
-# echo_space
-# echo_title_update "vim theme"

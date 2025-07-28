@@ -1,0 +1,183 @@
+#!/usr/bin/env zsh
+
+# Shell startup performance comparison script
+# Compares shell startup times between two benchmark results
+
+set -euo pipefail
+
+source $MY/core/helper
+
+if [[ $# -ne 2 ]]; then
+    echo_fail "Usage: $0 <baseline_shell_results.json> <test_shell_results.json>"
+    exit 1
+fi
+
+BASELINE_FILE="$1"
+TEST_FILE="$2"
+
+# Performance tolerance threshold in milliseconds
+# Changes smaller than this are considered measurement noise
+TOLERANCE_MS=100
+
+if [[ ! -f "$BASELINE_FILE" ]]; then
+    echo_fail "Baseline file not found: $BASELINE_FILE"
+    exit 1
+fi
+
+if [[ ! -f "$TEST_FILE" ]]; then
+    echo_fail "Test file not found: $TEST_FILE"
+    exit 1
+fi
+
+# Extract branch names and timestamps
+BASELINE_BRANCH=$(jq -r '.branch' "$BASELINE_FILE")
+TEST_BRANCH=$(jq -r '.branch' "$TEST_FILE")
+BASELINE_TIMESTAMP=$(jq -r '.timestamp' "$BASELINE_FILE")
+TEST_TIMESTAMP=$(jq -r '.timestamp' "$TEST_FILE")
+
+echo_title "⚡ Shell Startup Performance Comparison"
+echo_info "Baseline: $BASELINE_BRANCH ($BASELINE_TIMESTAMP)"
+echo_info "Test:     $TEST_BRANCH ($TEST_TIMESTAMP)"
+echo_info "Tolerance: ±${TOLERANCE_MS}ms (changes smaller than this are considered measurement noise)"
+
+echo_space
+echo_title "🚀 Startup Time Comparison"
+
+# Get common benchmarks
+COMMON_BENCHMARKS=$(jq -r '[.benchmarks | keys[]] as $b1 | [input.benchmarks | keys[]] as $b2 | ($b1 - ($b1 - $b2))[]' "$BASELINE_FILE" "$TEST_FILE" | sort | uniq)
+
+echo "| Test | Baseline (ms) | Test (ms) | Change (ms) | % Change | Status |"
+echo "|------|---------------|-----------|-------------|----------|--------|"
+
+total_tests=0
+improvements=0
+regressions=0
+unchanged=0
+
+while IFS= read -r test_name; do
+    if [[ -z "$test_name" ]]; then continue; fi
+
+    baseline_time=$(jq -r --arg test "$test_name" '.benchmarks[$test].median_seconds // empty' "$BASELINE_FILE")
+    test_time=$(jq -r --arg test "$test_name" '.benchmarks[$test].median_seconds // empty' "$TEST_FILE")
+
+    if [[ -n "$baseline_time" && -n "$test_time" ]]; then
+        # Convert to milliseconds for better readability
+        baseline_ms=$(echo "$baseline_time * 1000" | bc -l)
+        test_ms=$(echo "$test_time * 1000" | bc -l)
+
+        # Calculate change and percentage
+        change_ms=$(echo "$test_ms - $baseline_ms" | bc -l)
+        if [[ $(echo "$baseline_time > 0" | bc -l) -eq 1 ]]; then
+            percent_change=$(echo "scale=1; ($change_ms / $baseline_ms) * 100" | bc -l)
+        else
+            percent_change="N/A"
+        fi
+
+        # Determine status using tolerance threshold
+        test_status="⚪ UNCHANGED"
+        if [[ $(echo "$change_ms < -$TOLERANCE_MS" | bc -l) -eq 1 ]]; then
+            test_status="🟢 FASTER"
+            improvements=$((improvements + 1))
+        elif [[ $(echo "$change_ms > $TOLERANCE_MS" | bc -l) -eq 1 ]]; then
+            test_status="🔴 SLOWER"
+            regressions=$((regressions + 1))
+        else
+            unchanged=$((unchanged + 1))
+        fi
+
+        # Format numbers for display
+        baseline_display=$(printf "%.1f" "$baseline_ms")
+        test_display=$(printf "%.1f" "$test_ms")
+        change_display=$(printf "%+.1f" "$change_ms")
+
+        if [[ "$percent_change" != "N/A" ]]; then
+            percent_display=$(printf "%+.1f%%" "$percent_change")
+        else
+            percent_display="N/A"
+        fi
+
+        printf "| %-20s | %13s | %9s | %11s | %8s | %-10s |\n" \
+            "$test_name" "$baseline_display" "$test_display" "$change_display" "$percent_display" "$test_status"
+
+        total_tests=$((total_tests + 1))
+    fi
+done <<< "$COMMON_BENCHMARKS"
+
+echo_space
+echo_title "📊 Summary Statistics"
+
+echo_info "Total tests: $total_tests"
+if [[ $improvements -gt 0 ]]; then
+    echo_success "Faster: $improvements tests"
+fi
+if [[ $regressions -gt 0 ]]; then
+    echo_warn "Slower: $regressions tests"
+fi
+if [[ $unchanged -gt 0 ]]; then
+    echo_subtle "Unchanged: $unchanged tests"
+fi
+
+# Focus on the most important metric - full shell startup
+echo_space
+echo_title "⚡ Key Metric: Full Shell Startup"
+
+baseline_full=$(jq -r '.benchmarks.zsh_full_startup.median_seconds // empty' "$BASELINE_FILE")
+test_full=$(jq -r '.benchmarks.zsh_full_startup.median_seconds // empty' "$TEST_FILE")
+
+if [[ -n "$baseline_full" && -n "$test_full" ]]; then
+    baseline_full_ms=$(echo "$baseline_full * 1000" | bc -l)
+    test_full_ms=$(echo "$test_full * 1000" | bc -l)
+    change_full_ms=$(echo "$test_full_ms - $baseline_full_ms" | bc -l)
+    percent_full=$(echo "scale=1; ($change_full_ms / $baseline_full_ms) * 100" | bc -l)
+
+    echo_info "Baseline startup: $(printf "%.1f" "$baseline_full_ms")ms"
+    echo_info "Test startup:     $(printf "%.1f" "$test_full_ms")ms"
+    echo_info "Change:           $(printf "%+.1f" "$change_full_ms")ms ($(printf "%+.1f" "$percent_full")%)"
+
+    # Use tolerance threshold for meaningful change detection
+    if [[ $(echo "$change_full_ms < -$TOLERANCE_MS" | bc -l) -eq 1 ]]; then
+        echo_success "🚀 SIGNIFICANT IMPROVEMENT: Shell startup is faster!"
+    elif [[ $(echo "$change_full_ms > $TOLERANCE_MS" | bc -l) -eq 1 ]]; then
+        echo_warn "🐌 REGRESSION: Shell startup is slower"
+    else
+        echo_info "⚪ Shell startup time is within measurement tolerance (±${TOLERANCE_MS}ms)"
+    fi
+else
+    echo_warn "Full shell startup test not found in both files"
+fi
+
+# Overall assessment
+echo_space
+echo_title "🎯 Overall Assessment"
+
+if [[ $regressions -eq 0 && $improvements -gt 0 ]]; then
+    echo_success "🚀 SHELL PERFORMANCE IMPROVED: All tests either improved or remained stable!"
+elif [[ $regressions -eq 0 && $improvements -eq 0 ]]; then
+    echo_info "✅ SHELL PERFORMANCE STABLE: No significant changes detected"
+elif [[ $improvements -gt $regressions ]]; then
+    echo_info "📈 NET IMPROVEMENT: More tests improved than regressed"
+elif [[ $regressions -gt $improvements ]]; then
+    echo_warn "📉 NET REGRESSION: More tests regressed than improved"
+else
+    echo_info "⚖️  MIXED RESULTS: Equal improvements and regressions"
+fi
+
+# Performance recommendations
+echo_space
+echo_title "💡 Performance Insights"
+
+if [[ -n "$test_full" ]]; then
+    test_full_num=$(echo "$test_full" | bc -l)
+    if (( $(echo "$test_full_num > 0.5" | bc -l) )); then
+        echo_warn "Consider optimizing:"
+        echo_warn "  • Reduce plugin loading in .zshrc"
+        echo_warn "  • Use lazy loading for heavy tools"
+        echo_warn "  • Profile with 'zsh -xvs' to find bottlenecks"
+    elif (( $(echo "$test_full_num > 0.3" | bc -l) )); then
+        echo_info "Good performance, potential optimizations:"
+        echo_info "  • Consider async plugin loading"
+        echo_info "  • Review startup scripts"
+    else
+        echo_success "Excellent shell startup performance!"
+    fi
+fi
