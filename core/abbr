@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+
 # core/abbr: Load useful abbreviations for your shell
 
 source ~/.zshrc
@@ -30,3 +31,9 @@ abbr bclean="brew cleanup"
 abbr nclean="npm cache clean --force"
 abbr pclean="pip cache purge"
 abbr reload="source ~/.zshrc"
+
+# Automatically reload zsh config after updating abbreviations
+if [[ -n "$ZSH_VERSION" && -o interactive ]]; then
+  echo "Reloading your shell to apply new abbreviations..."
+  source ~/.zshrc
+fi
