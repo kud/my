@@ -13,10 +13,12 @@ echo_info "Scanning dotfiles directory for files to symlink..."
 
 # Automatically discover all dotfiles (files starting with .)
 dotfiles=()
+
 for file in "$MY/dotfiles"/.* "$MY/dotfiles"/*; do
-  # Skip directories and special entries
-  if [[ -f "$file" && "$(basename "$file")" != "." && "$(basename "$file")" != ".." ]]; then
-    dotfiles+=($(basename "$file"))
+  # Skip directories, special entries, and .DS_Store
+  base="$(basename "$file")"
+  if [[ -f "$file" && "$base" != "." && "$base" != ".." && "$base" != ".DS_Store" ]]; then
+    dotfiles+=("$base")
   fi
 done
 
