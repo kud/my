@@ -1,0 +1,18 @@
+#!/usr/bin/env zsh
+# £: Main entry for custom commands
+
+case "$1" in
+  run)
+    case "$2" in
+      abbr)
+        "$MY/core/abbr"
+        ;;
+      *)
+        echo "£ run: Unknown command '$2'"
+        ;;
+    esac
+    ;;
+  *)
+    echo "£: Unknown command '$1'"
+    ;;
+esac

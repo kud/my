@@ -1,0 +1,32 @@
+#!/usr/bin/env zsh
+# core/abbr: Load useful abbreviations for your shell
+
+source ~/.zshrc
+
+# Only load if abbr command is available
+if ! command -v abbr >/dev/null; then
+  echo "abbr: 'abbr' command not found. Please install zsh-abbr."
+  return 1
+fi
+
+abbr gco="git checkout"
+abbr gst="git status"
+abbr gaa="git add --all"
+abbr gcm="git commit -m"
+abbr gl="git pull"
+abbr gp="git push"
+abbr gbr="git branch"
+abbr gmg="git merge"
+abbr gpo="git push origin"
+abbr ll="ls -la"
+abbr la="ls -A"
+abbr l1="ls -1"
+abbr ..="cd .."
+abbr ...="cd ../.."
+abbr ~="cd ~"
+abbr v="nvim"
+abbr smerge="sublime-merge"
+abbr bclean="brew cleanup"
+abbr nclean="npm cache clean --force"
+abbr pclean="pip cache purge"
+abbr reload="source ~/.zshrc"
