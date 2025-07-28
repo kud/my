@@ -175,7 +175,6 @@ caskinstall fliqlo # Flip clock screensaver - https://fliqlo.com/
 caskinstall flux-app # Adjusts display color temperature - https://justgetflux.com/
 caskinstall google-chrome@canary # Chrome Canary browser - https://www.google.com/chrome/canary/
 caskinstall grandperspective # Disk usage visualizer - https://grandperspectiv.sourceforge.io/
-caskinstall hyperkey # Remap keys - https://hyperkey.app/
 caskinstall image2icon # Create icons from images - https://www.img2icnsapp.com/
 caskinstall imageoptim # Image optimizer - https://imageoptim.com/
 caskinstall insomnia # REST Client - https://insomnia.rest/
