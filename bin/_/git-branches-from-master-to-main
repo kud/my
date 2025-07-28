@@ -2,34 +2,16 @@
 
 set -e
 
-if ! git rev-parse --is-inside-work-tree &>/dev/null; then
-  echo "Error: Not inside a git repository."
-  exit 1
+# Switch to master if not already
+if [[ $(git rev-parse --abbrev-ref HEAD) != "master" ]]; then
+  git switch master
 fi
 
-if git rev-parse --verify main >/dev/null 2>&1; then
-  echo "Error: 'main' branch already exists in the current repository."
-  exit 2
-fi
-
-if ! git rev-parse --verify master >/dev/null 2>&1; then
-  echo "Error: 'master' branch does not exist in the current repository."
-  exit 3
-fi
-
-echo "Switching to 'master' branch..."
-git switch master
-
-echo "Renaming 'master' branch to 'main'..."
+# Rename master to main
 git branch -m master main
 
-if ! git remote | grep -q '^origin$'; then
-  echo "Warning: No 'origin' remote found. Branch renamed locally only."
-  exit 0
-fi
+# Push main and set upstream
+git push -u origin main
 
-echo "Pushing 'main' branch and updating remote references..."
-git push origin main:master
-git push -u origin main:master
-
-echo "Branch successfully renamed and pushed to remote."
+# Delete master from remote
+git push origin --delete master
