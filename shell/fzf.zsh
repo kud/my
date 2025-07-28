@@ -5,7 +5,7 @@
 # ==============================================================================
 
 # FZF UI configuration
-export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --inline-info --border --color=fg:#c9d1d9,bg:#2c2f33,hl:#79c0ff --color=fg+:#c9d1d9,bg+:#21262d,hl+:#79c0ff --color=info:#b3b3b3,prompt:#58a6ff,pointer:#f778ba --color=marker:#f778ba,spinner:#b3b3b3,header:#21262d"
+export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --inline-info --border --color=fg:#c9d1d9,bg:-1,hl:#79c0ff,border:#181a1d --color=fg+:#c9d1d9,bg+:-1,hl+:#79c0ff,border:#181a1d --color=info:#b3b3b3,prompt:#58a6ff,pointer:#f778ba --color=marker:#f778ba,spinner:#b3b3b3,header:-1"
 
 # FZF-TAB recommended configuration
 zstyle ':fzf-tab:*' ansi-colors true
