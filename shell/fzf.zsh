@@ -1,33 +1,36 @@
-# ################################################################################
-#                                                                                #
-#   🔍 FZF INITIALISATION                                                        #
-#   ---------------------                                                        #
-#   Loads fzf key bindings and completion with enhanced configuration.           #
-#                                                                                #
-# ################################################################################
+# ==============================================================================
+# FZF & FZF-TAB CONFIGURATION
+# ------------------------------------------------------------------------------
+# Complete initialization, colors, preview, and fzf-tab integration.
+# ==============================================================================
 
-# Enhanced FZF configuration
-export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border --inline-info --color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4"
+# FZF UI configuration
+export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --inline-info --border --color=fg:#c9d1d9,bg:#2c2f33,hl:#79c0ff --color=fg+:#c9d1d9,bg+:#21262d,hl+:#79c0ff --color=info:#b3b3b3,prompt:#58a6ff,pointer:#f778ba --color=marker:#f778ba,spinner:#b3b3b3,header:#21262d"
 
-# Use ripgrep for even faster search if available, otherwise fallback to fd, then find
+# FZF-TAB recommended configuration
+zstyle ':fzf-tab:*' ansi-colors true
+zstyle ':fzf-tab:*' fzf-flags '--height=40%' '--layout=reverse' '--info=inline' '--color=fg+:italic'
+zstyle ':fzf-tab:*' switch-group '<' '>'
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+
+# FZF default commands
 if command -v rg >/dev/null 2>&1; then
   export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-  export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git 2>/dev/null || find . -type d -not -path "*/\.git/*" 2>/dev/null'
+  export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git 2>/dev/null || find . -type d -not -path "*/.git/*" 2>/dev/null'
 elif command -v fd >/dev/null 2>&1; then
   export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
   export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
 else
-  export FZF_DEFAULT_COMMAND='find . -type f -not -path "*/\.git/*" 2>/dev/null'
+  export FZF_DEFAULT_COMMAND='find . -type f -not -path "*/.git/*" 2>/dev/null'
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-  export FZF_ALT_C_COMMAND='find . -type d -not -path "*/\.git/*" 2>/dev/null'
+  export FZF_ALT_C_COMMAND='find . -type d -not -path "*/.git/*" 2>/dev/null'
 fi
 
-# Enhanced file preview with syntax highlighting
+# FZF previews
 export FZF_CTRL_T_OPTS="--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} 2>/dev/null || cat {})) || ([[ -d {} ]] && (tree -C {} | head -200))' --preview-window=right:50%:wrap"
-
-# Enhanced directory preview
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200' --preview-window=right:50%"
 
 # Load fzf
