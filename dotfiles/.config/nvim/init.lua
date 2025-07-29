@@ -41,6 +41,7 @@ vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
+vim.opt.guifont = "JetBrainsMono Nerd Font:h14"
 
 -- =============================================================================
 -- 🔌 Plugin Configuration with lazy.nvim
@@ -48,10 +49,19 @@ vim.opt.softtabstop = 2
 require("lazy").setup({
   -- 🎨 Colorscheme
   {
-    "folke/tokyonight.nvim",
+    "olimorris/onedarkpro.nvim",
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme("tokyonight-night")
+      require("onedarkpro").setup({
+        colorscheme = "onedark",
+        options = {
+          transparency = false,
+        },
+        plugins = {
+          neo_tree = true,
+        },
+      })
+      vim.cmd.colorscheme("onedark")
     end,
   },
 
@@ -440,7 +450,7 @@ require("lazy").setup({
       require("lualine").setup({
         options = {
           icons_enabled = false,
-          theme = "tokyonight",
+          theme = require("lualine.themes.onedark"),
           component_separators = "|",
           section_separators = "",
         },
