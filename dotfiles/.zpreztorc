@@ -27,8 +27,7 @@ zstyle ':prezto:*:*' color 'yes'
 # The order matters.
 zstyle ':prezto:load' pmodule \
   'environment' \
-  'completion' \
-  'syntax-highlighting'
+  'completion'
 
 
 # ────────── Autosuggestions ──────────
@@ -149,9 +148,9 @@ zstyle ':prezto:module:prompt' pwd-length 'short'
 
 
 # ────── Syntax Highlighting ─────────
+# Now handled by antidote + zsh-syntax-highlighting plugin
 
 # Set syntax highlighters
-
 # zstyle ':prezto:module:syntax-highlighting' highlighters \
 #   'main' \
 #   'brackets' \
@@ -168,7 +167,6 @@ zstyle ':prezto:module:syntax-highlighting' highlighters \
   'root'
 
 # Set syntax highlighting styles
-
 # zstyle ':prezto:module:syntax-highlighting' styles \
 #   'builtin' 'bg=blue' \
 #   'command' 'bg=blue' \
@@ -177,7 +175,6 @@ zstyle ':prezto:module:syntax-highlighting' highlighters \
 zstyle ':prezto:module:syntax-highlighting' styles 'path' 'fg=white'
 
 # Set syntax pattern styles
-
 zstyle ':prezto:module:syntax-highlighting' pattern \
   'rm*-rf*' 'fg=white,bold,bg=red'
 
