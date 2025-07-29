@@ -5,8 +5,8 @@ source $MY/core/helper
 
 $MY/core/pcloud
 $MY/core/prezto
-$MY/core/antidote
 $MY/core/brew
+$MY/core/antidote
 $MY/core/submodules
 $MY/core/neovim
 $MY/core/gem
