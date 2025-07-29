@@ -19,7 +19,7 @@ zsh_plugins_zsh="$HOME/.zsh_plugins.zsh"
 [[ -f "$zsh_plugins_txt" ]] || touch "$zsh_plugins_txt"
 
 # Lazy-load Antidote from its functions directory (fastest method)
-fpath=( $(brew --prefix)/share/antidote/functions $fpath )
+fpath=( $HOMEBREW_PREFIX/share/antidote/functions $fpath )
 autoload -Uz antidote
 
 # Generate a new static file whenever plugins.txt is updated
