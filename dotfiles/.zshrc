@@ -31,6 +31,7 @@ for module in \
   babel.zsh \
   android.zsh \
   antidote.zsh \
+  syntax-highlighting.zsh \
   autosuggestions.zsh \
   history-substring-search.zsh \
   you-should-use.zsh \

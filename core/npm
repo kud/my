@@ -11,6 +11,7 @@ echo_space
 echo_title_install "global node packages"
 
 npminstall aicommits # Automated AI commit messages for git - https://github.com/Nutlope/aicommits
+npminstall @anthropic-ai/claude-code # AI-powered coding assistant - https://github.com/anthropics/claude-code
 npminstall battery-level-cli # Get battery level from the command line - https://github.com/sindresorhus/battery-level-cli
 npminstall bodybuilder # ElasticSearch query body builder - https://github.com/danpaz/bodybuilder
 npminstall caniuse-cmd # Can I use... from the command line - https://github.com/sgentle/caniuse-cmd
