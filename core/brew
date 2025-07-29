@@ -60,6 +60,8 @@ brewinstall gnu-sed # GNU version of sed - https://www.gnu.org/software/sed/
 brewinstall grep # GNU grep - https://www.gnu.org/software/grep/
 brewinstall htmlcompressor # HTML compressor - https://github.com/google/htmlcompressor
 brewinstall htop # Interactive process viewer - https://htop.dev/
+brewinstall btop # Modern system monitor - https://github.com/aristocratos/btop
+brewinstall bottom # Cross-platform system monitor - https://github.com/ClementTsang/bottom
 brewinstall iftop # Network bandwidth monitor - https://www.ex-parrot.com/pdw/iftop/
 brewinstall less # Pager program (newer than macOS default) - https://www.greenwoodsoftware.com/less/
 brewinstall lsd # Modern replacement for 'ls' - https://github.com/lsd-rs/lsd

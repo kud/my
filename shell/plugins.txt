@@ -14,6 +14,7 @@ hlissner/zsh-autopair
 
 # Developer tools
 lukechilds/zsh-better-npm-completion
+wfxr/forgit
 
 # Heavier plugins last
 bigH/git-fuzzy path:bin kind:path
