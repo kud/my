@@ -12,7 +12,7 @@ zstyle ':fzf-tab:*' ansi-colors true
 zstyle ':fzf-tab:*' fzf-flags '--height=40%' '--layout=reverse' '--info=inline' '--color=fg+:italic'
 zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'lsd -1 --color=always $realpath'
 
 # FZF default commands
 if command -v rg >/dev/null 2>&1; then
