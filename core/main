@@ -1,18 +1,40 @@
-#! /usr/bin/env zsh
-setopt EXTENDED_GLOB
+#!/usr/bin/env zsh
 
+################################################################################
+#                                                                              #
+#   🎯 CORE SYSTEM INSTALLER                                                   #
+#   ----------------------                                                     #  
+#   Master orchestrator that executes all core system setup scripts in        #
+#   the correct order for a complete development environment setup.           #
+#                                                                              #
+################################################################################
+
+setopt EXTENDED_GLOB
 source $MY/core/helper
 
-$MY/core/pcloud
-$MY/core/brew
-$MY/core/antidote
-$MY/core/submodules
-$MY/core/neovim
-$MY/core/gem
-$MY/core/pip
-$MY/core/npm
-$MY/core/mas
-$MY/core/aicommits
-$MY/core/sublime-merge
-$MY/core/keepassxc
-$MY/core/abbr
+echo_task_start "Initializing core system setup"
+echo_space
+
+################################################################################
+# 🔧 CORE SYSTEM COMPONENTS
+################################################################################
+
+echo_info "Executing core installation sequence"
+$MY/core/pcloud         # Cloud storage synchronization
+$MY/core/brew          # Package manager and system tools
+$MY/core/antidote      # Zsh plugin manager  
+$MY/core/submodules    # Git submodule dependencies
+$MY/core/neovim        # Text editor configuration
+$MY/core/gem           # Ruby package management
+$MY/core/pip           # Python package management
+$MY/core/npm           # Node.js package management
+$MY/core/mas           # Mac App Store applications
+$MY/core/aicommits     # AI-powered commit messages
+$MY/core/sublime-merge # Git GUI client
+$MY/core/keepassxc     # Password manager
+$MY/core/abbr          # Shell abbreviations
+
+echo_space
+echo_task_done "Core system setup completed successfully"
+echo_space
+echo_success "All core components have been installed and configured!"

@@ -1,8 +1,40 @@
 #!/usr/bin/env zsh
 
-source ~/.zshrc
+################################################################################
+#                                                                              #
+#   🧪 ANTIDOTE ZSH PLUGIN MANAGER                                             #
+#   -----------------------------                                              #
+#   Updates and manages zsh plugins using the antidote plugin manager.        #
+#   Keeps all shell extensions and enhancements up to date.                   #
+#                                                                              #
+################################################################################
 
+source ~/.zshrc
 source "$MY/core/helper"
 
-echo_info "Updating zsh plugins..."
-antidote update && echo_success "Zsh plugins updated successfully"
+echo_task_start "Updating zsh plugins via antidote"
+echo_space
+
+################################################################################
+# 🔄 PLUGIN UPDATE PROCESS
+################################################################################
+
+# Check if antidote is available
+if command -v antidote >/dev/null 2>&1; then
+    echo_info "Updating all zsh plugins and dependencies"
+    
+    if antidote update; then
+        echo_space
+        echo_success "Zsh plugins updated successfully"
+    else
+        echo_space
+        echo_warn "Some plugins may have failed to update"
+    fi
+else
+    echo_fail "antidote plugin manager not found"
+    return 1
+fi
+
+echo_space
+echo_task_done "Zsh plugin update completed"
+echo_success "Your shell is now running the latest plugin versions! ⚡"
