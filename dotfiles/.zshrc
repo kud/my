@@ -22,6 +22,7 @@ for module in \
   bindings.zsh \
   aliases.zsh \
   display.zsh \
+  cursor.zsh \
   openssl.zsh \
   python.zsh \
   ruby.zsh \
