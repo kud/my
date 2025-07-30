@@ -12,7 +12,7 @@
 # Only rebuild completions if needed, otherwise use cached (from Scott Spence's guide)
 autoload -Uz compinit
 
-# Enhanced completion initialization with caching (like prezto)
+# Enhanced completion initialization with caching
 _comp_path="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
 # #q expands globs in conditional expressions
 if [[ $_comp_path(#qNmh-20) ]]; then
@@ -27,7 +27,7 @@ fi
 unset _comp_path
 
 # -----------------------------------------------------------------------------
-# Completion Options (from prezto)
+# Completion Options
 # -----------------------------------------------------------------------------
 
 setopt COMPLETE_IN_WORD     # Complete from both ends of a word
@@ -49,7 +49,7 @@ if (( $+commands[brew] )); then
 fi
 
 # -----------------------------------------------------------------------------
-# Completion Styles (from prezto)
+# Completion Styles
 # -----------------------------------------------------------------------------
 
 # Use caching for commands like dpkg and apt

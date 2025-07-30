@@ -1,9 +1,9 @@
 # ──────────────────────────────────────────────
 # History Substring Search Configuration
-# Standalone replacement for prezto history-substring-search module
+# History substring search configuration
 # ──────────────────────────────────────────────
 
-# This replaces prezto's history-substring-search module with direct
+# Direct configuration for history substring search plugin
 # configuration of the zsh-history-substring-search plugin
 
 # ────────────── Search Colors ──────────────

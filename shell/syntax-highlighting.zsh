@@ -10,7 +10,7 @@
 # Only configure if zsh-syntax-highlighting is loaded
 if [[ -n "${ZSH_HIGHLIGHT_VERSION:-}" ]]; then
   
-  # Set syntax highlighters (equivalent to prezto config)
+  # Set syntax highlighters
   ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern line root)
   
   # Set syntax highlighting styles

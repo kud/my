@@ -107,16 +107,13 @@ alias wtf='whence -v'
 alias npms='npm run start'
 alias wt='webtorrent --vlc --not-on-top download'
 
-# Useful prezto utility aliases
+# Useful utility aliases
 alias e='${(z)VISUAL:-${(z)EDITOR}}'  # Quick editor
 alias p='${(z)PAGER}'                # Quick pager
 alias type='type -a'                 # Show all locations of command
 
-# macOS clipboard (if not already available)
-if [[ "$OSTYPE" == darwin* ]]; then
-  alias pbc='pbcopy'
-  alias pbp='pbpaste'
-fi
+alias pbc='pbcopy'
+alias pbp='pbpaste'
 
 
 ############################################################
