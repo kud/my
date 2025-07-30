@@ -1,22 +1,43 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
+
+################################################################################
+#                                                                              #
+#   🚀 NEOVIM CONFIGURATION MANAGER                                            #
+#   ------------------------------                                             #
+#   Sets up modern Neovim with LazyVim configuration for a powerful          #
+#   development environment with plugins, themes, and optimal settings.       #
+#                                                                              #
+################################################################################
 
 source $MY/core/helper
 
+echo_task_start "Setting up modern Neovim configuration"
 echo_space
-echo_title "Modern Neovim Configuration"
+
+################################################################################
+# 🔍 NEOVIM INSTALLATION CHECK
+################################################################################
 
 # Check if Neovim is installed
 if ! command -v nvim >/dev/null 2>&1; then
-    echo_warn "Neovim is not installed. Install it via brew:"
-    echo_info "brew install neovim"
-    exit 1
+    echo_fail "Neovim is not installed. Install it via Homebrew first:"
+    echo_info "Run: brew install neovim"
+    return 1
 fi
+
+echo_info "Neovim found - proceeding with configuration"
+
+################################################################################
+# 📂 CONFIGURATION DIRECTORY SETUP  
+################################################################################
 
 # Check if the config directory exists
 if [[ ! -d "$HOME/.config/nvim" ]]; then
-    echo_task_start "Creating Neovim config directory"
+    echo_info "Creating Neovim configuration directory"
     mkdir -p "$HOME/.config/nvim"
-    echo_task_done "Neovim config directory created"
+    echo_success "Configuration directory created"
+else
+    echo_info "Neovim configuration directory already exists"
 fi
 
 # Clean up old vim-plug installation if it exists
@@ -39,4 +60,8 @@ echo_info "  🤖 GitHub Copilot"
 echo_info "  📁 Neo-tree (file explorer)"
 echo_info "  ⚡ Gitsigns (git integration)"
 echo_info "  💅 Lualine (status line)"
-echo_info "Run 'nvim' to automatically install all plugins!"
+
+echo_space
+echo_task_done "Neovim configuration completed"
+echo_success "Modern Neovim development environment is ready! 🚀"
+echo_info "Run 'nvim' to automatically install all plugins and start coding!"

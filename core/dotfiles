@@ -1,14 +1,23 @@
 #!/usr/bin/env zsh
 
+################################################################################
+#                                                                              #
+#   📂 DOTFILES SYMLINK MANAGER                                                #
+#   --------------------------                                                 #
+#   Automatically discovers and symlinks all dotfiles from the repository     #
+#   to the home directory, enabling seamless configuration management.        #
+#                                                                              #
+################################################################################
+
 source "$MY/core/helper"
 
-echo_title_install "dotfiles"
+echo_task_start "Setting up dotfiles symlinks"
+echo_space
 
+################################################################################
+# 🔍 DOTFILES DISCOVERY
+################################################################################
 
-
-############################################################
-# 📦 Standard dotfiles
-############################################################
 echo_info "Scanning dotfiles directory for files to symlink..."
 
 # Automatically discover all dotfiles (files starting with .)
@@ -106,9 +115,15 @@ else
   echo_info "  Git local config already exists, skipping"
 fi
 
-echo_info "Reloading shell configuration..."
-# reload the shell
-source "$HOME/.zshrc"
-echo_success "  Shell configuration reloaded"
+################################################################################
+# 🔄 CONFIGURATION RELOAD
+################################################################################
 
-echo_success "Dotfiles installation completed!"
+echo_space
+echo_info "Reloading shell configuration to apply changes"
+source "$HOME/.zshrc"
+echo_success "Shell configuration reloaded successfully"
+
+echo_space
+echo_task_done "Dotfiles symlink setup completed"
+echo_success "All configuration files are now managed via symlinks! ⚡"
