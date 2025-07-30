@@ -1,15 +1,33 @@
 #!/usr/bin/env zsh
 
-# core/abbr: Load useful abbreviations for your shell
+################################################################################
+#                                                                              #
+#   🚀 ABBREVIATIONS MANAGER                                                   #
+#   ---------------------                                                      #
+#   Dynamically manages shell abbreviations with clean state management       #
+#                                                                              #
+################################################################################
 
 source ~/.zshrc
+source $MY/core/helper
+
+echo_task_start "Setting up shell abbreviations"
+echo_space
 
 # Only load if abbr command is available
 if ! command -v abbr >/dev/null; then
-  echo "abbr: 'abbr' command not found. Please install zsh-abbr."
+  echo_fail "abbr command not found. Please install zsh-abbr plugin."
   return 1
 fi
 
+# Get current abbreviations and erase them all
+echo_info "Clearing existing abbreviations"
+for abbr_name in $(abbr list-abbreviations 2>/dev/null); do
+    abbr erase "$abbr_name" 2>/dev/null
+done
+
+echo_space
+echo_info "Loading abbreviations"
 abbr gco="git checkout"
 abbr gst="git status"
 abbr gaa="git add --all"
@@ -21,8 +39,5 @@ abbr gmg="git merge"
 abbr gpo="git push origin"
 abbr ~="cd ~"
 
-# Automatically reload zsh config after updating abbreviations
-if [[ -n "$ZSH_VERSION" && -o interactive ]]; then
-  echo "Reloading your shell to apply new abbreviations..."
-  source ~/.zshrc
-fi
+echo_space
+echo_task_done "Shell abbreviations configured"
