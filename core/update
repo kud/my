@@ -10,3 +10,9 @@ $MY/core/default-folders &&
 $MY/core/main &&
 $MY/core/doctor
 
+# done!
+echo_space
+echo_success "And... we're done!"
+
+# resource!
+source $HOME/.zshrc

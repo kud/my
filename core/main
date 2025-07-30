@@ -16,10 +16,3 @@ $MY/core/mas
 $MY/core/aicommits
 $MY/core/sublime-merge
 $MY/core/keepassxc
-
-# done!
-echo_space
-echo_success "And... we're done!"
-
-# resource!
-source $HOME/.zshrc
