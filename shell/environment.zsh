@@ -2,7 +2,7 @@
 #                                                                              #
 #   ⚡ ENVIRONMENT CONFIGURATION                                               #
 #   ----------------------------                                               #
-#   Native replacement for prezto environment module.                         #
+#   Environment configuration and smart URL handling.                        #
 #                                                                              #
 ################################################################################
 

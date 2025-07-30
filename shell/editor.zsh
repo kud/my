@@ -2,7 +2,7 @@
 #                                                                              #
 #   ⌨️  EDITOR CONFIGURATION                                                   #
 #   ----------------------                                                     #
-#   Replaces prezto editor module functionality.                              #
+#   Editor configuration and key bindings.                                   #
 #   Sets vi key bindings and editor options.                                  #
 #                                                                              #
 ################################################################################
@@ -10,26 +10,26 @@
 # -----------------------------
 # Key Bindings Mode
 # -----------------------------
-# Set vi key bindings (like prezto editor module)
+# Set vi key bindings
 bindkey -v
 
 # -----------------------------
 # Editor Options
 # -----------------------------
-# Beep on error in line editor (like prezto)
+# Beep on error in line editor
 setopt BEEP
 
 # -----------------------------
 # Word Characters
 # -----------------------------
 # Define what characters are considered part of a word
-# (matches prezto default)
+# Default word characters
 WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 
 # -----------------------------
 # Dot Expansion Function
 # -----------------------------
-# Auto-expand .... to ../.. (like prezto dot-expansion)
+# Auto-expand .... to ../..
 function expand-dot-to-parent-directory-path {
   if [[ $LBUFFER = *.. ]]; then
     LBUFFER+='/..'

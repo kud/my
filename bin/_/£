@@ -28,12 +28,12 @@ else
       echo "Error: 'run' requires a module name. Available modules:"
       echo "  ssh, dotfiles, symlink, os, firefox, keepassxc,"
       echo "  sublime-merge, aicommits, brew, npm, mas, gem, pip, neovim,"
-      echo "  prezto, antidote, pcloud, shims, main"
+      echo "  antidote, pcloud, shims, main"
       exit 1
     fi
 
     case "$2" in
-    ssh|dotfiles|symlink|os|firefox|keepassxc|sublime-merge|aicommits|brew|npm|mas|gem|pip|neovim|prezto|antidote|pcloud|shims|main|abbr)
+    ssh|dotfiles|symlink|os|firefox|keepassxc|sublime-merge|aicommits|brew|npm|mas|gem|pip|neovim|antidote|pcloud|shims|main|abbr)
       if [[ -f "$MY/core/$2" ]]; then
         $MY/core/$2
       else
@@ -108,8 +108,6 @@ else
     printf "      pip             Install/update Python packages"
     echo_space
     printf "      neovim          Configure Neovim settings"
-    echo_space
-    printf "      prezto          Configure Prezto (zsh framework)"
     echo_space
     printf "      antidote        Install/update Antidote zsh plugins"
     echo_space

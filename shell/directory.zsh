@@ -2,7 +2,7 @@
 #                                                                              #
 #   📁 DIRECTORY OPTIONS                                                       #
 #   ------------------                                                         #
-#   Replaces prezto directory module functionality.                           #
+#   Directory navigation and options configuration.                           #
 #   Sets directory options for enhanced navigation.                           #
 #                                                                              #
 ################################################################################
