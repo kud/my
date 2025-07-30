@@ -44,6 +44,9 @@ $MY/core/os &&
 
 open https://github.com/kud/my/blob/master/doc/postinstall.md
 
-exec $SHELL
+# done!
+echo_space
+echo_success "And... we're done!"
 
-$MY/core/doctor
+# resource!
+source $HOME/.zshrc
