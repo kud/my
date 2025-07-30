@@ -1,14 +1,40 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
+
+################################################################################
+#                                                                              #
+#   📦 NODE.JS PACKAGE MANAGER                                                 #
+#   -------------------------                                                  #
+#   Manages global npm packages for development tools and CLI utilities.      #
+#   Installs essential Node.js tools for modern web development workflow.     #
+#                                                                              #
+################################################################################
+
 source $MY/core/helper
 
-# update node packages
+echo_task_start "Setting up global Node.js packages"
 echo_space
-echo_title_update "global node packages"
+
+# Check if Node.js and npm are available
+if ! command -v npm >/dev/null 2>&1; then
+    echo_fail "npm not found. Please install Node.js first."
+    return 1
+fi
+
+################################################################################
+# 🔄 NPM SYSTEM UPDATE
+################################################################################
+
+echo_info "Updating existing global npm packages"
 npm update -g --quiet
 
-# install node packages
 echo_space
-echo_title_install "global node packages"
+echo_success "Global npm packages updated successfully"
+
+################################################################################
+# 🛠️ DEVELOPMENT TOOLS & UTILITIES
+################################################################################
+
+echo_info "Installing essential development and utility packages"
 
 npminstall aicommits # Automated AI commit messages for git - https://github.com/Nutlope/aicommits
 npminstall @anthropic-ai/claude-code # AI-powered coding assistant - https://github.com/anthropics/claude-code
@@ -78,14 +104,33 @@ npminstall @kud/wifi-tool-cli
 # Execute batch npm installation
 npminstall_run
 
-# config
-npm config set save-exact true
-npm config set tag-version-prefix ""
-npm config set progress false
-npm config set fetch-retries 3
-npm config set fetch-retry-mintimeout 15000
-npm config set fetch-retry-maxtimeout 90000
+################################################################################
+# ⚙️ NPM & YARN CONFIGURATION
+################################################################################
 
-yarn config set save-exact true
+echo_space
+echo_info "Configuring npm and yarn settings"
 
+# NPM configuration for better package management
+npm config set save-exact true                    # Save exact versions
+npm config set tag-version-prefix ""              # No prefix for version tags
+npm config set progress false                     # Disable progress bar
+npm config set fetch-retries 3                    # Retry failed requests
+npm config set fetch-retry-mintimeout 15000       # Min timeout for retries
+npm config set fetch-retry-maxtimeout 90000       # Max timeout for retries
+
+# Yarn configuration
+yarn config set save-exact true                   # Save exact versions in yarn
+
+echo_success "npm and yarn configured successfully"
+
+################################################################################
+# 🔧 PROFILE-SPECIFIC EXTENSIONS
+################################################################################
+
+# Load profile-specific npm configurations
 source $MY/profiles/$OS_PROFILE/core/npm 2>/dev/null
+
+echo_space
+echo_task_done "Node.js package setup completed"
+echo_success "Global npm packages and configurations are ready for development! 🚀"
