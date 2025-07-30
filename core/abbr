@@ -19,18 +19,7 @@ abbr gp="git push"
 abbr gbr="git branch"
 abbr gmg="git merge"
 abbr gpo="git push origin"
-abbr ll="ls -la"
-abbr la="ls -A"
-abbr l1="ls -1"
-abbr ..="cd .."
-abbr ...="cd ../.."
 abbr ~="cd ~"
-abbr v="nvim"
-abbr smerge="sublime-merge"
-abbr bclean="brew cleanup"
-abbr nclean="npm cache clean --force"
-abbr pclean="pip cache purge"
-abbr reload="source ~/.zshrc"
 
 # Automatically reload zsh config after updating abbreviations
 if [[ -n "$ZSH_VERSION" && -o interactive ]]; then
