@@ -1,22 +1,48 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
+
+################################################################################
+#                                                                              #
+#   🍺 HOMEBREW PACKAGE MANAGER                                                #
+#   -------------------------                                                  #
+#   Installs and configures Homebrew with essential packages, casks, and      #
+#   development tools for a complete macOS development environment.           #
+#                                                                              #
+################################################################################
 
 source $MY/core/helper
 
-## install brew
-if ! type "brew" >/dev/null; then
-  echo_space
-  echo_title_install "homebrew"
-  sudo -v
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+echo_task_start "Setting up Homebrew package manager"
+echo_space
+
+################################################################################
+# 🍺 HOMEBREW INSTALLATION
+################################################################################
+
+if ! command -v brew >/dev/null 2>&1; then
+    echo_info "Installing Homebrew package manager"
+    sudo -v
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    
+    if command -v brew >/dev/null 2>&1; then
+        echo_success "Homebrew installed successfully"
+    else
+        echo_fail "Failed to install Homebrew"
+        return 1
+    fi
+else
+    echo_info "Homebrew already installed"
 fi
 
-## install zsh
+################################################################################
+# 🐚 ZSH SHELL SETUP  
+################################################################################
+
 if [[ $(which zsh) == "/bin/zsh" ]]; then
-  echo_space
-  echo_title_install "zsh"
-  brewinstall zsh
-  echo "${HOMEBREW_PREFIX}/bin/zsh" | sudo tee -a /etc/shells
-  chsh -s ${HOMEBREW_PREFIX}/bin/zsh
+    echo_info "Installing modern zsh shell via Homebrew"
+    brewinstall zsh
+    echo "${HOMEBREW_PREFIX}/bin/zsh" | sudo tee -a /etc/shells
+    chsh -s ${HOMEBREW_PREFIX}/bin/zsh
+    echo_success "Homebrew zsh configured as default shell"
 fi
 
 ## install bash
@@ -282,11 +308,21 @@ echo_subtitle "Configuring system settings"
 brew link --overwrite node # Ensure node is linked
 xattr -d -r com.apple.quarantine ~/Library/QuickLook # remove quarantine attr since Catalina
 
-###################################################################################################
-# PROFILE-SPECIFIC
-###################################################################################################
+################################################################################
+# 🔧 PROFILE-SPECIFIC EXTENSIONS
+################################################################################
+
+# Load profile-specific brew configurations
 source $MY/profiles/$OS_PROFILE/core/brew 2>/dev/null
 
+################################################################################
+# 🧹 CLEANUP & FINALIZATION
+################################################################################
+
 echo_space
-echo_title "Cleaning brew..."
+echo_info "Cleaning up Homebrew cache and temporary files"
 brew cleanup
+
+echo_space
+echo_task_done "Homebrew package manager setup completed"
+echo_success "All essential development tools and applications are now installed! 🎉"

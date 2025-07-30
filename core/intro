@@ -1,5 +1,19 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
+
+################################################################################
+#                                                                              #
+#   🎬 WELCOME SCREEN                                                          #
+#   ---------------                                                            #
+#   Displays the beautiful ASCII art welcome banner for the development       #
+#   environment setup process. Creates a professional first impression.       #
+#                                                                              #
+################################################################################
+
 source $MY/core/helper
+
+################################################################################
+# 🎨 ASCII ART BANNER
+################################################################################
 
 printf "${COLOUR_YELLOW}"
 
