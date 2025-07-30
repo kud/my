@@ -37,6 +37,7 @@ abbr gp="git push"
 abbr gbr="git branch"
 abbr gmg="git merge"
 abbr gpo="git push origin"
+abbr glv="git lazy-version"
 abbr ~="cd ~"
 
 echo_space
