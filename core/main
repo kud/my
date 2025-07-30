@@ -4,7 +4,6 @@ setopt EXTENDED_GLOB
 source $MY/core/helper
 
 $MY/core/pcloud
-$MY/core/prezto
 $MY/core/brew
 $MY/core/antidote
 $MY/core/submodules
