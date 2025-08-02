@@ -11,6 +11,8 @@
 
 source $MY/core/helper
 
+$MY/core/intro
+
 ################################################################################
 # 📦 REPOSITORY UPDATE
 ################################################################################
@@ -29,10 +31,7 @@ fi
 # 🔧 SYSTEM RECONFIGURATION
 ################################################################################
 
-$MY/core/intro &&
-$MY/core/default-folders &&
-$MY/core/main &&
-$MY/core/doctor
+$MY/core/main
 
 echo_space
 echo_task_done "System update completed"

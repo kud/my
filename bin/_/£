@@ -8,45 +8,89 @@ if [[ $# -eq 0 ]]; then
 else
 
   case "$1" in
+  # Direct commands
   install)
-    $MY/core/install
+    $MY/core/commands/install
     ;;
   update)
-    $MY/core/update
+    $MY/core/commands/update
+    ;;
+  uninstall)
+    $MY/core/commands/uninstall
     ;;
   brew-clean)
-    $MY/core/brew-clean
+    $MY/core/commands/brew-clean
     ;;
   npm-clean)
-    $MY/core/npm-clean
+    $MY/core/commands/npm-clean
     ;;
   doctor)
-    $MY/core/doctor
+    $MY/core/commands/doctor
     ;;
-  run)
+  
+  # Folder-based commands
+  app)
     if [[ -z "$2" ]]; then
-      echo "Error: 'run' requires a module name. Available modules:"
-      echo "  ssh, dotfiles, symlink, os, firefox, keepassxc,"
-      echo "  sublime-merge, aicommits, brew, npm, mas, gem, pip, neovim,"
-      echo "  antidote, pcloud, shims, main"
+      echo "Error: 'app' requires a module name. Available apps:"
+      echo "  firefox, keepassxc, pcloud, sublime-merge"
       exit 1
     fi
-
-    case "$2" in
-    ssh|dotfiles|symlink|os|firefox|keepassxc|sublime-merge|aicommits|brew|npm|mas|gem|pip|neovim|antidote|pcloud|shims|main|abbr)
-      if [[ -f "$MY/core/$2" ]]; then
-        $MY/core/$2
-      else
-        echo "Error: Module '$2' not found in core/"
-        exit 1
-      fi
-      ;;
-    *)
-      echo "Error: Unknown module '$2'. Use '£ run' without arguments to see available modules."
+    
+    if [[ -f "$MY/core/apps/$2" ]]; then
+      $MY/core/apps/$2
+    else
+      echo "Error: App '$2' not found in core/apps/"
       exit 1
-      ;;
-    esac
+    fi
     ;;
+    
+  cli)
+    if [[ -z "$2" ]]; then
+      echo "Error: 'cli' requires a module name. Available CLI tools:"
+      echo "  abbr, aicommits, neovim, ssh"
+      exit 1
+    fi
+    
+    if [[ -f "$MY/core/cli/$2" ]]; then
+      $MY/core/cli/$2
+    else
+      echo "Error: CLI tool '$2' not found in core/cli/"
+      exit 1
+    fi
+    ;;
+    
+  package)
+    if [[ -z "$2" ]]; then
+      echo "Error: 'package' requires a module name. Available packages:"
+      echo "  antidote, brew, gem, mas, npm, pip"
+      exit 1
+    fi
+    
+    if [[ -f "$MY/core/packages/$2" ]]; then
+      $MY/core/packages/$2
+    else
+      echo "Error: Package '$2' not found in core/packages/"
+      exit 1
+    fi
+    ;;
+  
+  # Root core files
+  run)
+    if [[ -z "$2" ]]; then
+      echo "Error: 'run' requires a module name. Available core modules:"
+      echo "  default-folders, dotfiles, os, shims, submodules, symlink"
+      exit 1
+    fi
+    
+    if [[ -f "$MY/core/$2" ]]; then
+      $MY/core/$2
+    else
+      echo "Error: Core module '$2' not found in core/"
+      exit 1
+    fi
+    ;;
+    
+  # Other commands
   doc)
     case "$2" in
     --offline)
@@ -69,56 +113,40 @@ else
     echo_space
     printf "Usage:"
     echo_spacex2
+    printf "Direct Commands:"
+    echo_space
     printf "    install           Start the installation process"
     echo_space
     printf "    update            Update the project"
     echo_space
-    printf "    brew-clean        Clean the casks"
+    printf "    uninstall         Uninstall the project"
+    echo_space
+    printf "    brew-clean        Clean Homebrew casks"
     echo_space
     printf "    npm-clean         Clean global Node packages"
     echo_space
     printf "    doctor            Run system health checks"
     echo_spacex2
-    printf "    run <module>      Run a specific core module:"
+    printf "Categorized Commands:"
     echo_space
-    printf "      ssh             Configure SSH keys for GitHub"
+    printf "    app <name>        Run app configuration:"
     echo_space
-    printf "      dotfiles        Update dotfiles"
-    echo_space
-    printf "      symlink         Update symlinks"
-    echo_space
-    printf "      os              Update OS settings"
-    echo_space
-    printf "      firefox         Update Firefox settings"
-    echo_space
-    printf "      keepassxc       Configure KeePassXC settings"
-    echo_space
-    printf "      sublime-merge   Configure Sublime Merge settings"
-    echo_space
-    printf "      aicommits       Configure AI-powered commit messages"
-    echo_space
-    printf "      brew            Install/update Homebrew packages (includes fonts)"
-    echo_space
-    printf "      npm             Install/update npm packages"
-    echo_space
-    printf "      mas             Install/update Mac App Store apps"
-    echo_space
-    printf "      gem             Install/update Ruby gems"
-    echo_space
-    printf "      pip             Install/update Python packages"
-    echo_space
-    printf "      neovim          Configure Neovim settings"
-    echo_space
-    printf "      antidote        Install/update Antidote zsh plugins"
-    echo_space
-    printf "      pcloud          Configure pCloud settings"
-    echo_space
-    printf "      shims           Create shell commands for .app files"
-    echo_space
-    printf "      main            Run main setup sequence"
-    echo_space
-    printf "      abbr            Load shell abbreviations"
+    printf "      firefox, keepassxc, pcloud, sublime-merge"
     echo_spacex2
+    printf "    cli <name>        Run CLI tool:"
+    echo_space
+    printf "      abbr, aicommits, neovim, ssh"
+    echo_spacex2
+    printf "    package <name>    Run package manager:"
+    echo_space
+    printf "      antidote, brew, gem, mas, npm, pip"
+    echo_spacex2
+    printf "    run <name>        Run core module:"
+    echo_space
+    printf "      default-folders, dotfiles, os, shims, submodules, symlink"
+    echo_spacex2
+    printf "Other Commands:"
+    echo_space
     printf "    doc               Access project documentation"
     echo_space
     printf "    edit              Open project in \$EDITOR"
