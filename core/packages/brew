@@ -148,6 +148,10 @@ brewinstall bat # Cat clone with syntax highlighting - https://github.com/sharkd
 brewinstall biome # Code formatter & linter - https://biomejs.dev/
 brewinstall duf # Disk usage/free utility - https://github.com/muesli/duf
 brewinstall dust # More intuitive du - https://github.com/bootandy/dust
+brewinstall hyperfine # Command-line benchmarking tool - https://github.com/sharkdp/hyperfine
+brewinstall procs # Modern replacement for ps - https://github.com/dalance/procs
+brewinstall sd # Intuitive find & replace CLI - https://github.com/chmln/sd
+brewinstall tokei # Count lines of code quickly - https://github.com/XAMPPRocky/tokei
 brewinstall ffmpegthumbnailer # Create thumbnails from videos - https://github.com/dirkvdb/ffmpegthumbnailer
 brewinstall fnm # Fast Node.js version manager - https://github.com/Schniz/fnm
 brewinstall frum # Fast Ruby version manager - https://github.com/TaKO8Ki/frum

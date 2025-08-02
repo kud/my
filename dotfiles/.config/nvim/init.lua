@@ -465,6 +465,73 @@ require("lazy").setup({
     config = true,
   },
 
+  -- 🔧 Surround text objects
+  {
+    "kylechui/nvim-surround",
+    version = "*",
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup({})
+    end,
+  },
+
+  -- 🚨 Trouble diagnostics
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("trouble").setup({})
+      vim.keymap.set("n", "<leader>xx", ":Trouble diagnostics toggle<CR>", { desc = "Toggle diagnostics" })
+      vim.keymap.set("n", "<leader>xw", ":Trouble diagnostics toggle filter.buf=0<CR>", { desc = "Buffer diagnostics" })
+      vim.keymap.set("n", "<leader>xs", ":Trouble symbols toggle focus=false<CR>", { desc = "Symbols" })
+      vim.keymap.set("n", "<leader>xl", ":Trouble lsp toggle focus=false win.position=right<CR>", { desc = "LSP Definitions" })
+      vim.keymap.set("n", "<leader>xL", ":Trouble loclist toggle<CR>", { desc = "Location List" })
+      vim.keymap.set("n", "<leader>xQ", ":Trouble qflist toggle<CR>", { desc = "Quickfix List" })
+    end,
+  },
+
+  -- 📏 Indent guides
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    config = function()
+      require("ibl").setup({
+        indent = {
+          char = "│",
+          tab_char = "│",
+        },
+        scope = { enabled = false },
+        exclude = {
+          filetypes = {
+            "help",
+            "alpha",
+            "dashboard",
+            "neo-tree",
+            "Trouble",
+            "trouble",
+            "lazy",
+            "mason",
+            "notify",
+            "toggleterm",
+            "lazyterm",
+          },
+        },
+      })
+    end,
+  },
+
+  -- 🎨 Color highlighter
+  {
+    "norcalli/nvim-colorizer.lua",
+    config = function()
+      require("colorizer").setup({
+        "*", -- highlight all files
+        css = { rgb_fn = true }, -- Enable parsing rgb(...) functions in css
+        html = { names = false }, -- Disable parsing "names" like Blue or Gray
+      })
+    end,
+  },
+
   -- 💬 Comments
   {
     "numToStr/Comment.nvim",
