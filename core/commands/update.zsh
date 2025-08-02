@@ -11,7 +11,7 @@
 
 source $MY/core/utils/helper.zsh
 
-$MY/core/utils/helper.zsh
+$MY/core/utils/intro.zsh
 
 ################################################################################
 # 📦 REPOSITORY UPDATE
