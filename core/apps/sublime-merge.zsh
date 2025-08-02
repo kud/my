@@ -1,0 +1,68 @@
+#!/usr/bin/env zsh
+
+################################################################################
+#                                                                              #
+#   🎨 SUBLIME MERGE CONFIGURATION                                             #
+#   -----------------------------                                              #
+#   Sets up Sublime Merge Git client with Meetio theme and JetBrains Mono    #
+#   font for a beautiful and productive Git workflow experience.              #
+#                                                                              #
+################################################################################
+
+source $MY/core/utils/helper.zsh
+
+echo_task_start "Configuring Sublime Merge Git client"
+echo_space
+
+################################################################################
+# 📂 DIRECTORY SETUP
+################################################################################
+
+DIR="$HOME/Library/Application Support/Sublime Merge/Packages"
+
+# Ensure directory exists
+if [[ ! -d "$DIR" ]]; then
+    echo_info "Creating Sublime Merge packages directory"
+    mkdir -p "$DIR/User"
+fi
+
+################################################################################
+# 🎨 THEME INSTALLATION & CONFIGURATION
+################################################################################
+
+if [[ ! -d "$DIR/Meetio Theme" ]]; then
+    echo_info "Installing Meetio theme for Sublime Merge"
+
+    cd "$DIR" || echo_fail "Failed to access Sublime Merge directory"
+
+    # Clone the theme repository
+    if git clone git@github.com:meetio-theme/merge-meetio-theme.git "Meetio Theme"; then
+        echo_success "Meetio theme installed successfully"
+    else
+        echo_warn "Failed to clone theme - check SSH access to GitHub"
+    fi
+
+    # Create preferences configuration
+    echo_info "Configuring Sublime Merge preferences"
+    echo '{
+  "font_face": "JetBrains Mono",
+  "theme": "Merge Palenight.sublime-theme",
+  "color_scheme": "Meetio Palenight.sublime-color-scheme",
+}' > "User/Preferences.sublime-settings"
+
+    echo_success "Sublime Merge preferences configured"
+
+else
+    echo_info "Meetio theme already installed - updating to latest version"
+    cd "$DIR/Meetio Theme" || echo_fail "Failed to access theme directory"
+
+    if git pull; then
+        echo_success "Meetio theme updated successfully"
+    else
+        echo_warn "Failed to update theme - check internet connection"
+    fi
+fi
+
+echo_space
+echo_task_done "Sublime Merge configuration completed"
+echo_success "Beautiful Git client interface is ready! 🎨"

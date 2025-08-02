@@ -1,6 +1,6 @@
 #! /usr/bin/env zsh
 
-source $MY/core/helper
+source $MY/core/utils/helper.zsh
 
 echo_title_update "firefox settings"
 

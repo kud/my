@@ -1,0 +1,33 @@
+#! /usr/bin/env zsh
+
+source $MY/core/utils/helper.zsh
+
+echo_title "🔗 Application Shims Generator"
+echo_info "Creating shell commands for installed applications..."
+
+echo_task_start "Cleaning existing shims"
+rm -rf $MY/bin/shims/*
+echo_task_done "Cleaned existing shims"
+
+echo_task_start "Generating application shims"
+app_count=0
+
+for app in /Applications/*.app
+do
+  finalName=`echo ${${${app// /-}/\/Applications\//}//.app/} | tr '[:upper:]' '[:lower:]'`
+  echo "#! /usr/bin/env zsh\nopen -a \"${app}\"" \$@ > $MY/bin/shims/open-${finalName}
+  app_count=$((app_count + 1))
+  echo_subtle "Created: open-${finalName}"
+done
+
+echo_task_done "Generated ${app_count} application shims"
+
+echo_task_start "Setting executable permissions"
+chmod +x $MY/bin/shims/*
+echo_task_done "Set executable permissions"
+
+echo_space
+echo_success "Application shims generation complete!"
+echo_info "Generated ${app_count} commands in $MY/bin/shims/"
+echo_subtle "Usage: open-<app-name> (e.g., open-spotify, open-discord)"
+

@@ -1,0 +1,47 @@
+#!/usr/bin/env zsh
+
+################################################################################
+#                                                                              #
+#   🔄 SYSTEM UPDATE MANAGER                                                   #
+#   ----------------------                                                     #
+#   Updates the entire development environment including repository,           #
+#   packages, and configurations to the latest versions.                      #
+#                                                                              #
+################################################################################
+
+source $MY/core/utils/helper.zsh
+
+$MY/core/utils/helper.zsh
+
+################################################################################
+# 📦 REPOSITORY UPDATE
+################################################################################
+
+echo_info "Updating repository from remote"
+git --git-dir="$MY/.git" --work-tree="$MY/" pull
+
+if [[ $? -eq 0 ]]; then
+    echo_success "Repository updated successfully"
+else
+    echo_fail "Failed to update repository"
+    return 1
+fi
+
+################################################################################
+# 🔧 SYSTEM RECONFIGURATION
+################################################################################
+
+$MY/core/main.zsh
+
+echo_space
+echo_task_done "System update completed"
+
+################################################################################
+# 🔄 SHELL RELOAD
+################################################################################
+
+echo_info "Reloading shell configuration"
+source $HOME/.zshrc
+
+echo_space
+echo_success "Development environment is now up to date! 🚀"
