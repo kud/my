@@ -76,7 +76,7 @@ $MY/core/intro &&
 $MY/core/main &&
 $MY/core/ssh &&
 $MY/core/symlink &&
-$MY/core/os
+$MY/core/os/main
 
 echo_space
 echo_task_done "System installation completed"

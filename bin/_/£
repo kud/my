@@ -27,7 +27,7 @@ else
   doctor)
     $MY/core/commands/doctor
     ;;
-  
+
   # Folder-based commands
   app)
     if [[ -z "$2" ]]; then
@@ -35,7 +35,7 @@ else
       echo "  firefox, keepassxc, pcloud, sublime-merge"
       exit 1
     fi
-    
+
     if [[ -f "$MY/core/apps/$2" ]]; then
       $MY/core/apps/$2
     else
@@ -43,14 +43,14 @@ else
       exit 1
     fi
     ;;
-    
+
   cli)
     if [[ -z "$2" ]]; then
       echo "Error: 'cli' requires a module name. Available CLI tools:"
       echo "  abbr, aicommits, neovim, ssh"
       exit 1
     fi
-    
+
     if [[ -f "$MY/core/cli/$2" ]]; then
       $MY/core/cli/$2
     else
@@ -58,14 +58,14 @@ else
       exit 1
     fi
     ;;
-    
+
   package)
     if [[ -z "$2" ]]; then
       echo "Error: 'package' requires a module name. Available packages:"
       echo "  antidote, brew, gem, mas, npm, pip"
       exit 1
     fi
-    
+
     if [[ -f "$MY/core/packages/$2" ]]; then
       $MY/core/packages/$2
     else
@@ -73,15 +73,19 @@ else
       exit 1
     fi
     ;;
-  
+
+  os)
+    $MY/core/os/main
+    ;;
+
   # Root core files
   run)
     if [[ -z "$2" ]]; then
       echo "Error: 'run' requires a module name. Available core modules:"
-      echo "  default-folders, dotfiles, os, shims, submodules, symlink"
+      echo "  default-folders, dotfiles, shims, submodules, symlink"
       exit 1
     fi
-    
+
     if [[ -f "$MY/core/$2" ]]; then
       $MY/core/$2
     else
@@ -89,7 +93,7 @@ else
       exit 1
     fi
     ;;
-    
+
   # Other commands
   doc)
     case "$2" in
@@ -141,9 +145,11 @@ else
     echo_space
     printf "      antidote, brew, gem, mas, npm, pip"
     echo_spacex2
+    printf "    os                Run OS configuration"
+    echo_spacex2
     printf "    run <name>        Run core module:"
     echo_space
-    printf "      default-folders, dotfiles, os, shims, submodules, symlink"
+    printf "      default-folders, dotfiles, shims, submodules, symlink"
     echo_spacex2
     printf "Other Commands:"
     echo_space
