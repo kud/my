@@ -72,7 +72,7 @@ echo_success "Repository setup completed"
 echo_info "Starting complete system installation sequence"
 echo_space
 
-$MY/core/utils/helper.zsh &&
+$MY/core/utils/intro.zsh &&
 $MY/core/main.zsh &&
 $MY/core/ssh.zsh &&
 $MY/core/symlink.zsh &&
