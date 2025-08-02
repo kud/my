@@ -74,8 +74,8 @@ echo_space
 
 $MY/core/utils/intro.zsh &&
 $MY/core/main.zsh &&
-$MY/core/ssh.zsh &&
-$MY/core/symlink.zsh &&
+$MY/core/system/ssh.zsh &&
+$MY/core/system/symlink.zsh &&
 $MY/core/os/main.zsh
 
 echo_space
