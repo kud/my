@@ -939,7 +939,7 @@ defaults write com.tapbots.TweetbotMac OpenURLsDirectly -bool true
 # EXTENDED                                                                    #
 ###############################################################################
 
-source $MY/core/os-extended
+source $MY/core/os/extended
 
 ###############################################################################
 # Profile                                                                      #
