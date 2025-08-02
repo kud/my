@@ -1,0 +1,32 @@
+#! /usr/bin/env zsh
+
+source $MY/core/utils/helper.zsh
+
+echo_space
+echo_title "Installing $OS_PROFILE profile packages"
+
+# Initialize brew cache for faster package checking
+init_brew_cache
+
+echo_space
+echo_title_install "brew packages @ $OS_PROFILE"
+brewtap ankitpokhrel/jira-cli
+
+brewinstall awscli
+brewinstall jira-cli
+
+echo_space
+echo_title_install "apps @ $OS_PROFILE"
+
+caskinstall eloston-chromium # Privacy-focused, open-source Chromium browser - https://chromium.woolyss.com/
+caskinstall neo4j # Graph database management system - https://neo4j.com/download/
+caskinstall redisinsight # GUI for Redis database - https://redis.com/redis-enterprise/redis-insight/
+
+brewinstall_run
+caskinstall_run
+
+###################################################################################################
+# 🔧 POST-INSTALLATION CONFIGURATION
+###################################################################################################
+echo_space
+echo_title "Post-installation setup @ $OS_PROFILE"

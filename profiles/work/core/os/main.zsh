@@ -1,0 +1,19 @@
+#! /usr/bin/env zsh
+
+source $MY/core/utils/helper.zsh
+
+echo_space
+echo_title_update "macos settings @ $OS_PROFILE"
+
+###############################################################################
+# General UI/UX                                                               #
+###############################################################################
+
+# sudo scutil --set ComputerName "_kud.work"
+sudo scutil --set ComputerName "mest001"
+# sudo scutil --set HostName "_kud.work"
+sudo scutil --set HostName "mest001"
+# sudo scutil --set LocalHostName "kud-work"
+sudo scutil --set LocalHostName "mest001"
+# sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "kud-work"
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "mest001"

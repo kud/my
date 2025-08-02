@@ -1,0 +1,92 @@
+#!/usr/bin/env zsh
+
+################################################################################
+#                                                                              #
+#   🔐 SSH KEY MANAGER                                                         #
+#   -----------------                                                          #
+#   Generates and configures SSH keys for secure GitHub authentication.       #
+#   Creates Ed25519 keys and guides through GitHub setup process.             #
+#                                                                              #
+################################################################################
+
+source $MY/core/utils/helper.zsh
+
+echo_task_start "Setting up SSH keys for GitHub authentication"
+echo_space
+
+# Define variables
+SSH_DIR="$HOME/.ssh"
+SSH_KEY="$SSH_DIR/id_ed25519"
+GITHUB_URL="https://github.com/settings/keys"
+GUIDE_URL="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account"
+
+################################################################################
+# 🔍 SSH KEY VALIDATION
+################################################################################
+
+# Check for existing SSH keys
+if [[ -f "$SSH_KEY" ]]; then
+    echo_info "Existing SSH key found at $SSH_KEY"
+    read "overwrite?Do you want to overwrite the existing key? (yes/no): "
+    if [[ "$overwrite" != "yes" ]]; then
+        echo_info "Preserving existing SSH key"
+        echo_task_done "SSH key configuration skipped"
+        return 0
+    fi
+    echo_info "Proceeding with key replacement"
+fi
+
+################################################################################
+# 📧 EMAIL CONFIGURATION
+################################################################################
+
+echo_info "Configuring SSH key with your GitHub email"
+read "EMAIL?Enter your GitHub email address: "
+
+if [[ -z "$EMAIL" ]]; then
+    echo_fail "Email address is required for SSH key generation"
+    return 1
+fi
+
+################################################################################
+# 🔑 SSH KEY GENERATION
+################################################################################
+
+echo_info "Creating SSH directory and setting permissions"
+mkdir -p "$SSH_DIR"
+chmod 700 "$SSH_DIR"
+
+echo_info "Generating Ed25519 SSH key pair"
+ssh-keygen -t ed25519 -C "$EMAIL" -f "$SSH_KEY" -N "" || echo_fail "Failed to generate SSH key"
+
+echo_info "Starting SSH agent and adding key"
+eval "$(ssh-agent -s)"
+ssh-add "$SSH_KEY" || echo_fail "Failed to add SSH key to agent"
+
+echo_space
+echo_success "SSH key pair generated successfully"
+
+################################################################################
+# 📋 PUBLIC KEY DISPLAY
+################################################################################
+
+echo_info "Your SSH public key (copy this to GitHub):"
+echo_space
+cat "$SSH_KEY.pub"
+echo_space
+
+################################################################################
+# 🌐 GITHUB INTEGRATION
+################################################################################
+
+echo_info "Opening GitHub SSH settings for key registration"
+echo "To complete setup:"
+echo "1. Copy the public key above"
+echo "2. Add it to your GitHub account in the opened browser"
+echo "3. Follow the guide: $GUIDE_URL"
+
+open "$GITHUB_URL"
+
+echo_space
+echo_task_done "SSH key setup completed"
+echo_success "SSH authentication is now configured for GitHub!"

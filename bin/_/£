@@ -1,7 +1,7 @@
 #! /usr/bin/env zsh
 
 # main command
-source $MY/core/helper
+source $MY/core/utils/helper.zsh
 
 if [[ $# -eq 0 ]]; then
   $0 --help
@@ -10,22 +10,22 @@ else
   case "$1" in
   # Direct commands
   install)
-    $MY/core/commands/install
+    $MY/core/commands/install.zsh
     ;;
   update)
-    $MY/core/commands/update
+    $MY/core/commands/update.zsh
     ;;
   uninstall)
-    $MY/core/commands/uninstall
+    $MY/core/commands/uninstall.zsh
     ;;
   brew-clean)
-    $MY/core/commands/brew-clean
+    $MY/core/commands/brew-clean.zsh
     ;;
   npm-clean)
-    $MY/core/commands/npm-clean
+    $MY/core/commands/npm-clean.zsh
     ;;
   doctor)
-    $MY/core/commands/doctor
+    $MY/core/commands/doctor.zsh
     ;;
 
   # Folder-based commands
@@ -36,8 +36,8 @@ else
       exit 1
     fi
 
-    if [[ -f "$MY/core/apps/$2" ]]; then
-      $MY/core/apps/$2
+    if [[ -f "$MY/core/apps/$2.zsh" ]]; then
+      $MY/core/apps/$2.zsh
     else
       echo "Error: App '$2' not found in core/apps/"
       exit 1
@@ -51,8 +51,8 @@ else
       exit 1
     fi
 
-    if [[ -f "$MY/core/cli/$2" ]]; then
-      $MY/core/cli/$2
+    if [[ -f "$MY/core/cli/$2.zsh" ]]; then
+      $MY/core/cli/$2.zsh
     else
       echo "Error: CLI tool '$2' not found in core/cli/"
       exit 1
@@ -66,8 +66,8 @@ else
       exit 1
     fi
 
-    if [[ -f "$MY/core/packages/$2" ]]; then
-      $MY/core/packages/$2
+    if [[ -f "$MY/core/packages/$2.zsh" ]]; then
+      $MY/core/packages/$2.zsh
     else
       echo "Error: Package '$2' not found in core/packages/"
       exit 1
@@ -75,7 +75,7 @@ else
     ;;
 
   os)
-    $MY/core/os/main
+    $MY/core/os/main.zsh
     ;;
 
   # Root core files
@@ -86,8 +86,8 @@ else
       exit 1
     fi
 
-    if [[ -f "$MY/core/$2" ]]; then
-      $MY/core/$2
+    if [[ -f "$MY/core/$2.zsh" ]]; then
+      $MY/core/$2.zsh
     else
       echo "Error: Core module '$2' not found in core/"
       exit 1
@@ -112,7 +112,7 @@ else
     open $MY
     ;;
   --help)
-    source $MY/core/intro
+    source $MY/core/utils/helper.zsh
 
     echo_space
     printf "Usage:"

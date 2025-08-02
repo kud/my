@@ -1,0 +1,11 @@
+#! /usr/bin/env zsh
+
+source $MY/core/utils/helper.zsh
+
+echo_space
+echo_title_install "npm packages @ $OS_PROFILE"
+
+npminstall @google/gemini-cli
+
+# Execute batch npm installation
+npminstall_run

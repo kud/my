@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-source "${MY}/core/helper"
+source "${MY}/core/utils/helper.zsh"
 
 # Helper function to get PID for a specific service.
 getPid() {

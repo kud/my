@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 # Source helper functions
-source "${MY}/core/helper"
+source "${MY}/core/utils/helper.zsh"
 
 # Get public IP and copy to clipboard
 ip() {
