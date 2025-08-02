@@ -3,7 +3,7 @@
 ################################################################################
 #                                                                              #
 #   🎯 CORE SYSTEM INSTALLER                                                   #
-#   ----------------------                                                     #  
+#   ----------------------                                                     #
 #   Master orchestrator that executes all core system setup scripts in        #
 #   the correct order for a complete development environment setup.           #
 #                                                                              #
@@ -20,19 +20,21 @@ echo_space
 ################################################################################
 
 echo_info "Executing core installation sequence"
-$MY/core/pcloud         # Cloud storage synchronization
-$MY/core/brew          # Package manager and system tools
-$MY/core/antidote      # Zsh plugin manager  
+$MY/core/apps/pcloud         # Cloud storage synchronization
+$MY/core/default-folders # Create default directories
+$MY/core/dotfiles       # User configuration files
+$MY/core/packages/brew          # Package manager and system tools
+$MY/core/packages/antidote      # Zsh plugin manager
+$MY/core/packages/gem           # Ruby package management
+$MY/core/packages/pip           # Python package management
+$MY/core/packages/npm           # Node.js package management
+$MY/core/packages/mas           # Mac App Store applications
 $MY/core/submodules    # Git submodule dependencies
-$MY/core/neovim        # Text editor configuration
-$MY/core/gem           # Ruby package management
-$MY/core/pip           # Python package management
-$MY/core/npm           # Node.js package management
-$MY/core/mas           # Mac App Store applications
-$MY/core/aicommits     # AI-powered commit messages
-$MY/core/sublime-merge # Git GUI client
-$MY/core/keepassxc     # Password manager
-$MY/core/abbr          # Shell abbreviations
+$MY/core/cli/neovim        # Text editor configuration
+$MY/core/cli/aicommits     # AI-powered commit messages
+$MY/core/cli/abbr          # Shell abbreviations
+$MY/core/apps/sublime-merge # Git GUI client
+$MY/core/apps/keepassxc     # Password manager
 
 echo_space
 echo_task_done "Core system setup completed successfully"

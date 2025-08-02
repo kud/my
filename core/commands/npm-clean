@@ -2,7 +2,7 @@
 
 source $MY/core/helper
 
-file_paths=("$MY/core/npm")
+file_paths=("$MY/core/packages/npm")
 
 declare -A file_packages_map
 for file_path in "${file_paths[@]}"; do
