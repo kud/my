@@ -28,17 +28,18 @@ done
 
 echo_space
 echo_info "Loading abbreviations"
-abbr gco="git checkout"
-abbr gst="git status"
-abbr gaa="git add --all"
-abbr gcm="git commit -m"
-abbr gl="git pull"
-abbr gp="git push"
-abbr gbr="git branch"
-abbr gmg="git merge"
-abbr gpo="git push origin"
-abbr glv="git lazy-version"
 abbr ~="cd ~"
+abbr gaa="git add --all"
+abbr gbr="git branch"
+abbr gcm="git commit -m"
+abbr gco="git checkout"
+abbr gl="git pull"
+abbr glv="git lazy-version"
+abbr gmg="git merge"
+abbr gp="git push"
+abbr gpo="git push origin"
+abbr gsc="git switch -c"
+abbr gst="git status"
 
 echo_space
 echo_task_done "Shell abbreviations configured"
