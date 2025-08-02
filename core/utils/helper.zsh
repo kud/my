@@ -162,7 +162,7 @@ function brewinstall_run() {
   fi
 
   echo_task_start "Installing/upgrading ${#_BREW_PACKAGES_TO_INSTALL[@]} brew packages in batch"
-  echo_info "Packages: ${_BREW_PACKAGES_TO_INSTALL[@]}"
+  echo_info "Packages: ${_BREW_PACKAGES_TO_INSTALL[*]}"
   brew install "${_BREW_PACKAGES_TO_INSTALL[@]}"
 
   if [[ $? -eq 0 ]]; then
@@ -209,7 +209,7 @@ function caskinstall_run() {
   fi
 
   echo_task_start "Installing ${#_CASK_PACKAGES_TO_INSTALL[@]} cask packages in batch"
-  echo_info "Packages: ${_CASK_PACKAGES_TO_INSTALL[@]}"
+  echo_info "Packages: ${_CASK_PACKAGES_TO_INSTALL[*]}"
   brew install --cask "${_CASK_PACKAGES_TO_INSTALL[@]}"
 
   if [[ $? -eq 0 ]]; then
@@ -269,7 +269,7 @@ function npminstall_run() {
   fi
 
   echo_task_start "Installing ${#_NPM_PACKAGES_TO_INSTALL[@]} npm packages in batch"
-  echo_info "Packages: ${_NPM_PACKAGES_TO_INSTALL[@]}"
+  echo_info "Packages: ${_NPM_PACKAGES_TO_INSTALL[*]}"
   npm install -g --quiet "${_NPM_PACKAGES_TO_INSTALL[@]}"
 
   if [[ $? -eq 0 ]]; then
