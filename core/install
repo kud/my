@@ -76,7 +76,7 @@ $MY/core/intro &&
 $MY/core/default-folders &&
 $MY/core/dotfiles &&
 $MY/core/main &&
-$MY/core/ssh &&
+$MY/core/cli/ssh &&
 $MY/core/symlink &&
 $MY/core/os
 
