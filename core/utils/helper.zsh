@@ -12,7 +12,7 @@ for COLOUR in RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; do
 done
 eval COLOUR_RESET='$reset_color'
 
-# --- Icons/Emoji Constants ---
+# --- VISUAL FEEDBACK SYSTEM ---
 export CHAR_OK=✔
 export CHAR_ERROR=✗
 export CHAR_STARTER=❯
@@ -24,7 +24,7 @@ export CHAR_INPUT="[>]"
 export CHAR_FINAL_SUCCESS="👍"
 export CHAR_FINAL_FAIL="🚫"
 
-# --- Progress tracking ---
+# --- INSTALLATION PROGRESS ---
 _CURRENT_STEP=0
 _TOTAL_STEPS=0
 
@@ -38,7 +38,7 @@ function next_step() {
   echo_info "Step ${_CURRENT_STEP}/${_TOTAL_STEPS}: $1"
 }
 
-# --- Basic Messages ---
+# --- USER MESSAGING ---
 
 function echo_info() { echo "${COLOUR_BLUE}${CHAR_INFO}${COLOUR_RESET} $1" }
 function echo_user() { echo "${COLOUR_YELLOW}${CHAR_USER}${COLOUR_RESET} $1" }
@@ -55,20 +55,20 @@ function echo_final_fail() {
     echo "${COLOUR_RED}${CHAR_FINAL_FAIL} Process failed!${COLOUR_RESET}"
 }
 
-# --- Title Messages ---
+# --- SECTION HEADERS ---
 
 function echo_title() { echo "${COLOUR_CYAN}${CHAR_STARTER} $@${COLOUR_RESET}" }
 function echo_subtitle() { echo "${COLOUR_CYAN}${CHAR_STARTER}${COLOUR_RESET} $1" }
 function echo_title_install() { echo_title "Installing" $1"..." }
 function echo_title_update() { echo_title "Updating" $1"..." }
 
-# --- Special Formats ---
+# --- TEXT FORMATTING ---
 
 function echo_bold() { echo "${COLOUR_BOLD_WHITE}$1${COLOUR_RESET}" }
 function echo_highlight() { echo "${COLOUR_MAGENTA}$1${COLOUR_RESET}" }
 function echo_subtle() { echo "${COLOUR_BLACK}$1${COLOUR_RESET}" }
 
-# --- Spacing ---
+# --- LAYOUT SPACING ---
 
 function echo_space() {
   printf "\n"
@@ -83,7 +83,7 @@ function echo_spacex3() {
   echo_space
 }
 
-# --- Separators ---
+# --- VISUAL SEPARATORS ---
 
 function echo_hr() {
   echo "${COLOUR_BOLD_CYAN}----------------------------------------${COLOUR_RESET}"
@@ -91,23 +91,22 @@ function echo_hr() {
   echo "${COLOUR_BOLD_CYAN}----------------------------------------${COLOUR_RESET}"
 }
 
-# --- Sugar functions ---
+# --- PACKAGE MANAGEMENT ---
 
-# Cache brew lists for performance (populated by init_brew_cache)
+# Homebrew package caching system for performance optimization
 _BREW_FORMULAE_CACHE=""
 _BREW_CASKS_CACHE=""
 _BREW_OUTDATED_CACHE=""
 
-# Array to collect npm packages for batch installation
+# Node.js package queue for batch processing
 _NPM_PACKAGES_TO_INSTALL=()
 
-# Arrays to collect brew packages for batch installation
+# Homebrew package queues for efficient installation
 _BREW_PACKAGES_TO_INSTALL=()
 _CASK_PACKAGES_TO_INSTALL=()
 
 function init_brew_cache() {
   if command -v brew >/dev/null 2>&1; then
-    echo_task_start "Initializing brew cache"
     _BREW_FORMULAE_CACHE=$(brew list --formula 2>/dev/null || echo "")
     _BREW_CASKS_CACHE=$(brew list --cask 2>/dev/null || echo "")
     _BREW_OUTDATED_CACHE=$(brew outdated 2>/dev/null || echo "")
@@ -116,7 +115,6 @@ function init_brew_cache() {
 
 function refresh_brew_cache() {
   if command -v brew >/dev/null 2>&1; then
-    echo_subtle "Refreshing package cache..."
     _BREW_FORMULAE_CACHE=$(brew list --formula 2>/dev/null || echo "")
     _BREW_CASKS_CACHE=$(brew list --cask 2>/dev/null || echo "")
     _BREW_OUTDATED_CACHE=$(brew outdated 2>/dev/null || echo "")
@@ -161,12 +159,12 @@ function brewinstall_run() {
     return 0
   fi
 
-  echo_task_start "Installing/upgrading ${#_BREW_PACKAGES_TO_INSTALL[@]} brew packages in batch"
+  echo_task_start "Installing ${#_BREW_PACKAGES_TO_INSTALL[@]} brew packages"
   echo_info "Packages: ${_BREW_PACKAGES_TO_INSTALL[*]}"
   brew install "${_BREW_PACKAGES_TO_INSTALL[@]}"
 
   if [[ $? -eq 0 ]]; then
-    echo_success "Successfully processed ${#_BREW_PACKAGES_TO_INSTALL[@]} brew packages"
+    echo_success "Successfully installed ${#_BREW_PACKAGES_TO_INSTALL[@]} brew packages"
   else
     echo_warn "Some brew packages may have failed to install"
   fi
@@ -208,7 +206,7 @@ function caskinstall_run() {
     return 0
   fi
 
-  echo_task_start "Installing ${#_CASK_PACKAGES_TO_INSTALL[@]} cask packages in batch"
+  echo_task_start "Installing ${#_CASK_PACKAGES_TO_INSTALL[@]} cask packages"
   echo_info "Packages: ${_CASK_PACKAGES_TO_INSTALL[*]}"
   brew install --cask "${_CASK_PACKAGES_TO_INSTALL[@]}"
 
@@ -268,7 +266,7 @@ function npminstall_run() {
     return 0
   fi
 
-  echo_task_start "Installing ${#_NPM_PACKAGES_TO_INSTALL[@]} npm packages in batch"
+  echo_task_start "Installing ${#_NPM_PACKAGES_TO_INSTALL[@]} npm packages"
   echo_info "Packages: ${_NPM_PACKAGES_TO_INSTALL[*]}"
   npm install -g --quiet "${_NPM_PACKAGES_TO_INSTALL[@]}"
 

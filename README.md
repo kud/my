@@ -34,25 +34,25 @@ The main command is:
 
 Usage:
 
-    install           Start the installation process
-    update            Update the project
-    brew-clean        Clean the casks
-    npm-clean         Clean global Node packages
-    shims             Create shell command for .app
-    doctor            Run system health checks
+    install           Set up complete development environment
+    update            Refresh all components and packages
+    brew-clean        Remove unused Homebrew packages
+    npm-clean         Clean up Node.js global packages
+    shims             Create terminal shortcuts for apps
+    doctor            Check system health and configuration
 
-    run <module>      Run a specific core module:
-      ssh             Configure SSH keys for GitHub
-      dotfiles        Update dotfiles
-      symlink         Update symlinks
-      os              Update OS settings
-      firefox         Update Firefox settings
-      keepassxc       Configure KeePassXC settings
-      sublime-merge   Configure Sublime Merge settings
-      aicommits       Configure AI-powered commit messages
-      brew            Install/update Homebrew packages (includes fonts)
-      npm             Install/update npm packages
-      mas             Install/update Mac App Store apps
+    run <module>      Run a specific component:
+      ssh             Set up GitHub SSH authentication
+      dotfiles        Sync personal configuration files
+      symlink         Create application shortcuts
+      os              Configure macOS system preferences
+      firefox         Customize Firefox browser
+      keepassxc       Set up password manager
+      sublime-merge   Configure Git visual interface
+      aicommits       Enable AI commit message generation
+      brew            Manage Homebrew packages and fonts
+      npm             Manage Node.js packages
+      mas             Install Mac App Store applications
 
     doc               Access project documentation
     edit              Open project in $EDITOR

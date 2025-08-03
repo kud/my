@@ -2,8 +2,8 @@
 
 ################################################################################
 #                                                                              #
-#   🎬 WELCOME SCREEN                                                          #
-#   ---------------                                                            #
+#   🎬 ENVIRONMENT WELCOME SCREEN                                              #
+#   -----------------------------                                              #
 #   Displays the beautiful ASCII art welcome banner for the development       #
 #   environment setup process. Creates a professional first impression.       #
 #                                                                              #
@@ -12,7 +12,7 @@
 source $MY/core/utils/helper.zsh
 
 ################################################################################
-# 🎨 ASCII ART BANNER
+# 🎨 WELCOME BANNER
 ################################################################################
 
 printf "${COLOUR_YELLOW}"

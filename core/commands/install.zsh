@@ -2,8 +2,8 @@
 
 ################################################################################
 #                                                                              #
-#   🚀 SYSTEM BOOTSTRAP INSTALLER                                              #
-#   ---------------------------                                               #
+#   🚀 DEVELOPMENT ENVIRONMENT SETUP                                           #
+#   --------------------------------                                          #
 #   Complete macOS development environment setup from scratch. Handles        #
 #   Xcode installation, repository cloning, and full system configuration.    #
 #                                                                              #
@@ -20,56 +20,56 @@
     echo_space() { echo "" }
 }
 
-echo_task_start "Bootstrapping macOS development environment"
+echo_task_start "Setting up your development environment"
 echo_space
 
 ################################################################################
-# 📱 XCODE INSTALLATION & SETUP
+# 📱 DEVELOPMENT TOOLS SETUP
 ################################################################################
 
-echo_info "Opening Xcode in App Store for manual installation"
+echo_info "Opening Xcode in App Store for installation"
 open https://apps.apple.com/us/app/xcode/id497799835
 echo_space
 
 echo "Please install Xcode from the App Store, then press Enter here to continue."
 read pause
 
-echo_info "Configuring Xcode and command line tools"
+echo_info "Setting up development tools"
 sudo xcodebuild -license accept
 xcode-select --install
 sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 xcodebuild -runFirstLaunch
 
 echo_space
-echo_success "Xcode setup completed"
+echo_success "Development tools ready"
 
 ################################################################################
-# 📦 REPOSITORY SETUP
+# 📦 PROJECT CONFIGURATION
 ################################################################################
 
-echo_info "Setting up project repository"
+echo_info "Configuring project"
 PROJECT_DIR="$HOME/my"
 GIT_REPO="git@github.com:kud/my.git"
 
 if [[ ! -d "$PROJECT_DIR" ]]; then
-    echo_info "Cloning repository from GitHub"
+    echo_info "Downloading project files"
     git clone "$GIT_REPO" "$PROJECT_DIR" || echo_fail "Failed to clone repository"
 fi
 
 if [[ -d "$PROJECT_DIR" ]]; then
-    echo_info "Updating remote URL to use SSH"
+    echo_info "Configuring secure connection"
     git -C "$PROJECT_DIR" remote set-url origin "$GIT_REPO"
 fi
 
 export MY=$HOME/my
 echo_space
-echo_success "Repository setup completed"
+echo_success "Project configuration complete"
 
 ################################################################################
-# 🎯 CORE SYSTEM INSTALLATION
+# 🎯 ENVIRONMENT INSTALLATION
 ################################################################################
 
-echo_info "Starting complete system installation sequence"
+echo_info "Installing environment components"
 echo_space
 
 $MY/core/utils/intro.zsh &&
@@ -79,17 +79,17 @@ $MY/core/system/symlink.zsh &&
 $MY/core/os/main.zsh
 
 echo_space
-echo_task_done "System installation completed"
+echo_task_done "Environment installation complete"
 
 ################################################################################
-# 📖 POST-INSTALLATION
+# 📖 SETUP COMPLETION
 ################################################################################
 
-echo_info "Opening post-installation documentation"
+echo_info "Opening setup guide"
 open https://github.com/kud/my/blob/master/doc/postinstall.md
 
 echo_space
-echo_success "Bootstrap installation completed successfully! 🎉"
-echo_info "Reloading shell configuration"
+echo_success "Environment setup completed successfully! 🎉"
+echo_info "Activating new configuration"
 
 source $HOME/.zshrc

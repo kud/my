@@ -2,8 +2,8 @@
 
 ################################################################################
 #                                                                              #
-#   🩺 SYSTEM HEALTH CHECKER                                                   #
-#   -----------------------                                                    #
+#   🩺 ENVIRONMENT HEALTH CHECKER                                              #
+#   -----------------------------                                              #
 #   Performs comprehensive system health checks and diagnostics.              #
 #   Validates package managers and development environment integrity.         #
 #                                                                              #
@@ -11,34 +11,34 @@
 
 source $MY/core/utils/helper.zsh
 
-echo_task_start "Running system health diagnostics"
+echo_task_start "Checking environment health"
 echo_space
 
 ################################################################################
-# 🍺 HOMEBREW DIAGNOSTICS
+# 🍺 PACKAGE MANAGER HEALTH
 ################################################################################
 
 if command -v brew >/dev/null 2>&1; then
-    echo_info "Running Homebrew doctor diagnostics"
+    echo_info "Checking package manager status"
     brew doctor
 
     if [[ $? -eq 0 ]]; then
         echo_space
-        echo_success "Homebrew system is healthy"
+        echo_success "Package manager is working properly"
     else
         echo_space
-        echo_warn "Homebrew found some issues that may need attention"
+        echo_warn "Package manager found issues that need attention"
     fi
 else
-    echo_warn "Homebrew not found - skipping brew doctor"
+    echo_warn "Package manager not found - skipping health check"
 fi
 
 ################################################################################
-# 🔍 ADDITIONAL SYSTEM CHECKS
+# 🔍 DEVELOPMENT TOOLS STATUS
 ################################################################################
 
 echo_space
-echo_info "Checking development tools availability"
+echo_info "Verifying essential tools"
 
 # Check for essential development tools
 tools=(git zsh node npm)
@@ -55,9 +55,9 @@ done
 
 echo_space
 if [[ ${#missing_tools[@]} -eq 0 ]]; then
-    echo_task_done "System health check completed"
-    echo_success "All essential development tools are properly installed! 🎉"
+    echo_task_done "Environment health check complete"
+    echo_success "All essential tools are working properly! 🎉"
 else
-    echo_warn "Missing tools detected: ${missing_tools[*]}"
-    echo_info "Consider running the main installation script to resolve issues"
+    echo_warn "Missing essential tools: ${missing_tools[*]}"
+    echo_info "Run the install command to fix these issues"
 fi
