@@ -13,7 +13,6 @@ source ~/.zshrc
 source "$MY/core/utils/helper.zsh"
 
 echo_task_start "Updating zsh plugins via antidote"
-echo_space
 
 ################################################################################
 # 🔄 PLUGIN UPDATE PROCESS

@@ -12,7 +12,6 @@ source ~/.zshrc
 source $MY/core/utils/helper.zsh
 
 echo_task_start "Setting up shell abbreviations"
-echo_space
 
 # Only load if abbr command is available
 if ! command -v abbr >/dev/null; then

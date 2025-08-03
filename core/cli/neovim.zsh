@@ -12,7 +12,6 @@
 source $MY/core/utils/helper.zsh
 
 echo_task_start "Setting up modern Neovim configuration"
-echo_space
 
 ################################################################################
 # 🔍 NEOVIM INSTALLATION CHECK
@@ -49,19 +48,5 @@ if [[ -d "$HOME/.config/nvim/autoload" ]]; then
 fi
 
 echo_space
-echo_success "Modern Neovim setup complete!"
-echo_info "Config location: ~/.config/nvim/init.lua"
-echo_info "Features included:"
-echo_info "  🔍 Telescope (fuzzy finder)"
-echo_info "  🌳 TreeSitter (syntax highlighting)"
-echo_info "  🔧 Mason (LSP installer)"
-echo_info "  💬 nvim-cmp (autocompletion)"
-echo_info "  🤖 GitHub Copilot"
-echo_info "  📁 Neo-tree (file explorer)"
-echo_info "  ⚡ Gitsigns (git integration)"
-echo_info "  💅 Lualine (status line)"
-
-echo_space
 echo_task_done "Neovim configuration completed"
 echo_success "Modern Neovim development environment is ready! 🚀"
-echo_info "Run 'nvim' to automatically install all plugins and start coding!"

@@ -12,7 +12,6 @@
 source $MY/core/utils/helper.zsh
 
 echo_task_start "Checking environment health"
-echo_space
 
 ################################################################################
 # 🍺 PACKAGE MANAGER HEALTH

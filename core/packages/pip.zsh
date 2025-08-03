@@ -12,7 +12,6 @@
 source $MY/core/utils/helper.zsh
 
 echo_task_start "Setting up Python environment"
-echo_space
 
 ################################################################################
 # 🐍 PYTHON INSTALLATION VIA PYENV

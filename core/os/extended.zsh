@@ -12,7 +12,6 @@
 source $MY/core/utils/helper.zsh
 
 echo_task_start "Applying advanced macOS system configurations"
-echo_space
 
 # Ask for the administrator password upfront
 echo_info "Requesting administrator privileges for system modifications"

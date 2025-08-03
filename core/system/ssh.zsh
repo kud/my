@@ -12,7 +12,6 @@
 source $MY/core/utils/helper.zsh
 
 echo_task_start "Setting up SSH keys for GitHub authentication"
-echo_space
 
 # Define variables
 SSH_DIR="$HOME/.ssh"
