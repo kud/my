@@ -12,7 +12,6 @@
 source "$MY/core/utils/helper.zsh"
 
 echo_task_start "Setting up dotfiles symlinks"
-echo_space
 
 ################################################################################
 # 🔍 DOTFILES DISCOVERY

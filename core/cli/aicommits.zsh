@@ -12,7 +12,6 @@
 source $MY/core/utils/helper.zsh
 
 echo_task_start "Configuring AI commit message tools"
-echo_space
 
 ################################################################################
 # 🎯 AICOMMITS CONFIGURATION

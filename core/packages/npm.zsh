@@ -12,7 +12,6 @@
 source $MY/core/utils/helper.zsh
 
 echo_task_start "Setting up global Node.js packages"
-echo_space
 
 # Check if Node.js and npm are available
 if ! command -v npm >/dev/null 2>&1; then

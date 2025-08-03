@@ -12,7 +12,6 @@
 source $MY/core/utils/helper.zsh
 
 echo_task_start "Creating application and data symlinks"
-echo_space
 
 # Check if SYNC_FOLDER is set
 if [[ -z "$SYNC_FOLDER" ]]; then

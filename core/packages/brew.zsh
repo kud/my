@@ -12,7 +12,6 @@
 source $MY/core/utils/helper.zsh
 
 echo_task_start "Setting up Homebrew package manager"
-echo_space
 
 ################################################################################
 # 🍺 HOMEBREW INSTALLATION

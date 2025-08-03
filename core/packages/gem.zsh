@@ -12,7 +12,6 @@
 source $MY/core/utils/helper.zsh
 
 echo_task_start "Setting up Ruby gems"
-echo_space
 
 # Check if Ruby and gem are available
 if ! command -v gem >/dev/null 2>&1; then

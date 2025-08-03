@@ -21,7 +21,6 @@
 }
 
 echo_task_start "Setting up your development environment"
-echo_space
 
 ################################################################################
 # 📱 DEVELOPMENT TOOLS SETUP

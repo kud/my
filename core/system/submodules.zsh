@@ -12,7 +12,6 @@
 source $MY/core/utils/helper.zsh
 
 echo_task_start "Managing Git submodules"
-echo_space
 
 # Ensure modules directory exists
 mkdir -p "$HOME/my/modules"

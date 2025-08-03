@@ -13,7 +13,6 @@ setopt EXTENDED_GLOB
 source $MY/core/utils/helper.zsh
 
 echo_task_start "Setting up your environment"
-echo_space
 
 ################################################################################
 # 🔧 ENVIRONMENT COMPONENTS
@@ -38,5 +37,4 @@ $MY/core/apps/keepassxc.zsh     # Password manager
 
 echo_space
 echo_task_done "Environment setup completed successfully"
-echo_space
 echo_success "All essential components are now ready!"
