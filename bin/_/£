@@ -74,43 +74,45 @@ else
     fi
     ;;
 
-  os)
-    $MY/core/os/main.zsh
-    ;;
-
   # Root core files
   run)
     if [[ -z "$2" ]]; then
       echo "Error: 'run' requires a module name. Available core modules:"
-      echo "  default-folders, dotfiles, shims, submodules, symlink"
+      echo "  default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlink"
       exit 1
     fi
 
-    if [[ -f "$MY/core/$2.zsh" ]]; then
-      $MY/core/$2.zsh
-    else
-      echo "Error: Core module '$2' not found in core/"
-      exit 1
-    fi
-    ;;
-
-  # Other commands
-  doc)
     case "$2" in
-    --offline)
-      mdlive --dir $MY/doc
+    os)
+      $MY/core/os/main.zsh
+      ;;
+    doc)
+      case "$3" in
+      --offline)
+        mdlive --dir $MY/doc
+        ;;
+      *)
+        open https://github.com/kud/my/tree/master/doc
+        ;;
+      esac
+      ;;
+    edit)
+      code $MY
+      ;;
+    open)
+      open $MY
       ;;
     *)
-      open https://github.com/kud/my/tree/master/doc
+      if [[ -f "$MY/core/system/$2.zsh" ]]; then
+        $MY/core/system/$2.zsh
+      else
+        echo "Error: Core module '$2' not found in core/system/"
+        exit 1
+      fi
       ;;
     esac
     ;;
-  edit)
-    code $MY
-    ;;
-  open)
-    open $MY
-    ;;
+
   --help)
     source $MY/core/utils/helper.zsh
 
@@ -145,19 +147,9 @@ else
     echo_space
     printf "      antidote, brew, gem, mas, npm, pip"
     echo_spacex2
-    printf "    os                Run OS configuration"
-    echo_spacex2
     printf "    run <name>        Run core module:"
     echo_space
-    printf "      default-folders, dotfiles, shims, submodules, symlink"
-    echo_spacex2
-    printf "Other Commands:"
-    echo_space
-    printf "    doc               Access project documentation"
-    echo_space
-    printf "    edit              Open project in \$EDITOR"
-    echo_space
-    printf "    open              Open project directory in Finder"
+    printf "      default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlink"
     echo_space
     ;;
   *)
