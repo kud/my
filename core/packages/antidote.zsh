@@ -36,4 +36,4 @@ fi
 
 echo_space
 echo_task_done "Zsh plugin update completed"
-echo_success "Your shell is now running the latest plugin versions! ⚡"
+echo_success "Shell is now running the latest plugin versions! ⚡"

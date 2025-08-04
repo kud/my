@@ -12,7 +12,7 @@ export YSU_MESSAGE_POSITION="after"
 # Customize the reminder message format
 export YSU_MESSAGE_FORMAT="$(tput setaf 3)💡 Found existing alias: $(tput bold)%alias$(tput sgr0)$(tput setaf 3) for $(tput bold)%command$(tput sgr0)"
 
-# Ignore certain commands that you might not want to alias
+# Ignore certain commands that might not need aliases
 export YSU_IGNORED_ALIASES=("g" "l" "ll" "la")
 
 # Set minimum command length to trigger reminders (avoid very short commands)

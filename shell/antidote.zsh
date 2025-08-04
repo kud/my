@@ -27,5 +27,5 @@ if [[ ! -f "$zsh_plugins_zsh" || "$zsh_plugins_txt" -nt "$zsh_plugins_zsh" ]]; t
   antidote bundle <"$zsh_plugins_txt" >! "$zsh_plugins_zsh"
 fi
 
-# Source your static plugins file
+# Source the static plugins file
 source "$zsh_plugins_zsh"
