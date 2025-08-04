@@ -18,7 +18,7 @@ const main = async (attempt) => {
 
     console.log("")
     console.log(
-      "It's the right password 🙌. Let's connect you to the VPN then 🚀.",
+      "Password confirmed 🙌. Connecting to the VPN now 🚀.",
     )
     console.log("(Please do not do anything on the computer in the meantime.)")
 
@@ -71,7 +71,7 @@ ice.activate()
     await $`osascript -l JavaScript -e ${script}`
 
     console.log("")
-    console.log("All good now, you're connected to the VPN. 🎉")
+    console.log("All good now, connected to the VPN. 🎉")
     return true // Indicate success
   } catch (error) {
     console.log(``)

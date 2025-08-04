@@ -124,7 +124,7 @@ compare_casks() {
 
 handle_discrepancies() {
     echo_task_start "Checking for discrepancies"
-    echo_warn "If an app is listed below as a discrepancy, but you think it should not be:"
+    echo_warn "If an app is listed below as a discrepancy, but should not be:"
     echo_warn "It may be installed as a cask but only tracked as a formula, or vice versa."
     echo_warn "Or, the name may have changed in Homebrew and needs to be cleaned up."
     echo_warn "Check both your config and your installed Homebrew casks/formulae."

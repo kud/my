@@ -65,7 +65,7 @@
 [delta]
   features = mellow-barbet
   navigate = true    # use n and N to move between diff sections
-  light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+  light = false      # set to true for terminals with light background colors (e.g. the default macOS terminal)
   line-numbers = true
   side-by-side = true
   hyperlinks = true

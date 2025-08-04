@@ -117,7 +117,7 @@ update_pref "sidebar.verticalTabs" true
 # Enable userChrome.css
 update_pref "toolkit.legacyUserProfileCustomizations.stylesheets" true
 
-# Hide bookmarks bar (set to "never", or use "always" if you want it visible)
+# Hide bookmarks bar (set to "never", or use "always" for visible bookmarks)
 update_pref "browser.toolbars.bookmarks.visibility" '"never"'
 
 # Hide mobile bookmarks in bookmarks menu

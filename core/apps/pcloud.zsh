@@ -5,5 +5,5 @@ source $MY/core/utils/helper.zsh
 if [ ! -d "$HOME/pCloud" ]; then
   mkdir -p ~/pCloud
   open "https://www.pcloud.com/how-to-install-pcloud-drive-mac-os.html?download=mac"
-  read "?Install and configure pCloud and press [Enter] when you've finished..." </dev/tty
+  read "?Install and configure pCloud and press [Enter] when finished..." </dev/tty
 fi

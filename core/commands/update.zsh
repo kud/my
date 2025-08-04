@@ -44,4 +44,4 @@ echo_info "Activating updated configuration"
 source $HOME/.zshrc
 
 echo_space
-echo_success "Your environment is now up to date! 🚀"
+echo_success "Environment is now up to date! 🚀"

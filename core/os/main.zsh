@@ -53,7 +53,7 @@ defaults write NSGlobalDomain NSUseAnimatedFocusRing -bool false
 defaults write NSGlobalDomain NSToolbarTitleViewRolloverDelay -float 0
 
 # Disable smooth scrolling
-# (Uncomment if you’re on an older Mac that messes up the animation)
+# (Uncomment for older Macs that have animation issues)
 #defaults write NSGlobalDomain NSScrollAnimationEnabled -bool false
 
 # Increase window resize speed for Cocoa applications
