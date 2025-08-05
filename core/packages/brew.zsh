@@ -306,6 +306,7 @@ echo_title "Post-installation setup"
 echo_subtitle "Installing GitHub CLI extensions"
 gh extension install dlvhdr/gh-dash # GitHub project dashboard - https://github.com/dlvhdr/gh-dash
 gh extension install github/gh-copilot # GitHub Copilot - https://github.com/github/gh-copilot
+gh extension upgrade --all
 
 echo_subtitle "Configuring system settings"
 brew link --overwrite node # Ensure node is linked
