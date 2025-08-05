@@ -52,3 +52,7 @@ node_modules/
 #########
 bower-components/
 bower_components/
+
+# Claude #
+#########
+.claude/
