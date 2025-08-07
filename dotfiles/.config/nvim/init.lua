@@ -55,7 +55,7 @@ require("lazy").setup({
       require("onedarkpro").setup({
         colorscheme = "onedark",
         options = {
-          transparency = false,
+          transparency = true,
         },
         plugins = {
           neo_tree = true,
