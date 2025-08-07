@@ -361,12 +361,17 @@ require("lazy").setup({
     },
     opts = {
       debug = false, -- Enable debugging
-      model = "gpt-4o", -- GPT model to use
+      model = "gpt-4o", -- GPT model to use (options: gpt-4o, gpt-4o-mini, gpt-4-turbo, gpt-4, gpt-3.5-turbo)
       auto_follow_cursor = false, -- Don't follow the cursor after getting response
       show_help = false, -- Show help in virtual text
       window = {
         layout = "vertical",
         width = 0.4,
+        height = 0.8,
+        row = 1,
+        col = function()
+          return math.floor(vim.o.columns * 0.6)
+        end,
       },
     },
     config = function(_, opts)
@@ -402,6 +407,9 @@ require("lazy").setup({
           chat.ask(input, { selection = select.visual })
         end
       end, { desc = "Ask custom prompt about selection" })
+
+      -- Model selection keymaps
+      vim.keymap.set("n", "<leader>cm", ":CopilotChatModels<CR>", { desc = "Select Copilot model" })
     end,
   },
 
