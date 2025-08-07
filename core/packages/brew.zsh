@@ -196,7 +196,9 @@ brewinstall yt-dlp # YouTube downloader - https://github.com/yt-dlp/yt-dlp
 caskinstall altair-graphql-client # GraphQL client - https://altair.sirmuel.design/
 caskinstall android-commandlinetools # Android SDK command-line tools - https://developer.android.com/studio
 caskinstall android-studio # Android IDE - https://developer.android.com/studio
+caskinstall bruno # Bruno is a Git-integrated, fully offline, and open-source API client - https://www.usebruno.com/
 caskinstall cap # Screenshot utility - https://github.com/lvillani/cap
+caskinstall claude # Claude AI desktop app - https://claude.ai/
 caskinstall cleanshot # Screenshot tool - https://cleanshot.com/
 caskinstall discord # Chat for communities - https://discord.com/
 caskinstall espanso # Text expander - https://espanso.org/
@@ -243,7 +245,6 @@ caskinstall visual-studio-code # Code editor - https://code.visualstudio.com/
 caskinstall vlc # Media player - https://www.videolan.org/vlc/
 caskinstall xcodes-app # Manage Xcode installations - https://xcodes.dev/
 caskinstall xquartz # X11 windowing system - https://www.xquartz.org/
-caskinstall claude # Claude AI desktop app - https://claude.ai/
 
 ################################################################################
 # � Fonts

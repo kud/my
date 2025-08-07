@@ -122,6 +122,7 @@
   branches = branch -avv
   branches-delete = branch-delete
   branchv = branch -v
+  branch-select-fzf = "!git checkout $(git branch | fzf)"
   browse = "!gh browse"
   bs = branch-select
   ci = commit
