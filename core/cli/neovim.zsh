@@ -11,7 +11,6 @@
 
 source $MY/core/utils/helper.zsh
 
-echo_task_start "Setting up modern Neovim configuration"
 
 ################################################################################
 # 🔍 NEOVIM INSTALLATION CHECK
@@ -19,12 +18,8 @@ echo_task_start "Setting up modern Neovim configuration"
 
 # Check if Neovim is installed
 if ! command -v nvim >/dev/null 2>&1; then
-    echo_fail "Neovim is not installed. Install it via Homebrew first:"
-    echo_info "Run: brew install neovim"
     return 1
 fi
-
-echo_info "Neovim found - proceeding with configuration"
 
 ################################################################################
 # 📂 CONFIGURATION DIRECTORY SETUP
@@ -32,21 +27,12 @@ echo_info "Neovim found - proceeding with configuration"
 
 # Check if the config directory exists
 if [[ ! -d "$HOME/.config/nvim" ]]; then
-    echo_info "Creating Neovim configuration directory"
     mkdir -p "$HOME/.config/nvim"
-    echo_success "Configuration directory created"
-else
-    echo_info "Neovim configuration directory already exists"
 fi
 
 # Clean up old vim-plug installation if it exists
 if [[ -d "$HOME/.config/nvim/autoload" ]]; then
-    echo_task_start "Cleaning up old vim-plug installation"
     rm -rf "$HOME/.config/nvim/autoload"
     rm -rf "$HOME/.config/nvim/plugged"
-    echo_task_done "Old vim-plug removed"
 fi
 
-echo_space
-echo_task_done "Neovim configuration completed"
-echo_success "Modern Neovim development environment is ready! 🚀"

@@ -17,7 +17,6 @@ update_pref() {
   echo "user_pref(\"$key\", $value);" >>"$PREFS_FILE"
 }
 
-echo_title_update "Firefox configuration"
 
 # Close Firefox Nightly to safely apply changes
 quit "Firefox Nightly"
@@ -200,7 +199,6 @@ update_pref "devtools.aboutdebugging.local-tab-debugging" true
 
 source $MY/profiles/$OS_PROFILE/core/apps/firefox.zsh 2>/dev/null
 
-echo_success "Settings have been applied"
 
 # ╔═════════════════════════════════════════════╗
 # ║          Manage userChrome.css File         ║
@@ -267,7 +265,6 @@ cat <<EOF >"$USER_CHROME_FILE"
 }
 EOF
 
-echo_success "Styles have been applied"
 
 # ╔═════════════════════════════════════════════╗
 # ║               Containers                    ║
@@ -317,7 +314,6 @@ cat <<EOF >"$CONTAINERS_FILE"
 }
 EOF
 
-echo_success "Containers have been synchronised"
 
 
 print_firefox_hotkeys_table() {

@@ -11,11 +11,9 @@
 
 source $MY/core/utils/helper.zsh
 
-echo_task_start "Setting up global Node.js packages"
 
 # Check if Node.js and npm are available
 if ! command -v npm >/dev/null 2>&1; then
-    echo_fail "npm not found. Please install Node.js first."
     return 1
 fi
 
@@ -23,17 +21,12 @@ fi
 # 🔄 NPM SYSTEM UPDATE
 ################################################################################
 
-echo_info "Updating existing global npm packages"
 npm update -g --quiet
-
-echo_space
-echo_success "Global npm packages updated successfully"
 
 ################################################################################
 # 🛠️ DEVELOPMENT TOOLS & UTILITIES
 ################################################################################
 
-echo_info "Installing essential development and utility packages"
 
 npminstall aicommits # Automated AI commit messages for git - https://github.com/Nutlope/aicommits
 npminstall @anthropic-ai/claude-code # AI-powered coding assistant - https://github.com/anthropics/claude-code
@@ -107,8 +100,6 @@ npminstall_run
 # ⚙️ NPM & YARN CONFIGURATION
 ################################################################################
 
-echo_space
-echo_info "Configuring npm and yarn settings"
 
 # NPM configuration for better package management
 npm config set save-exact true                    # Save exact versions
@@ -121,7 +112,6 @@ npm config set fetch-retry-maxtimeout 90000       # Max timeout for retries
 # Yarn configuration
 yarn config set save-exact true                   # Save exact versions in yarn
 
-echo_success "npm and yarn configured successfully"
 
 ################################################################################
 # 🔧 PROFILE-SPECIFIC EXTENSIONS
@@ -130,6 +120,3 @@ echo_success "npm and yarn configured successfully"
 # Load profile-specific npm configurations
 source $MY/profiles/$OS_PROFILE/core/packages/npm.zsh 2>/dev/null
 
-echo_space
-echo_task_done "Node.js package setup completed"
-echo_success "Global npm packages and configurations are ready for development! 🚀"

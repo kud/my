@@ -4,8 +4,6 @@
 
 source $MY/core/utils/helper.zsh
 
-echo_title_update "macos settings"
-
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
 osascript -e 'tell application "System Preferences" to quit'
@@ -967,4 +965,3 @@ for app in "Activity Monitor" \
   "iCal"; do
   killall "${app}" &>/dev/null
 done
-echo "Done. Note that some of these changes require a logout/restart to take effect."

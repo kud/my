@@ -11,20 +11,13 @@
 
 source $MY/core/utils/helper.zsh
 
-echo_task_start "Applying advanced macOS system configurations"
-
 # Ask for the administrator password upfront
-echo_info "Requesting administrator privileges for system modifications"
 sudo -v
-
-echo_space
-echo_success "Administrator access granted"
 
 ################################################################################
 # 🔧 GENERAL SYSTEM PREFERENCES                                                #
 ################################################################################
 
-echo_info "Configuring general system preferences"
 
 # Disable system sounds
 defaults write NSGlobalDomain com.apple.sound.beep.volume -float 0
@@ -123,9 +116,3 @@ defaults write NSGlobalDomain NSRecentDocumentsLimit -int 0
 # 🔄 SYSTEM RESTART NOTIFICATION
 ################################################################################
 
-echo_space
-echo_task_done "Advanced macOS configuration completed"
-echo_space
-echo_success "System preferences have been optimized for development! 🖥️"
-echo_warn "Some changes may require a restart to take full effect"
-echo_info "Consider running: sudo shutdown -r now (to restart)"

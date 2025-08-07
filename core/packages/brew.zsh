@@ -11,25 +11,18 @@
 
 source $MY/core/utils/helper.zsh
 
-echo_task_start "Setting up Homebrew package manager"
 
 ################################################################################
 # 🍺 HOMEBREW INSTALLATION
 ################################################################################
 
 if ! command -v brew >/dev/null 2>&1; then
-    echo_info "Installing Homebrew package manager"
     sudo -v
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-    if command -v brew >/dev/null 2>&1; then
-        echo_success "Homebrew installed successfully"
-    else
-        echo_fail "Failed to install Homebrew"
+    if ! command -v brew >/dev/null 2>&1; then
         return 1
     fi
-else
-    echo_info "Homebrew already installed"
 fi
 
 ################################################################################
@@ -37,24 +30,18 @@ fi
 ################################################################################
 
 if [[ $(which zsh) == "/bin/zsh" ]]; then
-    echo_info "Installing modern zsh shell via Homebrew"
     brewinstall zsh
     echo "${HOMEBREW_PREFIX}/bin/zsh" | sudo tee -a /etc/shells
     chsh -s ${HOMEBREW_PREFIX}/bin/zsh
-    echo_success "Homebrew zsh configured as default shell"
 fi
 
 ## install bash
 if [[ $(which bash) == "/bin/bash" ]]; then
-  echo_space
-  echo_title_install "bash"
   brewinstall bash
   echo "${HOMEBREW_PREFIX}/bin/bash" | sudo tee -a /etc/shells
 fi
 
 ## update/upgrade brew
-echo_space
-echo_title_update "brew"
 brew update && brew upgrade
 
 # Initialize brew cache for faster package checking
@@ -300,16 +287,12 @@ caskinstall_run
 ###################################################################################################
 # 🔧 POST-INSTALLATION CONFIGURATION
 ###################################################################################################
-echo_space
-echo_title "Post-installation setup"
 
 # GitHub CLI extensions
-echo_subtitle "Installing GitHub CLI extensions"
 gh extension install dlvhdr/gh-dash # GitHub project dashboard - https://github.com/dlvhdr/gh-dash
 gh extension install github/gh-copilot # GitHub Copilot - https://github.com/github/gh-copilot
 gh extension upgrade --all
 
-echo_subtitle "Configuring system settings"
 brew link --overwrite node # Ensure node is linked
 xattr -d -r com.apple.quarantine ~/Library/QuickLook # remove quarantine attr since Catalina
 
@@ -324,10 +307,4 @@ source $MY/profiles/$OS_PROFILE/core/packages/brew.zsh 2>/dev/null
 # 🧹 CLEANUP & FINALIZATION
 ################################################################################
 
-echo_space
-echo_info "Cleaning up Homebrew cache and temporary files"
 brew cleanup
-
-echo_space
-echo_task_done "Homebrew package manager setup completed"
-echo_success "All essential development tools and applications are now installed! 🎉"
