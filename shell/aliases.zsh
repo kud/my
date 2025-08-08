@@ -107,6 +107,7 @@ alias wtf='whence -v'
 alias npms='npm run start'
 alias wt='webtorrent --vlc --not-on-top download'
 alias vim='nvim'
+alias copilot='gh copilot'
 
 # Useful utility aliases
 alias e='${(z)VISUAL:-${(z)EDITOR}}'  # Quick editor
