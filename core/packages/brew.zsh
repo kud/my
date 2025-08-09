@@ -184,6 +184,7 @@ brewinstall xcodes # Install and manage Xcode versions - https://github.com/Xcod
 brewinstall yarn # JavaScript package manager - https://yarnpkg.com/
 brewinstall yazi # Blazing fast terminal file manager - https://github.com/sxyazi/yazi
 brewinstall yt-dlp # YouTube downloader - https://github.com/yt-dlp/yt-dlp
+brewinstall silicon # Command-line tool for generating images from text - https://github.com/mitsuhiko/silicon
 
 
 ###################################################################################################
