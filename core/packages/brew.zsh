@@ -245,6 +245,7 @@ caskinstall visual-studio-code # Code editor - https://code.visualstudio.com/
 caskinstall vlc # Media player - https://www.videolan.org/vlc/
 caskinstall xcodes-app # Manage Xcode installations - https://xcodes.dev/
 caskinstall xquartz # X11 windowing system - https://www.xquartz.org/
+caskinstall localsend # Local file sharing - https://localsend.app/
 
 ################################################################################
 # � Fonts
