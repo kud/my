@@ -51,3 +51,5 @@ fi
 echo_space
 echo_task_done "AI commit tools configuration completed"
 echo_success "Smart commit messages are now ready for your projects! 🚀"
+echo_success "Smart commit messages are now ready for your projects! 🚀"
+echo_success "Smart commit messages are now ready for your projects! 🚀"
