@@ -21,6 +21,7 @@ echo_task_start "Setting up your environment"
 echo_info "Installing essential components"
 $MY/core/apps/pcloud.zsh         # Cloud storage setup
 $MY/core/system/default-folders.zsh # Directory structure
+$MY/core/system/sync-files.zsh     # Synchronized files (fonts, etc.)
 $MY/core/system/dotfiles.zsh       # Personal configurations
 $MY/core/packages/brew.zsh          # Homebrew packages
 $MY/core/packages/antidote.zsh      # Shell enhancement

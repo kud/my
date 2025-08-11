@@ -1,0 +1,25 @@
+brew:
+  formulae:
+    - dnscrypt-proxy
+
+  casks:
+    - darktable
+    - deluge
+    - gswitch
+    - notion
+    - rawtherapee
+    - shadow
+    - steam
+    - steermouse
+    - todoist-app
+    - whatsapp
+
+  post_install:
+    - sudo brew services start dnscrypt-proxy
+
+mas:
+  packages:
+    - id: 1081413713
+      name: "GIF Brewery 3"
+    - id: 1351639930
+      name: "Gifski"
