@@ -1,2 +1,0 @@
-#! /usr/bin/env zsh
-open -a "/Applications/Neo4j Desktop.app" $@
