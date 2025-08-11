@@ -116,7 +116,7 @@
   aa = add -A
   aac = "!git add -A && git commit"
   add-plus = "!git ls-files -m -o --exclude-standard|fzf --print0 -m --preview-window right:75%  --preview 'git diff --color=always {}'|xargs -0 -t -o git add"
-  aicommit = "!aicommits"
+  aicommit = "!opencommit"
   apc = "!git add -p && git commit"
   br = branch
   branches = branch -avv
