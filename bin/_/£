@@ -8,7 +8,7 @@ if [[ $# -eq 0 ]]; then
 else
 
   case "$1" in
-  # Direct commands
+  # Direct commands (only core/commands)
   install)
     $MY/core/commands/install.zsh
     ;;
@@ -28,61 +28,19 @@ else
     $MY/core/commands/doctor.zsh
     ;;
 
-  # Folder-based commands
-  app)
-    if [[ -z "$2" ]]; then
-      echo "Error: 'app' requires a module name. Available apps:"
-      echo "  firefox, keepassxc, pcloud, sublime-merge"
-      exit 1
-    fi
-
-    if [[ -f "$MY/core/apps/$2.zsh" ]]; then
-      $MY/core/apps/$2.zsh
-    else
-      echo "Error: App '$2' not found in core/apps/"
-      exit 1
-    fi
-    ;;
-
-  cli)
-    if [[ -z "$2" ]]; then
-      echo "Error: 'cli' requires a module name. Available CLI tools:"
-      echo "  abbr, aicommits, neovim, ssh"
-      exit 1
-    fi
-
-    if [[ -f "$MY/core/cli/$2.zsh" ]]; then
-      $MY/core/cli/$2.zsh
-    else
-      echo "Error: CLI tool '$2' not found in core/cli/"
-      exit 1
-    fi
-    ;;
-
-  package)
-    if [[ -z "$2" ]]; then
-      echo "Error: 'package' requires a module name. Available packages:"
-      echo "  antidote, brew, gem, mas, npm, pip"
-      exit 1
-    fi
-
-    if [[ -f "$MY/core/packages/$2.zsh" ]]; then
-      $MY/core/packages/$2.zsh
-    else
-      echo "Error: Package '$2' not found in core/packages/"
-      exit 1
-    fi
-    ;;
-
-  # Root core files
+  # Everything else under run
   run)
     if [[ -z "$2" ]]; then
-      echo "Error: 'run' requires a module name. Available core modules:"
-      echo "  default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlink"
+      echo "Error: 'run' requires a module name. Available modules:"
+      echo "  Apps: firefox, keepassxc, pcloud, sublime-merge"
+      echo "  CLI: abbr, aicommits, neovim, ssh"  
+      echo "  Packages: antidote, brew, gem, mas, npm, pip"
+      echo "  System: default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlink"
       exit 1
     fi
 
     case "$2" in
+    # System modules
     os)
       $MY/core/os/main.zsh
       ;;
@@ -102,11 +60,76 @@ else
     open)
       open $MY
       ;;
+    
+    # Apps (core/apps)
+    firefox)
+      $MY/core/apps/firefox.zsh
+      ;;
+    keepassxc)
+      $MY/core/apps/keepassxc.zsh
+      ;;
+    pcloud)
+      $MY/core/apps/pcloud.zsh
+      ;;
+    sublime-merge)
+      $MY/core/apps/sublime-merge.zsh
+      ;;
+    
+    # CLI tools (core/cli)
+    abbr)
+      $MY/core/cli/abbr.zsh
+      ;;
+    aicommits)
+      $MY/core/cli/aicommits.zsh
+      ;;
+    neovim)
+      $MY/core/cli/neovim.zsh
+      ;;
+    ssh)
+      $MY/core/system/ssh.zsh
+      ;;
+    
+    # Packages (core/packages)
+    antidote)
+      $MY/core/packages/antidote.zsh
+      ;;
+    brew)
+      $MY/core/packages/brew.zsh
+      ;;
+    gem)
+      $MY/core/packages/gem.zsh
+      ;;
+    mas)
+      $MY/core/packages/mas.zsh
+      ;;
+    npm)
+      $MY/core/packages/npm.zsh
+      ;;
+    pip)
+      $MY/core/packages/pip.zsh
+      ;;
+    
+    # System (core/system) - fallback and specific ones
+    dotfiles)
+      $MY/core/system/dotfiles.zsh
+      ;;
+    symlink)
+      $MY/core/system/symlink.zsh
+      ;;
+    shims)
+      $MY/core/system/shims.zsh
+      ;;
+    submodules)
+      $MY/core/system/submodules.zsh
+      ;;
+    default-folders)
+      $MY/core/system/default-folders.zsh
+      ;;
     *)
       if [[ -f "$MY/core/system/$2.zsh" ]]; then
         $MY/core/system/$2.zsh
       else
-        echo "Error: Core module '$2' not found in core/system/"
+        echo "Error: Module '$2' not found. Use '£ --help' to see available modules."
         exit 1
       fi
       ;;
@@ -121,35 +144,29 @@ else
     echo_spacex2
     printf "Direct Commands:"
     echo_space
-    printf "    install           Start the installation process"
+    printf "    install           Set up complete development environment"
     echo_space
-    printf "    update            Update the project"
+    printf "    update            Refresh all components and packages"
     echo_space
-    printf "    uninstall         Uninstall the project"
+    printf "    uninstall         Remove the project"
     echo_space
-    printf "    brew-clean        Clean Homebrew casks"
+    printf "    brew-clean        Remove unused Homebrew packages"
     echo_space
-    printf "    npm-clean         Clean global Node packages"
+    printf "    npm-clean         Clean up Node.js global packages"
     echo_space
-    printf "    doctor            Run system health checks"
+    printf "    doctor            Check system health and configuration"
     echo_spacex2
-    printf "Categorized Commands:"
+    printf "Run Commands:"
     echo_space
-    printf "    app <name>        Run app configuration:"
+    printf "    run <module>      Run a specific component:"
     echo_space
-    printf "      firefox, keepassxc, pcloud, sublime-merge"
-    echo_spacex2
-    printf "    cli <name>        Run CLI tool:"
+    printf "      Apps:           firefox, keepassxc, pcloud, sublime-merge"
     echo_space
-    printf "      abbr, aicommits, neovim, ssh"
-    echo_spacex2
-    printf "    package <name>    Run package manager:"
+    printf "      CLI:            abbr, aicommits, neovim, ssh"
     echo_space
-    printf "      antidote, brew, gem, mas, npm, pip"
-    echo_spacex2
-    printf "    run <name>        Run core module:"
+    printf "      Packages:       antidote, brew, gem, mas, npm, pip"
     echo_space
-    printf "      default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlink"
+    printf "      System:         default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlink"
     echo_space
     ;;
   *)
