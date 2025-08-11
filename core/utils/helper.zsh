@@ -285,8 +285,15 @@ function npminstall_run() {
         echo_success "✓ ${package}"
         ((success_count++))
       else
-        echo_warn "✗ ${package}"
-        failed_packages+=("$package")
+        echo_info "First install failed for ${package}, trying uninstall then reinstall..."
+        npm uninstall -g --quiet "$package" 2>/dev/null
+        if npm install -g --quiet "$package"; then
+          echo_success "✓ ${package} (after uninstall/reinstall)"
+          ((success_count++))
+        else
+          echo_warn "✗ ${package}"
+          failed_packages+=("$package")
+        fi
       fi
     done
     
