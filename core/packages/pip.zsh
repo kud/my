@@ -13,6 +13,15 @@ source $MY/core/utils/helper.zsh
 
 echo_task_start "Setting up Python environment"
 
+# Check if yq is available for YAML parsing
+if ! command -v yq >/dev/null 2>&1; then
+    echo_info "Installing yq for YAML parsing"
+    brew install yq
+fi
+
+PACKAGES_FILE="$MY/core/packages.yml"
+PROFILE_PACKAGES_FILE="$MY/profiles/$OS_PROFILE/core/packages.yml"
+
 ################################################################################
 # 🐍 PYTHON INSTALLATION VIA PYENV
 ################################################################################
@@ -40,31 +49,69 @@ fi
 # 📦 PIP PACKAGES & UPDATES
 ################################################################################
 
+collect_pip_packages_from_yaml() {
+    local yaml_file="$1"
+    local source_desc="$2"
+    
+    if [[ ! -f "$yaml_file" ]]; then
+        return 0
+    fi
+    
+    local packages=$(yq eval '.pip.packages[]?' "$yaml_file" 2>/dev/null)
+    if [[ -n "$packages" ]]; then
+        while IFS= read -r package; do
+            if [[ -n "$package" ]]; then
+                echo_info "Installing $package"
+                pip install "$package"
+            fi
+        done <<< "$packages"
+    fi
+}
+
+run_pip_post_install_from_yaml() {
+    local yaml_file="$1"
+    local source_desc="$2"
+    
+    if [[ ! -f "$yaml_file" ]]; then
+        return 0
+    fi
+    
+    local post_install=$(yq eval '.pip.post_install[]?' "$yaml_file" 2>/dev/null)
+    if [[ -n "$post_install" ]]; then
+        while IFS= read -r command; do
+            if [[ -n "$command" ]]; then
+                eval "$command" >/dev/null 2>&1
+            fi
+        done <<< "$post_install"
+    fi
+}
+
 echo_space
-echo_info "Installing and updating Python packages"
+echo_info "Installing Python packages from YAML"
 
 # Check if pip is available
 if command -v pip >/dev/null 2>&1; then
-    # Essential packages
-    pip3install pip              # Ensure pip is up to date
-    pip install pdf2docx         # PDF to DOCX converter utility
+    # Upgrade pip itself first
+    echo_info "Upgrading pip to latest version"
+    pip install --upgrade pip >/dev/null 2>&1
+    
+    # Collect all pip packages (base + profile)
+    collect_pip_packages_from_yaml "$PACKAGES_FILE" "base configuration"
+    collect_pip_packages_from_yaml "$PROFILE_PACKAGES_FILE" "$OS_PROFILE profile"
 
-    # System maintenance
-    pip install --upgrade pip    # Upgrade pip to latest version
-    pip-upgrade-all             # Upgrade all installed packages
+    # Upgrade all installed packages
+    echo_info "Upgrading all installed pip packages"
+    pip-upgrade-all >/dev/null 2>&1
 
+    echo_space
+    echo_title "Post-installation setup"
+    run_pip_post_install_from_yaml "$PACKAGES_FILE" "base configuration"
+    run_pip_post_install_from_yaml "$PROFILE_PACKAGES_FILE" "$OS_PROFILE profile"
+    
     echo_success "Python packages installed and updated"
 else
     echo_warn "pip not found - Python may not be properly installed"
 fi
 
-################################################################################
-# 🔧 PROFILE-SPECIFIC EXTENSIONS
-################################################################################
-
-# Load profile-specific pip configurations
-source $MY/profiles/$OS_PROFILE/core/packages/pip.zsh 2>/dev/null
-
 echo_space
 echo_task_done "Python environment setup completed"
-echo_success "Python development environment is ready! 🐍"
