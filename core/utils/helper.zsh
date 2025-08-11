@@ -285,10 +285,17 @@ function npminstall_run() {
         echo_success "✓ ${package}"
         ((success_count++))
       else
-        echo_info "First install failed for ${package}, trying uninstall then reinstall..."
+        echo_info "First install failed for ${package}, trying cleanup then reinstall..."
         npm uninstall -g --quiet "$package" 2>/dev/null
+        # Force remove the package directory if it still exists
+        local package_name=$(echo "$package" | cut -d'@' -f1)
+        local npm_global_path=$(npm root -g 2>/dev/null)
+        if [[ -n "$npm_global_path" && -d "$npm_global_path/$package_name" ]]; then
+          echo_info "Removing stuck directory: $npm_global_path/$package_name"
+          rm -rf "$npm_global_path/$package_name" 2>/dev/null
+        fi
         if npm install -g --quiet "$package"; then
-          echo_success "✓ ${package} (after uninstall/reinstall)"
+          echo_success "✓ ${package} (after cleanup/reinstall)"
           ((success_count++))
         else
           echo_warn "✗ ${package}"
