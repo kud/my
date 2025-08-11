@@ -45,8 +45,6 @@ if command -v oco >/dev/null 2>&1; then
     oco config set OCO_GITPUSH=false                      # Disable git push
     oco config set OCO_ONE_LINE_COMMIT=true               # Single line commits
     oco config set OCO_DESCRIPTION=false                  # Skip descriptions
-    oco config set OCO_TOKENS_MAX_INPUT=4096              # Token limit
-    oco config set OCO_TOKENS_MAX_OUTPUT=500              # Output limit
 
     echo_success "opencommit configured successfully"
 else
