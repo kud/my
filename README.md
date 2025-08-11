@@ -34,27 +34,18 @@ The main command is:
 
 Usage:
 
+Direct Commands:
     install           Set up complete development environment
     update            Refresh all components and packages
+    uninstall         Remove the project
     brew-clean        Remove unused Homebrew packages
     npm-clean         Clean up Node.js global packages
-    shims             Create terminal shortcuts for apps
     doctor            Check system health and configuration
 
+Run Commands:
     run <module>      Run a specific component:
-      ssh             Set up GitHub SSH authentication
-      dotfiles        Sync personal configuration files
-      symlink         Create application shortcuts
-      os              Configure macOS system preferences
-      firefox         Customize Firefox browser
-      keepassxc       Set up password manager
-      sublime-merge   Configure Git visual interface
-      aicommits       Enable AI commit message generation
-      brew            Manage Homebrew packages and fonts
-      npm             Manage Node.js packages
-      mas             Install Mac App Store applications
-
-    doc               Access project documentation
-    edit              Open project in $EDITOR
-    open              Open project directory in Finder
+      Apps:           firefox, keepassxc, pcloud, sublime-merge
+      CLI:            abbr, aicommits, neovim, ssh
+      Packages:       antidote, brew, gem, mas, npm, pip
+      System:         default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlink
 ```
