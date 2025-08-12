@@ -1,0 +1,51 @@
+# KeePassXC Configuration
+# This file contains all KeePassXC preferences and settings
+
+# General Settings
+General:
+  autoTypeEntryTitleMatch: false
+  autoTypeEntryURLMatch: false
+  configVersion: 2
+  globalAutoTypeKey: 0
+  globalAutoTypeModifiers: 0
+  minimizeAfterUnlock: false
+  minimizeOnOpenUrl: false
+  updateCheckMessageShown: true
+
+# GUI Settings
+GUI:
+  applicationTheme: "dark"
+  trayIconAppearance: "monochrome"
+  compactMode: true
+  minimizeOnStartup: true
+  hidePasswords: false
+  hidePreviewPanel: true
+  hideToolbar: false
+  hideUsernames: false
+  toolButtonStyle: 0
+
+# Browser Integration Settings
+Browser:
+  enabled: true
+  customProxyLocation: ""
+  bestMatchOnly: true
+
+# Password Generator Settings
+PasswordGenerator:
+  additionalChars: "_-&@$%^"
+  advancedMode: true
+  excludedChars: ""
+  length: 26
+  logograms: false
+  specialChars: true
+  type: 0
+  wordCount: 4
+  wordSeparator: "-"
+  wordCase: 2
+
+# Security Settings
+Security:
+  iconDownloadFallback: true
+  autotypeAsk: false
+  lockDatabaseIdle: true
+  lockDatabaseIdleSeconds: 300
