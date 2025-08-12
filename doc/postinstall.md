@@ -33,12 +33,13 @@
   - Set Gmail as the default mail client for email links.
   - Enable Google auto-search functionality by adding `!g`.
 
-![](./assets/firefox.png)
+![](./assets/firefox-001.png)
+![](./assets/firefox-002.png)
 
 ### Adaptive Tab Bar Colour
 
-![](./assets/firefox-adaptive-colours-1.png)
-![](./assets/firefox-adaptive-colours-2.png)
+![](./assets/firefox-adaptive-colours-001.png)
+![](./assets/firefox-adaptive-colours-002.png)
 
 ## Visual Studio Code
 
