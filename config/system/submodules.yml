@@ -1,0 +1,7 @@
+git-diff-image:
+  url: https://github.com/ewanmellor/git-diff-image.git
+  description: Git tool to show diffs of binary files using external tools
+
+themes:
+  url: https://github.com/kud/themes.git
+  description: Collection of custom themes and color schemes
