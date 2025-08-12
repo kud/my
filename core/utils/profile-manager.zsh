@@ -111,9 +111,9 @@ execute_profile_setup() {
             local script_name=$(basename "$script")
             local script_dir=$(dirname "$script")
 
-            # Skip Firefox from automatic execution - Firefox now uses YAML config in /config/firefox.yml and profiles/*/config/firefox.yml
+            # Skip Firefox from automatic execution - Firefox now uses YAML config in /config/apps/firefox.yml and profiles/*/config/firefox.yml
             if [[ "$script_name" == "firefox.zsh" ]]; then
-                echo_info "Skipping $script_name (now uses YAML config: $MY/config/firefox.yml + profiles/\$OS_PROFILE/config/firefox.yml)"
+                echo_info "Skipping $script_name (now uses YAML config: $MY/config/apps/firefox.yml + profiles/\$OS_PROFILE/config/apps/firefox.yml)"
                 continue
             fi
 
