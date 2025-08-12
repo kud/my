@@ -186,19 +186,6 @@ preferences:
     aboutdebugging:
       local-tab-debugging: true
 
-# Profile-specific Settings
-profile_preferences:
-  home:
-    services:
-      sync:
-        client:
-          name: "_kud.home"
-
-  work:
-    services:
-      sync:
-        client:
-          name: "_kud.work"
 # CSS Styling (userChrome.css content)
 user_chrome_css: |
   /* No scroll on sidebar */
