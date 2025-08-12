@@ -33,7 +33,7 @@ else
     if [[ -z "$2" ]]; then
       echo "Error: 'run' requires a module name. Available modules:"
       echo "  Apps: firefox, keepassxc, pcloud, sublime-merge"
-      echo "  CLI: abbr, aicommits, neovim, ssh"
+      echo "  CLI: abbr, aicommits, ssh"
       echo "  Packages: antidote, brew, gem, mas, npm, pip"
       echo "  System: default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlink"
       exit 1
@@ -81,9 +81,6 @@ else
       ;;
     aicommits)
       $MY/core/cli/aicommits.zsh
-      ;;
-    neovim)
-      $MY/core/cli/neovim.zsh
       ;;
     ssh)
       $MY/core/system/ssh.zsh
@@ -162,7 +159,7 @@ else
     echo_space
     printf "      Apps:           firefox, keepassxc, pcloud, sublime-merge"
     echo_space
-    printf "      CLI:            abbr, aicommits, neovim, ssh"
+    printf "      CLI:            abbr, aicommits, ssh"
     echo_space
     printf "      Packages:       antidote, brew, gem, mas, npm, pip"
     echo_space

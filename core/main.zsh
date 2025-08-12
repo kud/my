@@ -40,7 +40,6 @@ setup_package_managers() {
 
 setup_development_tools() {
     echo_info "Setting up development tools"
-    $MY/core/cli/neovim.zsh        # Text editor setup
     $MY/core/cli/aicommits.zsh     # Smart commit messages
     $MY/core/cli/abbr.zsh          # Command shortcuts
 }
