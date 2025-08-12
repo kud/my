@@ -1,0 +1,6 @@
+#! /usr/bin/env zsh
+
+cd $MY/profiles/work/bin/main/_globalprotect-connect
+
+node ./index.js
+cd --
