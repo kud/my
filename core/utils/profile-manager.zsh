@@ -108,7 +108,22 @@ execute_profile_setup() {
     local script_count=0
     while IFS= read -r script; do
         if [[ -f "$script" && -x "$script" ]]; then
-            echo_info "Running $(basename "$script")"
+            local script_name=$(basename "$script")
+            local script_dir=$(dirname "$script")
+
+            # Skip Firefox from automatic execution - it should only run manually via £ firefox
+            if [[ "$script_name" == "firefox.zsh" ]]; then
+                echo_info "Skipping $script_name (manual execution only via £ firefox)"
+                continue
+            fi
+
+            # Skip OS configuration from automatic execution - it should only run manually via £ run os
+            if [[ "$script_name" == "main.zsh" && "$script_dir" == *"/os" ]]; then
+                echo_info "Skipping $script_name (manual execution only via £ run os)"
+                continue
+            fi
+
+            echo_info "Running $script_name"
             "$script"
             ((script_count++))
         fi
