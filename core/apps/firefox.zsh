@@ -3,12 +3,30 @@
 # Load helper functions
 source $MY/core/utils/helper.zsh
 
-# Determine Firefox profile path
-PROFILE_DIR="$HOME/Library/Application Support/Firefox/Profiles"
-DEFAULT_FOLDER=$(ls "$PROFILE_DIR" | grep .default-nightly)
-PREFS_FILE="$PROFILE_DIR/$DEFAULT_FOLDER/prefs.js"
-CONTAINERS_FILE="$PROFILE_DIR/$DEFAULT_FOLDER/containers.json"
-EXTENSION_SETTINGS_FILE="$PROFILE_DIR/$DEFAULT_FOLDER/extension-settings.json"
+# Load configuration
+CONFIG_FILE="$MY/config/firefox.yml"
+
+if [[ ! -f "$CONFIG_FILE" ]]; then
+    echo_error "Firefox configuration file not found: $CONFIG_FILE"
+    exit 1
+fi
+
+# Check for yq
+if ! command -v yq &> /dev/null; then
+    echo_error "yq is required to parse YAML configuration. Install it with: brew install yq"
+    exit 1
+fi
+
+# Determine Firefox profile path from YAML configuration
+PROFILE_DIR=$(yq eval '.profile.directory' "$CONFIG_FILE" | envsubst)
+DEFAULT_FOLDER_PATTERN=$(yq eval '.profile.default_folder_pattern' "$CONFIG_FILE")
+DEFAULT_FOLDER=$(ls "$PROFILE_DIR" | grep "$DEFAULT_FOLDER_PATTERN")
+
+# Get file paths from YAML configuration
+PREFS_FILE="$PROFILE_DIR/$DEFAULT_FOLDER/$(yq eval '.profile.files.preferences' "$CONFIG_FILE")"
+CONTAINERS_FILE="$PROFILE_DIR/$DEFAULT_FOLDER/$(yq eval '.profile.files.containers' "$CONFIG_FILE")"
+EXTENSION_SETTINGS_FILE="$PROFILE_DIR/$DEFAULT_FOLDER/$(yq eval '.profile.files.extension_settings' "$CONFIG_FILE")"
+USER_CHROME_FILE="$PROFILE_DIR/$DEFAULT_FOLDER/$(yq eval '.profile.files.user_chrome' "$CONFIG_FILE")"
 
 # Function to update Firefox preferences
 update_pref() {
@@ -17,372 +35,106 @@ update_pref() {
   echo "user_pref(\"$key\", $value);" >>"$PREFS_FILE"
 }
 
-echo_title_update "Firefox configuration"
+# Recursive function to convert YAML hierarchy to dotted preferences
+process_yaml_section() {
+    local yaml_path="$1"
+    local prefix="$2"
+
+    # Get all keys at this level
+    local keys=$(yq eval "${yaml_path} | keys | .[]" "$CONFIG_FILE" 2>/dev/null)
+
+    while IFS= read -r key; do
+        if [[ -n "$key" && "$key" != "null" ]]; then
+            local current_path="${yaml_path}.\"${key}\""
+            local dotted_name
+
+            if [[ -n "$prefix" ]]; then
+                dotted_name="${prefix}.${key}"
+            else
+                dotted_name="$key"
+            fi
+
+            # Check if this key has children (is an object)
+            local has_children=$(yq eval "${current_path} | type" "$CONFIG_FILE" 2>/dev/null)
+
+            if [[ "$has_children" == "!!map" ]]; then
+                # Recursively process children
+                process_yaml_section "$current_path" "$dotted_name"
+            else
+                # This is a leaf node, set the preference
+                local value=$(yq eval "$current_path" "$CONFIG_FILE" 2>/dev/null)
+
+                if [[ "$value" != "null" && -n "$value" ]]; then
+                    if [[ "$value" == "true" || "$value" == "false" ]]; then
+                        update_pref "$dotted_name" "$value"
+                    elif [[ "$value" =~ ^[0-9]+$ ]]; then
+                        update_pref "$dotted_name" "$value"
+                    else
+                        update_pref "$dotted_name" "\"$value\""
+                    fi
+                    echo_info "🔧 Firefox pref: $dotted_name = $value"
+                fi
+            fi
+        fi
+    done <<< "$keys"
+}
+
+echo_title_update "Firefox Nightly Configuration"
+
+echo_info "📂 Profile Directory: $PROFILE_DIR"
+echo_info "📁 Profile Folder: $DEFAULT_FOLDER"
+echo_info "📄 Preferences File: $PREFS_FILE"
+echo_info "📦 Containers File: $CONTAINERS_FILE"
+echo_info "🎨 UserChrome CSS: $USER_CHROME_FILE"
 
 # Close Firefox Nightly to safely apply changes
+echo_info "🔄 Closing Firefox Nightly to apply configuration changes..."
 quit "Firefox Nightly"
 sleep 5
 
-# ╔═════════════════════════════════════════════╗
-# ║                Global Preferences           ║
-# ╚═════════════════════════════════════════════╝
+# Clear existing preferences file
+echo_info "🧹 Clearing existing Firefox preferences..."
+> "$PREFS_FILE"
 
-# Disable warning on about:config
-update_pref "browser.aboutConfig.showWarning" false
+echo_info "🔧 Converting YAML hierarchy to Firefox preferences..."
 
-# Disable zoom with Cmd + Mousewheel
-update_pref "mousewheel.with_meta.action" 0
+# Process main preferences section
+process_yaml_section ".preferences" ""
 
-# Turn off domain guessing
-update_pref "browser.fixup.alternate.enabled" false
-
-# Disable warning when closing tabs
-update_pref "browser.tabs.warnOnClose" false
-
-# Prevent closing the window when the last tab is closed
-update_pref "browser.tabs.closeWindowWithLastTab" false
-
-# Hide "Firefox View" button
-update_pref "browser.tabs.firefox-view" false
-
-# Show tabs in titlebar
-update_pref "browser.tabs.inTitlebar" 1
-
-# Disable web search in the address bar
-update_pref "keyword.enabled" false
-
-# Hide specific search engines
-update_pref "browser.search.hiddenOneOffs" '"Google,Bing,Amazon.co.uk,Chambers (UK),DuckDuckGo,eBay,Twitter,Wikipedia (en)"'
-
-# Disable search suggestions
-update_pref "browser.search.suggest.enabled" false
-
-# Hide search bar on new tab page
-update_pref "browser.newtabpage.activity-stream.showSearch" false
-
-# Hide sponsored content on new tab page
-update_pref "browser.newtabpage.activity-stream.showSponsored" false
-update_pref "browser.newtabpage.activity-stream.showSponsoredTopSites" false
-
-# Hide top stories and top sites on new tab page
-update_pref "browser.newtabpage.activity-stream.feeds.section.topstories" false
-update_pref "browser.newtabpage.activity-stream.feeds.topsites" false
-
-# Disable new tab page entirely (shows blank)
-update_pref "browser.newtabpage.enabled" false
-
-# Set homepage to blank
-update_pref "browser.startup.homepage" '"about:blank"'
-
-# Enable punycode to prevent phishing
-update_pref "network.IDN_show_punycode" true
-
-# Disable Pocket
-update_pref "extensions.pocket.enabled" false
-
-# Enable auto-hide in fullscreen mode
-update_pref "browser.fullscreen.autohide" true
-
-# Disable Safari-like modal highlights for Find
-update_pref "findbar.modalHighlight" false
-
-# Disable the megabar for URL search
-update_pref "browser.urlbar.megabar" false
-
-# Disable Quick Suggest (sponsored and non-sponsored)
-update_pref "browser.urlbar.suggest.quicksuggest.nonsponsored" false
-update_pref "browser.urlbar.suggest.quicksuggest.sponsored" false
-
-# Enable query stripping for privacy
-update_pref "privacy.query_stripping.enabled" true
-
-# Disable auto-scroll on middle click
-update_pref "general.autoScroll" false
-
-# Enable Picture-in-Picture (PiP) when switching tabs
-update_pref "media.videocontrols.picture-in-picture.enable-when-switching-tabs.enabled" true
-
-# Enable AI chat feature
-update_pref "browser.ml.chat.enabled" true
-
-# Set the AI chat provider
-update_pref "browser.ml.chat.provider" '"https://chatgpt.com"'
-
-# Enable sidebar revamp
-update_pref "sidebar.revamp" true
-
-# Enable vertical tabs in the sidebar
-update_pref "sidebar.verticalTabs" true
-
-# Enable userChrome.css
-update_pref "toolkit.legacyUserProfileCustomizations.stylesheets" true
-
-# Hide bookmarks bar (set to "never", or use "always" for visible bookmarks)
-update_pref "browser.toolbars.bookmarks.visibility" '"never"'
-
-# Hide mobile bookmarks in bookmarks menu
-update_pref "browser.bookmarks.showMobileBookmarks" false
-
-# Set spellcheck language (0 = off, 1 = multi-lingual, 2 = single)
-update_pref "layout.spellcheckDefault" 0
+echo_success "✅ Firefox preferences have been applied successfully"
 
 # ╔═════════════════════════════════════════════╗
-# ║                Sync Preferences             ║
+# ║          Firefox userChrome.css Setup      ║
 # ╚═════════════════════════════════════════════╝
 
-# Ignore addon enable/disable during sync
-update_pref "services.sync.prefs.sync.addons.ignoreUserEnabledChanges" true
-update_pref "services.sync.addons.ignoreUserEnabledChanges" true
+echo_info "🎨 Setting up Firefox userChrome.css..."
 
-# Decline syncing form data and history
-update_pref "services.sync.declinedEngines" '"forms,history"'
-
-# ╔═════════════════════════════════════════════╗
-# ║             Developer Tools Settings        ║
-# ╚═════════════════════════════════════════════╝
-
-# Enable browser chrome debugging
-update_pref "devtools.chrome.enabled" true
-
-# Enable eyedropper tool
-update_pref "devtools.command-button-eyedropper.enabled" true
-
-# Enable paint flashing tool
-update_pref "devtools.command-button-paintflashing.enabled" true
-
-# Disable responsive design mode
-update_pref "devtools.command-button-responsive.enabled" false
-
-# Enable Scratchpad tool
-update_pref "devtools.command-button-scratchpad.enabled" true
-
-# Enable screenshot tool
-update_pref "devtools.command-button-screenshot.enabled" true
-
-# Disable split console
-update_pref "devtools.command-button-splitconsole.enabled" false
-
-# Enable remote debugging
-update_pref "devtools.debugger.remote-enabled" true
-
-# Enable DOM inspection
-update_pref "devtools.dom.enabled" true
-
-# Set editor keymap to Sublime Text
-update_pref "devtools.editor.keymap" '"sublime"'
-
-# Log telemetry onboarding
-update_pref "devtools.onboarding.telemetry.logged" true
-
-# Enable new performance panel
-update_pref "devtools.performance.new-panel-enabled" true
-
-# Enable Scratchpad tool
-update_pref "devtools.scratchpad.enabled" true
-
-# Disable audio in screenshots
-update_pref "devtools.screenshot.audio.enabled" false
-
-# Set DevTools to open in a side pane
-update_pref "devtools.toolbox.host" '"right"'
-
-# Enable timestamps in console messages
-update_pref "devtools.webconsole.timestampMessages" true
-
-# Enable WebIDE widget
-update_pref "devtools.webide.widget.enabled" true
-
-# Disable cache during development
-update_pref "devtools.cache.disabled" true
-
-# Enable local tab debugging
-update_pref "devtools.aboutdebugging.local-tab-debugging" true
-
-source $MY/profiles/$OS_PROFILE/core/apps/firefox.zsh 2>/dev/null
-
-echo_success "Settings have been applied"
-
-# ╔═════════════════════════════════════════════╗
-# ║          Manage userChrome.css File         ║
-# ╚═════════════════════════════════════════════╝
-
-USER_CHROME_DIR="$PROFILE_DIR/$DEFAULT_FOLDER/chrome"
-USER_CHROME_FILE="$USER_CHROME_DIR/userChrome.css"
+USER_CHROME_DIR=$(dirname "$USER_CHROME_FILE")
 
 if [[ ! -d "$USER_CHROME_DIR" ]]; then
   mkdir -p "$USER_CHROME_DIR"
-  echo "Created directory: $USER_CHROME_DIR"
+  echo_info "📁 Created Firefox chrome directory: $USER_CHROME_DIR"
 fi
 
-cat <<EOF >"$USER_CHROME_FILE"
-/* No scroll on sidebar */
-#vertical-pinned-tabs-container {
-  max-height: 100% !important;
-}
+# Extract CSS from YAML and write to file
+yq eval '.user_chrome_css' "$CONFIG_FILE" > "$USER_CHROME_FILE"
 
-/* Give background to any tab */
-#tabbrowser-arrowscrollbox {
-  & .tab-background {
-  .tabbrowser-tab:not(:hover) > .tab-stack > &:not([selected], [multiselected]) {
-      background-color: color-mix(in srgb, currentColor 7%, transparent) !important;
-    }
-  }
-}
-
-/* Move container indicator */
-/*
-.tabbrowser-tab[usercontextid] > .tab-stack > .tab-background > .tab-context-line {
-  #vertical-pinned-tabs-container &, #tabbrowser-tabs[orient="vertical"] & {
-    margin: 4px -6px !important;
-  }
-}
-*/
-
-/* Hide close button on tab */
-/*
-.tab-close-button.close-icon {
-  display: none !important;
-}
-*/
-
-/* Set the right background for private window */
-#navigator-toolbox {
-  :root[privatebrowsingmode] & {
-    background-color: #281f4d !important;
-  }
-}
-
-#sidebar-main {
-  :root[privatebrowsingmode] & {
-    background-color: #281f4d !important;
-  }
-}
-
-/* Fix container line with Adaptive Tab Bar Colour addon */
-.tabbrowser-tab[usercontextid] > .tab-stack > .tab-background > .tab-context-line {
-#vertical-pinned-tabs-container &, #tabbrowser-tabs[orient="vertical"] & {
-    margin-left: -2px !important;
-    margin-right: -2px !important;
-  }
-}
-EOF
-
-echo_success "Styles have been applied"
+echo_success "✅ Firefox userChrome.css styles have been applied"
 
 # ╔═════════════════════════════════════════════╗
-# ║               Containers                    ║
+# ║          Firefox Container Setup           ║
 # ╚═════════════════════════════════════════════╝
 
-cat <<EOF >"$CONTAINERS_FILE"
-{
-  "version": 5,
-  "lastUserContextId": 322,
-  "identities": [
-    {
-      "icon": "fingerprint",
-      "color": "blue",
-      "public": true,
-      "userContextId": 1,
-      "name": "Personal"
-    },
-    {
-      "icon": "briefcase",
-      "color": "red",
-      "public": true,
-      "userContextId": 2,
-      "name": "Work"
-    },
-    {
-      "icon": "chill",
-      "color": "yellow",
-      "public": true,
-      "userContextId": 318,
-      "name": "Streaming"
-    },
-    {
-      "icon": "fingerprint",
-      "color": "turquoise",
-      "public": true,
-      "userContextId": 649,
-      "name": "Personal at Work"
-    },
-    {
-      "icon": "fence",
-      "color": "blue",
-      "public": true,
-      "userContextId": 322,
-      "name": "Facebook"
-    }
-  ]
-}
-EOF
+echo_info "📦 Setting up Firefox Multi-Account Containers..."
 
-echo_success "Containers have been synchronised"
+# Extract containers configuration and write to JSON file
+yq eval '.containers' "$CONFIG_FILE" --output-format=json > "$CONTAINERS_FILE"
 
+echo_success "✅ Firefox containers have been configured"
 
-print_firefox_hotkeys_table() {
-  cat <<EOT
-╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-║                                   Firefox Extension Hotkeys Overview                                                  ║
-╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣
-║ Extension (Section)                │ Action/Description                                      │ Shortcut               ║
-╟────────────────────────────────────┼─────────────────────────────────────────────────────────┼────────────────────────╢
-║ Easy Container Shortcuts           │ Open a new tab on the current container                 │ ⌘T                     ║
-║                                    │ Open a tab on the first non-default container           │ ⌘1                     ║
-║                                    │ Open a tab on the second non-default container          │ ⌘2                     ║
-║                                    │ Open a tab on the third non-default container           │ ⌘3                     ║
-║                                    │ Open a tab on the fourth non-default container          │ ⌘4                     ║
-║                                    │ Open a tab on the fifth non-default container           │ ⌘5                     ║
-║                                    │ Open a tab on the sixth non-default container           │ ⌘6                     ║
-║                                    │ Open a tab on the seventh non-default container         │ ⌘7                     ║
-║                                    │ Open a tab on the eighth non-default container          │ ⌘8                     ║
-║                                    │ Open a tab on the ninth non-default container           │ ⌘9                     ║
-║                                    │ Reopen the current tab on the default container         │ ⌘0                     ║
-║                                    │ Reopen the current tab on the first non-default cont.   │ ⌘⇧1                    ║
-║                                    │ Reopen the current tab on the second non-default cont.  │ ⌘⇧2                    ║
-║                                    │ Reopen the current tab on the third non-default cont.   │ ⌘⇧3                    ║
-║                                    │ Reopen the current tab on the fourth non-default cont.  │ ⌘⇧4                    ║
-║                                    │ Reopen the current tab on the fifth non-default cont.   │ ⌘⇧5                    ║
-║                                    │ Reopen the current tab on the sixth non-default cont.   │ ⌘⇧6                    ║
-║                                    │ Reopen the current tab on the seventh non-default cont. │ ⌘⇧7                    ║
-║                                    │ Reopen the current tab on the eighth non-default cont.  │ ⌘⇧8                    ║
-║                                    │ Reopen the current tab on the ninth non-default cont.   │ ⌘⇧9                    ║
-║                                    │ Open a new window on the current container              │ ⌥T                     ║
-║                                    │ Open a window on the first non-default container        │ ⌥1                     ║
-║                                    │ Open a window on the second non-default container       │ ⌥2                     ║
-║                                    │ Open a window on the third non-default container        │ ⌥3                     ║
-║                                    │ Open a window on the fourth non-default container       │ ⌥4                     ║
-║                                    │ Open a window on the fifth non-default container        │ ⌥5                     ║
-║                                    │ Open a window on the sixth non-default container        │ ⌥6                     ║
-║                                    │ Open a window on the seventh non-default container      │ ⌥7                     ║
-║                                    │ Open a window on the eighth non-default container       │ ⌥8                     ║
-║                                    │ Open a window on the ninth non-default container        │ ⌥9                     ║
-║                                    │                                                         │                        ║
-║ Firefox Multi-Account Containers   │ Open container panel                                    │ ^Period                ║
-║                                    │                                                         │                        ║
-║ Email Address Plus                 │ Copy labeled email address                              │ ⇧⌘Y                    ║
-║                                    │                                                         │                        ║
-║ Move Tab to Next Window            │ Move Tab to Next Window                                 │ ⇧⌥N                    ║
-║                                    │                                                         │                        ║
-║ Raindrop.io                        │ Bookmark / Save highlights                              │ ⇧⌥S                    ║
-║                                    │ Open sidebar                                            │ ⌘Period                ║
-║                                    │                                                         │                        ║
-║ Readwise Highlighter               │ Activate toolbar button                                 │ ⌥R                     ║
-║                                    │                                                         │                        ║
-║ KeePassXC-Browser                  │ Fill Username and Password                              │ ⇧^U                    ║
-║                                    │ Fill Password Only                                      │ ⇧^I                    ║
-║                                    │ Fill TOTP                                               │ ⇧^O                    ║
-║                                    │ Show Password Generator                                 │ ⇧^G                    ║
-║                                    │ Save Credentials                                        │ ⇧^S                    ║
-╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-
-See Firefox > Add-ons (about:addons) > Manage Extension Shortcuts for editing.
-EOT
-}
-
-# Print the hotkeys table before launching Firefox
-print_firefox_hotkeys_table
-
-# Open Firefox Nightly
+# Launch Firefox Nightly
+echo_info "🚀 Launching Firefox Nightly..."
 sleep 2
 open -a "Firefox Nightly"
+
+echo_success "🎉 Firefox Nightly configuration complete!"
