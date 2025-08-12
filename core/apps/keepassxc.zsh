@@ -6,6 +6,12 @@ echo_space
 
 echo_title_update "KeepassXC"
 
+command -v yq >/dev/null 2>&1 || echo_fail "Need yq (brew install yq)"
+
+CONFIG_YAML="$MY/config/keepassxc.yml"
+PROFILE_CONFIG_YAML="$MY/profiles/$OS_PROFILE/config/keepassxc.yml"
+[[ -f "$CONFIG_YAML" ]] || echo_fail "Missing config: $CONFIG_YAML"
+
 # KeePassXC configuration file path
 CONFIG_FILE="$HOME/Library/Application Support/keepassxc/keepassxc.ini"
 
@@ -36,45 +42,57 @@ $key=$escaped_value
   fi
 }
 
-# Update settings in various sections
-update_setting "General" "AutoTypeEntryTitleMatch" "false"
-update_setting "General" "AutoTypeEntryURLMatch" "false"
-update_setting "General" "ConfigVersion" "2"
-update_setting "General" "GlobalAutoTypeKey" "0"
-update_setting "General" "GlobalAutoTypeModifiers" "0"
-update_setting "General" "MinimizeAfterUnlock" "false"
-update_setting "General" "MinimizeOnOpenUrl" "false"
-update_setting "General" "UpdateCheckMessageShown" "true"
+# Function to convert camelCase to PascalCase (first letter uppercase)
+camel_to_pascal() {
+  echo "$1" | sed 's/^./\U&/'
+}
 
-update_setting "GUI" "ApplicationTheme" "dark"
-update_setting "GUI" "TrayIconAppearance" "monochrome"
-update_setting "GUI" "CompactMode" "true"
-update_setting "GUI" "MinimizeOnStartup" "true"
-update_setting "GUI" "HidePasswords" "false"
-update_setting "GUI" "HidePreviewPanel" "true"
-update_setting "GUI" "HideToolbar" "false"
-update_setting "GUI" "HideUsernames" "false"
-update_setting "GUI" "ToolButtonStyle" "0"
+# Function to apply settings from YAML configuration
+apply_yaml_settings() {
+  local section_name="$1"
+  local yaml_path="$2"
 
-update_setting "Browser" "Enabled" "true"
-update_setting "Browser" "CustomProxyLocation" ""
-update_setting "Browser" "BestMatchOnly" "true"
+  echo_info "Applying $section_name settings"
 
-update_setting "PasswordGenerator" "AdditionalChars" "_-&@$%^"
-update_setting "PasswordGenerator" "AdvancedMode" "true"
-update_setting "PasswordGenerator" "ExcludedChars" ""
-update_setting "PasswordGenerator" "Length" "26"
-update_setting "PasswordGenerator" "Logograms" "false"
-update_setting "PasswordGenerator" "SpecialChars" "true"
-update_setting "PasswordGenerator" "Type" "0"
-update_setting "PasswordGenerator" "WordCount" "4"
-update_setting "PasswordGenerator" "WordSeparator" "-"
-update_setting "PasswordGenerator" "WordCase" "2"
+  # Merge configurations: start with main config, then overlay profile-specific config
+  local merged_config=$(yq eval ".$yaml_path // {}" "$CONFIG_YAML")
 
-update_setting "Security" "IconDownloadFallback" "true"
-update_setting "Security" "AutotypeAsk" "false"
-update_setting "Security" "LockDatabaseIdle" "true"
-update_setting "Security" "LockDatabaseIdleSeconds" "300"
+  if [[ -f "$PROFILE_CONFIG_YAML" ]]; then
+    echo_info "Merging profile-specific KeePassXC config for: $OS_PROFILE"
+    local profile_config=$(yq eval ".$yaml_path // {}" "$PROFILE_CONFIG_YAML" 2>/dev/null)
+    if [[ "$profile_config" != "{}" && "$profile_config" != "null" ]]; then
+      merged_config=$(echo "$merged_config $profile_config" | yq eval-all '. as $item ireduce ({}; . * $item)' -)
+    fi
+  fi
+
+  # Get all keys from merged configuration
+  local keys=$(echo "$merged_config" | yq eval 'keys | .[]' - 2>/dev/null)
+
+  while IFS= read -r key; do
+    if [[ -n "$key" && "$key" != "null" ]]; then
+      local value=$(echo "$merged_config" | yq eval ".$key" -)
+      local ini_key=$(camel_to_pascal "$key")
+
+      # Convert boolean values to lowercase
+      if [[ "$value" == "true" || "$value" == "false" ]]; then
+        value=$(echo "$value" | tr '[:upper:]' '[:lower:]')
+      fi
+
+      update_setting "$section_name" "$ini_key" "$value"
+    fi
+  done <<< "$keys"
+}
+
+# Apply all sections from YAML configuration dynamically
+echo_info "Discovering configuration sections from YAML"
+SECTIONS=$(yq eval 'keys | .[]' "$CONFIG_YAML" 2>/dev/null)
+
+while IFS= read -r section; do
+    if [[ -n "$section" && "$section" != "null" ]]; then
+        # Use section name directly from YAML (already in correct KeePassXC format)
+        apply_yaml_settings "$section" "$section"
+    fi
+done <<< "$SECTIONS"
 
 # Confirm success
-echo "Configuration updated successfully. Restart KeePassXC to apply changes."
+echo_success "KeePassXC configuration updated from YAML. Restart KeePassXC to apply changes."
