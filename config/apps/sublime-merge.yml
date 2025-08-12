@@ -11,9 +11,3 @@ theme:
 # Preferences Configuration
 preferences:
   font_face: "JetBrains Mono"
-# Additional settings can be added here
-# For example:
-# preferences:
-#   font_size: 12
-#   line_padding_bottom: 1
-#   line_padding_top: 1
