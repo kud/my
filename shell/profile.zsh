@@ -9,5 +9,5 @@
 # Add profile-specific bins to PATH
 # This requires OS_PROFILE to be set by local.zsh first
 if [[ -n "$OS_PROFILE" ]]; then
-  export PATH=$MY/profiles/$OS_PROFILE/bin/_:$PATH
+  export PATH=$MY/profiles/$OS_PROFILE/bin/main:$PATH
 fi
