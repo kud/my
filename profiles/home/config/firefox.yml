@@ -1,0 +1,9 @@
+# Firefox Configuration - Home Profile
+# Profile-specific settings for home usage
+
+# Profile-specific Preferences
+preferences:
+  services:
+    sync:
+      client:
+        name: "_kud.home"

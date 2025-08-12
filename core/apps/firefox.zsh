@@ -13,6 +13,7 @@ command -v yq >/dev/null 2>&1 || echo_fail "Need yq (brew install yq)"
 command -v jq >/dev/null 2>&1 || echo_fail "Need jq (brew install jq)"
 
 CONFIG_FILE="$MY/config/firefox.yml"
+PROFILE_CONFIG_FILE="$MY/profiles/$OS_PROFILE/config/firefox.yml"
 [[ -f "$CONFIG_FILE" ]] || echo_fail "Missing config: $CONFIG_FILE"
 
 PROFILE_DIR=$(yq eval '.profile.directory' "$CONFIG_FILE" | envsubst)
@@ -52,7 +53,16 @@ cat > "$USER_JS_FILE" <<'HDR'
  * Generated from YAML configuration
  */
 HDR
-yq eval '.preferences' "$CONFIG_FILE" -o json | jq -r '
+
+# Merge preferences from main config and profile-specific config
+MERGED_PREFS=$(yq eval '.preferences' "$CONFIG_FILE" -o json)
+if [[ -f "$PROFILE_CONFIG_FILE" ]]; then
+    echo_info "Merging profile-specific Firefox config for: $OS_PROFILE"
+    PROFILE_PREFS=$(yq eval '.preferences' "$PROFILE_CONFIG_FILE" -o json 2>/dev/null || echo '{}')
+    MERGED_PREFS=$(echo "$MERGED_PREFS $PROFILE_PREFS" | jq -s '.[0] * .[1]')
+fi
+
+echo "$MERGED_PREFS" | jq -r '
   def flatten:
     . as $in |
     if type == "object" then
