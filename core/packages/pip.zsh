@@ -19,7 +19,7 @@ if ! command -v yq >/dev/null 2>&1; then
     brew install yq
 fi
 
-PACKAGES_FILE="$MY/core/packages.yml"
+PACKAGES_FILE="$MY/config/packages.yml"
 PROFILE_PACKAGES_FILE="$MY/profiles/$OS_PROFILE/config/packages.yml"
 
 ################################################################################

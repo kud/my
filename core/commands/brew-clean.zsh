@@ -6,7 +6,7 @@ source $MY/core/utils/helper.zsh
 # Constants and Variables
 LOG_FILE="$MY/logs/cleanup.log"
 DRY_RUN=false  # Set to true for a dry-run mode
-yaml_files=("$MY/core/packages.yml" "$MY/profiles/$OS_PROFILE/config/packages.yml")
+yaml_files=("$MY/config/packages.yml" "$MY/profiles/$OS_PROFILE/config/packages.yml")
 declare -A file_casks_map
 declare -A installed_casks_map
 

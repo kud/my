@@ -108,7 +108,7 @@ add_repositories_from_files() {
 # Get all package configuration files
 get_all_package_files() {
     local config_files=(
-        "$MY/core/packages.yml"
+        "$MY/config/packages.yml"
         "$MY/profiles/$OS_PROFILE/config/packages.yml"
     )
 
