@@ -33,7 +33,7 @@ else
     if [[ -z "$2" ]]; then
       echo "Error: 'run' requires a module name. Available modules:"
       echo "  Apps: firefox, keepassxc, pcloud, sublime-merge"
-      echo "  CLI: abbr, aicommits, neovim, ssh"  
+      echo "  CLI: abbr, aicommits, neovim, ssh"
       echo "  Packages: antidote, brew, gem, mas, npm, pip"
       echo "  System: default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlink"
       exit 1
@@ -60,7 +60,7 @@ else
     open)
       open $MY
       ;;
-    
+
     # Apps (core/apps)
     firefox)
       $MY/core/apps/firefox.zsh
@@ -74,7 +74,7 @@ else
     sublime-merge)
       $MY/core/apps/sublime-merge.zsh
       ;;
-    
+
     # CLI tools (core/cli)
     abbr)
       $MY/core/cli/abbr.zsh
@@ -88,7 +88,7 @@ else
     ssh)
       $MY/core/system/ssh.zsh
       ;;
-    
+
     # Packages (core/packages)
     antidote)
       $MY/core/packages/antidote.zsh
@@ -108,7 +108,7 @@ else
     pip)
       $MY/core/packages/pip.zsh
       ;;
-    
+
     # System (core/system) - fallback and specific ones
     dotfiles)
       $MY/core/system/dotfiles.zsh

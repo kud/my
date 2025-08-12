@@ -111,9 +111,9 @@ execute_profile_setup() {
             local script_name=$(basename "$script")
             local script_dir=$(dirname "$script")
 
-            # Skip Firefox from automatic execution - it should only run manually via £ firefox
+            # Skip Firefox from automatic execution - Firefox now uses YAML config in /config/firefox.yml
             if [[ "$script_name" == "firefox.zsh" ]]; then
-                echo_info "Skipping $script_name (manual execution only via £ firefox)"
+                echo_info "Skipping $script_name (now uses YAML config: $MY/config/firefox.yml)"
                 continue
             fi
 

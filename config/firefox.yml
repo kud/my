@@ -1,0 +1,350 @@
+# Firefox Configuration
+# This file contains all Firefox preferences and settings
+
+# Profile Configuration
+profile:
+  directory: "$HOME/Library/Application Support/Firefox/Profiles"
+  default_folder_pattern: ".default-nightly"
+  files:
+    preferences: "prefs.js"
+    containers: "containers.json"
+    extension_settings: "extension-settings.json"
+    user_chrome: "chrome/userChrome.css"
+
+# Global Preferences (converted to YAML hierarchy)
+preferences:
+  # ╔═════════════════════════════════════════════╗
+  # ║                Global Preferences           ║
+  # ╚═════════════════════════════════════════════╝
+
+  browser:
+    # Disable warning on about:config
+    aboutConfig:
+      showWarning: false
+
+    # Turn off domain guessing
+    fixup:
+      alternate:
+        enabled: false
+
+    # Tab Management
+    tabs:
+      warnOnClose: false
+      closeWindowWithLastTab: false
+      firefox-view: false
+      inTitlebar: 1
+
+    # Search
+    search:
+      hiddenOneOffs: "Google,Bing,Amazon.co.uk,Chambers (UK),DuckDuckGo,eBay,Twitter,Wikipedia (en)"
+      suggest:
+        enabled: false
+
+    # New Tab Page
+    newtabpage:
+      enabled: false
+      activity-stream:
+        showSearch: false
+        showSponsored: false
+        showSponsoredTopSites: false
+        feeds:
+          section:
+            topstories: false
+          topsites: false
+
+    # Startup
+    startup:
+      homepage: "about:blank"
+
+    # URL Bar
+    urlbar:
+      megabar: false
+      suggest:
+        quicksuggest:
+          nonsponsored: false
+          sponsored: false
+
+    # Bookmarks
+    toolbars:
+      bookmarks:
+        visibility: "never"
+    bookmarks:
+      showMobileBookmarks: false
+
+    # Fullscreen
+    fullscreen:
+      autohide: true
+
+    # Machine Learning
+    ml:
+      chat:
+        enabled: true
+        provider: "https://chatgpt.com"
+
+  # Input Settings
+  mousewheel:
+    with_meta:
+      action: 0
+
+  keyword:
+    enabled: false
+
+  general:
+    autoScroll: false
+
+  # Find Settings
+  findbar:
+    modalHighlight: false
+
+  # Network & Privacy
+  network:
+    IDN_show_punycode: true
+
+  privacy:
+    query_stripping:
+      enabled: true
+
+  # Extensions
+  extensions:
+    pocket:
+      enabled: false
+
+  # Media
+  media:
+    videocontrols:
+      picture-in-picture:
+        enable-when-switching-tabs:
+          enabled: true
+
+  # Sidebar
+  sidebar:
+    revamp: true
+    verticalTabs: true
+
+  # User Styles
+  toolkit:
+    legacyUserProfileCustomizations:
+      stylesheets: true
+
+  # Spellcheck
+  layout:
+    spellcheckDefault: 0
+
+  # ╔═════════════════════════════════════════════╗
+  # ║                Sync Preferences             ║
+  # ╚═════════════════════════════════════════════╝
+
+  services:
+    sync:
+      prefs:
+        sync:
+          addons:
+            ignoreUserEnabledChanges: true
+      addons:
+        ignoreUserEnabledChanges: true
+      declinedEngines: "forms,history"
+
+  # ╔═════════════════════════════════════════════╗
+  # ║             Developer Tools Settings        ║
+  # ╚═════════════════════════════════════════════╝
+
+  devtools:
+    chrome:
+      enabled: true
+    command-button-eyedropper:
+      enabled: true
+    command-button-paintflashing:
+      enabled: true
+    command-button-responsive:
+      enabled: false
+    command-button-scratchpad:
+      enabled: true
+    command-button-screenshot:
+      enabled: true
+    command-button-splitconsole:
+      enabled: false
+    debugger:
+      remote-enabled: true
+    dom:
+      enabled: true
+    editor:
+      keymap: "sublime"
+    onboarding:
+      telemetry:
+        logged: true
+    performance:
+      new-panel-enabled: true
+    scratchpad:
+      enabled: true
+    screenshot:
+      audio:
+        enabled: false
+    toolbox:
+      host: "right"
+    webconsole:
+      timestampMessages: true
+    webide:
+      widget:
+        enabled: true
+    cache:
+      disabled: true
+    aboutdebugging:
+      local-tab-debugging: true
+
+# Profile-specific Settings
+profile_preferences:
+  home:
+    services:
+      sync:
+        client:
+          name: "_kud.home"
+
+  work:
+    services:
+      sync:
+        client:
+          name: "_kud.work"
+# CSS Styling (userChrome.css content)
+user_chrome_css: |
+  /* No scroll on sidebar */
+  #vertical-pinned-tabs-container {
+    max-height: 100% !important;
+  }
+
+  /* Give background to any tab */
+  #tabbrowser-arrowscrollbox {
+    & .tab-background {
+    .tabbrowser-tab:not(:hover) > .tab-stack > &:not([selected], [multiselected]) {
+        background-color: color-mix(in srgb, currentColor 7%, transparent) !important;
+      }
+    }
+  }
+
+  /* Move container indicator */
+  /*
+  .tabbrowser-tab[usercontextid] > .tab-stack > .tab-background > .tab-context-line {
+    #vertical-pinned-tabs-container &, #tabbrowser-tabs[orient="vertical"] & {
+      margin: 4px -6px !important;
+    }
+  }
+  */
+
+  /* Hide close button on tab */
+  /*
+  .tab-close-button.close-icon {
+    display: none !important;
+  }
+  */
+
+  /* Set the right background for private window */
+  #navigator-toolbox {
+    :root[privatebrowsingmode] & {
+      background-color: #281f4d !important;
+    }
+  }
+
+  #sidebar-main {
+    :root[privatebrowsingmode] & {
+      background-color: #281f4d !important;
+    }
+  }
+
+  /* Fix container line with Adaptive Tab Bar Colour addon */
+  .tabbrowser-tab[usercontextid] > .tab-stack > .tab-background > .tab-context-line {
+  #vertical-pinned-tabs-container &, #tabbrowser-tabs[orient="vertical"] & {
+      margin-left: -2px !important;
+      margin-right: -2px !important;
+    }
+  }
+
+# Container Configuration
+containers:
+  version: 5
+  lastUserContextId: 322
+  identities:
+    - icon: "fingerprint"
+      color: "blue"
+      public: true
+      userContextId: 1
+      name: "Personal"
+
+    - icon: "briefcase"
+      color: "red"
+      public: true
+      userContextId: 2
+      name: "Work"
+
+    - icon: "chill"
+      color: "yellow"
+      public: true
+      userContextId: 318
+      name: "Streaming"
+
+    - icon: "fingerprint"
+      color: "turquoise"
+      public: true
+      userContextId: 649
+      name: "Personal at Work"
+
+    - icon: "fence"
+      color: "blue"
+      public: true
+      userContextId: 322
+      name: "Facebook"
+
+# Extension Hotkeys Reference
+extension_hotkeys:
+  easy_container_shortcuts:
+    new_tab_current_container: "⌘T"
+    open_tab_container_1: "⌘1"
+    open_tab_container_2: "⌘2"
+    open_tab_container_3: "⌘3"
+    open_tab_container_4: "⌘4"
+    open_tab_container_5: "⌘5"
+    open_tab_container_6: "⌘6"
+    open_tab_container_7: "⌘7"
+    open_tab_container_8: "⌘8"
+    open_tab_container_9: "⌘9"
+    reopen_tab_default_container: "⌘0"
+    reopen_tab_container_1: "⌘⇧1"
+    reopen_tab_container_2: "⌘⇧2"
+    reopen_tab_container_3: "⌘⇧3"
+    reopen_tab_container_4: "⌘⇧4"
+    reopen_tab_container_5: "⌘⇧5"
+    reopen_tab_container_6: "⌘⇧6"
+    reopen_tab_container_7: "⌘⇧7"
+    reopen_tab_container_8: "⌘⇧8"
+    reopen_tab_container_9: "⌘⇧9"
+    new_window_current_container: "⌥T"
+    open_window_container_1: "⌥1"
+    open_window_container_2: "⌥2"
+    open_window_container_3: "⌥3"
+    open_window_container_4: "⌥4"
+    open_window_container_5: "⌥5"
+    open_window_container_6: "⌥6"
+    open_window_container_7: "⌥7"
+    open_window_container_8: "⌥8"
+    open_window_container_9: "⌥9"
+
+  firefox_multi_account_containers:
+    open_container_panel: "^Period"
+
+  email_address_plus:
+    copy_labeled_email: "⇧⌘Y"
+
+  move_tab_to_next_window:
+    move_tab: "⇧⌥N"
+
+  raindrop_io:
+    bookmark_save_highlights: "⇧⌥S"
+    open_sidebar: "⌘Period"
+
+  readwise_highlighter:
+    activate_toolbar_button: "⌥R"
+
+  keepassxc_browser:
+    fill_username_password: "⇧^U"
+    fill_password_only: "⇧^I"
+    fill_totp: "⇧^O"
+    show_password_generator: "⇧^G"
+    save_credentials: "⇧^S"
