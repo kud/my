@@ -1,0 +1,3 @@
+#! /usr/bin/env zsh
+
+$HOME/my/scripts/git-packages-upgrade.js

@@ -1,0 +1,78 @@
+#! /usr/bin/env zsh
+
+# git-branch-current - Display the current git branch name
+#
+# Usage:
+#   git-branch-current           # Display current branch
+#   git branch-current           # Can also be called as git subcommand
+#   git-branch-current --help    # Show this help
+#
+# Examples:
+#   git-branch-current                    # Output: main
+#   git branch-current                    # Same as above
+#   BRANCH=$(git-branch-current)          # Store in variable
+#   echo "On branch: $(git-branch-current)"   # Use in command
+#
+# Returns:
+#   - Branch name if in a git repository
+#   - Empty output if not in a git repository
+#   - Exit code 0 on success, 1 on error
+
+# Help function
+show_help() {
+  cat << 'EOF'
+git-branch-current - Display the current git branch name
+
+USAGE:
+  git-branch-current [--help]
+  git branch-current [--help]
+
+DESCRIPTION:
+  Shows the name of the currently checked out git branch.
+  Returns empty output if not in a git repository.
+
+EXAMPLES:
+  git-branch-current                    # Output: main
+  git branch-current                    # Same as above
+  BRANCH=$(git-branch-current)          # Store in variable
+  echo "On: $(git-branch-current)"      # Use in string
+
+EXIT CODES:
+  0  Success - branch name displayed
+  1  Error - not in git repository or other error
+
+SEE ALSO:
+  git branch --show-current
+  git rev-parse --abbrev-ref HEAD
+EOF
+}
+
+# Check for help flag first (before any git operations)
+if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+  show_help
+  exit 0
+fi
+
+# Check if we're in a git repository
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+  # Not in a git repository - exit silently with error code
+  exit 1
+fi
+
+# Get current branch name using the modern --show-current flag
+# This is available in Git 2.22+ and is the preferred method
+branch_name=$(git branch --show-current 2>/dev/null)
+if [[ $? -eq 0 && -n "$branch_name" ]]; then
+  echo "$branch_name"
+  exit 0
+fi
+
+# Fallback for older git versions (< 2.22)
+# Use rev-parse --abbrev-ref HEAD as fallback
+branch_name=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+if [[ $? -eq 0 && -n "$branch_name" ]]; then
+  echo "$branch_name"
+  exit 0
+fi
+
+exit 1
