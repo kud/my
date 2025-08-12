@@ -6,7 +6,7 @@ source $MY/core/utils/helper.zsh
 # Constants and Variables
 LOG_FILE="$MY/logs/cleanup.log"
 DRY_RUN=false  # Set to true for a dry-run mode
-file_paths=("$MY/core/packages/brew.zsh" "$MY/profiles/$OS_PROFILE/core/packages/brew.zsh")
+yaml_files=("$MY/core/packages.yml" "$MY/profiles/$OS_PROFILE/config/packages.yml")
 declare -A file_casks_map
 declare -A installed_casks_map
 
@@ -25,8 +25,8 @@ check_dependencies() {
     if ! command -v brew >/dev/null; then
         echo_fail "Homebrew is not installed. Exiting..."
     fi
-    if ! command -v grep >/dev/null; then
-        echo_fail "GNU grep is not installed. Please install it. Exiting..."
+    if ! command -v yq >/dev/null; then
+        echo_fail "yq is not installed. Please install it with 'brew install yq'. Exiting..."
     fi
 }
 
@@ -37,17 +37,23 @@ check_variables() {
 }
 
 load_casks_from_files() {
-    echo_task_start "Loading casks from files"
-    for file_path in "${file_paths[@]}"; do
-        if [[ -s "$file_path" ]]; then
-            awk '/^caskinstall/ {print $2}' "$file_path" | awk -F/ '{print $NF}' | while read -r cask_name; do
-                file_casks_map[$cask_name]=1
-            done
+    echo_task_start "Loading casks from YAML files"
+    for yaml_file in "${yaml_files[@]}"; do
+        if [[ -f "$yaml_file" ]]; then
+            # Extract casks from brew.casks array in YAML
+            local casks=$(yq eval '.brew.casks[]' "$yaml_file" 2>/dev/null)
+            if [[ -n "$casks" ]]; then
+                while IFS= read -r cask_name; do
+                    if [[ -n "$cask_name" && "$cask_name" != "null" ]]; then
+                        file_casks_map[$cask_name]=1
+                    fi
+                done <<< "$casks"
+            fi
         else
-            echo_warn "File '$file_path' is empty or missing."
+            echo_warn "File '$yaml_file' is missing."
         fi
     done
-    echo_task_done "Casks loaded"
+    echo_task_done "Casks loaded from YAML"
 }
 
 check_installed_casks() {
@@ -101,11 +107,15 @@ compare_casks() {
                 3)
                     echo_task_start "Removing missing casks from configuration"
                     for cask in "${missing_casks[@]}"; do
-                        for file_path in "${file_paths[@]}"; do
-                            if [[ -f "$file_path" ]]; then
-                                sed -i "/^caskinstall.*$cask/d" "$file_path"
-                                log_action "REMOVE: $cask from $file_path"
-                                echo_info "$cask removed from $file_path"
+                        for yaml_file in "${yaml_files[@]}"; do
+                            if [[ -f "$yaml_file" ]]; then
+                                # Check if the cask exists in this file
+                                if yq eval ".brew.casks | contains([\"$cask\"])" "$yaml_file" 2>/dev/null | grep -q "true"; then
+                                    # Remove the cask from the YAML file
+                                    yq eval "del(.brew.casks[] | select(. == \"$cask\"))" -i "$yaml_file"
+                                    log_action "REMOVE: $cask from $yaml_file"
+                                    echo_info "$cask removed from $yaml_file"
+                                fi
                             fi
                         done
                     done

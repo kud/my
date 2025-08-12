@@ -21,17 +21,17 @@ process_packages_from_files() {
     local install_function="$2"  # Function to call for installation
     shift 2  # Remove first two arguments, remaining are yaml files
     local yaml_files=("$@")
-    
+
     if [[ ${#yaml_files[@]} -eq 0 ]]; then
         return 0
     fi
-    
+
     echo_info "Installing $package_type packages"
-    
+
     for yaml_file in "${yaml_files[@]}"; do
         if [[ -f "$yaml_file" ]]; then
             echo_info "Processing $(basename "$yaml_file")"
-            
+
             local packages
             case "$package_type" in
                 "formulae")
@@ -48,7 +48,7 @@ process_packages_from_files() {
                     continue
                     ;;
             esac
-            
+
             if [[ -n "$packages" ]]; then
                 while IFS= read -r package; do
                     if [[ -n "$package" ]]; then
@@ -65,11 +65,11 @@ execute_post_install_from_files() {
     local service_type="$1"  # "brew", "mas", etc.
     shift  # Remove first argument, remaining are yaml files
     local yaml_files=("$@")
-    
+
     for yaml_file in "${yaml_files[@]}"; do
         if [[ -f "$yaml_file" ]]; then
             local post_install_commands=$(yq eval ".$service_type.post_install[]?" "$yaml_file" 2>/dev/null)
-            
+
             if [[ -n "$post_install_commands" ]]; then
                 echo_info "Executing post-installation commands from $(basename "$yaml_file")"
                 while IFS= read -r command; do
@@ -88,11 +88,11 @@ add_repositories_from_files() {
     local repo_function="$1"  # Function to call for adding repos
     shift  # Remove first argument, remaining are yaml files
     local yaml_files=("$@")
-    
+
     for yaml_file in "${yaml_files[@]}"; do
         if [[ -f "$yaml_file" ]]; then
             local taps=$(yq eval '.brew.taps[]?' "$yaml_file" 2>/dev/null)
-            
+
             if [[ -n "$taps" ]]; then
                 echo_info "Adding repositories from $(basename "$yaml_file")"
                 while IFS= read -r tap; do
@@ -109,15 +109,15 @@ add_repositories_from_files() {
 get_all_package_files() {
     local config_files=(
         "$MY/core/packages.yml"
-        "$MY/profiles/$OS_PROFILE/core/packages.yml"
+        "$MY/profiles/$OS_PROFILE/config/packages.yml"
     )
-    
+
     # Only return files that exist
     local existing_files=()
     for file in "${config_files[@]}"; do
         [[ -f "$file" ]] && existing_files+=("$file")
     done
-    
+
     printf '%s\n' "${existing_files[@]}"
 }
 
@@ -129,7 +129,7 @@ install_all_packages_of_type() {
     local repo_function="$4"    # Repository function (optional)
 
     local config_files=($(get_all_package_files))
-    
+
     if [[ ${#config_files[@]} -eq 0 ]]; then
         echo_info "No package configuration files found"
         return 0
