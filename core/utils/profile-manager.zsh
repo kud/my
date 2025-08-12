@@ -168,7 +168,7 @@ merge_package_configurations() {
     local package_manager="$1"
 
     # Core packages
-    local core_packages_file="$MY/core/packages.yml"
+    local core_packages_file="$MY/config/packages.yml"
     local core_config=""
     if [[ -f "$core_packages_file" ]]; then
         core_config=$(yq eval ".$package_manager" "$core_packages_file" 2>/dev/null)

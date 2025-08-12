@@ -129,7 +129,7 @@ install_merged_packages "brew"  # One line!
 
 ```bash
 # Automatically merges:
-# 1. core/packages.yml
+# 1. config/packages.yml
 # 2. profiles/$OS_PROFILE/config/packages.yml
 # Profile-specific packages take precedence
 ```
