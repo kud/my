@@ -20,7 +20,13 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$HOME/.console-ninja/.bin:$PATH
 
 # Own commands
-export PATH=$MY/bin/_:$PATH
+export PATH=$MY/bin:$PATH
+
+# Own utilities
+export PATH=$MY/bin/main:$PATH
+
+# Git commands
+export PATH=$MY/bin/git:$PATH
 
 # Application shims
 export PATH=$PATH:$MY/bin/shims

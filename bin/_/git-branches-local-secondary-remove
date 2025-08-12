@@ -1,5 +1,0 @@
-#! /usr/bin/env zsh
-
-HEAD_BRANCH=$(basename $(git symbolic-ref --short refs/remotes/origin/HEAD))
-
-git branch | grep -v ${HEAD_BRANCH} | grep -v "stable" | xargs git branch -D
