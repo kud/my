@@ -1,0 +1,19 @@
+# Sublime Merge Configuration
+# This file contains all Sublime Merge preferences and theme settings
+
+# Theme Configuration
+theme:
+  name: "Meetio Theme"
+  repository: "git@github.com:meetio-theme/merge-meetio-theme.git"
+  sublime_theme: "Merge Palenight.sublime-theme"
+  color_scheme: "Meetio Palenight.sublime-color-scheme"
+
+# Preferences Configuration
+preferences:
+  font_face: "JetBrains Mono"
+# Additional settings can be added here
+# For example:
+# preferences:
+#   font_size: 12
+#   line_padding_bottom: 1
+#   line_padding_top: 1
