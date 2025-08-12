@@ -275,10 +275,10 @@ function npminstall_run() {
   else
     echo_warn "Some npm packages may have failed to install"
     echo_info "Attempting individual installation as fallback..."
-    
+
     local failed_packages=()
     local success_count=0
-    
+
     for package in "${_NPM_PACKAGES_TO_INSTALL[@]}"; do
       echo_info "Installing ${package} individually..."
       if npm install -g --quiet "$package"; then
@@ -303,7 +303,7 @@ function npminstall_run() {
         fi
       fi
     done
-    
+
     if [[ ${#failed_packages[@]} -eq 0 ]]; then
       echo_success "All ${#_NPM_PACKAGES_TO_INSTALL[@]} packages installed successfully via fallback"
     else
@@ -326,4 +326,13 @@ function pip3install() {
   if ! type "${@}" > /dev/null; then
     pip3 install --upgrade "${@}"
   fi
+}
+
+# --- DEPENDENCY CHECKS ---
+check_yq_installed() {
+  if ! command -v yq >/dev/null; then
+    echo_fail "yq command not found. Please install yq."
+    return 1
+  fi
+  return 0
 }

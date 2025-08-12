@@ -47,5 +47,5 @@ Run Commands:
       Apps:           firefox, keepassxc, pcloud, sublime-merge
       CLI:            abbr, aicommits, ssh
       Packages:       antidote, brew, gem, mas, npm, pip
-      System:         default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlink
+      System:         default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlinks
 ```

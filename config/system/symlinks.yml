@@ -1,0 +1,20 @@
+################################################################################
+#                                                                              #
+#   🔗 SYMLINK CONFIGURATION                                                   #
+#   -------------------------                                                  #
+#   Defines symbolic links for synchronized folders and application data      #
+#                                                                              #
+################################################################################
+
+symlinks:
+  # Screenshots directory
+  screenshots:
+    source: "${SYNC_FOLDER}/Screenshots"
+    target: "~/Screenshots"
+    description: "Screenshots directory"
+
+  # Espanso text expander
+  espanso:
+    source: "${SYNC_FOLDER}/Appdata/espanso/espanso"
+    target: "~/Library/Application Support/espanso"
+    description: "Espanso text expander configuration"

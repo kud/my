@@ -35,7 +35,7 @@ else
       echo "  Apps: firefox, keepassxc, pcloud, sublime-merge"
       echo "  CLI: abbr, aicommits, ssh"
       echo "  Packages: antidote, brew, gem, mas, npm, pip"
-      echo "  System: default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlink"
+      echo "  System: default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlinks"
       exit 1
     fi
 
@@ -110,8 +110,8 @@ else
     dotfiles)
       $MY/core/system/dotfiles.zsh
       ;;
-    symlink)
-      $MY/core/system/symlink.zsh
+    symlinks)
+      $MY/core/system/symlinks.zsh
       ;;
     shims)
       $MY/core/system/shims.zsh
@@ -163,7 +163,7 @@ else
     echo_space
     printf "      Packages:       antidote, brew, gem, mas, npm, pip"
     echo_space
-    printf "      System:         default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlink"
+    printf "      System:         default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlinks"
     echo_space
     ;;
   *)
