@@ -18,6 +18,13 @@ echo_task_start "Updating zsh plugins via antidote"
 # 🔄 PLUGIN UPDATE PROCESS
 ################################################################################
 
+# Generate plugins.txt from packages.yml
+if command -v yq >/dev/null 2>&1; then
+    echo_info "Generating plugins.txt from packages.yml"
+    yq eval '.antidote.plugins[]' "$MY/config/packages.yml" > "$MY/shell/plugins.txt"
+    echo_success "Generated plugins.txt from packages.yml"
+fi
+
 # Check if antidote is available
 if command -v antidote >/dev/null 2>&1; then
     echo_info "Updating all zsh plugins and dependencies"
