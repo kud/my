@@ -1,3 +1,6 @@
+# This file is auto-generated from packages.yml
+# Run 'my run antidote' to regenerate from packages.yml
+
 # Fast, essential plugins first
 zsh-users/zsh-completions
 zsh-users/zsh-syntax-highlighting
