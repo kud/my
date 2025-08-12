@@ -1,140 +1,96 @@
 #!/usr/bin/env zsh
 
-# Load helper functions
 source $MY/core/utils/helper.zsh
 
-# Load configuration
+echo_title_update "Firefox Nightly"
+
+command -v yq >/dev/null 2>&1 || echo_fail "Need yq (brew install yq)"
+command -v jq >/dev/null 2>&1 || echo_fail "Need jq (brew install jq)"
+
 CONFIG_FILE="$MY/config/firefox.yml"
+[[ -f "$CONFIG_FILE" ]] || echo_fail "Missing config: $CONFIG_FILE"
 
-if [[ ! -f "$CONFIG_FILE" ]]; then
-    echo_error "Firefox configuration file not found: $CONFIG_FILE"
-    exit 1
-fi
-
-# Check for yq
-if ! command -v yq &> /dev/null; then
-    echo_error "yq is required to parse YAML configuration. Install it with: brew install yq"
-    exit 1
-fi
-
-# Determine Firefox profile path from YAML configuration
 PROFILE_DIR=$(yq eval '.profile.directory' "$CONFIG_FILE" | envsubst)
+[[ -d "$PROFILE_DIR" ]] || echo_fail "Profile dir not found: $PROFILE_DIR"
+
 DEFAULT_FOLDER_PATTERN=$(yq eval '.profile.default_folder_pattern' "$CONFIG_FILE")
-DEFAULT_FOLDER=$(ls "$PROFILE_DIR" | grep "$DEFAULT_FOLDER_PATTERN")
+[[ -n "$PROFILE_DIR" && -n "$DEFAULT_FOLDER_PATTERN" ]] || echo_fail "profile.directory/default_folder_pattern missing"
 
-# Get file paths from YAML configuration
-PREFS_FILE="$PROFILE_DIR/$DEFAULT_FOLDER/$(yq eval '.profile.files.preferences' "$CONFIG_FILE")"
-CONTAINERS_FILE="$PROFILE_DIR/$DEFAULT_FOLDER/$(yq eval '.profile.files.containers' "$CONFIG_FILE")"
-EXTENSION_SETTINGS_FILE="$PROFILE_DIR/$DEFAULT_FOLDER/$(yq eval '.profile.files.extension_settings' "$CONFIG_FILE")"
-USER_CHROME_FILE="$PROFILE_DIR/$DEFAULT_FOLDER/$(yq eval '.profile.files.user_chrome' "$CONFIG_FILE")"
+DEFAULT_FOLDER=$(ls -1d "$PROFILE_DIR"/* 2>/dev/null | grep "$DEFAULT_FOLDER_PATTERN" | head -n1)
+[[ -n "$DEFAULT_FOLDER" ]] || echo_fail "No profile folder matches: $DEFAULT_FOLDER_PATTERN"
 
-# Function to update Firefox preferences
-update_pref() {
-  local key="$1"
-  local value="$2"
-  echo "user_pref(\"$key\", $value);" >>"$PREFS_FILE"
+REL_USER_JS="user.js"
+REL_CONTAINERS="containers.json"
+REL_EXTENSION_SETTINGS="extension-settings.json"
+REL_USER_CHROME="chrome/userChrome.css"
+
+USER_JS_FILE="$DEFAULT_FOLDER/$REL_USER_JS"
+CONTAINERS_FILE="$DEFAULT_FOLDER/$REL_CONTAINERS"
+EXTENSION_SETTINGS_FILE="$DEFAULT_FOLDER/$REL_EXTENSION_SETTINGS"
+USER_CHROME_FILE="$DEFAULT_FOLDER/$REL_USER_CHROME"
+
+shorten_path() {
+  local p="$1"
+  p="${p/#$HOME/~}"
+  # If inside profile root, show relative
+  if [[ "$p" == $DEFAULT_FOLDER/* ]]; then
+    echo "${p#${DEFAULT_FOLDER}/}"
+  else
+    echo "$p"
+  fi
 }
 
-# Recursive function to convert YAML hierarchy to dotted preferences
-process_yaml_section() {
-    local yaml_path="$1"
-    local prefix="$2"
+echo_info "Profile: $(echo "$DEFAULT_FOLDER" | sed "s|$HOME|~|")"
+echo_space
 
-    # Get all keys at this level
-    local keys=$(yq eval "${yaml_path} | keys | .[]" "$CONFIG_FILE" 2>/dev/null)
+echo_subtitle "Preferences"
+echo "  $(shorten_path "$USER_JS_FILE")"
+mkdir -p "${USER_JS_FILE%/*}" 2>/dev/null
+cat > "$USER_JS_FILE" <<'HDR'
+/**
+ * Firefox Configuration
+ * Generated from YAML configuration
+ */
+HDR
+yq eval '.preferences' "$CONFIG_FILE" -o json | jq -r '
+  def flatten:
+    . as $in |
+    if type == "object" then
+      reduce keys_unsorted[] as $key ({};
+        if ($in[$key] | type) == "object" then
+          . + (($in[$key] | flatten) | with_entries(.key = ($key + "." + .key)))
+        else
+          . + {($key): $in[$key]}
+        end
+      )
+    else . end;
+  flatten | to_entries | map(
+    if .value == true or .value == false then
+      "user_pref(\"" + .key + "\", " + (.value | tostring) + ");"
+    elif (.value | type) == "number" then
+      "user_pref(\"" + .key + "\", " + (.value | tostring) + ");"
+    else
+      "user_pref(\"" + .key + "\", \"" + (.value | tostring) + "\");"
+  end) | join("\n")' >> "$USER_JS_FILE"
+echo_success "Preferences updated"
+echo_space
 
-    while IFS= read -r key; do
-        if [[ -n "$key" && "$key" != "null" ]]; then
-            local current_path="${yaml_path}.\"${key}\""
-            local dotted_name
-
-            if [[ -n "$prefix" ]]; then
-                dotted_name="${prefix}.${key}"
-            else
-                dotted_name="$key"
-            fi
-
-            # Check if this key has children (is an object)
-            local has_children=$(yq eval "${current_path} | type" "$CONFIG_FILE" 2>/dev/null)
-
-            if [[ "$has_children" == "!!map" ]]; then
-                # Recursively process children
-                process_yaml_section "$current_path" "$dotted_name"
-            else
-                # This is a leaf node, set the preference
-                local value=$(yq eval "$current_path" "$CONFIG_FILE" 2>/dev/null)
-
-                if [[ "$value" != "null" && -n "$value" ]]; then
-                    if [[ "$value" == "true" || "$value" == "false" ]]; then
-                        update_pref "$dotted_name" "$value"
-                    elif [[ "$value" =~ ^[0-9]+$ ]]; then
-                        update_pref "$dotted_name" "$value"
-                    else
-                        update_pref "$dotted_name" "\"$value\""
-                    fi
-                    echo_info "🔧 Firefox pref: $dotted_name = $value"
-                fi
-            fi
-        fi
-    done <<< "$keys"
-}
-
-echo_title_update "Firefox Nightly Configuration"
-
-echo_info "📂 Profile Directory: $PROFILE_DIR"
-echo_info "📁 Profile Folder: $DEFAULT_FOLDER"
-echo_info "📄 Preferences File: $PREFS_FILE"
-echo_info "📦 Containers File: $CONTAINERS_FILE"
-echo_info "🎨 UserChrome CSS: $USER_CHROME_FILE"
-
-# Close Firefox Nightly to safely apply changes
-echo_info "🔄 Closing Firefox Nightly to apply configuration changes..."
-quit "Firefox Nightly"
-sleep 5
-
-# Clear existing preferences file
-echo_info "🧹 Clearing existing Firefox preferences..."
-> "$PREFS_FILE"
-
-echo_info "🔧 Converting YAML hierarchy to Firefox preferences..."
-
-# Process main preferences section
-process_yaml_section ".preferences" ""
-
-echo_success "✅ Firefox preferences have been applied successfully"
-
-# ╔═════════════════════════════════════════════╗
-# ║          Firefox userChrome.css Setup      ║
-# ╚═════════════════════════════════════════════╝
-
-echo_info "🎨 Setting up Firefox userChrome.css..."
-
-USER_CHROME_DIR=$(dirname "$USER_CHROME_FILE")
-
-if [[ ! -d "$USER_CHROME_DIR" ]]; then
-  mkdir -p "$USER_CHROME_DIR"
-  echo_info "📁 Created Firefox chrome directory: $USER_CHROME_DIR"
-fi
-
-# Extract CSS from YAML and write to file
+echo_subtitle "Interface styling"
+echo "  $(shorten_path "$USER_CHROME_FILE")"
 yq eval '.user_chrome_css' "$CONFIG_FILE" > "$USER_CHROME_FILE"
+echo_success "Interface styling updated"
+echo_space
 
-echo_success "✅ Firefox userChrome.css styles have been applied"
-
-# ╔═════════════════════════════════════════════╗
-# ║          Firefox Container Setup           ║
-# ╚═════════════════════════════════════════════╝
-
-echo_info "📦 Setting up Firefox Multi-Account Containers..."
-
-# Extract containers configuration and write to JSON file
+echo_subtitle "Container tabs"
+echo "  $(shorten_path "$CONTAINERS_FILE")"
 yq eval '.containers' "$CONFIG_FILE" --output-format=json > "$CONTAINERS_FILE"
+echo_success "Container tabs updated"
+echo_space
 
-echo_success "✅ Firefox containers have been configured"
+echo_subtitle "Restarting Firefox..."
 
-# Launch Firefox Nightly
-echo_info "🚀 Launching Firefox Nightly..."
+quit "Firefox Nightly" 2>/dev/null || true
 sleep 2
-open -a "Firefox Nightly"
+open -a "Firefox Nightly" >/dev/null 2>&1 &
 
-echo_success "🎉 Firefox Nightly configuration complete!"
+echo_success "Done"
