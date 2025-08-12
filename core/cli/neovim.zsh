@@ -39,14 +39,6 @@ else
     echo_info "Neovim configuration directory already exists"
 fi
 
-# Clean up old vim-plug installation if it exists
-if [[ -d "$HOME/.config/nvim/autoload" ]]; then
-    echo_task_start "Cleaning up old vim-plug installation"
-    rm -rf "$HOME/.config/nvim/autoload"
-    rm -rf "$HOME/.config/nvim/plugged"
-    echo_task_done "Old vim-plug removed"
-fi
-
 echo_space
 echo_task_done "Neovim configuration completed"
 echo_success "Modern Neovim development environment is ready! 🚀"
