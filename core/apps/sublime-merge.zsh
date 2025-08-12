@@ -16,8 +16,8 @@ echo_task_start "Configuring Sublime Merge Git client"
 command -v yq >/dev/null 2>&1 || echo_fail "Need yq (brew install yq)"
 command -v jq >/dev/null 2>&1 || echo_fail "Need jq (brew install jq)"
 
-CONFIG_YAML="$MY/config/sublime-merge.yml"
-PROFILE_CONFIG_YAML="$MY/profiles/$OS_PROFILE/config/sublime-merge.yml"
+CONFIG_YAML="$MY/config/apps/sublime-merge.yml"
+PROFILE_CONFIG_YAML="$MY/profiles/$OS_PROFILE/config/apps/sublime-merge.yml"
 [[ -f "$CONFIG_YAML" ]] || echo_fail "Missing config: $CONFIG_YAML"
 
 ################################################################################

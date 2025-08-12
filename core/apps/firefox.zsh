@@ -12,8 +12,8 @@ echo_title_update "Firefox Nightly"
 command -v yq >/dev/null 2>&1 || echo_fail "Need yq (brew install yq)"
 command -v jq >/dev/null 2>&1 || echo_fail "Need jq (brew install jq)"
 
-CONFIG_FILE="$MY/config/firefox.yml"
-PROFILE_CONFIG_FILE="$MY/profiles/$OS_PROFILE/config/firefox.yml"
+CONFIG_FILE="$MY/config/apps/firefox.yml"
+PROFILE_CONFIG_FILE="$MY/profiles/$OS_PROFILE/config/apps/firefox.yml"
 [[ -f "$CONFIG_FILE" ]] || echo_fail "Missing config: $CONFIG_FILE"
 
 PROFILE_DIR=$(yq eval '.profile.directory' "$CONFIG_FILE" | envsubst)

@@ -8,8 +8,8 @@ echo_title_update "KeepassXC"
 
 command -v yq >/dev/null 2>&1 || echo_fail "Need yq (brew install yq)"
 
-CONFIG_YAML="$MY/config/keepassxc.yml"
-PROFILE_CONFIG_YAML="$MY/profiles/$OS_PROFILE/config/keepassxc.yml"
+CONFIG_YAML="$MY/config/apps/keepassxc.yml"
+PROFILE_CONFIG_YAML="$MY/profiles/$OS_PROFILE/config/apps/keepassxc.yml"
 [[ -f "$CONFIG_YAML" ]] || echo_fail "Missing config: $CONFIG_YAML"
 
 # KeePassXC configuration file path
