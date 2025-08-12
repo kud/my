@@ -5,11 +5,6 @@
 profile:
   directory: "$HOME/Library/Application Support/Firefox/Profiles"
   default_folder_pattern: ".default-nightly"
-  files:
-    preferences: "prefs.js"
-    containers: "containers.json"
-    extension_settings: "extension-settings.json"
-    user_chrome: "chrome/userChrome.css"
 
 # Global Preferences (converted to YAML hierarchy)
 preferences:
