@@ -1,0 +1,4 @@
+#! /usr/bin/env zsh
+HEAD_BRANCH=$(basename $(git symbolic-ref --short refs/remotes/origin/HEAD))
+
+git show ${HEAD_BRANCH}:$1 | code &

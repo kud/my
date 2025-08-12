@@ -1,0 +1,14 @@
+#! /usr/bin/env zsh
+
+if [ -z "$1" ]; then
+  echo "Usage: git lazy-version {patch|minor|major}"
+  exit 1
+fi
+
+VERSION_TYPE=$1
+
+git add .
+git aicommit
+npm version $VERSION_TYPE
+git push
+git push --tags

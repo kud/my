@@ -1,0 +1,5 @@
+#! /usr/bin/env zsh
+
+HEAD_BRANCH=$(basename $(git symbolic-ref --short refs/remotes/origin/HEAD))
+
+git fetch && git rebase origin/${HEAD_BRANCH} && git rebase -i $(git merge-base origin/${HEAD_BRANCH} HEAD)

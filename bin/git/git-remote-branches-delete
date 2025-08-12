@@ -1,0 +1,5 @@
+#! /usr/bin/env zsh
+
+HEAD_BRANCH=$(basename $(git symbolic-ref --short refs/remotes/origin/HEAD))
+
+git branch -r|grep origin/|grep -v "${HEAD_BRANCH}$"|grep -v HEAD|cut -d/ -f2-|while read line; do git push origin :$line; done;
