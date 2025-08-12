@@ -2,6 +2,11 @@
 
 source $MY/core/utils/helper.zsh
 
+REL_USER_JS="user.js"
+REL_CONTAINERS="containers.json"
+REL_EXTENSION_SETTINGS="extension-settings.json"
+REL_USER_CHROME="chrome/userChrome.css"
+
 echo_title_update "Firefox Nightly"
 
 command -v yq >/dev/null 2>&1 || echo_fail "Need yq (brew install yq)"
@@ -18,11 +23,6 @@ DEFAULT_FOLDER_PATTERN=$(yq eval '.profile.default_folder_pattern' "$CONFIG_FILE
 
 DEFAULT_FOLDER=$(ls -1d "$PROFILE_DIR"/* 2>/dev/null | grep "$DEFAULT_FOLDER_PATTERN" | head -n1)
 [[ -n "$DEFAULT_FOLDER" ]] || echo_fail "No profile folder matches: $DEFAULT_FOLDER_PATTERN"
-
-REL_USER_JS="user.js"
-REL_CONTAINERS="containers.json"
-REL_EXTENSION_SETTINGS="extension-settings.json"
-REL_USER_CHROME="chrome/userChrome.css"
 
 USER_JS_FILE="$DEFAULT_FOLDER/$REL_USER_JS"
 CONTAINERS_FILE="$DEFAULT_FOLDER/$REL_CONTAINERS"
