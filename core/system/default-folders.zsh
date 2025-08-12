@@ -2,4 +2,4 @@
 
 source $MY/core/utils/helper.zsh
 
-mkdir -p ~/{__tmp,Projects,.ssh}
+mkdir -p ~/{__tmp,Projects}
