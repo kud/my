@@ -130,7 +130,7 @@ install_merged_packages "brew"  # One line!
 ```bash
 # Automatically merges:
 # 1. core/packages.yml
-# 2. profiles/$OS_PROFILE/core/packages.yml
+# 2. profiles/$OS_PROFILE/config/packages.yml
 # Profile-specific packages take precedence
 ```
 
@@ -138,7 +138,7 @@ install_merged_packages "brew"  # One line!
 
 ```bash
 # Old way (manual profile handling)
-if [[ -f "$MY/profiles/$OS_PROFILE/core/packages.yml" ]]; then
+if [[ -f "$MY/profiles/$OS_PROFILE/config/packages.yml" ]]; then
     # ... complex logic
 
 # New way (automatic)

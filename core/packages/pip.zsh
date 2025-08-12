@@ -20,7 +20,7 @@ if ! command -v yq >/dev/null 2>&1; then
 fi
 
 PACKAGES_FILE="$MY/core/packages.yml"
-PROFILE_PACKAGES_FILE="$MY/profiles/$OS_PROFILE/core/packages.yml"
+PROFILE_PACKAGES_FILE="$MY/profiles/$OS_PROFILE/config/packages.yml"
 
 ################################################################################
 # 🐍 PYTHON INSTALLATION VIA PYENV
@@ -52,11 +52,11 @@ fi
 collect_pip_packages_from_yaml() {
     local yaml_file="$1"
     local source_desc="$2"
-    
+
     if [[ ! -f "$yaml_file" ]]; then
         return 0
     fi
-    
+
     local packages=$(yq eval '.pip.packages[]?' "$yaml_file" 2>/dev/null)
     if [[ -n "$packages" ]]; then
         while IFS= read -r package; do
@@ -71,11 +71,11 @@ collect_pip_packages_from_yaml() {
 run_pip_post_install_from_yaml() {
     local yaml_file="$1"
     local source_desc="$2"
-    
+
     if [[ ! -f "$yaml_file" ]]; then
         return 0
     fi
-    
+
     local post_install=$(yq eval '.pip.post_install[]?' "$yaml_file" 2>/dev/null)
     if [[ -n "$post_install" ]]; then
         while IFS= read -r command; do
@@ -94,7 +94,7 @@ if command -v pip >/dev/null 2>&1; then
     # Upgrade pip itself first
     echo_info "Upgrading pip to latest version"
     pip install --upgrade pip >/dev/null 2>&1
-    
+
     # Collect all pip packages (base + profile)
     collect_pip_packages_from_yaml "$PACKAGES_FILE" "base configuration"
     collect_pip_packages_from_yaml "$PROFILE_PACKAGES_FILE" "$OS_PROFILE profile"
@@ -107,7 +107,7 @@ if command -v pip >/dev/null 2>&1; then
     echo_title "Post-installation setup"
     run_pip_post_install_from_yaml "$PACKAGES_FILE" "base configuration"
     run_pip_post_install_from_yaml "$PROFILE_PACKAGES_FILE" "$OS_PROFILE profile"
-    
+
     echo_success "Python packages installed and updated"
 else
     echo_warn "pip not found - Python may not be properly installed"

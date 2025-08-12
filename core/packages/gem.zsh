@@ -26,16 +26,16 @@ if ! command -v yq >/dev/null 2>&1; then
 fi
 
 PACKAGES_FILE="$MY/core/packages.yml"
-PROFILE_PACKAGES_FILE="$MY/profiles/$OS_PROFILE/core/packages.yml"
+PROFILE_PACKAGES_FILE="$MY/profiles/$OS_PROFILE/config/packages.yml"
 
 collect_gem_packages_from_yaml() {
     local yaml_file="$1"
     local source_desc="$2"
-    
+
     if [[ ! -f "$yaml_file" ]]; then
         return 0
     fi
-    
+
     local packages=$(yq eval '.gem.packages[]?' "$yaml_file" 2>/dev/null)
     if [[ -n "$packages" ]]; then
         while IFS= read -r package; do
@@ -47,11 +47,11 @@ collect_gem_packages_from_yaml() {
 run_gem_post_install_from_yaml() {
     local yaml_file="$1"
     local source_desc="$2"
-    
+
     if [[ ! -f "$yaml_file" ]]; then
         return 0
     fi
-    
+
     local post_install=$(yq eval '.gem.post_install[]?' "$yaml_file" 2>/dev/null)
     if [[ -n "$post_install" ]]; then
         while IFS= read -r command; do

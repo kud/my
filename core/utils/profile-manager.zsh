@@ -56,7 +56,7 @@ get_profile_config_path() {
 # Load profile-specific package configuration
 load_profile_packages() {
     local package_manager="$1"  # "brew", "mas", "npm", etc.
-    local profile_packages_file="$MY/profiles/$OS_PROFILE/core/packages.yml"
+    local profile_packages_file="$MY/profiles/$OS_PROFILE/config/packages.yml"
 
     if [[ -f "$profile_packages_file" ]]; then
         echo_info "Loading $package_manager packages for profile: $OS_PROFILE"
@@ -72,7 +72,7 @@ get_profile_package_files() {
     local files=()
 
     # Main profile packages
-    local main_packages="$MY/profiles/$OS_PROFILE/core/packages.yml"
+    local main_packages="$MY/profiles/$OS_PROFILE/config/packages.yml"
     [[ -f "$main_packages" ]] && files+=("$main_packages")
 
     # Additional profile-specific package files (if any)
