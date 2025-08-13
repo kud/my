@@ -38,7 +38,6 @@ for module in \
   fzf.zsh \
   zoxide.zsh \
   local.zsh \
-  profile.zsh \
   starship.zsh
 do
   [[ -f $MY/shell/$module ]] && source $MY/shell/$module
