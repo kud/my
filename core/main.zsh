@@ -12,7 +12,6 @@
 
 setopt EXTENDED_GLOB
 source $MY/core/utils/helper.zsh
-source $MY/core/utils/profile-manager.zsh
 
 echo_task_start "Setting up your environment"
 
@@ -57,7 +56,8 @@ setup_system_components() {
 
 setup_profile_specific_configurations() {
     echo_info "Applying profile-specific configurations"
-    apply_profile_configurations
+    # Profile-specific configs are handled automatically by each component
+    # when $OS_PROFILE is set - no explicit action needed here
 }
 
 ################################################################################
@@ -65,9 +65,6 @@ setup_profile_specific_configurations() {
 ################################################################################
 
 main() {
-    # Validate profile before starting
-    detect_and_validate_profile
-
     # Execute setup in logical order
     setup_system_foundation
     setup_package_managers

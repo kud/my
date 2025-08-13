@@ -11,8 +11,6 @@
 ################################################################################
 
 source $MY/core/utils/helper.zsh
-source $MY/core/utils/package-manager.zsh
-source $MY/core/utils/profile-manager.zsh
 
 echo_task_start "Setting up Homebrew package manager"
 
@@ -84,14 +82,74 @@ update_homebrew() {
     init_brew_cache
 }
 
+merge_and_install_brew_packages() {
+    local main_config="$MY/config/packages.yml"
+    local profile_config="$MY/profiles/$OS_PROFILE/config/packages.yml"
+    
+    echo_info "Merging Homebrew configurations and installing packages"
+    
+    # Collect all taps
+    local all_taps=""
+    [[ -f "$main_config" ]] && all_taps+=$(yq eval '.brew.taps[]?' "$main_config" 2>/dev/null)
+    [[ -f "$profile_config" ]] && all_taps+=$'\n'$(yq eval '.brew.taps[]?' "$profile_config" 2>/dev/null)
+    
+    # Install taps first
+    if [[ -n "$all_taps" ]]; then
+        echo_info "Adding Homebrew taps"
+        echo "$all_taps" | sort -u | while IFS= read -r tap; do
+            [[ -n "$tap" ]] && brew_tap "$tap"
+        done
+    fi
+    
+    # Collect all formulae
+    local all_formulae=""
+    [[ -f "$main_config" ]] && all_formulae+=$(yq eval '.brew.packages.formulae[]?' "$main_config" 2>/dev/null)
+    [[ -f "$profile_config" ]] && all_formulae+=$'\n'$(yq eval '.brew.formulae[]?' "$profile_config" 2>/dev/null)
+    
+    # Install formulae
+    if [[ -n "$all_formulae" ]]; then
+        echo_info "Queuing Homebrew formulae for installation"
+        echo "$all_formulae" | sort -u | while IFS= read -r formula; do
+            [[ -n "$formula" ]] && brew_install "$formula"
+        done
+        brew_install_run
+    fi
+    
+    # Collect all casks
+    local all_casks=""
+    [[ -f "$main_config" ]] && all_casks+=$(yq eval '.brew.packages.casks[]?' "$main_config" 2>/dev/null)
+    [[ -f "$profile_config" ]] && all_casks+=$'\n'$(yq eval '.brew.casks[]?' "$profile_config" 2>/dev/null)
+    
+    # Install casks
+    if [[ -n "$all_casks" ]]; then
+        echo_info "Queuing Homebrew casks for installation"
+        echo "$all_casks" | sort -u | while IFS= read -r cask; do
+            [[ -n "$cask" ]] && cask_install "$cask"
+        done
+        cask_install_run
+    fi
+    
+    # Collect and run all post-install commands
+    local all_post_commands=""
+    [[ -f "$main_config" ]] && all_post_commands+=$(yq eval '.brew.post_install[]?' "$main_config" 2>/dev/null)
+    [[ -f "$profile_config" ]] && all_post_commands+=$'\n'$(yq eval '.brew.post_install[]?' "$profile_config" 2>/dev/null)
+    
+    if [[ -n "$all_post_commands" ]]; then
+        echo_info "Running post-installation commands"
+        echo "$all_post_commands" | while IFS= read -r command; do
+            if [[ -n "$command" ]]; then
+                echo_info "Executing: $command"
+                eval "$command"
+            fi
+        done
+    fi
+}
+
 ################################################################################
 # � MAIN EXECUTION
 ################################################################################
 
 main() {
-    # Validate profile
-    detect_and_validate_profile
-
     # Install Homebrew if needed
     install_homebrew_if_needed
 
@@ -104,8 +162,8 @@ main() {
     # Ensure prerequisites
     ensure_homebrew_prerequisites
 
-    # Install all packages using unified package manager
-    install_merged_packages "brew"
+    # Merge configs and install packages
+    merge_and_install_brew_packages
 }
 
 # Execute main function
