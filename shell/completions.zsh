@@ -102,8 +102,6 @@ zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.
 #   Provides completion for the `frum` Ruby version manager.                   #
 #                                                                              #
 ################################################################################
-autoload -U is-at-least
-
 _frum() {
     typeset -A opt_args
     typeset -a _arguments_options
