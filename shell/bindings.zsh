@@ -6,16 +6,11 @@
 #                                                                                #
 # ################################################################################
 
-# -----------------------------
-# Custom Functions
-# -----------------------------
-# Function to convert text to uppercase
 function _mtxr-to-upper {
   LBUFFER=${LBUFFER:u}
 }
 zle -N _mtxr-to-upper
 
-# Function to convert text to lowercase
 function _mtxr-to-lower {
   LBUFFER=${LBUFFER:l}
 }
@@ -24,12 +19,13 @@ zle -N _mtxr-to-lower
 # -----------------------------
 # Key Bindings
 # -----------------------------
-# Search backward in history with Ctrl+R
-bindkey '^R' history-incremental-search-backward
-
-# Unbind Ctrl+K
+#  By default in Zsh, Ctrl+K kills (deletes) text from the cursor to the end of the line. This command removes that binding, so pressing Ctrl+K won't do anything.
+# Common reasons to unbind Ctrl+K:
+# - Preventing accidental text deletion
+# - Freeing it up for a custom binding
+# - Avoiding conflicts with other tools/plugins
 bindkey -r '^K'
 
-# Custom: Ctrl+K + Ctrl+U to upper-case, Ctrl+K + Ctrl+L to lower-case
-bindkey '^K^U' _mtxr-to-upper # Ctrl+K + Ctrl+U (upper-case)
-bindkey '^K^L' _mtxr-to-lower # Ctrl+K + Ctrl+L (lower-case)
+bindkey '^R' history-incremental-search-backward
+bindkey '^K^U' _mtxr-to-upper
+bindkey '^K^L' _mtxr-to-lower
