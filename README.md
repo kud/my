@@ -19,7 +19,7 @@ curl -L --silent https://install.my.kud.io | zsh
 The main command is:
 
 ```shell
-£
+my
 ```
 
 ## 🖼️ Preview

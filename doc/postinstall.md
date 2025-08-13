@@ -27,7 +27,7 @@
 
 ## Firefox
 
-- **Initial Setup**: Launch Firefox, close it after 5 seconds, and run the command `£ firefox-settings` to configure default settings. Relaunch Firefox and log into your sync account for access to bookmarks and preferences.
+- **Initial Setup**: Launch Firefox, close it after 5 seconds, and run the command `my firefox-settings` to configure default settings. Relaunch Firefox and log into your sync account for access to bookmarks and preferences.
 - **GUI Customisation**:
   - Customise the GUI for a personalised browser layout.
   - Set Gmail as the default mail client for email links.
