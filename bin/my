@@ -126,7 +126,7 @@ else
       if [[ -f "$MY/core/system/$2.zsh" ]]; then
         $MY/core/system/$2.zsh
       else
-        echo "Error: Module '$2' not found. Use '£ --help' to see available modules."
+        echo "Error: Module '$2' not found. Use 'my --help' to see available modules."
         exit 1
       fi
       ;;

@@ -49,23 +49,26 @@ process_submodule() {
     echo_space
 }
 
-# Parse YAML and process each submodule
-while IFS= read -r line; do
-    [[ -z "$line" || "$line" =~ ^[[:space:]]*# ]] && continue
+# Check if yq is available
+if ! command -v yq >/dev/null 2>&1; then
+    echo_error "yq command not found. Please install yq first."
+    exit 1
+fi
 
-    if [[ "$line" =~ ^([^[:space:]]+):[[:space:]]*$ ]]; then
-        current_module="${match[1]}"
-        url=""
-        description=""
-    elif [[ "$line" =~ ^[[:space:]]+url:[[:space:]]*(.+)$ ]]; then
-        url="${match[1]}"
-    elif [[ "$line" =~ ^[[:space:]]+description:[[:space:]]*(.+)$ ]]; then
-        description="${match[1]}"
+# Parse YAML and process each submodule using yq
+submodule_names=$(yq eval 'keys | .[]' "$SUBMODULES_CONFIG")
 
-        if [[ -n "$current_module" && -n "$url" && -n "$description" ]]; then
-            process_submodule "$current_module" "$url" "$description"
+while IFS= read -r name; do
+    if [[ -n "$name" ]]; then
+        url=$(yq eval ".[\"$name\"].url" "$SUBMODULES_CONFIG")
+        description=$(yq eval ".[\"$name\"].description" "$SUBMODULES_CONFIG")
+        
+        if [[ -n "$url" && -n "$description" ]]; then
+            process_submodule "$name" "$url" "$description"
+        else
+            echo_warn "Incomplete configuration for submodule: $name"
         fi
     fi
-done < "$SUBMODULES_CONFIG"
+done <<< "$submodule_names"
 
 echo_success "All external modules are up to date!"
