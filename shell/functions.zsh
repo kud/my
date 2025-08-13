@@ -1,3 +1,11 @@
+################################################################################
+#                                                                              #
+#   🔧 SHELL FUNCTIONS                                                         #
+#   ----------------                                                           #
+#   Custom shell functions for enhanced productivity and navigation.          #
+#                                                                              #
+################################################################################
+
 # 🏷️ Tab title to current dir
 precmd() {
   local title=""
