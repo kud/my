@@ -9,7 +9,6 @@
 #
 # Smart URLs - Handle URL pasting and quoting
 #
-
 autoload -Uz is-at-least
 if [[ $ZSH_VERSION != 5.1.1 && $TERM != dumb ]]; then
   if is-at-least 5.2; then
@@ -26,7 +25,6 @@ fi
 #
 # General Options
 #
-
 setopt BEEP                 # Beep on error in shell
 setopt COMBINING_CHARS      # Combine zero-length punctuation characters (accents)
 setopt INTERACTIVE_COMMENTS # Enable comments in interactive shell
@@ -39,7 +37,6 @@ unsetopt MAIL_WARNING       # Don't print warning if mail file accessed
 #
 # Job Control
 #
-
 setopt LONG_LIST_JOBS       # List jobs in long format by default
 setopt AUTO_RESUME          # Attempt to resume existing job before creating new process
 setopt NOTIFY               # Report status of background jobs immediately
@@ -50,7 +47,6 @@ unsetopt CHECK_JOBS         # Don't report on jobs when shell exits
 #
 # Termcap - Colorized man pages
 #
-
 export LESS_TERMCAP_mb=$'\E[01;31m'       # Begins blinking
 export LESS_TERMCAP_md=$'\E[01;31m'       # Begins bold
 export LESS_TERMCAP_me=$'\E[0m'           # Ends mode
