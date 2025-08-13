@@ -1,6 +1,15 @@
 #!/usr/bin/env zsh
 
-# set colours
+################################################################################
+#                                                                              #
+#   🔧 HELPER UTILITIES                                                        #
+#   ----------------                                                           #
+#   Core utility functions for package management, user feedback, and system  #
+#   operations. Provides consistent UI, logging, and installation functions.  #
+#                                                                              #
+################################################################################
+
+# Terminal colors setup
 autoload colors
 if [[ "$terminfo[colors]" -gt 8 ]]; then
   colors
@@ -12,7 +21,7 @@ for COLOUR in RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; do
 done
 eval COLOUR_RESET='$reset_color'
 
-# --- VISUAL FEEDBACK SYSTEM ---
+# Visual feedback characters
 export CHAR_OK=✔
 export CHAR_ERROR=✗
 export CHAR_STARTER=❯
@@ -24,7 +33,7 @@ export CHAR_INPUT="[>]"
 export CHAR_FINAL_SUCCESS="👍"
 export CHAR_FINAL_FAIL="🚫"
 
-# --- INSTALLATION PROGRESS ---
+# Installation progress tracking
 _CURRENT_STEP=0
 _TOTAL_STEPS=0
 
@@ -38,8 +47,7 @@ function next_step() {
   echo_info "Step ${_CURRENT_STEP}/${_TOTAL_STEPS}: $1"
 }
 
-# --- USER MESSAGING ---
-
+# User messaging functions
 function echo_info() { echo "${COLOUR_BLUE}${CHAR_INFO}${COLOUR_RESET} $1" }
 function echo_user() { echo "${COLOUR_YELLOW}${CHAR_USER}${COLOUR_RESET} $1" }
 function echo_success() { echo "${COLOUR_GREEN}${CHAR_OK}${COLOUR_RESET} $1" }
@@ -55,43 +63,41 @@ function echo_final_fail() {
     echo "${COLOUR_RED}${CHAR_FINAL_FAIL} Process failed!${COLOUR_RESET}"
 }
 
-# --- SECTION HEADERS ---
-
+# Section headers
 function echo_title() { echo "${COLOUR_CYAN}${CHAR_STARTER} $@${COLOUR_RESET}" }
 function echo_subtitle() { echo "${COLOUR_CYAN}${CHAR_STARTER}${COLOUR_RESET} $1" }
 function echo_title_install() { echo_title "Installing" $1"..." }
 function echo_title_update() { echo_title "Updating" $1"..." }
 
-# --- TEXT FORMATTING ---
-
+# Text formatting
 function echo_bold() { echo "${COLOUR_BOLD_WHITE}$1${COLOUR_RESET}" }
 function echo_highlight() { echo "${COLOUR_MAGENTA}$1${COLOUR_RESET}" }
 function echo_subtle() { echo "${COLOUR_BLACK}$1${COLOUR_RESET}" }
 
-# --- LAYOUT SPACING ---
-
+# Layout spacing
 function echo_space() {
   printf "\n"
 }
+
 function echo_spacex2() {
   echo_space
   echo_space
 }
+
 function echo_spacex3() {
   echo_space
   echo_space
   echo_space
 }
 
-# --- VISUAL SEPARATORS ---
-
+# Visual separators
 function echo_hr() {
   echo "${COLOUR_BOLD_CYAN}----------------------------------------${COLOUR_RESET}"
   echo "$1"
   echo "${COLOUR_BOLD_CYAN}----------------------------------------${COLOUR_RESET}"
 }
 
-# --- PACKAGE MANAGEMENT ---
+# Package management utilities
 
 # Homebrew package caching system for performance optimization
 _BREW_FORMULAE_CACHE=""
@@ -330,7 +336,7 @@ function pip3install() {
 
 function pip_install() {
   local package="${@}"
-  
+
   # Check if command exists
   if command -v "$package" >/dev/null 2>&1; then
     echo_subtle "✓ ${package} (already installed)"
@@ -343,7 +349,7 @@ function pip_install() {
 
 function mas_install() {
   local package="${@}"
-  
+
   # Check if already installed
   if mas list | grep -q "$package"; then
     echo_subtle "✓ ${package} (already installed)"
@@ -354,7 +360,7 @@ function mas_install() {
   mas install "$package"
 }
 
-# --- DEPENDENCY CHECKS ---
+# System utilities
 check_yq_installed() {
   if ! command -v yq >/dev/null; then
     echo_fail "yq command not found. Please install yq."
