@@ -121,13 +121,13 @@ function refresh_brew_cache() {
   fi
 }
 
-function brewtap() {
+function brew_tap() {
   if ! brew tap | grep "${@}" > /dev/null; then
     brew tap "${@}"
   fi
 }
 
-function brewinstall() {
+function brew_install() {
   local package="${@}"
 
   # Extract actual package name (remove tap prefix if present)
@@ -153,7 +153,7 @@ function brewinstall() {
   fi
 }
 
-function brewinstall_run() {
+function brew_install_run() {
   if [[ ${#_BREW_PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
     echo_subtle "No brew packages to install"
     return 0
@@ -174,11 +174,11 @@ function brewinstall_run() {
   refresh_brew_cache
 }
 
-function brewuninstall() {
+function brew_uninstall() {
   brew uninstall "${@}"
 }
 
-function caskinstall() {
+function cask_install() {
   local package="${@}"
 
   # Extract actual package name (remove tap prefix if present)
@@ -200,7 +200,7 @@ function caskinstall() {
   echo_info "📱 ${package} (queued for installation)"
 }
 
-function caskinstall_run() {
+function cask_install_run() {
   if [[ ${#_CASK_PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
     echo_subtle "No cask packages to install"
     return 0
@@ -221,17 +221,17 @@ function caskinstall_run() {
   refresh_brew_cache
 }
 
-function caskuninstall() {
+function cask_uninstall() {
   brew uninstall --cask "${@}"
 }
 
-function geminstall() {
+function gem_install() {
   if ! type "${@}" > /dev/null; then
     gem install "${@}"
   fi
 }
 
-function npminstall() {
+function npm_install() {
   local package="${@}"
 
   # Derive the likely command name by handling scoped packages, @version, and -cli/-cmd
@@ -260,7 +260,7 @@ function npminstall() {
   echo_info "📦 ${package} (queued for installation)"
 }
 
-function npminstall_run() {
+function npm_install_run() {
   if [[ ${#_NPM_PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
     echo_subtle "No npm packages to install"
     return 0
@@ -326,6 +326,32 @@ function pip3install() {
   if ! type "${@}" > /dev/null; then
     pip3 install --upgrade "${@}"
   fi
+}
+
+function pip_install() {
+  local package="${@}"
+  
+  # Check if command exists
+  if command -v "$package" >/dev/null 2>&1; then
+    echo_subtle "✓ ${package} (already installed)"
+    return 0
+  fi
+
+  # Use pip3 by default (most common nowadays)
+  pip3 install --upgrade "$package"
+}
+
+function mas_install() {
+  local package="${@}"
+  
+  # Check if already installed
+  if mas list | grep -q "$package"; then
+    echo_subtle "✓ ${package} (already installed)"
+    return 0
+  fi
+
+  # Install via Mac App Store
+  mas install "$package"
 }
 
 # --- DEPENDENCY CHECKS ---

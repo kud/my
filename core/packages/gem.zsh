@@ -39,7 +39,7 @@ collect_gem_packages_from_yaml() {
     local packages=$(yq eval '.gem.packages[]?' "$yaml_file" 2>/dev/null)
     if [[ -n "$packages" ]]; then
         while IFS= read -r package; do
-            [[ -n "$package" ]] && geminstall "$package"
+            [[ -n "$package" ]] && gem_install "$package"
         done <<< "$packages"
     fi
 }

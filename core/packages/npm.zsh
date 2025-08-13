@@ -46,7 +46,7 @@ collect_npm_packages_from_yaml() {
     local packages=$(yq eval '.npm.packages[]?' "$yaml_file" 2>/dev/null)
     if [[ -n "$packages" ]]; then
         while IFS= read -r package; do
-            [[ -n "$package" ]] && npminstall "$package"
+            [[ -n "$package" ]] && npm_install "$package"
         done <<< "$packages"
     fi
 }
@@ -74,7 +74,7 @@ collect_npm_packages_from_yaml "$PACKAGES_FILE" "base configuration"
 collect_npm_packages_from_yaml "$PROFILE_PACKAGES_FILE" "$OS_PROFILE profile"
 
 # Execute batch npm installation
-npminstall_run
+npm_install_run
 
 echo_space
 echo_title "Post-installation setup"

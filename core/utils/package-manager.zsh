@@ -156,10 +156,10 @@ install_all_homebrew_packages() {
     echo_task_start "Installing Homebrew packages from all sources"
 
     # Install formulae
-    install_all_packages_of_type "brew" "formulae" "brewinstall" "brewtap"
+    install_all_packages_of_type "brew" "formulae" "brew_install" "brew_tap"
 
     # Install casks
-    install_all_packages_of_type "brew" "casks" "brewcaskinstall"
+    install_all_packages_of_type "brew" "casks" "cask_install"
 
     echo_task_done "Homebrew packages installation"
 }
@@ -168,7 +168,7 @@ install_all_homebrew_packages() {
 install_all_mas_packages() {
     echo_task_start "Installing Mac App Store packages from all sources"
 
-    install_all_packages_of_type "mas" "packages" "masinstall"
+    install_all_packages_of_type "mas" "packages" "mas_install"
 
     echo_task_done "Mac App Store packages installation"
 }
@@ -177,7 +177,7 @@ install_all_mas_packages() {
 install_all_npm_packages() {
     echo_task_start "Installing npm packages from all sources"
 
-    install_all_packages_of_type "npm" "packages" "npminstall"
+    install_all_packages_of_type "npm" "packages" "npm_install"
 
     echo_task_done "npm packages installation"
 }
@@ -186,7 +186,7 @@ install_all_npm_packages() {
 install_all_pip_packages() {
     echo_task_start "Installing pip packages from all sources"
 
-    install_all_packages_of_type "pip" "packages" "pipinstall"
+    install_all_packages_of_type "pip" "packages" "pip_install"
 
     echo_task_done "pip packages installation"
 }
@@ -195,7 +195,7 @@ install_all_pip_packages() {
 install_all_gem_packages() {
     echo_task_start "Installing gem packages from all sources"
 
-    install_all_packages_of_type "gem" "packages" "geminstall"
+    install_all_packages_of_type "gem" "packages" "gem_install"
 
     echo_task_done "gem packages installation"
 }
