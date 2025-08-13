@@ -1,8 +1,10 @@
-# ==============================================================================
-# FZF & FZF-TAB CONFIGURATION
-# ------------------------------------------------------------------------------
-# Complete initialization, colors, preview, and fzf-tab integration.
-# ==============================================================================
+################################################################################
+#                                                                              #
+#   🔍 FZF & FZF-TAB CONFIGURATION                                             #
+#   -------------------------------                                            #
+#   Complete initialization, colors, preview, and fzf-tab integration.        #
+#                                                                              #
+################################################################################
 
 # FZF UI configuration
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --inline-info --border --color=fg:#c9d1d9,bg:-1,hl:#79c0ff,border:#181a1d --color=fg+:#c9d1d9,bg+:-1,hl+:#79c0ff,border:#181a1d --color=info:#b3b3b3,prompt:#58a6ff,pointer:#f778ba --color=marker:#f778ba,spinner:#b3b3b3,header:-1"
