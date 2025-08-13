@@ -16,7 +16,6 @@ for module in \
   limits.zsh \
   homebrew.zsh \
   path.zsh \
-  utility.zsh \
   functions.zsh \
   completions.zsh \
   bindings.zsh \

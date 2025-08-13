@@ -6,10 +6,11 @@
 #                                                                              #
 ################################################################################
 
-#
-# Smart URLs - Handle URL pasting and quoting
-#
+# Utility functions
 autoload -Uz is-at-least
+autoload -Uz zmv  # Mass file operations: zmv '(*).txt' '$1.bak'
+
+# Smart URLs - Handle URL pasting and quoting
 if [[ $ZSH_VERSION != 5.1.1 && $TERM != dumb ]]; then
   if is-at-least 5.2; then
     autoload -Uz bracketed-paste-url-magic
