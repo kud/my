@@ -85,7 +85,7 @@ echo_task_done "Environment installation complete"
 ################################################################################
 
 echo_info "Opening setup guide"
-open https://github.com/kud/my/blob/master/doc/postinstall.md
+open https://github.com/kud/my/blob/master/doc/post-install.md
 
 echo_space
 echo_success "Environment setup completed successfully! 🎉"
