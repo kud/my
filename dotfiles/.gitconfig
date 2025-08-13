@@ -1,6 +1,5 @@
 [core]
   whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
-  # editor       = subl -n -w
   editor = nvim
   excludesfile = ~/.gitignore_global
   # hooksPath = ~/my/git/hooks
