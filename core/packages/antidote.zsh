@@ -18,10 +18,16 @@ echo_task_start "Updating zsh plugins via antidote"
 # 🔄 PLUGIN UPDATE PROCESS
 ################################################################################
 
-# Generate plugins.txt from packages.yml
+# Generate plugins.txt from main config only
 if command -v yq >/dev/null 2>&1; then
     echo_info "Generating plugins.txt from packages.yml"
-    yq eval '.antidote.plugins[]' "$MY/config/packages.yml" > "$MY/shell/plugins.txt"
+    
+    # Remove existing file to avoid conflicts
+    rm -f "$MY/shell/plugins.txt"
+    
+    # Generate from main config only (plugins should be consistent across profiles)
+    yq eval '.antidote.plugins[]?' "$MY/config/packages.yml" 2>/dev/null > "$MY/shell/plugins.txt"
+    
     echo_success "Generated plugins.txt from packages.yml"
 fi
 
