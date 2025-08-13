@@ -6,6 +6,7 @@
 #                                                                                #
 # ################################################################################
 
+# Text transformation functions
 function _mtxr-to-upper {
   LBUFFER=${LBUFFER:u}
 }
@@ -16,16 +17,19 @@ function _mtxr-to-lower {
 }
 zle -N _mtxr-to-lower
 
-# -----------------------------
-# Key Bindings
-# -----------------------------
-#  By default in Zsh, Ctrl+K kills (deletes) text from the cursor to the end of the line. This command removes that binding, so pressing Ctrl+K won't do anything.
-# Common reasons to unbind Ctrl+K:
-# - Preventing accidental text deletion
-# - Freeing it up for a custom binding
-# - Avoiding conflicts with other tools/plugins
-bindkey -r '^K'
+# Dot expansion function - auto-expand .... to ../..
+function expand-dot-to-parent-directory-path {
+  if [[ $LBUFFER = *.. ]]; then
+    LBUFFER+='/..'
+  else
+    LBUFFER+='.'
+  fi
+}
+zle -N expand-dot-to-parent-directory-path
 
+# General key bindings
+bindkey -r '^K' # Remove Ctrl+K binding (normally kills text to end of line) to prevent accidental deletion
 bindkey '^R' history-incremental-search-backward
 bindkey '^K^U' _mtxr-to-upper
 bindkey '^K^L' _mtxr-to-lower
+bindkey "." expand-dot-to-parent-directory-path
