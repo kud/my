@@ -103,6 +103,11 @@ preferences:
   extensions:
     pocket:
       enabled: false
+    formautofill:
+      addresses:
+        enabled: false # Disable address autofill
+      creditCards:
+        enabled: false # Disable credit card autofill
 
   # Media
   media:
@@ -124,6 +129,9 @@ preferences:
   # Spellcheck
   layout:
     spellcheckDefault: 0
+
+  signon:
+    rememberSignons: false # Disable built-in password manager (use external)
 
   # ╔═════════════════════════════════════════════╗
   # ║                Sync Preferences             ║
