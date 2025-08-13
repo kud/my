@@ -13,7 +13,7 @@ for file_path in "${file_paths[@]}"; do
         # Trim any leading/trailing spaces
         trimmed_line=$(echo "$line_without_comment" | xargs)
 
-        if [[ "$trimmed_line" =~ ^npminstall\ (@?[a-zA-Z0-9_\-]+(/[a-zA-Z0-9_\-]+)?) ]]; then
+        if [[ "$trimmed_line" =~ ^npm_install\ (@?[a-zA-Z0-9_\-]+(/[a-zA-Z0-9_\-]+)?) ]]; then
             package_name=${match[1]}
             file_packages_map[$package_name]=1
         fi

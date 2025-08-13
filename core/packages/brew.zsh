@@ -57,7 +57,7 @@ configure_modern_shell() {
     # Use modern zsh from Homebrew if using system zsh
     if [[ $(which zsh) == "/bin/zsh" ]]; then
         echo_info "Installing modern zsh shell via Homebrew"
-        brewinstall zsh
+        brew_install zsh
         echo "${HOMEBREW_PREFIX}/bin/zsh" | sudo tee -a /etc/shells
         chsh -s ${HOMEBREW_PREFIX}/bin/zsh
         echo_success "Homebrew zsh configured as default shell"
@@ -66,7 +66,7 @@ configure_modern_shell() {
     # Use modern bash from Homebrew if using system bash
     if [[ $(which bash) == "/bin/bash" ]]; then
         echo_info "Installing modern bash shell via Homebrew"
-        brewinstall bash
+        brew_install bash
         echo "${HOMEBREW_PREFIX}/bin/bash" | sudo tee -a /etc/shells
         echo_success "Homebrew bash configured"
     fi
