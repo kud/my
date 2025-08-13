@@ -27,6 +27,7 @@ fi
 # General Options
 #
 
+setopt BEEP                 # Beep on error in shell
 setopt COMBINING_CHARS      # Combine zero-length punctuation characters (accents)
 setopt INTERACTIVE_COMMENTS # Enable comments in interactive shell
 setopt RC_QUOTES            # Allow 'Henry''s Garage' instead of 'Henry'\''s Garage'
