@@ -1,7 +1,4 @@
-
-############################################################
-# 🏷️  Set the tab title to current dir
-############################################################
+# 🏷️ Tab title to current dir
 precmd() {
   local title=""
 
@@ -14,18 +11,12 @@ precmd() {
   echo -ne "\e]1;$title\a"
 }
 
-
-############################################################
-# 📁 Create a folder and go in it
-############################################################
+# 📁 Create folder and cd into it
 function mcd() {
   mkdir -p "$1" && cd "$1";
 }
 
-
-############################################################
-# 🗂️  Yazi: open and jump to selected dir
-############################################################
+# 🗂️ Yazi: open and jump to selected dir
 function yy() {
   local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
   yazi "$@" --cwd-file="$tmp"
