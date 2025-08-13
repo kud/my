@@ -7,5 +7,4 @@
 #                                                                                #
 # ################################################################################
 
-# Initialize zoxide (replaces autojump and z)
 eval "$(zoxide init zsh)"
