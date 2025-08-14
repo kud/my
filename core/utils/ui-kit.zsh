@@ -81,9 +81,9 @@ if [[ $_UI_SUPPORTS_256_COLORS -ge 256 ]]; then
     export UI_PRIMARY='\033[38;5;226m'     # Bright yellow
     export UI_SECONDARY='\033[38;5;8m'     # Gray
     export UI_SUCCESS='\033[38;5;46m'      # Bright green
-    export UI_WARNING='\033[38;5;220m'     # Yellow-orange
+    export UI_WARNING='\033[38;5;208m'     # Orange
     export UI_DANGER='\033[38;5;196m'      # Bright red
-    export UI_INFO='\033[38;5;51m'         # Cyan
+    export UI_INFO='\033[38;5;39m'         # Blue
     export UI_MUTED='\033[38;5;244m'       # Light gray
     export UI_ACCENT='\033[38;5;226m'      # Bright yellow
 else
@@ -93,7 +93,7 @@ else
     export UI_SUCCESS=$UI_GREEN
     export UI_WARNING=$UI_YELLOW
     export UI_DANGER=$UI_RED
-    export UI_INFO=$UI_CYAN
+    export UI_INFO=$UI_BLUE
     export UI_MUTED=$UI_BRIGHT_BLACK
     export UI_ACCENT=$UI_YELLOW
 fi
@@ -102,14 +102,25 @@ fi
 # 📱 MODERN ICONS & SYMBOLS
 ################################################################################
 
-# Status icons
+# Status icons (emoji style)
 export UI_ICON_SUCCESS="✅"
 export UI_ICON_ERROR="❌"
 export UI_ICON_WARNING="⚠️"
 export UI_ICON_INFO="ℹ️"
 export UI_ICON_QUESTION="❓"
+
+# Alternative simple icons
 export UI_ICON_CHECKMARK="✓"
 export UI_ICON_CROSS="✗"
+export UI_ICON_CHECK_ALT="✔"
+export UI_ICON_CROSS_ALT="✗"
+export UI_ICON_STARTER="❯"
+export UI_ICON_INFO_BRACKET="[i]"
+export UI_ICON_USER_BRACKET="[?]"
+export UI_ICON_WARN_BRACKET="[!]"
+export UI_ICON_INPUT_BRACKET="[>]"
+
+# Navigation
 export UI_ICON_ARROW_RIGHT="→"
 export UI_ICON_ARROW_LEFT="←"
 export UI_ICON_ARROW_UP="↑"
@@ -215,6 +226,12 @@ ui_success_msg() { ui_message "success" "$1"; }
 ui_error_msg() { ui_message "error" "$1"; }
 ui_warning_msg() { ui_message "warning" "$1"; }
 ui_info_msg() { ui_message "info" "$1"; }
+
+# Alternative simple message functions (colored icons, default text)
+ui_success_simple() { echo -e "${UI_SUCCESS}${UI_ICON_CHECK_ALT}${UI_RESET} ${1}"; }
+ui_error_simple() { echo -e "${UI_DANGER}${UI_ICON_CROSS_ALT}${UI_RESET} ${1}"; }
+ui_warning_simple() { echo -e "${UI_WARNING}${UI_ICON_WARN_BRACKET}${UI_RESET} ${1}"; }
+ui_info_simple() { echo -e "${UI_INFO}${UI_ICON_INFO_BRACKET}${UI_RESET} ${1}"; }
 
 # Badge-style messages
 ui_badge() {
