@@ -30,7 +30,7 @@ PROFILE_PACKAGES_FILE="$MY/profiles/$OS_PROFILE/config/packages/npm.yml"
 # 🔄 NPM SYSTEM UPDATE
 ################################################################################
 
-npm update -g --quiet
+npm update -g
 
 collect_npm_packages_from_yaml() {
     local yaml_file="$1"
