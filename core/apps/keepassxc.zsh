@@ -1,19 +1,16 @@
 #! /usr/bin/env zsh
 
-command -v yq >/dev/null 2>&1 || { echo "Need yq (brew install yq)"; exit 1; }
+command -v yq >/dev/null 2>&1 || exit 1
 
 CONFIG_YAML="$MY/config/apps/keepassxc.yml"
 PROFILE_CONFIG_YAML="$MY/profiles/$OS_PROFILE/config/apps/keepassxc.yml"
-[[ -f "$CONFIG_YAML" ]] || { echo "Missing config: $CONFIG_YAML"; exit 1; }
+[[ -f "$CONFIG_YAML" ]] || exit 1
 
 # KeePassXC configuration file path
 CONFIG_FILE="$HOME/Library/Application Support/keepassxc/keepassxc.ini"
 
 # Ensure the KeePassXC configuration file exists
-if [[ ! -f "$CONFIG_FILE" ]]; then
-  echo "KeePassXC configuration file not found. Please launch KeePassXC at least once to generate it."
-  exit 1
-fi
+[[ -f "$CONFIG_FILE" ]] || exit 1
 
 # Function to update or add a key-value pair in a section
 update_setting() {
@@ -85,5 +82,4 @@ while IFS= read -r section; do
     fi
 done <<< "$SECTIONS"
 
-# Confirm success
-echo "KeePassXC configuration updated from YAML. Restart KeePassXC to apply changes."
+# Configuration complete

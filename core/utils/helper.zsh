@@ -146,34 +146,19 @@ function brew_install() {
 
   # Check if already installed and up-to-date using cached lists
   if echo "$_BREW_FORMULAE_CACHE" | grep -q "^${package_name}$" && ! echo "$_BREW_OUTDATED_CACHE" | grep -q "^${package_name}"; then
-    echo_subtle "✓ ${package} (already installed and up-to-date)"
     return 0
   fi
 
   # Add to batch installation array
   _BREW_PACKAGES_TO_INSTALL+=("${package}")
-  if echo "$_BREW_FORMULAE_CACHE" | grep -q "^${package_name}$"; then
-    echo_info "🔄 ${package} (queued for upgrade)"
-  else
-    echo_info "🍺 ${package} (queued for installation)"
-  fi
 }
 
 function brew_install_run() {
   if [[ ${#_BREW_PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
-    echo_subtle "No brew packages to install"
     return 0
   fi
 
-  echo_task_start "Installing ${#_BREW_PACKAGES_TO_INSTALL[@]} brew packages"
-  echo_info "Packages: ${_BREW_PACKAGES_TO_INSTALL[*]}"
   brew install "${_BREW_PACKAGES_TO_INSTALL[@]}"
-
-  if [[ $? -eq 0 ]]; then
-    echo_success "Successfully installed ${#_BREW_PACKAGES_TO_INSTALL[@]} brew packages"
-  else
-    echo_warn "Some brew packages may have failed to install"
-  fi
 
   # Clear the array and refresh cache
   _BREW_PACKAGES_TO_INSTALL=()
@@ -197,30 +182,19 @@ function cask_install() {
 
   # Check if already installed using cached list
   if echo "$_BREW_CASKS_CACHE" | grep -q "^${package_name}$"; then
-    echo_subtle "✓ ${package} (already installed)"
     return 0
   fi
 
   # Add to batch installation array
   _CASK_PACKAGES_TO_INSTALL+=("${package}")
-  echo_info "📱 ${package} (queued for installation)"
 }
 
 function cask_install_run() {
   if [[ ${#_CASK_PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
-    echo_subtle "No cask packages to install"
     return 0
   fi
 
-  echo_task_start "Installing ${#_CASK_PACKAGES_TO_INSTALL[@]} cask packages"
-  echo_info "Packages: ${_CASK_PACKAGES_TO_INSTALL[*]}"
   brew install --cask "${_CASK_PACKAGES_TO_INSTALL[@]}"
-
-  if [[ $? -eq 0 ]]; then
-    echo_success "Successfully installed ${#_CASK_PACKAGES_TO_INSTALL[@]} cask packages"
-  else
-    echo_warn "Some cask packages may have failed to install"
-  fi
 
   # Clear the array and refresh cache
   _CASK_PACKAGES_TO_INSTALL=()
@@ -257,65 +231,34 @@ function npm_install() {
 
   # Check if command exists (more reliable than type)
   if command -v "$cmd_name" >/dev/null 2>&1; then
-    echo_subtle "✓ ${package} (already installed)"
     return 0
   fi
 
   # Add to batch installation array
   _NPM_PACKAGES_TO_INSTALL+=("${package}")
-  echo_info "📦 ${package} (queued for installation)"
 }
 
 function npm_install_run() {
   if [[ ${#_NPM_PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
-    echo_subtle "No npm packages to install"
     return 0
   fi
 
-  echo_task_start "Installing ${#_NPM_PACKAGES_TO_INSTALL[@]} npm packages"
-  echo_info "Packages: ${_NPM_PACKAGES_TO_INSTALL[*]}"
-  npm install -g --quiet "${_NPM_PACKAGES_TO_INSTALL[@]}"
+  npm install -g --quiet "${_NPM_PACKAGES_TO_INSTALL[@]}" 2>/dev/null
 
-  if [[ $? -eq 0 ]]; then
-    echo_success "Successfully installed ${#_NPM_PACKAGES_TO_INSTALL[@]} npm packages"
-  else
-    echo_warn "Some npm packages may have failed to install"
-    echo_info "Attempting individual installation as fallback..."
-
-    local failed_packages=()
-    local success_count=0
-
+  if [[ $? -ne 0 ]]; then
+    # Fallback: try installing individually
     for package in "${_NPM_PACKAGES_TO_INSTALL[@]}"; do
-      echo_info "Installing ${package} individually..."
-      if npm install -g --quiet "$package"; then
-        echo_success "✓ ${package}"
-        ((success_count++))
-      else
-        echo_info "First install failed for ${package}, trying cleanup then reinstall..."
+      if ! npm install -g --quiet "$package" 2>/dev/null; then
+        # Cleanup and retry
         npm uninstall -g --quiet "$package" 2>/dev/null
-        # Force remove the package directory if it still exists
         local package_name=$(echo "$package" | cut -d'@' -f1)
         local npm_global_path=$(npm root -g 2>/dev/null)
         if [[ -n "$npm_global_path" && -d "$npm_global_path/$package_name" ]]; then
-          echo_info "Removing stuck directory: $npm_global_path/$package_name"
           rm -rf "$npm_global_path/$package_name" 2>/dev/null
         fi
-        if npm install -g --quiet "$package"; then
-          echo_success "✓ ${package} (after cleanup/reinstall)"
-          ((success_count++))
-        else
-          echo_warn "✗ ${package}"
-          failed_packages+=("$package")
-        fi
+        npm install -g --quiet "$package" 2>/dev/null
       fi
     done
-
-    if [[ ${#failed_packages[@]} -eq 0 ]]; then
-      echo_success "All ${#_NPM_PACKAGES_TO_INSTALL[@]} packages installed successfully via fallback"
-    else
-      echo_warn "Successfully installed ${success_count}/${#_NPM_PACKAGES_TO_INSTALL[@]} packages"
-      echo_warn "Failed packages: ${failed_packages[*]}"
-    fi
   fi
 
   # Clear the array
