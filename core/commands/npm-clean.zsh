@@ -1,6 +1,5 @@
 #! /usr/bin/env zsh
 
-source $MY/core/utils/helper.zsh
 
 file_paths=("$MY/core/packages/npm")
 
@@ -38,16 +37,13 @@ for package in ${(k)file_packages_map}; do
 done
 
 if [[ ${#missing_packages[@]} -gt 0 ]]; then
-    echo_info "Packages in files but not installed:"
+    echo "Packages in files but not installed:"
     for package in "${missing_packages[@]}"; do
         echo "$package"
     done
     exit 1  # Exit the script with a non-zero status to indicate an error
 fi
 
-echo_space
-echo_success "All packages in files are installed."
-echo_space
 
 # Check for packages installed but not in npm files and act upon them
 packages_to_keep=()
@@ -58,15 +54,13 @@ for package in ${(k)installed_packages_map}; do
     fi
 
     if [[ -z "${file_packages_map[$package]}" ]]; then
-        echo_space
-        echo_info "Package '$package' is installed but not in files."
-        echo_space
+        echo "Package '$package' is installed but not in files."
         echo "What would you like to do?"
         echo "1) Use 'npm uninstall -g'"
         echo "2) Keep and list at the end"
         echo_space
         read -k choice
-        echo_spacex2
+        echo
 
         case $choice in
             1)
@@ -84,11 +78,10 @@ for package in ${(k)installed_packages_map}; do
 done
 
 if [[ ${#packages_to_keep[@]} -gt 0 ]]; then
-    echo_space
-    echo_info "Packages you chose to keep:"
+    echo "Packages you chose to keep:"
     for package in "${packages_to_keep[@]}"; do
         echo "$package"
     done
 else
-    echo_info "No packages kept."
+    echo "No packages kept."
 fi

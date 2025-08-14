@@ -1,16 +1,10 @@
 #! /usr/bin/env zsh
 
-source $MY/core/utils/helper.zsh
-
-echo_space
-
-echo_title_update "KeepassXC"
-
-command -v yq >/dev/null 2>&1 || echo_fail "Need yq (brew install yq)"
+command -v yq >/dev/null 2>&1 || { echo "Need yq (brew install yq)"; exit 1; }
 
 CONFIG_YAML="$MY/config/apps/keepassxc.yml"
 PROFILE_CONFIG_YAML="$MY/profiles/$OS_PROFILE/config/apps/keepassxc.yml"
-[[ -f "$CONFIG_YAML" ]] || echo_fail "Missing config: $CONFIG_YAML"
+[[ -f "$CONFIG_YAML" ]] || { echo "Missing config: $CONFIG_YAML"; exit 1; }
 
 # KeePassXC configuration file path
 CONFIG_FILE="$HOME/Library/Application Support/keepassxc/keepassxc.ini"
@@ -52,13 +46,11 @@ apply_yaml_settings() {
   local section_name="$1"
   local yaml_path="$2"
 
-  echo_info "Applying $section_name settings"
 
   # Merge configurations: start with main config, then overlay profile-specific config
   local merged_config=$(yq eval ".$yaml_path // {}" "$CONFIG_YAML")
 
   if [[ -f "$PROFILE_CONFIG_YAML" ]]; then
-    echo_info "Merging profile-specific KeePassXC config for: $OS_PROFILE"
     local profile_config=$(yq eval ".$yaml_path // {}" "$PROFILE_CONFIG_YAML" 2>/dev/null)
     if [[ "$profile_config" != "{}" && "$profile_config" != "null" ]]; then
       merged_config=$(echo "$merged_config $profile_config" | yq eval-all '. as $item ireduce ({}; . * $item)' -)
@@ -84,7 +76,6 @@ apply_yaml_settings() {
 }
 
 # Apply all sections from YAML configuration dynamically
-echo_info "Discovering configuration sections from YAML"
 SECTIONS=$(yq eval 'keys | .[]' "$CONFIG_YAML" 2>/dev/null)
 
 while IFS= read -r section; do
@@ -95,4 +86,4 @@ while IFS= read -r section; do
 done <<< "$SECTIONS"
 
 # Confirm success
-echo_success "KeePassXC configuration updated from YAML. Restart KeePassXC to apply changes."
+echo "KeePassXC configuration updated from YAML. Restart KeePassXC to apply changes."

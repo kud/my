@@ -1,6 +1,5 @@
 #! /usr/bin/env zsh
 
-source $MY/core/utils/helper.zsh
 
 if [ ! -d "$HOME/pCloud" ]; then
   mkdir -p ~/pCloud

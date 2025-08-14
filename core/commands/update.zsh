@@ -9,7 +9,6 @@
 #                                                                              #
 ################################################################################
 
-source $MY/core/utils/helper.zsh
 
 $MY/core/utils/intro.zsh
 
@@ -17,13 +16,13 @@ $MY/core/utils/intro.zsh
 # 📦 PROJECT SYNCHRONIZATION
 ################################################################################
 
-echo_info "Downloading latest updates"
+echo "Downloading latest updates"
 git --git-dir="$MY/.git" --work-tree="$MY/" pull
 
 if [[ $? -eq 0 ]]; then
-    echo_success "Updates downloaded successfully"
+    echo "Updates downloaded successfully"
 else
-    echo_fail "Failed to download updates"
+    echo "Failed to download updates" >&2
     return 1
 fi
 
@@ -33,15 +32,12 @@ fi
 
 $MY/core/main.zsh
 
-echo_space
-echo_task_done "Environment update complete"
 
 ################################################################################
 # 🔄 CONFIGURATION ACTIVATION
 ################################################################################
 
-echo_info "Activating updated configuration"
+echo "Activating updated configuration"
 source $HOME/.zshrc
 
-echo_space
-echo_success "Environment is now up to date! 🚀"
+echo "Environment is now up to date! 🚀"

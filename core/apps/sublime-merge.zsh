@@ -9,16 +9,13 @@
 #                                                                              #
 ################################################################################
 
-source $MY/core/utils/helper.zsh
 
-echo_task_start "Configuring Sublime Merge Git client"
-
-command -v yq >/dev/null 2>&1 || echo_fail "Need yq (brew install yq)"
-command -v jq >/dev/null 2>&1 || echo_fail "Need jq (brew install jq)"
+command -v yq >/dev/null 2>&1 || { echo "Need yq (brew install yq)"; exit 1; }
+command -v jq >/dev/null 2>&1 || { echo "Need jq (brew install jq)"; exit 1; }
 
 CONFIG_YAML="$MY/config/apps/sublime-merge.yml"
 PROFILE_CONFIG_YAML="$MY/profiles/$OS_PROFILE/config/apps/sublime-merge.yml"
-[[ -f "$CONFIG_YAML" ]] || echo_fail "Missing config: $CONFIG_YAML"
+[[ -f "$CONFIG_YAML" ]] || { echo "Missing config: $CONFIG_YAML"; exit 1; }
 
 ################################################################################
 # 📂 DIRECTORY SETUP
@@ -28,7 +25,6 @@ DIR="$HOME/Library/Application Support/Sublime Merge/Packages"
 
 # Ensure directory exists
 if [[ ! -d "$DIR" ]]; then
-    echo_info "Creating Sublime Merge packages directory"
     mkdir -p "$DIR/User"
 fi
 
@@ -56,38 +52,24 @@ if [[ -f "$PROFILE_CONFIG_YAML" ]]; then
 fi
 
 if [[ ! -d "$DIR/$THEME_NAME" ]]; then
-    echo_info "Installing $THEME_NAME for Sublime Merge"
-
-    cd "$DIR" || echo_fail "Failed to access Sublime Merge directory"
+    cd "$DIR" || { echo "Failed to access Sublime Merge directory"; exit 1; }
 
     # Clone the theme repository
-    if git clone "$THEME_REPO" "$THEME_NAME"; then
-        echo_success "$THEME_NAME installed successfully"
-    else
-        echo_warn "Failed to clone theme - check SSH access to GitHub"
-    fi
+    git clone "$THEME_REPO" "$THEME_NAME"
 
 else
-    echo_info "$THEME_NAME already installed - updating to latest version"
-    cd "$DIR/$THEME_NAME" || echo_fail "Failed to access theme directory"
-
-    if git pull; then
-        echo_success "$THEME_NAME updated successfully"
-    else
-        echo_warn "Failed to update theme - check internet connection"
-    fi
+    cd "$DIR/$THEME_NAME" || { echo "Failed to access theme directory"; exit 1; }
+    git pull
 fi
 
 ################################################################################
 # ⚙️ PREFERENCES CONFIGURATION
 ################################################################################
 
-echo_info "Configuring Sublime Merge preferences"
 
 # Merge preferences from main config and profile-specific config
 MERGED_PREFS=$(yq eval '.preferences' "$CONFIG_YAML" -o json)
 if [[ -f "$PROFILE_CONFIG_YAML" ]]; then
-    echo_info "Merging profile-specific Sublime Merge config for: $OS_PROFILE"
     PROFILE_PREFS=$(yq eval '.preferences' "$PROFILE_CONFIG_YAML" -o json 2>/dev/null || echo '{}')
     MERGED_PREFS=$(echo "$MERGED_PREFS $PROFILE_PREFS" | jq -s '.[0] * .[1]')
 fi
@@ -98,8 +80,4 @@ FULL_PREFS=$(echo "$MERGED_PREFS" | jq --arg theme "$SUBLIME_THEME" --arg scheme
 # Write preferences to file
 echo "$FULL_PREFS" | jq . > "$DIR/User/Preferences.sublime-settings"
 
-echo_success "Sublime Merge preferences configured"
-
-echo_space
-echo_task_done "Sublime Merge configuration completed"
-echo_success "Beautiful Git client interface is ready! 🎨"
+echo "Sublime Merge configuration completed"

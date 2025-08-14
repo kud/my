@@ -2,9 +2,6 @@
 # ~/.macos — https://mths.be/macos
 # version: https://github.com/mathiasbynens/dotfiles/blob/ea68bda80a455e149d29156071d4c8472f6b93cb/.macos
 
-source $MY/core/utils/helper.zsh
-
-echo_title_update "macos settings"
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change

@@ -9,19 +9,18 @@
 #                                                                              #
 ################################################################################
 
+# Source required utilities
+source $MY/core/utils/ui-kit.zsh
 source $MY/core/utils/helper.zsh
 
-echo_task_start "Setting up global Node.js packages"
 
 # Check if Node.js and npm are available
 if ! command -v npm >/dev/null 2>&1; then
-    echo_fail "npm not found. Please install Node.js first."
     return 1
 fi
 
 # Check if yq is available for YAML parsing
 if ! command -v yq >/dev/null 2>&1; then
-    echo_info "Installing yq for YAML parsing"
     brew install yq
 fi
 
@@ -32,7 +31,6 @@ PROFILE_PACKAGES_FILE="$MY/profiles/$OS_PROFILE/config/packages/npm.yml"
 # 🔄 NPM SYSTEM UPDATE
 ################################################################################
 
-echo_info "Updating existing global npm packages"
 npm update -g --quiet
 
 collect_npm_packages_from_yaml() {
@@ -76,10 +74,6 @@ collect_npm_packages_from_yaml "$PROFILE_PACKAGES_FILE" "$OS_PROFILE profile"
 # Execute batch npm installation
 npm_install_run
 
-echo_space
-echo_title "Post-installation setup"
 run_npm_post_install_from_yaml "$PACKAGES_FILE" "base configuration"
 run_npm_post_install_from_yaml "$PROFILE_PACKAGES_FILE" "$OS_PROFILE profile"
 
-echo_space
-echo_task_done "Node.js package setup completed"

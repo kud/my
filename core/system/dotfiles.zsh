@@ -9,15 +9,11 @@
 #                                                                              #
 ################################################################################
 
-source "$MY/core/utils/helper.zsh"
-
-echo_task_start "Setting up dotfiles symlinks"
 
 ################################################################################
 # 🔍 DOTFILES DISCOVERY
 ################################################################################
 
-echo_info "Scanning dotfiles directory for files to symlink..."
 
 # Automatically discover all dotfiles (files starting with .)
 dotfiles=()
@@ -30,26 +26,19 @@ for file in "$MY/dotfiles"/.* "$MY/dotfiles"/*; do
   fi
 done
 
-echo_info "Found ${#dotfiles[@]} dotfiles to process"
 
 mkdir -p "${ZDOTDIR:-$HOME}/.config/nvim"
 
-echo_info "Creating symbolic links..."
 for file in "${dotfiles[@]}"; do
   source_path="$MY/dotfiles/$file"
   target_path="${ZDOTDIR:-$HOME}/$file"
 
-  if ln -sf "$source_path" "$target_path" 2>/dev/null; then
-    echo_success "  $file → $target_path"
-  else
-    echo_warn "  Failed to link $file"
-  fi
+  ln -sf "$source_path" "$target_path" 2>/dev/null
 done
 
 ############################################################
 # 📁 Config directories
 ############################################################
-echo_info "Setting up .config directory structure..."
 
 # Handle .config subdirectories
 if [[ -d "$MY/dotfiles/.config" ]]; then
@@ -66,36 +55,22 @@ if [[ -d "$MY/dotfiles/.config" ]]; then
     mkdir -p "$target_dir"
 
     # Create symlink
-    if ln -sf "$config_file" "$target_path" 2>/dev/null; then
-      echo_success "  .config/$rel_path → $target_path"
-    else
-      echo_warn "  Failed to link .config/$rel_path"
-    fi
+    ln -sf "$config_file" "$target_path" 2>/dev/null
   done
 fi
 
 ############################################################
 # 🧩 Zsh config directory setup
 ############################################################
-echo_info "Setting up Zsh configuration directory..."
 mkdir -p "$HOME/.config/zsh"
-echo_success "  Created ~/.config/zsh directory"
 
-echo_info "Checking SSH configuration..."
 if [ ! -f "$HOME/.ssh/config" ]; then
-  if cp "$MY/templates/ssh/config" "$HOME/.ssh/" 2>/dev/null; then
-    echo_success "  SSH config → ~/.ssh/config"
-  else
-    echo_warn "  Failed to copy SSH config"
-  fi
+  cp "$MY/templates/ssh/config" "$HOME/.ssh/" 2>/dev/null
 else
-  echo_info "  SSH config already exists, skipping"
 fi
 
-echo_info "Checking Git local configuration..."
 
 if [ ! -f "$HOME/.gitconfig_local" ]; then
-  echo_info "  Creating Git local configuration..."
   read "?Enter your GitHub username: " GITHUB_USERNAME </dev/tty
   read "?Enter your first name: " GITHUB_FIRSTNAME </dev/tty
   read "?Enter your last name: " GITHUB_LASTNAME </dev/tty
@@ -109,20 +84,11 @@ if [ ! -f "$HOME/.gitconfig_local" ]; then
 [includeIf \"gitdir:~/Projects/work/\"]
   path = .gitconfig_local_work" >"$HOME/.gitconfig_local"
 
-  echo_success "  Git local config → ~/.gitconfig_local"
 else
-  echo_info "  Git local config already exists, skipping"
 fi
 
 ################################################################################
 # 🔄 CONFIGURATION RELOAD
 ################################################################################
 
-echo_space
-echo_info "Reloading shell configuration to apply changes"
 source "$HOME/.zshrc"
-echo_success "Shell configuration reloaded successfully"
-
-echo_space
-echo_task_done "Dotfiles symlink setup completed"
-echo_success "All configuration files are now managed via symlinks! ⚡"
