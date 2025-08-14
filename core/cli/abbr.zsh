@@ -25,12 +25,12 @@ fi
 
 # Get current abbreviations and erase them all
 for abbr_name in $(abbr list-abbreviations 2>/dev/null); do
-    abbr erase "$abbr_name" >/dev/null 2>&1
+    abbr erase "$abbr_name"
 done
 
 # Read all abbreviations from YAML and apply them
 yq eval '.abbreviations | to_entries | .[] | .key + "=" + .value' "$config_file" | while read setting; do
     key=$(echo $setting | cut -d'=' -f1)
     value=$(echo $setting | cut -d'=' -f2-)
-    abbr "$key"="$value" >/dev/null 2>&1
+    abbr "$key"="$value"
 done
