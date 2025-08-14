@@ -78,24 +78,24 @@ export UI_STRIKETHROUGH='\033[9m'
 
 # Modern semantic colors (256-color mode)
 if [[ $_UI_SUPPORTS_256_COLORS -ge 256 ]]; then
-    export UI_PRIMARY='\033[38;5;39m'      # Bright blue
+    export UI_PRIMARY='\033[38;5;226m'     # Bright yellow
     export UI_SECONDARY='\033[38;5;8m'     # Gray
     export UI_SUCCESS='\033[38;5;46m'      # Bright green
     export UI_WARNING='\033[38;5;220m'     # Yellow-orange
     export UI_DANGER='\033[38;5;196m'      # Bright red
     export UI_INFO='\033[38;5;51m'         # Cyan
     export UI_MUTED='\033[38;5;244m'       # Light gray
-    export UI_ACCENT='\033[38;5;213m'      # Pink
+    export UI_ACCENT='\033[38;5;226m'      # Bright yellow
 else
     # Fallback for 16-color terminals
-    export UI_PRIMARY=$UI_BLUE
+    export UI_PRIMARY=$UI_YELLOW
     export UI_SECONDARY=$UI_BRIGHT_BLACK
     export UI_SUCCESS=$UI_GREEN
     export UI_WARNING=$UI_YELLOW
     export UI_DANGER=$UI_RED
     export UI_INFO=$UI_CYAN
     export UI_MUTED=$UI_BRIGHT_BLACK
-    export UI_ACCENT=$UI_MAGENTA
+    export UI_ACCENT=$UI_YELLOW
 fi
 
 ################################################################################
@@ -105,8 +105,8 @@ fi
 # Status icons
 export UI_ICON_SUCCESS="✅"
 export UI_ICON_ERROR="❌"
-export UI_ICON_WARNING="⚠️ "
-export UI_ICON_INFO="ℹ️ "
+export UI_ICON_WARNING="⚠️"
+export UI_ICON_INFO="ℹ️"
 export UI_ICON_QUESTION="❓"
 export UI_ICON_CHECKMARK="✓"
 export UI_ICON_CROSS="✗"
@@ -410,7 +410,7 @@ ui_select() {
                     '[B') ((selected < ${#options[@]} - 1)) && ((selected++)) ;;
                 esac
                 ;;
-            '') # Enter
+            $'\n'|$'\r'|'') # Enter (newline, carriage return, or empty)
                 echo
                 echo -e "${UI_SUCCESS} Selected: ${options[selected]}${UI_RESET}"
                 return $selected
@@ -422,8 +422,8 @@ ui_select() {
                 ;;
         esac
         
-        # Clear previous output
-        for ((i=0; i<=${#options[@]}; i++)); do
+        # Clear previous output (only clear the options, not the prompt)
+        for ((i=0; i<${#options[@]}; i++)); do
             echo -ne "\033[A\033[K"
         done
     done
@@ -594,7 +594,7 @@ ui_center_text() {
 ################################################################################
 
 ui_theme_dark() {
-    export UI_PRIMARY='\033[38;5;75m'     # Light blue
+    export UI_PRIMARY='\033[38;5;227m'    # Light yellow
     export UI_SUCCESS='\033[38;5;83m'     # Light green
     export UI_WARNING='\033[38;5;221m'    # Light yellow
     export UI_DANGER='\033[38;5;203m'     # Light red
@@ -602,7 +602,7 @@ ui_theme_dark() {
 }
 
 ui_theme_light() {
-    export UI_PRIMARY='\033[38;5;25m'     # Dark blue
+    export UI_PRIMARY='\033[38;5;178m'    # Dark yellow
     export UI_SUCCESS='\033[38;5;28m'     # Dark green
     export UI_WARNING='\033[38;5;166m'    # Dark orange
     export UI_DANGER='\033[38;5;124m'     # Dark red
@@ -610,11 +610,11 @@ ui_theme_light() {
 }
 
 ui_theme_cyberpunk() {
-    export UI_PRIMARY='\033[38;5;51m'     # Cyan
+    export UI_PRIMARY='\033[38;5;51m'     # Cyan (keep for ocean theme)
     export UI_SUCCESS='\033[38;5;46m'     # Neon green
     export UI_WARNING='\033[38;5;226m'    # Neon yellow
     export UI_DANGER='\033[38;5;201m'     # Neon pink
-    export UI_ACCENT='\033[38;5;93m'      # Purple
+    export UI_ACCENT='\033[38;5;51m'      # Bright cyan (ocean theme)
     export UI_MUTED='\033[38;5;240m'      # Dark gray
 }
 
