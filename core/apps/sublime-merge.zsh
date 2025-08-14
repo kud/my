@@ -10,12 +10,12 @@
 ################################################################################
 
 
-command -v yq >/dev/null 2>&1 || { echo "Need yq (brew install yq)"; exit 1; }
-command -v jq >/dev/null 2>&1 || { echo "Need jq (brew install jq)"; exit 1; }
+command -v yq >/dev/null 2>&1 || exit 1
+command -v jq >/dev/null 2>&1 || exit 1
 
 CONFIG_YAML="$MY/config/apps/sublime-merge.yml"
 PROFILE_CONFIG_YAML="$MY/profiles/$OS_PROFILE/config/apps/sublime-merge.yml"
-[[ -f "$CONFIG_YAML" ]] || { echo "Missing config: $CONFIG_YAML"; exit 1; }
+[[ -f "$CONFIG_YAML" ]] || exit 1
 
 ################################################################################
 # 📂 DIRECTORY SETUP
@@ -80,4 +80,4 @@ FULL_PREFS=$(echo "$MERGED_PREFS" | jq --arg theme "$SUBLIME_THEME" --arg scheme
 # Write preferences to file
 echo "$FULL_PREFS" | jq . > "$DIR/User/Preferences.sublime-settings"
 
-echo "Sublime Merge configuration completed"
+# Configuration complete

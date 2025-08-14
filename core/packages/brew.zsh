@@ -10,8 +10,7 @@
 #                                                                              #
 ################################################################################
 
-# Source required utilities
-source $MY/core/utils/ui-kit.zsh
+# Source required utilities (for package installation functions)
 source $MY/core/utils/helper.zsh
 
 # 🔧 PREREQUISITES
