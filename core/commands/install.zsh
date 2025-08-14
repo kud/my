@@ -65,10 +65,6 @@ $MY/core/os/main.zsh
 # 📖 SETUP COMPLETION
 ################################################################################
 
-echo "Opening setup guide"
 open https://github.com/kud/my/blob/master/doc/post-install.md
-
-echo "Environment setup completed successfully! 🎉"
-echo "Activating new configuration"
 
 source $HOME/.zshrc
