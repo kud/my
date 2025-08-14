@@ -179,14 +179,14 @@ demo_interactive() {
     
     ui_spacer 1
     echo "Selection Menu (use arrow keys and Enter):"
-    local options=("🎨 Dark Theme" "☀️ Light Theme" "💜 Cyberpunk Theme" "⏭️ Skip Theme Selection")
+    local options=("🎨 Dark Theme" "☀️ Light Theme" "🌊 Ocean Theme" "⏭️ Skip Theme Selection")
     ui_select "Choose a theme to apply:" "${options[@]}"
     local choice=$?
     
     case $choice in
         0) ui_theme_dark; ui_success_msg "Applied Dark Theme!" ;;
         1) ui_theme_light; ui_success_msg "Applied Light Theme!" ;;
-        2) ui_theme_cyberpunk; ui_success_msg "Applied Cyberpunk Theme!" ;;
+        2) ui_theme_cyberpunk; ui_success_msg "Applied Ocean Theme!" ;;
         3) ui_info_msg "Theme selection skipped." ;;
         255) ui_warning_msg "Selection cancelled." ;;
     esac
@@ -238,9 +238,9 @@ demo_advanced() {
     ui_save_cursor
     sleep 1
     echo "Moving cursor..."
-    ui_move_cursor 1 1
-    echo -ne "$(ui_danger "I'm at the top!")"
-    sleep 1
+    ui_move_cursor 5 40
+    echo -ne "$(ui_danger "[Moved!]")"
+    sleep 1.5
     ui_restore_cursor
     echo "Restored!"
     
@@ -259,16 +259,16 @@ demo_real_world() {
     ui_info_msg "Installing $total development packages..."
     ui_spacer 1
     
-    for ((i=0; i<total; i++)); do
-        local package="${packages[$((i+1))]}"
+    for ((i=1; i<=total; i++)); do
+        local package="${packages[i]}"
         echo -ne "$(ui_primary "❯") Installing $package... "
         
         # Simulate installation time
         sleep 0.5
         
-        ui_progress_bar $((i+1)) $total 20
+        ui_progress_bar $i $total 20
         echo -ne "  "
-        ui_success_msg "✓ $package installed"
+        echo -e "$(ui_color "$UI_SUCCESS" "✓") $package installed"
         sleep 0.3
     done
     
