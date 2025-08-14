@@ -9,13 +9,13 @@
 #                                                                              #
 ################################################################################
 
+# Source required utilities
+source $MY/core/utils/ui-kit.zsh
 source $MY/core/utils/helper.zsh
 
-echo_task_start "Setting up Python environment"
 
 # Check if yq is available for YAML parsing
 if ! command -v yq >/dev/null 2>&1; then
-    echo_info "Installing yq for YAML parsing"
     brew install yq
 fi
 
@@ -26,7 +26,6 @@ PROFILE_PACKAGES_FILE="$MY/profiles/$OS_PROFILE/config/packages/pip.yml"
 # 🐍 PYTHON INSTALLATION VIA PYENV
 ################################################################################
 
-echo_info "Installing latest Python version via pyenv"
 
 # Check if pyenv is available
 if command -v pyenv >/dev/null 2>&1; then
@@ -34,15 +33,9 @@ if command -v pyenv >/dev/null 2>&1; then
     LATEST_PYTHON_VERSION=$(brew info python | grep '(bottled)' | sed 's/==> python@3...: stable //g' | sed 's/ (bottled).*//g')
 
     if [[ -n "$LATEST_PYTHON_VERSION" ]]; then
-        echo_info "Installing Python $LATEST_PYTHON_VERSION"
         pyenv install -s $LATEST_PYTHON_VERSION
         pyenv global $LATEST_PYTHON_VERSION
-        echo_success "Python $LATEST_PYTHON_VERSION set as global version"
-    else
-        echo_warn "Could not determine latest Python version"
     fi
-else
-    echo_warn "pyenv not found - install via Homebrew if needed"
 fi
 
 ################################################################################
@@ -61,7 +54,6 @@ collect_pip_packages_from_yaml() {
     if [[ -n "$packages" ]]; then
         while IFS= read -r package; do
             if [[ -n "$package" ]]; then
-                echo_info "Installing $package"
                 pip install "$package"
             fi
         done <<< "$packages"
@@ -86,13 +78,10 @@ run_pip_post_install_from_yaml() {
     fi
 }
 
-echo_space
-echo_info "Installing Python packages from YAML"
 
 # Check if pip is available
 if command -v pip >/dev/null 2>&1; then
     # Upgrade pip itself first
-    echo_info "Upgrading pip to latest version"
     pip install --upgrade pip >/dev/null 2>&1
 
     # Collect all pip packages (base + profile)
@@ -100,18 +89,10 @@ if command -v pip >/dev/null 2>&1; then
     collect_pip_packages_from_yaml "$PROFILE_PACKAGES_FILE" "$OS_PROFILE profile"
 
     # Upgrade all installed packages
-    echo_info "Upgrading all installed pip packages"
     pip-upgrade-all >/dev/null 2>&1
 
-    echo_space
-    echo_title "Post-installation setup"
     run_pip_post_install_from_yaml "$PACKAGES_FILE" "base configuration"
     run_pip_post_install_from_yaml "$PROFILE_PACKAGES_FILE" "$OS_PROFILE profile"
 
-    echo_success "Python packages installed and updated"
-else
-    echo_warn "pip not found - Python may not be properly installed"
 fi
 
-echo_space
-echo_task_done "Python environment setup completed"

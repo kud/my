@@ -9,19 +9,18 @@
 #                                                                              #
 ################################################################################
 
+# Source required utilities
+source $MY/core/utils/ui-kit.zsh
 source $MY/core/utils/helper.zsh
 
-echo_task_start "Setting up Ruby gems"
 
 # Check if Ruby and gem are available
 if ! command -v gem >/dev/null 2>&1; then
-    echo_fail "Ruby gems not found. Please install Ruby first."
     return 1
 fi
 
 # Check if yq is available for YAML parsing
 if ! command -v yq >/dev/null 2>&1; then
-    echo_info "Installing yq for YAML parsing"
     brew install yq
 fi
 
@@ -63,7 +62,6 @@ run_gem_post_install_from_yaml() {
 }
 
 # Update gem system first
-echo_info "Updating gem system and existing gems"
 gem update --system >/dev/null 2>&1
 gem update >/dev/null 2>&1
 
@@ -71,10 +69,6 @@ gem update >/dev/null 2>&1
 collect_gem_packages_from_yaml "$PACKAGES_FILE" "base configuration"
 collect_gem_packages_from_yaml "$PROFILE_PACKAGES_FILE" "$OS_PROFILE profile"
 
-echo_space
-echo_title "Post-installation setup"
 run_gem_post_install_from_yaml "$PACKAGES_FILE" "base configuration"
 run_gem_post_install_from_yaml "$PROFILE_PACKAGES_FILE" "$OS_PROFILE profile"
 
-echo_space
-echo_task_done "Ruby gems configuration completed"
