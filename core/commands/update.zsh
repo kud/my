@@ -9,8 +9,15 @@
 #                                                                              #
 ################################################################################
 
+# Enable animated intro for update process
+export MY_SHOW_INTRO="true"
+source $MY/core/utils/intro.zsh
 
-$MY/core/utils/intro.zsh
+# Wait for animation to complete if it's running
+if [[ -n "$MY_INTRO_PID" ]]; then
+    wait $MY_INTRO_PID 2>/dev/null
+    unset MY_INTRO_PID
+fi
 
 ################################################################################
 # 📦 PROJECT SYNCHRONIZATION
