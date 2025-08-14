@@ -1,0 +1,75 @@
+packages:
+  - aicommits
+  - "@anthropic-ai/claude-code"
+  - battery-level-cli
+  - bodybuilder
+  - caniuse-cmd
+  - diff-so-fancy
+  - envinfo
+  - eslint
+  - fast-cli
+  - figlet-cli
+  - fixme
+  - fkill-cli
+  - fraktur
+  - fx
+  - gh-pages
+  - git-branch-delete
+  - git-branch-select
+  - gnomon
+  - gulp-cli
+  - hicat
+  - how2
+  - http-server
+  - imagemin
+  - import-cost
+  - is-up-cli
+  - iterm2-tab-set
+  - jake
+  - jscodeshift
+  - kmdr
+  - lighthouse
+  - localtunnel
+  - markdown-live
+  - nativefier
+  - nodemon
+  - np
+  - npm-check
+  - npm-check-updates
+  - npm-upgrade
+  - ntl
+  - open-pip-cli
+  - opencommit
+  - pageres-cli
+  - prettier
+  - prettier-plugin-ini
+  - react-native-cli
+  - serve
+  - speed-test
+  - svgo
+  - tldr
+  - tmi
+  - trash-cli
+  - tslint
+  - typescript@next
+  - uncss
+  - vercel
+  - vtop
+  - web-ext
+  - weinre
+  - zx
+  - "@kud/am-i-admin-cli"
+  - "@kud/git-cherry-pick-interactive-cli"
+  - "@kud/soap-cli"
+  - "@kud/wifi-tool-cli"
+
+post_install:
+  # NPM configuration
+  - npm config set save-exact true
+  - npm config set tag-version-prefix ""
+  - npm config set progress false
+  - npm config set fetch-retries 3
+  - npm config set fetch-retry-mintimeout 15000
+  - npm config set fetch-retry-maxtimeout 90000
+  # Yarn configuration
+  - yarn config set save-exact true

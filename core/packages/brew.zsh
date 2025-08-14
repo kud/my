@@ -83,15 +83,15 @@ update_homebrew() {
 }
 
 merge_and_install_brew_packages() {
-    local main_config="$MY/config/packages.yml"
-    local profile_config="$MY/profiles/$OS_PROFILE/config/packages.yml"
+    local main_config="$MY/config/packages/brew.yml"
+    local profile_config="$MY/profiles/$OS_PROFILE/config/packages/brew.yml"
     
     echo_info "Merging Homebrew configurations and installing packages"
     
     # Collect all taps
     local all_taps=""
-    [[ -f "$main_config" ]] && all_taps+=$(yq eval '.brew.taps[]?' "$main_config" 2>/dev/null)
-    [[ -f "$profile_config" ]] && all_taps+=$'\n'$(yq eval '.brew.taps[]?' "$profile_config" 2>/dev/null)
+    [[ -f "$main_config" ]] && all_taps+=$(yq eval '.taps[]?' "$main_config" 2>/dev/null)
+    [[ -f "$profile_config" ]] && all_taps+=$'\n'$(yq eval '.taps[]?' "$profile_config" 2>/dev/null)
     
     # Install taps first
     if [[ -n "$all_taps" ]]; then
@@ -103,8 +103,8 @@ merge_and_install_brew_packages() {
     
     # Collect all formulae
     local all_formulae=""
-    [[ -f "$main_config" ]] && all_formulae+=$(yq eval '.brew.packages.formulae[]?' "$main_config" 2>/dev/null)
-    [[ -f "$profile_config" ]] && all_formulae+=$'\n'$(yq eval '.brew.formulae[]?' "$profile_config" 2>/dev/null)
+    [[ -f "$main_config" ]] && all_formulae+=$(yq eval '.packages.formulae[]?' "$main_config" 2>/dev/null)
+    [[ -f "$profile_config" ]] && all_formulae+=$'\n'$(yq eval '.formulae[]?' "$profile_config" 2>/dev/null)
     
     # Install formulae
     if [[ -n "$all_formulae" ]]; then
@@ -117,8 +117,8 @@ merge_and_install_brew_packages() {
     
     # Collect all casks
     local all_casks=""
-    [[ -f "$main_config" ]] && all_casks+=$(yq eval '.brew.packages.casks[]?' "$main_config" 2>/dev/null)
-    [[ -f "$profile_config" ]] && all_casks+=$'\n'$(yq eval '.brew.casks[]?' "$profile_config" 2>/dev/null)
+    [[ -f "$main_config" ]] && all_casks+=$(yq eval '.packages.casks[]?' "$main_config" 2>/dev/null)
+    [[ -f "$profile_config" ]] && all_casks+=$'\n'$(yq eval '.casks[]?' "$profile_config" 2>/dev/null)
     
     # Install casks
     if [[ -n "$all_casks" ]]; then
@@ -131,8 +131,8 @@ merge_and_install_brew_packages() {
     
     # Collect and run all post-install commands
     local all_post_commands=""
-    [[ -f "$main_config" ]] && all_post_commands+=$(yq eval '.brew.post_install[]?' "$main_config" 2>/dev/null)
-    [[ -f "$profile_config" ]] && all_post_commands+=$'\n'$(yq eval '.brew.post_install[]?' "$profile_config" 2>/dev/null)
+    [[ -f "$main_config" ]] && all_post_commands+=$(yq eval '.post_install[]?' "$main_config" 2>/dev/null)
+    [[ -f "$profile_config" ]] && all_post_commands+=$'\n'$(yq eval '.post_install[]?' "$profile_config" 2>/dev/null)
     
     if [[ -n "$all_post_commands" ]]; then
         echo_info "Running post-installation commands"

@@ -19,8 +19,8 @@ if ! command -v yq >/dev/null 2>&1; then
     brew install yq
 fi
 
-PACKAGES_FILE="$MY/config/packages.yml"
-PROFILE_PACKAGES_FILE="$MY/profiles/$OS_PROFILE/config/packages.yml"
+PACKAGES_FILE="$MY/config/packages/pip.yml"
+PROFILE_PACKAGES_FILE="$MY/profiles/$OS_PROFILE/config/packages/pip.yml"
 
 ################################################################################
 # 🐍 PYTHON INSTALLATION VIA PYENV
@@ -57,7 +57,7 @@ collect_pip_packages_from_yaml() {
         return 0
     fi
 
-    local packages=$(yq eval '.pip.packages[]?' "$yaml_file" 2>/dev/null)
+    local packages=$(yq eval '.packages[]?' "$yaml_file" 2>/dev/null)
     if [[ -n "$packages" ]]; then
         while IFS= read -r package; do
             if [[ -n "$package" ]]; then
@@ -76,7 +76,7 @@ run_pip_post_install_from_yaml() {
         return 0
     fi
 
-    local post_install=$(yq eval '.pip.post_install[]?' "$yaml_file" 2>/dev/null)
+    local post_install=$(yq eval '.post_install[]?' "$yaml_file" 2>/dev/null)
     if [[ -n "$post_install" ]]; then
         while IFS= read -r command; do
             if [[ -n "$command" ]]; then

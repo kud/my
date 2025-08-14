@@ -6,7 +6,7 @@ source $MY/core/utils/helper.zsh
 # Constants and Variables
 LOG_FILE="$MY/logs/cleanup.log"
 DRY_RUN=false  # Set to true for a dry-run mode
-yaml_files=("$MY/config/packages.yml" "$MY/profiles/$OS_PROFILE/config/packages.yml")
+yaml_files=("$MY/config/packages/brew.yml" "$MY/profiles/$OS_PROFILE/config/packages/brew.yml")
 declare -A file_casks_map
 declare -A installed_casks_map
 
@@ -40,8 +40,8 @@ load_casks_from_files() {
     echo_task_start "Loading casks from YAML files"
     for yaml_file in "${yaml_files[@]}"; do
         if [[ -f "$yaml_file" ]]; then
-            # Extract casks from brew.casks array in YAML
-            local casks=$(yq eval '.brew.casks[]' "$yaml_file" 2>/dev/null)
+            # Extract casks from packages.casks array in main config or casks array in profile config
+            local casks=$(yq eval '.packages.casks[]?, .casks[]?' "$yaml_file" 2>/dev/null)
             if [[ -n "$casks" ]]; then
                 while IFS= read -r cask_name; do
                     if [[ -n "$cask_name" && "$cask_name" != "null" ]]; then
@@ -110,9 +110,10 @@ compare_casks() {
                         for yaml_file in "${yaml_files[@]}"; do
                             if [[ -f "$yaml_file" ]]; then
                                 # Check if the cask exists in this file
-                                if yq eval ".brew.casks | contains([\"$cask\"])" "$yaml_file" 2>/dev/null | grep -q "true"; then
-                                    # Remove the cask from the YAML file
-                                    yq eval "del(.brew.casks[] | select(. == \"$cask\"))" -i "$yaml_file"
+                                # Check if cask exists in packages.casks or casks array
+                                if yq eval ".packages.casks | contains([\"$cask\"]) // (.casks | contains([\"$cask\"]) // false)" "$yaml_file" 2>/dev/null | grep -q "true"; then
+                                    # Remove the cask from the YAML file (try both locations)
+                                    yq eval "del(.packages.casks[] | select(. == \"$cask\")) | del(.casks[] | select(. == \"$cask\"))" -i "$yaml_file"
                                     log_action "REMOVE: $cask from $yaml_file"
                                     echo_info "$cask removed from $yaml_file"
                                 fi
