@@ -243,20 +243,20 @@ function npm_install_run() {
     return 0
   fi
 
-  npm install -g "${_NPM_PACKAGES_TO_INSTALL[@]}" 2>/dev/null
+  npm install -g "${_NPM_PACKAGES_TO_INSTALL[@]}"
 
   if [[ $? -ne 0 ]]; then
     # Fallback: try installing individually
     for package in "${_NPM_PACKAGES_TO_INSTALL[@]}"; do
-      if ! npm install -g "$package" 2>/dev/null; then
+      if ! npm install -g "$package"; then
         # Cleanup and retry
-        npm uninstall -g "$package" 2>/dev/null
+        npm uninstall -g "$package"
         local package_name=$(echo "$package" | cut -d'@' -f1)
-        local npm_global_path=$(npm root -g 2>/dev/null)
+        local npm_global_path=$(npm root -g)
         if [[ -n "$npm_global_path" && -d "$npm_global_path/$package_name" ]]; then
-          rm -rf "$npm_global_path/$package_name" 2>/dev/null
+          rm -rf "$npm_global_path/$package_name"
         fi
-        npm install -g "$package" 2>/dev/null
+        npm install -g "$package"
       fi
     done
   fi

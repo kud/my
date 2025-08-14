@@ -60,7 +60,7 @@ run_npm_post_install_from_yaml() {
     if [[ -n "$post_install" ]]; then
         while IFS= read -r command; do
             if [[ -n "$command" ]]; then
-                eval "$command" >/dev/null 2>&1
+                eval "$command"
             fi
         done <<< "$post_install"
     fi
