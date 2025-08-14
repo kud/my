@@ -293,11 +293,6 @@ function pip_install() {
 function mas_install() {
   local package="${@}"
 
-  # Check if already installed
-  if mas list | grep -q "$package"; then
-    echo_subtle "✓ ${package} (already installed)"
-    return 0
-  fi
 
   # Install via Mac App Store
   mas install "$package"
