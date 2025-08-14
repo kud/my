@@ -119,7 +119,7 @@ merge_and_install_brew_packages() {
     if [[ -n "$all_post_commands" ]]; then
         echo "$all_post_commands" | while IFS= read -r command; do
             if [[ -n "$command" ]]; then
-                eval "$command"
+                eval "$command" >/dev/null 2>&1
             fi
         done
     fi
