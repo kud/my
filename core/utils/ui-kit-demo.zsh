@@ -87,6 +87,13 @@ demo_messages() {
     ui_error_msg "Something went wrong, please try again."
     
     ui_spacer 1
+    echo "Simple Alternative Messages:"
+    ui_success_simple "Operation completed successfully!"
+    ui_info_simple "Here's some helpful information for you."
+    ui_warning_simple "Please be careful with this action."
+    ui_error_simple "Something went wrong, please try again."
+    
+    ui_spacer 1
     echo "Badge Messages:"
     echo -e "  $(ui_badge "success" "DONE") $(ui_badge "error" "FAILED") $(ui_badge "warning" "CAUTION") $(ui_badge "info" "NEW")"
     echo -e "  $(ui_badge "primary" "FEATURED") $(ui_badge "default" "NORMAL")"
