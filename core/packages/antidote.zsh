@@ -26,7 +26,7 @@ if command -v yq >/dev/null 2>&1; then
     rm -f "$MY/shell/plugins.txt"
     
     # Generate from main config only (plugins should be consistent across profiles)
-    yq eval '.antidote.plugins[]?' "$MY/config/packages.yml" 2>/dev/null > "$MY/shell/plugins.txt"
+    yq eval '.plugins[]?' "$MY/config/packages/antidote.yml" 2>/dev/null > "$MY/shell/plugins.txt"
     
     echo_success "Generated plugins.txt from packages.yml"
 fi

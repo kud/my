@@ -25,8 +25,8 @@ if ! command -v yq >/dev/null 2>&1; then
     brew install yq
 fi
 
-PACKAGES_FILE="$MY/config/packages.yml"
-PROFILE_PACKAGES_FILE="$MY/profiles/$OS_PROFILE/config/packages.yml"
+PACKAGES_FILE="$MY/config/packages/npm.yml"
+PROFILE_PACKAGES_FILE="$MY/profiles/$OS_PROFILE/config/packages/npm.yml"
 
 ################################################################################
 # 🔄 NPM SYSTEM UPDATE
@@ -43,7 +43,7 @@ collect_npm_packages_from_yaml() {
         return 0
     fi
 
-    local packages=$(yq eval '.npm.packages[]?' "$yaml_file" 2>/dev/null)
+    local packages=$(yq eval '.packages[]?' "$yaml_file" 2>/dev/null)
     if [[ -n "$packages" ]]; then
         while IFS= read -r package; do
             [[ -n "$package" ]] && npm_install "$package"
@@ -59,7 +59,7 @@ run_npm_post_install_from_yaml() {
         return 0
     fi
 
-    local post_install=$(yq eval '.npm.post_install[]?' "$yaml_file" 2>/dev/null)
+    local post_install=$(yq eval '.post_install[]?' "$yaml_file" 2>/dev/null)
     if [[ -n "$post_install" ]]; then
         while IFS= read -r command; do
             if [[ -n "$command" ]]; then

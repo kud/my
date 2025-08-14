@@ -37,15 +37,15 @@ update_mas_applications() {
 }
 
 merge_and_install_mas_packages() {
-    local main_config="$MY/config/packages.yml"
-    local profile_config="$MY/profiles/$OS_PROFILE/config/packages.yml"
+    local main_config="$MY/config/packages/mas.yml"
+    local profile_config="$MY/profiles/$OS_PROFILE/config/packages/mas.yml"
     
     echo_info "Merging Mac App Store configurations and installing packages"
     
     # Collect all packages
     local all_packages=""
-    [[ -f "$main_config" ]] && all_packages+=$(yq eval '.mas.packages[]?' "$main_config" 2>/dev/null)
-    [[ -f "$profile_config" ]] && all_packages+=$'\n'$(yq eval '.mas.packages[].id?' "$profile_config" 2>/dev/null)
+    [[ -f "$main_config" ]] && all_packages+=$(yq eval '.packages[].id?' "$main_config" 2>/dev/null)
+    [[ -f "$profile_config" ]] && all_packages+=$'\n'$(yq eval '.packages[].id?' "$profile_config" 2>/dev/null)
     
     # Install packages
     if [[ -n "$all_packages" ]]; then
@@ -57,8 +57,8 @@ merge_and_install_mas_packages() {
     
     # Collect and run all post-install commands
     local all_post_commands=""
-    [[ -f "$main_config" ]] && all_post_commands+=$(yq eval '.mas.post_install[]?' "$main_config" 2>/dev/null)
-    [[ -f "$profile_config" ]] && all_post_commands+=$'\n'$(yq eval '.mas.post_install[]?' "$profile_config" 2>/dev/null)
+    [[ -f "$main_config" ]] && all_post_commands+=$(yq eval '.post_install[]?' "$main_config" 2>/dev/null)
+    [[ -f "$profile_config" ]] && all_post_commands+=$'\n'$(yq eval '.post_install[]?' "$profile_config" 2>/dev/null)
     
     if [[ -n "$all_post_commands" ]]; then
         echo_info "Running post-installation commands"
