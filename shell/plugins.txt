@@ -1,27 +1,14 @@
-# This file is auto-generated from packages.yml
-# Run 'my run antidote' to regenerate from packages.yml
-
-# Fast, essential plugins first
 zsh-users/zsh-completions
 zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-history-substring-search
 Aloxaf/fzf-tab
-
-# Visual & Interactive plugins
 olets/zsh-abbr
-
-# Utility plugins
 mtxr/zsh-change-case
 reegnz/jq-zsh-plugin
 hlissner/zsh-autopair
-
-# Developer tools
 lukechilds/zsh-better-npm-completion
 wfxr/forgit
-
-# Heavier plugins last
 bigH/git-fuzzy path:bin kind:path
 unixorn/git-extra-commands
 MichaelAquilina/zsh-you-should-use
-
