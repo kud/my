@@ -20,5 +20,5 @@ abbreviations:
   gmg: "git merge"
   gp: "git push"
   gpo: "git push origin"
-  gsc: "git switch -c"
+  gscr: "git switch -c"
   gst: "git status"
