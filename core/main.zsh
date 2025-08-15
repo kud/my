@@ -54,23 +54,23 @@ setup_package_managers() {
     fi
     
     ui_spacer
-    ui_subtitle "Zsh Plugin Management"
+    ui_subtitle "Zsh Plugins"
     $MY/core/packages/antidote.zsh
     
     ui_spacer
-    ui_subtitle "Ruby Gem Installation"
+    ui_subtitle "Ruby Gems"
     $MY/core/packages/gem.zsh
     
     ui_spacer
-    ui_subtitle "Python Package Installation"
+    ui_subtitle "Python Packages"
     $MY/core/packages/pip.zsh
     
     ui_spacer
-    ui_subtitle "Global npm Packages"
+    ui_subtitle "Node.js Packages"
     $MY/core/packages/npm.zsh
     
     ui_spacer
-    ui_subtitle "Mac App Store Applications"
+    ui_subtitle "Mac App Store"
     $MY/core/packages/mas.zsh
     
     ui_spacer
@@ -124,10 +124,7 @@ setup_system_components() {
 setup_profile_specific_configurations() {
     # Profile-specific configs are handled automatically by each component
     # when $OS_PROFILE is set - no explicit action needed here
-    if [[ -n "$OS_PROFILE" ]]; then
-        ui_spacer
-        ui_info_simple "Profile: $OS_PROFILE applied"
-    fi
+    return 0
 }
 
 ################################################################################

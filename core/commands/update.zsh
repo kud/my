@@ -22,6 +22,19 @@ if [[ -n "$MY_INTRO_PID" ]]; then
     unset MY_INTRO_PID
 fi
 
+################################################################################
+# 📋 ENVIRONMENT INFO
+################################################################################
+
+# Get version info
+MY_VERSION=$(git --git-dir="$MY/.git" describe --tags --always 2>/dev/null || echo "unknown")
+HOSTNAME=$(hostname -s)
+PROFILE="${OS_PROFILE:-default}"
+
+ui_info_simple "Version: $MY_VERSION"
+ui_info_simple "Host: $HOSTNAME" 
+ui_info_simple "Profile: $PROFILE"
+
 ui_spacer
 
 ################################################################################
@@ -77,20 +90,8 @@ fi
 ui_spacer
 
 ################################################################################
-# 🔄 CONFIGURATION ACTIVATION
-################################################################################
-
-ui_primary "⚙️ Reloading configuration"
-
-source $HOME/.zshrc
-
-ui_success_simple "Configuration reloaded"
-
-ui_spacer
-
-################################################################################
 # ✅ UPDATE COMPLETE
 ################################################################################
 
-ui_success_msg "Update complete! 🎉"
 ui_spacer
+ui_success_msg "Update complete! 🎉"
