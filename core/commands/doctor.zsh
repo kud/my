@@ -122,16 +122,10 @@ if command -v brew >/dev/null 2>&1; then
     ui_info_simple "Running brew doctor..."
     ui_spacer
     
-    # Run brew doctor and display output directly
-    brew_output=$(brew doctor 2>&1)
-    brew_status=$?
-    
-    if [[ $brew_status -eq 0 ]]; then
-        ui_success_simple "Your system is ready to brew."
+    # Run brew doctor and display output directly with colors preserved
+    if brew doctor 2>&1; then
         record_check "pass" "Homebrew is healthy"
     else
-        # Display the brew doctor output directly
-        echo "$brew_output"
         record_check "warn" "Homebrew has issues (see above)"
     fi
     
@@ -195,10 +189,9 @@ ui_subtitle "Package Managers"
 
 # Node.js & npm
 ui_info_simple "Node.js & npm:"
-if command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
-    node_version=$(node --version 2>&1)
+if command -v npm >/dev/null 2>&1; then
     npm_version=$(npm --version 2>&1)
-    record_check "pass" "Node.js $node_version, npm v$npm_version"
+    record_check "pass" "npm v$npm_version"
     
     npm_prefix=$(npm config get prefix 2>/dev/null)
     if [[ -n "$npm_prefix" ]]; then
@@ -223,52 +216,38 @@ if command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
         ui_info_simple "  Cache size: $cache_size"
     fi
 else
-    record_check "error" "Node.js or npm not installed"
+    record_check "error" "npm not installed"
 fi
 
 ui_spacer
 
 # Python & pip
 ui_info_simple "Python & pip:"
-if command -v python3 >/dev/null 2>&1; then
-    python_version=$(python3 --version 2>&1 | cut -d' ' -f2)
-    record_check "pass" "Python $python_version"
+if command -v pip3 >/dev/null 2>&1; then
+    pip_version=$(pip3 --version 2>&1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+    record_check "pass" "pip v$pip_version"
     
-    if command -v pip3 >/dev/null 2>&1; then
-        pip_version=$(pip3 --version 2>&1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
-        record_check "pass" "  pip v$pip_version"
-        
-        # Check pip packages count
-        pip_packages=$(pip3 list 2>/dev/null | wc -l | tr -d ' ')
-        pip_packages=$((pip_packages - 2))  # Subtract header lines
-        ui_info_simple "  Installed packages: $pip_packages"
-    else
-        record_check "warn" "  pip3 not installed"
-    fi
+    # Check pip packages count
+    pip_packages=$(pip3 list 2>/dev/null | wc -l | tr -d ' ')
+    pip_packages=$((pip_packages - 2))  # Subtract header lines
+    ui_info_simple "  Installed packages: $pip_packages"
 else
-    record_check "error" "Python3 not installed"
+    record_check "warn" "pip3 not installed"
 fi
 
 ui_spacer
 
 # Ruby & RubyGems
 ui_info_simple "Ruby & RubyGems:"
-if command -v ruby >/dev/null 2>&1; then
-    ruby_version=$(ruby --version 2>&1 | cut -d' ' -f2)
-    record_check "pass" "Ruby $ruby_version"
+if command -v gem >/dev/null 2>&1; then
+    gem_version=$(gem --version 2>&1)
+    record_check "pass" "RubyGems v$gem_version"
     
-    if command -v gem >/dev/null 2>&1; then
-        gem_version=$(gem --version 2>&1)
-        record_check "pass" "  RubyGems v$gem_version"
-        
-        # Check gem count
-        gem_count=$(gem list 2>/dev/null | wc -l | tr -d ' ')
-        ui_info_simple "  Installed gems: $gem_count"
-    else
-        record_check "warn" "  RubyGems not installed"
-    fi
+    # Check gem count
+    gem_count=$(gem list 2>/dev/null | wc -l | tr -d ' ')
+    ui_info_simple "  Installed gems: $gem_count"
 else
-    record_check "error" "Ruby not installed"
+    record_check "warn" "RubyGems not installed"
 fi
 
 ui_spacer
@@ -448,7 +427,25 @@ ui_info_simple "PATH has ${#path_dirs[@]} directories"
 unique_dirs=(${(u)path_dirs})
 if [[ ${#path_dirs[@]} -ne ${#unique_dirs[@]} ]]; then
     dup_count=$((${#path_dirs[@]} - ${#unique_dirs[@]}))
-    record_check "warn" "$dup_count duplicate entries in PATH"
+    
+    # Find and show the actual duplicates
+    declare -A seen_dirs
+    duplicate_dirs=()
+    for dir in "${path_dirs[@]}"; do
+        if [[ -n "${seen_dirs[$dir]}" ]]; then
+            # This is a duplicate
+            if [[ ! " ${duplicate_dirs[@]} " =~ " $dir " ]]; then
+                duplicate_dirs+=("$dir")
+            fi
+        else
+            seen_dirs[$dir]=1
+        fi
+    done
+    
+    record_check "warn" "$dup_count duplicate entries in PATH:"
+    for dup_dir in "${duplicate_dirs[@]}"; do
+        ui_info_simple "  • $dup_dir"
+    done
 else
     record_check "pass" "No duplicate PATH entries"
 fi
