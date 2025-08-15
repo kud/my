@@ -151,15 +151,7 @@ function gem_install() {
 
 function npm_install() {
   local package="${@}"
-
-  # Extract package name (remove version specifiers)
-  local package_name="${package%%@*}"
-
-  # Check if package is already installed using npm list
-  if npm list -g --depth=0 "$package_name" >/dev/null 2>&1; then
-    return 0
-  fi
-
+  
   # Add to batch installation array
   _NPM_PACKAGES_TO_INSTALL+=("${package}")
 }
@@ -174,18 +166,37 @@ function npm_install_run() {
     source $MY/core/utils/ui-kit.zsh
   fi
 
-  ui_info_simple "Installing ${#_NPM_PACKAGES_TO_INSTALL[@]} npm packages:"
+  # Get installed packages list once
+  local installed_packages=$(npm list -g --depth=0 --parseable --silent 2>/dev/null | xargs -n1 basename 2>/dev/null || echo "")
+  
+  # Filter out already installed packages
+  local packages_to_install=()
   for package in "${_NPM_PACKAGES_TO_INSTALL[@]}"; do
+    local package_name="${package%%@*}"
+    if ! echo "$installed_packages" | grep -q "^${package_name}$"; then
+      packages_to_install+=("$package")
+    fi
+  done
+
+  # Skip if no packages need installation
+  if [[ ${#packages_to_install[@]} -eq 0 ]]; then
+    ui_info_simple "All npm packages already installed"
+    _NPM_PACKAGES_TO_INSTALL=()
+    return 0
+  fi
+
+  ui_info_simple "Installing ${#packages_to_install[@]} npm packages:"
+  for package in "${packages_to_install[@]}"; do
     echo "  • $package"
   done
   ui_space
 
-  npm install -g --silent "${_NPM_PACKAGES_TO_INSTALL[@]}"
+  npm install -g --silent "${packages_to_install[@]}"
 
   if [[ $? -ne 0 ]]; then
     # Fallback: try installing individually
     ui_warning_simple "Batch installation failed, trying individually..."
-    for package in "${_NPM_PACKAGES_TO_INSTALL[@]}"; do
+    for package in "${packages_to_install[@]}"; do
       ui_info_simple "Installing $package..."
       if ! npm install -g --silent "$package"; then
         # Cleanup and retry
