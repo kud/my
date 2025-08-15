@@ -148,6 +148,7 @@ merge_and_install_packages() {
     local main_config=$(get_main_config_path "$package_type")
     local profile_config=$(get_profile_config_path "$package_type")
     
+    
     # Process each install section
     for section_config in "${install_sections[@]}"; do
         local yaml_path=$(echo "$section_config" | cut -d: -f1)
