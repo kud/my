@@ -1,10 +1,10 @@
-# ──────────────────────────────────────────────
-# History Substring Search Configuration
-# History substring search configuration
-# ──────────────────────────────────────────────
-
-# Direct configuration for history substring search plugin
-# configuration of the zsh-history-substring-search plugin
+################################################################################
+#                                                                              #
+#   🔍 HISTORY SUBSTRING SEARCH CONFIGURATION                                  #
+#   ------------------------------------------                                 #
+#   Configuration for the zsh-history-substring-search plugin.                #
+#                                                                              #
+################################################################################
 
 # ────────────── Search Colors ──────────────
 

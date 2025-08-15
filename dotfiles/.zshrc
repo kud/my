@@ -1,6 +1,11 @@
-# =============================================================================
-# ZSH Configuration
-# =============================================================================
+################################################################################
+#                                                                              #
+#   🐚 ZSH CONFIGURATION                                                       #
+#   ------------------                                                         #
+#   Main Zsh configuration file that loads all shell modules and settings.     #
+#                                                                              #
+################################################################################
+
 export MY="$HOME/my"
 
 # Enable profiling if requested (set ZPROF=1)
@@ -16,7 +21,6 @@ for module in \
   limits.zsh \
   homebrew.zsh \
   path.zsh \
-  utility.zsh \
   functions.zsh \
   completions.zsh \
   bindings.zsh \
@@ -38,7 +42,6 @@ for module in \
   fzf.zsh \
   zoxide.zsh \
   local.zsh \
-  profile.zsh \
   starship.zsh
 do
   [[ -f $MY/shell/$module ]] && source $MY/shell/$module

@@ -1,0 +1,4 @@
+packages:
+  - gist
+  - bundler
+  - bundler-audit

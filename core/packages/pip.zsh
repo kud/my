@@ -9,62 +9,62 @@
 #                                                                              #
 ################################################################################
 
+# Source required utilities
 source $MY/core/utils/helper.zsh
+source $MY/core/utils/package-manager-utils.zsh
+source $MY/core/utils/ui-kit.zsh
 
-echo_task_start "Setting up Python environment"
+# Ensure yq is installed
+ensure_command_available "yq" "Install with: brew install yq"
 
 ################################################################################
 # 🐍 PYTHON INSTALLATION VIA PYENV
 ################################################################################
 
-echo_info "Installing latest Python version via pyenv"
-
 # Check if pyenv is available
-if command -v pyenv >/dev/null 2>&1; then
+if ensure_command_available "pyenv" "" "false"; then
     # Get latest Python version from brew info
     LATEST_PYTHON_VERSION=$(brew info python | grep '(bottled)' | sed 's/==> python@3...: stable //g' | sed 's/ (bottled).*//g')
 
     if [[ -n "$LATEST_PYTHON_VERSION" ]]; then
-        echo_info "Installing Python $LATEST_PYTHON_VERSION"
+        ui_info_simple "Installing Python $LATEST_PYTHON_VERSION..."
         pyenv install -s $LATEST_PYTHON_VERSION
         pyenv global $LATEST_PYTHON_VERSION
-        echo_success "Python $LATEST_PYTHON_VERSION set as global version"
-    else
-        echo_warn "Could not determine latest Python version"
+        ui_success_simple "Python $LATEST_PYTHON_VERSION installed and set as global"
     fi
-else
-    echo_warn "pyenv not found - install via Homebrew if needed"
 fi
+
+ui_spacer
 
 ################################################################################
 # 📦 PIP PACKAGES & UPDATES
 ################################################################################
 
-echo_space
-echo_info "Installing and updating Python packages"
+# Custom pip install function for use with shared utilities
+pip_install_package() {
+    local package="$1"
+    pip install "$package"
+}
 
 # Check if pip is available
-if command -v pip >/dev/null 2>&1; then
-    # Essential packages
-    pip3install pip              # Ensure pip is up to date
-    pip install pdf2docx         # PDF to DOCX converter utility
+if ensure_command_available "pip" "" "false"; then
+    # Upgrade pip itself first
+    ui_info_simple "Upgrading pip..."
+    pip install --upgrade pip
+    ui_success_simple "pip upgraded"
 
-    # System maintenance
-    pip install --upgrade pip    # Upgrade pip to latest version
-    pip-upgrade-all             # Upgrade all installed packages
+    ui_spacer
 
-    echo_success "Python packages installed and updated"
-else
-    echo_warn "pip not found - Python may not be properly installed"
+    # Process pip packages using shared utilities
+    ui_info_simple "Installing development packages..."
+    process_package_configs "pip" "pip_install_package"
+    ui_success_simple "Development packages installed"
+
+    ui_spacer
+
+    # Upgrade all installed packages
+    ui_info_simple "Upgrading all installed packages..."
+    pip-upgrade-all
+    ui_success_simple "All packages upgraded"
 fi
 
-################################################################################
-# 🔧 PROFILE-SPECIFIC EXTENSIONS
-################################################################################
-
-# Load profile-specific pip configurations
-source $MY/profiles/$OS_PROFILE/core/packages/pip.zsh 2>/dev/null
-
-echo_space
-echo_task_done "Python environment setup completed"
-echo_success "Python development environment is ready! 🐍"

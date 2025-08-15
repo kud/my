@@ -9,39 +9,86 @@
 #                                                                              #
 ################################################################################
 
-source $MY/core/utils/helper.zsh
+# Source UI Kit for beautiful output
+source $MY/core/utils/ui-kit.zsh
 
-$MY/core/utils/intro.zsh
+# Enable animated intro for update process
+export MY_SHOW_INTRO="true"
+source $MY/core/utils/intro.zsh
+
+# Wait for animation to complete if it's running
+if [[ -n "$MY_INTRO_PID" ]]; then
+    wait $MY_INTRO_PID 2>/dev/null
+    unset MY_INTRO_PID
+fi
+
+################################################################################
+# 📋 ENVIRONMENT INFO
+################################################################################
+
+# Get version info
+MY_VERSION=$(git --git-dir="$MY/.git" describe --tags --always 2>/dev/null || echo "unknown")
+HOSTNAME=$(hostname -s)
+PROFILE="${OS_PROFILE:-default}"
+
+ui_info_simple "Version: $MY_VERSION"
+ui_info_simple "Host: $HOSTNAME"
+ui_info_simple "Profile: $PROFILE"
+
+ui_spacer
 
 ################################################################################
 # 📦 PROJECT SYNCHRONIZATION
 ################################################################################
 
-echo_info "Downloading latest updates"
-git --git-dir="$MY/.git" --work-tree="$MY/" pull
+ui_primary "🔄 Updating repository"
+ui_info_simple "Path: $MY"
 
-if [[ $? -eq 0 ]]; then
-    echo_success "Updates downloaded successfully"
+# Capture git output for better formatting
+git_output=$(git --git-dir="$MY/.git" --work-tree="$MY/" pull 2>&1)
+git_status=$?
+
+if [[ $git_status -eq 0 ]]; then
+    if [[ "$git_output" == *"Already up to date"* ]]; then
+        ui_success_simple "Repository already up to date"
+    else
+        # Show what was updated
+        echo "$git_output" | while IFS= read -r line; do
+            if [[ "$line" == *"Fast-forward"* ]]; then
+                ui_success_simple "Updates downloaded"
+            elif [[ "$line" == *"files changed"* ]]; then
+                ui_info_simple "$line"
+            elif [[ "$line" == *"|"* ]]; then
+                ui_muted "  $line"
+            fi
+        done
+    fi
 else
-    echo_fail "Failed to download updates"
-    return 1
+    ui_error_msg "Failed to update repository"
+    echo "$git_output" | while IFS= read -r line; do
+        ui_muted "  $line"
+    done
+    exit 1
 fi
+
+ui_spacer
 
 ################################################################################
 # 🔧 ENVIRONMENT REFRESH
 ################################################################################
 
-$MY/core/main.zsh
+ui_primary "🔧 Updating environment"
 
-echo_space
-echo_task_done "Environment update complete"
+# Run main update script
+if ! $MY/core/main.zsh; then
+    ui_error_msg "Environment update failed"
+    exit 1
+fi
+
+ui_spacer
 
 ################################################################################
-# 🔄 CONFIGURATION ACTIVATION
+# ✅ UPDATE COMPLETE
 ################################################################################
 
-echo_info "Activating updated configuration"
-source $HOME/.zshrc
-
-echo_space
-echo_success "Environment is now up to date! 🚀"
+ui_success_msg "Update complete! 🎉"

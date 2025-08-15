@@ -2,9 +2,6 @@
 # ~/.macos — https://mths.be/macos
 # version: https://github.com/mathiasbynens/dotfiles/blob/ea68bda80a455e149d29156071d4c8472f6b93cb/.macos
 
-source $MY/core/utils/helper.zsh
-
-echo_title_update "macos settings"
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
@@ -967,4 +964,15 @@ for app in "Activity Monitor" \
   "iCal"; do
   killall "${app}" &>/dev/null
 done
-echo "Done. Note that some of these changes require a logout/restart to take effect."
+# Source UI Kit
+source "$MY/core/utils/ui-kit.zsh"
+
+# Display completion message
+ui_spacer
+ui_divider "═" 60 "$UI_SUCCESS"
+ui_spacer
+ui_badge "success" " MACOS CONFIGURATION COMPLETE "
+ui_spacer
+ui_success_msg "System settings applied successfully!"
+ui_warning_simple "Some changes require a logout/restart to take effect"
+ui_spacer
