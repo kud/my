@@ -649,6 +649,163 @@ ui_theme_cyberpunk() {
 }
 
 ################################################################################
+# 📋 STEP PROGRESS TRACKING
+################################################################################
+
+# Installation progress tracking (migrated from helper.zsh)
+_CURRENT_STEP=0
+_TOTAL_STEPS=0
+
+ui_set_total_steps() {
+    _TOTAL_STEPS=$1
+    _CURRENT_STEP=0
+}
+
+ui_next_step() {
+    ((_CURRENT_STEP++))
+    ui_info_simple "Step ${_CURRENT_STEP}/${_TOTAL_STEPS}: $1"
+}
+
+################################################################################
+# 🎯 TASK MANAGEMENT
+################################################################################
+
+# Task execution functions (migrated from helper.zsh)
+ui_task_start() { 
+    echo -e "${UI_CYAN}🚀 ${UI_RESET}$1..." 
+}
+
+ui_task_done() { 
+    echo -e "${UI_SUCCESS}${UI_ICON_CHECK} ${UI_RESET}$1 done!" 
+}
+
+ui_final_success() {
+    echo -e "${UI_SUCCESS}👍 Process completed successfully!${UI_RESET}"
+}
+
+ui_final_fail() {
+    echo -e "${UI_DANGER}🚫 Process failed!${UI_RESET}"
+}
+
+################################################################################
+# 📝 TEXT STYLING
+################################################################################
+
+# Enhanced text styling functions
+ui_styled() {
+    local style="$1"
+    local text="$2"
+    case "$style" in
+        "bold") echo -e "${UI_BOLD_WHITE}${text}${UI_RESET}" ;;
+        "highlight") echo -e "${UI_MAGENTA}${text}${UI_RESET}" ;;
+        "subtle") echo -e "${UI_MUTED}${text}${UI_RESET}" ;;
+        *) echo "$text" ;;
+    esac
+}
+
+# Convenience aliases for styling
+ui_bold_text() { ui_styled "bold" "$1"; }
+ui_highlight() { ui_styled "highlight" "$1"; }
+ui_subtle() { ui_styled "subtle" "$1"; }
+
+################################################################################
+# 📐 LAYOUT HELPERS
+################################################################################
+
+# Enhanced spacer function (providing backward compatibility)
+ui_space() {
+    local count=${1:-1}
+    for ((i=1; i<=count; i++)); do
+        printf "\n"
+    done
+}
+
+# Backward compatibility aliases
+ui_spacex2() { ui_space 2; }
+ui_spacex3() { ui_space 3; }
+
+# Horizontal rule function
+ui_hr() {
+    echo -e "${UI_PRIMARY}────────────────────────────────────────${UI_RESET}"
+    if [[ -n "$1" ]]; then
+        echo "$1"
+        echo -e "${UI_PRIMARY}────────────────────────────────────────${UI_RESET}"
+    fi
+}
+
+################################################################################
+# 🏷️ SECTION HEADERS
+################################################################################
+
+# Title functions for section headers
+ui_title() { 
+    echo -e "${UI_CYAN}${UI_ICON_STARTER} $@${UI_RESET}" 
+}
+
+ui_title_action() {
+    local action="$1"
+    local target="$2"
+    ui_title "${action}" "${target}..."
+}
+
+# Convenience aliases for common actions
+ui_title_install() { ui_title_action "Installing" "$1"; }
+ui_title_update() { ui_title_action "Updating" "$1"; }
+
+################################################################################
+# 💬 USER INTERACTION
+################################################################################
+
+# User input prompt
+ui_user_prompt() { 
+    echo -e "${UI_WARNING}${UI_ICON_INFO_BRACKET}${UI_RESET} $1" 
+}
+
+ui_input_prompt() { 
+    echo -e "${UI_PRIMARY}[>]${UI_RESET} $1" 
+}
+
+################################################################################
+# 🔄 BACKWARD COMPATIBILITY FUNCTIONS
+################################################################################
+
+# Migration functions for helper.zsh functions
+# These provide backward compatibility during the transition period
+
+# Message functions
+echo_info() { ui_info_simple "$@"; }
+echo_success() { ui_success_simple "$@"; }
+echo_fail() { ui_error_simple "$@"; [[ -n "$2" ]] && exit "$2" || exit 1; }
+echo_warn() { ui_warning_simple "$@"; }
+echo_user() { ui_user_prompt "$@"; }
+echo_task_start() { ui_task_start "$@"; }
+echo_task_done() { ui_task_done "$@"; }
+echo_input() { ui_input_prompt "$@"; }
+echo_final_success() { ui_final_success "$@"; }
+echo_final_fail() { ui_final_fail "$@"; }
+
+# Title and styling functions
+echo_title() { ui_title "$@"; }
+echo_subtitle() { ui_subtitle "$@"; }
+echo_title_action() { ui_title_action "$@"; }
+echo_title_install() { ui_title_install "$@"; }
+echo_title_update() { ui_title_update "$@"; }
+echo_bold() { ui_bold_text "$@"; }
+echo_highlight() { ui_highlight "$@"; }
+echo_subtle() { ui_subtle "$@"; }
+echo_styled() { ui_styled "$@"; }
+
+# Layout functions
+echo_space() { ui_space "$@"; }
+echo_spacex2() { ui_spacex2 "$@"; }
+echo_spacex3() { ui_spacex3 "$@"; }
+echo_hr() { ui_hr "$@"; }
+
+# Step tracking functions
+set_total_steps() { ui_set_total_steps "$@"; }
+next_step() { ui_next_step "$@"; }
+
+################################################################################
 # 🎯 INITIALIZATION
 ################################################################################
 
