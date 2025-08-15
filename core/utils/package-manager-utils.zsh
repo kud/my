@@ -106,3 +106,36 @@ merge_yaml_items() {
         echo "$all_items" | sort -u | grep -v '^$'
     fi
 }
+
+# Generic merge-and-install function for package managers
+merge_and_install_packages() {
+    local package_type="$1"           # e.g., "brew", "mas"
+    local install_sections="$2"       # Space-separated sections to install
+    local batch_run_function="$3"     # Optional batch run function
+    
+    local main_config=$(get_main_config_path "$package_type")
+    local profile_config=$(get_profile_config_path "$package_type")
+    
+    # Process each install section
+    for section_config in $install_sections; do
+        local yaml_path=$(echo "$section_config" | cut -d: -f1)
+        local install_func=$(echo "$section_config" | cut -d: -f2)
+        local batch_func=$(echo "$section_config" | cut -d: -f3)
+        
+        local items=$(merge_yaml_items "$main_config" "$profile_config" "$yaml_path")
+        if [[ -n "$items" ]]; then
+            echo "$items" | while IFS= read -r item; do
+                [[ -n "$item" ]] && $install_func "$item"
+            done
+            
+            # Run batch function if specified for this section
+            if [[ -n "$batch_func" && "$batch_func" != "-" ]]; then
+                $batch_func
+            fi
+        fi
+    done
+    
+    # Run post-install commands
+    run_post_install_from_yaml "$main_config"
+    run_post_install_from_yaml "$profile_config"
+}

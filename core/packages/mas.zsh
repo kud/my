@@ -34,20 +34,7 @@ update_mas_applications() {
 }
 
 merge_and_install_mas_packages() {
-    local main_config=$(get_main_config_path "mas")
-    local profile_config=$(get_profile_config_path "mas")
-    
-    # Install packages
-    local all_packages=$(merge_yaml_items "$main_config" "$profile_config" '.packages[].id')
-    if [[ -n "$all_packages" ]]; then
-        echo "$all_packages" | while IFS= read -r package; do
-            [[ -n "$package" ]] && mas_install "$package"
-        done
-    fi
-    
-    # Run post-install commands
-    run_post_install_from_yaml "$main_config"
-    run_post_install_from_yaml "$profile_config"
+    merge_and_install_packages "mas" ".packages[].id:mas_install:-"
 }
 
 ################################################################################
