@@ -24,13 +24,13 @@ ensure_yq_installed() {
 # Get profile-specific config path
 get_profile_config_path() {
     local package_type="$1"  # e.g., "npm", "gem", "pip"
-    echo "$MY/profiles/$OS_PROFILE/config/packages/${package_type}.yml"
+    echo "$PROFILE_PACKAGES_CONFIG_DIR/${package_type}.yml"
 }
 
 # Get main config path
 get_main_config_path() {
     local package_type="$1"  # e.g., "npm", "gem", "pip"
-    echo "$MY/config/packages/${package_type}.yml"
+    echo "$PACKAGES_CONFIG_DIR/${package_type}.yml"
 }
 
 # Generic function to collect packages from YAML
