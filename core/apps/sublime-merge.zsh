@@ -70,11 +70,7 @@ fi
 
 
 # Merge preferences from main config and profile-specific config
-MERGED_PREFS=$(yq eval '.preferences' "$CONFIG_YAML" -o json)
-if [[ -f "$PROFILE_CONFIG_YAML" ]]; then
-    PROFILE_PREFS=$(yq eval '.preferences' "$PROFILE_CONFIG_YAML" -o json 2>/dev/null || echo '{}')
-    MERGED_PREFS=$(echo "$MERGED_PREFS $PROFILE_PREFS" | jq -s '.[0] * .[1]')
-fi
+MERGED_PREFS=$(merge_app_preferences "$CONFIG_YAML" "$PROFILE_CONFIG_YAML" "preferences")
 
 # Add theme settings to preferences
 FULL_PREFS=$(echo "$MERGED_PREFS" | jq --arg theme "$SUBLIME_THEME" --arg scheme "$COLOR_SCHEME" '. + {theme: $theme, color_scheme: $scheme}')
