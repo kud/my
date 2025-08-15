@@ -69,7 +69,6 @@ if $MY/core/main.zsh; then
     ui_success_simple "Environment updated"
 else
     ui_error_msg "Environment update failed"
-    ui_muted "Please fix the conflict and run the script again"
     exit 1
 fi
 
