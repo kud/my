@@ -39,7 +39,6 @@ setup_system_foundation() {
     ui_subtitle "Dotfiles Linking"
     $MY/core/system/dotfiles.zsh
     
-    ui_spacer
     ui_success_simple "System foundation ready"
 }
 
@@ -73,7 +72,6 @@ setup_package_managers() {
     ui_subtitle "Mac App Store"
     $MY/core/packages/mas.zsh
     
-    ui_spacer
     ui_success_simple "All packages installed"
 }
 
@@ -89,7 +87,6 @@ setup_development_tools() {
     ui_subtitle "Shell Abbreviations"
     $MY/core/cli/abbr.zsh
     
-    ui_spacer
     ui_success_simple "Development tools configured"
 }
 
@@ -105,7 +102,6 @@ setup_applications() {
     ui_subtitle "KeePassXC Configuration"
     $MY/core/apps/keepassxc.zsh
     
-    ui_spacer
     ui_success_simple "Applications configured"
 }
 
@@ -117,7 +113,6 @@ setup_system_components() {
     ui_subtitle "Git Submodule Updates"
     $MY/core/system/submodules.zsh
     
-    ui_spacer
     ui_success_simple "System components ready"
 }
 
