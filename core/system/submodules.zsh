@@ -31,10 +31,11 @@ process_submodule() {
     fi
 }
 
+# Source required utilities
+source $MY/core/utils/helper.zsh
+
 # Check if yq is available
-if ! command -v yq >/dev/null 2>&1; then
-    exit 1
-fi
+ensure_command_available "yq" "Install with: brew install yq"
 
 # Parse YAML and process each submodule using yq
 submodule_names=$(yq eval 'keys | .[]' "$SUBMODULES_CONFIG")

@@ -15,8 +15,11 @@ source ~/.zshrc
 # 🔄 PLUGIN UPDATE PROCESS
 ################################################################################
 
+# Source required utilities
+source $MY/core/utils/helper.zsh
+
 # Generate plugins.txt from main config only
-if command -v yq >/dev/null 2>&1; then
+if ensure_command_available "yq" "" "false"; then
     
     # Remove existing file to avoid conflicts
     rm -f "$MY/shell/plugins.txt"
@@ -27,7 +30,7 @@ if command -v yq >/dev/null 2>&1; then
 fi
 
 # Check if antidote is available
-if command -v antidote >/dev/null 2>&1; then
+if ensure_command_available "antidote" "" "false"; then
     antidote update
 else
     return 1

@@ -19,7 +19,7 @@ source $MY/core/utils/package-manager-utils.zsh
 
 ensure_homebrew_prerequisites() {
     # Ensure yq is installed
-    ensure_yq_installed
+    ensure_command_available "yq" "Install with: brew install yq"
 }
 
 ################################################################################
@@ -27,13 +27,11 @@ ensure_homebrew_prerequisites() {
 ################################################################################
 
 install_homebrew_if_needed() {
-    if ! command -v brew >/dev/null 2>&1; then
+    if ! ensure_command_available "brew" "" "false"; then
         sudo -v
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-        if ! command -v brew >/dev/null 2>&1; then
-            return 1
-        fi
+        
+        ensure_command_available "brew" "Install from https://brew.sh"
     fi
 }
 

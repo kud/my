@@ -313,11 +313,25 @@ function mas_install() {
   mas install "$package"
 }
 
-# System utilities
-check_yq_installed() {
-  if ! command -v yq >/dev/null; then
-    echo_fail "yq command not found. Please install yq."
-    return 1
+# Generic command availability checker
+ensure_command_available() {
+  local command_name="$1"
+  local install_hint="${2:-}"
+  local exit_on_fail="${3:-true}"
+  
+  if ! command -v "$command_name" >/dev/null 2>&1; then
+    local error_msg="$command_name is not installed."
+    if [[ -n "$install_hint" ]]; then
+      error_msg="$error_msg $install_hint"
+    fi
+    
+    if [[ "$exit_on_fail" == "true" ]]; then
+      echo_fail "$error_msg"
+    else
+      echo_warn "$error_msg"
+      return 1
+    fi
   fi
   return 0
 }
+

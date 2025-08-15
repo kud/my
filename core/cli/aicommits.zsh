@@ -16,7 +16,7 @@ config_file="$MY/config/cli/aicommits.yml"
 # 🎯 AICOMMITS CONFIGURATION
 ################################################################################
 
-if command -v aicommits >/dev/null 2>&1 && command -v yq >/dev/null 2>&1; then
+if ensure_command_available "aicommits" "" "false" && ensure_command_available "yq" "" "false"; then
     # Read all aicommits config and apply each setting
     yq eval '.aicommits | to_entries | .[] | .key + "=" + (.value | tostring)' "$config_file" | while read setting; do
         aicommits config set $setting >/dev/null 2>&1
@@ -27,7 +27,7 @@ fi
 # 🔄 OPENCOMMIT (OCO) CONFIGURATION
 ################################################################################
 
-if command -v oco >/dev/null 2>&1 && command -v yq >/dev/null 2>&1; then
+if ensure_command_available "oco" "" "false" && ensure_command_available "yq" "" "false"; then
     # Read all opencommit config, transform to OCO_ format and apply
     yq eval '.opencommit | to_entries | .[] | .key + "=" + (.value | tostring)' "$config_file" | while read setting; do
         key=$(echo $setting | cut -d'=' -f1 | tr '[:lower:]' '[:upper:]')

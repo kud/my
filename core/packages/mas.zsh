@@ -19,12 +19,10 @@ source $MY/core/utils/package-manager-utils.zsh
 
 ensure_mas_prerequisites() {
     # Check if mas is available
-    if ! command -v mas >/dev/null 2>&1; then
-        return 1
-    fi
+    ensure_command_available "mas" "Install with: brew install mas"
     
     # Ensure yq is installed
-    ensure_yq_installed
+    ensure_command_available "yq" "Install with: brew install yq"
 }
 
 ################################################################################

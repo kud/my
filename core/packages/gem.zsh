@@ -14,12 +14,10 @@ source $MY/core/utils/helper.zsh
 source $MY/core/utils/package-manager-utils.zsh
 
 # Check if Ruby and gem are available
-if ! command -v gem >/dev/null 2>&1; then
-    return 1
-fi
+ensure_command_available "gem" "Install Ruby from https://ruby-lang.org"
 
 # Ensure yq is installed
-ensure_yq_installed
+ensure_command_available "yq" "Install with: brew install yq"
 
 # Update gem system first
 gem update --system

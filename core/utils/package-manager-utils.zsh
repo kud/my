@@ -15,8 +15,8 @@ ensure_yq_installed() {
         if command -v brew >/dev/null 2>&1; then
             brew install yq
         else
-            echo_fail "yq is required but not installed. Please install yq first."
-            return 1
+            echo "yq is required but not installed. Please install yq first." >&2
+            exit 1
         fi
     fi
 }

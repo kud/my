@@ -14,14 +14,14 @@ source $MY/core/utils/helper.zsh
 source $MY/core/utils/package-manager-utils.zsh
 
 # Ensure yq is installed
-ensure_yq_installed
+ensure_command_available "yq" "Install with: brew install yq"
 
 ################################################################################
 # 🐍 PYTHON INSTALLATION VIA PYENV
 ################################################################################
 
 # Check if pyenv is available
-if command -v pyenv >/dev/null 2>&1; then
+if ensure_command_available "pyenv" "" "false"; then
     # Get latest Python version from brew info
     LATEST_PYTHON_VERSION=$(brew info python | grep '(bottled)' | sed 's/==> python@3...: stable //g' | sed 's/ (bottled).*//g')
 
@@ -42,7 +42,7 @@ pip_install_package() {
 }
 
 # Check if pip is available
-if command -v pip >/dev/null 2>&1; then
+if ensure_command_available "pip" "" "false"; then
     # Upgrade pip itself first
     pip install --upgrade pip >/dev/null 2>&1
 
