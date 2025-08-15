@@ -4,6 +4,15 @@
 source $MY/core/utils/helper.zsh
 source $MY/core/utils/ui-kit.zsh
 
+# Check for debug flag and set environment variable
+export MY_DEBUG=false
+if [[ "$1" == "--debug" ]]; then
+  export MY_DEBUG=true
+  shift # Remove --debug from arguments
+  ui_warning_simple "Debug mode enabled - verbose logging active"
+  ui_space
+fi
+
 if [[ $# -eq 0 ]]; then
   $0 --help
 else
@@ -145,6 +154,7 @@ else
     ui_subtitle "Usage:"
     echo "  my <command>          Run command directly"
     echo "  my run <module>       Run specific module"
+    echo "  my --debug <command>  Run with verbose debugging"
     echo "  my --help             Show this help"
     
     ui_spacer

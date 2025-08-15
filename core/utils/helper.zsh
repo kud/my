@@ -66,7 +66,11 @@ function brew_install() {
 }
 
 function brew_install_run() {
+  local start_time=$(date +%s.%N)
+  ui_debug "brew_install_run: Starting with ${#_BREW_PACKAGES_TO_INSTALL[@]} packages"
+  
   if [[ ${#_BREW_PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
+    ui_debug "brew_install_run: No packages to install"
     return 0
   fi
 
@@ -78,14 +82,18 @@ function brew_install_run() {
   ui_info_simple "Installing ${#_BREW_PACKAGES_TO_INSTALL[@]} formulae:"
   for package in "${_BREW_PACKAGES_TO_INSTALL[@]}"; do
     echo "  • $package"
+    ui_debug "brew_install_run: Will install $package"
   done
   ui_space
 
+  ui_debug_command "brew install ${_BREW_PACKAGES_TO_INSTALL[*]}"
   brew install "${_BREW_PACKAGES_TO_INSTALL[@]}"
 
   # Clear the array and refresh cache
   _BREW_PACKAGES_TO_INSTALL=()
+  ui_debug "brew_install_run: Refreshing cache"
   refresh_brew_cache
+  ui_debug_timing "$start_time" "brew_install_run"
 }
 
 function brew_uninstall() {
@@ -157,7 +165,11 @@ function npm_install() {
 }
 
 function npm_install_run() {
+  local start_time=$(date +%s.%N)
+  ui_debug "npm_install_run: Starting with ${#_NPM_PACKAGES_TO_INSTALL[@]} packages"
+  
   if [[ ${#_NPM_PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
+    ui_debug "npm_install_run: No packages to install"
     return 0
   fi
 
@@ -167,14 +179,20 @@ function npm_install_run() {
   fi
 
   # Get installed packages list once
+  ui_debug "npm_install_run: Checking already installed packages"
   local installed_packages=$(npm list -g --depth=0 --parseable 2>/dev/null | xargs -n1 basename 2>/dev/null || echo "")
+  ui_debug_vars installed_packages
   
   # Filter out already installed packages
   local packages_to_install=()
+  ui_debug "npm_install_run: Filtering already installed packages"
   for package in "${_NPM_PACKAGES_TO_INSTALL[@]}"; do
     local package_name="${package%%@*}"
     if ! echo "$installed_packages" | grep -q "^${package_name}$"; then
       packages_to_install+=("$package")
+      ui_debug "npm_install_run: Need to install $package"
+    else
+      ui_debug "npm_install_run: $package already installed, skipping"
     fi
   done
 
@@ -182,6 +200,7 @@ function npm_install_run() {
   if [[ ${#packages_to_install[@]} -eq 0 ]]; then
     ui_info_simple "All npm packages already installed"
     _NPM_PACKAGES_TO_INSTALL=()
+    ui_debug_timing "$start_time" "npm_install_run (no packages needed)"
     return 0
   fi
 
@@ -191,21 +210,27 @@ function npm_install_run() {
   done
   ui_space
 
+  ui_debug_command "npm install -g ${packages_to_install[*]}"
   npm install -g "${packages_to_install[@]}"
 
   if [[ $? -ne 0 ]]; then
     # Fallback: try installing individually
+    ui_debug "npm_install_run: Batch installation failed, trying individually"
     ui_warning_simple "Batch installation failed, trying individually..."
     for package in "${packages_to_install[@]}"; do
       ui_info_simple "Installing $package..."
+      ui_debug_command "npm install -g $package"
       if ! npm install -g "$package"; then
+        ui_debug "npm_install_run: Failed to install $package, attempting cleanup and retry"
         # Cleanup and retry
         npm uninstall -g "$package"
         local package_name=$(echo "$package" | cut -d'@' -f1)
         local npm_global_path=$(npm root -g)
         if [[ -n "$npm_global_path" && -d "$npm_global_path/$package_name" ]]; then
+          ui_debug_command "rm -rf $npm_global_path/$package_name"
           rm -rf "$npm_global_path/$package_name"
         fi
+        ui_debug_command "npm install -g $package (retry)"
         npm install -g "$package"
       fi
     done
@@ -213,6 +238,7 @@ function npm_install_run() {
 
   # Clear the array
   _NPM_PACKAGES_TO_INSTALL=()
+  ui_debug_timing "$start_time" "npm_install_run"
 }
 
 function pip2install() {

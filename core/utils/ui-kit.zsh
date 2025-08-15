@@ -202,6 +202,38 @@ ui_info() { ui_color "$UI_INFO" "$1"; }
 ui_muted() { ui_color "$UI_MUTED" "$1"; }
 ui_accent() { ui_color "$UI_ACCENT" "$1"; }
 
+# Debug logging functions
+ui_debug() {
+  if [[ "${MY_DEBUG:-false}" == "true" ]]; then
+    ui_color "$UI_MUTED" "🐛 [DEBUG] $1"
+  fi
+}
+
+ui_debug_vars() {
+  if [[ "${MY_DEBUG:-false}" == "true" ]]; then
+    ui_debug "Variables:"
+    for var in "$@"; do
+      ui_color "$UI_MUTED" "  $var = ${(P)var}"
+    done
+  fi
+}
+
+ui_debug_timing() {
+  if [[ "${MY_DEBUG:-false}" == "true" ]]; then
+    local start_time="$1"
+    local operation="$2"
+    local end_time=$(date +%s.%N)
+    local duration=$(echo "$end_time - $start_time" | bc 2>/dev/null || echo "unknown")
+    ui_color "$UI_MUTED" "⏱️  [TIMING] $operation: ${duration}s"
+  fi
+}
+
+ui_debug_command() {
+  if [[ "${MY_DEBUG:-false}" == "true" ]]; then
+    ui_color "$UI_MUTED" "💻 [CMD] $*"
+  fi
+}
+
 # Subtitle function with starter icon
 ui_subtitle() { echo -e "${UI_PRIMARY}${UI_ICON_STARTER}${UI_RESET} ${UI_BOLD_WHITE}$1${UI_RESET}"; }
 
