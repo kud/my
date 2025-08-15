@@ -17,6 +17,7 @@ source ~/.zshrc
 
 # Source required utilities
 source $MY/core/utils/helper.zsh
+source $MY/core/utils/ui-kit.zsh
 
 # Generate plugins.txt from main config only
 if ensure_command_available "yq" "" "false"; then
@@ -32,7 +33,9 @@ fi
 # Check if antidote is available
 if ensure_command_available "antidote" "" "false"; then
     antidote update
+    ui_success_simple "Zsh plugins updated"
 else
+    ui_warning_simple "antidote not available, skipping plugin updates"
     return 1
 fi
 
