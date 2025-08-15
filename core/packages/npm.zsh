@@ -25,8 +25,10 @@ ensure_command_available "yq" "Install with: brew install yq"
 ################################################################################
 
 ui_info_simple "Updating npm packages..."
-npm update -g
+npm update -g --quiet
 ui_success_simple "npm packages updated"
+
+ui_spacer
 
 # Process npm packages using shared utilities
 process_package_configs "npm" "npm_install" "npm_install_run"

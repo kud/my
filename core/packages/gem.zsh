@@ -25,9 +25,13 @@ ui_info_simple "Updating gem system..."
 gem update --system
 ui_success_simple "Gem system updated"
 
+ui_spacer
+
 ui_info_simple "Updating installed gems..."
 gem update
 ui_success_simple "Installed gems updated"
+
+ui_spacer
 
 # Process gem packages using shared utilities
 ui_info_simple "Installing development gems..."

@@ -32,7 +32,7 @@ HOSTNAME=$(hostname -s)
 PROFILE="${OS_PROFILE:-default}"
 
 ui_info_simple "Version: $MY_VERSION"
-ui_info_simple "Host: $HOSTNAME" 
+ui_info_simple "Host: $HOSTNAME"
 ui_info_simple "Profile: $PROFILE"
 
 ui_spacer
@@ -42,7 +42,7 @@ ui_spacer
 ################################################################################
 
 ui_primary "🔄 Updating repository"
-ui_info_simple "$MY"
+ui_info_simple "Path: $MY"
 
 # Capture git output for better formatting
 git_output=$(git --git-dir="$MY/.git" --work-tree="$MY/" pull 2>&1)

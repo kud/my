@@ -51,10 +51,14 @@ if ensure_command_available "pip" "" "false"; then
     pip install --upgrade pip
     ui_success_simple "pip upgraded"
 
+    ui_spacer
+
     # Process pip packages using shared utilities
     ui_info_simple "Installing development packages..."
     process_package_configs "pip" "pip_install_package"
     ui_success_simple "Development packages installed"
+
+    ui_spacer
 
     # Upgrade all installed packages
     ui_info_simple "Upgrading all installed packages..."
