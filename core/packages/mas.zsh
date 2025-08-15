@@ -81,8 +81,12 @@ main() {
     # Ensure prerequisites
     ensure_mas_prerequisites
 
+    ui_spacer
+
     # Merge configs and install packages
     merge_and_install_mas_packages
+
+    ui_spacer
 
     # Update existing applications
     update_mas_applications
