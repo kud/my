@@ -63,32 +63,47 @@ function echo_final_fail() {
     echo "${COLOUR_RED}${CHAR_FINAL_FAIL} Process failed!${COLOUR_RESET}"
 }
 
-# Section headers
+# Section headers - unified function with action parameter
 function echo_title() { echo "${COLOUR_CYAN}${CHAR_STARTER} $@${COLOUR_RESET}" }
 function echo_subtitle() { echo "${COLOUR_CYAN}${CHAR_STARTER}${COLOUR_RESET} $1" }
-function echo_title_install() { echo_title "Installing" $1"..." }
-function echo_title_update() { echo_title "Updating" $1"..." }
+function echo_title_action() {
+  local action="$1"
+  local target="$2"
+  echo_title "${action}" "${target}..."
+}
 
-# Text formatting
-function echo_bold() { echo "${COLOUR_BOLD_WHITE}$1${COLOUR_RESET}" }
-function echo_highlight() { echo "${COLOUR_MAGENTA}$1${COLOUR_RESET}" }
-function echo_subtle() { echo "${COLOUR_BLACK}$1${COLOUR_RESET}" }
+# Backward compatibility aliases
+function echo_title_install() { echo_title_action "Installing" "$1"; }
+function echo_title_update() { echo_title_action "Updating" "$1"; }
+
+# Text formatting - unified function with type parameter
+function echo_styled() {
+  local style="$1"
+  local text="$2"
+  case "$style" in
+    "bold") echo "${COLOUR_BOLD_WHITE}${text}${COLOUR_RESET}" ;;
+    "highlight") echo "${COLOUR_MAGENTA}${text}${COLOUR_RESET}" ;;
+    "subtle") echo "${COLOUR_BLACK}${text}${COLOUR_RESET}" ;;
+    *) echo "$text" ;;
+  esac
+}
+
+# Backward compatibility aliases
+function echo_bold() { echo_styled "bold" "$1"; }
+function echo_highlight() { echo_styled "highlight" "$1"; }
+function echo_subtle() { echo_styled "subtle" "$1"; }
 
 # Layout spacing
 function echo_space() {
-  printf "\n"
+  local count=${1:-1}
+  for ((i=1; i<=count; i++)); do
+    printf "\n"
+  done
 }
 
-function echo_spacex2() {
-  echo_space
-  echo_space
-}
-
-function echo_spacex3() {
-  echo_space
-  echo_space
-  echo_space
-}
+# Backward compatibility aliases
+function echo_spacex2() { echo_space 2; }
+function echo_spacex3() { echo_space 3; }
 
 # Visual separators
 function echo_hr() {
