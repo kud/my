@@ -52,7 +52,9 @@ if [[ $git_status -eq 0 ]]; then
     fi
 else
     ui_error_msg "Failed to update repository"
-    ui_muted "  $git_output"
+    echo "$git_output" | while IFS= read -r line; do
+        ui_muted "  $line"
+    done
     exit 1
 fi
 
