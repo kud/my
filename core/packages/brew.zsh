@@ -12,15 +12,14 @@
 
 # Source required utilities (for package installation functions)
 source $MY/core/utils/helper.zsh
+source $MY/core/utils/package-manager-utils.zsh
 
 # 🔧 PREREQUISITES
 ################################################################################
 
 ensure_homebrew_prerequisites() {
-    # Check if yq is available for YAML parsing
-    if ! command -v yq >/dev/null 2>&1; then
-        brew install yq
-    fi
+    # Ensure yq is installed
+    ensure_yq_installed
 }
 
 ################################################################################
@@ -69,60 +68,38 @@ update_homebrew() {
 }
 
 merge_and_install_brew_packages() {
-    local main_config="$MY/config/packages/brew.yml"
-    local profile_config="$MY/profiles/$OS_PROFILE/config/packages/brew.yml"
-    
-    
-    # Collect all taps
-    local all_taps=""
-    [[ -f "$main_config" ]] && all_taps+=$(yq eval '.taps[]?' "$main_config" 2>/dev/null)
-    [[ -f "$profile_config" ]] && all_taps+=$'\n'$(yq eval '.taps[]?' "$profile_config" 2>/dev/null)
+    local main_config=$(get_main_config_path "brew")
+    local profile_config=$(get_profile_config_path "brew")
     
     # Install taps first
+    local all_taps=$(merge_yaml_items "$main_config" "$profile_config" '.taps[]')
     if [[ -n "$all_taps" ]]; then
-        echo "$all_taps" | sort -u | while IFS= read -r tap; do
+        echo "$all_taps" | while IFS= read -r tap; do
             [[ -n "$tap" ]] && brew_tap "$tap"
         done
     fi
     
-    # Collect all formulae
-    local all_formulae=""
-    [[ -f "$main_config" ]] && all_formulae+=$(yq eval '.packages.formulae[]?' "$main_config" 2>/dev/null)
-    [[ -f "$profile_config" ]] && all_formulae+=$'\n'$(yq eval '.formulae[]?' "$profile_config" 2>/dev/null)
-    
     # Install formulae
+    local all_formulae=$(merge_yaml_items "$main_config" "$profile_config" '.packages.formulae[]')
     if [[ -n "$all_formulae" ]]; then
-        echo "$all_formulae" | sort -u | while IFS= read -r formula; do
+        echo "$all_formulae" | while IFS= read -r formula; do
             [[ -n "$formula" ]] && brew_install "$formula"
         done
         brew_install_run
     fi
     
-    # Collect all casks
-    local all_casks=""
-    [[ -f "$main_config" ]] && all_casks+=$(yq eval '.packages.casks[]?' "$main_config" 2>/dev/null)
-    [[ -f "$profile_config" ]] && all_casks+=$'\n'$(yq eval '.casks[]?' "$profile_config" 2>/dev/null)
-    
     # Install casks
+    local all_casks=$(merge_yaml_items "$main_config" "$profile_config" '.packages.casks[]')
     if [[ -n "$all_casks" ]]; then
-        echo "$all_casks" | sort -u | while IFS= read -r cask; do
+        echo "$all_casks" | while IFS= read -r cask; do
             [[ -n "$cask" ]] && cask_install "$cask"
         done
         cask_install_run
     fi
     
-    # Collect and run all post-install commands
-    local all_post_commands=""
-    [[ -f "$main_config" ]] && all_post_commands+=$(yq eval '.post_install[]?' "$main_config" 2>/dev/null)
-    [[ -f "$profile_config" ]] && all_post_commands+=$'\n'$(yq eval '.post_install[]?' "$profile_config" 2>/dev/null)
-    
-    if [[ -n "$all_post_commands" ]]; then
-        echo "$all_post_commands" | while IFS= read -r command; do
-            if [[ -n "$command" ]]; then
-                eval "$command"
-            fi
-        done
-    fi
+    # Run post-install commands
+    run_post_install_from_yaml "$main_config"
+    run_post_install_from_yaml "$profile_config"
 }
 
 ################################################################################
