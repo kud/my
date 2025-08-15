@@ -167,7 +167,7 @@ function npm_install_run() {
   fi
 
   # Get installed packages list once
-  local installed_packages=$(npm list -g --depth=0 --parseable --silent 2>/dev/null | xargs -n1 basename 2>/dev/null || echo "")
+  local installed_packages=$(npm list -g --depth=0 --parseable 2>/dev/null | xargs -n1 basename 2>/dev/null || echo "")
   
   # Filter out already installed packages
   local packages_to_install=()
@@ -191,22 +191,22 @@ function npm_install_run() {
   done
   ui_space
 
-  npm install -g --silent "${packages_to_install[@]}"
+  npm install -g "${packages_to_install[@]}"
 
   if [[ $? -ne 0 ]]; then
     # Fallback: try installing individually
     ui_warning_simple "Batch installation failed, trying individually..."
     for package in "${packages_to_install[@]}"; do
       ui_info_simple "Installing $package..."
-      if ! npm install -g --silent "$package"; then
+      if ! npm install -g "$package"; then
         # Cleanup and retry
-        npm uninstall -g --silent "$package"
+        npm uninstall -g "$package"
         local package_name=$(echo "$package" | cut -d'@' -f1)
         local npm_global_path=$(npm root -g)
         if [[ -n "$npm_global_path" && -d "$npm_global_path/$package_name" ]]; then
           rm -rf "$npm_global_path/$package_name"
         fi
-        npm install -g --silent "$package"
+        npm install -g "$package"
       fi
     done
   fi
