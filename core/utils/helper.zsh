@@ -173,6 +173,12 @@ function brew_install_run() {
     return 0
   fi
 
+  echo_info "Installing ${#_BREW_PACKAGES_TO_INSTALL[@]} formulae:"
+  for package in "${_BREW_PACKAGES_TO_INSTALL[@]}"; do
+    echo "  • $package"
+  done
+  echo_space
+
   brew install "${_BREW_PACKAGES_TO_INSTALL[@]}"
 
   # Clear the array and refresh cache
@@ -208,6 +214,12 @@ function cask_install_run() {
   if [[ ${#_CASK_PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
     return 0
   fi
+
+  echo_info "Installing ${#_CASK_PACKAGES_TO_INSTALL[@]} casks:"
+  for package in "${_CASK_PACKAGES_TO_INSTALL[@]}"; do
+    echo "  • $package"
+  done
+  echo_space
 
   brew install --cask "${_CASK_PACKAGES_TO_INSTALL[@]}"
 
@@ -258,11 +270,19 @@ function npm_install_run() {
     return 0
   fi
 
+  echo_info "Installing ${#_NPM_PACKAGES_TO_INSTALL[@]} npm packages:"
+  for package in "${_NPM_PACKAGES_TO_INSTALL[@]}"; do
+    echo "  • $package"
+  done
+  echo_space
+
   npm install -g "${_NPM_PACKAGES_TO_INSTALL[@]}"
 
   if [[ $? -ne 0 ]]; then
     # Fallback: try installing individually
+    echo_warn "Batch installation failed, trying individually..."
     for package in "${_NPM_PACKAGES_TO_INSTALL[@]}"; do
+      echo_info "Installing $package..."
       if ! npm install -g "$package"; then
         # Cleanup and retry
         npm uninstall -g "$package"
