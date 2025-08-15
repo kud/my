@@ -11,7 +11,7 @@
 
 # Source required utilities
 source $MY/core/utils/helper.zsh
-
+source $MY/core/utils/package-manager-utils.zsh
 
 ################################################################################
 # 🔧 PREREQUISITES
@@ -22,7 +22,9 @@ ensure_mas_prerequisites() {
     if ! command -v mas >/dev/null 2>&1; then
         return 1
     fi
-
+    
+    # Ensure yq is installed
+    ensure_yq_installed
 }
 
 ################################################################################
@@ -34,34 +36,20 @@ update_mas_applications() {
 }
 
 merge_and_install_mas_packages() {
-    local main_config="$MY/config/packages/mas.yml"
-    local profile_config="$MY/profiles/$OS_PROFILE/config/packages/mas.yml"
-    
-    
-    # Collect all packages
-    local all_packages=""
-    [[ -f "$main_config" ]] && all_packages+=$(yq eval '.packages[].id?' "$main_config" 2>/dev/null)
-    [[ -f "$profile_config" ]] && all_packages+=$'\n'$(yq eval '.packages[].id?' "$profile_config" 2>/dev/null)
+    local main_config=$(get_main_config_path "mas")
+    local profile_config=$(get_profile_config_path "mas")
     
     # Install packages
+    local all_packages=$(merge_yaml_items "$main_config" "$profile_config" '.packages[].id')
     if [[ -n "$all_packages" ]]; then
-        echo "$all_packages" | sort -u | while IFS= read -r package; do
+        echo "$all_packages" | while IFS= read -r package; do
             [[ -n "$package" ]] && mas_install "$package"
         done
     fi
     
-    # Collect and run all post-install commands
-    local all_post_commands=""
-    [[ -f "$main_config" ]] && all_post_commands+=$(yq eval '.post_install[]?' "$main_config" 2>/dev/null)
-    [[ -f "$profile_config" ]] && all_post_commands+=$'\n'$(yq eval '.post_install[]?' "$profile_config" 2>/dev/null)
-    
-    if [[ -n "$all_post_commands" ]]; then
-        echo "$all_post_commands" | while IFS= read -r command; do
-            if [[ -n "$command" ]]; then
-                eval "$command"
-            fi
-        done
-    fi
+    # Run post-install commands
+    run_post_install_from_yaml "$main_config"
+    run_post_install_from_yaml "$profile_config"
 }
 
 ################################################################################
