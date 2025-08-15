@@ -2,6 +2,7 @@
 
 # main command
 source $MY/core/utils/helper.zsh
+source $MY/core/utils/ui-kit.zsh
 
 if [[ $# -eq 0 ]]; then
   $0 --help
@@ -133,38 +134,48 @@ else
     esac
     ;;
 
-  --help)
-    source $MY/core/utils/helper.zsh
-
-    echo_space
-    printf "Usage:"
-    echo_spacex2
-    printf "Direct Commands:"
-    echo_space
-    printf "    install           Set up complete development environment"
-    echo_space
-    printf "    update            Refresh all components and packages"
-    echo_space
-    printf "    uninstall         Remove the project"
-    echo_space
-    printf "    brew-clean        Remove unused Homebrew packages"
-    echo_space
-    printf "    npm-clean         Clean up Node.js global packages"
-    echo_space
-    printf "    doctor            Check system health and configuration"
-    echo_spacex2
-    printf "Run Commands:"
-    echo_space
-    printf "    run <module>      Run a specific component:"
-    echo_space
-    printf "      Apps:           firefox, keepassxc, pcloud, sublime-merge"
-    echo_space
-    printf "      CLI:            abbr, aicommits, ssh"
-    echo_space
-    printf "      Packages:       antidote, brew, gem, mas, npm, pip"
-    echo_space
-    printf "      System:         default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlinks"
-    echo_space
+  --help|-h|help)
+    ui_spacer
+    ui_primary "My Environment Manager"
+    ui_spacer
+    
+    ui_info_simple "A comprehensive development environment management tool for macOS"
+    ui_spacer
+    
+    ui_subtitle "Usage:"
+    echo "  my <command>          Run command directly"
+    echo "  my run <module>       Run specific module"
+    echo "  my --help             Show this help"
+    
+    ui_spacer
+    ui_subtitle "Direct Commands:"
+    echo "  install               Set up complete development environment"
+    echo "  update                Refresh all components and packages"
+    echo "  uninstall             Remove the project"
+    echo "  doctor                Check system health and configuration"
+    echo "  brew-clean            Remove unused Homebrew packages"
+    echo "  npm-clean             Clean up Node.js global packages"
+    
+    ui_spacer
+    ui_subtitle "Module Categories (use with 'my run <module>'):"
+    
+    echo
+    echo "  Package Managers:"
+    echo "    antidote, brew, gem, mas, npm, pip"
+    
+    echo
+    echo "  Applications:"
+    echo "    firefox, keepassxc, pcloud, sublime-merge"
+    
+    echo
+    echo "  Development Tools:"
+    echo "    abbr, aicommits, ssh"
+    
+    echo
+    echo "  System Components:"
+    echo "    default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlinks"
+    
+    ui_spacer
     ;;
   *)
     echo "Error: Unrecognized command '$1'. Use --help for a list of commands."

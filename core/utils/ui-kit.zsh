@@ -407,6 +407,8 @@ ui_select() {
     local selected=0
     local key
     
+    # Save cursor position and clear area
+    echo -ne "\033[s"  # Save cursor position
     echo -e "${UI_INFO} ${prompt}${UI_RESET}"
     echo
     
@@ -431,18 +433,26 @@ ui_select() {
                 esac
                 ;;
             $'\n'|$'\r'|'') # Enter (newline, carriage return, or empty)
-                echo
-                echo -e "${UI_SUCCESS} Selected: ${options[selected]}${UI_RESET}"
+                # Clear the menu completely
+                for ((i=0; i<${#options[@]}; i++)); do
+                    echo -ne "\033[A\033[K"
+                done
+                echo -ne "\033[A\033[K"  # Clear the empty line
+                echo -ne "\033[A\033[K"  # Clear the prompt
                 return $selected
                 ;;
             'q'|'Q') # Quit
-                echo
-                echo -e "${UI_WARNING} Selection cancelled${UI_RESET}"
+                # Clear the menu completely
+                for ((i=0; i<${#options[@]}; i++)); do
+                    echo -ne "\033[A\033[K"
+                done
+                echo -ne "\033[A\033[K"  # Clear the empty line
+                echo -ne "\033[A\033[K"  # Clear the prompt
                 return 255
                 ;;
         esac
         
-        # Clear previous output (only clear the options, not the prompt)
+        # Clear previous options for redraw
         for ((i=0; i<${#options[@]}; i++)); do
             echo -ne "\033[A\033[K"
         done
