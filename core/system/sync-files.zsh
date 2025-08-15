@@ -9,20 +9,30 @@
 #                                                                              #
 ################################################################################
 
+source $MY/core/utils/ui-kit.zsh
 
 ################################################################################
 # 🔤 FONTS
 ################################################################################
 
 if [[ -n "${SYNC_FOLDER}" && -d "${SYNC_FOLDER}/Lib/fonts" ]]; then
+    fonts_copied=0
     # Operator Mono fonts
     if [[ -d "${SYNC_FOLDER}/Lib/fonts/Operator Mono" ]]; then
-        cp "${SYNC_FOLDER}/Lib/fonts/Operator Mono"/* ~/Library/Fonts/ 2>/dev/null
+        cp "${SYNC_FOLDER}/Lib/fonts/Operator Mono"/* ~/Library/Fonts/ 2>/dev/null && ((fonts_copied++))
     fi
 
     # Operator Mono Lig fonts
     if [[ -d "${SYNC_FOLDER}/Lib/fonts/Operator Mono Lig" ]]; then
-        cp "${SYNC_FOLDER}/Lib/fonts/Operator Mono Lig"/* ~/Library/Fonts/ 2>/dev/null
+        cp "${SYNC_FOLDER}/Lib/fonts/Operator Mono Lig"/* ~/Library/Fonts/ 2>/dev/null && ((fonts_copied++))
     fi
+    
+    if [[ $fonts_copied -gt 0 ]]; then
+        ui_success_simple "Synced $fonts_copied font family(s) to ~/Library/Fonts"
+    else
+        ui_info_simple "No fonts to sync"
+    fi
+else
+    ui_info_simple "No sync folder configured or fonts directory not found"
 fi
 
