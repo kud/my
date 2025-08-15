@@ -1,10 +1,12 @@
 #!/usr/bin/env zsh
 
+# Source required utilities
+source $MY/core/utils/package-manager-utils.zsh
 
 # Constants and Variables
 LOG_FILE="$MY/logs/cleanup.log"
 DRY_RUN=false  # Set to true for a dry-run mode
-yaml_files=("$MY/config/packages/brew.yml" "$MY/profiles/$OS_PROFILE/config/packages/brew.yml")
+yaml_files=("$(get_main_config_path brew)" "$(get_profile_config_path brew)")
 declare -A file_casks_map
 declare -A installed_casks_map
 
@@ -18,16 +20,12 @@ log_action() {
     echo "$(date): $1" >>"$LOG_FILE"
 }
 
-
 check_dependencies() {
     if ! command -v brew >/dev/null; then
         echo "Homebrew is not installed. Exiting..." >&2
         exit 1
     fi
-    if ! command -v yq >/dev/null; then
-        echo "yq is not installed. Please install it with 'brew install yq'. Exiting..." >&2
-        exit 1
-    fi
+    ensure_yq_installed
 }
 
 check_variables() {

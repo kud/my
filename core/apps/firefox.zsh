@@ -1,11 +1,14 @@
 #!/usr/bin/env zsh
 
+# Source required utilities
+source $MY/core/utils/package-manager-utils.zsh
+
 REL_USER_JS="user.js"
 REL_CONTAINERS="containers.json"
 REL_EXTENSION_SETTINGS="extension-settings.json"
 REL_USER_CHROME="chrome/userChrome.css"
 
-command -v yq >/dev/null 2>&1 || { echo "Need yq (brew install yq)"; exit 1; }
+ensure_yq_installed
 command -v jq >/dev/null 2>&1 || { echo "Need jq (brew install jq)"; exit 1; }
 
 CONFIG_FILE="$MY/config/apps/firefox.yml"
