@@ -335,3 +335,21 @@ ensure_command_available() {
   return 0
 }
 
+# Merge app preferences from main and profile configs
+merge_app_preferences() {
+  local main_config="$1"
+  local profile_config="$2"
+  local yaml_key="${3:-preferences}"
+  
+  # Start with main config preferences
+  local merged_prefs=$(yq eval ".${yaml_key}" "$main_config" -o json)
+  
+  # Merge with profile config if it exists
+  if [[ -f "$profile_config" ]]; then
+    local profile_prefs=$(yq eval ".${yaml_key}" "$profile_config" -o json 2>/dev/null || echo '{}')
+    merged_prefs=$(echo "$merged_prefs $profile_prefs" | jq -s '.[0] * .[1]')
+  fi
+  
+  echo "$merged_prefs"
+}
+

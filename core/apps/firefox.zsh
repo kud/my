@@ -53,11 +53,7 @@ cat > "$USER_JS_FILE" <<'HDR'
 HDR
 
 # Merge preferences from main config and profile-specific config
-MERGED_PREFS=$(yq eval '.preferences' "$CONFIG_FILE" -o json)
-if [[ -f "$PROFILE_CONFIG_FILE" ]]; then
-    PROFILE_PREFS=$(yq eval '.preferences' "$PROFILE_CONFIG_FILE" -o json 2>/dev/null || echo '{}')
-    MERGED_PREFS=$(echo "$MERGED_PREFS $PROFILE_PREFS" | jq -s '.[0] * .[1]')
-fi
+MERGED_PREFS=$(merge_app_preferences "$CONFIG_FILE" "$PROFILE_CONFIG_FILE" "preferences")
 
 echo "$MERGED_PREFS" | jq -r '
   def flatten:
