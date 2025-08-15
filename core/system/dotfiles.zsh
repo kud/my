@@ -72,10 +72,7 @@ mkdir -p "$HOME_CONFIG_DIR/zsh"
 if [ ! -f "$HOME/.ssh/config" ]; then
   cp "$MY/templates/ssh/config" "$HOME/.ssh/" 2>/dev/null
   ui_success_simple "Created SSH config from template"
-else
-  ui_info_simple "SSH config already exists"
 fi
-
 
 if [ ! -f "$HOME/.gitconfig_local" ]; then
   ui_info_simple "Setting up Git configuration..."
@@ -93,14 +90,6 @@ if [ ! -f "$HOME/.gitconfig_local" ]; then
   path = .gitconfig_local_work" >"$HOME/.gitconfig_local"
 
   ui_success_simple "Created .gitconfig_local with user information"
-else
-  ui_info_simple "Git configuration already exists"
 fi
 
-################################################################################
-# 🔄 CONFIGURATION RELOAD
-################################################################################
-
-ui_info_simple "Reloading shell configuration..."
 source "$HOME/.zshrc"
-ui_success_simple "Shell configuration reloaded"
