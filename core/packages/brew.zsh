@@ -13,6 +13,7 @@
 # Source required utilities (for package installation functions)
 source $MY/core/utils/helper.zsh
 source $MY/core/utils/package-manager-utils.zsh
+source $MY/core/utils/ui-kit.zsh
 
 # 🔧 PREREQUISITES
 ################################################################################
@@ -60,6 +61,7 @@ configure_modern_shell() {
 
 update_homebrew() {
     brew update && brew upgrade
+    ui_success_simple "Homebrew updated"
 
     # Initialize brew cache for faster package checking
     init_brew_cache
@@ -70,6 +72,7 @@ merge_and_install_brew_packages() {
         ".taps[]:brew_tap:-" \
         ".packages.formulae[]:brew_install:brew_install_run" \
         ".packages.casks[]:cask_install:cask_install_run"
+    ui_success_simple "Homebrew packages installed"
 }
 
 ################################################################################
