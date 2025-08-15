@@ -66,7 +66,10 @@ update_homebrew() {
 }
 
 merge_and_install_brew_packages() {
-    merge_and_install_packages "brew" ".taps[]:brew_tap:- .packages.formulae[]:brew_install:brew_install_run .packages.casks[]:cask_install:cask_install_run"
+    merge_and_install_packages "brew" \
+        ".taps[]:brew_tap:-" \
+        ".packages.formulae[]:brew_install:brew_install_run" \
+        ".packages.casks[]:cask_install:cask_install_run"
 }
 
 ################################################################################
