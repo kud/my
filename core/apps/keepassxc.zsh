@@ -1,6 +1,9 @@
 #! /usr/bin/env zsh
 
-command -v yq >/dev/null 2>&1 || exit 1
+# Source required utilities
+source $MY/core/utils/helper.zsh
+
+ensure_command_available "yq" "Install with: brew install yq"
 
 CONFIG_YAML="$MY/config/apps/keepassxc.yml"
 PROFILE_CONFIG_YAML="$MY/profiles/$OS_PROFILE/config/apps/keepassxc.yml"

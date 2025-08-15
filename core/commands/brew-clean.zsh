@@ -21,11 +21,8 @@ log_action() {
 }
 
 check_dependencies() {
-    if ! command -v brew >/dev/null; then
-        echo "Homebrew is not installed. Exiting..." >&2
-        exit 1
-    fi
-    ensure_yq_installed
+    ensure_command_available "brew" "Install from https://brew.sh"
+    ensure_command_available "yq" "Install with: brew install yq"
 }
 
 check_variables() {

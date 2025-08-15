@@ -14,12 +14,10 @@ source $MY/core/utils/helper.zsh
 source $MY/core/utils/package-manager-utils.zsh
 
 # Check if Node.js and npm are available
-if ! command -v npm >/dev/null 2>&1; then
-    return 1
-fi
+ensure_command_available "npm" "Install Node.js from https://nodejs.org"
 
 # Ensure yq is installed
-ensure_yq_installed
+ensure_command_available "yq" "Install with: brew install yq"
 
 ################################################################################
 # 🔄 NPM SYSTEM UPDATE

@@ -8,8 +8,8 @@ REL_CONTAINERS="containers.json"
 REL_EXTENSION_SETTINGS="extension-settings.json"
 REL_USER_CHROME="chrome/userChrome.css"
 
-ensure_yq_installed
-command -v jq >/dev/null 2>&1 || { echo "Need jq (brew install jq)"; exit 1; }
+ensure_command_available "yq" "Install with: brew install yq"
+ensure_command_available "jq" "Install with: brew install jq"
 
 CONFIG_FILE="$MY/config/apps/firefox.yml"
 PROFILE_CONFIG_FILE="$MY/profiles/$OS_PROFILE/config/apps/firefox.yml"

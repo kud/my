@@ -13,13 +13,14 @@ source $MY/core/utils/helper.zsh
 
 config_file="$MY/config/cli/abbr.yml"
 
+
 # Only load if abbr command is available
-if ! command -v abbr >/dev/null; then
+if ! ensure_command_available "abbr" "" "false"; then
   return 1
 fi
 
 # Check if yq is available
-if ! command -v yq >/dev/null; then
+if ! ensure_command_available "yq" "Install with: brew install yq" "false"; then
   return 1
 fi
 

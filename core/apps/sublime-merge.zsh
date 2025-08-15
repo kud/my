@@ -9,9 +9,11 @@
 #                                                                              #
 ################################################################################
 
+# Source required utilities
+source $MY/core/utils/helper.zsh
 
-command -v yq >/dev/null 2>&1 || exit 1
-command -v jq >/dev/null 2>&1 || exit 1
+ensure_command_available "yq" "Install with: brew install yq"
+ensure_command_available "jq" "Install with: brew install jq"
 
 CONFIG_YAML="$MY/config/apps/sublime-merge.yml"
 PROFILE_CONFIG_YAML="$MY/profiles/$OS_PROFILE/config/apps/sublime-merge.yml"
