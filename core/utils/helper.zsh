@@ -245,23 +245,11 @@ function gem_install() {
 function npm_install() {
   local package="${@}"
 
-  # Derive the likely command name by handling scoped packages, @version, and -cli/-cmd
-  local cmd_name="$package"
-  # Remove @scope/ prefix if present (e.g., @kud/soap-cli -> soap-cli)
-  if [[ "$cmd_name" == @*/* ]]; then
-    cmd_name="${cmd_name#*/}"
-  fi
-  # Remove everything after and including @ (e.g., typescript@next -> typescript)
-  cmd_name="${cmd_name%%@*}"
-  # Remove -cli or -cmd suffix if present
-  if [[ "$cmd_name" == *-cli ]]; then
-    cmd_name="${cmd_name%-cli}"
-  elif [[ "$cmd_name" == *-cmd ]]; then
-    cmd_name="${cmd_name%-cmd}"
-  fi
-
-  # Check if command exists (more reliable than type)
-  if command -v "$cmd_name" >/dev/null 2>&1; then
+  # Extract package name (remove version specifiers)
+  local package_name="${package%%@*}"
+  
+  # Check if package is already installed using npm list
+  if npm list -g --depth=0 "$package_name" >/dev/null 2>&1; then
     return 0
   fi
 

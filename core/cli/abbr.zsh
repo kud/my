@@ -42,8 +42,9 @@ done
 
 # Show the abbreviations that were created
 if [[ ${#abbreviations_created[@]} -gt 0 ]]; then
+    ui_info_simple "Created ${#abbreviations_created[@]} shell abbreviations:"
     for abbr_name in "${abbreviations_created[@]}"; do
-        ui_success_simple "Created abbreviation: $abbr_name"
+        echo "  • $abbr_name"
     done
 else
     ui_info_simple "No abbreviations to create"

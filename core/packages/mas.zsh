@@ -39,19 +39,38 @@ update_mas_applications() {
 merge_and_install_mas_packages() {
     # Show what we're about to install
     if command -v yq >/dev/null 2>&1; then
-        local apps_to_install=$(yq eval '.packages[].name' "$CONFIG_DIR/packages/mas.yml" "$PROFILE_CONFIG_DIR/packages/mas.yml" 2>/dev/null | grep -v null | sort -u)
-        if [[ -n "$apps_to_install" ]]; then
+        local main_config="$CONFIG_DIR/packages/mas.yml"
+        local profile_config="$PROFILE_CONFIG_DIR/packages/mas.yml"
+        
+        # Collect app names from both configs
+        local apps_found=""
+        if [[ -f "$main_config" ]]; then
+            local main_apps=$(yq eval '.packages[]?.name // empty' "$main_config" 2>/dev/null)
+            if [[ -n "$main_apps" ]]; then
+                apps_found+="$main_apps"
+            fi
+        fi
+        if [[ -f "$profile_config" ]]; then
+            local profile_apps=$(yq eval '.packages[]?.name // empty' "$profile_config" 2>/dev/null)
+            if [[ -n "$profile_apps" ]]; then
+                [[ -n "$apps_found" ]] && apps_found+=$'\n'
+                apps_found+="$profile_apps"
+            fi
+        fi
+        
+        # Show the apps if we found any
+        if [[ -n "$apps_found" ]]; then
             ui_info_simple "Installing Mac App Store applications:"
-            echo "$apps_to_install" | while read app_name; do
-                if [[ -n "$app_name" ]]; then
-                    ui_info_simple "  • $app_name"
+            echo "$apps_found" | while read app_name; do
+                if [[ -n "$app_name" && "$app_name" != "null" ]]; then
+                    echo "  • $app_name"
                 fi
             done
         fi
     fi
     
     merge_and_install_packages "mas" ".packages[].id:mas_install:-"
-    ui_success_simple "Mac App Store applications installed"
+    ui_success_simple "Mac App Store applications processed"
 }
 
 ################################################################################
