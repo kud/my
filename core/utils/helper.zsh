@@ -4,113 +4,10 @@
 #                                                                              #
 #   🔧 HELPER UTILITIES                                                        #
 #   ----------------                                                           #
-#   Core utility functions for package management, user feedback, and system  #
-#   operations. Provides consistent UI, logging, and installation functions.  #
+#   Core utility functions for package management and system operations.      #
+#   UI/display functions have been moved to ui-kit.zsh for better separation. #
 #                                                                              #
 ################################################################################
-
-# Terminal colors setup
-autoload colors
-if [[ "$terminfo[colors]" -gt 8 ]]; then
-  colors
-fi
-
-for COLOUR in RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; do
-  eval COLOUR_$COLOUR='$fg_no_bold[${(L)COLOUR}]'
-  eval COLOUR_BOLD_$COLOUR='$fg_bold[${(L)COLOUR}]'
-done
-eval COLOUR_RESET='$reset_color'
-
-# Visual feedback characters
-export CHAR_OK=✔
-export CHAR_ERROR=✗
-export CHAR_STARTER=❯
-export CHAR_INFO="[i]"
-export CHAR_USER="[?]"
-export CHAR_WARN="[!]"
-export CHAR_TASK_START="🚀"
-export CHAR_INPUT="[>]"
-export CHAR_FINAL_SUCCESS="👍"
-export CHAR_FINAL_FAIL="🚫"
-
-# Installation progress tracking
-_CURRENT_STEP=0
-_TOTAL_STEPS=0
-
-function set_total_steps() {
-  _TOTAL_STEPS=$1
-  _CURRENT_STEP=0
-}
-
-function next_step() {
-  ((_CURRENT_STEP++))
-  echo_info "Step ${_CURRENT_STEP}/${_TOTAL_STEPS}: $1"
-}
-
-# User messaging functions
-function echo_info() { echo "${COLOUR_BLUE}${CHAR_INFO}${COLOUR_RESET} $1" }
-function echo_user() { echo "${COLOUR_YELLOW}${CHAR_USER}${COLOUR_RESET} $1" }
-function echo_success() { echo "${COLOUR_GREEN}${CHAR_OK}${COLOUR_RESET} $1" }
-function echo_fail() { echo "${COLOUR_RED}${CHAR_ERROR}${COLOUR_RESET} $1"; exit ${2:-1} }
-function echo_warn() { echo "${COLOUR_BOLD_YELLOW}${CHAR_WARN}${COLOUR_RESET} $1" }
-function echo_task_start() { echo "${COLOUR_CYAN}${CHAR_TASK_START} ${COLOUR_RESET}$1..." }
-function echo_task_done() { echo "${COLOUR_GREEN}${CHAR_OK} ${COLOUR_RESET}$1 done!" }
-function echo_input() { echo "${COLOUR_BOLD_CYAN}${CHAR_INPUT} ${COLOUR_RESET}$1" }
-function echo_final_success() {
-    echo "${COLOUR_GREEN}${CHAR_FINAL_SUCCESS} Process completed successfully!${COLOUR_RESET}"
-}
-function echo_final_fail() {
-    echo "${COLOUR_RED}${CHAR_FINAL_FAIL} Process failed!${COLOUR_RESET}"
-}
-
-# Section headers - unified function with action parameter
-function echo_title() { echo "${COLOUR_CYAN}${CHAR_STARTER} $@${COLOUR_RESET}" }
-function echo_subtitle() { echo "${COLOUR_CYAN}${CHAR_STARTER}${COLOUR_RESET} $1" }
-function echo_title_action() {
-  local action="$1"
-  local target="$2"
-  echo_title "${action}" "${target}..."
-}
-
-# Backward compatibility aliases
-function echo_title_install() { echo_title_action "Installing" "$1"; }
-function echo_title_update() { echo_title_action "Updating" "$1"; }
-
-# Text formatting - unified function with type parameter
-function echo_styled() {
-  local style="$1"
-  local text="$2"
-  case "$style" in
-    "bold") echo "${COLOUR_BOLD_WHITE}${text}${COLOUR_RESET}" ;;
-    "highlight") echo "${COLOUR_MAGENTA}${text}${COLOUR_RESET}" ;;
-    "subtle") echo "${COLOUR_BLACK}${text}${COLOUR_RESET}" ;;
-    *) echo "$text" ;;
-  esac
-}
-
-# Backward compatibility aliases
-function echo_bold() { echo_styled "bold" "$1"; }
-function echo_highlight() { echo_styled "highlight" "$1"; }
-function echo_subtle() { echo_styled "subtle" "$1"; }
-
-# Layout spacing
-function echo_space() {
-  local count=${1:-1}
-  for ((i=1; i<=count; i++)); do
-    printf "\n"
-  done
-}
-
-# Backward compatibility aliases
-function echo_spacex2() { echo_space 2; }
-function echo_spacex3() { echo_space 3; }
-
-# Visual separators
-function echo_hr() {
-  echo "${COLOUR_BOLD_CYAN}----------------------------------------${COLOUR_RESET}"
-  echo "$1"
-  echo "${COLOUR_BOLD_CYAN}----------------------------------------${COLOUR_RESET}"
-}
 
 # Package management utilities
 
@@ -173,11 +70,16 @@ function brew_install_run() {
     return 0
   fi
 
-  echo_info "Installing ${#_BREW_PACKAGES_TO_INSTALL[@]} formulae:"
+  # Load UI functions if not already loaded
+  if ! command -v ui_info_simple >/dev/null 2>&1; then
+    source $MY/core/utils/ui-kit.zsh
+  fi
+
+  ui_info_simple "Installing ${#_BREW_PACKAGES_TO_INSTALL[@]} formulae:"
   for package in "${_BREW_PACKAGES_TO_INSTALL[@]}"; do
     echo "  • $package"
   done
-  echo_space
+  ui_space
 
   brew install "${_BREW_PACKAGES_TO_INSTALL[@]}"
 
@@ -215,15 +117,20 @@ function cask_install_run() {
     return 0
   fi
 
-  echo_info "Installing ${#_CASK_PACKAGES_TO_INSTALL[@]} casks:"
+  # Load UI functions if not already loaded
+  if ! command -v ui_info_simple >/dev/null 2>&1; then
+    source $MY/core/utils/ui-kit.zsh
+  fi
+
+  ui_info_simple "Installing ${#_CASK_PACKAGES_TO_INSTALL[@]} casks:"
   for package in "${_CASK_PACKAGES_TO_INSTALL[@]}"; do
     echo "  • $package"
   done
-  echo_space
+  ui_space
 
   if ! brew install --cask "${_CASK_PACKAGES_TO_INSTALL[@]}"; then
-    echo_fail "Homebrew cask installation failed"
-    echo_warn "Please fix the conflict and run the script again"
+    ui_error_simple "Homebrew cask installation failed"
+    ui_warning_simple "Please fix the conflict and run the script again"
     exit 1
   fi
 
@@ -262,19 +169,24 @@ function npm_install_run() {
     return 0
   fi
 
-  echo_info "Installing ${#_NPM_PACKAGES_TO_INSTALL[@]} npm packages:"
+  # Load UI functions if not already loaded
+  if ! command -v ui_info_simple >/dev/null 2>&1; then
+    source $MY/core/utils/ui-kit.zsh
+  fi
+
+  ui_info_simple "Installing ${#_NPM_PACKAGES_TO_INSTALL[@]} npm packages:"
   for package in "${_NPM_PACKAGES_TO_INSTALL[@]}"; do
     echo "  • $package"
   done
-  echo_space
+  ui_space
 
   npm install -g --quiet "${_NPM_PACKAGES_TO_INSTALL[@]}"
 
   if [[ $? -ne 0 ]]; then
     # Fallback: try installing individually
-    echo_warn "Batch installation failed, trying individually..."
+    ui_warning_simple "Batch installation failed, trying individually..."
     for package in "${_NPM_PACKAGES_TO_INSTALL[@]}"; do
-      echo_info "Installing $package..."
+      ui_info_simple "Installing $package..."
       if ! npm install -g --quiet "$package"; then
         # Cleanup and retry
         npm uninstall -g --quiet "$package"
@@ -307,9 +219,14 @@ function pip3install() {
 function pip_install() {
   local package="${@}"
 
+  # Load UI functions if not already loaded
+  if ! command -v ui_subtle >/dev/null 2>&1; then
+    source $MY/core/utils/ui-kit.zsh
+  fi
+
   # Check if command exists
   if command -v "$package" >/dev/null 2>&1; then
-    echo_subtle "✓ ${package} (already installed)"
+    ui_subtle "✓ ${package} (already installed)"
     return 0
   fi
 
@@ -342,15 +259,21 @@ ensure_command_available() {
   local exit_on_fail="${3:-true}"
 
   if ! command -v "$command_name" >/dev/null 2>&1; then
+    # Load UI functions if not already loaded
+    if ! command -v ui_error_simple >/dev/null 2>&1; then
+      source $MY/core/utils/ui-kit.zsh
+    fi
+    
     local error_msg="$command_name is not installed."
     if [[ -n "$install_hint" ]]; then
       error_msg="$error_msg $install_hint"
     fi
 
     if [[ "$exit_on_fail" == "true" ]]; then
-      echo_fail "$error_msg"
+      ui_error_simple "$error_msg"
+      exit 1
     else
-      echo_warn "$error_msg"
+      ui_warning_simple "$error_msg"
       return 1
     fi
   fi
@@ -365,21 +288,26 @@ show_command_help() {
   shift 3
   local commands=("$@")
 
-  echo_space
-  echo_highlight "$script_name - $description"
-  echo_space
-  echo_bold "USAGE:"
+  # Load UI functions if not already loaded
+  if ! command -v ui_space >/dev/null 2>&1; then
+    source $MY/core/utils/ui-kit.zsh
+  fi
+
+  ui_space
+  ui_highlight "$script_name - $description"
+  ui_space
+  ui_bold_text "USAGE:"
   echo "  $usage"
-  echo_spacex2
+  ui_spacex2
 
   if [[ ${#commands[@]} -gt 0 ]]; then
-    echo_bold "COMMANDS:"
+    ui_bold_text "COMMANDS:"
     for cmd_desc in "${commands[@]}"; do
       local cmd=$(echo "$cmd_desc" | cut -d: -f1)
       local desc=$(echo "$cmd_desc" | cut -d: -f2)
       printf "  %-12s %s\n" "$cmd" "$desc"
     done
-    echo_space
+    ui_space
   fi
 }
 
