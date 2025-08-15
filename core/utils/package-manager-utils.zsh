@@ -51,6 +51,23 @@ collect_packages_from_yaml() {
 }
 
 # Generic function to run post-install commands from YAML
+run_pre_install_from_yaml() {
+    local yaml_file="$1"
+    
+    if [[ ! -f "$yaml_file" ]]; then
+        return 0
+    fi
+    
+    local pre_install=$(yq eval '.pre_install[]?' "$yaml_file" 2>/dev/null)
+    if [[ -n "$pre_install" ]]; then
+        while IFS= read -r command; do
+            if [[ -n "$command" ]]; then
+                eval "$command"
+            fi
+        done <<< "$pre_install"
+    fi
+}
+
 run_post_install_from_yaml() {
     local yaml_file="$1"
     
@@ -76,6 +93,10 @@ process_package_configs() {
     
     local main_config=$(get_main_config_path "$package_type")
     local profile_config=$(get_profile_config_path "$package_type")
+    
+    # Run pre-install commands first
+    run_pre_install_from_yaml "$main_config"
+    run_pre_install_from_yaml "$profile_config"
     
     # Collect packages from both configs
     collect_packages_from_yaml "$main_config" "$install_function"
