@@ -1,11 +1,11 @@
 taps:
   - ankitpokhrel/jira-cli
 
-formulae:
-  - awscli
-  - jira-cli
-
-casks:
-  - eloston-chromium
-  - neo4j
-  - redisinsight
+packages:
+  formulae:
+    - awscli
+    - jira-cli
+  casks:
+    - eloston-chromium
+    - neo4j
+    - redisinsight
