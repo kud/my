@@ -19,14 +19,17 @@ config_file="$MY/config/cli/aicommits.yml"
 
 if ensure_command_available "aicommits" "" "false" && ensure_command_available "yq" "" "false"; then
     # Read all aicommits config and apply each setting
-    settings_count=$(yq eval '.aicommits | to_entries | length' "$config_file")
+    ui_info_simple "Configuring aicommits:"
     yq eval '.aicommits | to_entries | .[] | .key + "=" + (.value | tostring)' "$config_file" | while read setting; do
+        echo "  • $setting"
         aicommits config set $setting >/dev/null 2>&1
     done
-    ui_success_simple "Configured aicommits with $settings_count settings"
+    ui_success_simple "aicommits configured"
 else
     ui_info_simple "aicommits not available, skipping configuration"
 fi
+
+ui_spacer
 
 ################################################################################
 # 🔄 OPENCOMMIT (OCO) CONFIGURATION
@@ -34,13 +37,14 @@ fi
 
 if ensure_command_available "oco" "" "false" && ensure_command_available "yq" "" "false"; then
     # Read all opencommit config, transform to OCO_ format and apply
-    settings_count=$(yq eval '.opencommit | to_entries | length' "$config_file")
+    ui_info_simple "Configuring opencommit:"
     yq eval '.opencommit | to_entries | .[] | .key + "=" + (.value | tostring)' "$config_file" | while read setting; do
         key=$(echo $setting | cut -d'=' -f1 | tr '[:lower:]' '[:upper:]')
         value=$(echo $setting | cut -d'=' -f2-)
+        echo "  • OCO_$key=$value"
         oco config set OCO_$key=$value >/dev/null 2>&1
     done
-    ui_success_simple "Configured opencommit with $settings_count settings"
+    ui_success_simple "opencommit configured"
 else
     ui_info_simple "oco not available, skipping configuration"
 fi

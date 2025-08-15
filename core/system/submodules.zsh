@@ -33,6 +33,7 @@ process_submodule() {
         git clone --recursive "$url" "$module_path"
         ui_success_simple "Installed: $name"
     fi
+    echo
 }
 
 # Source required utilities
