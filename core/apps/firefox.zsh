@@ -11,8 +11,8 @@ REL_USER_CHROME="chrome/userChrome.css"
 ensure_command_available "yq" "Install with: brew install yq"
 ensure_command_available "jq" "Install with: brew install jq"
 
-CONFIG_FILE="$MY/config/apps/firefox.yml"
-PROFILE_CONFIG_FILE="$MY/profiles/$OS_PROFILE/config/apps/firefox.yml"
+CONFIG_FILE="$CONFIG_DIR/apps/firefox.yml"
+PROFILE_CONFIG_FILE="$PROFILE_APPS_CONFIG_DIR/firefox.yml"
 [[ -f "$CONFIG_FILE" ]] || { echo "Missing config: $CONFIG_FILE"; exit 1; }
 
 PROFILE_DIR=$(yq eval '.profile.directory' "$CONFIG_FILE" | envsubst)

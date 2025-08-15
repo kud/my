@@ -313,6 +313,16 @@ function mas_install() {
   mas install "$package"
 }
 
+# Path constants to reduce hard-coding
+export CONFIG_DIR="$MY/config"
+export PACKAGES_CONFIG_DIR="$CONFIG_DIR/packages"
+export PROFILE_DIR="$MY/profiles/$OS_PROFILE"
+export PROFILE_CONFIG_DIR="$PROFILE_DIR/config"
+export PROFILE_PACKAGES_CONFIG_DIR="$PROFILE_CONFIG_DIR/packages"
+export PROFILE_APPS_CONFIG_DIR="$PROFILE_CONFIG_DIR/apps"
+export HOME_CONFIG_DIR="$HOME/.config"
+export HOME_LIBRARY_APP_SUPPORT="$HOME/Library/Application Support"
+
 # Generic command availability checker
 ensure_command_available() {
   local command_name="$1"

@@ -15,15 +15,15 @@ source $MY/core/utils/helper.zsh
 ensure_command_available "yq" "Install with: brew install yq"
 ensure_command_available "jq" "Install with: brew install jq"
 
-CONFIG_YAML="$MY/config/apps/sublime-merge.yml"
-PROFILE_CONFIG_YAML="$MY/profiles/$OS_PROFILE/config/apps/sublime-merge.yml"
+CONFIG_YAML="$CONFIG_DIR/apps/sublime-merge.yml"
+PROFILE_CONFIG_YAML="$PROFILE_APPS_CONFIG_DIR/sublime-merge.yml"
 [[ -f "$CONFIG_YAML" ]] || exit 1
 
 ################################################################################
 # 📂 DIRECTORY SETUP
 ################################################################################
 
-DIR="$HOME/Library/Application Support/Sublime Merge/Packages"
+DIR="$HOME_LIBRARY_APP_SUPPORT/Sublime Merge/Packages"
 
 # Ensure directory exists
 if [[ ! -d "$DIR" ]]; then

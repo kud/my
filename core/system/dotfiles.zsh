@@ -42,13 +42,13 @@ done
 
 # Handle .config subdirectories
 if [[ -d "$MY/dotfiles/.config" ]]; then
-  mkdir -p "$HOME/.config"
+  mkdir -p "$HOME_CONFIG_DIR"
 
   # Find all files in .config subdirectories
   find "$MY/dotfiles/.config" -type f | while read -r config_file; do
     # Get relative path from .config
     rel_path="${config_file#$MY/dotfiles/.config/}"
-    target_path="$HOME/.config/$rel_path"
+    target_path="$HOME_CONFIG_DIR/$rel_path"
     target_dir="$(dirname "$target_path")"
 
     # Create target directory if needed
@@ -62,7 +62,7 @@ fi
 ############################################################
 # 🧩 Zsh config directory setup
 ############################################################
-mkdir -p "$HOME/.config/zsh"
+mkdir -p "$HOME_CONFIG_DIR/zsh"
 
 if [ ! -f "$HOME/.ssh/config" ]; then
   cp "$MY/templates/ssh/config" "$HOME/.ssh/" 2>/dev/null

@@ -25,7 +25,7 @@ if ensure_command_available "yq" "" "false"; then
     rm -f "$MY/shell/plugins.txt"
     
     # Generate from main config only (plugins should be consistent across profiles)
-    yq eval '.plugins[]?' "$MY/config/packages/antidote.yml" 2>/dev/null > "$MY/shell/plugins.txt"
+    yq eval '.plugins[]?' "$PACKAGES_CONFIG_DIR/antidote.yml" 2>/dev/null > "$MY/shell/plugins.txt"
     
 fi
 

@@ -7,7 +7,10 @@ if [[ -z "$OS_PROFILE" ]]; then
 fi
 
 # Generate shims for the current active profile only
-shims_dir="$MY/profiles/$OS_PROFILE/bin/shims"
+# Source required utilities for path constants
+source $MY/core/utils/helper.zsh
+
+shims_dir="$PROFILE_DIR/bin/shims"
 
 
 # Create shims directory if it doesn't exist

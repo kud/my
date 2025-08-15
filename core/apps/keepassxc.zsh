@@ -5,12 +5,12 @@ source $MY/core/utils/helper.zsh
 
 ensure_command_available "yq" "Install with: brew install yq"
 
-CONFIG_YAML="$MY/config/apps/keepassxc.yml"
-PROFILE_CONFIG_YAML="$MY/profiles/$OS_PROFILE/config/apps/keepassxc.yml"
+CONFIG_YAML="$CONFIG_DIR/apps/keepassxc.yml"
+PROFILE_CONFIG_YAML="$PROFILE_APPS_CONFIG_DIR/keepassxc.yml"
 [[ -f "$CONFIG_YAML" ]] || exit 1
 
 # KeePassXC configuration file path
-CONFIG_FILE="$HOME/Library/Application Support/keepassxc/keepassxc.ini"
+CONFIG_FILE="$HOME_LIBRARY_APP_SUPPORT/keepassxc/keepassxc.ini"
 
 # Ensure the KeePassXC configuration file exists
 [[ -f "$CONFIG_FILE" ]] || exit 1
