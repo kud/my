@@ -65,6 +65,7 @@ packages:
 
 post_install:
   # NPM configuration
+  - npm config set prefix ~/.npm-global
   - npm config set save-exact true
   - npm config set tag-version-prefix ""
   - npm config set progress false
