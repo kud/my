@@ -18,40 +18,26 @@
 #   - Empty output if not in a git repository
 #   - Exit code 0 on success, 1 on error
 
+#!/usr/bin/env zsh
+
+source $MY/core/utils/helper.zsh
+
 # Help function
 show_help() {
-  cat << 'EOF'
-git-branch-current - Display the current git branch name
-
-USAGE:
-  git-branch-current [--help]
-  git branch-current [--help]
-
-DESCRIPTION:
-  Shows the name of the currently checked out git branch.
-  Returns empty output if not in a git repository.
-
-EXAMPLES:
-  git-branch-current                    # Output: main
-  git branch-current                    # Same as above
-  BRANCH=$(git-branch-current)          # Store in variable
-  echo "On: $(git-branch-current)"      # Use in string
-
-EXIT CODES:
-  0  Success - branch name displayed
-  1  Error - not in git repository or other error
-
-SEE ALSO:
-  git branch --show-current
-  git rev-parse --abbrev-ref HEAD
-EOF
+  show_command_help "git-branch-current" "Display the current git branch name" \
+    "git-branch-current [--help]"
+  echo_bold "DESCRIPTION:"
+  echo "  Shows the name of the currently checked out git branch."
+  echo "  Returns empty output if not in a git repository."
+  echo_space
+  echo_bold "EXAMPLES:"
+  echo "  git-branch-current                    # Output: main"
+  echo "  BRANCH=\$(git-branch-current)          # Store in variable"
+  echo_space
 }
 
 # Check for help flag first (before any git operations)
-if [[ "$1" == "--help" || "$1" == "-h" ]]; then
-  show_help
-  exit 0
-fi
+handle_help_flag "$1"
 
 # Check if we're in a git repository
 if ! git rev-parse --git-dir > /dev/null 2>&1; then

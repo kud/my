@@ -345,6 +345,40 @@ ensure_command_available() {
   return 0
 }
 
+# Help framework for consistent command help display
+show_command_help() {
+  local script_name="$1"
+  local description="$2"
+  local usage="$3"
+  shift 3
+  local commands=("$@")
+  
+  echo_space
+  echo_highlight "$script_name - $description"
+  echo_space
+  echo_bold "USAGE:"
+  echo "  $usage"
+  echo_spacex2
+  
+  if [[ ${#commands[@]} -gt 0 ]]; then
+    echo_bold "COMMANDS:"
+    for cmd_desc in "${commands[@]}"; do
+      local cmd=$(echo "$cmd_desc" | cut -d: -f1)
+      local desc=$(echo "$cmd_desc" | cut -d: -f2)
+      printf "  %-12s %s\n" "$cmd" "$desc"
+    done
+    echo_space
+  fi
+}
+
+# Automatic help flag handler
+handle_help_flag() {
+  if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+    ${2:-show_help}
+    exit 0
+  fi
+}
+
 # Merge app preferences from main and profile configs
 merge_app_preferences() {
   local main_config="$1"

@@ -70,30 +70,17 @@ firefoxVersion() {
 }
 
 # Display help message
-display_help() {
-  echo_space
-  printf "Usage:"
-  echo_spacex2
-  printf "    ${COLOUR_CYAN}tell-me-my${COLOUR_RESET} [<command>|--help]"
-  echo_spacex3
-  printf "Commands:"
-  echo_spacex2
-  printf "    ip               Get public IP${COLOUR_RESET}"
-  echo_space
-  printf "    local-ip         Get local IP(s)${COLOUR_RESET}"
-  echo_space
-  printf "    dns              Display configured DNS servers${COLOUR_RESET}"
-  echo_space
-  printf "    resolution       Get screen resolution${COLOUR_RESET}"
-  echo_space
-  printf "    ssh-key          Copy SSH key to clipboard${COLOUR_RESET}"
-  echo_space
-  printf "    cpu-features     Display CPU features${COLOUR_RESET}"
-  echo_space
-  printf "    macos-version     Display detailed macOS version${COLOUR_RESET}"
-  echo_space
-  printf "    firefox-version   Display Firefox version${COLOUR_RESET}"
-  echo_spacex2
+show_help() {
+  show_command_help "tell-me-my" "System information utility" \
+    "tell-me-my [<command>|--help]" \
+    "ip:Get public IP" \
+    "local-ip:Get local IP(s)" \
+    "dns:Display configured DNS servers" \
+    "resolution:Get screen resolution" \
+    "ssh-key:Copy SSH key to clipboard" \
+    "cpu-features:Display CPU features" \
+    "macos-version:Display detailed macOS version" \
+    "firefox-version:Display Firefox version"
 }
 
 # Main script logic
@@ -126,7 +113,7 @@ else
     firefoxVersion
     ;;
   --help)
-    display_help
+    show_help
     ;;
   *)
     echo 'Invalid command. Use --help for usage.'
