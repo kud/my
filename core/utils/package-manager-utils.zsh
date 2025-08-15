@@ -94,9 +94,18 @@ process_package_configs() {
     local main_config=$(get_main_config_path "$package_type")
     local profile_config=$(get_profile_config_path "$package_type")
     
+    # Load UI functions if not already loaded
+    if ! command -v ui_info_simple >/dev/null 2>&1; then
+        source $MY/core/utils/ui-kit.zsh
+    fi
+    
     # Run pre-install commands first
+    ui_info_simple "Running pre-install commands..."
     run_pre_install_from_yaml "$main_config"
     run_pre_install_from_yaml "$profile_config"
+    ui_success_simple "Pre-install commands completed"
+    
+    ui_spacer
     
     # Collect packages from both configs
     collect_packages_from_yaml "$main_config" "$install_function"
@@ -108,8 +117,10 @@ process_package_configs() {
     fi
     
     # Run post-install commands
+    ui_info_simple "Running post-install commands..."
     run_post_install_from_yaml "$main_config"
     run_post_install_from_yaml "$profile_config"
+    ui_success_simple "Post-install commands completed"
 }
 
 # Merge and deduplicate items from main and profile configs
