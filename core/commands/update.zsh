@@ -80,9 +80,7 @@ ui_spacer
 ui_primary "🔧 Updating environment"
 
 # Run main update script
-if $MY/core/main.zsh; then
-    ui_success_simple "Environment updated"
-else
+if ! $MY/core/main.zsh; then
     ui_error_msg "Environment update failed"
     exit 1
 fi
@@ -93,5 +91,4 @@ ui_spacer
 # ✅ UPDATE COMPLETE
 ################################################################################
 
-ui_spacer
 ui_success_msg "Update complete! 🎉"

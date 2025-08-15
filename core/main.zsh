@@ -134,9 +134,6 @@ main() {
     setup_applications
     setup_system_components
     setup_profile_specific_configurations
-
-    ui_spacer 2
-    ui_success_msg "Environment setup complete! ✨"
 }
 
 # Execute main setup
