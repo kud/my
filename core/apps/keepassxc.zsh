@@ -2,6 +2,7 @@
 
 # Source required utilities
 source $MY/core/utils/helper.zsh
+source $MY/core/utils/ui-kit.zsh
 
 ensure_command_available "yq" "Install with: brew install yq"
 
@@ -86,3 +87,5 @@ while IFS= read -r section; do
 done <<< "$SECTIONS"
 
 # Configuration complete
+sections_count=$(echo "$SECTIONS" | wc -l | tr -d ' ')
+ui_success_simple "Applied KeePassXC configuration for $sections_count sections"
