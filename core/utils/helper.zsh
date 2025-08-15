@@ -247,7 +247,7 @@ function npm_install() {
 
   # Extract package name (remove version specifiers)
   local package_name="${package%%@*}"
-  
+
   # Check if package is already installed using npm list
   if npm list -g --depth=0 "$package_name" >/dev/null 2>&1; then
     return 0
@@ -268,22 +268,22 @@ function npm_install_run() {
   done
   echo_space
 
-  npm install -g "${_NPM_PACKAGES_TO_INSTALL[@]}"
+  npm install -g --quiet "${_NPM_PACKAGES_TO_INSTALL[@]}"
 
   if [[ $? -ne 0 ]]; then
     # Fallback: try installing individually
     echo_warn "Batch installation failed, trying individually..."
     for package in "${_NPM_PACKAGES_TO_INSTALL[@]}"; do
       echo_info "Installing $package..."
-      if ! npm install -g "$package"; then
+      if ! npm install -g --quiet "$package"; then
         # Cleanup and retry
-        npm uninstall -g "$package"
+        npm uninstall -g --quiet "$package"
         local package_name=$(echo "$package" | cut -d'@' -f1)
         local npm_global_path=$(npm root -g)
         if [[ -n "$npm_global_path" && -d "$npm_global_path/$package_name" ]]; then
           rm -rf "$npm_global_path/$package_name"
         fi
-        npm install -g "$package"
+        npm install -g --quiet "$package"
       fi
     done
   fi
@@ -340,13 +340,13 @@ ensure_command_available() {
   local command_name="$1"
   local install_hint="${2:-}"
   local exit_on_fail="${3:-true}"
-  
+
   if ! command -v "$command_name" >/dev/null 2>&1; then
     local error_msg="$command_name is not installed."
     if [[ -n "$install_hint" ]]; then
       error_msg="$error_msg $install_hint"
     fi
-    
+
     if [[ "$exit_on_fail" == "true" ]]; then
       echo_fail "$error_msg"
     else
@@ -364,14 +364,14 @@ show_command_help() {
   local usage="$3"
   shift 3
   local commands=("$@")
-  
+
   echo_space
   echo_highlight "$script_name - $description"
   echo_space
   echo_bold "USAGE:"
   echo "  $usage"
   echo_spacex2
-  
+
   if [[ ${#commands[@]} -gt 0 ]]; then
     echo_bold "COMMANDS:"
     for cmd_desc in "${commands[@]}"; do
@@ -396,16 +396,16 @@ merge_app_preferences() {
   local main_config="$1"
   local profile_config="$2"
   local yaml_key="${3:-preferences}"
-  
+
   # Start with main config preferences
   local merged_prefs=$(yq eval ".${yaml_key}" "$main_config" -o json)
-  
+
   # Merge with profile config if it exists
   if [[ -f "$profile_config" ]]; then
     local profile_prefs=$(yq eval ".${yaml_key}" "$profile_config" -o json 2>/dev/null || echo '{}')
     merged_prefs=$(echo "$merged_prefs $profile_prefs" | jq -s '.[0] * .[1]')
   fi
-  
+
   echo "$merged_prefs"
 }
 
