@@ -23,79 +23,79 @@ setup_system_foundation() {
     ui_spacer
     ui_primary "🏗️ Setting up system foundation"
     
-    ui_info_simple "Configuring cloud storage..."
+    ui_secondary "## Cloud Storage Setup"
     $MY/core/apps/pcloud.zsh
     
-    ui_info_simple "Creating directory structure..."
+    ui_secondary "## Default Directories"
     $MY/core/system/default-folders.zsh
     
-    ui_info_simple "Syncing files..."
+    ui_secondary "## Configuration Sync"
     $MY/core/system/sync-files.zsh
     
-    ui_info_simple "Installing dotfiles..."
+    ui_secondary "## Dotfiles Linking"
     $MY/core/system/dotfiles.zsh
     
     ui_success_simple "System foundation ready"
 }
 
 setup_package_managers() {
-    ui_spacer
+    ui_spacer 2
     ui_primary "📦 Installing packages"
     
-    ui_info_simple "Updating Homebrew packages..."
+    ui_secondary "## Homebrew Formulae & Casks"
     if ! $MY/core/packages/brew.zsh; then
         exit 1
     fi
     
-    ui_info_simple "Configuring shell enhancements..."
+    ui_secondary "## Zsh Plugin Management"
     $MY/core/packages/antidote.zsh
     
-    ui_info_simple "Installing Ruby gems..."
+    ui_secondary "## Ruby Gem Installation"
     $MY/core/packages/gem.zsh
     
-    ui_info_simple "Installing Python packages..."
+    ui_secondary "## Python Package Installation"
     $MY/core/packages/pip.zsh
     
-    ui_info_simple "Installing Node.js packages..."
+    ui_secondary "## Global npm Packages"
     $MY/core/packages/npm.zsh
     
-    ui_info_simple "Installing Mac App Store apps..."
+    ui_secondary "## Mac App Store Applications"
     $MY/core/packages/mas.zsh
     
     ui_success_simple "All packages installed"
 }
 
 setup_development_tools() {
-    ui_spacer
+    ui_spacer 2
     ui_primary "🛠️ Configuring development tools"
     
-    ui_info_simple "Setting up AI commits..."
+    ui_secondary "## AI Commit Configuration"
     $MY/core/cli/aicommits.zsh
     
-    ui_info_simple "Creating command shortcuts..."
+    ui_secondary "## Shell Abbreviations"
     $MY/core/cli/abbr.zsh
     
     ui_success_simple "Development tools configured"
 }
 
 setup_applications() {
-    ui_spacer
+    ui_spacer 2
     ui_primary "💻 Configuring applications"
     
-    ui_info_simple "Setting up Sublime Merge..."
+    ui_secondary "## Sublime Merge Preferences"
     $MY/core/apps/sublime-merge.zsh
     
-    ui_info_simple "Configuring KeePassXC..."
+    ui_secondary "## KeePassXC Configuration"
     $MY/core/apps/keepassxc.zsh
     
     ui_success_simple "Applications configured"
 }
 
 setup_system_components() {
-    ui_spacer
+    ui_spacer 2
     ui_primary "🔌 Installing system components"
     
-    ui_info_simple "Updating submodules..."
+    ui_secondary "## Git Submodule Updates"
     $MY/core/system/submodules.zsh
     
     ui_success_simple "System components ready"
@@ -123,7 +123,7 @@ main() {
     setup_system_components
     setup_profile_specific_configurations
     
-    ui_spacer
+    ui_spacer 2
     ui_success_msg "Environment setup complete! ✨"
 }
 
