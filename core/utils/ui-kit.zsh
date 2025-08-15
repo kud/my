@@ -202,6 +202,9 @@ ui_info() { ui_color "$UI_INFO" "$1"; }
 ui_muted() { ui_color "$UI_MUTED" "$1"; }
 ui_accent() { ui_color "$UI_ACCENT" "$1"; }
 
+# Subtitle function with starter icon
+ui_subtitle() { echo -e "${UI_PRIMARY}${UI_ICON_STARTER}${UI_RESET} $1"; }
+
 ################################################################################
 # 📝 MESSAGING COMPONENTS
 ################################################################################
