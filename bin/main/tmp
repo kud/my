@@ -4,26 +4,23 @@
 source "${MY}/core/utils/helper.zsh"
 
 # Display help message
-display_help() {
-  echo_space
-  echo "Usage:"
-  echo_space
-  echo "    ${COLOUR_CYAN}tmp${COLOUR_RESET} [<command>|--help]"
-  echo_spacex2
-  echo "Commands:"
-  echo_space
-  echo "    open    ${COLOUR_BLACK}Open tmp folder${COLOUR_RESET}"
-  echo "    clean   ${COLOUR_BLACK}Clean tmp folder${COLOUR_RESET}"
-  echo "    move    ${COLOUR_BLACK}Move files/folder to tmp folder${COLOUR_RESET}"
-  echo_space
+show_help() {
+  show_command_help "tmp" "Temporary file manager" \
+    "tmp [<command>|--help]" \
+    "open:Open tmp folder" \
+    "clean:Clean tmp folder" \
+    "move:Move files/folder to tmp folder"
 }
 
 main() {
   # If no arguments, display help.
   if [[ $# -eq 0 ]]; then
-    display_help
+    show_help
     return
   fi
+  
+  # Handle help flag
+  handle_help_flag "$1"
 
   case "$1" in
   clean)
@@ -41,9 +38,6 @@ main() {
       return
     fi
     mv "$2" ~/__tmp/
-    ;;
-  --help)
-    display_help
     ;;
   *)
     echo 'Invalid command. Use --help for usage.'

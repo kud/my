@@ -17,39 +17,18 @@
 #   - Empty output if not in a git repository
 #   - Exit code 0 on success, 1 on error
 
+# Source helper functions
+source "${MY}/core/utils/helper.zsh"
+
 # Help function
 show_help() {
-  cat << 'EOF'
-git-root - Display the path to the git working tree root
-
-USAGE:
-  git-root [--help]
-
-DESCRIPTION:
-  Shows the absolute path to the root of the current git working tree.
-  Useful for navigating to the project root or referencing files relative to it.
-
-EXAMPLES:
-  git-root                        # → /Users/user/project
-  cd $(git-root)                  # Navigate to git root
-  code $(git-root)                # Open git root in VS Code
-  ls $(git-root)/docs             # List docs folder from anywhere
-
-EXIT CODES:
-  0  Success - root path displayed
-  1  Error - not in git repository or other error
-
-SEE ALSO:
-  git rev-parse --show-toplevel
-  git-dir
-EOF
+  show_command_help "git-root" "Display the path to the git working tree root" \
+    "git-root [--help]" \
+    "Example: git-root → /Users/user/project"
 }
 
 # Check for help flag first
-if [[ "$1" == "--help" || "$1" == "-h" ]]; then
-  show_help
-  exit 0
-fi
+handle_help_flag "$1"
 
 # Get git root using rev-parse --show-toplevel
 root=$(git rev-parse --show-toplevel 2>/dev/null)
