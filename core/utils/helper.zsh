@@ -221,7 +221,11 @@ function cask_install_run() {
   done
   echo_space
 
-  brew install --cask "${_CASK_PACKAGES_TO_INSTALL[@]}"
+  if ! brew install --cask "${_CASK_PACKAGES_TO_INSTALL[@]}"; then
+    echo_fail "Homebrew cask installation failed"
+    echo_warn "Please fix the conflict and run the script again"
+    exit 1
+  fi
 
   # Clear the array and refresh cache
   _CASK_PACKAGES_TO_INSTALL=()
