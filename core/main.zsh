@@ -23,16 +23,16 @@ setup_system_foundation() {
     ui_spacer
     ui_primary "🏗️ Setting up system foundation"
     
-    ui_secondary "## Cloud Storage Setup"
+    echo -e "${UI_PRIMARY}${UI_ICON_ARROW_RIGHT} Cloud Storage Setup${UI_RESET}"
     $MY/core/apps/pcloud.zsh
     
-    ui_secondary "## Default Directories"
+    echo -e "${UI_PRIMARY}${UI_ICON_ARROW_RIGHT} Default Directories${UI_RESET}"
     $MY/core/system/default-folders.zsh
     
-    ui_secondary "## Configuration Sync"
+    echo -e "${UI_PRIMARY}${UI_ICON_ARROW_RIGHT} Configuration Sync${UI_RESET}"
     $MY/core/system/sync-files.zsh
     
-    ui_secondary "## Dotfiles Linking"
+    echo -e "${UI_PRIMARY}${UI_ICON_ARROW_RIGHT} Dotfiles Linking${UI_RESET}"
     $MY/core/system/dotfiles.zsh
     
     ui_success_simple "System foundation ready"
@@ -42,24 +42,24 @@ setup_package_managers() {
     ui_spacer 2
     ui_primary "📦 Installing packages"
     
-    ui_secondary "## Homebrew Formulae & Casks"
+    echo -e "${UI_PRIMARY}${UI_ICON_ARROW_RIGHT} Homebrew Formulae & Casks${UI_RESET}"
     if ! $MY/core/packages/brew.zsh; then
         exit 1
     fi
     
-    ui_secondary "## Zsh Plugin Management"
+    echo -e "${UI_PRIMARY}${UI_ICON_ARROW_RIGHT} Zsh Plugin Management${UI_RESET}"
     $MY/core/packages/antidote.zsh
     
-    ui_secondary "## Ruby Gem Installation"
+    echo -e "${UI_PRIMARY}${UI_ICON_ARROW_RIGHT} Ruby Gem Installation${UI_RESET}"
     $MY/core/packages/gem.zsh
     
-    ui_secondary "## Python Package Installation"
+    echo -e "${UI_PRIMARY}${UI_ICON_ARROW_RIGHT} Python Package Installation${UI_RESET}"
     $MY/core/packages/pip.zsh
     
-    ui_secondary "## Global npm Packages"
+    echo -e "${UI_PRIMARY}${UI_ICON_ARROW_RIGHT} Global npm Packages${UI_RESET}"
     $MY/core/packages/npm.zsh
     
-    ui_secondary "## Mac App Store Applications"
+    echo -e "${UI_PRIMARY}${UI_ICON_ARROW_RIGHT} Mac App Store Applications${UI_RESET}"
     $MY/core/packages/mas.zsh
     
     ui_success_simple "All packages installed"
@@ -69,10 +69,10 @@ setup_development_tools() {
     ui_spacer 2
     ui_primary "🛠️ Configuring development tools"
     
-    ui_secondary "## AI Commit Configuration"
+    echo -e "${UI_PRIMARY}${UI_ICON_ARROW_RIGHT} AI Commit Configuration${UI_RESET}"
     $MY/core/cli/aicommits.zsh
     
-    ui_secondary "## Shell Abbreviations"
+    echo -e "${UI_PRIMARY}${UI_ICON_ARROW_RIGHT} Shell Abbreviations${UI_RESET}"
     $MY/core/cli/abbr.zsh
     
     ui_success_simple "Development tools configured"
@@ -82,10 +82,10 @@ setup_applications() {
     ui_spacer 2
     ui_primary "💻 Configuring applications"
     
-    ui_secondary "## Sublime Merge Preferences"
+    echo -e "${UI_PRIMARY}${UI_ICON_ARROW_RIGHT} Sublime Merge Preferences${UI_RESET}"
     $MY/core/apps/sublime-merge.zsh
     
-    ui_secondary "## KeePassXC Configuration"
+    echo -e "${UI_PRIMARY}${UI_ICON_ARROW_RIGHT} KeePassXC Configuration${UI_RESET}"
     $MY/core/apps/keepassxc.zsh
     
     ui_success_simple "Applications configured"
@@ -95,7 +95,7 @@ setup_system_components() {
     ui_spacer 2
     ui_primary "🔌 Installing system components"
     
-    ui_secondary "## Git Submodule Updates"
+    echo -e "${UI_PRIMARY}${UI_ICON_ARROW_RIGHT} Git Submodule Updates${UI_RESET}"
     $MY/core/system/submodules.zsh
     
     ui_success_simple "System components ready"
