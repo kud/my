@@ -25,14 +25,19 @@ process_submodule() {
     local module_path="$HOME/my/modules/$name"
 
     if [[ -d "$module_path" ]]; then
+        ui_info_simple "Updating submodule: $name"
         git --git-dir="$module_path/.git" --work-tree="$module_path/" pull
+        ui_success_simple "Updated: $name"
     else
+        ui_info_simple "Installing submodule: $name"
         git clone --recursive "$url" "$module_path"
+        ui_success_simple "Installed: $name"
     fi
 }
 
 # Source required utilities
 source $MY/core/utils/helper.zsh
+source $MY/core/utils/ui-kit.zsh
 
 # Check if yq is available
 ensure_command_available "yq" "Install with: brew install yq"

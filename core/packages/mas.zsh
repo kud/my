@@ -37,7 +37,19 @@ update_mas_applications() {
 }
 
 merge_and_install_mas_packages() {
-    ui_info_simple "Installing Mac App Store applications..."
+    # Show what we're about to install
+    if command -v yq >/dev/null 2>&1; then
+        local apps_to_install=$(yq eval '.packages[].name' "$CONFIG_DIR/packages/mas.yml" "$PROFILE_CONFIG_DIR/packages/mas.yml" 2>/dev/null | grep -v null | sort -u)
+        if [[ -n "$apps_to_install" ]]; then
+            ui_info_simple "Installing Mac App Store applications:"
+            echo "$apps_to_install" | while read app_name; do
+                if [[ -n "$app_name" ]]; then
+                    ui_info_simple "  • $app_name"
+                fi
+            done
+        fi
+    fi
+    
     merge_and_install_packages "mas" ".packages[].id:mas_install:-"
     ui_success_simple "Mac App Store applications installed"
 }
