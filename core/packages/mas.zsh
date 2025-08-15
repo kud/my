@@ -12,6 +12,7 @@
 # Source required utilities
 source $MY/core/utils/helper.zsh
 source $MY/core/utils/package-manager-utils.zsh
+source $MY/core/utils/ui-kit.zsh
 
 ################################################################################
 # 🔧 PREREQUISITES
@@ -30,11 +31,15 @@ ensure_mas_prerequisites() {
 ################################################################################
 
 update_mas_applications() {
+    ui_info_simple "Checking for Mac App Store updates..."
     mas upgrade
+    ui_success_simple "Mac App Store apps updated"
 }
 
 merge_and_install_mas_packages() {
+    ui_info_simple "Installing Mac App Store applications..."
     merge_and_install_packages "mas" ".packages[].id:mas_install:-"
+    ui_success_simple "Mac App Store applications installed"
 }
 
 ################################################################################

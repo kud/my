@@ -30,17 +30,14 @@ done
 
 mkdir -p "${ZDOTDIR:-$HOME}/.config/nvim"
 
-dotfiles_linked=0
 for file in "${dotfiles[@]}"; do
   source_path="$MY/dotfiles/$file"
   target_path="${ZDOTDIR:-$HOME}/$file"
 
   if ln -sf "$source_path" "$target_path" 2>/dev/null; then
-    ((dotfiles_linked++))
+    ui_success_simple "Linked $file → ~/$file"
   fi
 done
-
-ui_success_simple "Linked ${#dotfiles[@]} dotfiles to home directory"
 
 ############################################################
 # 📁 Config directories
@@ -50,7 +47,6 @@ ui_success_simple "Linked ${#dotfiles[@]} dotfiles to home directory"
 if [[ -d "$MY/dotfiles/.config" ]]; then
   mkdir -p "$HOME_CONFIG_DIR"
 
-  config_files_count=$(find "$MY/dotfiles/.config" -type f | wc -l | tr -d ' ')
   # Find all files in .config subdirectories
   find "$MY/dotfiles/.config" -type f | while read -r config_file; do
     # Get relative path from .config
@@ -62,10 +58,10 @@ if [[ -d "$MY/dotfiles/.config" ]]; then
     mkdir -p "$target_dir"
 
     # Create symlink
-    ln -sf "$config_file" "$target_path" 2>/dev/null
+    if ln -sf "$config_file" "$target_path" 2>/dev/null; then
+      ui_success_simple "Linked .config/$rel_path → ~/.config/$rel_path"
+    fi
   done
-  
-  ui_success_simple "Linked $config_files_count config files to ~/.config/"
 fi
 
 ############################################################

@@ -12,6 +12,7 @@
 # Source required utilities
 source $MY/core/utils/helper.zsh
 source $MY/core/utils/package-manager-utils.zsh
+source $MY/core/utils/ui-kit.zsh
 
 # Ensure yq is installed
 ensure_command_available "yq" "Install with: brew install yq"
@@ -26,8 +27,10 @@ if ensure_command_available "pyenv" "" "false"; then
     LATEST_PYTHON_VERSION=$(brew info python | grep '(bottled)' | sed 's/==> python@3...: stable //g' | sed 's/ (bottled).*//g')
 
     if [[ -n "$LATEST_PYTHON_VERSION" ]]; then
+        ui_info_simple "Installing Python $LATEST_PYTHON_VERSION..."
         pyenv install -s $LATEST_PYTHON_VERSION
         pyenv global $LATEST_PYTHON_VERSION
+        ui_success_simple "Python $LATEST_PYTHON_VERSION installed and set as global"
     fi
 fi
 
@@ -44,12 +47,18 @@ pip_install_package() {
 # Check if pip is available
 if ensure_command_available "pip" "" "false"; then
     # Upgrade pip itself first
-    pip install --upgrade pip >/dev/null 2>&1
+    ui_info_simple "Upgrading pip..."
+    pip install --upgrade pip
+    ui_success_simple "pip upgraded"
 
     # Process pip packages using shared utilities
+    ui_info_simple "Installing development packages..."
     process_package_configs "pip" "pip_install_package"
+    ui_success_simple "Development packages installed"
 
     # Upgrade all installed packages
-    pip-upgrade-all >/dev/null 2>&1
+    ui_info_simple "Upgrading all installed packages..."
+    pip-upgrade-all
+    ui_success_simple "All packages upgraded"
 fi
 
