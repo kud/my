@@ -43,7 +43,9 @@ setup_package_managers() {
     ui_primary "📦 Installing packages"
     
     ui_info_simple "Updating Homebrew packages..."
-    $MY/core/packages/brew.zsh
+    if ! $MY/core/packages/brew.zsh; then
+        exit 1
+    fi
     
     ui_info_simple "Configuring shell enhancements..."
     $MY/core/packages/antidote.zsh
