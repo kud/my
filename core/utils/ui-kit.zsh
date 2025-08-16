@@ -223,7 +223,9 @@ ui_debug_timing() {
     local start_time="$1"
     local operation="$2"
     local end_time=$(date +%s.%N)
-    local duration=$(echo "$end_time - $start_time" | bc 2>/dev/null || echo "unknown")
+    
+    # Use awk for floating-point arithmetic (more portable than bc)
+    local duration=$(awk "BEGIN {printf \"%.3f\", $end_time - $start_time}")
     ui_color "$UI_MUTED" "⏱️  [TIMING] $operation: ${duration}s"
   fi
 }
