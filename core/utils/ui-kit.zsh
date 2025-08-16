@@ -856,6 +856,7 @@ ui_cleanup() {
 }
 
 # Register cleanup on script exit (only if not already set)
-if [[ -z "$(trap -p EXIT | grep ui_cleanup)" ]]; then
+if [[ -z "${_UI_CLEANUP_TRAP_SET}" ]]; then
     trap ui_cleanup EXIT
+    _UI_CLEANUP_TRAP_SET=1
 fi

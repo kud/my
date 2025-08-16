@@ -106,14 +106,11 @@ run_intro_async() {
         export MY_INTRO_PID=$!
         
         # Set up cleanup traps for the background process
-        if [[ -z "$(trap -p EXIT | grep cleanup_intro_process)" ]]; then
+        if [[ -z "${_INTRO_CLEANUP_TRAP_SET}" ]]; then
             trap cleanup_intro_process EXIT
-        fi
-        if [[ -z "$(trap -p INT | grep cleanup_intro_process)" ]]; then
             trap cleanup_intro_process INT
-        fi
-        if [[ -z "$(trap -p TERM | grep cleanup_intro_process)" ]]; then
             trap cleanup_intro_process TERM
+            _INTRO_CLEANUP_TRAP_SET=1
         fi
         
         # Don't wait - let the main process continue
