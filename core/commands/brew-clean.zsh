@@ -17,8 +17,8 @@ source $MY/core/utils/package-manager-utils.zsh
 LOG_FILE="$MY/logs/cleanup.log"
 DRY_RUN=false  # Set to true for a dry-run mode
 yaml_files=("$(get_main_config_path brew)" "$(get_profile_config_path brew)")
-declare -A file_casks_map
-declare -A installed_casks_map
+declare -A _BREW__BREW_file_casks_map
+declare -A _BREW__BREW_installed_casks_map
 
 # Welcome message
 ui_spacer
@@ -63,7 +63,7 @@ load_casks_from_files() {
             if [[ -n "$casks" ]]; then
                 while IFS= read -r cask_name; do
                     if [[ -n "$cask_name" && "$cask_name" != "null" ]]; then
-                        file_casks_map[$cask_name]=1
+                        _BREW_file_casks_map[$cask_name]=1
                     fi
                 done <<< "$casks"
             fi
@@ -72,7 +72,7 @@ load_casks_from_files() {
         fi
     done
     
-    ui_success_simple "Loaded ${#file_casks_map[@]} casks from configuration"
+    ui_success_simple "Loaded ${#_BREW_file_casks_map[@]} casks from configuration"
     ui_spacer
 }
 
@@ -80,16 +80,16 @@ check_installed_casks() {
     ui_info_msg "Scanning installed Homebrew casks..."
     installed_casks=$(brew list --cask)
     for cask in ${(f)installed_casks}; do
-        installed_casks_map[$cask]=1
+        _BREW_installed_casks_map[$cask]=1
     done
-    ui_success_simple "Found ${#installed_casks_map[@]} installed casks"
+    ui_success_simple "Found ${#_BREW_installed_casks_map[@]} installed casks"
     ui_spacer
 }
 
 compare_casks() {
     local missing_casks=()
-    for cask in ${(k)file_casks_map}; do
-        if [[ -z "${installed_casks_map[$cask]}" ]]; then
+    for cask in ${(k)_BREW_file_casks_map}; do
+        if [[ -z "${_BREW_installed_casks_map[$cask]}" ]]; then
             missing_casks+=($cask)
         fi
     done
@@ -175,8 +175,8 @@ handle_discrepancies() {
     local orphaned_casks=()
     local casks_to_keep=()
     
-    for cask in ${(k)installed_casks_map}; do
-        if [[ -z "${file_casks_map[$cask]}" ]]; then
+    for cask in ${(k)_BREW_installed_casks_map}; do
+        if [[ -z "${_BREW_file_casks_map[$cask]}" ]]; then
             orphaned_casks+=($cask)
         fi
     done
