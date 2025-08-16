@@ -106,11 +106,21 @@ run_intro_async() {
         export MY_INTRO_PID=$!
         
         # Set up cleanup traps for the background process
-        if [[ -z "${_INTRO_CLEANUP_TRAP_SET}" ]]; then
+        # Robust trap checking: only set if not present as a standalone command
+        local trap_cmd
+        trap_cmd=$(trap -p EXIT | awk -F"'" '{print $2}')
+        if [[ ! "$trap_cmd" =~ (^|;)cleanup_intro_process($|;) ]]; then
             trap cleanup_intro_process EXIT
+        fi
+        
+        trap_cmd=$(trap -p INT | awk -F"'" '{print $2}')
+        if [[ ! "$trap_cmd" =~ (^|;)cleanup_intro_process($|;) ]]; then
             trap cleanup_intro_process INT
+        fi
+        
+        trap_cmd=$(trap -p TERM | awk -F"'" '{print $2}')
+        if [[ ! "$trap_cmd" =~ (^|;)cleanup_intro_process($|;) ]]; then
             trap cleanup_intro_process TERM
-            _INTRO_CLEANUP_TRAP_SET=1
         fi
         
         # Don't wait - let the main process continue
