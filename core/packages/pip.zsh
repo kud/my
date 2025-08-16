@@ -28,6 +28,15 @@ if ensure_command_available "pyenv" "" "false"; then
 
     if [[ -n "$LATEST_PYTHON_VERSION" ]]; then
         ui_info_simple "Installing Python $LATEST_PYTHON_VERSION..."
+        
+        # Set environment variables for proper compilation with GUI support
+        # (assumes tcl-tk is installed via brew.yml)
+        export PYTHON_CONFIGURE_OPTS="--enable-framework"
+        export LDFLAGS="-L$(brew --prefix)/lib -L$(brew --prefix tcl-tk)/lib"
+        export CPPFLAGS="-I$(brew --prefix)/include -I$(brew --prefix tcl-tk)/include"
+        export PKG_CONFIG_PATH="$(brew --prefix tcl-tk)/lib/pkgconfig"
+        
+        # Install with GUI support
         pyenv install -s $LATEST_PYTHON_VERSION
         pyenv global $LATEST_PYTHON_VERSION
         ui_success_simple "Python $LATEST_PYTHON_VERSION installed and set as global"

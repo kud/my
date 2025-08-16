@@ -95,6 +95,7 @@ packages:
     - pyenv
     - pyenv-virtualenv
     - python@3.11
+    - tcl-tk
     - ruby
     - sdkman-cli
     - subversion
