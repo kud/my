@@ -11,7 +11,7 @@
 
 # Source required utilities
 source $MY/core/utils/helper.zsh
-source $MY/core/utils/package-manager-utils.zsh
+source $MY/core/utils/packages.zsh
 source $MY/core/utils/ui-kit.zsh
 
 ################################################################################
