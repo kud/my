@@ -76,7 +76,6 @@ function brew_install_run() {
 
   # Load UI functions if not already loaded
   if ! command -v ui_info_simple >/dev/null 2>&1; then
-    source $MY/core/utils/ui-kit.zsh
   fi
 
   ui_info_simple "Installing ${#_BREW_PACKAGES_TO_INSTALL[@]} formulae:"
@@ -127,7 +126,6 @@ function cask_install_run() {
 
   # Load UI functions if not already loaded
   if ! command -v ui_info_simple >/dev/null 2>&1; then
-    source $MY/core/utils/ui-kit.zsh
   fi
 
   ui_info_simple "Installing ${#_CASK_PACKAGES_TO_INSTALL[@]} casks:"
@@ -175,7 +173,6 @@ function npm_install_run() {
 
   # Load UI functions if not already loaded
   if ! command -v ui_info_simple >/dev/null 2>&1; then
-    source $MY/core/utils/ui-kit.zsh
   fi
 
   # Get installed packages list once
@@ -258,7 +255,6 @@ function pip_install() {
 
   # Load UI functions if not already loaded
   if ! command -v ui_subtle >/dev/null 2>&1; then
-    source $MY/core/utils/ui-kit.zsh
   fi
 
   # Check if command exists
@@ -298,7 +294,6 @@ ensure_command_available() {
   if ! command -v "$command_name" >/dev/null 2>&1; then
     # Load UI functions if not already loaded
     if ! command -v ui_error_simple >/dev/null 2>&1; then
-      source $MY/core/utils/ui-kit.zsh
     fi
     
     local error_msg="$command_name is not installed."
@@ -327,7 +322,6 @@ show_command_help() {
 
   # Load UI functions if not already loaded
   if ! command -v ui_space >/dev/null 2>&1; then
-    source $MY/core/utils/ui-kit.zsh
   fi
 
   ui_space
