@@ -35,14 +35,11 @@ cleanup_sudo_keepalive() {
 }
 
 # Set up cleanup traps for the sudo keepalive process
-if [[ -z "$(trap -p EXIT | grep cleanup_sudo_keepalive)" ]]; then
+if [[ -z "${_SUDO_CLEANUP_TRAP_SET}" ]]; then
     trap cleanup_sudo_keepalive EXIT
-fi
-if [[ -z "$(trap -p INT | grep cleanup_sudo_keepalive)" ]]; then
     trap cleanup_sudo_keepalive INT
-fi
-if [[ -z "$(trap -p TERM | grep cleanup_sudo_keepalive)" ]]; then
     trap cleanup_sudo_keepalive TERM
+    _SUDO_CLEANUP_TRAP_SET=1
 fi
 
 ###############################################################################
