@@ -11,7 +11,7 @@ ui_spacer
 
 file_paths=("$MY/core/packages/npm")
 
-declare -A file_packages_map
+declare -A _NPM__NPM_file_packages_map
 for file_path in "${file_paths[@]}"; do
     while read -r line || [[ -n "$line" ]]; do
         # Remove any content after the # symbol
@@ -22,7 +22,7 @@ for file_path in "${file_paths[@]}"; do
 
         if [[ "$trimmed_line" =~ ^npm_install\ (@?[a-zA-Z0-9_\-]+(/[a-zA-Z0-9_\-]+)?) ]]; then
             package_name=${match[1]}
-            file_packages_map[$package_name]=1
+            _NPM_file_packages_map[$package_name]=1
         fi
     done <"$file_path"
 done
@@ -34,15 +34,15 @@ installed_packages=($(echo "$installed_packages_json" | jq -r '.dependencies | k
 ui_success_simple "Found ${#installed_packages[@]} global packages"
 ui_spacer
 
-declare -A installed_packages_map
+declare -A _NPM_installed_packages_map
 for package in "${installed_packages[@]}"; do
-    installed_packages_map[$package]=1
+    _NPM_installed_packages_map[$package]=1
 done
 
 # Check for packages in npm files but not installed
 missing_packages=()
-for package in ${(k)file_packages_map}; do
-    if [[ -z "${installed_packages_map[$package]}" ]]; then
+for package in ${(k)_NPM_file_packages_map}; do
+    if [[ -z "${_NPM_installed_packages_map[$package]}" ]]; then
         missing_packages+=($package)
     fi
 done
@@ -68,13 +68,13 @@ ui_primary "🔍 Package Review"
 ui_divider "─" 60 "$UI_PRIMARY"
 ui_spacer
 
-for package in ${(k)installed_packages_map}; do
+for package in ${(k)_NPM_installed_packages_map}; do
     # Ignore system packages
     if [[ "$package" == "npm" || "$package" == "corepack" ]]; then
         continue
     fi
 
-    if [[ -z "${file_packages_map[$package]}" ]]; then
+    if [[ -z "${_NPM_file_packages_map[$package]}" ]]; then
         ui_box "Package: $package" "Orphaned Package" 60
         ui_warning_simple "Not defined in configuration files"
         ui_spacer

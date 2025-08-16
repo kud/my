@@ -16,10 +16,8 @@ _BREW_FORMULAE_CACHE=""
 _BREW_CASKS_CACHE=""
 _BREW_OUTDATED_CACHE=""
 
-# Node.js package queue for batch processing
+# Package queues for batch processing - properly reset after each batch
 _NPM_PACKAGES_TO_INSTALL=()
-
-# Homebrew package queues for efficient installation
 _BREW_PACKAGES_TO_INSTALL=()
 _CASK_PACKAGES_TO_INSTALL=()
 
@@ -66,30 +64,29 @@ function brew_install() {
 }
 
 function brew_install_run() {
-  local start_time=$(date +%s.%N)
-  ui_debug "brew_install_run: Starting with ${#_BREW_PACKAGES_TO_INSTALL[@]} packages"
+  # Use function-static array to avoid global state pollution
+  local -a _LOCAL_BREW_PACKAGES=("${_BREW_PACKAGES_TO_INSTALL[@]}")
+  # Clear global array immediately to prevent conflicts
+  _BREW_PACKAGES_TO_INSTALL=()
   
-  if [[ ${#_BREW_PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
+  local start_time=$(date +%s.%N)
+  ui_debug "brew_install_run: Starting with ${#_LOCAL_BREW_PACKAGES[@]} packages"
+  
+  if [[ ${#_LOCAL_BREW_PACKAGES[@]} -eq 0 ]]; then
     ui_debug "brew_install_run: No packages to install"
     return 0
   fi
 
-  # Load UI functions if not already loaded
-  if ! command -v ui_info_simple >/dev/null 2>&1; then
-  fi
-
-  ui_info_simple "Installing ${#_BREW_PACKAGES_TO_INSTALL[@]} formulae:"
-  for package in "${_BREW_PACKAGES_TO_INSTALL[@]}"; do
+  ui_info_simple "Installing ${#_LOCAL_BREW_PACKAGES[@]} formulae:"
+  for package in "${_LOCAL_BREW_PACKAGES[@]}"; do
     echo "  • $package"
     ui_debug "brew_install_run: Will install $package"
   done
   ui_space
 
-  ui_debug_command "brew install ${_BREW_PACKAGES_TO_INSTALL[*]}"
-  brew install "${_BREW_PACKAGES_TO_INSTALL[@]}"
+  ui_debug_command "brew install ${_LOCAL_BREW_PACKAGES[*]}"
+  brew install "${_LOCAL_BREW_PACKAGES[@]}"
 
-  # Clear the array and refresh cache
-  _BREW_PACKAGES_TO_INSTALL=()
   ui_debug "brew_install_run: Refreshing cache"
   refresh_brew_cache
   ui_debug_timing "$start_time" "brew_install_run"
@@ -120,7 +117,12 @@ function cask_install() {
 }
 
 function cask_install_run() {
-  if [[ ${#_CASK_PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
+  # Use function-static array to avoid global state pollution
+  local -a _LOCAL_CASK_PACKAGES=("${_CASK_PACKAGES_TO_INSTALL[@]}")
+  # Clear global array immediately to prevent conflicts
+  _CASK_PACKAGES_TO_INSTALL=()
+  
+  if [[ ${#_LOCAL_CASK_PACKAGES[@]} -eq 0 ]]; then
     return 0
   fi
 
@@ -128,20 +130,19 @@ function cask_install_run() {
   if ! command -v ui_info_simple >/dev/null 2>&1; then
   fi
 
-  ui_info_simple "Installing ${#_CASK_PACKAGES_TO_INSTALL[@]} casks:"
-  for package in "${_CASK_PACKAGES_TO_INSTALL[@]}"; do
+  ui_info_simple "Installing ${#_LOCAL_CASK_PACKAGES[@]} casks:"
+  for package in "${_LOCAL_CASK_PACKAGES[@]}"; do
     echo "  • $package"
   done
   ui_space
 
-  if ! brew install --cask "${_CASK_PACKAGES_TO_INSTALL[@]}"; then
+  if ! brew install --cask "${_LOCAL_CASK_PACKAGES[@]}"; then
     ui_error_simple "Homebrew cask installation failed"
     ui_warning_simple "Please fix the conflict and run the script again"
     exit 1
   fi
 
-  # Clear the array and refresh cache
-  _CASK_PACKAGES_TO_INSTALL=()
+  # Refresh cache
   refresh_brew_cache
 }
 
@@ -163,10 +164,15 @@ function npm_install() {
 }
 
 function npm_install_run() {
-  local start_time=$(date +%s.%N)
-  ui_debug "npm_install_run: Starting with ${#_NPM_PACKAGES_TO_INSTALL[@]} packages"
+  # Use function-static array to avoid global state pollution
+  local -a _LOCAL_NPM_PACKAGES=("${_NPM_PACKAGES_TO_INSTALL[@]}")
+  # Clear global array immediately to prevent conflicts
+  _NPM_PACKAGES_TO_INSTALL=()
   
-  if [[ ${#_NPM_PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
+  local start_time=$(date +%s.%N)
+  ui_debug "npm_install_run: Starting with ${#_LOCAL_NPM_PACKAGES[@]} packages"
+  
+  if [[ ${#_LOCAL_NPM_PACKAGES[@]} -eq 0 ]]; then
     ui_debug "npm_install_run: No packages to install"
     return 0
   fi
@@ -183,7 +189,7 @@ function npm_install_run() {
   # Filter out already installed packages
   local packages_to_install=()
   ui_debug "npm_install_run: Filtering already installed packages"
-  for package in "${_NPM_PACKAGES_TO_INSTALL[@]}"; do
+  for package in "${_LOCAL_NPM_PACKAGES[@]}"; do
     local package_name="${package%%@*}"
     if ! echo "$installed_packages" | grep -q "^${package_name}$"; then
       packages_to_install+=("$package")
@@ -196,7 +202,6 @@ function npm_install_run() {
   # Skip if no packages need installation
   if [[ ${#packages_to_install[@]} -eq 0 ]]; then
     ui_info_simple "All npm packages already installed"
-    _NPM_PACKAGES_TO_INSTALL=()
     ui_debug_timing "$start_time" "npm_install_run (no packages needed)"
     return 0
   fi
@@ -233,8 +238,6 @@ function npm_install_run() {
     done
   fi
 
-  # Clear the array
-  _NPM_PACKAGES_TO_INSTALL=()
   ui_debug_timing "$start_time" "npm_install_run"
 }
 

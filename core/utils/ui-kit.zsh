@@ -853,5 +853,7 @@ ui_cleanup() {
     echo -e "${UI_RESET}"
 }
 
-# Register cleanup on script exit
-trap ui_cleanup EXIT
+# Register cleanup on script exit (only if not already set)
+if [[ -z "$(trap -p EXIT | grep ui_cleanup)" ]]; then
+    trap ui_cleanup EXIT
+fi

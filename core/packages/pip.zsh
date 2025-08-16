@@ -24,10 +24,10 @@ ensure_command_available "yq" "Install with: brew install yq"
 # Check if pyenv is available
 if ensure_command_available "pyenv" "" "false"; then
     # Get latest Python version from brew info
-    LATEST_PYTHON_VERSION=$(brew info python | grep '(bottled)' | sed 's/==> python@3...: stable //g' | sed 's/ (bottled).*//g')
+    local _PIP_LATEST_PYTHON_VERSION=$(brew info python | grep '(bottled)' | sed 's/==> python@3...: stable //g' | sed 's/ (bottled).*//g')
 
-    if [[ -n "$LATEST_PYTHON_VERSION" ]]; then
-        ui_info_simple "Installing Python $LATEST_PYTHON_VERSION..."
+    if [[ -n "$_PIP_LATEST_PYTHON_VERSION" ]]; then
+        ui_info_simple "Installing Python $_PIP_LATEST_PYTHON_VERSION..."
         
         # Set environment variables for proper compilation with GUI support
         # (assumes tcl-tk is installed via brew.yml)
@@ -37,9 +37,9 @@ if ensure_command_available "pyenv" "" "false"; then
         export PKG_CONFIG_PATH="$(brew --prefix tcl-tk)/lib/pkgconfig"
         
         # Install with GUI support
-        pyenv install -s $LATEST_PYTHON_VERSION
-        pyenv global $LATEST_PYTHON_VERSION
-        ui_success_simple "Python $LATEST_PYTHON_VERSION installed and set as global"
+        pyenv install -s $_PIP_LATEST_PYTHON_VERSION
+        pyenv global $_PIP_LATEST_PYTHON_VERSION
+        ui_success_simple "Python $_PIP_LATEST_PYTHON_VERSION installed and set as global"
     fi
 fi
 
