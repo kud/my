@@ -17,6 +17,34 @@ while true; do
   kill -0 "$$" || exit
 done 2>/dev/null &
 
+# Store PID for cleanup
+SUDO_KEEPALIVE_PID=$!
+
+# Cleanup function for sudo keepalive process
+cleanup_sudo_keepalive() {
+    if [[ -n "$SUDO_KEEPALIVE_PID" ]]; then
+        if kill -0 "$SUDO_KEEPALIVE_PID" 2>/dev/null; then
+            kill -TERM "$SUDO_KEEPALIVE_PID" 2>/dev/null
+            sleep 0.1
+            if kill -0 "$SUDO_KEEPALIVE_PID" 2>/dev/null; then
+                kill -KILL "$SUDO_KEEPALIVE_PID" 2>/dev/null
+            fi
+        fi
+        unset SUDO_KEEPALIVE_PID
+    fi
+}
+
+# Set up cleanup traps for the sudo keepalive process
+if [[ -z "$(trap -p EXIT | grep cleanup_sudo_keepalive)" ]]; then
+    trap cleanup_sudo_keepalive EXIT
+fi
+if [[ -z "$(trap -p INT | grep cleanup_sudo_keepalive)" ]]; then
+    trap cleanup_sudo_keepalive INT
+fi
+if [[ -z "$(trap -p TERM | grep cleanup_sudo_keepalive)" ]]; then
+    trap cleanup_sudo_keepalive TERM
+fi
+
 ###############################################################################
 # General UI/UX                                                               #
 ###############################################################################

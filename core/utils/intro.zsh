@@ -75,6 +75,24 @@ show_animated_intro() {
     printf "\033[?25h"
 }
 
+# Process cleanup function
+cleanup_intro_process() {
+    if [[ -n "$MY_INTRO_PID" ]]; then
+        # Check if process is still running
+        if kill -0 "$MY_INTRO_PID" 2>/dev/null; then
+            # Terminate the background process gracefully
+            kill -TERM "$MY_INTRO_PID" 2>/dev/null
+            # Give it a moment to terminate gracefully
+            sleep 0.1
+            # Force kill if still running
+            if kill -0 "$MY_INTRO_PID" 2>/dev/null; then
+                kill -KILL "$MY_INTRO_PID" 2>/dev/null
+            fi
+        fi
+        unset MY_INTRO_PID
+    fi
+}
+
 # Function to run intro asynchronously
 run_intro_async() {
     # Check if we should show intro (not in CI, interactive terminal, and during update)
@@ -86,6 +104,17 @@ run_intro_async() {
         
         # Store the PID if needed for cleanup
         export MY_INTRO_PID=$!
+        
+        # Set up cleanup traps for the background process
+        if [[ -z "$(trap -p EXIT | grep cleanup_intro_process)" ]]; then
+            trap cleanup_intro_process EXIT
+        fi
+        if [[ -z "$(trap -p INT | grep cleanup_intro_process)" ]]; then
+            trap cleanup_intro_process INT
+        fi
+        if [[ -z "$(trap -p TERM | grep cleanup_intro_process)" ]]; then
+            trap cleanup_intro_process TERM
+        fi
         
         # Don't wait - let the main process continue
         # The animation will complete on its own

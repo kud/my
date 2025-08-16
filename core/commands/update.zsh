@@ -19,7 +19,8 @@ source $MY/core/utils/intro.zsh
 # Wait for animation to complete if it's running
 if [[ -n "$MY_INTRO_PID" ]]; then
     wait $MY_INTRO_PID 2>/dev/null
-    unset MY_INTRO_PID
+    # Clean up explicitly (even though traps will handle it)
+    cleanup_intro_process 2>/dev/null || true
 fi
 
 ################################################################################

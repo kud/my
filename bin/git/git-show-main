@@ -1,4 +1,18 @@
 #! /usr/bin/env zsh
 HEAD_BRANCH=$(basename $(git symbolic-ref --short refs/remotes/origin/HEAD))
 
+# Cleanup function for background editor process
+cleanup_editor_process() {
+    if [[ -n "$EDITOR_PID" ]]; then
+        # Note: We don't kill the editor process as user might still be using it
+        # Just clean up the PID variable
+        unset EDITOR_PID
+    fi
+}
+
+# Start editor with content and track PID
 git show ${HEAD_BRANCH}:$1 | code &
+EDITOR_PID=$!
+
+# Set up cleanup trap (mainly for PID variable cleanup)
+trap cleanup_editor_process EXIT
