@@ -11,7 +11,7 @@
 
 # Source required utilities
 source $MY/core/utils/ui-kit.zsh
-source $MY/core/utils/package-manager-utils.zsh
+source $MY/core/utils/packages.zsh
 
 # Constants and Variables
 LOG_FILE="$MY/logs/cleanup.log"

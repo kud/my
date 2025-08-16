@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 # Source required utilities
-source $MY/core/utils/package-manager-utils.zsh
+source $MY/core/utils/packages.zsh
 
 REL_USER_JS="user.js"
 REL_CONTAINERS="containers.json"
