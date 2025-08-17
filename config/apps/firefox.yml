@@ -282,59 +282,70 @@ containers:
       userContextId: 322
       name: "Facebook"
 
-# Extension Hotkeys Reference
-extension_hotkeys:
-  easy_container_shortcuts:
-    new_tab_current_container: "⌘T"
-    open_tab_container_1: "⌘1"
-    open_tab_container_2: "⌘2"
-    open_tab_container_3: "⌘3"
-    open_tab_container_4: "⌘4"
-    open_tab_container_5: "⌘5"
-    open_tab_container_6: "⌘6"
-    open_tab_container_7: "⌘7"
-    open_tab_container_8: "⌘8"
-    open_tab_container_9: "⌘9"
-    reopen_tab_default_container: "⌘0"
-    reopen_tab_container_1: "⌘⇧1"
-    reopen_tab_container_2: "⌘⇧2"
-    reopen_tab_container_3: "⌘⇧3"
-    reopen_tab_container_4: "⌘⇧4"
-    reopen_tab_container_5: "⌘⇧5"
-    reopen_tab_container_6: "⌘⇧6"
-    reopen_tab_container_7: "⌘⇧7"
-    reopen_tab_container_8: "⌘⇧8"
-    reopen_tab_container_9: "⌘⇧9"
-    new_window_current_container: "⌥T"
-    open_window_container_1: "⌥1"
-    open_window_container_2: "⌥2"
-    open_window_container_3: "⌥3"
-    open_window_container_4: "⌥4"
-    open_window_container_5: "⌥5"
-    open_window_container_6: "⌥6"
-    open_window_container_7: "⌥7"
-    open_window_container_8: "⌥8"
-    open_window_container_9: "⌥9"
+# Extension Settings
+extension_settings:
+  # Commands (keyboard shortcuts)
+  commands:
+    easy_container_shortcuts:
+      new_tab_current_container: "⌘T"
+      open_tab_container_1: "⌘1"
+      open_tab_container_2: "⌘2"
+      open_tab_container_3: "⌘3"
+      open_tab_container_4: "⌘4"
+      open_tab_container_5: "⌘5"
+      open_tab_container_6: "⌘6"
+      open_tab_container_7: "⌘7"
+      open_tab_container_8: "⌘8"
+      open_tab_container_9: "⌘9"
+      reopen_tab_default_container: "⌘0"
+      reopen_tab_container_1: "⌘⇧1"
+      reopen_tab_container_2: "⌘⇧2"
+      reopen_tab_container_3: "⌘⇧3"
+      reopen_tab_container_4: "⌘⇧4"
+      reopen_tab_container_5: "⌘⇧5"
+      reopen_tab_container_6: "⌘⇧6"
+      reopen_tab_container_7: "⌘⇧7"
+      reopen_tab_container_8: "⌘⇧8"
+      reopen_tab_container_9: "⌘⇧9"
+      new_window_current_container: "⌥T"
+      open_window_container_1: "⌥1"
+      open_window_container_2: "⌥2"
+      open_window_container_3: "⌥3"
+      open_window_container_4: "⌥4"
+      open_window_container_5: "⌥5"
+      open_window_container_6: "⌥6"
+      open_window_container_7: "⌥7"
+      open_window_container_8: "⌥8"
+      open_window_container_9: "⌥9"
 
-  firefox_multi_account_containers:
-    open_container_panel: "^Period"
+    firefox_multi_account_containers:
+      open_container_panel: "^Period"
 
-  email_address_plus:
-    copy_labeled_email: "⇧⌘Y"
+    email_address_plus:
+      copy_labeled_email: "⇧⌘Y"
 
-  move_tab_to_next_window:
-    move_tab: "⇧⌥N"
+    move_tab_to_next_window:
+      move_tab: "⇧⌥N"
 
-  raindrop_io:
-    bookmark_save_highlights: "⇧⌥S"
-    open_sidebar: "⌘Period"
+    raindrop_io:
+      bookmark_save_highlights: "⇧⌥S"
+      open_sidebar: "⌘Period"
 
-  readwise_highlighter:
-    activate_toolbar_button: "⌥R"
+    readwise_highlighter:
+      activate_toolbar_button: "⌥R"
 
-  keepassxc_browser:
-    fill_username_password: "⇧^U"
-    fill_password_only: "⇧^I"
-    fill_totp: "⇧^O"
-    show_password_generator: "⇧^G"
-    save_credentials: "⇧^S"
+    keepassxc_browser:
+      fill_username_password: "⇧^U"
+      fill_password_only: "⇧^I"
+      fill_totp: "⇧^O"
+      show_password_generator: "⇧^G"
+      save_credentials: "⇧^S"
+
+  # Extension preferences (can be added here)
+  prefs: {}
+
+  # URL overrides (can be added here)  
+  url_overrides: {}
+
+  # Default search settings (can be added here)
+  default_search: {}
