@@ -28,6 +28,7 @@ USER_JS_FILE="$DEFAULT_FOLDER/$REL_USER_JS"
 CONTAINERS_FILE="$DEFAULT_FOLDER/$REL_CONTAINERS"
 EXTENSION_SETTINGS_FILE="$DEFAULT_FOLDER/$REL_EXTENSION_SETTINGS"
 USER_CHROME_FILE="$DEFAULT_FOLDER/$REL_USER_CHROME"
+ADDONS_FILE="$DEFAULT_FOLDER/addons.json"
 
 shorten_path() {
   local p="$1"
@@ -86,6 +87,102 @@ echo "Container tabs"
 echo "  $(shorten_path "$CONTAINERS_FILE")"
 yq eval '.containers' "$CONFIG_FILE" --output-format=json > "$CONTAINERS_FILE"
 echo "Container tabs updated"
+
+echo "Extension settings"
+echo "  $(shorten_path "$EXTENSION_SETTINGS_FILE")"
+
+# Create backup of current extension settings
+if [[ -f "$EXTENSION_SETTINGS_FILE" ]]; then
+  BACKUP_FILE="${EXTENSION_SETTINGS_FILE}.backup.$(date +%Y%m%d_%H%M%S)"
+  cp "$EXTENSION_SETTINGS_FILE" "$BACKUP_FILE"
+  echo "  Backup created: $(shorten_path "$BACKUP_FILE")"
+fi
+
+# Create extension ID mapping from addons.json
+EXTENSION_ID_MAP=$(jq -r '
+  .addons | map({
+    key: (.name | gsub("[^a-zA-Z0-9]"; "_") | ascii_downcase),
+    value: .id
+  }) | from_entries
+' "$ADDONS_FILE" 2>/dev/null || echo '{}')
+
+# Read current extension settings or create empty structure
+CURRENT_EXTENSION_SETTINGS=$(cat "$EXTENSION_SETTINGS_FILE" 2>/dev/null || echo '{"version":3,"commands":{},"prefs":{},"url_overrides":{},"default_search":{}}')
+
+# Process extension settings from YAML and convert to extension-settings format
+EXTENSION_COMMANDS=$(yq eval '.extension_settings.commands // {}' "$CONFIG_FILE")
+
+if [[ "$EXTENSION_COMMANDS" != "null" && "$EXTENSION_COMMANDS" != "{}" ]]; then
+  # Generate commands section
+  COMMANDS_JSON=$(echo "$EXTENSION_COMMANDS" | yq eval -o=json | jq -r --argjson id_map "$EXTENSION_ID_MAP" '
+    def normalize_name: gsub("[^a-zA-Z0-9]"; "_") | ascii_downcase;
+    def to_firefox_shortcut:
+      gsub("⌘"; "MacCtrl+") |
+      gsub("⇧"; "Shift+") |
+      gsub("⌥"; "Alt+") |
+      gsub("^"; "Ctrl+");
+    
+    to_entries | map(
+      .key as $ext_name |
+      ($ext_name | normalize_name) as $normalized |
+      $id_map[$normalized] as $ext_id |
+      if $ext_id then
+        .value | to_entries | map({
+          key: .key,
+          value: {
+            precedenceList: [{
+              id: $ext_id,
+              installDate: (now * 1000 | floor),
+              value: {
+                shortcut: (.value | to_firefox_shortcut),
+                description: (.key | gsub("_"; " ") | split(" ") | map(. | ascii_upcase[0:1] + .[1:]) | join(" "))
+              },
+              enabled: true
+            }]
+          }
+        })
+      else
+        empty
+      end
+    ) | flatten | from_entries
+  ')
+  
+  # Merge with existing commands
+  UPDATED_EXTENSION_SETTINGS=$(echo "$CURRENT_EXTENSION_SETTINGS" | jq --argjson new_commands "$COMMANDS_JSON" '
+    .commands = (.commands // {}) * $new_commands
+  ')
+else
+  UPDATED_EXTENSION_SETTINGS="$CURRENT_EXTENSION_SETTINGS"
+fi
+
+# Process other extension settings sections
+EXTENSION_PREFS=$(yq eval '.extension_settings.prefs // {}' "$CONFIG_FILE")
+EXTENSION_URL_OVERRIDES=$(yq eval '.extension_settings.url_overrides // {}' "$CONFIG_FILE")  
+EXTENSION_DEFAULT_SEARCH=$(yq eval '.extension_settings.default_search // {}' "$CONFIG_FILE")
+
+if [[ "$EXTENSION_PREFS" != "null" && "$EXTENSION_PREFS" != "{}" ]]; then
+  PREFS_JSON=$(echo "$EXTENSION_PREFS" | yq eval -o=json)
+  UPDATED_EXTENSION_SETTINGS=$(echo "$UPDATED_EXTENSION_SETTINGS" | jq --argjson new_prefs "$PREFS_JSON" '
+    .prefs = (.prefs // {}) * $new_prefs
+  ')
+fi
+
+if [[ "$EXTENSION_URL_OVERRIDES" != "null" && "$EXTENSION_URL_OVERRIDES" != "{}" ]]; then
+  URL_OVERRIDES_JSON=$(echo "$EXTENSION_URL_OVERRIDES" | yq eval -o=json)
+  UPDATED_EXTENSION_SETTINGS=$(echo "$UPDATED_EXTENSION_SETTINGS" | jq --argjson new_overrides "$URL_OVERRIDES_JSON" '
+    .url_overrides = (.url_overrides // {}) * $new_overrides
+  ')
+fi
+
+if [[ "$EXTENSION_DEFAULT_SEARCH" != "null" && "$EXTENSION_DEFAULT_SEARCH" != "{}" ]]; then
+  DEFAULT_SEARCH_JSON=$(echo "$EXTENSION_DEFAULT_SEARCH" | yq eval -o=json)
+  UPDATED_EXTENSION_SETTINGS=$(echo "$UPDATED_EXTENSION_SETTINGS" | jq --argjson new_search "$DEFAULT_SEARCH_JSON" '
+    .default_search = (.default_search // {}) * $new_search
+  ')
+fi
+
+echo "$UPDATED_EXTENSION_SETTINGS" | jq . > "$EXTENSION_SETTINGS_FILE"
+echo "Extension settings updated"
 
 echo "Restarting Firefox..."
 
