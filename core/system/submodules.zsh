@@ -27,12 +27,10 @@ process_submodule() {
     if [[ -d "$module_path" ]]; then
         ui_subsection "$name"
         git --git-dir="$module_path/.git" --work-tree="$module_path/" pull
-        ui_success_simple "Updated"
     else
         ui_subsection "$name"
         ui_info_simple "Installing from: $url"
         git clone --recursive "$url" "$module_path"
-        ui_success_simple "Installed"
     fi
     echo
 }
