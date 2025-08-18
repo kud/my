@@ -62,6 +62,7 @@ configure_modern_shell() {
 update_homebrew() {
     brew update && brew upgrade
     ui_success_simple "Homebrew updated"
+    ui_space
 
     # Initialize brew cache for faster package checking
     init_brew_cache
