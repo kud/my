@@ -236,8 +236,10 @@ ui_debug_command() {
   fi
 }
 
-# Subtitle function with starter icon
-ui_subtitle() { echo -e "${UI_PRIMARY}${UI_ICON_STARTER}${UI_RESET} ${UI_BOLD_WHITE}$1${UI_RESET}"; }
+# Section headers (hierarchy: section > subtitle > subsection)
+ui_section() { echo -e "\n${UI_BOLD}${UI_PRIMARY}$1${UI_RESET}"; }  # Major sections (bold colored)
+ui_subtitle() { echo -e "\n${UI_PRIMARY}${UI_ICON_STARTER}${UI_RESET} ${UI_BOLD_WHITE}$1${UI_RESET}"; }  # Subsections with arrow
+ui_subsection() { echo -e "  ${UI_ACCENT}▸${UI_RESET} ${1}"; }  # Sub-subsections indented
 
 ################################################################################
 # 📝 MESSAGING COMPONENTS
@@ -269,7 +271,6 @@ ui_success_simple() { echo -e "${UI_SUCCESS}${UI_ICON_CHECK_ALT}${UI_RESET} ${1}
 ui_error_simple() { echo -e "${UI_DANGER}${UI_ICON_CROSS_ALT}${UI_RESET} ${1}"; }
 ui_warning_simple() { echo -e "${UI_WARNING}${UI_ICON_WARN_BRACKET}${UI_RESET} ${1}"; }
 ui_info_simple() { echo -e "${UI_INFO}${UI_ICON_INFO_BRACKET}${UI_RESET} ${1}"; }
-ui_subsection() { echo -e " ${UI_ACCENT}▸${UI_RESET} ${1}"; }
 
 # Badge-style messages
 ui_badge() {
@@ -773,6 +774,7 @@ ui_hr() {
 ################################################################################
 
 # Title functions for section headers
+# Legacy title function (deprecated - use ui_section instead)
 ui_title() { 
     echo -e "${UI_CYAN}${UI_ICON_STARTER} $@${UI_RESET}" 
 }
