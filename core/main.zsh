@@ -20,22 +20,16 @@ source $MY/core/utils/ui-kit.zsh
 ################################################################################
 
 setup_system_foundation() {
-    ui_spacer
     ui_section "🏗️ Setting up system foundation"
-
-    ui_spacer
     ui_subtitle "Cloud Storage Setup"
     $MY/core/apps/pcloud.zsh
 
-    ui_spacer
     ui_subtitle "Default Directories"
     $MY/core/system/default-folders.zsh
 
-    ui_spacer
     ui_subtitle "Configuration Sync"
     $MY/core/system/sync-files.zsh
 
-    ui_spacer
     ui_subtitle "Dotfiles Linking"
     $MY/core/system/dotfiles.zsh
 
@@ -43,32 +37,24 @@ setup_system_foundation() {
 }
 
 setup_package_managers() {
-    ui_spacer 2
     ui_section "📦 Installing packages"
-
-    ui_spacer
     ui_subtitle "Homebrew Formulae & Casks"
     if ! $MY/core/packages/brew.zsh; then
         exit 1
     fi
 
-    ui_spacer
     ui_subtitle "Zsh Plugins"
     $MY/core/packages/antidote.zsh
 
-    ui_spacer
     ui_subtitle "Ruby Gems"
     $MY/core/packages/gem.zsh
 
-    ui_spacer
     ui_subtitle "Python Packages"
     $MY/core/packages/pip.zsh
 
-    ui_spacer
     ui_subtitle "Node.js Packages"
     $MY/core/packages/npm.zsh
 
-    ui_spacer
     ui_subtitle "Mac App Store"
     $MY/core/packages/mas.zsh
 
@@ -76,14 +62,10 @@ setup_package_managers() {
 }
 
 setup_development_tools() {
-    ui_spacer 2
     ui_section "🛠️ Configuring development tools"
-
-    ui_spacer
     ui_subtitle "AI Commit Configuration"
     $MY/core/cli/aicommits.zsh
 
-    ui_spacer
     ui_subtitle "Shell Abbreviations"
     $MY/core/cli/abbr.zsh
 
@@ -91,14 +73,10 @@ setup_development_tools() {
 }
 
 setup_applications() {
-    ui_spacer 2
     ui_section "💻 Configuring applications"
-
-    ui_spacer
     ui_subtitle "Sublime Merge Preferences"
     $MY/core/apps/sublime-merge.zsh
 
-    ui_spacer
     ui_subtitle "KeePassXC Configuration"
     $MY/core/apps/keepassxc.zsh
 
@@ -106,10 +84,7 @@ setup_applications() {
 }
 
 setup_system_components() {
-    ui_spacer 2
     ui_section "🔌 Installing system components"
-
-    ui_spacer
     ui_subtitle "Git Submodule Updates"
     $MY/core/system/submodules.zsh
 
