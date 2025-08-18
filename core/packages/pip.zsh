@@ -27,7 +27,7 @@ if ensure_command_available "pyenv" "" "false"; then
     local _PIP_LATEST_PYTHON_VERSION=$(brew info python | grep '(bottled)' | sed 's/==> python@3...: stable //g' | sed 's/ (bottled).*//g')
 
     if [[ -n "$_PIP_LATEST_PYTHON_VERSION" ]]; then
-        ui_info_simple "Installing Python $_PIP_LATEST_PYTHON_VERSION..."
+        ui_subsection "Installing Python $_PIP_LATEST_PYTHON_VERSION"
         
         # Set environment variables for proper compilation with GUI support
         # (assumes tcl-tk is installed via brew.yml)
@@ -58,21 +58,21 @@ pip_install_package() {
 # Check if pip is available
 if ensure_command_available "pip" "" "false"; then
     # Upgrade pip itself first
-    ui_info_simple "Upgrading pip..."
+    ui_subsection "Upgrading pip"
     pip install --upgrade pip
     ui_success_simple "pip upgraded"
 
     ui_spacer
 
     # Process pip packages using shared utilities
-    ui_info_simple "Installing development packages..."
+    ui_subsection "Installing development packages"
     process_package_configs "pip" "pip_install_package"
     ui_success_simple "Development packages installed"
 
     ui_spacer
 
     # Upgrade all installed packages
-    ui_info_simple "Upgrading all installed packages..."
+    ui_subsection "Upgrading all installed packages"
     pip-upgrade-all
     ui_success_simple "All packages upgraded"
 fi
