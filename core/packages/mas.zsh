@@ -31,9 +31,9 @@ ensure_mas_prerequisites() {
 ################################################################################
 
 update_mas_applications() {
-    ui_info_simple "Checking for Mac App Store updates..."
+    ui_info_simple "Updating Mac App Store applications..."
     mas upgrade
-    ui_success_simple "Mac App Store apps updated"
+    ui_success_simple "Mac App Store applications updated"
 }
 
 merge_and_install_mas_packages() {
@@ -70,7 +70,7 @@ merge_and_install_mas_packages() {
     fi
     
     merge_and_install_packages "mas" ".packages[].id:mas_install:-"
-    ui_success_simple "Mac App Store applications processed"
+    ui_success_simple "Mac App Store applications installed"
 }
 
 ################################################################################
