@@ -239,7 +239,7 @@ ui_debug_command() {
 # Section headers (hierarchy: section > subtitle > subsection)
 ui_section() { echo -e "\n${UI_BOLD}${UI_PRIMARY}$1${UI_RESET}"; }  # Major sections (bold colored)
 ui_subtitle() { echo -e "\n${UI_PRIMARY}${UI_ICON_STARTER}${UI_RESET} ${UI_BOLD_WHITE}$1${UI_RESET}"; }  # Subsections with arrow
-ui_subsection() { echo -e "  ${UI_ACCENT}▸${UI_RESET} ${1}"; }  # Sub-subsections indented
+ui_subsection() { echo -e " ${UI_ACCENT}▸${UI_RESET} ${1}"; }  # Sub-subsections indented
 
 ################################################################################
 # 📝 MESSAGING COMPONENTS
