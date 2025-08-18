@@ -28,6 +28,7 @@ packages:
   - gh-pages
   - git-branch-delete
   - git-branch-select
+  - git-split-diffs
   - gnomon
   - gulp-cli
   - hicat

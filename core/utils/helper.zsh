@@ -306,15 +306,15 @@ show_command_help() {
   local commands=("$@")
 
   # Load UI functions if not already loaded
-  if ! command -v ui_space >/dev/null 2>&1; then
+  if ! command -v ui_spacer >/dev/null 2>&1; then
   fi
 
-  ui_space
+  ui_spacer
   ui_highlight "$script_name - $description"
-  ui_space
+  ui_spacer
   ui_bold_text "USAGE:"
   echo "  $usage"
-  ui_spacex2
+  ui_spacerx2
 
   if [[ ${#commands[@]} -gt 0 ]]; then
     ui_bold_text "COMMANDS:"
