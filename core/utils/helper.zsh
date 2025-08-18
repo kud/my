@@ -220,7 +220,7 @@ function npm_install_run() {
     ui_debug "npm_install_run: Batch installation failed, trying individually"
     ui_warning_simple "Batch installation failed, trying individually..."
     for package in "${packages_to_install[@]}"; do
-      ui_info_simple "Installing $package..."
+      ui_subsection "$package"
       ui_debug_command "npm install -g $package"
       if ! npm install -g "$package"; then
         ui_debug "npm_install_run: Failed to install $package, attempting cleanup and retry"

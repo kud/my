@@ -90,4 +90,4 @@ ui_spacer
 # ✅ UPDATE COMPLETE
 ################################################################################
 
-ui_success_msg "Update complete! 🎉"
+ui_primary "Update complete! 🎉"
