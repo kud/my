@@ -104,15 +104,27 @@ process_package_configs() {
         source $MY/core/utils/ui-kit.zsh
     fi
     
-    # Run pre-install commands first
-    ui_info_simple "Running pre-install commands..."
-    ui_debug "process_package_configs: Running pre-install from main config"
-    run_pre_install_from_yaml "$main_config"
-    ui_debug "process_package_configs: Running pre-install from profile config"
-    run_pre_install_from_yaml "$profile_config"
-    ui_success_simple "Pre-install commands completed"
+    # Check if there are any pre-install commands
+    local has_pre_install=false
+    if [[ -f "$main_config" ]]; then
+        local main_pre=$(yq eval '.pre_install[]?' "$main_config" 2>/dev/null)
+        [[ -n "$main_pre" ]] && has_pre_install=true
+    fi
+    if [[ -f "$profile_config" ]]; then
+        local profile_pre=$(yq eval '.pre_install[]?' "$profile_config" 2>/dev/null)
+        [[ -n "$profile_pre" ]] && has_pre_install=true
+    fi
     
-    ui_spacer
+    # Run pre-install commands if they exist
+    if [[ "$has_pre_install" == "true" ]]; then
+        ui_info_simple "Running pre-install commands..."
+        ui_debug "process_package_configs: Running pre-install from main config"
+        run_pre_install_from_yaml "$main_config"
+        ui_debug "process_package_configs: Running pre-install from profile config"
+        run_pre_install_from_yaml "$profile_config"
+        ui_success_simple "Pre-install commands completed"
+        ui_spacer
+    fi
     
     # Collect packages from both configs
     ui_debug "process_package_configs: Collecting packages from configs"
@@ -125,13 +137,26 @@ process_package_configs() {
         $batch_run_function
     fi
     
-    # Run post-install commands
-    ui_info_simple "Running post-install commands..."
-    ui_debug "process_package_configs: Running post-install from main config"
-    run_post_install_from_yaml "$main_config"
-    ui_debug "process_package_configs: Running post-install from profile config"
-    run_post_install_from_yaml "$profile_config"
-    ui_success_simple "Post-install commands completed"
+    # Check if there are any post-install commands
+    local has_post_install=false
+    if [[ -f "$main_config" ]]; then
+        local main_post=$(yq eval '.post_install[]?' "$main_config" 2>/dev/null)
+        [[ -n "$main_post" ]] && has_post_install=true
+    fi
+    if [[ -f "$profile_config" ]]; then
+        local profile_post=$(yq eval '.post_install[]?' "$profile_config" 2>/dev/null)
+        [[ -n "$profile_post" ]] && has_post_install=true
+    fi
+    
+    # Run post-install commands if they exist
+    if [[ "$has_post_install" == "true" ]]; then
+        ui_info_simple "Running post-install commands..."
+        ui_debug "process_package_configs: Running post-install from main config"
+        run_post_install_from_yaml "$main_config"
+        ui_debug "process_package_configs: Running post-install from profile config"
+        run_post_install_from_yaml "$profile_config"
+        ui_success_simple "Post-install commands completed"
+    fi
     
     ui_debug_timing "$start_time" "process_package_configs ($package_type)"
 }
