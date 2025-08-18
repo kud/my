@@ -35,7 +35,8 @@ for file in "${dotfiles[@]}"; do
   target_path="${ZDOTDIR:-$HOME}/$file"
 
   if ln -sf "$source_path" "$target_path" 2>/dev/null; then
-    ui_success_simple "Linked $file"
+    ui_subsection "$file"
+    ui_success_simple "Linked"
   fi
 done
 
@@ -59,7 +60,8 @@ if [[ -d "$MY/dotfiles/.config" ]]; then
 
     # Create symlink
     if ln -sf "$config_file" "$target_path" 2>/dev/null; then
-      ui_success_simple "Linked .config/$rel_path"
+      ui_subsection ".config/$rel_path"
+      ui_success_simple "Linked"
     fi
   done
 fi
