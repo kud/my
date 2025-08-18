@@ -10,6 +10,7 @@
 ################################################################################
 
 source $MY/core/utils/helper.zsh
+source $MY/core/utils/ui-kit.zsh
 
 ################################################################################
 # 🎨 ANIMATED WELCOME BANNER
@@ -109,17 +110,17 @@ run_intro_async() {
         # Robust trap checking: only set if not present as a standalone command
         local trap_cmd
         trap_cmd=$(trap -p EXIT | awk -F"'" '{print $2}')
-        if [[ ! "$trap_cmd" =~ (^|;)cleanup_intro_process($|;) ]]; then
+        if [[ ! "$trap_cmd" =~ "(^|;)cleanup_intro_process($|;)" ]]; then
             trap cleanup_intro_process EXIT
         fi
         
         trap_cmd=$(trap -p INT | awk -F"'" '{print $2}')
-        if [[ ! "$trap_cmd" =~ (^|;)cleanup_intro_process($|;) ]]; then
+        if [[ ! "$trap_cmd" =~ "(^|;)cleanup_intro_process($|;)" ]]; then
             trap cleanup_intro_process INT
         fi
         
         trap_cmd=$(trap -p TERM | awk -F"'" '{print $2}')
-        if [[ ! "$trap_cmd" =~ (^|;)cleanup_intro_process($|;) ]]; then
+        if [[ ! "$trap_cmd" =~ "(^|;)cleanup_intro_process($|;)" ]]; then
             trap cleanup_intro_process TERM
         fi
         
@@ -143,8 +144,8 @@ run_intro_async() {
     fi
 }
 
-# If sourced directly (not from update), show simple banner
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+# If run directly (not sourced), show animated intro
+if [[ "${ZSH_EVAL_CONTEXT}" == "toplevel" ]] || [[ "${ZSH_EVAL_CONTEXT}" == "cmdarg" ]]; then
     show_animated_intro
 else
     # When sourced from update, use async version
