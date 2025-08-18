@@ -269,7 +269,7 @@ ui_success_simple() { echo -e "${UI_SUCCESS}${UI_ICON_CHECK_ALT}${UI_RESET} ${1}
 ui_error_simple() { echo -e "${UI_DANGER}${UI_ICON_CROSS_ALT}${UI_RESET} ${1}"; }
 ui_warning_simple() { echo -e "${UI_WARNING}${UI_ICON_WARN_BRACKET}${UI_RESET} ${1}"; }
 ui_info_simple() { echo -e "${UI_INFO}${UI_ICON_INFO_BRACKET}${UI_RESET} ${1}"; }
-ui_subsection() { echo -e "  ${UI_ACCENT}▸${UI_RESET} ${1}"; }
+ui_subsection() { echo -e " ${UI_ACCENT}▸${UI_RESET} ${1}"; }
 
 # Badge-style messages
 ui_badge() {
