@@ -45,7 +45,7 @@ record_check() {
 }
 
 ui_spacer
-ui_primary "🩺 Environment Health Check"
+ui_section "🩺 Environment Health Check"
 ui_info_simple "Running comprehensive diagnostics..."
 ui_spacer
 
@@ -473,7 +473,7 @@ ui_spacer
 # 📊 FINAL SUMMARY
 ################################################################################
 
-ui_primary "📊 Health Check Summary"
+ui_section "📊 Health Check Summary"
 ui_spacer
 
 # Calculate health score

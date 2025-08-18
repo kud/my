@@ -40,7 +40,7 @@ ui_spacer
 # 📦 PROJECT SYNCHRONIZATION
 ################################################################################
 
-ui_primary "🔄 Updating repository"
+ui_section "🔄 Updating repository"
 ui_info_simple "Path: $MY"
 
 # Capture git output for better formatting
@@ -76,7 +76,7 @@ ui_spacer
 # 🔧 ENVIRONMENT REFRESH
 ################################################################################
 
-ui_primary "🔧 Updating environment"
+ui_section "🔧 Updating environment"
 
 # Run main update script
 if ! $MY/core/main.zsh; then

@@ -21,7 +21,7 @@ source $MY/core/utils/ui-kit.zsh
 
 setup_system_foundation() {
     ui_spacer
-    ui_primary "🏗️ Setting up system foundation"
+    ui_section "🏗️ Setting up system foundation"
 
     ui_spacer
     ui_subtitle "Cloud Storage Setup"
@@ -44,7 +44,7 @@ setup_system_foundation() {
 
 setup_package_managers() {
     ui_spacer 2
-    ui_primary "📦 Installing packages"
+    ui_section "📦 Installing packages"
 
     ui_spacer
     ui_subtitle "Homebrew Formulae & Casks"
@@ -77,7 +77,7 @@ setup_package_managers() {
 
 setup_development_tools() {
     ui_spacer 2
-    ui_primary "🛠️ Configuring development tools"
+    ui_section "🛠️ Configuring development tools"
 
     ui_spacer
     ui_subtitle "AI Commit Configuration"
@@ -92,7 +92,7 @@ setup_development_tools() {
 
 setup_applications() {
     ui_spacer 2
-    ui_primary "💻 Configuring applications"
+    ui_section "💻 Configuring applications"
 
     ui_spacer
     ui_subtitle "Sublime Merge Preferences"
@@ -107,7 +107,7 @@ setup_applications() {
 
 setup_system_components() {
     ui_spacer 2
-    ui_primary "🔌 Installing system components"
+    ui_section "🔌 Installing system components"
 
     ui_spacer
     ui_subtitle "Git Submodule Updates"
