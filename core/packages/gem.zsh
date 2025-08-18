@@ -21,20 +21,20 @@ ensure_command_available "gem" "Install Ruby from https://ruby-lang.org"
 ensure_command_available "yq" "Install with: brew install yq"
 
 # Update gem system first
-ui_info_simple "Updating gem system..."
+ui_subsection "Updating gem system"
 gem update --system
 ui_success_simple "Gem system updated"
 
 ui_spacer
 
-ui_info_simple "Updating installed gems..."
+ui_subsection "Updating installed gems"
 gem update
 ui_success_simple "Installed gems updated"
 
 ui_spacer
 
 # Process gem packages using shared utilities
-ui_info_simple "Installing development gems..."
+ui_subsection "Installing development gems"
 process_package_configs "gem" "gem_install"
 ui_success_simple "Development gems installation completed"
 
