@@ -163,6 +163,7 @@ packages:
     - xcodes-app
     - xquartz
     - localsend
+    - claudia
 
     # 🔤 Fonts
     - font-symbols-only-nerd-font
