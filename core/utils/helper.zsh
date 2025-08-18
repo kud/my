@@ -216,26 +216,8 @@ function npm_install_run() {
   npm install -g "${packages_to_install[@]}"
 
   if [[ $? -ne 0 ]]; then
-    # Fallback: try installing individually
-    ui_debug "npm_install_run: Batch installation failed, trying individually"
-    ui_warning_simple "Batch installation failed, trying individually..."
-    for package in "${packages_to_install[@]}"; do
-      ui_subsection "$package"
-      ui_debug_command "npm install -g $package"
-      if ! npm install -g "$package"; then
-        ui_debug "npm_install_run: Failed to install $package, attempting cleanup and retry"
-        # Cleanup and retry
-        npm uninstall -g "$package"
-        local package_name=$(echo "$package" | cut -d'@' -f1)
-        local npm_global_path=$(npm root -g)
-        if [[ -n "$npm_global_path" && -d "$npm_global_path/$package_name" ]]; then
-          ui_debug_command "rm -rf $npm_global_path/$package_name"
-          rm -rf "$npm_global_path/$package_name"
-        fi
-        ui_debug_command "npm install -g $package (retry)"
-        npm install -g "$package"
-      fi
-    done
+    ui_error_simple "npm installation failed"
+    return 1
   fi
 
   ui_debug_timing "$start_time" "npm_install_run"
