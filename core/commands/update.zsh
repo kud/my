@@ -14,13 +14,11 @@ source $MY/core/utils/ui-kit.zsh
 
 # Enable animated intro for update process
 export MY_SHOW_INTRO="true"
-source $MY/core/utils/intro.zsh
 
-# Wait for animation to complete if it's running
-if [[ -n "$MY_INTRO_PID" ]]; then
-    wait $MY_INTRO_PID 2>/dev/null
-    # Clean up explicitly (even though traps will handle it)
-    cleanup_intro_process 2>/dev/null || true
+# Run the animation directly (synchronously) for better display
+source $MY/core/utils/intro.zsh
+if [[ -z "$CI" ]] && [[ -t 1 ]]; then
+    show_animated_intro
 fi
 
 ################################################################################
