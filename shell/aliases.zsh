@@ -58,6 +58,7 @@ alias yarn-check='yarn upgrade-interactive --latest'
 
 # 🚀 Utilities
 alias c='code .'
+alias claudia='/Applications/Claudia.app/Contents/MacOS/claudia'
 alias about='fastfetch'
 alias dns-flush='sudo killall -HUP mDNSResponder'
 alias shell-reload='exec $SHELL'
