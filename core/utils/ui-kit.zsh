@@ -748,17 +748,17 @@ ui_subtle() { ui_styled "subtle" "$1"; }
 # 📐 LAYOUT HELPERS
 ################################################################################
 
-# Enhanced spacer function (providing backward compatibility)
-ui_space() {
+# Enhanced spacer function
+ui_spacer() {
     local count=${1:-1}
     for ((i=1; i<=count; i++)); do
         printf "\n"
     done
 }
 
-# Backward compatibility aliases
-ui_spacex2() { ui_space 2; }
-ui_spacex3() { ui_space 3; }
+# Convenience aliases
+ui_spacerx2() { ui_spacer 2; }
+ui_spacerx3() { ui_spacer 3; }
 
 # Horizontal rule function
 ui_hr() {
@@ -833,9 +833,9 @@ echo_subtle() { ui_subtle "$@"; }
 echo_styled() { ui_styled "$@"; }
 
 # Layout functions
-echo_space() { ui_space "$@"; }
-echo_spacex2() { ui_spacex2 "$@"; }
-echo_spacex3() { ui_spacex3 "$@"; }
+echo_space() { ui_spacer "$@"; }
+echo_spacex2() { ui_spacerx2 "$@"; }
+echo_spacex3() { ui_spacerx3 "$@"; }
 echo_hr() { ui_hr "$@"; }
 
 # Step tracking functions
