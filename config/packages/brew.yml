@@ -46,6 +46,7 @@ packages:
     - wget
 
     # 🗂️ Git & Version Control
+    - difftastic
     - gh
     - git
     - git-delta
