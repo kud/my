@@ -187,7 +187,7 @@ else
 
     echo
     echo "  System Components:"
-    echo "    default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlinks"
+    echo "    default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlinks, sync-files"
 
     ui_spacer
     ;;
