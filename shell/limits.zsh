@@ -6,4 +6,7 @@
 #                                                                                #
 # ################################################################################
 
-ulimit -n 1024
+target=65536
+hard=$(ulimit -Hn)
+[ "$hard" != "unlimited" ] && [ "$target" -gt "$hard" ] && target="$hard"
+ulimit -n "$target"
