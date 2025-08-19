@@ -108,11 +108,7 @@ list_services() {
                 service_status="stopped"
                 user="root"
                 file="$target_file"
-            else
-                service_status="stopped"
             fi
-            user="root"
-            file="$target_file"
         fi
 
         printf "%-20s %-10s %-10s %s\n" "$name" "$service_status" "$user" "$file"
