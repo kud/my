@@ -78,7 +78,14 @@ generate_ssh_key() {
         ui_muted "  $line"
     done
 
-    if [[ ${PIPESTATUS[0]} -eq 0 ]]; then
+    local output
+    output=$(ssh-keygen -t ed25519 -C "$EMAIL" -f "$SSH_KEY" -N "" 2>&1)
+    local status=$?
+    while IFS= read -r line; do
+        ui_muted "  $line"
+    done <<< "$output"
+
+    if [[ $status -eq 0 ]]; then
         ui_success_simple "SSH key generated"
         ui_muted "  Private key: $SSH_KEY"
         ui_muted "  Public key: $SSH_KEY.pub"

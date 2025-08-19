@@ -37,6 +37,9 @@ else
   doctor)
     $MY/core/commands/doctor.zsh
     ;;
+  services)
+    $MY/core/system/services.zsh "${@:2}"
+    ;;
 
   # Everything else under run
   run)
@@ -163,6 +166,7 @@ else
     echo "  update                Refresh all components and packages"
     echo "  uninstall             Remove the project"
     echo "  doctor                Check system health and configuration"
+    echo "  services              Manage system services (LaunchDaemons)"
     echo "  brew-clean            Remove unused Homebrew packages"
     echo "  npm-clean             Clean up Node.js global packages"
 
