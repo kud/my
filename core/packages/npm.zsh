@@ -24,6 +24,7 @@ ensure_command_available "yq" "Install with: brew install yq"
 # 🔄 NPM SYSTEM UPDATE
 ################################################################################
 
+# @FIXME This section is a temporary workaround to handle npm package updates
 # Clean up any temporary npm rename directories before update
 # npm creates these as .<package-name>-<random> during failed installs
 local npm_prefix=$(npm config get prefix)
