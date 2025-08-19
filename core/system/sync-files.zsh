@@ -16,19 +16,19 @@ source $MY/core/utils/ui-kit.zsh
 ################################################################################
 
 if [[ -n "${SYNC_FOLDER}" && -d "${SYNC_FOLDER}/Lib/fonts" ]]; then
-    fonts_copied=0
+    fonts_synced=()
     # Operator Mono fonts
     if [[ -d "${SYNC_FOLDER}/Lib/fonts/Operator Mono" ]]; then
-        cp "${SYNC_FOLDER}/Lib/fonts/Operator Mono"/* ~/Library/Fonts/ 2>/dev/null && ((fonts_copied++))
+        cp "${SYNC_FOLDER}/Lib/fonts/Operator Mono"/* ~/Library/Fonts/ 2>/dev/null && fonts_synced+=("Operator Mono")
     fi
 
     # Operator Mono Lig fonts
     if [[ -d "${SYNC_FOLDER}/Lib/fonts/Operator Mono Lig" ]]; then
-        cp "${SYNC_FOLDER}/Lib/fonts/Operator Mono Lig"/* ~/Library/Fonts/ 2>/dev/null && ((fonts_copied++))
+        cp "${SYNC_FOLDER}/Lib/fonts/Operator Mono Lig"/* ~/Library/Fonts/ 2>/dev/null && fonts_synced+=("Operator Mono Lig")
     fi
     
-    if [[ $fonts_copied -gt 0 ]]; then
-        ui_success_simple "Synced $fonts_copied font family(s) to ~/Library/Fonts"
+    if [[ ${#fonts_synced[@]} -gt 0 ]]; then
+        ui_success_simple "Synced ${(j:, :)fonts_synced} to ~/Library/Fonts"
     else
         ui_info_simple "No fonts to sync"
     fi
