@@ -48,8 +48,6 @@
   added = yellow
   changed = green
   untracked = cyan
-[include]
-  path = .gitconfig_local
 [pull]
   rebase = true
 [init]
@@ -62,7 +60,7 @@
   # diffFilter = diff-so-fancy --patch
   diffFilter = delta --color-only
 [delta]
-  features = mellow-barbet
+	features = claude-colorblind
   navigate = true    # use n and N to move between diff sections
   light = false      # set to true for terminals with light background colors (e.g. the default macOS terminal)
   line-numbers = true
@@ -70,8 +68,42 @@
   hyperlinks = true
   hyperlinks-file-link-format = "vscode://file/{path}:{line}"
   true-color = always
-  plus-style = syntax "#003800"
-  minus-style = syntax "#3f0001"
+  # plus-style = syntax "#003800"
+  # minus-style = syntax "#3f0001"
+# Claude-inspired colorblind-friendly delta theme
+[delta "claude-colorblind"]
+  dark = true
+  syntax-theme = "base16"
+  line-numbers = true
+  side-by-side = true
+  file-style = "brightwhite"
+  file-decoration-style = "none"
+  file-added-label = "[+]"
+  file-copied-label = "[==]"
+  file-modified-label = "[*]"
+  file-removed-label = "[-]"
+  file-renamed-label = "[->]"
+  hunk-header-decoration-style = "#2a4158 box ul"
+  hunk-header-style = "file line-number syntax"
+  plus-style = "syntax #1a3547"
+  plus-emph-style = "syntax #2a5a7a"
+  minus-style = "syntax #4a2c2a"
+  minus-emph-style = "syntax #6a3c3a"
+  line-numbers-minus-style = "#ff9999"
+  line-numbers-plus-style = "#99ccff"
+  line-numbers-left-style = "#606060"
+  line-numbers-right-style = "#606060"
+  line-numbers-zero-style = "#505050"
+  zero-style = "syntax"
+  whitespace-error-style = "reverse purple"
+  blame-code-style = "syntax"
+  blame-palette = "#1a1a1a #222222 #2a2a2a #323232"
+  merge-conflict-begin-symbol = "▼"
+  merge-conflict-end-symbol = "▲"
+  merge-conflict-ours-diff-header-style = "brightcyan bold"
+  merge-conflict-ours-diff-header-decoration-style = "#2a4158 box"
+  merge-conflict-theirs-diff-header-style = "brightmagenta bold"
+  merge-conflict-theirs-diff-header-decoration-style = "#4a2c2a box"
 [delta "mellow-barbet"]
   dark = true
   syntax-theme = base16

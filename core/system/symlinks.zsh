@@ -13,10 +13,7 @@
 source $MY/core/utils/ui-kit.zsh
 source $MY/core/utils/helper.zsh
 
-# Display header
-ui_spacer
-ui_panel "Symbolic Link Setup" "Creating configuration symlinks" "info"
-ui_spacer
+# Header will be displayed by main.zsh
 
 check_sync_folder_exists() {
   [[ -n "$SYNC_FOLDER" ]]
@@ -38,7 +35,7 @@ create_single_symlink() {
 
   if ln -sfn "$expanded_source" "$expanded_target" 2>/dev/null; then
     ui_success_simple "$name: $description"
-    ui_muted "  $expanded_target → $expanded_source"
+    ui_muted "  $expanded_source → $expanded_target"
   else
     ui_error_simple "Failed to create symlink: $name"
     ui_muted "  Source: $expanded_source"
@@ -49,9 +46,6 @@ create_single_symlink() {
 create_symlinks_from_config() {
   local config_file="$MY/config/system/symlinks.yml"
 
-  ui_info_msg "Reading symlink configuration..."
-  ui_muted "  Config: $config_file"
-  ui_spacer
 
   if [[ ! -f "$config_file" ]]; then
     ui_error_msg "Configuration file not found"
@@ -64,8 +58,6 @@ create_symlinks_from_config() {
     ((symlink_count++))
   done
 
-  ui_spacer
-  ui_success_msg "Symlink creation complete"
 }
 
 main() {
@@ -74,22 +66,13 @@ main() {
     ui_muted "  Some symlinks may fail without this variable"
     ui_muted "  Set it in your shell configuration to your sync directory"
     ui_spacer
-  else
-    ui_info_simple "Using sync folder: $SYNC_FOLDER"
-    ui_spacer
-  fi
-
-  if ! check_yq_installed; then
-    ui_error_msg "yq is required but not installed"
-    ui_muted "  Install with: brew install yq"
-    return 1
   fi
 
   create_symlinks_from_config
 
   ui_spacer
-  ui_badge "success" " SYMLINKS CONFIGURED "
-  ui_spacer
+
+  ui_success_simple "Symbolic links configured"
 }
 
 main
