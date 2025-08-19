@@ -13,9 +13,125 @@ const MenuItem = ({ label, isSelected, onSelect }) => {
 	);
 };
 
+const RunSubmenu = ({ onBack }) => {
+	const { exit } = useApp();
+	const [selectedIndex, setSelectedIndex] = useState(0);
+
+	const modules = [
+		{ label: "← Back to main menu", action: "back" },
+		{ label: "Apps:", action: "separator" },
+		{ label: "  firefox - Open Firefox browser", action: "run firefox" },
+		{ label: "  keepassxc - Password manager", action: "run keepassxc" },
+		{ label: "  pcloud - Cloud storage", action: "run pcloud" },
+		{ label: "  sublime-merge - Git interface", action: "run sublime-merge" },
+		{ label: "CLI Tools:", action: "separator" },
+		{ label: "  abbr - Command shortcuts", action: "run abbr" },
+		{ label: "  aicommits - Smart commit messages", action: "run aicommits" },
+		{ label: "  neovim - Text editor setup", action: "run neovim" },
+		{ label: "  ssh - SSH configuration", action: "run ssh" },
+		{ label: "Packages:", action: "separator" },
+		{ label: "  brew - Homebrew packages", action: "run brew" },
+		{ label: "  npm - Node.js packages", action: "run npm" },
+		{ label: "  pip - Python packages", action: "run pip" },
+		{ label: "System:", action: "separator" },
+		{ label: "  dotfiles - Personal configurations", action: "run dotfiles" },
+		{ label: "  symlink - Create symlinks", action: "run symlink" }
+	];
+
+	useInput((input, key) => {
+		if (key.upArrow) {
+			let newIndex = selectedIndex;
+			do {
+				newIndex = newIndex > 0 ? newIndex - 1 : modules.length - 1;
+			} while (modules[newIndex].action === "separator");
+			setSelectedIndex(newIndex);
+		} else if (key.downArrow) {
+			let newIndex = selectedIndex;
+			do {
+				newIndex = newIndex < modules.length - 1 ? newIndex + 1 : 0;
+			} while (modules[newIndex].action === "separator");
+			setSelectedIndex(newIndex);
+		} else if (key.return) {
+			const selectedModule = modules[selectedIndex];
+			if (selectedModule.action === "back") {
+				onBack();
+			} else if (selectedModule.action !== "separator") {
+				handleRunCommand(selectedModule.action);
+			}
+		} else if (key.escape || (key.ctrl && input === 'c')) {
+			onBack();
+		}
+	});
+
+	const handleRunCommand = async (action) => {
+		console.clear();
+		console.log(chalk.cyan(`🚀 Executing: ${action}\n`));
+		exit();
+
+		const [cmd, module] = action.split(' ');
+		const myPath = process.env.MY;
+		if (myPath) {
+			// Determine the correct path based on module type
+			let scriptPath;
+			if (['firefox', 'keepassxc', 'pcloud', 'sublime-merge'].includes(module)) {
+				scriptPath = `${myPath}/core/apps/${module}.zsh`;
+			} else if (['abbr', 'aicommits', 'neovim', 'ssh'].includes(module)) {
+				scriptPath = `${myPath}/core/cli/${module}.zsh`;
+			} else if (['brew', 'npm', 'pip', 'gem', 'mas', 'antidote'].includes(module)) {
+				scriptPath = `${myPath}/core/packages/${module}.zsh`;
+			} else {
+				scriptPath = `${myPath}/core/system/${module}.zsh`;
+			}
+
+			console.log(chalk.gray(`Running: ${scriptPath}`));
+			
+			const child = spawn('zsh', [scriptPath], {
+				stdio: 'inherit',
+				env: process.env
+			});
+			
+			child.on('close', (code) => {
+				if (code === 0) {
+					console.log(chalk.green(`\n✓ ${module} completed successfully!`));
+				} else {
+					console.log(chalk.red(`\n✗ ${module} failed with exit code ${code}`));
+				}
+			});
+		} else {
+			console.log(chalk.red("Error: $MY environment variable not set"));
+			console.log(chalk.yellow("Please ensure the environment is properly configured"));
+		}
+	};
+
+	return React.createElement(Box, { flexDirection: "column" },
+		React.createElement(Box, { marginBottom: 1 },
+			React.createElement(Text, { color: "cyan", bold: true }, "Run Component - Select a module:")
+		),
+		React.createElement(Box, { marginBottom: 1 },
+			React.createElement(Text, { color: "gray" }, "Use ↑/↓ to navigate, Enter to select, Esc to go back")
+		),
+		React.createElement(Box, { flexDirection: "column" },
+			...modules.map((module, index) => {
+				if (module.action === "separator") {
+					return React.createElement(Box, { key: index, marginTop: 1 },
+						React.createElement(Text, { color: "yellow", bold: true }, module.label)
+					);
+				}
+				return React.createElement(MenuItem, {
+					key: index,
+					label: module.label,
+					isSelected: index === selectedIndex,
+					onSelect: () => {}
+				});
+			})
+		)
+	);
+};
+
 const MainMenu = () => {
 	const { exit } = useApp();
 	const [selectedIndex, setSelectedIndex] = useState(0);
+	const [showRunSubmenu, setShowRunSubmenu] = useState(false);
 
 	const commands = [
 		{ label: "install - Set up complete development environment", action: "install" },
@@ -37,6 +153,8 @@ const MainMenu = () => {
 			const selectedCommand = commands[selectedIndex];
 			if (selectedCommand.action === "exit") {
 				exit();
+			} else if (selectedCommand.action === "run") {
+				setShowRunSubmenu(true);
 			} else {
 				handleCommand(selectedCommand.action);
 			}
@@ -52,40 +170,35 @@ const MainMenu = () => {
 		
 		exit();
 		
-		// Execute the shell command
-		if (action === "run") {
-			// For "run" command, we need to show sub-options
-			console.log(chalk.yellow("Available modules:"));
-			console.log("  Apps: firefox, keepassxc, pcloud, sublime-merge");
-			console.log("  CLI: abbr, aicommits, neovim, ssh");
-			console.log("  Packages: antidote, brew, gem, mas, npm, pip");
-			console.log("  System: default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlink");
-			console.log("\nUsage: £ run <module>");
+		// Execute the actual command via the shell
+		const myPath = process.env.MY;
+		if (myPath) {
+			const scriptPath = `${myPath}/core/commands/${action}.zsh`;
+			console.log(chalk.gray(`Running: ${scriptPath}`));
+			
+			const child = spawn('zsh', [scriptPath], {
+				stdio: 'inherit',
+				env: process.env
+			});
+			
+			child.on('close', (code) => {
+				if (code === 0) {
+					console.log(chalk.green(`\n✓ ${action} completed successfully!`));
+				} else {
+					console.log(chalk.red(`\n✗ ${action} failed with exit code ${code}`));
+				}
+			});
 		} else {
-			// Execute the actual command via the shell
-			const myPath = process.env.MY;
-			if (myPath) {
-				const scriptPath = `${myPath}/core/commands/${action}.zsh`;
-				console.log(chalk.gray(`Running: ${scriptPath}`));
-				
-				const child = spawn('zsh', [scriptPath], {
-					stdio: 'inherit',
-					env: process.env
-				});
-				
-				child.on('close', (code) => {
-					if (code === 0) {
-						console.log(chalk.green(`\n✓ ${action} completed successfully!`));
-					} else {
-						console.log(chalk.red(`\n✗ ${action} failed with exit code ${code}`));
-					}
-				});
-			} else {
-				console.log(chalk.red("Error: $MY environment variable not set"));
-				console.log(chalk.yellow("Please ensure the environment is properly configured"));
-			}
+			console.log(chalk.red("Error: $MY environment variable not set"));
+			console.log(chalk.yellow("Please ensure the environment is properly configured"));
 		}
 	};
+
+	if (showRunSubmenu) {
+		return React.createElement(RunSubmenu, {
+			onBack: () => setShowRunSubmenu(false)
+		});
+	}
 
 	const asciiArt = `
     ███╗   ███╗██╗   ██╗
