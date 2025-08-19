@@ -33,6 +33,9 @@ setup_system_foundation() {
     ui_subtitle "Dotfiles Linking"
     $MY/core/system/dotfiles.zsh
 
+    ui_subtitle "Symbolic Links"
+    $MY/core/system/symlinks.zsh
+
     ui_success_simple "System foundation ready"
 }
 
