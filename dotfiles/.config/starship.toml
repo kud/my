@@ -1,3 +1,6 @@
+# Increase timeout to prevent Node resolution warnings
+command_timeout = 1000
+
 # Global format
 format = """
 $cmd_duration$line_break\
