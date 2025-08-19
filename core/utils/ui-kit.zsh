@@ -408,12 +408,6 @@ ui_divider() {
     echo -e "${color}$(printf '%*s' "$width" | tr ' ' "$char")${UI_RESET}"
 }
 
-ui_spacer() {
-    local lines="${1:-1}"
-    for ((i=1; i<=lines; i++)); do
-        echo
-    done
-}
 
 ################################################################################
 # 🎯 INTERACTIVE COMPONENTS
