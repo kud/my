@@ -123,7 +123,13 @@ run_intro_async() {
         if [[ ! "$trap_cmd" =~ "(^|;)cleanup_intro_process($|;)" ]]; then
             trap cleanup_intro_process TERM
         fi
-        
+        # Use a flag variable to ensure traps are only set once
+        if [[ -z "$MY_INTRO_TRAPS_SET" ]]; then
+            trap cleanup_intro_process EXIT
+            trap cleanup_intro_process INT
+            trap cleanup_intro_process TERM
+            export MY_INTRO_TRAPS_SET=true
+        fi
         # Don't wait - let the main process continue
         # The animation will complete on its own
     else

@@ -159,6 +159,7 @@
   st = status
   tig = "!tig"
   tools = "!echo '• gh\n• lazygit\n• tig'"
+  uncommit = undo
   unstage = reset HEAD --
   unstash = stash pop
   unwip = "!git reset --soft HEAD~1 && git unstage"

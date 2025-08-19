@@ -88,13 +88,10 @@ setup_system_components() {
     ui_subtitle "Git Submodule Updates"
     $MY/core/system/submodules.zsh
 
-    ui_success_simple "System components ready"
-}
+    ui_subtitle "System Services"
+    $MY/core/system/services.zsh start --all
 
-setup_profile_specific_configurations() {
-    # Profile-specific configs are handled automatically by each component
-    # when $OS_PROFILE is set - no explicit action needed here
-    return 0
+    ui_success_simple "System components ready"
 }
 
 ################################################################################
@@ -108,7 +105,6 @@ main() {
     setup_development_tools
     setup_applications
     setup_system_components
-    setup_profile_specific_configurations
 }
 
 # Execute main setup
