@@ -268,6 +268,7 @@ function npminstall_run() {
 
   echo_task_start "Installing ${#_NPM_PACKAGES_TO_INSTALL[@]} npm packages"
   echo_info "Packages: ${_NPM_PACKAGES_TO_INSTALL[*]}"
+  npm_cleanup_temp_dirs
   npm install -g --quiet "${_NPM_PACKAGES_TO_INSTALL[@]}"
 
   if [[ $? -eq 0 ]]; then
@@ -314,6 +315,25 @@ function npminstall_run() {
 
   # Clear the array
   _NPM_PACKAGES_TO_INSTALL=()
+}
+
+function npm_cleanup_temp_dirs() {
+  local npm_global_path=$(npm root -g 2>/dev/null)
+  if [[ -n "$npm_global_path" && -d "$npm_global_path" ]]; then
+    echo_info "Cleaning up temporary npm directories..."
+    # Remove temporary directories that start with a period (created by failed npm operations)
+    # These typically have patterns like .package-name-RANDOM or .claude-code-RANDOM
+    local temp_dirs=($(find "$npm_global_path" -maxdepth 3 -type d -name ".*" 2>/dev/null | grep -E '\.[a-zA-Z0-9_-]+(-[A-Z0-9]+)?$' || true))
+    
+    for dir in "${temp_dirs[@]}"; do
+      if [[ -d "$dir" ]]; then
+        echo_subtle "Removing temporary directory: $dir"
+        rm -rf "$dir" 2>/dev/null || sudo rm -rf "$dir" 2>/dev/null || echo_warn "Could not remove: $dir"
+      fi
+    done
+    
+    echo_subtle "✓ Temporary npm directories cleaned"
+  fi
 }
 
 function pip2install() {

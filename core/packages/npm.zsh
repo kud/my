@@ -24,6 +24,7 @@ fi
 ################################################################################
 
 echo_info "Updating existing global npm packages"
+npm_cleanup_temp_dirs
 npm update -g --quiet
 
 echo_space
