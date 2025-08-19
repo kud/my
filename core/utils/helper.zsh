@@ -68,10 +68,10 @@ function brew_install_run() {
   local -a _LOCAL_BREW_PACKAGES=("${_BREW_PACKAGES_TO_INSTALL[@]}")
   # Clear global array immediately to prevent conflicts
   _BREW_PACKAGES_TO_INSTALL=()
-  
+
   local start_time=$(date +%s.%N)
   ui_debug "brew_install_run: Starting with ${#_LOCAL_BREW_PACKAGES[@]} packages"
-  
+
   if [[ ${#_LOCAL_BREW_PACKAGES[@]} -eq 0 ]]; then
     ui_debug "brew_install_run: No packages to install"
     return 0
@@ -82,7 +82,7 @@ function brew_install_run() {
     echo "  • $package"
     ui_debug "brew_install_run: Will install $package"
   done
-  ui_space
+  ui_spacer
 
   ui_debug_command "brew install ${_LOCAL_BREW_PACKAGES[*]}"
   brew install "${_LOCAL_BREW_PACKAGES[@]}"
@@ -121,7 +121,7 @@ function cask_install_run() {
   local -a _LOCAL_CASK_PACKAGES=("${_CASK_PACKAGES_TO_INSTALL[@]}")
   # Clear global array immediately to prevent conflicts
   _CASK_PACKAGES_TO_INSTALL=()
-  
+
   if [[ ${#_LOCAL_CASK_PACKAGES[@]} -eq 0 ]]; then
     return 0
   fi
@@ -134,7 +134,7 @@ function cask_install_run() {
   for package in "${_LOCAL_CASK_PACKAGES[@]}"; do
     echo "  • $package"
   done
-  ui_space
+  ui_spacer
 
   if ! brew install --cask "${_LOCAL_CASK_PACKAGES[@]}"; then
     ui_error_simple "Homebrew cask installation failed"
@@ -158,7 +158,7 @@ function gem_install() {
 
 function npm_install() {
   local package="${@}"
-  
+
   # Add to batch installation array
   _NPM_PACKAGES_TO_INSTALL+=("${package}")
 }
@@ -168,10 +168,10 @@ function npm_install_run() {
   local -a _LOCAL_NPM_PACKAGES=("${_NPM_PACKAGES_TO_INSTALL[@]}")
   # Clear global array immediately to prevent conflicts
   _NPM_PACKAGES_TO_INSTALL=()
-  
+
   local start_time=$(date +%s.%N)
   ui_debug "npm_install_run: Starting with ${#_LOCAL_NPM_PACKAGES[@]} packages"
-  
+
   if [[ ${#_LOCAL_NPM_PACKAGES[@]} -eq 0 ]]; then
     ui_debug "npm_install_run: No packages to install"
     return 0
@@ -185,7 +185,7 @@ function npm_install_run() {
   ui_debug "npm_install_run: Checking already installed packages"
   local installed_packages=$(npm list -g --depth=0 --parseable 2>/dev/null | xargs -n1 basename 2>/dev/null || echo "")
   ui_debug_vars installed_packages
-  
+
   # Filter out already installed packages
   local packages_to_install=()
   ui_debug "npm_install_run: Filtering already installed packages"
@@ -210,7 +210,7 @@ function npm_install_run() {
   for package in "${packages_to_install[@]}"; do
     echo "  • $package"
   done
-  ui_space
+  ui_spacer
 
   ui_debug_command "npm install -g ${packages_to_install[*]}"
   npm install -g "${packages_to_install[@]}"
@@ -280,7 +280,7 @@ ensure_command_available() {
     # Load UI functions if not already loaded
     if ! command -v ui_error_simple >/dev/null 2>&1; then
     fi
-    
+
     local error_msg="$command_name is not installed."
     if [[ -n "$install_hint" ]]; then
       error_msg="$error_msg $install_hint"
@@ -314,7 +314,7 @@ show_command_help() {
   ui_spacer
   ui_bold_text "USAGE:"
   echo "  $usage"
-  ui_spacerx2
+  ui_spacer 2
 
   if [[ ${#commands[@]} -gt 0 ]]; then
     ui_bold_text "COMMANDS:"
@@ -323,7 +323,7 @@ show_command_help() {
       local desc=$(echo "$cmd_desc" | cut -d: -f2)
       printf "  %-12s %s\n" "$cmd" "$desc"
     done
-    ui_space
+    ui_spacer
   fi
 }
 

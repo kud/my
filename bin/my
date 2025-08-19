@@ -10,7 +10,7 @@ if [[ "$1" == "--debug" ]]; then
   export MY_DEBUG=true
   shift # Remove --debug from arguments
   ui_warning_simple "Debug mode enabled - verbose logging active"
-  ui_space
+  ui_spacer
 fi
 
 if [[ $# -eq 0 ]]; then
@@ -147,16 +147,16 @@ else
     ui_spacer
     ui_primary "My Environment Manager"
     ui_spacer
-    
+
     ui_info_simple "A comprehensive development environment management tool for macOS"
     ui_spacer
-    
+
     ui_subtitle "Usage:"
     echo "  my <command>          Run command directly"
     echo "  my run <module>       Run specific module"
     echo "  my --debug <command>  Run with verbose debugging"
     echo "  my --help             Show this help"
-    
+
     ui_spacer
     ui_subtitle "Direct Commands:"
     echo "  install               Set up complete development environment"
@@ -165,26 +165,26 @@ else
     echo "  doctor                Check system health and configuration"
     echo "  brew-clean            Remove unused Homebrew packages"
     echo "  npm-clean             Clean up Node.js global packages"
-    
+
     ui_spacer
     ui_subtitle "Module Categories (use with 'my run <module>'):"
-    
+
     echo
     echo "  Package Managers:"
     echo "    antidote, brew, gem, mas, npm, pip"
-    
+
     echo
     echo "  Applications:"
     echo "    firefox, keepassxc, pcloud, sublime-merge"
-    
+
     echo
     echo "  Development Tools:"
     echo "    abbr, aicommits, ssh"
-    
+
     echo
     echo "  System Components:"
     echo "    default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlinks"
-    
+
     ui_spacer
     ;;
   *)

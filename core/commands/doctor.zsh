@@ -25,7 +25,7 @@ record_check() {
     local check_status="$1"
     local message="$2"
     ((TOTAL_CHECKS++))
-    
+
     case "$check_status" in
         "pass")
             ((PASSED_CHECKS++))
@@ -66,7 +66,7 @@ else
     if [[ -f /System/Library/CoreServices/SystemVersion.plist ]]; then
         macos_version=$(sw_vers -productVersion)
         ui_info_simple "macOS: $macos_version"
-        
+
         # Check if macOS is recent (within 2 major versions)
         major_version=$(echo $macos_version | cut -d. -f1)
         if [[ $major_version -ge 13 ]]; then
@@ -109,7 +109,7 @@ if command -v brew >/dev/null 2>&1; then
     # Check Homebrew installation
     brew_prefix=$(brew --prefix)
     ui_info_simple "Installation: $brew_prefix"
-    
+
     # Check for Apple Silicon vs Intel
     arch=$(uname -m)
     if [[ "$arch" == "arm64" && "$brew_prefix" != "/opt/homebrew" ]]; then
@@ -117,25 +117,25 @@ if command -v brew >/dev/null 2>&1; then
     else
         record_check "pass" "Homebrew installation location is correct"
     fi
-    
+
     ui_spacer
     ui_info_simple "Running brew doctor..."
     ui_spacer
-    
+
     # Run brew doctor and display output directly with colors preserved
     if brew doctor 2>&1; then
         record_check "pass" "Homebrew is healthy"
     else
         record_check "warn" "Homebrew has issues (see above)"
     fi
-    
+
     ui_spacer
-    
+
     # Check for outdated packages
     ui_info_simple "Checking for outdated packages..."
     outdated_list=$(brew outdated)
     outdated_count=$(echo "$outdated_list" | grep -c '^' 2>/dev/null || echo "0")
-    
+
     if [[ $outdated_count -gt 0 && -n "$outdated_list" ]]; then
         record_check "warn" "$outdated_count Homebrew packages are outdated:"
         echo "$outdated_list" | while read -r package; do
@@ -168,7 +168,7 @@ declare -A tools=(
 for tool required_version in ${(kv)tools}; do
     if command -v "$tool" >/dev/null 2>&1; then
         version=$($tool --version 2>&1 | head -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-        
+
         if [[ -n "$version" ]]; then
             record_check "pass" "$tool installed (v$version)"
         else
@@ -192,11 +192,11 @@ ui_info_simple "Node.js & npm:"
 if command -v npm >/dev/null 2>&1; then
     npm_version=$(npm --version 2>&1)
     record_check "pass" "npm v$npm_version"
-    
+
     npm_prefix=$(npm config get prefix 2>/dev/null)
     if [[ -n "$npm_prefix" ]]; then
         ui_info_simple "  Global prefix: $npm_prefix"
-        
+
         # Check if npm prefix is in PATH
         if echo "$PATH" | grep -q "$npm_prefix/bin"; then
             record_check "pass" "  npm bin directory in PATH"
@@ -204,11 +204,11 @@ if command -v npm >/dev/null 2>&1; then
             record_check "warn" "  npm bin directory not in PATH"
         fi
     fi
-    
+
     # Check global packages count
     global_packages=$(npm list -g --depth=0 2>/dev/null | grep -c '^[├└]' || echo "0")
     ui_info_simple "  Global packages: $global_packages installed"
-    
+
     # Check cache size
     npm_cache=$(npm config get cache 2>/dev/null)
     if [[ -d "$npm_cache" ]]; then
@@ -226,7 +226,7 @@ ui_info_simple "Python & pip:"
 if command -v pip3 >/dev/null 2>&1; then
     pip_version=$(pip3 --version 2>&1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
     record_check "pass" "pip v$pip_version"
-    
+
     # Check pip packages count
     pip_packages=$(pip3 list 2>/dev/null | wc -l | tr -d ' ')
     pip_packages=$((pip_packages - 2))  # Subtract header lines
@@ -242,7 +242,7 @@ ui_info_simple "Ruby & RubyGems:"
 if command -v gem >/dev/null 2>&1; then
     gem_version=$(gem --version 2>&1)
     record_check "pass" "RubyGems v$gem_version"
-    
+
     # Check gem count
     gem_count=$(gem list 2>/dev/null | wc -l | tr -d ' ')
     ui_info_simple "  Installed gems: $gem_count"
@@ -369,9 +369,9 @@ ui_subtitle "Disk Space"
 if command -v df >/dev/null 2>&1; then
     disk_usage=$(df -h / | awk 'NR==2 {print $5}' | sed 's/%//')
     available_space=$(df -h / | awk 'NR==2 {print $4}')
-    
+
     ui_info_simple "Disk usage: ${disk_usage}% (${available_space} available)"
-    
+
     if [[ $disk_usage -lt 80 ]]; then
         record_check "pass" "Sufficient disk space available"
     elif [[ $disk_usage -lt 90 ]]; then
@@ -427,7 +427,7 @@ ui_info_simple "PATH has ${#path_dirs[@]} directories"
 unique_dirs=(${(u)path_dirs})
 if [[ ${#path_dirs[@]} -ne ${#unique_dirs[@]} ]]; then
     dup_count=$((${#path_dirs[@]} - ${#unique_dirs[@]}))
-    
+
     # Find and show the actual duplicates
     declare -A seen_dirs
     duplicate_dirs=()
@@ -441,7 +441,7 @@ if [[ ${#path_dirs[@]} -ne ${#unique_dirs[@]} ]]; then
             seen_dirs[$dir]=1
         fi
     done
-    
+
     record_check "warn" "$dup_count duplicate entries in PATH:"
     for dup_dir in "${duplicate_dirs[@]}"; do
         ui_info_simple "  • $dup_dir"
@@ -511,10 +511,10 @@ fi
 if [[ $ERRORS -gt 0 || $WARNINGS -gt 0 ]]; then
     ui_spacer
     ui_subtitle "Recommendations"
-    
+
     [[ $ERRORS -gt 0 ]] && ui_info_simple "• Fix critical errors first (marked with ❌)"
     [[ $WARNINGS -gt 0 ]] && ui_info_simple "• Address warnings when possible (marked with ⚠️)"
-    
+
     ui_spacer
     ui_info_simple "Run 'my doctor' again after making changes"
 fi

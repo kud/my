@@ -223,7 +223,7 @@ ui_debug_timing() {
     local start_time="$1"
     local operation="$2"
     local end_time=$(date +%s.%N)
-    
+
     # Use awk for floating-point arithmetic (more portable than bc)
     local duration=$(awk "BEGIN {printf \"%.3f\", $end_time - $start_time}")
     ui_color "$UI_MUTED" "⏱️  [TIMING] $operation: ${duration}s"
@@ -300,14 +300,14 @@ ui_progress_bar() {
     local width="${3:-40}"
     local filled_char="${4:-█}"
     local empty_char="${5:-░}"
-    
+
     local percentage=$((current * 100 / total))
     local filled_length=$((current * width / total))
     local empty_length=$((width - filled_length))
-    
+
     local filled=$(printf "%*s" "$filled_length" | tr ' ' "$filled_char")
     local empty=$(printf "%*s" "$empty_length" | tr ' ' "$empty_char")
-    
+
     echo -ne "\r${UI_PRIMARY}[${filled}${UI_MUTED}${empty}${UI_PRIMARY}] ${percentage}%${UI_RESET}"
 }
 
@@ -316,7 +316,7 @@ ui_spinner() {
     local message="${2:-Loading...}"
     local frames=("⠋" "⠙" "⠹" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏")
     local i=0
-    
+
     while kill -0 "$pid" 2>/dev/null; do
         printf "\r${UI_PRIMARY}${frames[i]} ${message}${UI_RESET}"
         i=$(((i + 1) % ${#frames[@]}))
@@ -329,7 +329,7 @@ ui_dots_loading() {
     local duration="${1:-3}"
     local message="${2:-Loading}"
     local dots=""
-    
+
     for ((i=1; i<=duration*4; i++)); do
         case $((i % 4)) in
             1) dots="." ;;
@@ -352,27 +352,27 @@ ui_box() {
     local title="$2"
     local width="${3:-$((_UI_TERMINAL_WIDTH - 4))}"
     local padding="${4:-1}"
-    
+
     # Calculate content width
     local content_width=$((width - 2 - 2 * padding))
-    
+
     # Top border
     echo -e "${UI_PRIMARY}${UI_BOX_TOP_LEFT}$(printf '%*s' $((width - 2)) | tr ' ' "$UI_BOX_HORIZONTAL")${UI_BOX_TOP_RIGHT}${UI_RESET}"
-    
+
     # Title (if provided)
     if [[ -n "$title" ]]; then
         local title_padding=$(((content_width - ${#title}) / 2))
         echo -e "${UI_PRIMARY}${UI_BOX_VERTICAL}${UI_RESET}$(printf '%*s' $title_padding)${UI_BOLD}${title}${UI_RESET}$(printf '%*s' $((content_width - title_padding - ${#title})))${UI_PRIMARY}${UI_BOX_VERTICAL}${UI_RESET}"
         echo -e "${UI_PRIMARY}${UI_BOX_T_RIGHT}$(printf '%*s' $((width - 2)) | tr ' ' "$UI_BOX_HORIZONTAL")${UI_BOX_T_LEFT}${UI_RESET}"
     fi
-    
+
     # Content
     echo "$content" | while IFS= read -r line; do
         local padding_str=$(printf '%*s' $padding)
         printf "${UI_PRIMARY}${UI_BOX_VERTICAL}${UI_RESET}%s%-*s%s${UI_PRIMARY}${UI_BOX_VERTICAL}${UI_RESET}\n" \
                "$padding_str" "$content_width" "$line" "$padding_str"
     done
-    
+
     # Bottom border
     echo -e "${UI_PRIMARY}${UI_BOX_BOTTOM_LEFT}$(printf '%*s' $((width - 2)) | tr ' ' "$UI_BOX_HORIZONTAL")${UI_BOX_BOTTOM_RIGHT}${UI_RESET}"
 }
@@ -382,17 +382,17 @@ ui_panel() {
     local content="$2"
     local type="${3:-info}"
     local border_color
-    
+
     case "$type" in
         "success") border_color="$UI_SUCCESS" ;;
         "error") border_color="$UI_DANGER" ;;
         "warning") border_color="$UI_WARNING" ;;
         *) border_color="$UI_INFO" ;;
     esac
-    
+
     local width=$((_UI_TERMINAL_WIDTH - 4))
     local title_line="${border_color}╭─ ${UI_BOLD}${title}${UI_RESET}${border_color} $(printf '%*s' $((width - ${#title} - 6)) | tr ' ' '─')╮${UI_RESET}"
-    
+
     echo -e "$title_line"
     echo "$content" | while IFS= read -r line; do
         printf "${border_color}│${UI_RESET} %-*s ${border_color}│${UI_RESET}\n" $((width - 2)) "$line"
@@ -404,7 +404,7 @@ ui_divider() {
     local char="${1:-─}"
     local width="${2:-$((_UI_TERMINAL_WIDTH))}"
     local color="${3:-$UI_MUTED}"
-    
+
     echo -e "${color}$(printf '%*s' "$width" | tr ' ' "$char")${UI_RESET}"
 }
 
@@ -423,16 +423,16 @@ ui_confirm() {
     local message="$1"
     local default="${2:-y}"
     local response
-    
+
     if [[ "$default" == "y" ]]; then
         echo -ne "${UI_QUESTION} ${message} ${UI_MUTED}[Y/n]${UI_RESET} "
     else
         echo -ne "${UI_QUESTION} ${message} ${UI_MUTED}[y/N]${UI_RESET} "
     fi
-    
+
     read -r response
     response=${response:-$default}
-    
+
     [[ "$response" =~ ^[Yy]$ ]]
 }
 
@@ -442,12 +442,12 @@ ui_select() {
     local options=("$@")
     local selected=0
     local key
-    
+
     # Save cursor position and clear area
     echo -ne "\033[s"  # Save cursor position
     echo -e "${UI_INFO} ${prompt}${UI_RESET}"
     echo
-    
+
     while true; do
         # Display options
         for ((i=0; i<${#options[@]}; i++)); do
@@ -457,7 +457,7 @@ ui_select() {
                 echo -e "    ${UI_MUTED}${options[i]}${UI_RESET}"
             fi
         done
-        
+
         # Read key
         read -s -k1 key
         case "$key" in
@@ -487,7 +487,7 @@ ui_select() {
                 return 255
                 ;;
         esac
-        
+
         # Clear previous options for redraw
         for ((i=0; i<${#options[@]}; i++)); do
             echo -ne "\033[A\033[K"
@@ -500,13 +500,13 @@ ui_input() {
     local default="$2"
     local placeholder="${3:-$default}"
     local response
-    
+
     if [[ -n "$placeholder" ]]; then
         echo -ne "${UI_PRIMARY}❯ ${prompt} ${UI_MUTED}(${placeholder})${UI_RESET}: "
     else
         echo -ne "${UI_PRIMARY}❯ ${prompt}${UI_RESET}: "
     fi
-    
+
     read -r response
     echo "${response:-$default}"
 }
@@ -519,20 +519,20 @@ ui_table() {
     local headers="$1"
     local rows="$2"
     local separator="${3:-│}"
-    
+
     # Split headers and rows by newlines and tabs
     local -a header_array=("${(@s/	/)headers}")
     local -a row_array=("${(@f)rows}")
-    
+
     # Calculate column widths
     local -a widths
     local max_cols=${#header_array[@]}
-    
+
     # Initialize widths with header lengths
     for ((i=1; i<=max_cols; i++)); do
         widths[i]=${#header_array[i]}
     done
-    
+
     # Check row data for max widths
     for row in "${row_array[@]}"; do
         local -a cols=("${(@s/	/)row}")  # Split on tab
@@ -542,7 +542,7 @@ ui_table() {
             fi
         done
     done
-    
+
     # Print headers
     local header_line=""
     local divider_line=""
@@ -554,10 +554,10 @@ ui_table() {
             divider_line+="─┼─"
         fi
     done
-    
+
     echo -e "$header_line"
     echo -e "${UI_MUTED}$divider_line${UI_RESET}"
-    
+
     # Print rows
     for row in "${row_array[@]}"; do
         local -a cols=("${(@s/	/)row}")  # Split on tab
@@ -580,7 +580,7 @@ ui_typewriter() {
     local text="$1"
     local delay="${2:-0.05}"
     local color="${3:-$UI_RESET}"
-    
+
     echo -ne "${color}"
     for ((i=0; i<${#text}; i++)); do
         echo -ne "${text:$i:1}"
@@ -592,7 +592,7 @@ ui_typewriter() {
 ui_fade_in() {
     local text="$1"
     local steps="${2:-5}"
-    
+
     for ((i=1; i<=steps; i++)); do
         local opacity=$((i * 100 / steps))
         echo -ne "\r${UI_DIM}${text}${UI_RESET}"
@@ -604,7 +604,7 @@ ui_fade_in() {
 ui_pulse() {
     local text="$1"
     local count="${2:-3}"
-    
+
     for ((i=1; i<=count; i++)); do
         echo -ne "\r${UI_BOLD}${text}${UI_RESET}"
         sleep 0.3
@@ -707,12 +707,12 @@ ui_next_step() {
 ################################################################################
 
 # Task execution functions (migrated from helper.zsh)
-ui_task_start() { 
-    echo -e "${UI_CYAN}🚀 ${UI_RESET}$1..." 
+ui_task_start() {
+    echo -e "${UI_CYAN}🚀 ${UI_RESET}$1..."
 }
 
-ui_task_done() { 
-    echo -e "${UI_SUCCESS}${UI_ICON_CHECK} ${UI_RESET}$1 done!" 
+ui_task_done() {
+    echo -e "${UI_SUCCESS}${UI_ICON_CHECK} ${UI_RESET}$1 done!"
 }
 
 ui_final_success() {
@@ -756,10 +756,6 @@ ui_spacer() {
     done
 }
 
-# Convenience aliases
-ui_spacerx2() { ui_spacer 2; }
-ui_spacerx3() { ui_spacer 3; }
-
 # Horizontal rule function
 ui_hr() {
     echo -e "${UI_PRIMARY}────────────────────────────────────────${UI_RESET}"
@@ -775,8 +771,8 @@ ui_hr() {
 
 # Title functions for section headers
 # Legacy title function (deprecated - use ui_section instead)
-ui_title() { 
-    echo -e "${UI_CYAN}${UI_ICON_STARTER} $@${UI_RESET}" 
+ui_title() {
+    echo -e "${UI_CYAN}${UI_ICON_STARTER} $@${UI_RESET}"
 }
 
 ui_title_action() {
@@ -794,12 +790,12 @@ ui_title_update() { ui_title_action "Updating" "$1"; }
 ################################################################################
 
 # User input prompt
-ui_user_prompt() { 
-    echo -e "${UI_WARNING}${UI_ICON_INFO_BRACKET}${UI_RESET} $1" 
+ui_user_prompt() {
+    echo -e "${UI_WARNING}${UI_ICON_INFO_BRACKET}${UI_RESET} $1"
 }
 
-ui_input_prompt() { 
-    echo -e "${UI_PRIMARY}[>]${UI_RESET} $1" 
+ui_input_prompt() {
+    echo -e "${UI_PRIMARY}[>]${UI_RESET} $1"
 }
 
 ################################################################################
@@ -834,8 +830,8 @@ echo_styled() { ui_styled "$@"; }
 
 # Layout functions
 echo_space() { ui_spacer "$@"; }
-echo_spacex2() { ui_spacerx2 "$@"; }
-echo_spacex3() { ui_spacerx3 "$@"; }
+echo_spacex2() { ui_spacer 2 "$@"; }
+echo_spacex3() { ui_spacer 3 "$@"; }
 echo_hr() { ui_hr "$@"; }
 
 # Step tracking functions
