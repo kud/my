@@ -9,5 +9,5 @@ if [ ! -d "$HOME/pCloud" ]; then
   read "?Install and configure pCloud and press [Enter] when finished..." </dev/tty
   ui_success_simple "pCloud setup completed"
 else
-  ui_success_simple "pCloud already configured"
+  ui_success_simple "pCloud is ready"
 fi
