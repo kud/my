@@ -183,14 +183,28 @@ function npm_install_run() {
 
   # Get installed packages list once
   ui_debug "npm_install_run: Checking already installed packages"
-  local installed_packages=$(npm list -g --depth=0 --parseable 2>/dev/null | xargs -n1 basename 2>/dev/null || echo "")
+  # Extract package names from the paths, preserving scoped packages
+  local installed_packages=$(npm list -g --depth=0 --parseable 2>/dev/null | 
+    sed 's|.*/node_modules/||' | 
+    grep -v "^$" | 
+    grep -v "^lib$" || echo "")
   ui_debug_vars installed_packages
 
   # Filter out already installed packages
   local packages_to_install=()
   ui_debug "npm_install_run: Filtering already installed packages"
   for package in "${_LOCAL_NPM_PACKAGES[@]}"; do
-    local package_name="${package%%@*}"
+    # Extract package name without version (handle @scope/package@version format)
+    local package_name="${package}"
+    # Remove version if present (everything after the last @)
+    if [[ "$package_name" == *"@"*"/"*"@"* ]]; then
+      # Scoped package with version: @scope/package@version
+      package_name="${package_name%@*}"
+    elif [[ "$package_name" != *"/"* && "$package_name" == *"@"* ]]; then
+      # Non-scoped package with version: package@version
+      package_name="${package_name%@*}"
+    fi
+    
     if ! echo "$installed_packages" | grep -q "^${package_name}$"; then
       packages_to_install+=("$package")
       ui_debug "npm_install_run: Need to install $package"
@@ -211,7 +225,7 @@ function npm_install_run() {
     echo "  • $package"
   done
   ui_spacer
-
+  
   ui_debug_command "npm install -g ${packages_to_install[*]}"
   npm install -g "${packages_to_install[@]}"
 

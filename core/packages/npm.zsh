@@ -24,6 +24,14 @@ ensure_command_available "yq" "Install with: brew install yq"
 # 🔄 NPM SYSTEM UPDATE
 ################################################################################
 
+# Clean up any temporary npm rename directories before update
+# npm creates these as .<package-name>-<random> during failed installs
+local npm_prefix=$(npm config get prefix)
+if [[ -d "$npm_prefix/lib/node_modules" ]]; then
+    # Remove directories matching npm's temporary rename pattern (starts with dot, contains dash)
+    find "$npm_prefix/lib/node_modules" -type d -name ".*-*" -exec rm -rf {} + 2>/dev/null || true
+fi
+
 ui_subsection "Updating npm packages"
 npm update -g
 ui_success_simple "npm packages updated"
