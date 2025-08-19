@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+# Interactive CLI using Ink
+# This is a modern alternative to the shell-based £ command
+
+cd "$(dirname "$0")"
+node cli.js "$@"

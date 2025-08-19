@@ -22,6 +22,25 @@ The main command is:
 £
 ```
 
+**🆕 Interactive CLI** - For a modern, interactive experience, use the new Ink-powered CLI:
+
+```shell
+npm run ink
+```
+
+Or directly:
+
+```shell
+node cli.js
+```
+
+### Features
+
+- **🎨 Interactive Menu**: Beautiful keyboard-navigable interface using [Ink](https://github.com/vadimdemedes/ink)
+- **⚡ React Components**: Built with React for a modern CLI experience  
+- **🔧 Shell Integration**: Seamlessly executes existing shell scripts
+- **🎯 Arrow Navigation**: Use ↑/↓ to navigate, Enter to select, Esc to exit
+
 ## 🖼️ Preview
 
 ```
