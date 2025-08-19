@@ -223,18 +223,6 @@ function npm_install_run() {
   ui_debug_timing "$start_time" "npm_install_run"
 }
 
-function pip2install() {
-  if ! type "${@}" > /dev/null; then
-    pip2 install --upgrade "${@}"
-  fi
-}
-
-function pip3install() {
-  if ! type "${@}" > /dev/null; then
-    pip3 install --upgrade "${@}"
-  fi
-}
-
 function pip_install() {
   local package="${@}"
 
