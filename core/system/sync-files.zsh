@@ -16,23 +16,27 @@ source $MY/core/utils/ui-kit.zsh
 ################################################################################
 
 if [[ -n "${SYNC_FOLDER}" && -d "${SYNC_FOLDER}/Lib/fonts" ]]; then
-    fonts_synced=()
+    fonts_synced=0
+    
     # Operator Mono fonts
     if [[ -d "${SYNC_FOLDER}/Lib/fonts/Operator Mono" ]]; then
-        cp "${SYNC_FOLDER}/Lib/fonts/Operator Mono"/* ~/Library/Fonts/ 2>/dev/null && fonts_synced+=("Operator Mono")
+        if cp "${SYNC_FOLDER}/Lib/fonts/Operator Mono"/* ~/Library/Fonts/ 2>/dev/null; then
+            ui_success_simple "Synced Operator Mono to ~/Library/Fonts"
+            ((fonts_synced++))
+        fi
     fi
 
     # Operator Mono Lig fonts
     if [[ -d "${SYNC_FOLDER}/Lib/fonts/Operator Mono Lig" ]]; then
-        cp "${SYNC_FOLDER}/Lib/fonts/Operator Mono Lig"/* ~/Library/Fonts/ 2>/dev/null && fonts_synced+=("Operator Mono Lig")
+        if cp "${SYNC_FOLDER}/Lib/fonts/Operator Mono Lig"/* ~/Library/Fonts/ 2>/dev/null; then
+            ui_success_simple "Synced Operator Mono Lig to ~/Library/Fonts"
+            ((fonts_synced++))
+        fi
     fi
     
-    if [[ ${#fonts_synced[@]} -gt 0 ]]; then
-        ui_success_simple "Synced ${(j:, :)fonts_synced} to ~/Library/Fonts"
-    else
+    if [[ $fonts_synced -eq 0 ]]; then
         ui_info_simple "No fonts to sync"
     fi
 else
     ui_info_simple "No sync folder configured or fonts directory not found"
 fi
-
