@@ -54,7 +54,7 @@ check_variables() {
 load_casks_from_files() {
     ui_info_msg "Loading cask configurations..."
     ui_spacer
-    
+
     for yaml_file in "${yaml_files[@]}"; do
         if [[ -f "$yaml_file" ]]; then
             ui_muted "  Reading: $yaml_file"
@@ -71,7 +71,7 @@ load_casks_from_files() {
             ui_warning_simple "Config file missing: $yaml_file"
         fi
     done
-    
+
     ui_success_simple "Loaded ${#_BREW_file_casks_map[@]} casks from configuration"
     ui_spacer
 }
@@ -99,14 +99,14 @@ compare_casks() {
         ui_warning_msg "Missing Casks Detected"
         ui_divider "─" 60 "$UI_WARNING"
         ui_spacer
-        
+
         ui_muted "  The following casks are in configuration but not installed:"
         ui_spacer
         for cask in "${missing_casks[@]}"; do
             printf "  ${UI_WARNING}⚠${UI_RESET}  %s\n" "$cask"
         done
         ui_spacer
-        
+
         ui_info_simple "Resolution options:"
         ui_muted "  [1] Install missing casks"
         ui_muted "  [2] Ignore for now"
@@ -171,25 +171,25 @@ handle_discrepancies() {
     ui_primary "🔍 Orphaned Cask Analysis"
     ui_divider "─" 60 "$UI_PRIMARY"
     ui_spacer
-    
+
     local orphaned_casks=()
     local casks_to_keep=()
-    
+
     for cask in ${(k)_BREW_installed_casks_map}; do
         if [[ -z "${_BREW_file_casks_map[$cask]}" ]]; then
             orphaned_casks+=($cask)
         fi
     done
-    
+
     if [[ ${#orphaned_casks[@]} -gt 0 ]]; then
         ui_info_msg "Found ${#orphaned_casks[@]} orphaned casks"
         ui_muted "  These casks are installed but not in configuration"
         ui_spacer
-        
+
         for cask in "${orphaned_casks[@]}"; do
             ui_box "Cask: $cask" "Orphaned Package" 60
             ui_spacer
-            
+
             ui_info_simple "Choose action:"
             ui_muted "  [1] Clean with soap (safe uninstall)"
             ui_muted "  [2] Force uninstall"
@@ -258,22 +258,22 @@ handle_discrepancies() {
 main() {
     check_dependencies
     check_variables
-    
+
     load_casks_from_files
     check_installed_casks
     compare_casks
     handle_discrepancies
-    
+
     # Final summary
     ui_divider "═" 60 "$UI_SUCCESS"
     ui_spacer
     ui_badge "success" " AUDIT COMPLETE "
     ui_spacer
-    
+
     if [[ -f "$LOG_FILE" ]]; then
         ui_info_simple "Actions logged to: $LOG_FILE"
     fi
-    
+
     ui_success_msg "Homebrew cask audit finished successfully!"
     ui_spacer
 }

@@ -41,7 +41,7 @@ check_existing_ssh_key() {
     if [[ -f "$SSH_KEY" ]]; then
         ui_spacer
         ui_warning_simple "Existing SSH key detected at $SSH_KEY"
-        
+
         if ui_confirm "Replace existing SSH key?"; then
             ui_warning_simple "Existing key will be overwritten"
             return 0
@@ -56,14 +56,14 @@ check_existing_ssh_key() {
 get_github_email() {
     ui_spacer
     ui_primary "📧 GitHub Account Setup"
-    
+
     EMAIL=$(ui_input "Enter your GitHub email address")
-    
+
     if [[ -z "$EMAIL" ]]; then
         ui_error_simple "Email address is required"
         return 1
     fi
-    
+
     ui_success_simple "Email: $EMAIL"
     return 0
 }
@@ -73,11 +73,11 @@ generate_ssh_key() {
     ui_info_simple "Generating ED25519 SSH key..."
     ui_muted "  Algorithm: ED25519 (recommended)"
     ui_muted "  Comment: $EMAIL"
-    
+
     ssh-keygen -t ed25519 -C "$EMAIL" -f "$SSH_KEY" -N "" 2>&1 | while IFS= read -r line; do
         ui_muted "  $line"
     done
-    
+
     if [[ ${PIPESTATUS[0]} -eq 0 ]]; then
         ui_success_simple "SSH key generated"
         ui_muted "  Private key: $SSH_KEY"
@@ -92,12 +92,12 @@ generate_ssh_key() {
 setup_ssh_agent() {
     ui_spacer
     ui_info_simple "Configuring SSH agent..."
-    
+
     eval "$(ssh-agent -s)" > /dev/null 2>&1
     ssh-add "$SSH_KEY" 2>&1 | while IFS= read -r line; do
         ui_muted "  $line"
     done
-    
+
     if [[ ${PIPESTATUS[0]} -eq 0 ]]; then
         ui_success_simple "SSH key added to agent"
         return 0
@@ -123,10 +123,10 @@ open_github_settings() {
     ui_muted "  2. Add it to GitHub (browser opening now)"
     ui_muted "  3. Give your key a descriptive title"
     ui_spacer
-    
+
     ui_info_simple "Opening GitHub SSH settings..."
     open "$GITHUB_URL"
-    
+
     ui_spacer
     ui_success_msg "SSH setup complete! 🎉"
     ui_muted "  Test your connection: ssh -T git@github.com"
@@ -137,14 +137,14 @@ open_github_settings() {
 main() {
     setup_ssh_directory
     setup_ssh_config
-    
+
     if ! check_existing_ssh_key; then
         ui_spacer
         ui_info_simple "SSH setup cancelled"
         ui_spacer
         exit 0
     fi
-    
+
     if get_github_email && generate_ssh_key; then
         setup_ssh_agent
         display_public_key

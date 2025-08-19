@@ -21,7 +21,7 @@ source $MY/core/utils/ui-kit.zsh
 ensure_mas_prerequisites() {
     # Check if mas is available
     ensure_command_available "mas" "Install with: brew install mas"
-    
+
     # Ensure yq is installed
     ensure_command_available "yq" "Install with: brew install yq"
 }
@@ -41,7 +41,7 @@ merge_and_install_mas_packages() {
     if command -v yq >/dev/null 2>&1; then
         local main_config="$CONFIG_DIR/packages/mas.yml"
         local profile_config="$PROFILE_CONFIG_DIR/packages/mas.yml"
-        
+
         # Collect app names from both configs
         local apps_found=""
         if [[ -f "$main_config" ]]; then
@@ -57,7 +57,7 @@ merge_and_install_mas_packages() {
                 apps_found+="$profile_apps"
             fi
         fi
-        
+
         # Show the apps if we found any
         if [[ -n "$apps_found" ]]; then
             ui_info_simple "Installing Mac App Store applications:"
@@ -68,7 +68,7 @@ merge_and_install_mas_packages() {
             done
         fi
     fi
-    
+
     merge_and_install_packages "mas" ".packages[].id:mas_install:-"
     ui_success_simple "Mac App Store applications installed"
 }

@@ -31,7 +31,7 @@ install_homebrew_if_needed() {
     if ! ensure_command_available "brew" "" "false"; then
         sudo -v
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        
+
         ensure_command_available "brew" "Install from https://brew.sh"
     fi
 }
@@ -62,7 +62,7 @@ configure_modern_shell() {
 update_homebrew() {
     brew update && brew upgrade
     ui_success_simple "Homebrew updated"
-    ui_space
+    ui_spacer
 
     # Initialize brew cache for faster package checking
     init_brew_cache

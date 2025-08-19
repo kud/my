@@ -73,14 +73,14 @@ if [[ ! -d "$PROJECT_DIR" ]]; then
     ui_muted "  Source: $GIT_REPO"
     ui_muted "  Target: $PROJECT_DIR"
     ui_spacer
-    
+
     # Clone with progress indicator
     git clone "$GIT_REPO" "$PROJECT_DIR" 2>&1 | while IFS= read -r line; do
         if [[ "$line" == *"Receiving objects"* ]] || [[ "$line" == *"Resolving deltas"* ]]; then
             ui_muted "  $line"
         fi
     done
-    
+
     if [[ $? -eq 0 ]]; then
         ui_success_msg "Repository cloned successfully"
     else
@@ -124,11 +124,11 @@ for component_info in "${components[@]}"; do
     ((current_component++))
     component_name="${component_info%%:*}"
     component_desc="${component_info#*:}"
-    
+
     ui_info_msg "[$current_component/$total_components] Installing $component_desc..."
     ui_progress_bar $current_component $total_components 40 "█" "░"
     ui_spacer
-    
+
     case "$component_name" in
         "intro")
             $MY/core/utils/intro.zsh || ui_warning_simple "Intro skipped"
@@ -146,7 +146,7 @@ for component_info in "${components[@]}"; do
             $MY/core/os/main.zsh || ui_warning_simple "OS settings skipped"
             ;;
     esac
-    
+
     ui_success_simple "$component_desc installed"
     ui_spacer
 done

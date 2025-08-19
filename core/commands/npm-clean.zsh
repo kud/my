@@ -78,16 +78,16 @@ for package in ${(k)_NPM_installed_packages_map}; do
         ui_box "Package: $package" "Orphaned Package" 60
         ui_warning_simple "Not defined in configuration files"
         ui_spacer
-        
+
         ui_info_simple "Choose an action:"
         ui_muted "  [1] Remove package (npm uninstall -g)"
         ui_muted "  [2] Keep package (add to exceptions)"
         ui_spacer
-        
+
         ui_input "Your choice [1/2]" "2"
         read -k choice
         echo
-        
+
         case $choice in
             1)
                 ui_info_msg "Removing $package..."

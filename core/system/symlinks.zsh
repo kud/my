@@ -48,7 +48,7 @@ create_single_symlink() {
 
 create_symlinks_from_config() {
   local config_file="$MY/config/system/symlinks.yml"
-  
+
   ui_info_msg "Reading symlink configuration..."
   ui_muted "  Config: $config_file"
   ui_spacer
@@ -63,7 +63,7 @@ create_symlinks_from_config() {
     create_single_symlink "$name" "$source" "$target" "$description"
     ((symlink_count++))
   done
-  
+
   ui_spacer
   ui_success_msg "Symlink creation complete"
 }
@@ -86,7 +86,7 @@ main() {
   fi
 
   create_symlinks_from_config
-  
+
   ui_spacer
   ui_badge "success" " SYMLINKS CONFIGURED "
   ui_spacer
