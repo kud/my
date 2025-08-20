@@ -12,6 +12,7 @@ packages:
     - ffmpeg
     - fzf
     - gifsicle
+    - glances
     - gnu-sed
     - grep
     - htmlcompressor
@@ -32,6 +33,7 @@ packages:
     - ripgrep
     - ssh-copy-id
     - tree
+    - viddy
     - z
 
     # 🌐 Networking Tools
@@ -50,6 +52,7 @@ packages:
     - gh
     - git
     - git-delta
+    - gitui
     - lazygit
     - spr
     - tig
@@ -70,9 +73,11 @@ packages:
     - duf
     - dust
     - hyperfine
+    - mdcat
     - procs
     - sd
     - tokei
+    - viu
     - ffmpegthumbnailer
     - fnm
     - frum
