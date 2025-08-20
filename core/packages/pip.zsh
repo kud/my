@@ -60,20 +60,20 @@ if ensure_command_available "pip" "" "false"; then
     # Upgrade pip itself first
     ui_subsection "Upgrading pip"
     pip install --upgrade pip
-    ui_success_simple "pip upgraded"
+    ui_success_simple "pip upgraded" 1
 
     ui_spacer
 
     # Process pip packages using shared utilities
     ui_subsection "Installing development packages"
     process_package_configs "pip" "pip_install_package"
-    ui_success_simple "Development packages installed"
+    ui_success_simple "Development packages installed" 1
 
     ui_spacer
 
     # Upgrade all installed packages
     ui_subsection "Upgrading all installed packages"
     pip-upgrade-all
-    ui_success_simple "All packages upgraded"
+    ui_success_simple "All packages upgraded" 1
 fi
 

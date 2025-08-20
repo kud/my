@@ -267,7 +267,17 @@ ui_warning_msg() { ui_message "warning" "$1"; }
 ui_info_msg() { ui_message "info" "$1"; }
 
 # Alternative simple message functions (colored icons, default text)
-ui_success_simple() { echo -e "${UI_SUCCESS}${UI_ICON_CHECK_ALT}${UI_RESET} ${1}"; }
+ui_success_simple() { 
+    local message="$1"
+    local space_before="${2:-0}"
+    
+    # Add spacing before if requested
+    for ((i=0; i<space_before; i++)); do
+        echo
+    done
+    
+    echo -e "${UI_SUCCESS}${UI_ICON_CHECK_ALT}${UI_RESET} ${message}"
+}
 ui_error_simple() { echo -e "${UI_DANGER}${UI_ICON_CROSS_ALT}${UI_RESET} ${1}"; }
 ui_warning_simple() { echo -e "${UI_WARNING}${UI_ICON_WARN_BRACKET}${UI_RESET} ${1}"; }
 ui_info_simple() { echo -e "${UI_INFO}${UI_ICON_INFO_BRACKET}${UI_RESET} ${1}"; }
@@ -802,7 +812,7 @@ ui_input_prompt() {
 # Message functions
 echo_info() { ui_info_simple "$@"; }
 echo_success() { ui_success_simple "$@"; }
-echo_fail() { ui_error_simple "$@"; [[ -n "$2" ]] && exit "$2" || exit 1; }
+echo_fail() { ui_error_simple "$1"; [[ -n "$2" ]] && exit "$2" || exit 1; }
 echo_warn() { ui_warning_simple "$@"; }
 echo_user() { ui_user_prompt "$@"; }
 echo_task_start() { ui_task_start "$@"; }
