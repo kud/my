@@ -1,6 +1,6 @@
 # My! Oh My!
 
-![Everybody Dance Now](everybodydancenow.gif)
+![Everybody Dance Now](assets/everybodydancenow.gif)
 
 **My own environment for macOS.**
 
