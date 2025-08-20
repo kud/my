@@ -81,7 +81,7 @@
   hyperlinks = true
   hyperlinks-commit-link-format = "https://github.com/{path}/commit/{commit}"
   hyperlinks-file-link-format = "vscode://file/{path}:{line}"
-  keep-plus-minus-markers = true    # show +/- markers for clarity
+  keep-plus-minus-markers = false    # show +/- markers for clarity
   light = false      # set to true for terminals with light background colors (e.g. the default macOS terminal)
   line-numbers = true
   line-numbers-left-style = "#6b7280"
