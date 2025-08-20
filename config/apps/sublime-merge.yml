@@ -11,3 +11,4 @@ theme:
 # Preferences Configuration
 preferences:
   font_face: "JetBrains Mono"
+  font_size: 15
