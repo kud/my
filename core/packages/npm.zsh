@@ -35,11 +35,11 @@ fi
 
 ui_subsection "Updating npm packages"
 npm update -g
-ui_success_simple "npm packages updated"
+ui_success_simple "npm packages updated" 1
 
 ui_spacer
 
 # Process npm packages using shared utilities
 process_package_configs "npm" "npm_install" "npm_install_run"
-ui_success_simple "npm packages installed"
+ui_success_simple "npm packages installed" 1
 

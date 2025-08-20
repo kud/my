@@ -24,7 +24,7 @@ if ensure_command_available "aicommits" "" "false" && ensure_command_available "
         echo "  • $setting"
         aicommits config set $setting >/dev/null 2>&1
     done
-    ui_success_simple "aicommits configured"
+    ui_success_simple "aicommits configured" 1
 else
     ui_info_simple "aicommits not available, skipping configuration"
 fi
@@ -44,7 +44,7 @@ if ensure_command_available "oco" "" "false" && ensure_command_available "yq" ""
         echo "  • OCO_$key=$value"
         oco config set OCO_$key=$value >/dev/null 2>&1
     done
-    ui_success_simple "opencommit configured"
+    ui_success_simple "opencommit configured" 1
 else
     ui_info_simple "oco not available, skipping configuration"
 fi

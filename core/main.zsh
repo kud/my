@@ -36,7 +36,7 @@ setup_system_foundation() {
     ui_subtitle "Symbolic Links"
     $MY/core/system/symlinks.zsh
 
-    ui_success_simple "System foundation ready"
+    ui_success_simple "System foundation ready" 1
 }
 
 setup_package_managers() {
@@ -61,7 +61,7 @@ setup_package_managers() {
     ui_subtitle "Mac App Store"
     $MY/core/packages/mas.zsh
 
-    ui_success_simple "All packages installed"
+    ui_success_simple "All packages installed" 1
 }
 
 setup_development_tools() {
@@ -72,7 +72,7 @@ setup_development_tools() {
     ui_subtitle "Shell Abbreviations"
     $MY/core/cli/abbr.zsh
 
-    ui_success_simple "Development tools configured"
+    ui_success_simple "Development tools configured" 1
 }
 
 setup_applications() {

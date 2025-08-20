@@ -23,18 +23,18 @@ ensure_command_available "yq" "Install with: brew install yq"
 # Update gem system first
 ui_subsection "Updating gem system"
 gem update --system
-ui_success_simple "Gem system updated"
+ui_success_simple "Gem system updated" 1
 
 ui_spacer
 
 ui_subsection "Updating installed gems"
 gem update
-ui_success_simple "Installed gems updated"
+ui_success_simple "Installed gems updated" 1
 
 ui_spacer
 
 # Process gem packages using shared utilities
 ui_subsection "Installing development gems"
 process_package_configs "gem" "gem_install"
-ui_success_simple "Development gems installation completed"
+ui_success_simple "Development gems installation completed" 1
 
