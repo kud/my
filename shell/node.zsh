@@ -6,7 +6,7 @@
 #                                                                                #
 # ################################################################################
 
-export PATH="$(npm config get prefix)/bin:$PATH"
+# npm global PATH is now managed in path.zsh for centralized PATH management
 
 # Initialize fnm (Fast Node Manager)
 eval "$(fnm env --use-on-cd --shell zsh)"

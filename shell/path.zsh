@@ -7,7 +7,7 @@
 ################################################################################
 
 # Homebrew
-export PATH=${HOMEBREW_PREFIX}/sbin:$PATH
+# export PATH=${HOMEBREW_PREFIX}/sbin:$PATH
 export PATH=${HOMEBREW_PREFIX}/opt/curl/bin:$PATH
 export PATH=${HOMEBREW_PREFIX}/opt/ruby/bin:$PATH
 export PATH=${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH
@@ -18,6 +18,9 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # Console Ninja
 export PATH=$HOME/.console-ninja/.bin:$PATH
+
+# npm global packages
+export PATH=$(npm config get prefix)/bin:$PATH
 
 # Own commands
 export PATH=$MY/bin:$PATH
