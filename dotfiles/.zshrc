@@ -20,7 +20,6 @@ for module in \
   locale.zsh \
   limits.zsh \
   homebrew.zsh \
-  path.zsh \
   functions.zsh \
   completions.zsh \
   bindings.zsh \
@@ -42,6 +41,7 @@ for module in \
   fzf.zsh \
   zoxide.zsh \
   local.zsh \
+  path.zsh \
   starship.zsh
 do
   [[ -f $MY/shell/$module ]] && source $MY/shell/$module

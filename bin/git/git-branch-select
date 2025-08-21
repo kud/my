@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+
+# Wrapper for git-branch-select that uses node-system to avoid ESM errors
+exec node-system git-branch-select "$@"
