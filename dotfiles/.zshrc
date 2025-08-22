@@ -20,6 +20,7 @@ for module in \
   locale.zsh \
   limits.zsh \
   homebrew.zsh \
+  path/homebrew.zsh \
   functions.zsh \
   completions.zsh \
   bindings.zsh \
@@ -31,6 +32,7 @@ for module in \
   ruby.zsh \
   java.zsh \
   node.zsh \
+  path/node.zsh \
   babel.zsh \
   android.zsh \
   antidote.zsh \
@@ -41,8 +43,11 @@ for module in \
   fzf.zsh \
   zoxide.zsh \
   local.zsh \
-  path.zsh \
+  path/console-ninja.zsh \
+  path/android.zsh \
+  path/my.zsh \
   starship.zsh
+
 do
   [[ -f $MY/shell/$module ]] && source $MY/shell/$module
 done
