@@ -9,36 +9,32 @@
 #                                                                              #
 ################################################################################
 
+# Source required utilities
 source $MY/core/utils/helper.zsh
-
-echo_task_start "Setting up Ruby gems"
+source $MY/core/utils/packages.zsh
+source $MY/core/utils/ui-kit.zsh
 
 # Check if Ruby and gem are available
-if ! command -v gem >/dev/null 2>&1; then
-    echo_fail "Ruby gems not found. Please install Ruby first."
-    return 1
-fi
+ensure_command_available "gem" "Install Ruby from https://ruby-lang.org"
 
-################################################################################
-# 🔄 GEM SYSTEM UPDATE
-################################################################################
+# Ensure yq is installed
+ensure_command_available "yq" "Install with: brew install yq"
 
-echo_info "Updating gem system and existing gems"
-gem update --system && gem update
+# Update gem system first
+ui_subsection "Updating gem system"
+gem update --system
+ui_success_simple "Gem system updated" 1
 
-echo_space
-echo_success "Gem system updated successfully"
+ui_spacer
 
-################################################################################
-# 📦 ESSENTIAL RUBY GEMS
-################################################################################
+ui_subsection "Updating installed gems"
+gem update
+ui_success_simple "Installed gems updated" 1
 
-echo_info "Installing essential Ruby development gems"
+ui_spacer
 
-geminstall gist           # GitHub Gist command line interface
-geminstall bundler        # Ruby dependency management
-geminstall bundler-audit  # Security vulnerability scanner
+# Process gem packages using shared utilities
+ui_subsection "Installing development gems"
+process_package_configs "gem" "gem_install"
+ui_success_simple "Development gems installation completed" 1
 
-echo_space
-echo_task_done "Ruby gems configuration completed"
-echo_success "Essential Ruby development tools are now available!"

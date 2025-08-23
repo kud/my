@@ -1,14 +1,29 @@
 #!/usr/bin/env zsh
 
-# Load helper functions and variables
-source $MY/core/utils/helper.zsh
+################################################################################
+#                                                                              #
+#   🧹 HOMEBREW CASK CLEANUP MANAGER                                           #
+#   --------------------------------                                           #
+#   Analyzes and cleans up Homebrew casks by comparing installed packages     #
+#   with configuration files. Handles missing and orphaned casks.             #
+#                                                                              #
+################################################################################
+
+# Source required utilities
+source $MY/core/utils/ui-kit.zsh
+source $MY/core/utils/packages.zsh
 
 # Constants and Variables
 LOG_FILE="$MY/logs/cleanup.log"
 DRY_RUN=false  # Set to true for a dry-run mode
-file_paths=("$MY/core/packages/brew.zsh" "$MY/profiles/$OS_PROFILE/core/packages/brew.zsh")
-declare -A file_casks_map
-declare -A installed_casks_map
+yaml_files=("$(get_main_config_path brew)" "$(get_profile_config_path brew)")
+declare -A _BREW__BREW_file_casks_map
+declare -A _BREW__BREW_installed_casks_map
+
+# Welcome message
+ui_spacer
+ui_panel "Homebrew Cask Audit" "Analyzing installed casks vs configuration" "info"
+ui_spacer
 
 # Functions
 log_action() {
@@ -20,170 +35,248 @@ log_action() {
     echo "$(date): $1" >>"$LOG_FILE"
 }
 
-
 check_dependencies() {
-    if ! command -v brew >/dev/null; then
-        echo_fail "Homebrew is not installed. Exiting..."
-    fi
-    if ! command -v grep >/dev/null; then
-        echo_fail "GNU grep is not installed. Please install it. Exiting..."
-    fi
+    ui_info_msg "Checking dependencies..."
+    ensure_command_available "brew" "Install from https://brew.sh"
+    ensure_command_available "yq" "Install with: brew install yq"
+    ui_success_simple "All dependencies available"
+    ui_spacer
 }
 
 check_variables() {
     if [[ -z "$MY" || -z "$OS_PROFILE" ]]; then
-        echo_fail "Environment variables 'MY' or 'OS_PROFILE' not set. Exiting..."
+        ui_error_msg "Environment variables 'MY' or 'OS_PROFILE' not set"
+        ui_muted "  Please configure your environment first"
+        exit 1
     fi
 }
 
 load_casks_from_files() {
-    echo_task_start "Loading casks from files"
-    for file_path in "${file_paths[@]}"; do
-        if [[ -s "$file_path" ]]; then
-            awk '/^caskinstall/ {print $2}' "$file_path" | awk -F/ '{print $NF}' | while read -r cask_name; do
-                file_casks_map[$cask_name]=1
-            done
+    ui_info_msg "Loading cask configurations..."
+    ui_spacer
+
+    for yaml_file in "${yaml_files[@]}"; do
+        if [[ -f "$yaml_file" ]]; then
+            ui_muted "  Reading: $yaml_file"
+            # Extract casks from packages.casks array in main config or casks array in profile config
+            local casks=$(yq eval '.packages.casks[]?, .casks[]?' "$yaml_file" 2>/dev/null)
+            if [[ -n "$casks" ]]; then
+                while IFS= read -r cask_name; do
+                    if [[ -n "$cask_name" && "$cask_name" != "null" ]]; then
+                        _BREW_file_casks_map[$cask_name]=1
+                    fi
+                done <<< "$casks"
+            fi
         else
-            echo_warn "File '$file_path' is empty or missing."
+            ui_warning_simple "Config file missing: $yaml_file"
         fi
     done
-    echo_task_done "Casks loaded"
+
+    ui_success_simple "Loaded ${#_BREW_file_casks_map[@]} casks from configuration"
+    ui_spacer
 }
 
 check_installed_casks() {
-    echo_task_start "Checking installed casks"
+    ui_info_msg "Scanning installed Homebrew casks..."
     installed_casks=$(brew list --cask)
     for cask in ${(f)installed_casks}; do
-        installed_casks_map[$cask]=1
+        _BREW_installed_casks_map[$cask]=1
     done
-    echo_task_done "Installed casks checked"
+    ui_success_simple "Found ${#_BREW_installed_casks_map[@]} installed casks"
+    ui_spacer
 }
 
 compare_casks() {
-    echo_task_start "Comparing casks"
     local missing_casks=()
-    for cask in ${(k)file_casks_map}; do
-        if [[ -z "${installed_casks_map[$cask]}" ]]; then
+    for cask in ${(k)_BREW_file_casks_map}; do
+        if [[ -z "${_BREW_installed_casks_map[$cask]}" ]]; then
             missing_casks+=($cask)
         fi
     done
 
     if [[ ${#missing_casks[@]} -gt 0 ]]; then
-        echo_warn "Some casks are missing:"
-        for cask in "${missing_casks[@]}"; do
-            echo_subtle "$cask"
-        done
+        ui_divider "─" 60 "$UI_WARNING"
+        ui_warning_msg "Missing Casks Detected"
+        ui_divider "─" 60 "$UI_WARNING"
+        ui_spacer
 
-        echo_space
-        echo_info "Options for resolving missing casks:"
-        echo "1) Install the missing casks"
-        echo "2) Ignore for now"
-        echo "3) Remove from configuration files"
-        echo_input "Choose an option (1-3):"
+        ui_muted "  The following casks are in configuration but not installed:"
+        ui_spacer
+        for cask in "${missing_casks[@]}"; do
+            printf "  ${UI_WARNING}⚠${UI_RESET}  %s\n" "$cask"
+        done
+        ui_spacer
+
+        ui_info_simple "Resolution options:"
+        ui_muted "  [1] Install missing casks"
+        ui_muted "  [2] Ignore for now"
+        ui_muted "  [3] Remove from configuration"
+        ui_spacer
 
         while true; do
+            ui_input "Choose option [1-3]" "2"
             read choice
             case $choice in
                 1)
-                    echo_task_start "Installing missing casks"
+                    ui_spacer
+                    ui_info_msg "Installing missing casks..."
                     for cask in "${missing_casks[@]}"; do
                         log_action "INSTALL: $cask"
-                        $DRY_RUN && echo_subtle "[DRY-RUN] brew install --cask $cask" || brew install --cask "$cask"
+                        if $DRY_RUN; then
+                            ui_muted "  [DRY-RUN] brew install --cask $cask"
+                        else
+                            ui_info_simple "Installing $cask..."
+                            brew install --cask "$cask" 2>&1 | while IFS= read -r line; do
+                                ui_muted "    $line"
+                            done
+                            ui_success_simple "$cask installed"
+                        fi
                     done
-                    echo_task_done "Missing casks installed"
                     break
                     ;;
                 2)
                     log_action "IGNORE: Missing casks: ${missing_casks[*]}"
-                    echo_warn "Missing casks ignored for now."
+                    ui_info_simple "Missing casks ignored"
                     break
                     ;;
                 3)
-                    echo_task_start "Removing missing casks from configuration"
+                    ui_spacer
+                    ui_info_msg "Removing casks from configuration..."
                     for cask in "${missing_casks[@]}"; do
-                        for file_path in "${file_paths[@]}"; do
-                            if [[ -f "$file_path" ]]; then
-                                sed -i "/^caskinstall.*$cask/d" "$file_path"
-                                log_action "REMOVE: $cask from $file_path"
-                                echo_info "$cask removed from $file_path"
+                        for yaml_file in "${yaml_files[@]}"; do
+                            if [[ -f "$yaml_file" ]]; then
+                                if yq eval ".packages.casks | contains([\"$cask\"]) // (.casks | contains([\"$cask\"]) // false)" "$yaml_file" 2>/dev/null | grep -q "true"; then
+                                    yq eval "del(.packages.casks[] | select(. == \"$cask\")) | del(.casks[] | select(. == \"$cask\"))" -i "$yaml_file"
+                                    log_action "REMOVE: $cask from $yaml_file"
+                                    ui_success_simple "$cask removed from config"
+                                fi
                             fi
                         done
                     done
-                    echo_task_done "Missing casks removed from configuration"
                     break
                     ;;
                 *)
-                    echo_warn "Invalid input. Please choose 1, 2, or 3."
+                    ui_error_simple "Invalid choice. Please enter 1, 2, or 3."
                     ;;
             esac
         done
     else
-        echo_success "All casks are in order"
+        ui_success_msg "All configured casks are installed ✓"
     fi
+    ui_spacer
 }
 
 handle_discrepancies() {
-    echo_task_start "Checking for discrepancies"
-    echo_warn "If an app is listed below as a discrepancy, but should not be:"
-    echo_warn "It may be installed as a cask but only tracked as a formula, or vice versa."
-    echo_warn "Or, the name may have changed in Homebrew and needs to be cleaned up."
-    echo_warn "Check both your config and your installed Homebrew casks/formulae."
+    ui_divider "─" 60 "$UI_PRIMARY"
+    ui_primary "🔍 Orphaned Cask Analysis"
+    ui_divider "─" 60 "$UI_PRIMARY"
+    ui_spacer
+
+    local orphaned_casks=()
     local casks_to_keep=()
 
-    for cask in ${(k)installed_casks_map}; do
-        if [[ -z "${file_casks_map[$cask]}" ]]; then
-            echo_info "Discrepancy found: '$cask'"
-            echo "1) Use 'soap'"
-            echo "2) Uninstall"
-            echo "3) Keep"
-            echo_input "Please choose an option (1-3):"
+    for cask in ${(k)_BREW_installed_casks_map}; do
+        if [[ -z "${_BREW_file_casks_map[$cask]}" ]]; then
+            orphaned_casks+=($cask)
+        fi
+    done
+
+    if [[ ${#orphaned_casks[@]} -gt 0 ]]; then
+        ui_info_msg "Found ${#orphaned_casks[@]} orphaned casks"
+        ui_muted "  These casks are installed but not in configuration"
+        ui_spacer
+
+        for cask in "${orphaned_casks[@]}"; do
+            ui_box "Cask: $cask" "Orphaned Package" 60
+            ui_spacer
+
+            ui_info_simple "Choose action:"
+            ui_muted "  [1] Clean with soap (safe uninstall)"
+            ui_muted "  [2] Force uninstall"
+            ui_muted "  [3] Keep installed"
+            ui_spacer
 
             while true; do
+                ui_input "Choice [1-3]" "3"
                 read choice
                 case $choice in
                     1)
                         log_action "SOAP: $cask"
-                        $DRY_RUN && echo_subtle "[DRY-RUN] soap $cask" || soap "$cask"
+                        if $DRY_RUN; then
+                            ui_muted "  [DRY-RUN] soap $cask"
+                        else
+                            ui_info_msg "Cleaning $cask with soap..."
+                            soap "$cask" 2>&1 | while IFS= read -r line; do
+                                ui_muted "  $line"
+                            done
+                            ui_success_simple "$cask cleaned"
+                        fi
                         break
                         ;;
                     2)
                         log_action "UNINSTALL: $cask"
-                        $DRY_RUN && echo_subtle "[DRY-RUN] brew uninstall $cask" || brew uninstall "$cask"
+                        if $DRY_RUN; then
+                            ui_muted "  [DRY-RUN] brew uninstall $cask"
+                        else
+                            ui_warning_msg "Uninstalling $cask..."
+                            brew uninstall "$cask" 2>&1 | while IFS= read -r line; do
+                                ui_muted "  $line"
+                            done
+                            ui_success_simple "$cask uninstalled"
+                        fi
                         break
                         ;;
                     3)
                         log_action "KEEP: $cask"
                         casks_to_keep+=($cask)
+                        ui_info_simple "Keeping $cask"
                         break
                         ;;
                     *)
-                        echo_warn "Invalid input. Please choose 1, 2, or 3."
+                        ui_error_simple "Invalid choice. Please enter 1, 2, or 3."
                         ;;
                 esac
             done
-        fi
-    done
-
-    if [[ ${#casks_to_keep[@]} -gt 0 ]]; then
-        echo_info "Kept casks:"
-        for cask in "${casks_to_keep[@]}"; do
-            echo_subtle "$cask"
+            ui_spacer
         done
+
+        if [[ ${#casks_to_keep[@]} -gt 0 ]]; then
+            ui_spacer
+            ui_info_msg "Kept casks (consider adding to configuration):"
+            for cask in "${casks_to_keep[@]}"; do
+                printf "  ${UI_INFO}→${UI_RESET} %s\n" "$cask"
+            done
+            ui_muted "  Tip: Add these to your brew.yml configuration"
+        fi
     else
-        echo_success "No discrepancies found"
+        ui_success_msg "No orphaned casks found ✓"
     fi
-    echo_task_done "Discrepancy check complete"
+    ui_spacer
 }
 
 # Main Script
-check_dependencies
-check_variables
-echo_title "Starting Cleanup Process"
-echo_space
+main() {
+    check_dependencies
+    check_variables
 
-load_casks_from_files
-check_installed_casks
-compare_casks
-handle_discrepancies
+    load_casks_from_files
+    check_installed_casks
+    compare_casks
+    handle_discrepancies
 
-echo_final_success
+    # Final summary
+    ui_divider "═" 60 "$UI_SUCCESS"
+    ui_spacer
+    ui_badge "success" " AUDIT COMPLETE "
+    ui_spacer
+
+    if [[ -f "$LOG_FILE" ]]; then
+        ui_info_simple "Actions logged to: $LOG_FILE"
+    fi
+
+    ui_success_msg "Homebrew cask audit finished successfully!"
+    ui_spacer
+}
+
+# Execute main function
+main

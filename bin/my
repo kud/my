@@ -1,0 +1,200 @@
+#! /usr/bin/env zsh
+
+# main command
+source $MY/core/utils/helper.zsh
+source $MY/core/utils/ui-kit.zsh
+
+# Check for debug flag and set environment variable
+export MY_DEBUG=false
+if [[ "$1" == "--debug" ]]; then
+  export MY_DEBUG=true
+  shift # Remove --debug from arguments
+  ui_warning_simple "Debug mode enabled - verbose logging active"
+  ui_spacer
+fi
+
+if [[ $# -eq 0 ]]; then
+  $0 --help
+else
+
+  case "$1" in
+  # Direct commands (only core/commands)
+  install)
+    $MY/core/commands/install.zsh
+    ;;
+  update)
+    $MY/core/commands/update.zsh
+    ;;
+  uninstall)
+    $MY/core/commands/uninstall.zsh
+    ;;
+  brew-clean)
+    $MY/core/commands/brew-clean.zsh
+    ;;
+  npm-clean)
+    $MY/core/commands/npm-clean.zsh
+    ;;
+  doctor)
+    $MY/core/commands/doctor.zsh
+    ;;
+  services)
+    $MY/core/system/services.zsh "${@:2}"
+    ;;
+
+  # Everything else under run
+  run)
+    if [[ -z "$2" ]]; then
+      echo "Error: 'run' requires a module name. Available modules:"
+      echo "  Apps: firefox, keepassxc, pcloud, sublime-merge"
+      echo "  CLI: abbr, aicommits, ssh"
+      echo "  Packages: antidote, brew, gem, mas, npm, pip"
+      echo "  System: default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlinks"
+      exit 1
+    fi
+
+    case "$2" in
+    # System modules
+    os)
+      $MY/core/os/main.zsh
+      ;;
+    doc)
+      case "$3" in
+      --offline)
+        mdlive --dir $MY/doc
+        ;;
+      *)
+        open https://github.com/kud/my/tree/master/doc
+        ;;
+      esac
+      ;;
+    edit)
+      code $MY
+      ;;
+    open)
+      open $MY
+      ;;
+
+    # Apps (core/apps)
+    firefox)
+      $MY/core/apps/firefox.zsh
+      ;;
+    keepassxc)
+      $MY/core/apps/keepassxc.zsh
+      ;;
+    pcloud)
+      $MY/core/apps/pcloud.zsh
+      ;;
+    sublime-merge)
+      $MY/core/apps/sublime-merge.zsh
+      ;;
+
+    # CLI tools (core/cli)
+    abbr)
+      $MY/core/cli/abbr.zsh
+      ;;
+    aicommits)
+      $MY/core/cli/aicommits.zsh
+      ;;
+    ssh)
+      $MY/core/system/ssh.zsh
+      ;;
+
+    # Packages (core/packages)
+    antidote)
+      $MY/core/packages/antidote.zsh
+      ;;
+    brew)
+      $MY/core/packages/brew.zsh
+      ;;
+    gem)
+      $MY/core/packages/gem.zsh
+      ;;
+    mas)
+      $MY/core/packages/mas.zsh
+      ;;
+    npm)
+      $MY/core/packages/npm.zsh
+      ;;
+    pip)
+      $MY/core/packages/pip.zsh
+      ;;
+
+    # System (core/system) - fallback and specific ones
+    dotfiles)
+      $MY/core/system/dotfiles.zsh
+      ;;
+    symlinks)
+      $MY/core/system/symlinks.zsh
+      ;;
+    shims)
+      $MY/core/system/shims.zsh
+      ;;
+    submodules)
+      $MY/core/system/submodules.zsh
+      ;;
+    default-folders)
+      $MY/core/system/default-folders.zsh
+      ;;
+    *)
+      if [[ -f "$MY/core/system/$2.zsh" ]]; then
+        $MY/core/system/$2.zsh
+      else
+        echo "Error: Module '$2' not found. Use 'my --help' to see available modules."
+        exit 1
+      fi
+      ;;
+    esac
+    ;;
+
+  --help|-h|help)
+    ui_spacer
+    ui_primary "My Environment Manager"
+    ui_spacer
+
+    ui_info_simple "A comprehensive development environment management tool for macOS"
+    ui_spacer
+
+    ui_subtitle "Usage:"
+    echo "  my <command>          Run command directly"
+    echo "  my run <module>       Run specific module"
+    echo "  my --debug <command>  Run with verbose debugging"
+    echo "  my --help             Show this help"
+
+    ui_spacer
+    ui_subtitle "Direct Commands:"
+    echo "  install               Set up complete development environment"
+    echo "  update                Refresh all components and packages"
+    echo "  uninstall             Remove the project"
+    echo "  doctor                Check system health and configuration"
+    echo "  services              Manage system services (LaunchDaemons)"
+    echo "  brew-clean            Remove unused Homebrew packages"
+    echo "  npm-clean             Clean up Node.js global packages"
+
+    ui_spacer
+    ui_subtitle "Module Categories (use with 'my run <module>'):"
+
+    echo
+    echo "  Package Managers:"
+    echo "    antidote, brew, gem, mas, npm, pip"
+
+    echo
+    echo "  Applications:"
+    echo "    firefox, keepassxc, pcloud, sublime-merge"
+
+    echo
+    echo "  Development Tools:"
+    echo "    abbr, aicommits, ssh"
+
+    echo
+    echo "  System Components:"
+    echo "    default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlinks, sync-files"
+
+    ui_spacer
+    ;;
+  *)
+    echo "Error: Unrecognized command '$1'. Use --help for a list of commands."
+    exit 1
+    ;;
+  esac
+
+fi

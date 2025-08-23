@@ -1,6 +1,6 @@
 # My! Oh My!
 
-![Everybody Dance Now](everybodydancenow.gif)
+![Everybody Dance Now](assets/everybodydancenow.gif)
 
 **My own environment for macOS.**
 
@@ -19,7 +19,7 @@ curl -L --silent https://install.my.kud.io | zsh
 The main command is:
 
 ```shell
-£
+my
 ```
 
 ## 🖼️ Preview
@@ -45,7 +45,7 @@ Direct Commands:
 Run Commands:
     run <module>      Run a specific component:
       Apps:           firefox, keepassxc, pcloud, sublime-merge
-      CLI:            abbr, aicommits, neovim, ssh
+      CLI:            abbr, aicommits, ssh
       Packages:       antidote, brew, gem, mas, npm, pip
-      System:         default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlink
+      System:         default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlinks
 ```

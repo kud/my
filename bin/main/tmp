@@ -1,0 +1,49 @@
+#!/usr/bin/env zsh
+
+# Source helper functions
+source "${MY}/core/utils/helper.zsh"
+
+# Display help message
+show_help() {
+  show_command_help "tmp" "Temporary file manager" \
+    "tmp [<command>|--help]" \
+    "open:Open tmp folder" \
+    "clean:Clean tmp folder" \
+    "move:Move files/folder to tmp folder"
+}
+
+main() {
+  # If no arguments, display help.
+  if [[ $# -eq 0 ]]; then
+    show_help
+    return
+  fi
+  
+  # Handle help flag
+  handle_help_flag "$1"
+
+  case "$1" in
+  clean)
+    # Move files to trash
+    find ~/__tmp/ -type f -exec trash {} \;
+    ;;
+  open)
+    # Open the temp directory
+    open ~/__tmp
+    ;;
+  from)
+    # Check if second argument exists
+    if [[ -z "$2" ]]; then
+      echo "Specify a file or folder to move."
+      return
+    fi
+    mv "$2" ~/__tmp/
+    ;;
+  *)
+    echo 'Invalid command. Use --help for usage.'
+    ;;
+  esac
+}
+
+# Call the main function with provided arguments.
+main "$@"

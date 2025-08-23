@@ -1,0 +1,4 @@
+#! /usr/bin/env zsh
+
+# Safer pip upgrade that filters out problematic packages
+pip list --outdated | tail -n +3 | awk '{print $1}' | xargs -n1 pip install -U

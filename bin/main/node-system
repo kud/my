@@ -1,0 +1,61 @@
+#!/usr/bin/env zsh
+
+# Wrapper script to run Node.js scripts with Homebrew's Node instead of fnm's Node
+
+# Get the Homebrew Node.js path
+BREW_NODE="/opt/homebrew/opt/node/bin/node"
+
+# Check if Homebrew Node exists
+if [[ ! -f "$BREW_NODE" ]]; then
+    echo "Error: Homebrew Node.js not found at $BREW_NODE" >&2
+    echo "Please install Node.js via Homebrew: brew install node" >&2
+    exit 1
+fi
+
+# Get the script name from the first argument
+SCRIPT_NAME="$1"
+shift  # Remove the first argument so we can pass the rest to the script
+
+# Check if a script name was provided
+if [[ -z "$SCRIPT_NAME" ]]; then
+    echo "Usage: node-system <script-name> [arguments...]" >&2
+    echo "Example: node-system git-branch-select" >&2
+    exit 1
+fi
+
+# Determine the script path
+# First, check if it's a full path
+if [[ -f "$SCRIPT_NAME" ]]; then
+    SCRIPT_PATH="$SCRIPT_NAME"
+# Check in npm global bin directory
+elif [[ -f "$HOME/.npm-global/bin/$SCRIPT_NAME" ]]; then
+    SCRIPT_PATH="$HOME/.npm-global/bin/$SCRIPT_NAME"
+# Check in bin directories
+elif [[ -f "$HOME/my/bin/git/$SCRIPT_NAME" ]]; then
+    SCRIPT_PATH="$HOME/my/bin/git/$SCRIPT_NAME"
+elif [[ -f "$HOME/my/bin/main/$SCRIPT_NAME" ]]; then
+    SCRIPT_PATH="$HOME/my/bin/main/$SCRIPT_NAME"
+elif [[ -f "$HOME/my/bin/$SCRIPT_NAME" ]]; then
+    SCRIPT_PATH="$HOME/my/bin/$SCRIPT_NAME"
+# Check with .js extension
+elif [[ -f "$HOME/.npm-global/bin/${SCRIPT_NAME}.js" ]]; then
+    SCRIPT_PATH="$HOME/.npm-global/bin/${SCRIPT_NAME}.js"
+elif [[ -f "$HOME/my/bin/git/${SCRIPT_NAME}.js" ]]; then
+    SCRIPT_PATH="$HOME/my/bin/git/${SCRIPT_NAME}.js"
+elif [[ -f "$HOME/my/bin/main/${SCRIPT_NAME}.js" ]]; then
+    SCRIPT_PATH="$HOME/my/bin/main/${SCRIPT_NAME}.js"
+elif [[ -f "$HOME/my/bin/${SCRIPT_NAME}.js" ]]; then
+    SCRIPT_PATH="$HOME/my/bin/${SCRIPT_NAME}.js"
+else
+    echo "Error: Script '$SCRIPT_NAME' not found" >&2
+    echo "Searched in:" >&2
+    echo "  - Current directory" >&2
+    echo "  - ~/.npm-global/bin/" >&2
+    echo "  - ~/my/bin/git/" >&2
+    echo "  - ~/my/bin/main/" >&2
+    echo "  - ~/my/bin/" >&2
+    exit 1
+fi
+
+# Run the script with Homebrew's Node
+exec "$BREW_NODE" "$SCRIPT_PATH" "$@"

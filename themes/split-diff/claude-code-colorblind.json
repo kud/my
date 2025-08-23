@@ -1,0 +1,67 @@
+{
+  "BORDER_COLOR": {
+    "color": "#ffcc0266",
+    "modifiers": ["dim"]
+  },
+  "COMMIT_AUTHOR_COLOR": {
+    "color": "#ffffff"
+  },
+  "COMMIT_DATE_COLOR": {
+    "color": "#ffffff"
+  },
+  "COMMIT_HEADER_COLOR": {
+    "color": "#ffffff"
+  },
+  "COMMIT_HEADER_LABEL_COLOR": {
+    "color": "#ffffff22"
+  },
+  "COMMIT_MESSAGE_COLOR": {
+    "color": "#ffffff"
+  },
+  "COMMIT_SHA_COLOR": {
+    "color": "#ffffff"
+  },
+  "COMMIT_TITLE_COLOR": {
+    "modifiers": ["bold"]
+  },
+  "DEFAULT_COLOR": {
+    "backgroundColor": "",
+    "color": "#ffffff"
+  },
+  "DELETED_LINE_COLOR": {
+    "backgroundColor": "#a64040",
+    "color": "#ffffff"
+  },
+  "DELETED_LINE_NO_COLOR": {
+    "backgroundColor": "#ffffff22",
+    "color": "#ffffff22"
+  },
+  "DELETED_WORD_COLOR": {
+    "backgroundColor": "#cc5555",
+    "color": "#ffffff"
+  },
+  "FILE_NAME_COLOR": {
+    "color": "#ffffff"
+  },
+  "HUNK_HEADER_COLOR": {
+    "modifiers": ["dim"]
+  },
+  "INSERTED_LINE_COLOR": {
+    "backgroundColor": "#4078a6",
+    "color": "#ffffff"
+  },
+  "INSERTED_LINE_NO_COLOR": {
+    "backgroundColor": "#ffffff22",
+    "color": "#ffffff22"
+  },
+  "INSERTED_WORD_COLOR": {
+    "backgroundColor": "#5599cc",
+    "color": "#ffffff"
+  },
+  "MISSING_LINE_COLOR": {},
+  "SYNTAX_HIGHLIGHTING_THEME": "",
+  "UNMODIFIED_LINE_COLOR": {},
+  "UNMODIFIED_LINE_NO_COLOR": {
+    "color": "#ffffff"
+  }
+}
