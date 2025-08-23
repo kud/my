@@ -1,0 +1,177 @@
+#!/usr/bin/env node
+
+import { $ } from "zx"
+import chalk from "chalk"
+import inquirer from "inquirer"
+import simpleGit from "simple-git"
+
+$.verbose = false
+
+const git = simpleGit()
+
+const main = async () => {
+  try {
+    // Check if we're in a git repository
+    const isRepo = await git.checkIsRepo()
+    if (!isRepo) {
+      console.log(chalk.blue("This is not a Git repository. Please go to a directory with .git directory."))
+      return
+    }
+
+    // Fetch latest remote info (without pulling)
+    await git.fetch(["--prune"])
+
+    // Get all branches with commit info using git for-each-ref
+    const localBranchesRaw = await git.raw([
+      "for-each-ref",
+      "--sort=-committerdate",
+      "refs/heads/",
+      "--format=%(refname:short):::%(committerdate:relative)"
+    ])
+    
+    const remoteBranchesRaw = await git.raw([
+      "for-each-ref",
+      "--sort=-committerdate",
+      "refs/remotes/origin/",
+      "--format=%(refname:short):::%(committerdate:relative)"
+    ])
+    
+    // Get current branch
+    const currentBranch = await git.revparse(["--abbrev-ref", "HEAD"])
+    
+    // Parse local branches
+    const localBranchChoices = localBranchesRaw
+      .trim()
+      .split("\n")
+      .filter(line => line.length > 0)
+      .map(line => {
+        const [name, relativeTime] = line.split(":::")
+        return { name, relativeTime: relativeTime || "unknown" }
+      })
+      .filter(branch => branch.name !== currentBranch.trim())
+      .map(branch => ({
+        name: `[local] ${branch.name} (${branch.relativeTime})`,
+        value: { type: "local", name: branch.name },
+        short: branch.name
+      }))
+    
+    // Parse remote branches (exclude HEAD and bare origin)
+    const remoteBranchChoices = remoteBranchesRaw
+      .trim()
+      .split("\n")
+      .filter(line => line.length > 0 && !line.includes("HEAD"))
+      .map(line => {
+        const [fullName, relativeTime] = line.split(":::")
+        const simpleName = fullName.replace("origin/", "")
+        return { name: simpleName, relativeTime: relativeTime || "unknown" }
+      })
+      .filter(branch => branch.name !== "" && branch.name !== "origin")  // Filter out bare origin
+      .map(branch => ({
+        name: `[remote] origin/${branch.name} (${branch.relativeTime})`,
+        value: { type: "remote", name: branch.name },
+        short: `origin/${branch.name}`
+      }))
+    
+    // Combine all choices
+    const allChoices = [...localBranchChoices, ...remoteBranchChoices]
+    
+    if (allChoices.length === 0) {
+      console.log(chalk.blue("There is only the current branch. Nothing to do."))
+      return
+    }
+    
+    // Sort by type (local first) then by name
+    allChoices.sort((a, b) => {
+      if (a.value.type !== b.value.type) {
+        return a.value.type === "local" ? -1 : 1
+      }
+      return a.value.name.localeCompare(b.value.name)
+    })
+    
+    // Select branches to delete
+    const { branchesToDelete } = await inquirer.prompt([
+      {
+        type: "checkbox",
+        name: "branchesToDelete",
+        message: "Which branches do you want to delete?",
+        choices: allChoices,
+        pageSize: 15,
+      },
+    ])
+    
+    if (branchesToDelete.length === 0) {
+      console.log(chalk.yellow("No branches selected."))
+      return
+    }
+    
+    // Group by type for confirmation
+    const localToDelete = branchesToDelete.filter(b => b.type === "local")
+    const remoteToDelete = branchesToDelete.filter(b => b.type === "remote")
+    
+    // Show confirmation
+    console.log("")
+    console.log(chalk.red.bold.underline("You have selected these branches to delete:"))
+    
+    if (localToDelete.length > 0) {
+      console.log(chalk.yellow("\nLocal branches:"))
+      localToDelete.forEach((branch, index) => {
+        console.log(`  ${index + 1}. ${branch.name}`)
+      })
+    }
+    
+    if (remoteToDelete.length > 0) {
+      console.log(chalk.yellow("\nRemote branches:"))
+      remoteToDelete.forEach((branch, index) => {
+        console.log(`  ${index + 1}. origin/${branch.name}`)
+      })
+    }
+    
+    // Ask for confirmation
+    const { confirmed } = await inquirer.prompt([
+      {
+        type: "confirm",
+        name: "confirmed",
+        message: `Delete these ${branchesToDelete.length} branches?`,
+        default: false,
+      },
+    ])
+    
+    if (!confirmed) {
+      console.log("No branches deleted.")
+      return
+    }
+    
+    // Delete local branches
+    for (const branch of localToDelete) {
+      try {
+        console.log(chalk.gray(`Deleting local branch: ${branch.name}...`))
+        await git.branch(["-D", branch.name])
+        console.log(chalk.green(`✓ Deleted local branch: ${branch.name}`))
+      } catch (error) {
+        console.log(chalk.red(`✗ Failed to delete local branch: ${branch.name}`))
+        console.log(chalk.gray(`  ${error.message}`))
+      }
+    }
+    
+    // Delete remote branches
+    for (const branch of remoteToDelete) {
+      try {
+        console.log(chalk.gray(`Deleting remote branch: origin/${branch.name}...`))
+        await git.push("origin", `:${branch.name}`)
+        console.log(chalk.green(`✓ Deleted remote branch: origin/${branch.name}`))
+      } catch (error) {
+        console.log(chalk.red(`✗ Failed to delete remote branch: origin/${branch.name}`))
+        console.log(chalk.gray(`  ${error.message}`))
+      }
+    }
+    
+    console.log("")
+    console.log(chalk.green.bold("All selected branches processed."))
+    
+  } catch (error) {
+    console.error(chalk.red(`Error: ${error.message}`))
+    process.exit(1)
+  }
+}
+
+main()
