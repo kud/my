@@ -1,0 +1,222 @@
+#!/usr/bin/env zsh
+
+set -e
+
+# Source UI Kit
+source $MY/core/utils/ui-kit.zsh
+
+# Error handling using UI Kit
+error() {
+  ui_error_msg "$1"
+  exit 1
+}
+
+warning() {
+  ui_warning_msg "$1"
+}
+
+success() {
+  ui_success_simple "$1"
+}
+
+info() {
+  ui_info_simple "$1"
+}
+
+# Check if we're in a git repository
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+  error "Not in a git repository"
+fi
+
+# Check for uncommitted changes
+if ! git diff-index --quiet HEAD -- 2>/dev/null; then
+  error "You have uncommitted changes. Please commit or stash them first."
+fi
+
+# Check if master branch exists locally
+if ! git show-ref --verify --quiet refs/heads/master; then
+  error "Local 'master' branch does not exist"
+fi
+
+# Check if main branch already exists locally
+if git show-ref --verify --quiet refs/heads/main; then
+  error "Local 'main' branch already exists. Migration may have already been completed."
+fi
+
+# Get the default remote (usually origin)
+DEFAULT_REMOTE=$(git remote | head -n1)
+if [[ -z "$DEFAULT_REMOTE" ]]; then
+  error "No remote repository found"
+fi
+
+# Allow specifying a different remote
+REMOTE=${1:-$DEFAULT_REMOTE}
+info "Using remote: $REMOTE"
+
+# Check if remote master exists
+if ! git ls-remote --heads $REMOTE master | grep -q master; then
+  warning "Remote 'master' branch does not exist on $REMOTE"
+  REMOTE_MASTER_EXISTS=false
+else
+  REMOTE_MASTER_EXISTS=true
+fi
+
+# Check if remote main already exists
+if git ls-remote --heads $REMOTE main | grep -q main; then
+  warning "Remote 'main' branch already exists on $REMOTE"
+  echo "This might indicate the migration was already partially completed."
+  
+  if ! ui_confirm "Continue anyway?" "n"; then
+    echo "Migration cancelled."
+    exit 0
+  fi
+fi
+
+# Show what will be done
+ui_section "Migration Plan"
+echo "  1. Switch to master branch (if not already on it)"
+echo "  2. Rename local 'master' branch to 'main'"
+echo "  3. Push 'main' branch to $REMOTE and set it as upstream"
+if [[ "$REMOTE_MASTER_EXISTS" == "true" ]]; then
+  echo "  4. Delete 'master' branch from $REMOTE"
+fi
+echo ""
+
+if ! ui_confirm "Proceed with migration?" "n"; then
+  echo "Migration cancelled."
+  exit 0
+fi
+
+echo ""
+
+# Switch to master if not already
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [[ "$CURRENT_BRANCH" != "master" ]]; then
+  info "Switching to master branch..."
+  git switch master || git checkout master
+  success "Switched to master branch"
+else
+  success "Already on master branch"
+fi
+
+# Rename master to main locally
+info "Renaming local 'master' to 'main'..."
+git branch -m master main
+success "Local branch renamed from 'master' to 'main'"
+
+# Push main and set upstream
+info "Pushing 'main' branch to $REMOTE..."
+if git push -u $REMOTE main; then
+  success "Pushed 'main' branch and set upstream to $REMOTE/main"
+else
+  error "Failed to push 'main' branch. You may need to manually resolve this."
+fi
+
+# Try to update default branch on GitHub if using gh CLI
+if command -v gh &> /dev/null && [[ "$REMOTE" == "origin" ]]; then
+  info "Checking if this is a GitHub repository..."
+  if gh repo view &> /dev/null; then
+    info "Updating default branch on GitHub..."
+    if gh repo edit --default-branch main &> /dev/null; then
+      success "Updated default branch to 'main' on GitHub"
+    else
+      warning "Could not update default branch automatically"
+    fi
+  fi
+fi
+
+# Delete master from remote if it exists
+if [[ "$REMOTE_MASTER_EXISTS" == "true" ]]; then
+  echo ""
+  
+  if ui_confirm "Delete 'master' branch from $REMOTE?" "n"; then
+    info "Deleting 'master' branch from $REMOTE..."
+    if git push $REMOTE --delete master; then
+      success "Deleted 'master' branch from $REMOTE"
+    else
+      warning "Failed to delete 'master' branch from $REMOTE."
+      echo "This might be due to branch protection rules."
+      
+      # Try to handle GitHub branch protection
+      if command -v gh &> /dev/null && gh repo view &> /dev/null; then
+        if ui_confirm "Try to migrate branch protection rules from master to main?" "y"; then
+          info "Attempting to migrate branch protection rules..."
+          # Get protection rules from master and apply to main
+          # gh api automatically uses the current repo context
+          if gh api repos/{owner}/{repo}/branches/master/protection > /tmp/protection.json 2>/dev/null; then
+            gh api repos/{owner}/{repo}/branches/main/protection --input /tmp/protection.json 2>/dev/null && \
+              success "Migrated branch protection rules to main"
+            rm -f /tmp/protection.json
+          fi
+        fi
+      fi
+    fi
+  else
+    info "Keeping 'master' branch on $REMOTE"
+  fi
+fi
+
+echo ""
+ui_success_msg "Migration completed!"
+
+# Check for CI/CD files that might need updating
+ui_section "Checking for files that may need updates"
+
+CI_FILES_FOUND=false
+if [[ -d .github/workflows ]]; then
+  WORKFLOW_FILES=$(grep -l "master" .github/workflows/*.yml .github/workflows/*.yaml 2>/dev/null || true)
+  if [[ -n "$WORKFLOW_FILES" ]]; then
+    CI_FILES_FOUND=true
+    warning "Found GitHub Actions workflows that reference 'master':"
+    echo "$WORKFLOW_FILES" | while read -r file; do
+      echo "  • $file"
+    done
+  fi
+fi
+
+if [[ -f .gitlab-ci.yml ]] && grep -q "master" .gitlab-ci.yml; then
+  CI_FILES_FOUND=true
+  warning "Found .gitlab-ci.yml that references 'master'"
+fi
+
+if [[ -f Jenkinsfile ]] && grep -q "master" Jenkinsfile; then
+  CI_FILES_FOUND=true
+  warning "Found Jenkinsfile that references 'master'"
+fi
+
+if [[ -f .circleci/config.yml ]] && grep -q "master" .circleci/config.yml; then
+  CI_FILES_FOUND=true
+  warning "Found CircleCI config that references 'master'"
+fi
+
+if [[ "$CI_FILES_FOUND" == "true" ]]; then
+  echo ""
+  if ui_confirm "Would you like to automatically update these files?" "y"; then
+    info "Updating CI/CD configuration files..."
+    
+    # Update GitHub Actions
+    if [[ -d .github/workflows ]]; then
+      find .github/workflows -name "*.yml" -o -name "*.yaml" | while read -r file; do
+        sed -i.bak 's/\bmaster\b/main/g' "$file" && rm "${file}.bak"
+      done
+    fi
+    
+    # Update other CI files
+    for file in .gitlab-ci.yml Jenkinsfile .circleci/config.yml; do
+      if [[ -f "$file" ]]; then
+        sed -i.bak 's/\bmaster\b/main/g' "$file" && rm "${file}.bak"
+      fi
+    done
+    
+    success "Updated CI/CD configuration files"
+    info "Remember to commit these changes"
+  fi
+else
+  success "No CI/CD files found that reference 'master'"
+fi
+
+ui_section "Remaining Tasks"
+echo "  • Update documentation that references the default branch"
+echo "  • Notify team members about the change"
+echo "  • Update local configs in other clones:"
+ui_muted "    git branch -m master main && git branch -u $REMOTE/main main"
