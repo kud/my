@@ -11,12 +11,24 @@ const git = simpleGit()
 
 const main = async () => {
   try {
+    await git.fetch("--prune")
+    await git.pull()
+
+    // Get local branches with gone upstreams
     const branchesList = (await $`git branch -vv | grep -v 'origin/HEAD'`)
       .stdout
     const goneBranches = branchesList
       .split("\n")
       .filter((branch) => branch.includes(": gone]"))
       .map((branch) => branch.trim().split(" ")[0])
+
+    // Get remote branches that have been merged
+    const defaultBranch = (await $`git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'`).stdout.trim()
+    const mergedRemoteBranches = (await $`git branch -r --merged ${defaultBranch} | grep -v HEAD | grep -v ${defaultBranch} | sed 's/origin\\///'`)
+      .stdout
+      .split("\n")
+      .filter(branch => branch.trim().length > 0)
+      .map(branch => branch.trim())
 
     const currentBranch = (await git.revparse(["--abbrev-ref", "HEAD"])).trim()
 
@@ -34,24 +46,62 @@ const main = async () => {
       process.exit(1)
     }
 
-    await git.fetch()
-    await git.pull()
+    const hasLocalToClean = goneBranches.length > 0
+    const hasRemoteToClean = mergedRemoteBranches.length > 0
 
-    if (goneBranches.length) {
+    if (!hasLocalToClean && !hasRemoteToClean) {
+      console.log(chalk.green("No branches to clean (local or remote)."))
+      return
+    }
+
+    console.log("")
+    
+    // Show what we found
+    if (hasLocalToClean) {
+      console.log(chalk.yellow("Local branches with deleted remotes:"))
+      goneBranches.forEach(branch => console.log(`  - ${branch}`))
       console.log("")
+    }
 
+    if (hasRemoteToClean) {
+      console.log(chalk.yellow("Remote branches already merged to ${defaultBranch}:"))
+      mergedRemoteBranches.forEach(branch => console.log(`  - origin/${branch}`))
+      console.log("")
+    }
+
+    const cleanupChoices = []
+    if (hasLocalToClean) cleanupChoices.push({ name: "Clean local branches", value: "local" })
+    if (hasRemoteToClean) cleanupChoices.push({ name: "Clean remote branches", value: "remote" })
+    if (hasLocalToClean && hasRemoteToClean) cleanupChoices.push({ name: "Clean both", value: "both" })
+
+    const { cleanupType } = await inquirer.prompt([
+      {
+        type: "list",
+        name: "cleanupType",
+        message: "What would you like to clean?",
+        choices: cleanupChoices.concat([{ name: "Cancel", value: "cancel" }]),
+      },
+    ])
+
+    if (cleanupType === "cancel") {
+      console.log(chalk.yellow("Cleanup cancelled."))
+      return
+    }
+
+    // Clean local branches
+    if (cleanupType === "local" || cleanupType === "both") {
       const answers = await inquirer.prompt([
         {
           type: "checkbox",
           name: "branchesToDelete",
-          message: "Select branches to delete:",
+          message: "Select local branches to delete:",
           choices: goneBranches,
           default: goneBranches,
         },
         {
           type: "confirm",
           name: "proceed",
-          message: "Are you sure you want to delete the selected branches?",
+          message: "Delete selected local branches?",
           default: false,
         },
       ])
@@ -60,6 +110,7 @@ const main = async () => {
         for (let branch of answers.branchesToDelete) {
           if (branch !== currentBranch) {
             await git.branch(["-D", branch])
+            console.log(chalk.green(`✓ Deleted local branch: ${branch}`))
           } else {
             console.log(
               chalk.yellow(
@@ -68,11 +119,38 @@ const main = async () => {
             )
           }
         }
-      } else if (!answers.branchesToDelete.length) {
-        console.log(chalk.yellow("No branches selected for deletion."))
       }
-    } else {
-      console.log(chalk.green("No branch to clean."))
+    }
+
+    // Clean remote branches
+    if (cleanupType === "remote" || cleanupType === "both") {
+      const answers = await inquirer.prompt([
+        {
+          type: "checkbox",
+          name: "branchesToDelete",
+          message: "Select remote branches to delete:",
+          choices: mergedRemoteBranches,
+          default: mergedRemoteBranches,
+        },
+        {
+          type: "confirm",
+          name: "proceed",
+          message: "Delete selected remote branches?",
+          default: false,
+        },
+      ])
+
+      if (answers.proceed && answers.branchesToDelete.length) {
+        for (let branch of answers.branchesToDelete) {
+          try {
+            await $`git push origin --delete ${branch}`
+            console.log(chalk.green(`✓ Deleted remote branch: origin/${branch}`))
+          } catch (error) {
+            console.log(chalk.red(`✗ Failed to delete remote branch: origin/${branch}`))
+            console.log(chalk.gray(`  ${error.message}`))
+          }
+        }
+      }
     }
   } catch (error) {
     console.error(chalk.red(`Error: ${error.message}`))
