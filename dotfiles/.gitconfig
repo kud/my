@@ -1,6 +1,5 @@
 [core]
   whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
-  # editor       = subl -n -w
   editor = nvim
   excludesfile = ~/.gitignore_global
   # hooksPath = ~/my/git/hooks
@@ -8,6 +7,8 @@
   # pager = diff-so-fancy | less --tabs=4 -RFX
   pager = delta
   attributesfile = ~/.gitattributes
+[include]
+  path = .gitconfig_local
 [branch]
   autosetuprebase = always
 [push]
@@ -31,7 +32,8 @@
   verbose = true
 [merge]
   ff = false
-  conflictstyle = diff3
+  # conflictstyle = diff3
+  conflictStyle = zdiff3
   tool = smerge
 [color]
   ui = true
@@ -49,8 +51,6 @@
   added = yellow
   changed = green
   untracked = cyan
-[include]
-  path = .gitconfig_local
 [pull]
   rebase = true
 [init]
@@ -63,48 +63,56 @@
   # diffFilter = diff-so-fancy --patch
   diffFilter = delta --color-only
 [delta]
-  features = mellow-barbet
-  navigate = true    # use n and N to move between diff sections
+  blame-code-style = "syntax"
+  blame-palette = "#1a1a1a #222222 #2a2a2a #323232"
+  dark = true
+  file-added-label = "[+]"
+  file-copied-label = "[==]"
+  file-decoration-style = "none"
+  file-modified-label = "[*]"
+  file-removed-label = "[-]"
+  file-renamed-label = "[->]"
+  file-style = "bold #f59e0b"
+  file-transformation = "s|^.*/||"    # show only filename, not full path
+  grep-match-line-style = "syntax #1a3547"
+  grep-match-word-style = "black #99ccff"
+  hunk-header-decoration-style = "#2a4158 box ul"
+  hunk-header-style = "bold #6b7280 line-number"
+  hyperlinks = true
+  hyperlinks-commit-link-format = "https://github.com/{path}/commit/{commit}"
+  hyperlinks-file-link-format = "vscode://file/{path}:{line}"
+  keep-plus-minus-markers = false    # show +/- markers for clarity
   light = false      # set to true for terminals with light background colors (e.g. the default macOS terminal)
   line-numbers = true
+  line-numbers-left-style = "#6b7280"
+  line-numbers-minus-style = "#dc2626"
+  line-numbers-plus-style = "#3b82f6"
+  line-numbers-right-style = "#6b7280"
+  line-numbers-zero-style = "#4b5563"
+  max-line-distance = 0.6    # smarter line matching
+  max-line-length = 512    # prevent very long lines from breaking layout
+  merge-conflict-begin-symbol = "▼"
+  merge-conflict-end-symbol = "▲"
+  merge-conflict-ours-diff-header-decoration-style = "#2a4158 box"
+  merge-conflict-ours-diff-header-style = "brightcyan bold"
+  merge-conflict-theirs-diff-header-decoration-style = "#4a2c2a box"
+  merge-conflict-theirs-diff-header-style = "brightmagenta bold"
+  minus-emph-style = "white bold #cc5555"
+  minus-style = "white #a64040"
+  navigate = true    # use n and N to move between diff sections
+  plus-emph-style = "white bold #5599cc"
+  plus-style = "white #4078a6"
   side-by-side = true
-  hyperlinks = true
-  hyperlinks-file-link-format = "vscode://file/{path}:{line}"
+  syntax-theme = "base16-256"
+  tabs = 2    # consistent tab display
   true-color = always
-  plus-style = syntax "#003800"
-  minus-style = syntax "#3f0001"
-[delta "mellow-barbet"]
-  dark = true
-  syntax-theme = base16
-  line-numbers = true
-  side-by-side = true
-  file-style = brightwhite
-  file-decoration-style = none
-  file-added-label = [+]
-  file-copied-label = [==]
-  file-modified-label = [*]
-  file-removed-label = [-]
-  file-renamed-label = [->]
-  hunk-header-decoration-style = "#3e3e43" box ul
-  plus-style = brightgreen black
-  plus-emph-style = black green
-  minus-style = brightred black
-  minus-emph-style = black red
-  line-numbers-minus-style = brightred
-  line-numbers-plus-style = brightgreen
-  line-numbers-left-style = "#3e3e43"
-  line-numbers-right-style = "#3e3e43"
-  line-numbers-zero-style = "#57575f"
-  zero-style = syntax
-  whitespace-error-style = black bold
-  blame-code-style = syntax
-  blame-palette = "#161617" "#1b1b1d" "#2a2a2d" "#3e3e43"
-  merge-conflict-begin-symbol = ~
-  merge-conflict-end-symbol = ~
-  merge-conflict-ours-diff-header-style = yellow bold
-  merge-conflict-ours-diff-header-decoration-style = "#3e3e43" box
-  merge-conflict-theirs-diff-header-style = yellow bold
-  merge-conflict-theirs-diff-header-decoration-style = "#3e3e43" box
+  whitespace-error-style = "bold #dc2626 reverse"
+  # word-diff-regex = "\\w+|[^\\w\\s]+"    # better word-level highlighting
+  wrap-max-lines = unlimited    # don't truncate long diffs
+  zero-style = "syntax"
+[split-diffs]
+	theme-directory = ./themes/split-diff
+  theme-name = claude-code-colorblind
 [diff]
   colorMoved = default
 [diff "image"]
@@ -131,8 +139,13 @@
   dash = "!gh dash"
   dc = diff --cached
   df = diff
-  diff-alt = "!git diff --color|diff-so-fancy"
+  diff-so-fancy = "!git diff --color|diff-so-fancy"
+  diff-split = "!git diff --color \"$@\" | git-split-diffs --color"
   diff-image = "!f() { cd -- \"${GIT_PREFIX:-.}\"; GIT_DIFF_IMAGE_ENABLED=1 git diff \"$@\"; }; f"
+  dfs = "!git diff --color \"$@\" | git-split-diffs --color"
+  diff-tastic = "-c diff.external=difft diff"
+  log-tastic = "-c diff.external=difft log --ext-diff"
+  show-tastic = "-c diff.external=difft show --ext-diff"
   export = "!git clone --depth 1 $1 && rm -rf \"$(basename $1 .git)/.git\" -"
   fix = "!git add -A && git commit --amend --no-edit"
   history = reflog --relative-date
@@ -158,6 +171,7 @@
   st = status
   tig = "!tig"
   tools = "!echo '• gh\n• lazygit\n• tig'"
+  uncommit = undo
   unstage = reset HEAD --
   unstash = stash pop
   unwip = "!git reset --soft HEAD~1 && git unstage"

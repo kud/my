@@ -1,0 +1,17 @@
+packages:
+  formulae:
+    - dnscrypt-proxy
+  casks:
+    - darktable
+    - deluge
+    - gswitch
+    - notion
+    - rawtherapee
+    - shadow
+    - steam
+    - steermouse
+    - todoist-app
+    - whatsapp
+
+post_install:
+  - sudo brew services start dnscrypt-proxy

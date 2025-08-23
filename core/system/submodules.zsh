@@ -9,58 +9,50 @@
 #                                                                              #
 ################################################################################
 
-source $MY/core/utils/helper.zsh
 
-echo_task_start "Managing Git submodules"
-
-# Ensure modules directory exists
 mkdir -p "$HOME/my/modules"
 
-################################################################################
-# 🖼️ GIT-DIFF-IMAGE MODULE
-################################################################################
+SUBMODULES_CONFIG="$MY/config/system/submodules.yml"
 
-echo_info "Processing git-diff-image submodule"
-
-if [[ -d "$HOME/my/modules/git-diff-image" ]]; then
-    echo_info "Updating existing git-diff-image submodule"
-    if git --git-dir="$HOME/my/modules/git-diff-image/.git" --work-tree="$HOME/my/modules/git-diff-image/" pull; then
-        echo_success "git-diff-image updated successfully"
-    else
-        echo_warn "Failed to update git-diff-image"
-    fi
-else
-    echo_info "Installing git-diff-image submodule"
-    if git clone --recursive https://github.com/ewanmellor/git-diff-image.git "$HOME/my/modules/git-diff-image"; then
-        echo_success "git-diff-image installed successfully"
-    else
-        echo_warn "Failed to install git-diff-image"
-    fi
+if [[ ! -f "$SUBMODULES_CONFIG" ]]; then
+    exit 1
 fi
 
-################################################################################
-# 🎨 THEMES MODULE
-################################################################################
+process_submodule() {
+    local name="$1"
+    local url="$2"
+    local description="$3"
+    local module_path="$HOME/my/modules/$name"
 
-echo_space
-echo_info "Processing themes submodule"
-
-if [[ -d "$HOME/my/modules/themes" ]]; then
-    echo_info "Updating existing themes submodule"
-    if git --git-dir="$HOME/my/modules/themes/.git" --work-tree="$HOME/my/modules/themes/" pull; then
-        echo_success "themes updated successfully"
+    if [[ -d "$module_path" ]]; then
+        ui_subsection "$name"
+        git --git-dir="$module_path/.git" --work-tree="$module_path/" pull
     else
-        echo_warn "Failed to update themes"
+        ui_subsection "$name"
+        ui_info_simple "Installing from: $url"
+        git clone --recursive "$url" "$module_path"
     fi
-else
-    echo_info "Installing themes submodule"
-    if git clone --recursive https://github.com/kud/themes.git "$HOME/my/modules/themes"; then
-        echo_success "themes installed successfully"
-    else
-        echo_warn "Failed to install themes"
-    fi
-fi
+    echo
+}
 
-echo_space
-echo_task_done "Git submodules management completed"
-echo_success "All external modules are up to date! 📦"
+# Source required utilities
+source $MY/core/utils/helper.zsh
+source $MY/core/utils/ui-kit.zsh
+
+# Check if yq is available
+ensure_command_available "yq" "Install with: brew install yq"
+
+# Parse YAML and process each submodule using yq
+submodule_names=$(yq eval 'keys | .[]' "$SUBMODULES_CONFIG")
+
+while IFS= read -r name; do
+    if [[ -n "$name" ]]; then
+        url=$(yq eval ".[\"$name\"].url" "$SUBMODULES_CONFIG")
+        description=$(yq eval ".[\"$name\"].description" "$SUBMODULES_CONFIG")
+        
+        if [[ -n "$url" && -n "$description" ]]; then
+            process_submodule "$name" "$url" "$description"
+        fi
+    fi
+done <<< "$submodule_names"
+

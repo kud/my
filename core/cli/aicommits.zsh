@@ -4,53 +4,47 @@
 #                                                                              #
 #   🤖 AI COMMIT MESSAGE TOOLS                                                 #
 #   -------------------------                                                  #
-#   Configures AI-powered commit message generators (aicommits & opencommit)  #
-#   with conventional commit format and optimal settings for development.     #
+#   Configures AI-powered commit message generators from config/cli/aicommits.yml #
 #                                                                              #
 ################################################################################
 
 source $MY/core/utils/helper.zsh
+source $MY/core/utils/ui-kit.zsh
 
-echo_task_start "Configuring AI commit message tools"
+config_file="$MY/config/cli/aicommits.yml"
 
 ################################################################################
 # 🎯 AICOMMITS CONFIGURATION
 ################################################################################
 
-echo_info "Configuring aicommits with conventional commit format"
-
-# Check if aicommits is available
-if command -v aicommits >/dev/null 2>&1; then
-    aicommits config set type=conventional     # Use conventional commit format
-    aicommits config set max-length=100        # Limit commit message length
-    aicommits config set model=gpt-4o-mini     # Use efficient GPT model
-
-    echo_success "aicommits configured successfully"
+if ensure_command_available "aicommits" "" "false" && ensure_command_available "yq" "" "false"; then
+    # Read all aicommits config and apply each setting
+    ui_subsection "Configuring aicommits"
+    yq eval '.aicommits | to_entries | .[] | .key + "=" + (.value | tostring)' "$config_file" | while read setting; do
+        echo "  • $setting"
+        aicommits config set $setting >/dev/null 2>&1
+    done
+    ui_success_simple "aicommits configured" 1
 else
-    echo_warn "aicommits not found - install via npm if needed"
+    ui_info_simple "aicommits not available, skipping configuration"
 fi
+
+ui_spacer
 
 ################################################################################
 # 🔄 OPENCOMMIT (OCO) CONFIGURATION
 ################################################################################
 
-echo_space
-echo_info "Configuring opencommit (oco) with emoji support"
-
-# Check if oco is available
-if command -v oco >/dev/null 2>&1; then
-    oco config set OCO_PROMPT_MODULE=conventional-commit  # Conventional format
-    oco config set OCO_EMOJI=true                         # Enable emojis
-    oco config set OCO_MODEL=gpt-4o-mini                  # Use efficient model
-    oco config set OCO_GITPUSH=false                      # Disable git push
-    oco config set OCO_ONE_LINE_COMMIT=true               # Single line commits
-    oco config set OCO_DESCRIPTION=false                  # Skip descriptions
-
-    echo_success "opencommit configured successfully"
+if ensure_command_available "oco" "" "false" && ensure_command_available "yq" "" "false"; then
+    # Read all opencommit config, transform to OCO_ format and apply
+    ui_subsection "Configuring opencommit"
+    yq eval '.opencommit | to_entries | .[] | .key + "=" + (.value | tostring)' "$config_file" | while read setting; do
+        key=$(echo $setting | cut -d'=' -f1 | tr '[:lower:]' '[:upper:]')
+        value=$(echo $setting | cut -d'=' -f2-)
+        echo "  • OCO_$key=$value"
+        oco config set OCO_$key=$value >/dev/null 2>&1
+    done
+    ui_success_simple "opencommit configured" 1
 else
-    echo_warn "opencommit not found - install via npm if needed"
+    ui_info_simple "oco not available, skipping configuration"
 fi
-
-echo_space
-echo_task_done "AI commit tools configuration completed"
-echo_success "Smart commit messages are now ready for your projects! 🚀"

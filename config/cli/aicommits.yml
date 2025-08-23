@@ -1,0 +1,22 @@
+################################################################################
+#                                                                              #
+#   🤖 AI COMMIT MESSAGE TOOLS CONFIGURATION                                   #
+#   -----------------------------------------                                  #
+#   Configuration for AI-powered commit message generators                     #
+#                                                                              #
+################################################################################
+
+aicommits:
+  type: conventional # Use conventional commit format
+  max-length: 100 # Limit commit message length
+  model: gpt-4o-mini # Use efficient GPT model
+
+opencommit:
+  prompt_module: conventional-commit # Conventional format
+  emoji: true # Enable emojis
+  model: gpt-4o-mini # Use efficient model
+  gitpush: false # Disable git push
+  one_line_commit: false # Multi-line commits for detail
+  description: true # Include descriptions
+  tokens_max_input: 4096 # Token limit
+  tokens_max_output: 1000 # Increased for detailed commits

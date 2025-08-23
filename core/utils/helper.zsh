@@ -1,107 +1,23 @@
 #!/usr/bin/env zsh
 
-# set colours
-autoload colors
-if [[ "$terminfo[colors]" -gt 8 ]]; then
-  colors
-fi
+################################################################################
+#                                                                              #
+#   🔧 HELPER UTILITIES                                                        #
+#   ----------------                                                           #
+#   Core utility functions for package management and system operations.      #
+#   UI/display functions have been moved to ui-kit.zsh for better separation. #
+#                                                                              #
+################################################################################
 
-for COLOUR in RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; do
-  eval COLOUR_$COLOUR='$fg_no_bold[${(L)COLOUR}]'
-  eval COLOUR_BOLD_$COLOUR='$fg_bold[${(L)COLOUR}]'
-done
-eval COLOUR_RESET='$reset_color'
-
-# --- VISUAL FEEDBACK SYSTEM ---
-export CHAR_OK=✔
-export CHAR_ERROR=✗
-export CHAR_STARTER=❯
-export CHAR_INFO="[i]"
-export CHAR_USER="[?]"
-export CHAR_WARN="[!]"
-export CHAR_TASK_START="🚀"
-export CHAR_INPUT="[>]"
-export CHAR_FINAL_SUCCESS="👍"
-export CHAR_FINAL_FAIL="🚫"
-
-# --- INSTALLATION PROGRESS ---
-_CURRENT_STEP=0
-_TOTAL_STEPS=0
-
-function set_total_steps() {
-  _TOTAL_STEPS=$1
-  _CURRENT_STEP=0
-}
-
-function next_step() {
-  ((_CURRENT_STEP++))
-  echo_info "Step ${_CURRENT_STEP}/${_TOTAL_STEPS}: $1"
-}
-
-# --- USER MESSAGING ---
-
-function echo_info() { echo "${COLOUR_BLUE}${CHAR_INFO}${COLOUR_RESET} $1" }
-function echo_user() { echo "${COLOUR_YELLOW}${CHAR_USER}${COLOUR_RESET} $1" }
-function echo_success() { echo "${COLOUR_GREEN}${CHAR_OK}${COLOUR_RESET} $1" }
-function echo_fail() { echo "${COLOUR_RED}${CHAR_ERROR}${COLOUR_RESET} $1"; exit ${2:-1} }
-function echo_warn() { echo "${COLOUR_BOLD_YELLOW}${CHAR_WARN}${COLOUR_RESET} $1" }
-function echo_task_start() { echo "${COLOUR_CYAN}${CHAR_TASK_START} ${COLOUR_RESET}$1..." }
-function echo_task_done() { echo "${COLOUR_GREEN}${CHAR_OK} ${COLOUR_RESET}$1 done!" }
-function echo_input() { echo "${COLOUR_BOLD_CYAN}${CHAR_INPUT} ${COLOUR_RESET}$1" }
-function echo_final_success() {
-    echo "${COLOUR_GREEN}${CHAR_FINAL_SUCCESS} Process completed successfully!${COLOUR_RESET}"
-}
-function echo_final_fail() {
-    echo "${COLOUR_RED}${CHAR_FINAL_FAIL} Process failed!${COLOUR_RESET}"
-}
-
-# --- SECTION HEADERS ---
-
-function echo_title() { echo "${COLOUR_CYAN}${CHAR_STARTER} $@${COLOUR_RESET}" }
-function echo_subtitle() { echo "${COLOUR_CYAN}${CHAR_STARTER}${COLOUR_RESET} $1" }
-function echo_title_install() { echo_title "Installing" $1"..." }
-function echo_title_update() { echo_title "Updating" $1"..." }
-
-# --- TEXT FORMATTING ---
-
-function echo_bold() { echo "${COLOUR_BOLD_WHITE}$1${COLOUR_RESET}" }
-function echo_highlight() { echo "${COLOUR_MAGENTA}$1${COLOUR_RESET}" }
-function echo_subtle() { echo "${COLOUR_BLACK}$1${COLOUR_RESET}" }
-
-# --- LAYOUT SPACING ---
-
-function echo_space() {
-  printf "\n"
-}
-function echo_spacex2() {
-  echo_space
-  echo_space
-}
-function echo_spacex3() {
-  echo_space
-  echo_space
-  echo_space
-}
-
-# --- VISUAL SEPARATORS ---
-
-function echo_hr() {
-  echo "${COLOUR_BOLD_CYAN}----------------------------------------${COLOUR_RESET}"
-  echo "$1"
-  echo "${COLOUR_BOLD_CYAN}----------------------------------------${COLOUR_RESET}"
-}
-
-# --- PACKAGE MANAGEMENT ---
+# Package management utilities
 
 # Homebrew package caching system for performance optimization
 _BREW_FORMULAE_CACHE=""
 _BREW_CASKS_CACHE=""
 _BREW_OUTDATED_CACHE=""
 
-# Node.js package queue for batch processing
+# Package queues for batch processing - properly reset after each batch
 _NPM_PACKAGES_TO_INSTALL=()
-
-# Homebrew package queues for efficient installation
 _BREW_PACKAGES_TO_INSTALL=()
 _CASK_PACKAGES_TO_INSTALL=()
 
@@ -121,13 +37,13 @@ function refresh_brew_cache() {
   fi
 }
 
-function brewtap() {
+function brew_tap() {
   if ! brew tap | grep "${@}" > /dev/null; then
     brew tap "${@}"
   fi
 }
 
-function brewinstall() {
+function brew_install() {
   local package="${@}"
 
   # Extract actual package name (remove tap prefix if present)
@@ -140,45 +56,47 @@ function brewinstall() {
 
   # Check if already installed and up-to-date using cached lists
   if echo "$_BREW_FORMULAE_CACHE" | grep -q "^${package_name}$" && ! echo "$_BREW_OUTDATED_CACHE" | grep -q "^${package_name}"; then
-    echo_subtle "✓ ${package} (already installed and up-to-date)"
     return 0
   fi
 
   # Add to batch installation array
   _BREW_PACKAGES_TO_INSTALL+=("${package}")
-  if echo "$_BREW_FORMULAE_CACHE" | grep -q "^${package_name}$"; then
-    echo_info "🔄 ${package} (queued for upgrade)"
-  else
-    echo_info "🍺 ${package} (queued for installation)"
-  fi
 }
 
-function brewinstall_run() {
-  if [[ ${#_BREW_PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
-    echo_subtle "No brew packages to install"
+function brew_install_run() {
+  # Use function-static array to avoid global state pollution
+  local -a _LOCAL_BREW_PACKAGES=("${_BREW_PACKAGES_TO_INSTALL[@]}")
+  # Clear global array immediately to prevent conflicts
+  _BREW_PACKAGES_TO_INSTALL=()
+
+  local start_time=$(date +%s.%N)
+  ui_debug "brew_install_run: Starting with ${#_LOCAL_BREW_PACKAGES[@]} packages"
+
+  if [[ ${#_LOCAL_BREW_PACKAGES[@]} -eq 0 ]]; then
+    ui_debug "brew_install_run: No packages to install"
     return 0
   fi
 
-  echo_task_start "Installing ${#_BREW_PACKAGES_TO_INSTALL[@]} brew packages"
-  echo_info "Packages: ${_BREW_PACKAGES_TO_INSTALL[*]}"
-  brew install "${_BREW_PACKAGES_TO_INSTALL[@]}"
+  ui_info_simple "Installing ${#_LOCAL_BREW_PACKAGES[@]} formulae:"
+  for package in "${_LOCAL_BREW_PACKAGES[@]}"; do
+    echo "  • $package"
+    ui_debug "brew_install_run: Will install $package"
+  done
+  ui_spacer
 
-  if [[ $? -eq 0 ]]; then
-    echo_success "Successfully installed ${#_BREW_PACKAGES_TO_INSTALL[@]} brew packages"
-  else
-    echo_warn "Some brew packages may have failed to install"
-  fi
+  ui_debug_command "brew install ${_LOCAL_BREW_PACKAGES[*]}"
+  brew install "${_LOCAL_BREW_PACKAGES[@]}"
 
-  # Clear the array and refresh cache
-  _BREW_PACKAGES_TO_INSTALL=()
+  ui_debug "brew_install_run: Refreshing cache"
   refresh_brew_cache
+  ui_debug_timing "$start_time" "brew_install_run"
 }
 
-function brewuninstall() {
+function brew_uninstall() {
   brew uninstall "${@}"
 }
 
-function caskinstall() {
+function cask_install() {
   local package="${@}"
 
   # Extract actual package name (remove tap prefix if present)
@@ -191,139 +109,249 @@ function caskinstall() {
 
   # Check if already installed using cached list
   if echo "$_BREW_CASKS_CACHE" | grep -q "^${package_name}$"; then
-    echo_subtle "✓ ${package} (already installed)"
     return 0
   fi
 
   # Add to batch installation array
   _CASK_PACKAGES_TO_INSTALL+=("${package}")
-  echo_info "📱 ${package} (queued for installation)"
 }
 
-function caskinstall_run() {
-  if [[ ${#_CASK_PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
-    echo_subtle "No cask packages to install"
+function cask_install_run() {
+  # Use function-static array to avoid global state pollution
+  local -a _LOCAL_CASK_PACKAGES=("${_CASK_PACKAGES_TO_INSTALL[@]}")
+  # Clear global array immediately to prevent conflicts
+  _CASK_PACKAGES_TO_INSTALL=()
+
+  if [[ ${#_LOCAL_CASK_PACKAGES[@]} -eq 0 ]]; then
     return 0
   fi
 
-  echo_task_start "Installing ${#_CASK_PACKAGES_TO_INSTALL[@]} cask packages"
-  echo_info "Packages: ${_CASK_PACKAGES_TO_INSTALL[*]}"
-  brew install --cask "${_CASK_PACKAGES_TO_INSTALL[@]}"
-
-  if [[ $? -eq 0 ]]; then
-    echo_success "Successfully installed ${#_CASK_PACKAGES_TO_INSTALL[@]} cask packages"
-  else
-    echo_warn "Some cask packages may have failed to install"
+  # Load UI functions if not already loaded
+  if ! command -v ui_info_simple >/dev/null 2>&1; then
   fi
 
-  # Clear the array and refresh cache
-  _CASK_PACKAGES_TO_INSTALL=()
+  ui_info_simple "Installing ${#_LOCAL_CASK_PACKAGES[@]} casks:"
+  for package in "${_LOCAL_CASK_PACKAGES[@]}"; do
+    echo "  • $package"
+  done
+  ui_spacer
+
+  if ! brew install --cask "${_LOCAL_CASK_PACKAGES[@]}"; then
+    ui_error_simple "Homebrew cask installation failed"
+    ui_warning_simple "Please fix the conflict and run the script again"
+    exit 1
+  fi
+
+  # Refresh cache
   refresh_brew_cache
 }
 
-function caskuninstall() {
+function cask_uninstall() {
   brew uninstall --cask "${@}"
 }
 
-function geminstall() {
+function gem_install() {
   if ! type "${@}" > /dev/null; then
     gem install "${@}"
   fi
 }
 
-function npminstall() {
+function npm_install() {
   local package="${@}"
-
-  # Derive the likely command name by handling scoped packages, @version, and -cli/-cmd
-  local cmd_name="$package"
-  # Remove @scope/ prefix if present (e.g., @kud/soap-cli -> soap-cli)
-  if [[ "$cmd_name" == @*/* ]]; then
-    cmd_name="${cmd_name#*/}"
-  fi
-  # Remove everything after and including @ (e.g., typescript@next -> typescript)
-  cmd_name="${cmd_name%%@*}"
-  # Remove -cli or -cmd suffix if present
-  if [[ "$cmd_name" == *-cli ]]; then
-    cmd_name="${cmd_name%-cli}"
-  elif [[ "$cmd_name" == *-cmd ]]; then
-    cmd_name="${cmd_name%-cmd}"
-  fi
-
-  # Check if command exists (more reliable than type)
-  if command -v "$cmd_name" >/dev/null 2>&1; then
-    echo_subtle "✓ ${package} (already installed)"
-    return 0
-  fi
 
   # Add to batch installation array
   _NPM_PACKAGES_TO_INSTALL+=("${package}")
-  echo_info "📦 ${package} (queued for installation)"
 }
 
-function npminstall_run() {
-  if [[ ${#_NPM_PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
-    echo_subtle "No npm packages to install"
+function npm_install_run() {
+  # Use function-static array to avoid global state pollution
+  local -a _LOCAL_NPM_PACKAGES=("${_NPM_PACKAGES_TO_INSTALL[@]}")
+  # Clear global array immediately to prevent conflicts
+  _NPM_PACKAGES_TO_INSTALL=()
+
+  local start_time=$(date +%s.%N)
+  ui_debug "npm_install_run: Starting with ${#_LOCAL_NPM_PACKAGES[@]} packages"
+
+  if [[ ${#_LOCAL_NPM_PACKAGES[@]} -eq 0 ]]; then
+    ui_debug "npm_install_run: No packages to install"
     return 0
   fi
 
-  echo_task_start "Installing ${#_NPM_PACKAGES_TO_INSTALL[@]} npm packages"
-  echo_info "Packages: ${_NPM_PACKAGES_TO_INSTALL[*]}"
-  npm install -g --quiet "${_NPM_PACKAGES_TO_INSTALL[@]}"
+  # Load UI functions if not already loaded
+  if ! command -v ui_info_simple >/dev/null 2>&1; then
+  fi
 
-  if [[ $? -eq 0 ]]; then
-    echo_success "Successfully installed ${#_NPM_PACKAGES_TO_INSTALL[@]} npm packages"
-  else
-    echo_warn "Some npm packages may have failed to install"
-    echo_info "Attempting individual installation as fallback..."
+  # Get installed packages list once
+  ui_debug "npm_install_run: Checking already installed packages"
+  # Extract package names from the paths, preserving scoped packages
+  local installed_packages=$(npm list -g --depth=0 --parseable 2>/dev/null | 
+    sed 's|.*/node_modules/||' | 
+    grep -v "^$" | 
+    grep -v "^lib$" || echo "")
+  ui_debug_vars installed_packages
+
+  # Filter out already installed packages
+  local packages_to_install=()
+  ui_debug "npm_install_run: Filtering already installed packages"
+  for package in "${_LOCAL_NPM_PACKAGES[@]}"; do
+    # Extract package name without version (handle @scope/package@version format)
+    local package_name="${package}"
+    # Remove version if present (everything after the last @)
+    if [[ "$package_name" == *"@"*"/"*"@"* ]]; then
+      # Scoped package with version: @scope/package@version
+      package_name="${package_name%@*}"
+    elif [[ "$package_name" != *"/"* && "$package_name" == *"@"* ]]; then
+      # Non-scoped package with version: package@version
+      package_name="${package_name%@*}"
+    fi
     
-    local failed_packages=()
-    local success_count=0
-    
-    for package in "${_NPM_PACKAGES_TO_INSTALL[@]}"; do
-      echo_info "Installing ${package} individually..."
-      if npm install -g --quiet "$package"; then
-        echo_success "✓ ${package}"
-        ((success_count++))
-      else
-        echo_info "First install failed for ${package}, trying cleanup then reinstall..."
-        npm uninstall -g --quiet "$package" 2>/dev/null
-        # Force remove the package directory if it still exists
-        local package_name=$(echo "$package" | cut -d'@' -f1)
-        local npm_global_path=$(npm root -g 2>/dev/null)
-        if [[ -n "$npm_global_path" && -d "$npm_global_path/$package_name" ]]; then
-          echo_info "Removing stuck directory: $npm_global_path/$package_name"
-          rm -rf "$npm_global_path/$package_name" 2>/dev/null
-        fi
-        if npm install -g --quiet "$package"; then
-          echo_success "✓ ${package} (after cleanup/reinstall)"
-          ((success_count++))
-        else
-          echo_warn "✗ ${package}"
-          failed_packages+=("$package")
-        fi
-      fi
-    done
-    
-    if [[ ${#failed_packages[@]} -eq 0 ]]; then
-      echo_success "All ${#_NPM_PACKAGES_TO_INSTALL[@]} packages installed successfully via fallback"
+    if ! echo "$installed_packages" | grep -q "^${package_name}$"; then
+      packages_to_install+=("$package")
+      ui_debug "npm_install_run: Need to install $package"
     else
-      echo_warn "Successfully installed ${success_count}/${#_NPM_PACKAGES_TO_INSTALL[@]} packages"
-      echo_warn "Failed packages: ${failed_packages[*]}"
+      ui_debug "npm_install_run: $package already installed, skipping"
+    fi
+  done
+
+  # Skip if no packages need installation
+  if [[ ${#packages_to_install[@]} -eq 0 ]]; then
+    ui_info_simple "All npm packages already installed"
+    ui_debug_timing "$start_time" "npm_install_run (no packages needed)"
+    return 0
+  fi
+
+  ui_info_simple "Installing ${#packages_to_install[@]} npm packages:"
+  for package in "${packages_to_install[@]}"; do
+    echo "  • $package"
+  done
+  ui_spacer
+  
+  ui_debug_command "npm install -g ${packages_to_install[*]}"
+  npm install -g "${packages_to_install[@]}"
+
+  if [[ $? -ne 0 ]]; then
+    ui_error_simple "npm installation failed"
+    return 1
+  fi
+
+  ui_debug_timing "$start_time" "npm_install_run"
+}
+
+function pip_install() {
+  local package="${@}"
+
+  # Load UI functions if not already loaded
+  if ! command -v ui_subtle >/dev/null 2>&1; then
+  fi
+
+  # Check if command exists
+  if command -v "$package" >/dev/null 2>&1; then
+    ui_subtle "✓ ${package} (already installed)"
+    return 0
+  fi
+
+  # Use pip3 by default (most common nowadays)
+  pip3 install --upgrade "$package"
+}
+
+function mas_install() {
+  local package="${@}"
+
+
+  # Install via Mac App Store
+  mas install "$package"
+}
+
+# Path constants to reduce hard-coding
+export CONFIG_DIR="$MY/config"
+export PACKAGES_CONFIG_DIR="$CONFIG_DIR/packages"
+export PROFILE_DIR="$MY/profiles/$OS_PROFILE"
+export PROFILE_CONFIG_DIR="$PROFILE_DIR/config"
+export PROFILE_PACKAGES_CONFIG_DIR="$PROFILE_CONFIG_DIR/packages"
+export PROFILE_APPS_CONFIG_DIR="$PROFILE_CONFIG_DIR/apps"
+export HOME_CONFIG_DIR="$HOME/.config"
+export HOME_LIBRARY_APP_SUPPORT="$HOME/Library/Application Support"
+
+# Generic command availability checker
+ensure_command_available() {
+  local command_name="$1"
+  local install_hint="${2:-}"
+  local exit_on_fail="${3:-true}"
+
+  if ! command -v "$command_name" >/dev/null 2>&1; then
+    # Load UI functions if not already loaded
+    if ! command -v ui_error_simple >/dev/null 2>&1; then
+    fi
+
+    local error_msg="$command_name is not installed."
+    if [[ -n "$install_hint" ]]; then
+      error_msg="$error_msg $install_hint"
+    fi
+
+    if [[ "$exit_on_fail" == "true" ]]; then
+      ui_error_simple "$error_msg"
+      exit 1
+    else
+      ui_warning_simple "$error_msg"
+      return 1
     fi
   fi
-
-  # Clear the array
-  _NPM_PACKAGES_TO_INSTALL=()
+  return 0
 }
 
-function pip2install() {
-  if ! type "${@}" > /dev/null; then
-    pip2 install --upgrade "${@}"
+# Help framework for consistent command help display
+show_command_help() {
+  local script_name="$1"
+  local description="$2"
+  local usage="$3"
+  shift 3
+  local commands=("$@")
+
+  # Load UI functions if not already loaded
+  if ! command -v ui_spacer >/dev/null 2>&1; then
+  fi
+
+  ui_spacer
+  ui_highlight "$script_name - $description"
+  ui_spacer
+  ui_bold_text "USAGE:"
+  echo "  $usage"
+  ui_spacer 2
+
+  if [[ ${#commands[@]} -gt 0 ]]; then
+    ui_bold_text "COMMANDS:"
+    for cmd_desc in "${commands[@]}"; do
+      local cmd=$(echo "$cmd_desc" | cut -d: -f1)
+      local desc=$(echo "$cmd_desc" | cut -d: -f2)
+      printf "  %-12s %s\n" "$cmd" "$desc"
+    done
+    ui_spacer
   fi
 }
 
-function pip3install() {
-  if ! type "${@}" > /dev/null; then
-    pip3 install --upgrade "${@}"
+# Automatic help flag handler
+handle_help_flag() {
+  if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+    ${2:-show_help}
+    exit 0
   fi
 }
+
+# Merge app preferences from main and profile configs
+merge_app_preferences() {
+  local main_config="$1"
+  local profile_config="$2"
+  local yaml_key="${3:-preferences}"
+
+  # Start with main config preferences
+  local merged_prefs=$(yq eval ".${yaml_key}" "$main_config" -o json)
+
+  # Merge with profile config if it exists
+  if [[ -f "$profile_config" ]]; then
+    local profile_prefs=$(yq eval ".${yaml_key}" "$profile_config" -o json 2>/dev/null || echo '{}')
+    merged_prefs=$(echo "$merged_prefs $profile_prefs" | jq -s '.[0] * .[1]')
+  fi
+
+  echo "$merged_prefs"
+}
+

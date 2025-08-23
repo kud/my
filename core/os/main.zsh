@@ -2,9 +2,6 @@
 # ~/.macos — https://mths.be/macos
 # version: https://github.com/mathiasbynens/dotfiles/blob/ea68bda80a455e149d29156071d4c8472f6b93cb/.macos
 
-source $MY/core/utils/helper.zsh
-
-echo_title_update "macos settings"
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
@@ -19,6 +16,31 @@ while true; do
   sleep 60
   kill -0 "$$" || exit
 done 2>/dev/null &
+
+# Store PID for cleanup
+SUDO_KEEPALIVE_PID=$!
+
+# Cleanup function for sudo keepalive process
+cleanup_sudo_keepalive() {
+    if [[ -n "$SUDO_KEEPALIVE_PID" ]]; then
+        if kill -0 "$SUDO_KEEPALIVE_PID" 2>/dev/null; then
+            kill -TERM "$SUDO_KEEPALIVE_PID" 2>/dev/null
+            sleep 0.1
+            if kill -0 "$SUDO_KEEPALIVE_PID" 2>/dev/null; then
+                kill -KILL "$SUDO_KEEPALIVE_PID" 2>/dev/null
+            fi
+        fi
+        unset SUDO_KEEPALIVE_PID
+    fi
+}
+
+# Set up cleanup traps for the sudo keepalive process
+if [[ -z "${_SUDO_CLEANUP_TRAP_SET}" ]]; then
+    trap cleanup_sudo_keepalive EXIT
+    trap cleanup_sudo_keepalive INT
+    trap cleanup_sudo_keepalive TERM
+    _SUDO_CLEANUP_TRAP_SET=1
+fi
 
 ###############################################################################
 # General UI/UX                                                               #
@@ -967,4 +989,15 @@ for app in "Activity Monitor" \
   "iCal"; do
   killall "${app}" &>/dev/null
 done
-echo "Done. Note that some of these changes require a logout/restart to take effect."
+# Source UI Kit
+source "$MY/core/utils/ui-kit.zsh"
+
+# Display completion message
+ui_spacer
+ui_divider "═" 60 "$UI_SUCCESS"
+ui_spacer
+ui_badge "success" " MACOS CONFIGURATION COMPLETE "
+ui_spacer
+ui_success_msg "System settings applied successfully!"
+ui_warning_simple "Some changes require a logout/restart to take effect"
+ui_spacer

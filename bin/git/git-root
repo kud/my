@@ -1,0 +1,42 @@
+#! /usr/bin/env zsh
+
+# git-root - Display the path to the git working tree root
+# 
+# Usage:
+#   git-root                # Display git root path
+#   cd $(git-root)          # Navigate to git root
+#   git-root --help         # Show help
+#
+# Examples:
+#   git-root                        # → /Users/kud/my
+#   cd $(git-root)                  # → changes to git root
+#   code $(git-root)                # → open git root in editor
+#
+# Returns:
+#   - Absolute path to git working tree root
+#   - Empty output if not in a git repository
+#   - Exit code 0 on success, 1 on error
+
+# Source helper functions
+source "${MY}/core/utils/helper.zsh"
+
+# Help function
+show_help() {
+  show_command_help "git-root" "Display the path to the git working tree root" \
+    "git-root [--help]" \
+    "Example: git-root → /Users/user/project"
+}
+
+# Check for help flag first
+handle_help_flag "$1"
+
+# Get git root using rev-parse --show-toplevel
+root=$(git rev-parse --show-toplevel 2>/dev/null)
+
+if [[ $? -eq 0 && -n "$root" ]]; then
+  echo "$root"
+  exit 0
+else
+  # Not in a git repository - exit silently with error code
+  exit 1
+fi

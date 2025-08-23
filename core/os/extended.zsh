@@ -118,14 +118,3 @@ defaults write ~/Library/Application\ Support/JREInstaller/ThirdParty SPONSORS -
 
 # Disable "recent items" in the Apple menu
 defaults write NSGlobalDomain NSRecentDocumentsLimit -int 0
-
-################################################################################
-# 🔄 SYSTEM RESTART NOTIFICATION
-################################################################################
-
-echo_space
-echo_task_done "Advanced macOS configuration completed"
-echo_space
-echo_success "System preferences have been optimized for development! 🖥️"
-echo_warn "Some changes may require a restart to take full effect"
-echo_info "Consider running: sudo shutdown -r now (to restart)"

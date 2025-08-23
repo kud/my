@@ -1,0 +1,9 @@
+# Firefox Configuration - Work Profile
+# Profile-specific settings for work usage
+
+# Profile-specific Preferences
+preferences:
+  services:
+    sync:
+      client:
+        name: "_kud.work"

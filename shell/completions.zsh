@@ -9,19 +9,14 @@
 # -----------------------------------------------------------------------------
 # ZSH Completion System
 # -----------------------------------------------------------------------------
-# Only rebuild completions if needed, otherwise use cached (from Scott Spence's guide)
 autoload -Uz compinit
 
-# Enhanced completion initialization with caching
 _comp_path="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
-# #q expands globs in conditional expressions
 if [[ $_comp_path(#qNmh-20) ]]; then
-  # -C (skip function check) implies -i (skip security check)
   compinit -C -d "$_comp_path"
 else
   mkdir -p "$_comp_path:h"
   compinit -i -d "$_comp_path"
-  # Keep $_comp_path younger than cache time even if it isn't regenerated
   touch "$_comp_path"
 fi
 unset _comp_path
@@ -29,7 +24,6 @@ unset _comp_path
 # -----------------------------------------------------------------------------
 # Completion Options
 # -----------------------------------------------------------------------------
-
 setopt COMPLETE_IN_WORD     # Complete from both ends of a word
 setopt ALWAYS_TO_END        # Move cursor to end of completed word
 setopt PATH_DIRS            # Perform path search on command names with slashes
@@ -108,8 +102,6 @@ zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.
 #   Provides completion for the `frum` Ruby version manager.                   #
 #                                                                              #
 ################################################################################
-autoload -U is-at-least
-
 _frum() {
     typeset -A opt_args
     typeset -a _arguments_options
