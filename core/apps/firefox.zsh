@@ -49,6 +49,67 @@ EXTENSION_SETTINGS_FILE="$DEFAULT_FOLDER/$REL_EXTENSION_SETTINGS"
 USER_CHROME_FILE="$DEFAULT_FOLDER/$REL_USER_CHROME"
 ADDONS_FILE="$DEFAULT_FOLDER/addons.json"
 
+# Function to display shortcuts
+display_shortcuts() {
+  ui_title "Firefox Extension Shortcuts"
+  ui_info_simple "Profile: $(echo "$DEFAULT_FOLDER" | sed "s|$HOME|~|")"
+  ui_spacer
+
+  # Check if config has shortcuts
+  EXTENSION_COMMANDS=$(yq eval '.extension_settings.commands // {}' "$CONFIG_FILE")
+
+  if [[ "$EXTENSION_COMMANDS" == "null" || "$EXTENSION_COMMANDS" == "{}" ]]; then
+    ui_warning_simple "No shortcuts configured in firefox.yml"
+    exit 0
+  fi
+
+  # Create extension ID mapping from addons.json if available
+  local extension_names=""
+  if [[ -f "$ADDONS_FILE" ]]; then
+    extension_names=$(jq -r '
+      .addons | map({
+        key: (.name | gsub("[^a-zA-Z0-9]"; "_") | ascii_downcase),
+        value: .name
+      }) | from_entries
+    ' "$ADDONS_FILE" 2>/dev/null || echo '{}')
+  fi
+
+  # Display shortcuts grouped by extension
+  echo "$EXTENSION_COMMANDS" | yq eval -o=json | jq -r --argjson name_map "$extension_names" '
+    def normalize_key: gsub("_"; " ") | split(" ") | map(. | ascii_upcase[0:1] + .[1:]) | join(" ");
+    def format_shortcut: gsub("Ctrl\\+"; "⌃") | gsub("MacCtrl\\+"; "⌃") | gsub("Shift\\+"; "⇧") | gsub("Alt\\+"; "⌥") | gsub("Command\\+"; "⌘");
+
+    to_entries | map(
+      .key as $ext_key |
+      ($name_map[$ext_key] // ($ext_key | normalize_key)) as $ext_name |
+      "## " + $ext_name + "\n" +
+      (.value | to_entries | map("  " + (.key | normalize_key) + ": " + (.value | format_shortcut)) | join("\n"))
+    ) | join("\n\n")
+  '
+
+  ui_spacer
+  ui_info_simple "Use 'my run firefox' to apply these shortcuts to Firefox"
+}
+
+# Check for command line arguments
+case "${1:-}" in
+  --only-shortcuts|-sc|--shortcuts)
+    display_shortcuts
+    exit 0
+    ;;
+  --help|-h)
+    ui_title "Firefox Configuration Tool"
+    echo "Usage: my run firefox [OPTIONS]"
+    echo ""
+    echo "Options:"
+    echo "  --only-shortcuts, -sc    Display configured shortcuts only"
+    echo "  --help, -h              Show this help message"
+    echo ""
+    echo "Without options: Full Firefox configuration update"
+    exit 0
+    ;;
+esac
+
 shorten_path() {
   local p="$1"
   p="${p/#$HOME/~}"
@@ -142,7 +203,7 @@ if [[ "$EXTENSION_COMMANDS" != "null" && "$EXTENSION_COMMANDS" != "{}" ]]; then
       gsub("⇧"; "Shift+") |
       gsub("⌥"; "Alt+") |
       gsub("^"; "Ctrl+");
-    
+
     to_entries | map(
       .key as $ext_name |
       ($ext_name | normalize_name) as $normalized |
@@ -167,7 +228,7 @@ if [[ "$EXTENSION_COMMANDS" != "null" && "$EXTENSION_COMMANDS" != "{}" ]]; then
       end
     ) | flatten | from_entries
   ')
-  
+
   # Merge with existing commands
   UPDATED_EXTENSION_SETTINGS=$(echo "$CURRENT_EXTENSION_SETTINGS" | jq --argjson new_commands "$COMMANDS_JSON" '
     .commands = (.commands // {}) * $new_commands
@@ -178,7 +239,7 @@ fi
 
 # Process other extension settings sections
 EXTENSION_PREFS=$(yq eval '.extension_settings.prefs // {}' "$CONFIG_FILE")
-EXTENSION_URL_OVERRIDES=$(yq eval '.extension_settings.url_overrides // {}' "$CONFIG_FILE")  
+EXTENSION_URL_OVERRIDES=$(yq eval '.extension_settings.url_overrides // {}' "$CONFIG_FILE")
 EXTENSION_DEFAULT_SEARCH=$(yq eval '.extension_settings.default_search // {}' "$CONFIG_FILE")
 
 if [[ "$EXTENSION_PREFS" != "null" && "$EXTENSION_PREFS" != "{}" ]]; then
