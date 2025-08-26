@@ -1,5 +1,5 @@
 # Increase timeout to prevent Node resolution warnings
-command_timeout = 1000
+command_timeout = 2000
 
 # Global format
 format = """
