@@ -1,6 +1,8 @@
 #!/usr/bin/env zsh
 
 # Source required utilities
+source $MY/core/utils/ui-kit.zsh
+source $MY/core/utils/helper.zsh
 source $MY/core/utils/packages.zsh
 
 REL_USER_JS="user.js"
@@ -8,21 +10,38 @@ REL_CONTAINERS="containers.json"
 REL_EXTENSION_SETTINGS="extension-settings.json"
 REL_USER_CHROME="chrome/userChrome.css"
 
+# Ensure required commands are available
 ensure_command_available "yq" "Install with: brew install yq"
 ensure_command_available "jq" "Install with: brew install jq"
 
 CONFIG_FILE="$CONFIG_DIR/apps/firefox.yml"
 PROFILE_CONFIG_FILE="$PROFILE_APPS_CONFIG_DIR/firefox.yml"
-[[ -f "$CONFIG_FILE" ]] || { echo "Missing config: $CONFIG_FILE"; exit 1; }
+
+if [[ ! -f "$CONFIG_FILE" ]]; then
+    ui_error_simple "Missing config: $CONFIG_FILE"
+    exit 1
+fi
 
 PROFILE_DIR=$(yq eval '.profile.directory' "$CONFIG_FILE" | envsubst)
-[[ -d "$PROFILE_DIR" ]] || { echo "Profile dir not found: $PROFILE_DIR"; exit 1; }
+
+if [[ ! -d "$PROFILE_DIR" ]]; then
+    ui_error_simple "Profile dir not found: $PROFILE_DIR"
+    exit 1
+fi
 
 DEFAULT_FOLDER_PATTERN=$(yq eval '.profile.default_folder_pattern' "$CONFIG_FILE")
-[[ -n "$PROFILE_DIR" && -n "$DEFAULT_FOLDER_PATTERN" ]] || { echo "profile.directory/default_folder_pattern missing"; exit 1; }
+
+if [[ -z "$PROFILE_DIR" || -z "$DEFAULT_FOLDER_PATTERN" ]]; then
+    ui_error_simple "profile.directory/default_folder_pattern missing"
+    exit 1
+fi
 
 DEFAULT_FOLDER=$(ls -1d "$PROFILE_DIR"/* 2>/dev/null | grep "$DEFAULT_FOLDER_PATTERN" | head -n1)
-[[ -n "$DEFAULT_FOLDER" ]] || { echo "No profile folder matches: $DEFAULT_FOLDER_PATTERN"; exit 1; }
+
+if [[ -z "$DEFAULT_FOLDER" ]]; then
+    ui_error_simple "No profile folder matches: $DEFAULT_FOLDER_PATTERN"
+    exit 1
+fi
 
 USER_JS_FILE="$DEFAULT_FOLDER/$REL_USER_JS"
 CONTAINERS_FILE="$DEFAULT_FOLDER/$REL_CONTAINERS"
@@ -41,10 +60,12 @@ shorten_path() {
   fi
 }
 
-echo "Profile: $(echo "$DEFAULT_FOLDER" | sed "s|$HOME|~|")"
+ui_title "Firefox Configuration"
+ui_info_simple "Profile: $(echo "$DEFAULT_FOLDER" | sed "s|$HOME|~|")"
+ui_spacer
 
-echo "Preferences"
-echo "  $(shorten_path "$USER_JS_FILE")"
+ui_section "Preferences"
+ui_subtle "  $(shorten_path "$USER_JS_FILE")"
 mkdir -p "${USER_JS_FILE%/*}" 2>/dev/null
 cat > "$USER_JS_FILE" <<'HDR'
 /**
@@ -76,26 +97,26 @@ echo "$MERGED_PREFS" | jq -r '
     else
       "user_pref(\"" + .key + "\", \"" + (.value | tostring) + "\");"
   end) | join("\n")' >> "$USER_JS_FILE"
-echo "Preferences updated"
+ui_success_simple "Preferences updated"
 
-echo "Interface styling"
-echo "  $(shorten_path "$USER_CHROME_FILE")"
+ui_section "Interface styling"
+ui_subtle "  $(shorten_path "$USER_CHROME_FILE")"
 yq eval '.user_chrome_css' "$CONFIG_FILE" > "$USER_CHROME_FILE"
-echo "Interface styling updated"
+ui_success_simple "Interface styling updated"
 
-echo "Container tabs"
-echo "  $(shorten_path "$CONTAINERS_FILE")"
+ui_section "Container tabs"
+ui_subtle "  $(shorten_path "$CONTAINERS_FILE")"
 yq eval '.containers' "$CONFIG_FILE" --output-format=json > "$CONTAINERS_FILE"
-echo "Container tabs updated"
+ui_success_simple "Container tabs updated"
 
-echo "Extension settings"
-echo "  $(shorten_path "$EXTENSION_SETTINGS_FILE")"
+ui_section "Extension settings"
+ui_subtle "  $(shorten_path "$EXTENSION_SETTINGS_FILE")"
 
 # Create backup of current extension settings
 if [[ -f "$EXTENSION_SETTINGS_FILE" ]]; then
   BACKUP_FILE="${EXTENSION_SETTINGS_FILE}.backup.$(date +%Y%m%d_%H%M%S)"
   cp "$EXTENSION_SETTINGS_FILE" "$BACKUP_FILE"
-  echo "  Backup created: $(shorten_path "$BACKUP_FILE")"
+  ui_info_simple "Backup created: $(shorten_path "$BACKUP_FILE")"
 fi
 
 # Create extension ID mapping from addons.json
@@ -182,12 +203,13 @@ if [[ "$EXTENSION_DEFAULT_SEARCH" != "null" && "$EXTENSION_DEFAULT_SEARCH" != "{
 fi
 
 echo "$UPDATED_EXTENSION_SETTINGS" | jq . > "$EXTENSION_SETTINGS_FILE"
-echo "Extension settings updated"
+ui_success_simple "Extension settings updated"
 
-echo "Restarting Firefox..."
+ui_spacer
+ui_info_simple "Restarting Firefox..."
 
 quit "Firefox Nightly" 2>/dev/null || true
 sleep 2
 open -a "Firefox Nightly" >/dev/null 2>&1 &
 
-echo "Done"
+ui_success "Firefox configuration completed!"
