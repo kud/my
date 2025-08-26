@@ -68,7 +68,6 @@ alias gem-back='gem pristine --all --only-executables'
 alias please='sudo $(fc -ln -1)'
 alias allo='ping 8.8.8.8'
 alias dl='curl -O'
-alias npms='npm run start'
 alias wt='webtorrent --vlc --not-on-top download'
 alias vim='nvim'
 alias copilot='gh copilot'
@@ -77,6 +76,8 @@ alias p='${(z)PAGER}'
 alias type='type -a'
 alias pbc='pbcopy'
 alias pbp='pbpaste'
+alias rubbish='trash'
+alias litter='trash'
 
 # 🚫 No Correct
 alias mkdir='nocorrect mkdir'
@@ -85,15 +86,15 @@ alias cp='nocorrect cp'
 alias ln='nocorrect ln'
 
 # 🚫 No Glob
-alias jake='noglob jake'
+# Prevents zsh from expanding glob patterns (* ? [ ]) in command arguments
+# This is useful for commands that handle their own pattern matching or when
+# you want to pass literal patterns without shell expansion
 alias npm='noglob npm'
-alias bower='noglob bower'
 alias fc='noglob fc'
 alias find='noglob find'
 alias ftp='noglob ftp'
 alias history='noglob history'
 alias locate='noglob locate'
-alias rake='noglob rake'
 alias rsync='noglob rsync'
 alias scp='noglob scp'
 alias sftp='noglob sftp'
