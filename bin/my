@@ -45,7 +45,7 @@ else
   run)
     if [[ -z "$2" ]]; then
       echo "Error: 'run' requires a module name. Available modules:"
-      echo "  Apps: firefox, keepassxc, pcloud, sublime-merge"
+      echo "  Apps: firefox (use -sc for shortcuts), keepassxc, pcloud, sublime-merge"
       echo "  CLI: abbr, aicommits, ssh"
       echo "  Packages: antidote, brew, gem, mas, npm, pip"
       echo "  System: default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlinks"
@@ -76,7 +76,8 @@ else
 
     # Apps (core/apps)
     firefox)
-      $MY/core/apps/firefox.zsh
+      shift 2 # Remove 'run' and 'firefox' from arguments
+      $MY/core/apps/firefox.zsh "$@"
       ;;
     keepassxc)
       $MY/core/apps/keepassxc.zsh
