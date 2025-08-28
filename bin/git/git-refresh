@@ -1,5 +1,60 @@
 #! /usr/bin/env zsh
 
-HEAD_BRANCH=$(basename $(git symbolic-ref --short refs/remotes/origin/HEAD))
+set -e
+set -u
+set -o pipefail
 
-git fetch && git rebase origin/${HEAD_BRANCH}
+# Ensure we're in a git repo
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+	echo "Not a git repository." >&2
+	exit 1
+fi
+
+# Ensure origin exists
+if ! git config --get remote.origin.url >/dev/null 2>&1; then
+	echo "Remote 'origin' not configured." >&2
+	exit 1
+fi
+
+# Resolve the default branch tracked by origin
+HEAD_REF=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null || true)
+if [[ -n "${HEAD_REF:-}" ]]; then
+	HEAD_BRANCH=$(basename "$HEAD_REF")
+else
+	HEAD_BRANCH=$(git remote show origin 2>/dev/null | awk '/HEAD branch/ {print $NF}')
+fi
+
+if [[ -z "${HEAD_BRANCH:-}" ]]; then
+	if git show-ref --verify --quiet refs/remotes/origin/main; then
+		HEAD_BRANCH=main
+	elif git show-ref --verify --quiet refs/remotes/origin/master; then
+		HEAD_BRANCH=master
+	else
+		echo "Unable to determine origin default branch." >&2
+		exit 1
+	fi
+fi
+
+CURRENT_BRANCH=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || git rev-parse --abbrev-ref HEAD)
+echo "Refreshing '$CURRENT_BRANCH' onto 'origin/$HEAD_BRANCH'..."
+
+# Auto-stash uncommitted changes to avoid rebase aborts
+STASH_LABEL="tmp-refresh-$(date +%s)"
+restore_stash() {
+	local entry
+	entry=$(git stash list --format='%gd:%gs' | grep "$STASH_LABEL" | head -n1 | cut -d: -f1 || true)
+	if [[ -n "${entry:-}" ]]; then
+		git stash pop "$entry" >/dev/null 2>&1 || true
+	fi
+}
+trap restore_stash EXIT INT TERM
+
+git stash push -u -m "$STASH_LABEL" >/dev/null 2>&1 || true
+
+git fetch --prune origin
+git rebase "origin/${HEAD_BRANCH}"
+
+restore_stash
+trap - EXIT INT TERM
+
+echo "Done. Branch '$CURRENT_BRANCH' is up to date on 'origin/$HEAD_BRANCH'."

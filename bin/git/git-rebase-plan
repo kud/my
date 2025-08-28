@@ -1,0 +1,273 @@
+#!/usr/bin/env node
+// Interactive (editorless) git rebase commander
+// Lets you choose actions per-commit: pick, reword, edit, squash, fixup, drop
+// Requires: Node >= 24 (repo engines), deps from package.json: inquirer, zx
+
+import fs from "node:fs"
+import os from "node:os"
+import path from "node:path"
+import process from "node:process"
+import { $ } from "zx"
+import chalk from "chalk"
+import inquirer from "inquirer"
+
+// Keep output quiet by default
+$.verbose = false
+
+const ACTIONS = [
+  { name: "pick    (use commit)", value: "pick" },
+  { name: "reword  (edit commit message)", value: "reword" },
+  { name: "edit    (edit during rebase)", value: "edit" },
+  {
+    name: "squash  (meld commit into previous, edit message)",
+    value: "squash",
+  },
+  {
+    name: "fixup   (meld commit into previous, discard message)",
+    value: "fixup",
+  },
+  { name: "drop    (remove commit)", value: "drop" },
+]
+
+function print(msg) {
+  process.stdout.write(msg + "\n")
+}
+
+async function ensureGitRepo() {
+  try {
+    await $`git rev-parse --is-inside-work-tree`
+  } catch {
+    print("Not a git repository.")
+    process.exit(1)
+  }
+}
+
+async function getDefaultRemoteBranch() {
+  // Attempt origin/HEAD
+  try {
+    const { stdout } =
+      await $`git symbolic-ref --quiet --short refs/remotes/origin/HEAD`
+    const ref = stdout.trim()
+    if (ref) return path.posix.basename(ref)
+  } catch {}
+  // Fallback via remote show
+  try {
+    const { stdout } = await $`git remote show origin`
+    const m = stdout.match(/HEAD branch: (.+)/)
+    if (m) return m[1].trim()
+  } catch {}
+  // Last resort: main/master
+  try {
+    await $`git show-ref --verify --quiet refs/remotes/origin/main`
+    return "main"
+  } catch {}
+  try {
+    await $`git show-ref --verify --quiet refs/remotes/origin/master`
+    return "master"
+  } catch {}
+  print("Unable to determine origin's default branch.")
+  process.exit(1)
+}
+
+async function getCurrentBranch() {
+  try {
+    const { stdout } = await $`git symbolic-ref --quiet --short HEAD`
+    return stdout.trim()
+  } catch {
+    const { stdout } = await $`git rev-parse --abbrev-ref HEAD`
+    return stdout.trim()
+  }
+}
+
+async function fetchOrigin() {
+  try {
+    await $`git fetch --prune origin`
+  } catch (e) {
+    print("Failed to fetch from origin.")
+    process.exit(1)
+  }
+}
+
+function parseArgs(argv) {
+  const args = { base: null, from: null, quick: false, rebaseMerges: true }
+  const positionals = []
+  for (let i = 2; i < argv.length; i++) {
+    const a = argv[i]
+    if (a === "--base" || a === "--onto" || a === "-b") {
+      args.base = argv[++i]
+    } else if (a === "--from" || a === "-f") {
+      args.from = argv[++i]
+    } else if (a === "--quick" || a === "-q") {
+      args.quick = true
+    } else if (a === "--no-rebase-merges") {
+      args.rebaseMerges = false
+    } else if (a === "--help" || a === "-h") {
+      print(
+        `Usage: git-rebase-commander [<base-ref-or-sha>] [<from-branch-or-ref>] [--base <ref>] [--from <ref>] [--quick] [--no-rebase-merges]\n\n` +
+          `Examples:\n  git-rebase-commander\n  git-rebase-commander origin/main\n  git-rebase-commander origin/main my-feature\n  git-rebase-commander --base origin/main --from my-feature\n  git-rebase-commander 38f8620 my-feature\n  git-rebase-commander --quick`,
+      )
+      process.exit(0)
+    } else if (a.startsWith("-")) {
+      print(`Unknown flag: ${a}`)
+      process.exit(1)
+    } else {
+      positionals.push(a)
+    }
+  }
+  if (!args.base && positionals.length > 0) {
+    args.base = positionals[0]
+  }
+  if (!args.from && positionals.length > 1) {
+    args.from = positionals[1]
+  }
+  return args
+}
+
+async function listCommits(rangeRef) {
+  // Format: <sha>\x01<subject>
+  const { stdout } = await $`git log --reverse --pretty=%H%x01%s ${rangeRef}`
+  const lines = stdout.trim() ? stdout.split("\n") : []
+  return lines
+    .filter((l) => l.trim() !== "")
+    .map((l) => {
+      const idx = l.indexOf("\u0001")
+      let sha = l
+      let subject = ""
+      if (idx >= 0) {
+        sha = l.slice(0, idx)
+        subject = l.slice(idx + 1)
+      }
+      return { sha, subject }
+    })
+}
+
+function defaultActionForSubject(subject) {
+  if (/^fixup!/i.test(subject)) return "fixup"
+  if (/^squash!/i.test(subject)) return "squash"
+  return "pick"
+}
+
+async function promptActions(commits, quick) {
+  const items = commits.map((c) => ({
+    ...c,
+    action: defaultActionForSubject(c.subject),
+  }))
+  if (quick || items.length === 0) return items
+
+  print("Select an action for each commit (default shown in brackets).")
+  for (let i = 0; i < items.length; i++) {
+    const c = items[i]
+    const short = c.sha.slice(0, 7)
+    const subj = chalk.white(c.subject)
+    const answer = await inquirer.prompt([
+      {
+        type: "list",
+        name: "action",
+        message: `#${i + 1} ${short} ${subj}`,
+        default: c.action,
+        choices: ACTIONS,
+        pageSize: ACTIONS.length,
+      },
+    ])
+    c.action = answer.action
+  }
+  return items
+}
+
+function buildTodo(items) {
+  // Map actions to todo lines; drop means omit line
+  const lines = []
+  for (const it of items) {
+    if (it.action === "drop") continue
+    // Git expects the line: <action> <sha> <subject>
+    lines.push(`${it.action} ${it.sha} ${it.subject}`)
+  }
+  // Add helpful comments
+  lines.push("# Rebase todo generated by git-rebase-commander")
+  return lines.join("\n") + "\n"
+}
+
+async function runRebase(baseRef, todoContent, rebaseMerges, branchRef) {
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "git-rebase-commander-"))
+  const todoPath = path.join(tmpDir, "todo.txt")
+  fs.writeFileSync(todoPath, todoContent, "utf8")
+
+  // Use a wrapper script so the filename passed by git becomes $1 reliably
+  const editorPath = path.join(tmpDir, "editor.sh")
+  const editorScript = `#!/usr/bin/env sh\ncat "${todoPath}" > "$1"\n`
+  fs.writeFileSync(editorPath, editorScript, "utf8")
+  fs.chmodSync(editorPath, 0o755)
+
+  const env = { ...process.env, GIT_SEQUENCE_EDITOR: editorPath }
+
+  const args = ["rebase", "-i", "--autosquash", "--autostash", "--empty=drop"]
+  if (rebaseMerges) args.push("--rebase-merges")
+  args.push(baseRef)
+  if (branchRef) args.push(branchRef)
+  try {
+    await $({ env })`git ${args}`
+  } catch (e) {
+    print("\nRebase stopped due to conflicts or edits.")
+    print("Resolve issues, then run one of:")
+    print("  git rebase --continue")
+    print("  git rebase --skip")
+    print("  git rebase --abort")
+    process.exit(e.exitCode ?? 1)
+  }
+}
+
+async function main() {
+  await ensureGitRepo()
+  const args = parseArgs(process.argv)
+
+  // Determine base
+  await fetchOrigin()
+  const def = await getDefaultRemoteBranch()
+  const current = await getCurrentBranch()
+  const base = args.base || `origin/${def}`
+  const targetRef = args.from || "HEAD"
+
+  // Validate target ref if provided
+  if (args.from) {
+    try {
+      await $`git rev-parse --verify --quiet ${targetRef}`
+    } catch {
+      print(`Unknown --from ref: '${targetRef}'`)
+      process.exit(1)
+    }
+  }
+
+  // Warn if on default branch
+  const warnBranch = args.from ? args.from : current
+  if (warnBranch === def) {
+    print(
+      `Warning: you are on the default branch '${def}'. Rebasing here will rewrite its local history.`,
+    )
+  }
+
+  // Find commits to operate on
+  const range = `${base}..${targetRef}`
+  const commits = await listCommits(range)
+  if (commits.length === 0) {
+    const name = args.from || current
+    print(`Nothing to rebase: '${name}' has no commits on top of '${base}'.`)
+    return
+  }
+
+  print(
+    `Preparing rebase of ${commits.length} commit(s) from '${
+      args.from || current
+    }' onto '${base}'.`,
+  )
+  const items = await promptActions(commits, args.quick)
+  const todo = buildTodo(items)
+
+  print("\nStarting rebase...")
+  await runRebase(base, todo, args.rebaseMerges, args.from || null)
+  print("\nRebase complete.")
+}
+
+main().catch((e) => {
+  print(String(e?.message || e))
+  process.exit(1)
+})
