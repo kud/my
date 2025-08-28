@@ -1,6 +1,6 @@
 {
   "name": "my",
-  "version": "7.1.7",
+  "version": "7.2.0",
   "type": "module",
   "dependencies": {
     "bplist-parser": "0.3.2",
