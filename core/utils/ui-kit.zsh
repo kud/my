@@ -267,15 +267,15 @@ ui_warning_msg() { ui_message "warning" "$1"; }
 ui_info_msg() { ui_message "info" "$1"; }
 
 # Alternative simple message functions (colored icons, default text)
-ui_success_simple() { 
+ui_success_simple() {
     local message="$1"
     local space_before="${2:-0}"
-    
+
     # Add spacing before if requested
     for ((i=0; i<space_before; i++)); do
         echo
     done
-    
+
     echo -e "${UI_SUCCESS}${UI_ICON_CHECK_ALT}${UI_RESET} ${message}"
 }
 ui_error_simple() { echo -e "${UI_DANGER}${UI_ICON_CROSS_ALT}${UI_RESET} ${1}"; }
@@ -367,13 +367,13 @@ ui_box() {
     local content_width=$((width - 2 - 2 * padding))
 
     # Top border
-    echo -e "${UI_PRIMARY}${UI_BOX_TOP_LEFT}$(printf '%*s' $((width - 2)) | tr ' ' "$UI_BOX_HORIZONTAL")${UI_BOX_TOP_RIGHT}${UI_RESET}"
+    echo -e "${UI_PRIMARY}${UI_BOX_TOP_LEFT}$(ui_repeat "$UI_BOX_HORIZONTAL" $((width - 2)))${UI_BOX_TOP_RIGHT}${UI_RESET}"
 
     # Title (if provided)
     if [[ -n "$title" ]]; then
         local title_padding=$(((content_width - ${#title}) / 2))
         echo -e "${UI_PRIMARY}${UI_BOX_VERTICAL}${UI_RESET}$(printf '%*s' $title_padding)${UI_BOLD}${title}${UI_RESET}$(printf '%*s' $((content_width - title_padding - ${#title})))${UI_PRIMARY}${UI_BOX_VERTICAL}${UI_RESET}"
-        echo -e "${UI_PRIMARY}${UI_BOX_T_RIGHT}$(printf '%*s' $((width - 2)) | tr ' ' "$UI_BOX_HORIZONTAL")${UI_BOX_T_LEFT}${UI_RESET}"
+    echo -e "${UI_PRIMARY}${UI_BOX_T_RIGHT}$(ui_repeat "$UI_BOX_HORIZONTAL" $((width - 2)))${UI_BOX_T_LEFT}${UI_RESET}"
     fi
 
     # Content
@@ -384,7 +384,7 @@ ui_box() {
     done
 
     # Bottom border
-    echo -e "${UI_PRIMARY}${UI_BOX_BOTTOM_LEFT}$(printf '%*s' $((width - 2)) | tr ' ' "$UI_BOX_HORIZONTAL")${UI_BOX_BOTTOM_RIGHT}${UI_RESET}"
+    echo -e "${UI_PRIMARY}${UI_BOX_BOTTOM_LEFT}$(ui_repeat "$UI_BOX_HORIZONTAL" $((width - 2)))${UI_BOX_BOTTOM_RIGHT}${UI_RESET}"
 }
 
 ui_panel() {
@@ -401,13 +401,13 @@ ui_panel() {
     esac
 
     local width=$((_UI_TERMINAL_WIDTH - 4))
-    local title_line="${border_color}╭─ ${UI_BOLD}${title}${UI_RESET}${border_color} $(printf '%*s' $((width - ${#title} - 6)) | tr ' ' '─')╮${UI_RESET}"
+    local title_line="${border_color}╭─ ${UI_BOLD}${title}${UI_RESET}${border_color} $(ui_repeat '─' $((width - ${#title} - 6)))╮${UI_RESET}"
 
     echo -e "$title_line"
     echo "$content" | while IFS= read -r line; do
         printf "${border_color}│${UI_RESET} %-*s ${border_color}│${UI_RESET}\n" $((width - 2)) "$line"
     done
-    echo -e "${border_color}╰$(printf '%*s' $((width - 2)) | tr ' ' '─')╯${UI_RESET}"
+    echo -e "${border_color}╰$(ui_repeat '─' $((width - 2)))╯${UI_RESET}"
 }
 
 ui_divider() {
@@ -415,7 +415,7 @@ ui_divider() {
     local width="${2:-$((_UI_TERMINAL_WIDTH))}"
     local color="${3:-$UI_MUTED}"
 
-    echo -e "${color}$(printf '%*s' "$width" | tr ' ' "$char")${UI_RESET}"
+    echo -e "${color}$(ui_repeat "$char" "$width")${UI_RESET}"
 }
 
 
@@ -657,6 +657,34 @@ ui_center_text() {
     local width="${2:-$_UI_TERMINAL_WIDTH}"
     local padding=$(((width - ${#text}) / 2))
     printf "%*s%s%*s\n" $padding "" "$text" $((width - padding - ${#text})) ""
+}
+
+# Repeat a character N times (zsh-native, no external commands)
+# Usage: ui_repeat "─" 10
+ui_repeat() {
+    local char="$1"
+    local count="$2"
+    # Pad an empty string to length `count` with `char`
+    local pad
+    pad=${(l:${count}::${char}:)""}
+    printf "%s" "$pad"
+}
+
+# Terminal hyperlink helpers (OSC 8). Many modern terminals support these.
+# Usage: ui_hyperlink "Text" "https://example.com"
+#        ui_print_link "Text" "https://example.com"  (prints with trailing newline)
+ui_hyperlink() {
+    local text="$1"
+    local url="$2"
+    # Print without newline so it can be embedded inside other strings
+    printf "\033]8;;%s\033\\%s\033]8;;\033\\" "$url" "$text"
+}
+
+ui_print_link() {
+    local text="$1"
+    local url="$2"
+    ui_hyperlink "$text" "$url"
+    printf "\n"
 }
 
 ################################################################################
