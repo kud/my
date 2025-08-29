@@ -113,6 +113,8 @@ packages:
     - yazi
     - yt-dlp
     - silicon
+    - glow
+    - imagineer
 
   casks:
     # ⚡ Productivity & Utilities
