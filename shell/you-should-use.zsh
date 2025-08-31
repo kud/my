@@ -11,7 +11,7 @@ export YSU_MESSAGE_POSITION="after"
 
 # Customize the reminder message format - clean and readable
 # The message uses tput for bold formatting and a leading newline for clarity.
-export YSU_MESSAGE_FORMAT="$(echo; echo "💡 Use $(tput bold)%alias$(tput sgr0) instead of $(tput bold)%command$(tput sgr0)")"
+export YSU_MESSAGE_FORMAT="$(echo; echo "💡 You can use $(tput bold)%alias$(tput sgr0) instead of $(tput bold)%command$(tput sgr0)")"
 
 # Ignore certain commands that might not need aliases
 export YSU_IGNORED_ALIASES=("g" "l" "ll" "la")
