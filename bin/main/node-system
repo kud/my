@@ -2,13 +2,36 @@
 
 # Wrapper script to run Node.js scripts with Homebrew's Node instead of fnm's Node
 
-# Get the Homebrew Node.js path
-BREW_NODE="/opt/homebrew/opt/node/bin/node"
+# Resolve Node by existence (fast) with Homebrew-first preference
+typeset -a __node_candidates
+__node_candidates=(
+  	"/usr/local/bin/node"              # Intel Homebrew symlink
+  	"/opt/homebrew/bin/node"           # Apple Silicon Homebrew symlink
+  	"/usr/local/opt/node/bin/node"     # Intel keg path (if not linked)
+  	"/opt/homebrew/opt/node/bin/node"  # Apple Silicon keg path (if not linked)
+)
 
-# Check if Homebrew Node exists
-if [[ ! -f "$BREW_NODE" ]]; then
-    echo "Error: Homebrew Node.js not found at $BREW_NODE" >&2
-    echo "Please install Node.js via Homebrew: brew install node" >&2
+BREW_NODE=""
+for __p in $__node_candidates; do
+    if [[ -x "$__p" ]]; then
+        BREW_NODE="$__p"
+        break
+    fi
+done
+
+# Optional: fallback to node in PATH if Homebrew paths are missing
+if [[ -z "$BREW_NODE" ]]; then
+    if command -v node >/dev/null 2>&1; then
+        BREW_NODE="$(command -v node)"
+        echo "Warning: Homebrew Node not found; using node from PATH at $BREW_NODE" >&2
+    fi
+fi
+
+# Ensure we found a usable Node
+if [[ -z "$BREW_NODE" || ! -x "$BREW_NODE" ]]; then
+    echo "Error: Node.js not found in expected Homebrew locations or PATH." >&2
+    echo "Tried: /usr/local/bin/node, /opt/homebrew/bin/node, corresponding opt paths." >&2
+    echo "Hint: install via Homebrew: brew install node" >&2
     exit 1
 fi
 
