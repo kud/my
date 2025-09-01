@@ -1,10 +1,10 @@
 #!/bin/zsh
-# git-review-comments — Browse PR review comments with fzf
+# git-review-pull-request — Browse PR review discussions with fzf
 #
 # Usage:
-#   git-review-comments            # infer repo and current PR
-#   git-review-comments <number>   # browse specific PR number
-#   git review-comments            # as a git external command
+#   git-review-pull-request        # infer repo and current PR
+#   git-review-pull-request <number> # browse specific PR number
+#   git review-pull-request        # as a git external command
 
 set -uo pipefail
 
@@ -333,7 +333,7 @@ printf '%s' "$JSON" | jq . >/dev/null 2>&1 || {
 }
 
 # Temp workspace
-TMPDIR="/tmp/git-review-comments-$$"
+TMPDIR="/tmp/git-review-pull-request-$$"
 mkdir -p "$TMPDIR"
 cleanup() { command rm -rf "$TMPDIR" >/dev/null 2>&1 || true; }
 trap cleanup EXIT INT TERM
