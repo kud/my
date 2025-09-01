@@ -215,6 +215,7 @@ post_install:
   # GitHub CLI extensions
   - gh extension install dlvhdr/gh-dash
   - gh extension install github/gh-copilot
+  - gh extension install kud/gh-review-pull-request
   - gh extension upgrade --all
   # System configuration
   - brew link --overwrite node
