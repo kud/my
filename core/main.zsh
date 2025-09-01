@@ -46,6 +46,9 @@ setup_package_managers() {
         exit 1
     fi
 
+    ui_subtitle "GitHub CLI Extensions"
+    $MY/core/packages/gh.zsh
+
     ui_subtitle "Zsh Plugins"
     $MY/core/packages/antidote.zsh
 
