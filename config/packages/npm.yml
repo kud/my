@@ -11,8 +11,13 @@ pre_install:
   - yarn config set save-exact true
 
 packages:
-  - aicommits
   - "@anthropic-ai/claude-code"
+  - "@kud/am-i-admin-cli"
+  - "@kud/git-cherry-pick-interactive-cli"
+  - "@kud/soap-cli"
+  - "@kud/wifi-tool-cli"
+  - "@openai/codex"
+  - aicommits
   - battery-level-cli
   - bodybuilder
   - caniuse-cmd
@@ -70,8 +75,3 @@ packages:
   - web-ext
   - weinre
   - zx
-  - "@kud/am-i-admin-cli"
-  - "@kud/git-cherry-pick-interactive-cli"
-  - "@kud/soap-cli"
-  - "@kud/wifi-tool-cli"
-
