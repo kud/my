@@ -1,10 +1,10 @@
-#!/usr/bin/env zsh
-# git-review-comments — Browse PR review comments with fzf
+#!/bin/zsh
+# git-review-pull-request — Browse PR review discussions with fzf
 #
 # Usage:
-#   git-review-comments            # infer repo and current PR
-#   git-review-comments <number>   # browse specific PR number
-#   git review-comments            # as a git external command
+#   git-review-pull-request        # infer repo and current PR
+#   git-review-pull-request <number> # browse specific PR number
+#   git review-pull-request        # as a git external command
 
 set -uo pipefail
 
@@ -63,9 +63,171 @@ copy_to_clipboard() {
   fi
 }
 
+# Internal subcommands (invoked by fzf)
+sub_preview() {
+  # Args: <fzf_line> <tmpdir> <owner/repo> <pr_number>
+  local fzf_line="$1" tmpdir="$2" repo="$3" pr="$4"
+  local n f
+  n=$(printf "%s" "$fzf_line" | "${AWK_BIN}" '{print $1-1; exit}')
+  f="$tmpdir/$n"
+  if [ ! -f "$f" ]; then echo "Comment not found"; return 1; fi
+
+  # One-shot toast message if present
+  if [ -f "$tmpdir/toast" ]; then
+    printf "\033[1;32m%s\033[0m\n\n" "$("$CAT_BIN" "$tmpdir/toast" 2>/dev/null)"
+    command rm -f "$tmpdir/toast" >/dev/null 2>&1 || true
+  fi
+
+  local author path date url diff_b64 body_b64 decoded_diff decoded_body
+  author=$(get_field "$f" Author)
+  path=$(get_field "$f" Path)
+  date=$(get_field "$f" Date)
+  url=$(get_field "$f" URL)
+  diff_b64=$(get_field "$f" Diff)
+  body_b64=$(get_field "$f" Body)
+
+  printf "\033[1;95mRepo:\033[0m %s  \033[1;95mPR:\033[0m #%s\n" "$repo" "$pr"
+  printf "\033[1;36mAuthor:\033[0m @%s\n" "$author"
+  printf "\033[1;33mFile:\033[0m %s\n" "$path"
+  printf "\033[1;90mDate:\033[0m %s\n" "$date"
+  printf "\033[1;90mURL:\033[0m %s\n\n" "$url"
+
+  if [ -n "$diff_b64" ]; then
+    echo "\033[1;35mCode Context:\033[0m"
+    echo
+    decoded_diff=$(decode_base64 "$diff_b64")
+    echo "$decoded_diff" | while IFS= read -r line; do
+      case "$line" in
+        -*)  printf "\033[31m%s\033[0m\n" "$line" ;;
+        +*)  printf "\033[32m%s\033[0m\n" "$line" ;;
+        @@*) printf "\033[94m%s\033[0m\n" "$line" ;;
+        *)   printf "\033[37m%s\033[0m\n" "$line" ;;
+      esac
+    done
+    echo
+  fi
+
+  echo
+  echo "\033[1;32mComment:\033[0m"
+  decoded_body=$(decode_base64 "$body_b64")
+  if [ -n "$GLOW_BIN" ]; then
+    printf "%s" "$decoded_body" | "$GLOW_BIN" --style=dark --width=80 2>/dev/null || printf "%s" "$decoded_body"
+  elif [ -n "$MDCAT_BIN" ]; then
+    printf "%s" "$decoded_body" | "$MDCAT_BIN" --no-colour 2>/dev/null || printf "%s" "$decoded_body"
+  else
+    # Minimal markdown styling via sed
+    printf "%s" "$decoded_body" | "$SED_BIN" '
+      # Handle code blocks first
+      :code_start
+      /^```/ {
+        s/.*/\033[2;37m&\033[0m/
+        n
+        :code_loop
+        /^```/b code_end
+        s/.*/\033[48;5;236m\033[97m&\033[0m/
+        n
+        b code_loop
+        :code_end
+        s/.*/\033[2;37m&\033[0m/
+      }
+
+      # Headers
+      s/^# \(.*\)/\033[1;4m\1\033[0m/g
+      s/^## \(.*\)/\033[1m\1\033[0m/g
+      s/^### \(.*\)/\033[1;90m\1\033[0m/g
+
+      # Inline code (not in code blocks)
+      s/`\([^`]*\)`/\033[48;5;236m\033[97m \1 \033[0m/g
+
+      # Bold and italic
+      s/\*\*\([^*]*\)\*\*/\033[1m\1\033[0m/g
+      s/\*\([^*]*\)\*/\033[3m\1\033[0m/g
+
+      # Bullet points
+      s/^- \(.*\)/  \033[36m•\033[0m \1/g
+      s/^  - \(.*\)/    \033[36m◦\033[0m \1/g
+
+      # Numbered lists
+      s/^[0-9]*\. \(.*\)/  \033[33m▸\033[0m \1/g
+    '
+  fi
+}
+
+sub_copy() {
+  # Args: <fzf_line> <tmpdir> [msgfile]
+  local fzf_line="$1" tmpdir="$2" msgfile="${3-}"
+  local n f
+  n=$(printf "%s" "$fzf_line" | "${AWK_BIN}" '{print $1-1; exit}')
+  f="$tmpdir/$n"
+  [ -f "$f" ] || return 0
+
+  local author path date url body_b64 decoded_body
+  author=$(get_field "$f" Author)
+  path=$(get_field "$f" Path)
+  date=$(get_field "$f" Date)
+  url=$(get_field "$f" URL)
+  body_b64=$(get_field "$f" Body)
+  decoded_body=$(decode_base64 "$body_b64")
+
+  {
+    printf "Review Comment\n"
+    printf "Author: @%s\n" "$author"
+    printf "File: %s\n" "$path"
+    printf "Date: %s\n" "$date"
+    printf "URL: %s\n\n" "$url"
+    printf "%s\n" "$decoded_body"
+  } | copy_to_clipboard || true
+
+  # Optional friendly message to be printed by the parent after fzf exits
+  if [ -n "$msgfile" ]; then
+    {
+      printf "Copied the discussion:\n"
+      printf "%s\n" "$url"
+    } > "$msgfile" 2>/dev/null || true
+  fi
+
+  # Prepare in-interface toast for preview (once)
+  if printf "%s" "$url" | grep -q '#'; then
+    local anchor="${url##*#}"
+    anchor="${anchor#discussion_r}"
+    printf "✔ Copied discussion %s" "$anchor" > "$tmpdir/toast" 2>/dev/null || true
+  else
+    printf "✔ Copied discussion" > "$tmpdir/toast" 2>/dev/null || true
+  fi
+}
+
+sub_open() {
+  # Args: <fzf_line> <tmpdir>
+  local fzf_line="$1" tmpdir="$2"
+  local n f url
+  n=$(printf "%s" "$fzf_line" | "${AWK_BIN}" '{print $1-1; exit}')
+  f="$tmpdir/$n"
+  [ -f "$f" ] || return 0
+  url=$(get_field "$f" URL)
+  [ -n "$url" ] || return 0
+  if [ -n "$OPEN_BIN" ]; then
+    "$OPEN_BIN" "$url" 2>/dev/null || command -v xdg-open >/dev/null 2>&1 && xdg-open "$url" 2>/dev/null || true
+  else
+    command -v xdg-open >/dev/null 2>&1 && xdg-open "$url" 2>/dev/null || true
+  fi
+}
+
+# If invoked in internal mode, dispatch and exit early
+case "${1-}" in
+  __preview)
+    shift; sub_preview "$@"; exit $? ;;
+  __copy)
+    shift; sub_copy "$@"; exit $? ;;
+  __open)
+    shift; sub_open "$@"; exit $? ;;
+esac
+
 # Parse args: optional PR number (positional) and author filter(s)
 PR_NUMBER=""
 AUTHORS=""
+# Display mode: latest non-outdated comment per unresolved thread by default
+SHOW_MODE="latest"       # values: latest|all
+INCLUDE_OUTDATED=0        # 0: exclude outdated comments, 1: include
 
 normalize_author() {
   local a="${1:-}"
@@ -83,6 +245,10 @@ while [ $# -gt 0 ]; do
       if [ -z "$AUTHORS" ]; then AUTHORS="$norm"; else AUTHORS="$AUTHORS,$norm"; fi
       shift 2
       ;;
+    --all|--all-comments)
+      SHOW_MODE="all"; shift ;;
+    --include-outdated)
+      INCLUDE_OUTDATED=1; shift ;;
     ''|*[!0-9]*)
       # Unknown/non-numeric arg — ignore to stay simple
       shift
@@ -167,7 +333,7 @@ printf '%s' "$JSON" | jq . >/dev/null 2>&1 || {
 }
 
 # Temp workspace
-TMPDIR="/tmp/git-review-comments-$$"
+TMPDIR="/tmp/git-review-pull-request-$$"
 mkdir -p "$TMPDIR"
 cleanup() { command rm -rf "$TMPDIR" >/dev/null 2>&1 || true; }
 trap cleanup EXIT INT TERM
@@ -176,14 +342,24 @@ trap cleanup EXIT INT TERM
 # author, path, line, url, date, preview, diff_b64, body_b64
 TSV="$TMPDIR/comments.tsv"
 
-
-printf '%s' "$JSON" | jq -r --arg authors "$AUTHORS" '
+printf '%s' "$JSON" | jq -r \
+  --arg authors "$AUTHORS" \
+  --arg show_mode "$SHOW_MODE" \
+  --argjson include_outdated "$INCLUDE_OUTDATED" '
   ($authors | split(",") | map(select(length>0))) as $A |
   .data.repository.pullRequest.reviewThreads.nodes // [] |
   map(select(.isResolved == false)) |
-  map(. as $t | ($t.comments.nodes // []) | map(. + { thread_path: $t.path, thread_line: ($t.line // $t.originalLine), thread_resolved: $t.isResolved })) |
+  map(
+    . as $t |
+    (
+      ($t.comments.nodes // [])
+      | (if ($A|length) > 0 then map(select(.author.login as $l | ($A | index($l)))) else . end)
+      | (if $include_outdated == 1 then . else map(select((.isOutdated // false) | not)) end)
+      | (if $show_mode == "latest" then (sort_by(.createdAt) | (last // empty) | (if . then [.] else [] end)) else . end)
+      | map(. + { thread_path: $t.path, thread_line: ($t.line // $t.originalLine), thread_resolved: $t.isResolved })
+    )
+  ) |
   add // [] |
-  (if ($A|length) > 0 then map(select(.author.login as $l | ($A | index($l)))) else . end) |
   .[] |
   [
     (.author.login // "unknown"),
@@ -216,13 +392,13 @@ while IFS=$'\t' read -r author path line url date preview diff_b64 body_b64; do
     printf "Diff: %s\n" "$diff_b64"
     printf "Body: %s\n" "$body_b64"
   } > "$TMPDIR/$idx"
-  
+
   # Create display alias for copilot
   display_author="$author"
   case "$author" in
     *copilot*) display_author="copilot" ;;
   esac
-  
+
   # Truncate file path if too long (keep first 30 and last 20 chars for more space)
   full_path="${path}${line:+:$line}"
   if [ ${#full_path} -gt 55 ]; then
@@ -230,13 +406,13 @@ while IFS=$'\t' read -r author path line url date preview diff_b64 body_b64; do
   else
     truncated_path="$full_path"
   fi
-  
+
   # Format: Author (8 chars) + space + Path (up to 50 chars) + space + date
   max_path_length=50
   if [ ${#truncated_path} -gt $max_path_length ]; then
     truncated_path="$(echo "$truncated_path" | "$CUT_BIN" -c1-$((max_path_length-1)))…"
   fi
-  
+
   printf '\033[36m%-8s\033[0m \033[33m%-50s\033[0m \033[90m%s\033[0m\n' \
     "$display_author" \
     "$truncated_path" \
@@ -250,151 +426,24 @@ Enter/Ctrl-Y: copy • Ctrl-O: open in browser
 
 "
 
-# Create preview script
-PREVIEW_SCRIPT="$TMPDIR/preview.sh"
-{
-  printf '#!/bin/sh\n'
-  printf 'n=$(echo "$1" | %s '"'"'{print $1-1; exit}'"'"')\n' "$AWK_BIN"
-  printf 'f="$2/$n"\n'
-  printf 'if [ ! -f "$f" ]; then echo "Comment not found"; exit 1; fi\n'
-  printf 'repo="$3"; pr="$4"\n'
-  printf 'author=$(%s -n "s/^Author: //p" "$f")\n' "$SED_BIN"
-  printf 'path=$(%s -n "s/^Path: //p" "$f")\n' "$SED_BIN"
-  printf 'date=$(%s -n "s/^Date: //p" "$f")\n' "$SED_BIN"
-  printf 'url=$(%s -n "s/^URL: //p" "$f")\n' "$SED_BIN"
-  printf 'diff_b64=$(%s -n "s/^Diff: //p" "$f")\n' "$SED_BIN"
-  printf 'body_b64=$(%s -n "s/^Body: //p" "$f")\n' "$SED_BIN"
-  printf 'printf "\\033[1;95mRepo:\\033[0m %%s  \\033[1;95mPR:\\033[0m #%%s\\n" "$repo" "$pr"\n'
-  printf 'printf "\\033[1;36mAuthor:\\033[0m @%%s\\n" "$author"\n'
-  printf 'printf "\\033[1;33mFile:\\033[0m %%s\\n" "$path"\n'
-  printf 'printf "\\033[1;90mDate:\\033[0m %%s\\n" "$date"\n'
-  printf 'printf "\\033[1;90mURL:\\033[0m %%s\\n\\n" "$url"\n'
-  printf 'if [ -n "$diff_b64" ]; then\n'
-  printf '  echo "\\033[1;35mCode Context:\\033[0m"\n'
-  printf '  decoded_diff=$(printf "%%s" "$diff_b64" | %s --decode 2>/dev/null || printf "%%s" "$diff_b64" | %s -D 2>/dev/null)\n' "$BASE64_BIN" "$BASE64_BIN"
-  printf '  echo "$decoded_diff" | while IFS= read -r line; do\n'
-  printf '    case "$line" in\n'
-  printf '      -*)  printf "\\033[31m%%s\\033[0m\\n" "$line" ;;\n'
-  printf '      +*)  printf "\\033[32m%%s\\033[0m\\n" "$line" ;;\n'
-  printf '      @@*) printf "\\033[94m%%s\\033[0m\\n" "$line" ;;\n'
-  printf '      *)   printf "\\033[37m%%s\\033[0m\\n" "$line" ;;\n'
-  printf '    esac\n'
-  printf '  done\n'
-  printf '  echo\n'
-  printf 'fi\n'
-  printf 'echo\n'
-  printf 'echo "\\033[1;32mComment:\\033[0m"\n'
-  printf 'decoded_body=$(printf "%%s" "$body_b64" | %s --decode 2>/dev/null || printf "%%s" "$body_b64" | %s -D 2>/dev/null)\n' "$BASE64_BIN" "$BASE64_BIN"
-  if [ -n "$GLOW_BIN" ]; then
-    printf 'printf "%%s" "$decoded_body" | %s --style=dark --width=80 2>/dev/null || printf "%%s" "$decoded_body"\n' "$GLOW_BIN"
-  elif [ -n "$MDCAT_BIN" ]; then
-    printf 'printf "%%s" "$decoded_body" | %s --no-colour 2>/dev/null || printf "%%s" "$decoded_body"\n' "$MDCAT_BIN"
-  else
-    # Simple but effective markdown parsing
-    printf 'printf "%%s" "$decoded_body" | %s '"'"'\n' "$SED_BIN"
-    printf '  # Handle code blocks first\n'
-    printf '  :code_start\n'
-    printf '  /^```/ {\n'
-    printf '    s/.*/\\033[2;37m&\\033[0m/\n'
-    printf '    n\n'
-    printf '    :code_loop\n'
-    printf '    /^```/b code_end\n'
-    printf '    s/.*/\\033[48;5;236m\\033[97m&\\033[0m/\n'
-    printf '    n\n'
-    printf '    b code_loop\n'
-    printf '    :code_end\n'
-    printf '    s/.*/\\033[2;37m&\\033[0m/\n'
-    printf '  }\n'
-    printf '  \n'
-    printf '  # Headers\n'
-    printf '  s/^# \\(.*\\)/\\033[1;4m\\1\\033[0m/g\n'
-    printf '  s/^## \\(.*\\)/\\033[1m\\1\\033[0m/g\n'
-    printf '  s/^### \\(.*\\)/\\033[1;90m\\1\\033[0m/g\n'
-    printf '  \n'
-    printf '  # Inline code (not in code blocks)\n'
-    printf '  s/`\\([^`]*\\)`/\\033[48;5;236m\\033[97m \\1 \\033[0m/g\n'
-    printf '  \n'
-    printf '  # Bold and italic\n'
-    printf '  s/\\*\\*\\([^*]*\\)\\*\\*/\\033[1m\\1\\033[0m/g\n'
-    printf '  s/\\*\\([^*]*\\)\\*/\\033[3m\\1\\033[0m/g\n'
-    printf '  \n'
-    printf '  # Bullet points\n'
-    printf '  s/^- \\(.*\\)/  \\033[36m•\\033[0m \\1/g\n'
-    printf '  s/^  - \\(.*\\)/    \\033[36m◦\\033[0m \\1/g\n'
-    printf '  \n'
-    printf '  # Numbered lists\n'
-    printf '  s/^[0-9]*\\. \\(.*\\)/  \\033[33m▸\\033[0m \\1/g\n'
-    printf ''"'"'\n'
-  fi
-} > "$PREVIEW_SCRIPT"
+# Run fzf
+SCRIPT_PATH="$0"
+case "$SCRIPT_PATH" in
+  /*) ;;
+  *) SCRIPT_PATH="$(command -v -- "$0" 2>/dev/null || printf '%s' "$0")" ;;
+esac
 
-"$CHMOD_BIN" +x "$PREVIEW_SCRIPT"
+MSG_FILE="$TMPDIR/copied-msg"
 
-# Create copy script
-COPY_SCRIPT="$TMPDIR/copy.sh"
-{
-  printf '#!/bin/sh\n'
-  printf 'n=$(echo "$1" | %s '"'"'{print $1-1; exit}'"'"')\n' "$AWK_BIN"
-  printf 'f="$2/$n"\n'
-  printf 'if [ -f "$f" ]; then\n'
-  printf '  author=$(%s -n "s/^Author: //p" "$f")\n' "$SED_BIN"
-  printf '  path=$(%s -n "s/^Path: //p" "$f")\n' "$SED_BIN"
-  printf '  date=$(%s -n "s/^Date: //p" "$f")\n' "$SED_BIN"
-  printf '  url=$(%s -n "s/^URL: //p" "$f")\n' "$SED_BIN"
-  printf '  body_b64=$(%s -n "s/^Body: //p" "$f")\n' "$SED_BIN"
-  printf '  decoded_body=$(printf "%%s" "$body_b64" | %s --decode 2>/dev/null || printf "%%s" "$body_b64" | %s -D 2>/dev/null)\n' "$BASE64_BIN" "$BASE64_BIN"
-  printf '  \n'
-  printf '  # Format the complete comment with metadata using printf for proper newlines\n'
-  printf '  {\n'
-  printf '    printf "Review Comment\\n"\n'
-  printf '    printf "Author: @%%s\\n" "$author"\n'
-  printf '    printf "File: %%s\\n" "$path"\n'
-  printf '    printf "Date: %%s\\n" "$date"\n'
-  printf '    printf "URL: %%s\\n\\n" "$url"\n'
-  printf '    printf "%%s\\n" "$decoded_body"\n'
-  printf '  } | ('
-  if [ -n "$PBCOPY_BIN" ]; then
-    printf '%s' "$PBCOPY_BIN"
-  elif [ -n "$XCLIP_BIN" ]; then
-    printf '%s -selection clipboard' "$XCLIP_BIN"
-  elif [ -n "$XSEL_BIN" ]; then
-    printf '%s --clipboard --input' "$XSEL_BIN"
-  else
-    printf '%s >/dev/null' "$CAT_BIN"
-  fi
-  printf ' 2>/dev/null)\n'
-  printf 'fi\n'
-} > "$COPY_SCRIPT"
-
-# Create open script  
-OPEN_SCRIPT="$TMPDIR/open.sh"
-{
-  printf '#!/bin/sh\n'
-  printf 'n=$(echo "$1" | %s '"'"'{print $1-1; exit}'"'"')\n' "$AWK_BIN"
-  printf 'f="$2/$n"\n'
-  printf 'if [ -f "$f" ]; then\n'
-  printf '  url=$(%s -n "s/^URL: //p" "$f")\n' "$SED_BIN"
-  printf '  if [ -n "$url" ]; then\n'
-  if [ -n "$OPEN_BIN" ]; then
-    printf '    %s "$url" 2>/dev/null || xdg-open "$url" 2>/dev/null\n' "$OPEN_BIN"
-  else
-    printf '    xdg-open "$url" 2>/dev/null\n'
-  fi
-  printf '  fi\n'
-  printf 'fi\n'
-} > "$OPEN_SCRIPT"
-
-"$CHMOD_BIN" +x "$COPY_SCRIPT" "$OPEN_SCRIPT"
-
-# Run fzf  
 "$NL_BIN" -ba -w2 "$LIST" | "$FZF_BIN" --ansi \
   --prompt='comments> ' \
   --header="$header" \
   --height=100% --border=rounded --layout=reverse \
   --preview-window='right:60%:wrap' \
-  --preview "$PREVIEW_SCRIPT {} $TMPDIR ${OWNER}/${REPO} ${PR_NUMBER}" \
-  --bind "enter:execute-silent($COPY_SCRIPT {} $TMPDIR)+accept" \
-  --bind "ctrl-y:execute-silent($COPY_SCRIPT {} $TMPDIR)" \
-  --bind "ctrl-o:execute-silent($OPEN_SCRIPT {} $TMPDIR)"
+  --preview "'$SCRIPT_PATH' __preview {} $TMPDIR ${OWNER}/${REPO} ${PR_NUMBER}" \
+  --bind "enter:execute-silent('$SCRIPT_PATH' __copy {} $TMPDIR $MSG_FILE)+refresh-preview" \
+  --bind "ctrl-y:execute-silent('$SCRIPT_PATH' __copy {} $TMPDIR)+refresh-preview" \
+  --bind "ctrl-o:execute-silent('$SCRIPT_PATH' __open {} $TMPDIR)"
+
 
 exit 0
