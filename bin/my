@@ -47,7 +47,7 @@ else
       echo "Error: 'run' requires a module name. Available modules:"
       echo "  Apps: firefox (use -sc for shortcuts), keepassxc, pcloud, sublime-merge"
       echo "  CLI: abbr, aicommits, ssh"
-      echo "  Packages: antidote, brew, gem, mas, npm, pip"
+      echo "  Packages: antidote, brew, gh, gem, mas, npm, pip"
       echo "  System: default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlinks"
       exit 1
     fi
@@ -106,6 +106,9 @@ else
       ;;
     brew)
       $MY/core/packages/brew.zsh
+      ;;
+    gh)
+      $MY/core/packages/gh.zsh
       ;;
     gem)
       $MY/core/packages/gem.zsh
@@ -176,7 +179,7 @@ else
 
     echo
     echo "  Package Managers:"
-    echo "    antidote, brew, gem, mas, npm, pip"
+    echo "    antidote, brew, gh, gem, mas, npm, pip"
 
     echo
     echo "  Applications:"
