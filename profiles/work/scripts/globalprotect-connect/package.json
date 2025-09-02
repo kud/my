@@ -10,8 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "clipboardy": "3.0.0",
-    "dotenv": "16.0.3",
-    "zx": "7.2.1"
+    "clipboardy": "4.0.0",
+    "dotenv": "17.2.1"
   }
 }
