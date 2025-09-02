@@ -115,6 +115,7 @@ packages:
     - silicon
     - glow
     - imagineer
+    - gonzo
 
   casks:
     # ⚡ Productivity & Utilities
