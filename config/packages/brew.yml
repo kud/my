@@ -116,6 +116,7 @@ packages:
     - glow
     - imagineer
     - gonzo
+    - caarlos0/tap/svu
 
   casks:
     # ⚡ Productivity & Utilities
