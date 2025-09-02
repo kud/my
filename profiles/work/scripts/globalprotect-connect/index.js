@@ -2,7 +2,11 @@
 import { $, echo, chalk } from "zx"
 $.verbose = false
 import { config } from "dotenv"
-config()
+config({ quiet: true })
+
+// Inherit stdin so keepassxc-cli can control TTY (hides password),
+// but capture stdout and inherit stderr.
+const $$ = $({ stdio: ["inherit", "pipe", "inherit"] })
 
 const maxRetries = 3
 
@@ -11,15 +15,12 @@ const main = async (attempt) => {
 
   try {
     const { stdout: result } =
-      await $`keepassxc-cli show ${process.env.DATABASE_PATH} ${process.env.ENTRY_TITLE} -a username -a password -t`
-    // await $`keepassxc-cli show ${process.env.DATABASE_PATH} -k ${process.env.KEY_PATH} ${process.env.ENTRY_TITLE} -a username -a password -t`
+      await $$`keepassxc-cli show ${process.env.DATABASE_PATH} ${process.env.ENTRY_TITLE} -a username -a password -t --quiet`
 
     const [username, password, totp] = result.split("\n")
 
     console.log("")
-    console.log(
-      "Password confirmed 🙌. Connecting to the VPN now 🚀.",
-    )
+    console.log("Password confirmed 🙌. Connecting to the VPN now 🚀.")
     console.log("(Please do not do anything on the computer in the meantime.)")
 
     const script = `
@@ -72,13 +73,15 @@ ice.activate()
 
     console.log("")
     console.log("All good now, connected to the VPN. 🎉")
-    return true // Indicate success
+
+    return true
   } catch (error) {
     console.log(``)
     console.log(`🤭 Oops, there is an error:`)
     console.log(``)
     console.error(chalk.red(error.stderr))
-    return false // Indicate failure
+
+    return false
   }
 }
 
