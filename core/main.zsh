@@ -86,6 +86,9 @@ setup_applications() {
     ui_subtitle "KeePassXC Configuration"
     $MY/core/apps/keepassxc.zsh
 
+    ui_subtitle "Bruno Preferences"
+    $MY/core/apps/bruno.zsh
+
     ui_success_simple "Applications configured"
 }
 
