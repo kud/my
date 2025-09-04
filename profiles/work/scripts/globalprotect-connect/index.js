@@ -1,8 +1,43 @@
 #!/usr/bin/env node
 import { $, echo, chalk } from "zx"
-$.verbose = false
-import { config } from "dotenv"
-config({ quiet: true })
+$.verbose = !!process.env.DEBUG
+import { config, parse } from "dotenv"
+import { fileURLToPath } from "url"
+import path from "path"
+import fs from "fs"
+
+// Robust .env loading: prefer .env.local then .env located next to this script.
+;(() => {
+  const __dirname = path.dirname(fileURLToPath(import.meta.url))
+  const candidates = [
+    path.join(__dirname, ".env.local"),
+    path.join(__dirname, ".env"),
+  ]
+  let loadedFrom = null
+  for (const p of candidates) {
+    if (fs.existsSync(p)) {
+      try {
+        // Use parse so we can show debug info even if DEBUG set after.
+        const raw = fs.readFileSync(p)
+        const parsed = parse(raw)
+        for (const [k, v] of Object.entries(parsed)) {
+          if (process.env[k] === undefined) process.env[k] = v
+        }
+        loadedFrom = p
+        break
+      } catch (e) {
+        if (process.env.DEBUG) console.log("[DEBUG] Failed reading", p, e)
+      }
+    }
+  }
+  if (!loadedFrom) {
+    // Fallback to cwd if nothing found (mirrors original behavior)
+    config({ quiet: true })
+  }
+  if (process.env.DEBUG) {
+    console.log("[DEBUG] Env loaded from:", loadedFrom || "<cwd .env or none>")
+  }
+})()
 
 // Inherit stdin so keepassxc-cli can control TTY (hides password),
 // but capture stdout and inherit stderr.
@@ -14,9 +49,37 @@ const main = async (attempt) => {
   echo`🔑 Enter password to unlock the database (Attempt ${attempt} of ${maxRetries}):`
 
   try {
+    // Validate required environment variables.
+    const required = ["DATABASE_PATH", "ENTRY_TITLE"]
+    const missing = required.filter(
+      (k) => !process.env[k] || process.env[k].trim() === "",
+    )
+    if (missing.length) {
+      console.log(
+        "Missing required environment variable(s):",
+        missing.join(", "),
+      )
+      if (process.env.DEBUG) {
+        console.log("[DEBUG] Current env snapshot:")
+        required.forEach((k) =>
+          console.log(`  ${k}=${process.env[k] || "<undefined>"}`),
+        )
+      }
+      return false
+    }
+    if (process.env.DEBUG) {
+      console.log(
+        chalk.yellow("[DEBUG] Running keepassxc-cli with:"),
+        process.env.DATABASE_PATH,
+        process.env.ENTRY_TITLE,
+      )
+    }
     const { stdout: result } =
       await $$`keepassxc-cli show ${process.env.DATABASE_PATH} ${process.env.ENTRY_TITLE} -a username -a password -t --quiet`
 
+    if (process.env.DEBUG) {
+      console.log(chalk.yellow("[DEBUG] keepassxc-cli result:"), result)
+    }
     const [username, password, totp] = result.split("\n")
 
     console.log("")
@@ -76,10 +139,13 @@ ice.activate()
 
     return true
   } catch (error) {
-    console.log(``)
+    console.log("")
     console.log(`🤭 Oops, there is an error:`)
-    console.log(``)
-    console.error(chalk.red(error.stderr))
+    console.log("")
+    if (process.env.DEBUG) {
+      console.error(chalk.red("[DEBUG] Error object:"), error)
+    }
+    console.error(chalk.red(error.stderr || error.message))
 
     return false
   }
