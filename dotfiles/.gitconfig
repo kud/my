@@ -2,9 +2,7 @@
   whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
   editor = nvim
   excludesfile = ~/.gitignore_global
-  # hooksPath = ~/my/git/hooks
   ignoreCase = true
-  # pager = diff-so-fancy | less --tabs=4 -RFX
   pager = delta
   attributesfile = ~/.gitattributes
 [include]
@@ -12,7 +10,6 @@
 [branch]
   autosetuprebase = always
 [push]
-  # default = tracking
   default = simple
   autoSetupRemote = true
 [filter "hawser"]
@@ -124,13 +121,16 @@
   aa = add -A
   aac = "!git add -A && git commit"
   add-plus = "!git ls-files -m -o --exclude-standard|fzf --print0 -m --preview-window right:75%  --preview 'git diff --color=always {}'|xargs -0 -t -o git add"
+  ahead = "!git rev-list --left-right --count @{u}...HEAD 2>/dev/null || echo 'no upstream'"
   aicommit = "!aicommits"
+  amend = commit --amend --no-edit
   apc = "!git add -p && git commit"
+  blame-ignore = "!git blame -w --ignore-revs-file .git-blame-ignore-revs"
   br = branch
+  branch-select-fzf = "!git checkout $(git branch | fzf)"
   branches = branch -avv
   branches-delete = branch-delete
   branchv = branch -v
-  branch-select-fzf = "!git checkout $(git branch | fzf)"
   browse = "!gh browse"
   bs = branch-select
   ci = commit
@@ -139,40 +139,69 @@
   dash = "!gh dash"
   dc = diff --cached
   df = diff
+  dfs = "!git diff --color \"$@\" | git-split-diffs --color"
+  diff-image = "!f() { cd -- \"${GIT_PREFIX:-.}\"; GIT_DIFF_IMAGE_ENABLED=1 git diff \"$@\"; }; f"
   diff-so-fancy = "!git diff --color|diff-so-fancy"
   diff-split = "!git diff --color \"$@\" | git-split-diffs --color"
-  diff-image = "!f() { cd -- \"${GIT_PREFIX:-.}\"; GIT_DIFF_IMAGE_ENABLED=1 git diff \"$@\"; }; f"
-  dfs = "!git diff --color \"$@\" | git-split-diffs --color"
   diff-tastic = "-c diff.external=difft diff"
-  log-tastic = "-c diff.external=difft log --ext-diff"
-  show-tastic = "-c diff.external=difft show --ext-diff"
   export = "!git clone --depth 1 $1 && rm -rf \"$(basename $1 .git)/.git\" -"
+  files-since-last = "!git diff --name-only $(git describe --tags --abbrev=0)..HEAD"
   fix = "!git add -A && git commit --amend --no-edit"
+  gone = "!git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs -r git branch -D"
+  graph = log --graph --decorate --oneline --abbrev-commit --all
   history = reflog --relative-date
   hotfix = "!git add -A && git commit -m '🚒'"
   ign = ls-files -o -i --exclude-standard
   last = log -1 HEAD
+  last-files = diff --name-only HEAD~1
   lazy = "!lazygit"
   lg = log -p
+  lga = log --graph --decorate --all --oneline
   lgb = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  ll = log --oneline --decorate
+  log-tastic = "-c diff.external=difft log --ext-diff"
   lol = log --graph --decorate --pretty=oneline --abbrev-commit
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
   ls = ls-files
   open-modified = "!$EDITOR $(git status --porcelain | cut -c4-)"
+  orphan = "!f() { [ -n \"$1\" ] || { echo 'branch name required' >&2; exit 1; }; git checkout --orphan \"$1\"; }; f"
+  pick = cherry-pick
   polish = "!git add -A && git commit -m '💅'"
   pr = "!gh pr create"
+  prune-merged = "!git branch --merged | egrep -v '(^\\*|main|master|develop)' | xargs -r git branch -d"
   pt = "!git push && git push --tags"
+  publish = "!git push -u origin HEAD"
   recommit = commit --amend
   reset-soft-last = reset --soft HEAD~1
   rmdf = "!git rm $(git ls-files --deleted)"
+  root = rev-parse --show-toplevel
   show-commands = "!git config --get-regexp alias|sed \"s/alias.\\([a-zA-Z-]*\\) \\(\\.\\)*/$(tput setaf 2)\\1 $(tput setaf 0)\\2/\""
+  show-tastic = "-c diff.external=difft show --ext-diff"
+  since-last = "!git diff $(git describe --tags --abbrev=0)..HEAD"
   sm = switch-main
   smerge = "!'/Applications/Sublime Merge.app/Contents/SharedSupport/bin/smerge' ."
   st = status
+  staged-files = diff --name-only --cached
+  tag-current = "!git tag \"$@\" \"$(svu current)\""
+  tag-major = "!git tag \"$@\" \"$(svu major)\""
+  tag-minor = "!git tag \"$@\" \"$(svu minor)\""
+  tag-next = "!git tag \"$@\" \"$(svu next)\""
+  tag-patch = "!git tag \"$@\" \"$(svu patch)\""
+  tags = tag -ln --sort=-creatordate
   tig = "!tig"
-  tools = "!echo '• gh\n• lazygit\n• tig'"
+  today = "!git log --since=midnight --oneline --decorate"
+  track = "!git branch --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD)"
+  trim = "!git reflog expire --all --expire=now && git gc --prune=now --aggressive"
+  unadd = reset -p
   uncommit = undo
+  undo-hard = reset --hard HEAD~1
+  undo-soft = reset --soft HEAD~1
   unstage = reset HEAD --
   unstash = stash pop
   unwip = "!git reset --soft HEAD~1 && git unstage"
+  who = shortlog -sn
   wip = "!git add -A && git commit -m '🚧 WIP'"
+  word = diff --word-diff=color
+  wt-list = worktree list
+  wt-new = "!f() { [ -n \"$1\" ] || { echo 'worktree name required' >&2; exit 1; }; git worktree add ../$1 $1; }; f"
+  wt-rm = "!f() { [ -n \"$1\" ] || { echo 'worktree name required' >&2; exit 1; }; git worktree remove ../$1; }; f"
