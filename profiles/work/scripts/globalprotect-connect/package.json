@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "clipboardy": "4.0.0",
-    "dotenv": "17.2.1"
+    "dotenv": "17.2.2"
   }
 }
