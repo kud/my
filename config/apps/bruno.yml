@@ -1,5 +1,6 @@
-# Bruno Configuration
+# Bruno Configuration (mirrors preferences.json structure)
 
-font:
-  family: "JetBrains Mono"
-  size: 15
+preferences:
+  font:
+    codeFont: "JetBrains Mono"
+    codeFontSize: 15

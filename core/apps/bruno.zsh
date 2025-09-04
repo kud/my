@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-# Configure Bruno app preferences (font only)
+# Configure Bruno app preferences (direct JSON-structure merge)
 
 source $MY/core/utils/helper.zsh
 source $MY/core/utils/ui-kit.zsh
@@ -14,34 +14,52 @@ PROFILE_CONFIG_YAML="$PROFILE_APPS_CONFIG_DIR/bruno.yml"
 
 PREFS_FILE="$HOME_LIBRARY_APP_SUPPORT/bruno/preferences.json"
 
-ui_section "Bruno Preferences"
-ui_subtle "  ${PREFS_FILE/#$HOME/~}"
+# If preferences file does not exist, do nothing (skip creating it)
+[[ -f "$PREFS_FILE" ]] || exit 0
 
-# Load current preferences or default structure
-CURRENT=$(cat "$PREFS_FILE" 2>/dev/null || echo '{"preferences": {}}')
+# Load current preferences JSON (fallback to empty object if invalid)
+if CURRENT_RAW=$(cat "$PREFS_FILE" 2>/dev/null); then
+  if echo "$CURRENT_RAW" | jq empty 2>/dev/null 1>&2; then
+    CURRENT="$CURRENT_RAW"
+  else
+    CURRENT='{}'
+  fi
+else
+  CURRENT='{}'
+fi
 
-# Merge config with profile override
-MAIN_CFG=$(yq eval '.font' "$CONFIG_YAML" -o json)
+# Load YAML (already mirrors JSON structure)
+MAIN_CFG=$(yq -o=json eval '.' "$CONFIG_YAML")
 if [[ -f "$PROFILE_CONFIG_YAML" ]]; then
-  PROFILE_CFG=$(yq eval '.font' "$PROFILE_CONFIG_YAML" -o json 2>/dev/null || echo '{}')
+  PROFILE_CFG=$(yq -o=json eval '.' "$PROFILE_CONFIG_YAML" 2>/dev/null || echo '{}')
 else
   PROFILE_CFG='{}'
 fi
-FONT_CFG=$(echo "$MAIN_CFG $PROFILE_CFG" | jq -s '.[0] * .[1]')
 
-FONT_FAMILY=$(echo "$FONT_CFG" | jq -r '.family // empty')
-FONT_SIZE=$(echo "$FONT_CFG" | jq -r '.size // empty')
+# Robust merge of main + profile (ignore nulls / non-objects)
+CFG=$(printf '%s\n%s\n' "$MAIN_CFG" "$PROFILE_CFG" | jq -s 'reduce .[] as $o ({}; if ($o|type)=="object" then . * $o else . end)')
 
-# Update JSON: preferences.font.codeFont and preferences.font.codeFontSize
-UPDATED=$(echo "$CURRENT" | jq \
-  --arg family "$FONT_FAMILY" \
-  --argjson size "${FONT_SIZE:-null}" \
-  '.preferences.font = (.preferences.font // {}) \
-   | .preferences.font.codeFont = (if ($family | length) > 0 then $family else .preferences.font.codeFont end) \
-   | .preferences.font.codeFontSize = (if $size == null then .preferences.font.codeFontSize else $size end)')
+# If CFG ended up empty, nothing to do
+if [[ "$CFG" == '{}' ]]; then
+  ui_info_simple "Nothing to update (no overrides)"
+  exit 0
+fi
+
+# Merge CURRENT (may be {}) with CFG
+UPDATED=$(printf '%s\n%s\n' "$CURRENT" "$CFG" | jq -s 'reduce .[] as $o ({}; if ($o|type)=="object" then . * $o else . end)')
+
+# Extract font info for message if present
+FONT_FAMILY=$(echo "$CFG" | jq -r '.preferences.font.codeFont // empty')
+FONT_SIZE=$(echo "$CFG" | jq -r '.preferences.font.codeFontSize // empty')
+
+# If no change, report and exit
+if [[ "$UPDATED" == "$CURRENT" ]]; then
+  ui_info_simple "Nothing to update (already in desired state)"
+  exit 0
+fi
 
 # Write back (pretty)
-mkdir -p "${PREFS_FILE%/*}"
 echo "$UPDATED" | jq . > "$PREFS_FILE"
 
-ui_success_simple "Updated Bruno font to '${FONT_FAMILY:-unchanged}' size '${FONT_SIZE:-unchanged}'"
+ui_success_simple "Updated Bruno preferences (font '${FONT_FAMILY:-unchanged}' size '${FONT_SIZE:-unchanged}')"
+
