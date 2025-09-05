@@ -81,7 +81,7 @@ alias litter='trash'
 
 # 🐙 GH aliases
 alias copilot='gh copilot'
-alias gh-create-repo='gh repo create "${PWD##*/}" --public --source=. --push'
+alias gh-repo-create='gh repo create "${PWD##*/}" --source=. --push'
 
 # 🚫 No Correct
 alias mkdir='nocorrect mkdir'
