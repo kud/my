@@ -55,6 +55,8 @@ alias klook='qlmanage -p'
 
 # 🧶 Yarn
 alias yarn-check='yarn upgrade-interactive --latest'
+alias npms='npm run start'
+alias npmd='npm run dev'
 
 # 🚀 Utilities
 alias c='code .'
@@ -66,7 +68,6 @@ alias ns='node-system'
 alias dns-flush='sudo killall -HUP mDNSResponder'
 alias shell-reload='exec $SHELL'
 alias gem-back='gem pristine --all --only-executables'
-alias please='sudo $(fc -ln -1)'
 alias allo='ping 8.8.8.8'
 alias dl='curl -O'
 alias wt='webtorrent --vlc --not-on-top download'
