@@ -37,7 +37,7 @@ function yy() {
 # 🔍 Enhanced command inspector
 function wtf() {
   local cmd="$1"
-  
+
   if [[ -z "$cmd" ]]; then
     echo "Usage: wtf <command>"
     return 1
@@ -101,7 +101,7 @@ function wtf() {
       # For other commands, show additional info if available
       if command -v "$cmd" >/dev/null 2>&1; then
         echo "ℹ️  Additional Information:"
-        
+
         # Try to get version
         for flag in --version -v -V version; do
           if output=$($cmd $flag 2>/dev/null) && [[ -n "$output" ]]; then
@@ -109,7 +109,7 @@ function wtf() {
             break
           fi
         done
-        
+
         # Show file info
         local cmd_path=$(which "$cmd" 2>/dev/null)
         if [[ -n "$cmd_path" ]]; then
@@ -119,4 +119,24 @@ function wtf() {
       fi
       ;;
   esac
+}
+
+# 🤖 Install Android SDK components (latest platform by default or API level arg)
+android-install() {
+  local requested="$1" latest
+  if [[ -z "$requested" || "$requested" == latest ]]; then
+    latest=$(sdkmanager --list 2>/dev/null \
+      | grep -Eo 'platforms;android-[0-9]+' \
+      | sed 's/.*android-//' \
+      | sort -n | uniq | tail -1)
+    if [[ -z "$latest" ]]; then
+      echo "android-install: could not determine latest platform" >&2
+      return 1
+    fi
+  else
+    latest="$requested"
+  fi
+
+  echo "Installing Android cmdline-tools;latest, platform $latest, emulator, platform-tools, tools" >&2
+  sdkmanager "cmdline-tools;latest" "platforms;android-$latest" "emulator" "platform-tools" "tools"
 }

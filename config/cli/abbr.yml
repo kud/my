@@ -7,20 +7,8 @@
 ################################################################################
 
 abbreviations:
-  npms: "npm run start"
-
-  # Navigation
-  "~": "cd ~"
-
-  # Git shortcuts
-  gaa: "git add --all"
-  gbr: "git branch"
   gcm: "git commit -m"
-  gco: "git checkout"
-  gl: "git pull"
-  glv: "git lazy-version"
-  gmg: "git merge"
-  gp: "git push"
   gpo: "git push origin"
   gscr: "git switch -c"
-  gst: "git status"
+  gmg: "git merge"
+  gp: "git push"
