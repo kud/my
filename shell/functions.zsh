@@ -140,3 +140,15 @@ android-install() {
   echo "Installing Android cmdline-tools;latest, platform $latest, emulator, platform-tools, tools" >&2
   sdkmanager "cmdline-tools;latest" "platforms;android-$latest" "emulator" "platform-tools" "tools"
 }
+
+# 🙏 Re-run last command with sudo (safer than simple alias)
+please() {
+  local last
+  last=$(fc -ln -1)
+  if [[ -z "$last" ]]; then
+    echo "No previous command" >&2
+    return 1
+  fi
+  printf 'sudo %s\n' "$last"
+  sudo $SHELL -lc "$last"
+}
