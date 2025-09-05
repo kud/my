@@ -58,6 +58,7 @@ alias yarn-check='yarn upgrade-interactive --latest'
 
 # 🚀 Utilities
 alias c='code .'
+alias oc='opencode'
 alias claudia='/Applications/Claudia.app/Contents/MacOS/claudia'
 alias about='fastfetch'
 alias lg='lazygit'
