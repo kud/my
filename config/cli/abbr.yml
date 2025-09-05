@@ -12,3 +12,4 @@ abbreviations:
   gscr: "git switch -c"
   gmg: "git merge"
   gp: "git push"
+  ghrc: 'gh repo create "${PWD##*/}" --source=. --push'
