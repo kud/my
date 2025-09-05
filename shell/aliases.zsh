@@ -71,7 +71,6 @@ alias allo='ping 8.8.8.8'
 alias dl='curl -O'
 alias wt='webtorrent --vlc --not-on-top download'
 alias vim='nvim'
-alias copilot='gh copilot'
 alias e='${(z)VISUAL:-${(z)EDITOR}}'
 alias p='${(z)PAGER}'
 alias type='type -a'
@@ -79,6 +78,10 @@ alias pbc='pbcopy'
 alias pbp='pbpaste'
 alias rubbish='trash'
 alias litter='trash'
+
+# 🐙 GH aliases
+alias copilot='gh copilot'
+alias gh-create-repo='gh repo create "${PWD##*/}" --public --source=. --push'
 
 # 🚫 No Correct
 alias mkdir='nocorrect mkdir'
