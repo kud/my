@@ -131,12 +131,10 @@
   branches = branch -avv
   branches-delete = branch-delete
   branchv = branch -v
-  browse = "!gh browse"
   bs = branch-select
   ci = commit
   cleanup = "!git remote prune origin && git repack && git gc"
   co = checkout
-  dash = "!gh dash"
   dc = diff --cached
   df = diff
   dfs = "!git diff --color \"$@\" | git-split-diffs --color"
@@ -167,7 +165,6 @@
   orphan = "!f() { [ -n \"$1\" ] || { echo 'branch name required' >&2; exit 1; }; git checkout --orphan \"$1\"; }; f"
   pick = cherry-pick
   polish = "!git add -A && git commit -m '💅'"
-  pr = "!gh pr create"
   prune-merged = "!git branch --merged | egrep -v '(^\\*|main|master|develop)' | xargs -r git branch -d"
   pt = "!git push && git push --tags"
   publish = "!git push -u origin HEAD"
