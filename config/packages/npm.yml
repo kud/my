@@ -12,6 +12,7 @@ pre_install:
 
 packages:
   - "@anthropic-ai/claude-code"
+  - "@kud/ai-conventional-commit-cli"
   - "@kud/am-i-admin-cli"
   - "@kud/git-cherry-pick-interactive-cli"
   - "@kud/soap-cli"
