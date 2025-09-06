@@ -170,6 +170,7 @@ require("lazy").setup({
       require("mason-lspconfig").setup({
         ensure_installed = {
           "lua_ls",
+          -- TypeScript/JavaScript (tsserver deprecated alias; use ts_ls)
           "ts_ls",
           "eslint",
           "html",
@@ -286,7 +287,7 @@ require("lazy").setup({
             },
           },
         },
-        ts_ls = {},
+  ts_ls = {},
         eslint = {},
         html = {},
         cssls = {},
@@ -472,7 +473,8 @@ require("lazy").setup({
       require("lualine").setup({
         options = {
           icons_enabled = false,
-          theme = require("lualine.themes.onedark"),
+          -- Match active colorscheme (was onedark). Using explicit string so it updates when Tokyonight is loaded.
+          theme = "tokyonight",
           component_separators = "|",
           section_separators = "",
         },
