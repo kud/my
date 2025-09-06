@@ -48,6 +48,7 @@ vim.opt.guifont = "JetBrainsMono Nerd Font:h14"
 -- =============================================================================
 require("lazy").setup({
   -- 🎨 Colorscheme
+  --[[
   {
     "olimorris/onedarkpro.nvim",
     priority = 1000,
@@ -62,6 +63,19 @@ require("lazy").setup({
         },
       })
       vim.cmd.colorscheme("onedark")
+    end,
+  },
+  --]]
+  {
+    "folke/tokyonight.nvim",
+    priority = 1000,
+    opts = {
+      style = "storm", -- other options: "night", "moon", "day"
+      transparent = true,
+    },
+    config = function(_, opts)
+      require("tokyonight").setup(opts)
+      vim.cmd.colorscheme("tokyonight")
     end,
   },
 
