@@ -61,6 +61,7 @@ alias npmd='npm run dev'
 # 🚀 Utilities
 alias c='code .'
 alias oc='opencode'
+alias aicc='ai-conventional-commit'
 alias claudia='/Applications/Claudia.app/Contents/MacOS/claudia'
 alias about='fastfetch'
 alias lg='lazygit'
