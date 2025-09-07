@@ -74,22 +74,45 @@ if [ ! -f "$HOME/.ssh/config" ]; then
   ui_success_simple "Created SSH config from template"
 fi
 
-if [ ! -f "$HOME/.gitconfig_local" ]; then
-  ui_info_simple "Setting up Git configuration..."
-  read "?Enter your GitHub username: " GITHUB_USERNAME </dev/tty
-  read "?Enter your first name: " GITHUB_FIRSTNAME </dev/tty
-  read "?Enter your last name: " GITHUB_LASTNAME </dev/tty
-  read "?Enter your email: " GITHUB_EMAIL </dev/tty
+GIT_LOCAL_FILE="$HOME/.gitconfig_local"
+if [ ! -f "$GIT_LOCAL_FILE" ]; then
+  ui_info_simple "Initializing empty .gitconfig_local"
+  : > "$GIT_LOCAL_FILE"
+fi
 
-  echo "[github]
-  user = $GITHUB_USERNAME
-[user]
-  name = $GITHUB_FIRSTNAME $GITHUB_LASTNAME
-  email = $GITHUB_EMAIL
-[includeIf \"gitdir:~/Projects/work/\"]
-  path = .gitconfig_local_work" >"$HOME/.gitconfig_local"
+ensure_git_prompt() {
+  local key="$1" prompt="$2" value
+  if git config --file "$GIT_LOCAL_FILE" --get "$key" >/dev/null 2>&1; then
+    return 0
+  fi
+  read "?$prompt: " value </dev/tty
+  git config --file "$GIT_LOCAL_FILE" "$key" "$value"
+  ui_success_simple "Set $key"
+}
 
-  ui_success_simple "Created .gitconfig_local with user information"
+ensure_git_value() {
+  local key="$1" desired="$2" current
+  current=$(git config --file "$GIT_LOCAL_FILE" --get "$key" 2>/dev/null || true)
+  if [[ "$current" != "$desired" ]]; then
+    git config --file "$GIT_LOCAL_FILE" "$key" "$desired"
+    if [[ -z "$current" ]]; then
+      ui_success_simple "Set $key"
+    else
+      ui_success_simple "Updated $key"
+    fi
+  fi
+}
+
+ensure_git_prompt github.user "Enter your GitHub username"
+ensure_git_prompt user.name "Enter your full name"
+ensure_git_prompt user.email "Enter your email"
+ensure_git_value split-diffs.theme-directory "$HOME/my/themes/split-diffs"
+
+if [[ "$OS_PROFILE" == "work" ]]; then
+  if ! git config --file "$GIT_LOCAL_FILE" --get includeIf."gitdir:~/Projects/work/".path >/dev/null 2>&1; then
+    git config --file "$GIT_LOCAL_FILE" includeIf."gitdir:~/Projects/work/".path .gitconfig_local_work
+    ui_success_simple "Added work includeIf"
+  fi
 fi
 
 source "$HOME/.zshrc"
