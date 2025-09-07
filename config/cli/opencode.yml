@@ -1,0 +1,13 @@
+################################################################################
+#                                                                              #
+#   🧪 OPENCODE CONFIGURATION                                                   #
+#   -------------------------                                                  #
+#   Settings to generate ~/.config/opencode/opencode.jsonc for the opencode    #
+#   CLI / UI. Values here are written out as JSONC with schema + comments.     #
+#                                                                              #
+################################################################################
+
+opencode:
+  theme: tokyonight
+  model: github-copilot/gpt-5
+  autoupdate: true
