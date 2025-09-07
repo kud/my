@@ -75,6 +75,9 @@ setup_development_tools() {
     ui_subtitle "Shell Abbreviations"
     $MY/core/cli/abbr.zsh
 
+    ui_subtitle "Opencode Configuration"
+    $MY/core/cli/opencode.zsh
+
     ui_success_simple "Development tools configured" 1
 }
 
