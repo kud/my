@@ -108,7 +108,6 @@
   wrap-max-lines = unlimited    # don't truncate long diffs
   zero-style = "syntax"
 [split-diffs]
-  theme-directory = /Users/kud/my/themes/split-diff
   theme-name = claude-code-colorblind
 [diff]
   colorMoved = default

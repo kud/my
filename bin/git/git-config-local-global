@@ -1,0 +1,24 @@
+#!/usr/bin/env zsh
+# Simple alias wrapper: git-config-local-global -> git config --file ~/.gitconfig_local "$@"
+# Use native git subcommands/flags directly, e.g.:
+#   git-config-local-global user.name "Jane Doe"
+#   git-config-local-global --get user.name
+#   git-config-local-global includeIf."gitdir:~/Projects/work/".path .gitconfig_local_work
+
+set -euo pipefail
+FILE=${GIT_LOCAL_GLOBAL_FILE:-"$HOME/.gitconfig_local"}
+[[ -f $FILE ]] || touch "$FILE"
+
+if [[ ${1:-} == help || ${1:-} == -h || ${1:-} == --help ]]; then
+  cat <<'EOF'
+git-config-local-global (pass-through to: git config --file ~/.gitconfig_local)
+Examples:
+  git-config-local-global user.email "me@example.com"
+  git-config-local-global --get user.email
+  git-config-local-global --unset user.email
+  git-config-local-global --list
+EOF
+  exit 0
+fi
+
+exec git config --file "$FILE" "$@"
