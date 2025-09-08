@@ -1,5 +1,4 @@
 packages:
   - dlvhdr/gh-dash
   - github/gh-copilot
-  - kud/gh-review-pull-request
-
+  - kud/gh-pr-comments
