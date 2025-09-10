@@ -83,6 +83,7 @@ alias litter='trash'
 
 # 🐙 GH aliases
 alias copilot='gh copilot'
+alias prw='gh pr view --web'
 
 # 🚫 No Correct
 alias mkdir='nocorrect mkdir'
