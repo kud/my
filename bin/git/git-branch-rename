@@ -1,31 +1,152 @@
 #!/usr/bin/env zsh
 
-set -e
+set -euo pipefail
 
-if [[ -z "$1" ]]; then
-  echo "Error: No new branch name provided."
-  echo "Usage: $0 <new-branch-name>"
-  exit 1
+SCRIPT_NAME=${0##*/}
+
+usage() {
+  cat <<EOF
+Usage: $SCRIPT_NAME [options] <new-branch-name>
+
+Rename the current Git branch locally and on its remote (default: origin).
+
+Options:
+  -n, --dry-run        Show what would happen without making changes
+      --keep-remote    Keep the old remote branch (don't delete it)
+      --force          Allow overwrite if new branch already exists locally/remotely;
+                       also allow deleting protected (main/master) old branch
+  -h, --help           Show this help
+
+Examples:
+  $SCRIPT_NAME feature/new-name
+  $SCRIPT_NAME --dry-run refactor/api-v2
+  $SCRIPT_NAME --keep-remote legacy-name
+
+Notes:
+  1. New branch name is validated with 'git check-ref-format'.
+  2. Push order: create new remote first, then (optionally) delete old remote.
+  3. Protected old branch names (main, master) are not deleted unless --force.
+EOF
+}
+
+err() { printf "Error: %s\n" "$1" >&2; exit "${2:-1}"; }
+info() { printf "%s\n" "$*"; }
+run() { if $dry_run; then printf "[dry-run] %s\n" "$*"; else eval "$*"; fi }
+
+dry_run=false
+keep_remote=false
+force=false
+
+args=()
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -n|--dry-run) dry_run=true ; shift ;;
+    --keep-remote) keep_remote=true ; shift ;;
+    --force) force=true ; shift ;;
+    -h|--help) usage; exit 0 ;;
+    --) shift; break ;;
+    -*) err "Unknown option: $1" 64 ;;
+    *) args+="$1"; shift ;;
+  esac
+done
+
+if [[ ${#args[@]} -ne 1 ]]; then
+  usage >&2
+  exit 64
 fi
 
-if ! git rev-parse --is-inside-work-tree &>/dev/null; then
-  echo "Error: Not inside a git repository."
-  exit 2
+new_branch=${args[1]}
+
+# Ensure inside a repo
+git rev-parse --is-inside-work-tree &>/dev/null || err "Not inside a git repository." 2
+
+# Ensure not detached HEAD
+if ! current_ref=$(git symbolic-ref -q HEAD); then
+  err "Detached HEAD state detected. Checkout a branch before renaming." 3
 fi
 
-new_branch="$1"
-current_branch=$(git rev-parse --abbrev-ref HEAD)
+current_branch=${current_ref##refs/heads/}
 
-if [[ "$new_branch" == "$current_branch" ]]; then
-  echo "Error: New branch name is the same as the current branch."
-  exit 3
+[[ "$new_branch" == "$current_branch" ]] && err "New branch name is the same as current branch." 4
+
+# Validate new branch name format
+if ! git check-ref-format --branch "$new_branch" 2>/dev/null; then
+  err "'$new_branch' is not a valid branch name." 5
 fi
 
-echo "Renaming branch '$current_branch' to '$new_branch'..."
-git branch -m "$new_branch"
+# Detect existing local branch with new name
+if git show-ref --verify --quiet "refs/heads/$new_branch"; then
+  if ! $force; then
+    err "Local branch '$new_branch' already exists (use --force to overwrite)." 6
+  else
+    info "Local branch '$new_branch' exists and will be overwritten (force)."
+  fi
+fi
 
-echo "Updating remote..."
-git push origin :"$current_branch" "$new_branch"
-git push origin -u "$new_branch"
+# Determine remote (prefer configured upstream remote for current branch)
+remote=$(git config --get branch."$current_branch".remote || true)
+[[ -z "$remote" ]] && remote=origin
 
-echo "Branch renamed and remote updated successfully."
+if git remote get-url "$remote" &>/dev/null; then
+  have_remote=true
+else
+  have_remote=false
+  info "No remote named '$remote' found. Will perform local rename only."
+fi
+
+# Check if current branch has upstream
+upstream="$(git rev-parse --abbrev-ref "${current_branch}@{upstream}" 2>/dev/null || true)"
+
+# Check if old remote branch exists (before rename) & if new remote branch already exists
+old_remote_exists=false
+new_remote_exists=false
+if $have_remote; then
+  if git ls-remote --exit-code --heads "$remote" "$current_branch" &>/dev/null; then
+    old_remote_exists=true
+  fi
+  if git ls-remote --exit-code --heads "$remote" "$new_branch" &>/dev/null; then
+    new_remote_exists=true
+  fi
+fi
+
+if $new_remote_exists && ! $force; then
+  err "Remote branch '$remote/$new_branch' already exists (use --force to overwrite)." 7
+fi
+
+info "Renaming local branch '$current_branch' -> '$new_branch'"
+run "git branch -m '$current_branch' '$new_branch'"
+
+# If there was a different local branch with target name (force scenario), it is replaced by -m.
+
+if $have_remote; then
+  # Push new branch first (with upstream). If force and remote exists, use --force-with-lease.
+  push_cmd="git push -u $remote $new_branch"
+  if $force && $new_remote_exists; then
+    push_cmd="git push --force-with-lease -u $remote $new_branch"
+  fi
+  info "Pushing new branch to '$remote'..."
+  run "$push_cmd"
+
+  # Delete old remote branch (if existed) unless keeping or protected
+  if $old_remote_exists && ! $keep_remote; then
+    if [[ "$current_branch" =~ ^(main|master)$ && $force == false ]]; then
+      info "Skipping deletion of protected remote branch '$current_branch' (use --force to override)."
+    else
+      info "Deleting old remote branch '$remote/$current_branch'..."
+      run "git push $remote :$current_branch"
+    fi
+  else
+    if $keep_remote && $old_remote_exists; then
+      info "Keeping old remote branch '$remote/$current_branch' as requested."
+    fi
+  fi
+else
+  info "Skipped remote operations (no remote)."
+fi
+
+info "Branch successfully renamed to '$new_branch'."
+if $dry_run; then
+  info "(dry-run) No changes were actually made."
+fi
+
+exit 0
