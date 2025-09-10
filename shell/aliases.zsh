@@ -57,6 +57,7 @@ alias klook='qlmanage -p'
 alias yarn-check='yarn upgrade-interactive --latest'
 alias npms='npm run start'
 alias npmd='npm run dev'
+alias npmp='npm publish'
 
 # 🚀 Utilities
 alias c='code .'
