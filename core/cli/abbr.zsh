@@ -25,27 +25,50 @@ if ! ensure_command_available "yq" "Install with: brew install yq" "false"; then
   return 1
 fi
 
-# Get current abbreviations and erase them all (silently)
-for abbr_name in $(abbr list-abbreviations 2>/dev/null); do
-    abbr erase "$abbr_name" >/dev/null 2>&1
+# Build desired abbreviations map from YAML (key=value lines)
+typeset -A desired_abbrs
+while IFS='=' read -r key value; do
+  [[ -z "$key" ]] && continue
+  desired_abbrs[$key]="$value"
+done < <(yq eval '.abbreviations | to_entries | .[] | .key + "=" + .value' "$config_file")
+
+# Collect current abbreviation keys (strip quotes if any)
+current_keys=()
+while IFS= read -r line; do
+  line=${line//\"/}
+  [[ -n "$line" ]] && current_keys+=("$line")
+done < <(abbr list-abbreviations 2>/dev/null)
+
+# Remove stale abbreviations (keys present now but not in config)
+stale_abbrs=()
+for name in $current_keys; do
+  if [[ -z ${desired_abbrs[$name]+_} ]]; then
+    abbr erase "$name" >/dev/null 2>&1
+    stale_abbrs+=("$name")
+  fi
 done
 
-# Read all abbreviations from YAML and apply them
-abbreviations_created=()
-yq eval '.abbreviations | to_entries | .[] | .key + "=" + .value' "$config_file" | while read setting; do
-    key=$(echo $setting | cut -d'=' -f1)
-    value=$(echo $setting | cut -d'=' -f2-)
-    if abbr "$key"="$value" >/dev/null 2>&1; then
-        abbreviations_created+=("$key")
+# Add new abbreviations (keys in config but not currently defined)
+added_abbrs=()
+for name value in ${(kv)desired_abbrs}; do
+  if ! (( ${current_keys[(I)$name]} )); then
+    if abbr "$name"="$value" >/dev/null 2>&1; then
+      added_abbrs+=("$name")
     fi
+  else
+    # Key exists; redefine to ensure value matches config (cheap idempotent)
+    abbr "$name"="$value" >/dev/null 2>&1
+  fi
 done
 
-# Show the abbreviations that were created
-if [[ ${#abbreviations_created[@]} -gt 0 ]]; then
-    ui_info_simple "Created ${#abbreviations_created[@]} shell abbreviations:"
-    for abbr_name in "${abbreviations_created[@]}"; do
-        echo "  • $abbr_name"
-    done
-else
-    ui_info_simple "No abbreviations to create"
+# Reporting
+if [[ ${#stale_abbrs[@]} -gt 0 ]]; then
+  ui_info_simple "Removed ${#stale_abbrs[@]} stale abbreviations"
+fi
+if [[ ${#added_abbrs[@]} -gt 0 ]]; then
+  ui_info_simple "Added ${#added_abbrs[@]} new abbreviations"
+  for n in $added_abbrs; do echo "  • $n"; done
+fi
+if [[ ${#stale_abbrs[@]} -eq 0 && ${#added_abbrs[@]} -eq 0 ]]; then
+  ui_info_simple "Abbreviations already aligned with config"
 fi
