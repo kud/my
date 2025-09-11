@@ -18,7 +18,7 @@ HISTFILE=~/.zsh_history       # History file location
 # -----------------------------
 setopt append_history          # Append to history file rather than replacing
 setopt hist_ignore_dups        # Don't record duplicate consecutive commands
-setopt share_history           # Share history between all sessions
+# setopt share_history           # Share history between all sessions
 
 # -----------------------------
 # Advanced History Options
