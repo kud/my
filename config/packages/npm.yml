@@ -60,6 +60,7 @@ packages:
   - opencode-ai
   - opencommit
   - pageres-cli
+  - pnpm
   - prettier
   - prettier-plugin-ini
   - react-native-cli
