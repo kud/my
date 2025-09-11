@@ -69,9 +69,6 @@ setup_package_managers() {
 
 setup_development_tools() {
     ui_section "🛠️ Configuring development tools"
-    ui_subtitle "AI Commit Configuration"
-    $MY/core/cli/aicommits.zsh
-
     ui_subtitle "Shell Abbreviations"
     $MY/core/cli/abbr.zsh
 
