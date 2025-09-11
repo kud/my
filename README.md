@@ -45,7 +45,7 @@ Direct Commands:
 Run Commands:
     run <module>      Run a specific component:
       Apps:           firefox, keepassxc, pcloud, sublime-merge
-      CLI:            abbr, aicommits, ssh
+      CLI:            abbr, ssh
       Packages:       antidote, brew, gh, gem, mas, npm, pip
       System:         default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlinks
 ```

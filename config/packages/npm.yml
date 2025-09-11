@@ -18,7 +18,7 @@ packages:
   - "@kud/soap-cli"
   - "@kud/wifi-tool-cli"
   - "@openai/codex"
-  - aicommits
+
   - battery-level-cli
   - bodybuilder
   - caniuse-cmd
@@ -58,7 +58,7 @@ packages:
   - ntl
   - open-pip-cli
   - opencode-ai
-  - opencommit
+
   - pageres-cli
   - pnpm
   - prettier
