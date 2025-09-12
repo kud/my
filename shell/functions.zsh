@@ -152,3 +152,65 @@ please() {
   printf 'sudo %s\n' "$last"
   sudo $SHELL -lc "$last"
 }
+
+# 🔎 FZF history search with Tokyonight color accents + icon
+# Provides an improved Ctrl-R experience (non-destructive: only binds if available)
+# Colorization is lightweight (keyword-based) to avoid the performance cost of invoking
+# full zsh-syntax-highlighting per line. Adjust mappings or disable via FZF_HISTORY_SIMPLE=1
+# Inspired by Tokyonight palette already defined in fzf.zsh; duplicates minimal colors
+if command -v fzf >/dev/null 2>&1; then
+  fzf-history-widget() {
+    # Allow user override of icon and prompt text
+    local icon=${FZF_HISTORY_ICON:-$''}   # Nerd Font magnifier (requires patched font)
+    local prompt="${icon}  "
+
+    # Base Tokyonight colors (24-bit); fall back gracefully if no truecolor
+    local C_RESET=$'\e[0m'
+    local C_NUM=$'\e[38;2;86;95;137m'
+    local C_DEFAULT=$'\e[38;2;192;202;245m'
+    local C_GIT=$'\e[38;2;187;154;247m'
+    local C_PKG=$'\e[38;2;158;206;106m'
+    local C_BUILD=$'\e[38;2;255;158;100m'
+    local C_NET=$'\e[38;2;125;207;255m'
+    local C_SYS=$'\e[38;2;122;162;247m'
+
+    # Pull history newest -> oldest with numbers (fc -rl 1)
+    # Optionally skip color if simple mode
+    local src
+    if [[ -n ${FZF_HISTORY_SIMPLE:-} ]]; then
+      src=$(builtin fc -rl 1)
+    else
+      src=$(builtin fc -rl 1 | awk -v C_NUM="$C_NUM" -v C_RESET="$C_RESET" \
+        -v C_DEFAULT="$C_DEFAULT" -v C_GIT="$C_GIT" -v C_PKG="$C_PKG" \
+        -v C_BUILD="$C_BUILD" -v C_NET="$C_NET" -v C_SYS="$C_SYS" 'function colorize(cmd){
+          if(cmd=="git") return C_GIT;
+          if(cmd=="npm"||cmd=="pnpm"||cmd=="yarn"||cmd=="brew") return C_PKG;
+          if(cmd=="make"||cmd=="cmake"||cmd=="cargo"||cmd=="go") return C_BUILD;
+          if(cmd=="curl"||cmd=="wget"||cmd=="ssh"||cmd=="scp"||cmd=="kubectl"||cmd=="docker") return C_NET;
+          if(cmd=="nvim"||cmd=="vim"||cmd=="code") return C_SYS;
+          return C_DEFAULT;
+        }
+        {num=$1; $1=""; gsub(/^ +/, ""); line=$0; split(line,a," "); cmd=a[1]; clr=colorize(cmd); printf "%s%5s%s %s%s%s", C_NUM, num, C_RESET, clr, cmd, C_RESET; for(i=2;i<=length(a);i++){ printf " %s", a[i] }; printf "\n" }')
+    fi
+
+    local selected
+    selected=$(print -r -- "$src" | \
+      FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS" fzf --ansi --no-sort --tac --query "$LBUFFER" \
+        --prompt "$prompt" --height 40% --layout=reverse --inline-info \
+        --bind 'enter:accept' || return)
+
+    # Clean selection: strip ANSI escapes then leading history number
+    if [[ -n $selected ]]; then
+      selected=$(printf '%s' "$selected" | sed -E 's/\x1B\[[0-9;]*[A-Za-z]//g; s/^[[:space:]]*[0-9]+[[:space:]]+//')
+      BUFFER=$selected
+      CURSOR=$#BUFFER
+      zle redisplay
+    fi
+  }
+  zle -N fzf-history-widget
+  # Rebind Ctrl-R to our widget (store old if needed)
+  if [[ -z ${_ORIG_CTRL_R_BINDING:-} ]]; then
+    _ORIG_CTRL_R_BINDING=$(bindkey '^R' | awk '{print $2}')
+  fi
+  bindkey '^R' fzf-history-widget
+fi
