@@ -195,10 +195,19 @@ if command -v fzf >/dev/null 2>&1; then
     fi
 
     local selected
-    selected=$(print -r -- "$src" | \
-      FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS" fzf --ansi --no-sort --tac --query "$LBUFFER" \
-        --prompt "$prompt" --height 40% --layout=reverse --inline-info \
-        --bind 'enter:accept' || return)
+    # Pointer/marker shape (override with FZF_HISTORY_POINTER). Options: ▊ ▌ ▋ █  ➤ ▶ ❯
+    local pointer_char=${FZF_HISTORY_POINTER:-$''}
+
+    # Minimal selection style: remove wide highlight bar (bg+ same as bg)
+    # Clear global FZF_DEFAULT_OPTS to avoid inherited bg+ and bold selection.
+    local fzf_colors="--color=fg:#c0caf5,bg:-1,hl:#7dcfff,fg+:#c0caf5,bg+:-1,hl+:#bb9af7,prompt:#7aa2f7,pointer:#ff9e64,marker:#ff9e64,info:#565f89,border:#292e42,spinner:#bb9af7,header:#ff9e64"
+
+    selected=$(print -r -- "$src" | FZF_DEFAULT_OPTS="" fzf \
+      --ansi --no-sort --tac --query "$LBUFFER" \
+      --prompt "$prompt" --height 40% --layout=reverse --inline-info \
+      --bind 'enter:accept' --no-bold \
+      --pointer="$pointer_char" --marker="$pointer_char" \
+      $fzf_colors || return)
 
     # Clean selection: strip ANSI escapes then leading history number
     if [[ -n $selected ]]; then
