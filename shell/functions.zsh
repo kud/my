@@ -175,13 +175,14 @@ if command -v fzf >/dev/null 2>&1; then
     local C_NET=$'\e[38;2;125;207;255m'
     local C_SYS=$'\e[38;2;122;162;247m'
 
-    # Pull history newest -> oldest with numbers (fc -rl 1)
-    # Optionally skip color if simple mode
-    local src
+    # Precompute newest and oldest history (colored unless simple mode) for reload toggling
+    local tmp_newest=$(mktemp -t fzf-hist-newest.XXXXXX)
+    local tmp_oldest=$(mktemp -t fzf-hist-oldest.XXXXXX)
     if [[ -n ${FZF_HISTORY_SIMPLE:-} ]]; then
-      src=$(builtin fc -rl 1)
+      builtin fc -rl 1 >| "$tmp_newest"
+      builtin fc -l 1  >| "$tmp_oldest"
     else
-      src=$(builtin fc -rl 1 | awk -v C_NUM="$C_NUM" -v C_RESET="$C_RESET" \
+      builtin fc -rl 1 | awk -v C_NUM="$C_NUM" -v C_RESET="$C_RESET" \
         -v C_DEFAULT="$C_DEFAULT" -v C_GIT="$C_GIT" -v C_PKG="$C_PKG" \
         -v C_BUILD="$C_BUILD" -v C_NET="$C_NET" -v C_SYS="$C_SYS" 'function colorize(cmd){
           if(cmd=="git") return C_GIT;
@@ -191,7 +192,18 @@ if command -v fzf >/dev/null 2>&1; then
           if(cmd=="nvim"||cmd=="vim"||cmd=="code") return C_SYS;
           return C_DEFAULT;
         }
-        {num=$1; $1=""; gsub(/^ +/, ""); line=$0; split(line,a," "); cmd=a[1]; clr=colorize(cmd); printf "%s%5s%s %s%s%s", C_NUM, num, C_RESET, clr, cmd, C_RESET; for(i=2;i<=length(a);i++){ printf " %s", a[i] }; printf "\033[0m\n" }')
+        {num=$1; $1=""; gsub(/^ +/, ""); line=$0; split(line,a," "); cmd=a[1]; clr=colorize(cmd); printf "%s%5s%s %s%s%s", C_NUM, num, C_RESET, clr, cmd, C_RESET; for(i=2;i<=length(a);i++){ printf " %s", a[i] }; printf "\033[0m\n" }' >| "$tmp_newest"
+      builtin fc -l 1 | awk -v C_NUM="$C_NUM" -v C_RESET="$C_RESET" \
+        -v C_DEFAULT="$C_DEFAULT" -v C_GIT="$C_GIT" -v C_PKG="$C_PKG" \
+        -v C_BUILD="$C_BUILD" -v C_NET="$C_NET" -v C_SYS="$C_SYS" 'function colorize(cmd){
+          if(cmd=="git") return C_GIT;
+          if(cmd=="npm"||cmd=="pnpm"||cmd=="yarn"||cmd=="brew") return C_PKG;
+          if(cmd=="make"||cmd=="cmake"||cmd=="cargo"||cmd=="go") return C_BUILD;
+          if(cmd=="curl"||cmd=="wget"||cmd=="ssh"||cmd=="scp"||cmd=="kubectl"||cmd=="docker") return C_NET;
+          if(cmd=="nvim"||cmd=="vim"||cmd=="code") return C_SYS;
+          return C_DEFAULT;
+        }
+        {num=$1; $1=""; gsub(/^ +/, ""); line=$0; split(line,a," "); cmd=a[1]; clr=colorize(cmd); printf "%s%5s%s %s%s%s", C_NUM, num, C_RESET, clr, cmd, C_RESET; for(i=2;i<=length(a);i++){ printf " %s", a[i] }; printf "\033[0m\n" }' >| "$tmp_oldest"
     fi
 
     local selected
@@ -201,13 +213,22 @@ if command -v fzf >/dev/null 2>&1; then
     # Minimal selection style: remove wide highlight bar (bg+ same as bg)
     # Clear global FZF_DEFAULT_OPTS to avoid inherited bg+ and bold selection.
     local fzf_colors="--color=fg:#c0caf5,bg:-1,hl:#7dcfff,fg+:#c0caf5,bg+:-1,hl+:#bb9af7,prompt:#7aa2f7,pointer:#ff9e64,marker:#ff9e64,info:#565f89,border:#292e42,spinner:#bb9af7,header:#ff9e64"
+    local header=${FZF_HISTORY_HEADER:-$'Alt-o oldest | Alt-n newest'}
 
-    selected=$(print -r -- "$src" | FZF_DEFAULT_OPTS="" fzf \
-      --ansi --no-sort --tac --query "$LBUFFER" \
+    # Run fzf with newest-first initial feed; allow toggling ordering.
+    selected=$(cat "$tmp_newest" | FZF_DEFAULT_OPTS="" fzf \
+      --ansi --no-sort --query "$LBUFFER" \
       --prompt "$prompt" --height 40% --layout=reverse --inline-info \
-      --bind 'enter:accept' --no-bold \
+      --bind "enter:accept" \
+      --bind "alt-o:reload(cat $tmp_oldest)+first" \
+      --bind "alt-n:reload(cat $tmp_newest)+first" \
+      --no-bold \
       --pointer="$pointer_char" --marker="$pointer_char" \
-      $fzf_colors || return)
+      --header "$header" \
+      $fzf_colors)
+    local fzf_status=$?
+    rm -f -- "$tmp_newest" "$tmp_oldest" || true
+    (( fzf_status != 0 )) && return
 
     # Clean selection: strip ANSI escapes then leading history number
     if [[ -n $selected ]]; then
