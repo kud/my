@@ -7,7 +7,21 @@
 ################################################################################
 
 # FZF UI configuration
-export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --inline-info --border --color=fg:#c9d1d9,bg:-1,hl:#79c0ff,border:#181a1d --color=fg+:#c9d1d9,bg+:-1,hl+:#79c0ff,border:#181a1d --color=info:#b3b3b3,prompt:#58a6ff,pointer:#f778ba --color=marker:#f778ba,spinner:#b3b3b3,header:-1"
+# Tokyonight (storm) palette mapped for FZF (keeps transparent bg via bg:-1)
+TN_FZF_FG="#c0caf5"
+TN_FZF_BG="#24283b"
+TN_FZF_BG_DARK="#1f2335"
+TN_FZF_BG_HIGHLIGHT="#292e42"
+TN_FZF_BLUE="#7aa2f7"
+TN_FZF_CYAN="#7dcfff"
+TN_FZF_MAGENTA="#bb9af7"
+TN_FZF_ORANGE="#ff9e64"
+TN_FZF_GREEN="#9ece6a"
+TN_FZF_COMMENT="#565f89"
+
+FZF_TOKYONIGHT_COLORS="--color=fg:${TN_FZF_FG},bg:-1,hl:${TN_FZF_CYAN},border:${TN_FZF_BG_HIGHLIGHT},scrollbar:#7e9be8 --color=fg+:${TN_FZF_FG},bg+:${TN_FZF_BG_HIGHLIGHT},hl+:${TN_FZF_MAGENTA},prompt:${TN_FZF_BLUE},pointer:${TN_FZF_ORANGE} --color=marker:${TN_FZF_GREEN},spinner:${TN_FZF_MAGENTA},info:${TN_FZF_COMMENT},header:${TN_FZF_ORANGE}"
+
+export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --inline-info --border $FZF_TOKYONIGHT_COLORS"
 
 # FZF-TAB recommended configuration
 zstyle ':fzf-tab:*' ansi-colors true
