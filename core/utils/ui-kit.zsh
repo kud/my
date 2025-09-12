@@ -716,6 +716,18 @@ ui_theme_cyberpunk() {
     export UI_MUTED='\033[38;5;240m'      # Dark gray
 }
 
+ui_theme_tokyo_night() {
+    # Tokyo Night color scheme - modern dark theme with vibrant accents
+    export UI_PRIMARY='\033[38;2;122;162;247m'    # Tokyo Night blue (#7aa2f7)
+    export UI_SUCCESS='\033[38;2;158;206;106m'    # Tokyo Night green (#9ece6a)
+    export UI_WARNING='\033[38;2;224;175;104m'    # Tokyo Night yellow (#e0af68)
+    export UI_DANGER='\033[38;2;247;118;142m'     # Tokyo Night red (#f7768e)
+    export UI_INFO='\033[38;2;125;207;255m'       # Tokyo Night cyan (#7dcfff)
+    export UI_ACCENT='\033[38;2;187;154;247m'     # Tokyo Night purple (#bb9af7)
+    export UI_MUTED='\033[38;2;86;95;137m'        # Tokyo Night comment (#565f89)
+    export UI_SECONDARY='\033[38;2;86;95;137m'    # Same as muted
+}
+
 ################################################################################
 # 📋 STEP PROGRESS TRACKING
 ################################################################################
@@ -876,8 +888,8 @@ next_step() { ui_next_step "$@"; }
 
 # Auto-detect and set appropriate theme
 if [[ -n "$TERM" ]] && [[ "$TERM" != "dumb" ]]; then
-    # Default to dark theme for modern terminals
-    ui_theme_dark
+    # Default to Tokyo Night theme for modern terminals
+    ui_theme_tokyo_night
 fi
 
 # Cleanup function
