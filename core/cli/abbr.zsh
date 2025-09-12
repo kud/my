@@ -63,10 +63,16 @@ done
 
 # Reporting
 if [[ ${#stale_abbrs[@]} -gt 0 ]]; then
-  ui_info_simple "Removed ${#stale_abbrs[@]} stale abbreviations"
+  count=${#stale_abbrs[@]}
+  noun="abbreviation"
+  [[ $count -ne 1 ]] && noun+="s"
+  ui_info_simple "Removed $count stale $noun"
 fi
 if [[ ${#added_abbrs[@]} -gt 0 ]]; then
-  ui_info_simple "Added ${#added_abbrs[@]} new abbreviations"
+  count=${#added_abbrs[@]}
+  noun="abbreviation"
+  [[ $count -ne 1 ]] && noun+="s"
+  ui_info_simple "Added $count new $noun"
   for n in $added_abbrs; do echo "  • $n"; done
 fi
 if [[ ${#stale_abbrs[@]} -eq 0 && ${#added_abbrs[@]} -eq 0 ]]; then
