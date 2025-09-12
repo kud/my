@@ -19,7 +19,7 @@ TN_FZF_ORANGE="#ff9e64"
 TN_FZF_GREEN="#9ece6a"
 TN_FZF_COMMENT="#565f89"
 
-FZF_TOKYONIGHT_COLORS="--color=fg:${TN_FZF_FG},bg:-1,hl:${TN_FZF_CYAN},border:${TN_FZF_BG_HIGHLIGHT} --color=fg+:${TN_FZF_FG},bg+:${TN_FZF_BG_HIGHLIGHT},hl+:${TN_FZF_MAGENTA},prompt:${TN_FZF_BLUE},pointer:${TN_FZF_ORANGE} --color=marker:${TN_FZF_GREEN},spinner:${TN_FZF_MAGENTA},info:${TN_FZF_COMMENT},header:${TN_FZF_ORANGE}"
+FZF_TOKYONIGHT_COLORS="--color=fg:${TN_FZF_FG},bg:-1,hl:${TN_FZF_CYAN},border:${TN_FZF_BG_HIGHLIGHT},scrollbar:#7e9be8 --color=fg+:${TN_FZF_FG},bg+:${TN_FZF_BG_HIGHLIGHT},hl+:${TN_FZF_MAGENTA},prompt:${TN_FZF_BLUE},pointer:${TN_FZF_ORANGE} --color=marker:${TN_FZF_GREEN},spinner:${TN_FZF_MAGENTA},info:${TN_FZF_COMMENT},header:${TN_FZF_ORANGE}"
 
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --inline-info --border $FZF_TOKYONIGHT_COLORS"
 
