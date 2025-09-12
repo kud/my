@@ -21,14 +21,33 @@ TN_FZF_COMMENT="#565f89"
 
 FZF_TOKYONIGHT_COLORS="--color=fg:${TN_FZF_FG},bg:-1,hl:${TN_FZF_CYAN},border:${TN_FZF_BG_HIGHLIGHT},scrollbar:#7e9be8 --color=fg+:${TN_FZF_FG},bg+:${TN_FZF_BG_HIGHLIGHT},hl+:${TN_FZF_MAGENTA},prompt:${TN_FZF_BLUE},pointer:${TN_FZF_ORANGE} --color=marker:${TN_FZF_GREEN},spinner:${TN_FZF_MAGENTA},info:${TN_FZF_COMMENT},header:${TN_FZF_ORANGE}"
 
-export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --inline-info --border $FZF_TOKYONIGHT_COLORS"
+# Core defaults: smart case, border, improved layout, cycle, marker & multi-select hints
+export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --info=inline --border rounded --margin=0,2 --padding=0,1 \
+  --prompt '❯ ' --pointer='█' --marker='█' --separator='─' --scrollbar='┃' \
+  --cycle --tabstop=4 --highlight-line --color=hl:#7dcfff,hl+:#bb9af7 --ansi \
+  --bind 'tab:down,btab:up' --bind 'ctrl-a:select-all,ctrl-d:deselect-all' \
+  --bind 'ctrl-f:page-down,ctrl-b:page-up,ctrl-u:half-page-up,ctrl-d:half-page-down' \
+  --bind 'alt-j:down,alt-k:up,alt-p:toggle-preview' \
+  --bind 'ctrl-y:execute-silent(echo {+} | pbcopy)+abort' \
+  --bind 'ctrl-e:execute(echo {+} | xargs -I{} $EDITOR {} < /dev/tty)' \
+  --bind 'ctrl-space:toggle+down' $FZF_TOKYONIGHT_COLORS"
 
 # FZF-TAB recommended configuration
 zstyle ':fzf-tab:*' ansi-colors true
-zstyle ':fzf-tab:*' fzf-flags '--height=40%' '--layout=reverse' '--info=inline' '--color=fg+:italic'
+zstyle ':fzf-tab:*' fzf-flags '--height=50%' '--layout=reverse' '--info=inline' '--border=rounded' '--prompt= ' '--marker=✓' '--ansi' '--preview-window=right:55%:wrap'
 zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'lsd -1 --color=always $realpath'
+# Enrich different completion contexts with previews
+zstyle ':fzf-tab:complete:*:options' fzf-preview 'echo -- $word; whatis $word 2>/dev/null | head -5'
+zstyle ':fzf-tab:complete:*:*:processes' fzf-preview 'ps -o pid,ppid,command -p ${word%% *} 2>/dev/null'
+zstyle ':fzf-tab:complete:*:*:exec' fzf-preview 'command -v $word || echo not found'
+zstyle ':fzf-tab:complete:*:*:parameter-*' fzf-preview 'print -r -- ${(P)word} 2>/dev/null | head -200'
+zstyle ':fzf-tab:complete:*:*:aliases' fzf-preview 'alias $word'
+zstyle ':fzf-tab:complete:*:*:functions' fzf-preview 'type $word | head -200'
+# Git status preview when completing paths inside a repo
+zstyle ':fzf-tab:complete:(\*|)git-(add|restore|checkout|diff|reset):*' fzf-preview 'git -c color.ui=always diff --cached -- $realpath 2>/dev/null || git -c color.ui=always diff -- $realpath 2>/dev/null || ls -ld -- $realpath'
+# Directory completion: rich preview using lsd/exa/ls fallback
+zstyle ':fzf-tab:complete:cd:*' fzf-preview '([[ -d $realpath ]] && { if command -v lsd >/dev/null 2>&1; then lsd -1 --color=always $realpath; elif command -v exa >/dev/null 2>&1; then exa -1 --color=always $realpath; else ls -1 $realpath; fi; }) 2>/dev/null'
 
 # FZF default commands
 if command -v rg >/dev/null 2>&1; then
@@ -46,8 +65,15 @@ else
 fi
 
 # FZF previews
-export FZF_CTRL_T_OPTS="--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} 2>/dev/null || cat {})) || ([[ -d {} ]] && (tree -C {} | head -200))' --preview-window=right:50%:wrap"
-export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200' --preview-window=right:50%"
+# File (ctrl-t) preview: prefer bat -> cat; directory: tree/lsd/exa fallback, limit lines for speed
+export FZF_CTRL_T_OPTS="--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} 2>/dev/null || cat {})) || \
+  ([[ -d {} ]] && ( (command -v lsd >/dev/null 2>&1 && lsd -1 --color=always {}) || \
+                   (command -v exa >/dev/null 2>&1 && exa -T --color=always --level=2 {}) || \
+                   (tree -C {} | head -200) ))' --preview-window=right:55%:wrap"
+# Directory (alt-c) preview: tree/lsd/exa fallback
+export FZF_ALT_C_OPTS="--preview '(command -v lsd >/dev/null 2>&1 && lsd -1 --color=always {}) || \
+  (command -v exa >/dev/null 2>&1 && exa -T --color=always --level=2 {}) || \
+  (tree -C {} | head -200)' --preview-window=right:55%:wrap"
 
 # Load fzf
 source <(fzf --zsh)
