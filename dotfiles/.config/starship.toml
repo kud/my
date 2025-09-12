@@ -1,5 +1,7 @@
 # Increase timeout to prevent Node resolution warnings
-command_timeout = 2000
+command_timeout = 1500
+scan_timeout = 30
+palette = "my"
 
 # Global format
 format = """
@@ -24,51 +26,60 @@ add_newline = true
 # Directory
 [directory]
 style = "31"
-truncation_length = 1
-truncate_to_repo = true
-truncation_symbol = ""
-home_symbol = "~"
+truncation_length = 4
+truncate_to_repo = false
+truncation_symbol = "…/"
+fish_style_pwd_dir_length = 1
+repo_root_style = "bold 197"
+home_symbol = ""
 read_only = " 󰌾"
 read_only_style = "160"
-format = "[$path]($style)[$read_only]($read_only_style) "
+format = "[$path]($style) "
+
+# Optional pure basename alternative (disabled in main format for now)
+[custom.basename]
+command = 'basename "$PWD"'
+when = 'true'
+format = '[($output)](31) '
+
 
 # Git branch
 [git_branch]
-symbol = " "
 style = "76"
-format = "[$symbol$branch]($style)"
+format = "[ $branch]($style)"
 truncation_length = 32
 truncation_symbol = "…"
 
 # Git statuss
 [git_status]
-style = "bright-black"
+style = "244"
 conflicted = "="
 ahead = "⇡"
 behind = "⇣"
 diverged = "⇕"
 up_to_date = ""
-untracked = "*"
-modified = "*"
-staged = "+"
-renamed = "»"
-deleted = "✘"
-format = '([$all_status$ahead_behind]($style))'
+untracked = "?$count"
+modified = "*$count"
+staged = "+$count"
+renamed = "»$count"
+deleted = "✘$count"
+format = '([$staged$modified$untracked$ahead_behind]($style))'
 
 # Git state
 [git_state]
-style = "bold yellow"
+style = "bold 203"
 format = '[\($state( $progress_current of $progress_total)\)]($style) '
 
 # Character
 [character]
 success_symbol = "[❯](#86ef95)"
 error_symbol = "[❯](red)"
+vicmd_symbol = "[❮](#ffaf00)"
 format = "$symbol "
 
 # Command duration
 [cmd_duration]
-min_time = 5_000
+min_time = 1_500
 style = "yellow"
 format = "[⏱ $duration]($style) "
 show_milliseconds = false
@@ -170,6 +181,14 @@ disabled = true
 
 [time]
 disabled = true
+
+# Right prompt
+right_format = "$cmd_duration$jobs"
+
+[env_var.profile]
+variable = "MY_PROFILE"
+format = "[$env_value](244) "
+
 
 [battery]
 disabled = true
@@ -319,4 +338,9 @@ symbol = " "
 
 [gradle]
 symbol = " "
+
+[palettes.my]
+red = "#ff5f5f"
+accent = "#5fafff"
+gray = "#6c6c6c"
 
