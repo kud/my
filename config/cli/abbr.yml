@@ -13,3 +13,4 @@ abbreviations:
   gmg: "git merge"
   gp: "git push"
   ghrc: 'gh repo create "${PWD##*/}" --source=. --push'
+  ocr: "opencode run"
