@@ -51,3 +51,69 @@ export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200' --preview-window=right
 
 # Load fzf
 source <(fzf --zsh)
+
+# Ctrl-R history widget (Tokyonight styled) moved from functions.zsh
+fzf-history-widget() {
+  if ! command -v fzf >/dev/null 2>&1; then
+    zle -M "fzf not found"
+    return 1
+  fi
+  # Minimal colors: grey numbers + per-command color + icon
+  local icon=${FZF_HISTORY_ICON:-$''}
+  local prompt="${icon}  "
+  local C_RESET=$'\e[39m'
+  local C_NUM=$'\e[38;2;86;95;137m'
+  local C_DEFAULT=$'\e[38;2;192;202;245m'
+  local C_GIT=$'\e[38;2;187;154;247m'
+  local C_PKG=$'\e[38;2;158;206;106m'
+  local C_BUILD=$'\e[38;2;255;158;100m'
+  local C_NET=$'\e[38;2;125;207;255m'
+  local C_SYS=$'\e[38;2;122;162;247m'
+  local tmp_newest=$(mktemp -t fzf-hist.XXXXXX)
+  builtin fc -rl 1 | awk -v C_NUM="$C_NUM" -v C_RESET="$C_RESET" \
+    -v C_DEFAULT="$C_DEFAULT" -v C_GIT="$C_GIT" -v C_PKG="$C_PKG" \
+    -v C_BUILD="$C_BUILD" -v C_NET="$C_NET" -v C_SYS="$C_SYS" \
+    -v USE_ICONS="${FZF_HISTORY_ENABLE_ICONS:-1}" '
+    function colorize(cmd){
+      if(cmd=="git") return C_GIT;
+      if(cmd=="npm"||cmd=="pnpm"||cmd=="yarn"||cmd=="brew") return C_PKG;
+      if(cmd=="make"||cmd=="cmake"||cmd=="cargo"||cmd=="go") return C_BUILD;
+      if(cmd=="curl"||cmd=="wget"||cmd=="ssh"||cmd=="scp"||cmd=="kubectl"||cmd=="docker") return C_NET;
+      if(cmd=="nvim"||cmd=="vim"||cmd=="code") return C_SYS;
+      return C_DEFAULT;
+    }
+    function icon_for(cmd){
+      if(USE_ICONS==0) return "";
+      if(cmd=="git") return " ";
+      if(cmd=="npm"||cmd=="pnpm"||cmd=="yarn"||cmd=="brew"||cmd=="gem"||cmd=="pip"||cmd=="pip3"||cmd=="cargo") return " ";
+      if(cmd=="make"||cmd=="cmake"||cmd=="go") return " ";
+      if(cmd=="curl"||cmd=="wget"||cmd=="ssh"||cmd=="scp"||cmd=="kubectl"||cmd=="docker") return " ";
+      if(cmd=="nvim"||cmd=="vim") return " ";
+      if(cmd=="code") return " ";
+      return " ";
+    }
+    {
+      num=$1; $1=""; gsub(/^ +/, "");
+      line=$0; split(line,a," "); cmd=a[1]; clr=colorize(cmd); ic=icon_for(cmd);
+      printf "%s%5s%s %s%s%s%s", C_NUM, num, C_RESET, clr, ic, cmd, C_RESET;
+      for(i=2;i<=length(a);i++){ printf " %s", a[i] }
+      printf "\033[0m\n"
+    }' >| "$tmp_newest"
+  local selected
+  # Use existing global FZF_DEFAULT_OPTS (theme) without overriding
+  selected=$(cat "$tmp_newest" | fzf --ansi --no-sort --query "$LBUFFER" --prompt "$prompt")
+  local st=$?
+  rm -f -- "$tmp_newest" || true
+  (( st != 0 )) && return
+  if [[ -n $selected ]]; then
+    selected=$(printf '%s' "$selected" | sed -E 's/\x1B\[[0-9;]*[A-Za-z]//g; s/^[[:space:]]*[0-9]+[[:space:]]+//; s/^[][[:space:]]+//')
+    BUFFER=$selected
+    CURSOR=$#BUFFER
+    zle redisplay
+  fi
+}
+zle -N fzf-history-widget
+if [[ -z ${_ORIG_CTRL_R_BINDING:-} ]]; then
+  _ORIG_CTRL_R_BINDING=$(bindkey '^R' | awk '{print $2}')
+fi
+bindkey '^R' fzf-history-widget
