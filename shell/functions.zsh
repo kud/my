@@ -165,7 +165,8 @@ if command -v fzf >/dev/null 2>&1; then
     local prompt="${icon}  "
 
     # Base Tokyonight colors (24-bit); fall back gracefully if no truecolor
-    local C_RESET=$'\e[0m'
+    # Use foreground-only reset so fzf selection background spans full width
+    local C_RESET=$'\e[39m'
     local C_NUM=$'\e[38;2;86;95;137m'
     local C_DEFAULT=$'\e[38;2;192;202;245m'
     local C_GIT=$'\e[38;2;187;154;247m'
@@ -190,7 +191,7 @@ if command -v fzf >/dev/null 2>&1; then
           if(cmd=="nvim"||cmd=="vim"||cmd=="code") return C_SYS;
           return C_DEFAULT;
         }
-        {num=$1; $1=""; gsub(/^ +/, ""); line=$0; split(line,a," "); cmd=a[1]; clr=colorize(cmd); printf "%s%5s%s %s%s%s", C_NUM, num, C_RESET, clr, cmd, C_RESET; for(i=2;i<=length(a);i++){ printf " %s", a[i] }; printf "\n" }')
+        {num=$1; $1=""; gsub(/^ +/, ""); line=$0; split(line,a," "); cmd=a[1]; clr=colorize(cmd); printf "%s%5s%s %s%s%s", C_NUM, num, C_RESET, clr, cmd, C_RESET; for(i=2;i<=length(a);i++){ printf " %s", a[i] }; printf "\033[0m\n" }')
     fi
 
     local selected
