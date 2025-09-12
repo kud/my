@@ -24,9 +24,9 @@ add_newline = true
 # Directory
 [directory]
 style = "31"
-truncation_length = 3
+truncation_length = 1
 truncate_to_repo = true
-truncation_symbol = "…/"
+truncation_symbol = ""
 home_symbol = "~"
 read_only = " 󰌾"
 read_only_style = "160"
