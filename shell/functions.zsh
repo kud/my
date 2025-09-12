@@ -212,16 +212,14 @@ if command -v fzf >/dev/null 2>&1; then
 
     # Minimal selection style: remove wide highlight bar (bg+ same as bg)
     # Clear global FZF_DEFAULT_OPTS to avoid inherited bg+ and bold selection.
-    local fzf_colors="--color=fg:#c0caf5,bg:-1,hl:#7dcfff,fg+:#c0caf5,bg+:-1,hl+:#bb9af7,prompt:#7aa2f7,pointer:#ff9e64,marker:#ff9e64,info:#565f89,border:#292e42,spinner:#bb9af7,header:#ff9e64"
-    local header=${FZF_HISTORY_HEADER:-$'Alt-o oldest | Alt-n newest'}
+    local fzf_colors="--color=fg:#c0caf5,bg:-1,hl:#7dcfff,fg+:#c0caf5,bg+:-1,hl+:#bb9af7,prompt:#7aa2f7,pointer:#ff9e64,marker:#ff9e64,info:#565f89,border:#292e42,scrollbar:#7e9be8,spinner:#bb9af7,header:#ff9e64"
+    local header=${FZF_HISTORY_HEADER:-$'History (newest first)'}
 
     # Run fzf with newest-first initial feed; allow toggling ordering.
     selected=$(cat "$tmp_newest" | FZF_DEFAULT_OPTS="" fzf \
       --ansi --no-sort --query "$LBUFFER" \
       --prompt "$prompt" --height 40% --layout=reverse --inline-info \
       --bind "enter:accept" \
-      --bind "alt-o:reload(cat $tmp_oldest)+first" \
-      --bind "alt-n:reload(cat $tmp_newest)+first" \
       --no-bold \
       --pointer="$pointer_char" --marker="$pointer_char" \
       --header "$header" \
