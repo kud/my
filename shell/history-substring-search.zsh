@@ -10,11 +10,11 @@
 
 # Highlight color for found matches
 # Default: bg=magenta,fg=white,bold
-export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=magenta,fg=white,bold'
+export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=#c797ff,bold'
 
 # Highlight color for not-found matches
 # Default: bg=red,fg=white,bold
-export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=red,fg=white,bold'
+export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='fg=#ff6a7b,bold'
 
 # ────────────── Search Options ──────────────
 
