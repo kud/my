@@ -34,7 +34,7 @@ export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --info=inline --border ro
 
 # FZF-TAB recommended configuration
 zstyle ':fzf-tab:*' ansi-colors true
-zstyle ':fzf-tab:*' fzf-flags '--height=50%' '--layout=reverse' '--info=inline' '--border=rounded' '--prompt= ' '--marker=✓' '--ansi' '--no-header-line' '--preview-window=right:55%:wrap'
+zstyle ':fzf-tab:*' fzf-flags '--height=50%' '--layout=reverse' '--info=inline' '--border=rounded' '--prompt= ' '--marker=✓' '--ansi' '--preview-window=right:55%:wrap'
 zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
 # Enrich different completion contexts with previews
@@ -144,41 +144,7 @@ if [[ -z ${_ORIG_CTRL_R_BINDING:-} ]]; then
 fi
 bindkey '^R' fzf-history-widget
 
-# --- Custom compact table header for fzf-tab groups -------------------------
-# Converts multi-line wide group banner into a single line table with │ separators.
-# Set FZF_TAB_DISABLE_CUSTOM_HEADER=1 before sourcing to disable.
-if [[ -z ${FZF_TAB_DISABLE_CUSTOM_HEADER:-} && $+functions[-ftb-generate-header] -eq 1 && -z ${FZF_TAB_CUSTOM_HEADER:-} ]]; then
-  # Preserve original
-  functions[-ftb-generate-header-orig]=$functions[-ftb-generate-header]
-  -ftb-generate-header() {
-    # Honor quiet style
-    if { -ftb-zstyle -m show-group "quiet" }; then
-      return
-    fi
-    typeset -ga _ftb_headers=()
-    local group_colors reset=$'\033[00m'
-    -ftb-zstyle -a group-colors group_colors || group_colors=($_ftb_group_colors)
-    local header="" label g
-    local i=1
-    for g in $_ftb_groups; do
-      [[ $g == __hide__* ]] && (( i++ )) && continue
-      label=$g
-      # Simplify labels: strip leading/trailing dashes and common suffix words
-      label=${label//--/}
-      label=${label## } ; label=${label%% } ; label=${label//  / }
-      label=${label// command/}
-      label=${label// word/}
-      label=${label//local directory/local dir}
-      label=${label//directory/dir}
-      label=${label//parameter/param}
-      # Collapse extra spaces again
-      label=${label//  / }
-      [[ -n $header ]] && header+=$' '"$reset"'│ '
-      header+="${group_colors[i]}${label}${reset}"
-      (( i++ ))
-    done
-    _ftb_headers=($header)
-  }
-  FZF_TAB_CUSTOM_HEADER=1
-fi
+# Disable fzf-tab group header (no header display)
+-ftb-generate-header() { return 0 }
+
 
