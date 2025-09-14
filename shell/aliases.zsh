@@ -82,6 +82,9 @@ alias pbp='pbpaste'
 alias rubbish='trash'
 alias litter='trash'
 
+# 🤖 AI
+alias explain='ai explain'
+
 
 # 🐙 GH aliases
 alias copilot='gh copilot'
