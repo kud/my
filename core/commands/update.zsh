@@ -12,6 +12,7 @@
 # Source UI Kit for beautiful output
 source $MY/core/utils/ui-kit.zsh
 
+# Global Nerd Font icons now provided by ui-kit; no per-script overrides needed
 # Enable animated intro for update process
 export MY_SHOW_INTRO="true"
 
@@ -40,7 +41,7 @@ ui_spacer
 # 📦 PROJECT SYNCHRONIZATION
 ################################################################################
 
-ui_section "🔄 Updating repository"
+ui_section "  Updating repository"
 ui_info_simple "Path: $MY"
 
 # Capture git output for better formatting
@@ -76,7 +77,7 @@ ui_spacer
 # 🔧 ENVIRONMENT REFRESH
 ################################################################################
 
-ui_section "🔧 Updating environment"
+ui_section "  Updating environment"
 
 # Run main update script
 if ! $MY/core/main.zsh; then
@@ -90,4 +91,4 @@ ui_spacer
 # ✅ UPDATE COMPLETE
 ################################################################################
 
-ui_primary "Update complete! 🎉"
+ui_primary "Update complete! "

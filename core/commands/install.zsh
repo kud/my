@@ -174,7 +174,7 @@ ui_spacer
 open https://github.com/kud/my/blob/master/doc/post-install.md
 
 ui_spacer
-ui_primary "Thank you for setting up your development environment! 🎉"
+ui_primary "Thank you for setting up your development environment! "
 ui_spacer 2
 
 source $HOME/.zshrc 2>/dev/null || true
