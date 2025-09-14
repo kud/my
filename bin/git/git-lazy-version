@@ -1,14 +1,51 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
-if [ -z "$1" ]; then
-  echo "Usage: git lazy-version {patch|minor|major}"
+# Lazy version bump + push helper
+# Improves on original by:
+# - validating input (patch|minor|major)
+# - failing fast (set -euo pipefail)
+# - collapsing two pushes into one (git push --follow-tags)
+# - showing resulting version
+# - guarding against missing package.json
+
+set -euo pipefail
+
+usage() {
+  echo "Usage: git lazy-version {major|minor|patch}" >&2
+  echo "Aliases: x=major, y=minor, z=patch" >&2
+}
+
+arg=${1:-}
+case "$arg" in
+  major|x)
+    VERSION_TYPE=major ;;
+  minor|y)
+    VERSION_TYPE=minor ;;
+  patch|z)
+    VERSION_TYPE=patch ;;
+  -h|--help|"")
+    usage; exit 1 ;;
+  *)
+    echo "Error: version type must be one of: major minor patch (aliases: x y z)" >&2
+    usage; exit 1 ;;
+esac
+
+if [[ ! -f package.json ]]; then
+  echo "Error: package.json not found (run inside the project root)." >&2
   exit 1
 fi
 
-VERSION_TYPE=$1
+# Stage & AI commit current changes so that `npm version` finds a clean tree.
+git add -A
+if ! git aicommit; then
+  echo "Error: git aicommit failed" >&2
+  exit 1
+fi
 
-git add .
-git aicommit
-npm version $VERSION_TYPE
-git push
-git push --tags
+# Suppress npm's own output; capture new version afterwards.
+npm version "$VERSION_TYPE" >/dev/null
+NEW_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "?")
+
+git push --follow-tags
+
+echo "Bumped & pushed version v$NEW_VERSION" >&2
