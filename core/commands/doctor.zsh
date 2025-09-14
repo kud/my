@@ -2,7 +2,7 @@
 
 ################################################################################
 #                                                                              #
-#   🩺 COMPREHENSIVE ENVIRONMENT HEALTH CHECKER                                #
+#     COMPREHENSIVE ENVIRONMENT HEALTH CHECKER                                #
 #   ------------------------------------------                                 #
 #   Performs extensive system health checks and diagnostics.                  #
 #   Validates all aspects of the development environment.                     #
@@ -33,19 +33,19 @@ record_check() {
             ;;
         "warn")
             ((WARNINGS++))
-            ISSUES+=("⚠️  $message")
+            ISSUES+=("  $message")
             ui_warning_simple "$message"
             ;;
         "error")
             ((ERRORS++))
-            ISSUES+=("❌ $message")
+            ISSUES+=(" $message")
             ui_error_simple "$message"
             ;;
     esac
 }
 
 ui_spacer
-ui_section "🩺 Environment Health Check"
+ui_section "  Environment Health Check"
 ui_info_simple "Running comprehensive diagnostics..."
 ui_spacer
 
@@ -489,13 +489,13 @@ ui_spacer
 
 # Health score visualization
 if [[ $health_score -ge 90 ]]; then
-    ui_success_msg "🎉 Excellent! System health: ${health_score}%"
+    ui_success_msg " Excellent! System health: ${health_score}%"
 elif [[ $health_score -ge 75 ]]; then
-    ui_info_msg "👍 Good! System health: ${health_score}%"
+    ui_info_msg " Good! System health: ${health_score}%"
 elif [[ $health_score -ge 60 ]]; then
-    ui_warning_msg "⚠️  Fair. System health: ${health_score}%"
+    ui_warning_msg "  Fair. System health: ${health_score}%"
 else
-    ui_error_msg "🚨 Poor! System health: ${health_score}%"
+    ui_error_msg " Poor! System health: ${health_score}%"
 fi
 
 # Show issues if any
@@ -512,8 +512,8 @@ if [[ $ERRORS -gt 0 || $WARNINGS -gt 0 ]]; then
     ui_spacer
     ui_subtitle "Recommendations"
 
-    [[ $ERRORS -gt 0 ]] && ui_info_simple "• Fix critical errors first (marked with ❌)"
-    [[ $WARNINGS -gt 0 ]] && ui_info_simple "• Address warnings when possible (marked with ⚠️)"
+    [[ $ERRORS -gt 0 ]] && ui_info_simple "• Fix critical errors first (marked with )"
+    [[ $WARNINGS -gt 0 ]] && ui_info_simple "• Address warnings when possible (marked with $UI_ICON_WARNING)"
 
     ui_spacer
     ui_info_simple "Run 'my doctor' again after making changes"

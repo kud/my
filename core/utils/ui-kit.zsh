@@ -102,50 +102,57 @@ fi
 # 📱 MODERN ICONS & SYMBOLS
 ################################################################################
 
-# Status icons (emoji style)
-export UI_ICON_SUCCESS="✅"
-export UI_ICON_ERROR="❌"
-export UI_ICON_WARNING="⚠️"
-export UI_ICON_INFO="ℹ️"
-export UI_ICON_QUESTION="❓"
+# Status icons (Nerd Font glyphicons)
+export UI_ICON_SUCCESS=""       # nf-fa-check_circle
+export UI_ICON_ERROR=""         # nf-fa-times
+export UI_ICON_WARNING=""       # nf-fa-exclamation_triangle
+export UI_ICON_INFO=""          # nf-fa-info_circle
+export UI_ICON_QUESTION=""      # nf-fa-question_circle
 
-# Alternative simple icons
-export UI_ICON_CHECKMARK="✓"
-export UI_ICON_CROSS="✗"
-export UI_ICON_CHECK_ALT="✔"
-export UI_ICON_CROSS_ALT="✗"
-export UI_ICON_STARTER="❯"
-export UI_ICON_INFO_BRACKET="[i]"
-export UI_ICON_USER_BRACKET="[?]"
-export UI_ICON_WARN_BRACKET="[!]"
-export UI_ICON_INPUT_BRACKET="[>]"
+# Alternative simple icons (Nerd Font)
+export UI_ICON_CHECKMARK=""     # nf-fa-check
+export UI_ICON_CROSS=""         # nf-fa-times
+export UI_ICON_CHECK_ALT=""
+export UI_ICON_CROSS_ALT=""
+export UI_ICON_STARTER=""       # nf-fa-chevron_right
+export UI_ICON_INFO_BRACKET=""
+export UI_ICON_USER_BRACKET=""
+export UI_ICON_WARN_BRACKET=""
+export UI_ICON_INPUT_BRACKET=""
+# Additional standardized icons
+export UI_ICON_PROMPT=""        # reuse chevron for prompts
+export UI_ICON_BOLT=""
+export UI_ICON_PALETTE=""  # fallback: use star for broader support
+export UI_ICON_GLOBE=""
+export UI_ICON_TABLE=""
+export UI_ICON_FORWARD=""
 
-# Navigation
-export UI_ICON_ARROW_RIGHT="→"
-export UI_ICON_ARROW_LEFT="←"
-export UI_ICON_ARROW_UP="↑"
-export UI_ICON_ARROW_DOWN="↓"
+# Navigation (Nerd Font)
+export UI_ICON_ARROW_RIGHT=""
+export UI_ICON_ARROW_LEFT=""
+export UI_ICON_ARROW_UP=""
+export UI_ICON_ARROW_DOWN=""
 
-# Action icons
-export UI_ICON_DOWNLOAD="⬇️ "
-export UI_ICON_UPLOAD="⬆️ "
-export UI_ICON_INSTALL="📦"
-export UI_ICON_DELETE="🗑️ "
-export UI_ICON_EDIT="✏️ "
-export UI_ICON_SEARCH="🔍"
-export UI_ICON_SETTINGS="⚙️ "
-export UI_ICON_REFRESH="🔄"
-export UI_ICON_LOCK="🔒"
-export UI_ICON_UNLOCK="🔓"
+# Action icons (Nerd Font)
+export UI_ICON_DOWNLOAD=""
+export UI_ICON_UPLOAD=""
+export UI_ICON_INSTALL=""      # package / cube
+export UI_ICON_DELETE=""       # trash
+export UI_ICON_EDIT=""
+export UI_ICON_SEARCH=""
+export UI_ICON_SETTINGS=""
+export UI_ICON_REFRESH=""
+export UI_ICON_LOCK=""
+export UI_ICON_UNLOCK=""
 
-# Progress & loading
-export UI_ICON_LOADING="⏳"
-export UI_ICON_CLOCK="🕐"
-export UI_ICON_ROCKET="🚀"
-export UI_ICON_FIRE="🔥"
-export UI_ICON_STAR="⭐"
-export UI_ICON_HEART="❤️ "
-export UI_ICON_THUMBS_UP="👍"
+# Progress & loading (Nerd Font)
+export UI_ICON_LOADING=""      # spinner (static)
+export UI_ICON_CLOCK=""
+export UI_ICON_ROCKET=""
+export UI_ICON_FIRE=""
+export UI_ICON_STAR=""
+export UI_ICON_HEART=""
+export UI_ICON_THUMBS_UP=""
 
 # Geometric shapes
 export UI_ICON_CIRCLE="●"
@@ -506,9 +513,9 @@ ui_input() {
     local response
 
     if [[ -n "$placeholder" ]]; then
-        echo -ne "${UI_PRIMARY}❯ ${prompt} ${UI_MUTED}(${placeholder})${UI_RESET}: "
+        echo -ne "${UI_PRIMARY}${UI_ICON_PROMPT} ${prompt} ${UI_MUTED}(${placeholder})${UI_RESET}: "
     else
-        echo -ne "${UI_PRIMARY}❯ ${prompt}${UI_RESET}: "
+        echo -ne "${UI_PRIMARY}${UI_ICON_PROMPT} ${prompt}${UI_RESET}: "
     fi
 
     read -r response
@@ -659,15 +666,17 @@ ui_center_text() {
     printf "%*s%s%*s\n" $padding "" "$text" $((width - padding - ${#text})) ""
 }
 
-# Repeat a character N times (zsh-native, no external commands)
+# Repeat a character N times (portable simple loop)
 # Usage: ui_repeat "─" 10
 ui_repeat() {
     local char="$1"
     local count="$2"
-    # Pad an empty string to length `count` with `char`
-    local pad
-    pad=${(l:${count}::${char}:)""}
-    printf "%s" "$pad"
+    local result=""
+    local i
+    for (( i=0; i<count; i++ )); do
+        result+="$char"
+    done
+    printf "%s" "$result"
 }
 
 # Terminal hyperlink helpers (OSC 8). Many modern terminals support these.
@@ -740,19 +749,19 @@ ui_next_step() {
 
 # Task execution functions (migrated from helper.zsh)
 ui_task_start() {
-    echo -e "${UI_CYAN}🚀 ${UI_RESET}$1..."
+    echo -e "${UI_CYAN}${UI_ICON_ROCKET} ${UI_RESET}$1..."
 }
 
 ui_task_done() {
-    echo -e "${UI_SUCCESS}${UI_ICON_CHECK} ${UI_RESET}$1 done!"
+    echo -e "${UI_SUCCESS}${UI_ICON_CHECKMARK} ${UI_RESET}$1 done!"
 }
 
 ui_final_success() {
-    echo -e "${UI_SUCCESS}👍 Process completed successfully!${UI_RESET}"
+    echo -e "${UI_SUCCESS}${UI_ICON_THUMBS_UP} Process completed successfully!${UI_RESET}"
 }
 
 ui_final_fail() {
-    echo -e "${UI_DANGER}🚫 Process failed!${UI_RESET}"
+    echo -e "${UI_DANGER}${UI_ICON_CROSS} Process failed!${UI_RESET}"
 }
 
 ################################################################################
