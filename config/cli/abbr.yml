@@ -8,9 +8,10 @@
 
 abbreviations:
   gcm: "git commit -m"
-  gpo: "git push origin"
-  gscr: "git switch -c"
+  ghrc: 'gh repo create "${PWD##*/}" --source=. --push'
+  glv: "git lazy-version"
   gmg: "git merge"
   gp: "git push"
-  ghrc: 'gh repo create "${PWD##*/}" --source=. --push'
+  gpo: "git push origin"
+  gscr: "git switch -c"
   ocr: "opencode run"
