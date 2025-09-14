@@ -82,6 +82,7 @@ alias pbp='pbpaste'
 alias rubbish='trash'
 alias litter='trash'
 
+
 # 🐙 GH aliases
 alias copilot='gh copilot'
 alias prw='gh pr view --web'
