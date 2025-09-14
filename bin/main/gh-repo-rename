@@ -1,0 +1,276 @@
+#! /usr/bin/env zsh
+
+set -euo pipefail
+
+# Fancy GitHub repo rename helper (gh extension style)
+# Provides: --rename-directory --open --print-url --json --dry-run --color --no-color
+
+# Load optional UI helpers
+if [[ -n "${MY:-}" && -f "$MY/core/utils/helper.zsh" ]]; then
+  source "$MY/core/utils/helper.zsh" 2>/dev/null || true
+fi
+if [[ -n "${MY:-}" && -f "$MY/core/utils/ui-kit.zsh" ]]; then
+  source "$MY/core/utils/ui-kit.zsh" 2>/dev/null || true
+fi
+
+SCRIPT_NAME=${0##*/}
+
+usage() {
+  cat <<'EOF'
+Usage: gh repo-rename [options] <new-repo-name>
+
+Rename the current GitHub repository (remote) using the GitHub CLI and update the local remote URL.
+
+Options:
+  -r, --remote <name>     Remote to use (default: origin)
+      --rename-directory  Also rename the local directory if its name matches the old repo name
+      --open              Open the new repository URL in a browser after success
+      --print-url         Print ONLY the new remote URL (suppresses other output except errors)
+      --json              Output machine-readable JSON summary (implies quiet)
+      --color             Force color output even if stdout isn't a TTY
+      --no-color          Disable color output completely
+  -n, --dry-run           Show what would happen without making changes
+  -f, --force             Skip confirmation prompt
+  -h, --help              Show this help
+
+Examples:
+  gh repo-rename new-name
+  gh repo-rename --rename-directory new-name
+  gh repo-rename -n new-name
+  gh repo-rename --json new-name | jq
+
+Notes:
+  1. Requires authenticated gh CLI in this repository.
+  2. Only the repository name changes; the owner stays the same.
+  3. Local branches/history unaffected; remote URL updated.
+  4. --print-url is ideal for scripting (no decoration). --json gives structured output.
+EOF
+}
+
+# Color handling
+_color_support=true
+force_color=false
+[[ -t 1 ]] || _color_support=false
+[[ -n "${NO_COLOR:-}" ]] && _color_support=false
+[[ "${TERM:-}" == "dumb" ]] && _color_support=false
+
+_c() {
+  # Usage: _c <color|style> <text>
+  local code="" reset=$'\e[0m'
+  if ! $_color_support && ! $force_color; then
+    printf "%s" "$2"
+    return
+  fi
+  case "$1" in
+    bold)    code=$'\e[1m' ;;
+    dim)     code=$'\e[2m' ;;
+    red)     code=$'\e[31m' ;;
+    green)   code=$'\e[32m' ;;
+    yellow)  code=$'\e[33m' ;;
+    blue)    code=$'\e[34m' ;;
+    magenta) code=$'\e[35m' ;;
+    cyan)    code=$'\e[36m' ;;
+    gray)    code=$'\e[90m' ;;
+    *)       code="" ;;
+  esac
+  printf "%s%s%s" "$code" "$2" "$reset"
+}
+
+use_ui=false
+if command -v ui_info_simple >/dev/null 2>&1; then
+  use_ui=true
+fi
+
+_out_info() { if $json_mode || $print_url_only; then return; fi; if $use_ui; then ui_info_simple "$*"; else printf "%s\n" "$*"; fi }
+_out_warn() { if $json_mode || $print_url_only; then return; fi; if $use_ui; then ui_warning_simple "$*"; else printf "%s %s\n" "$(_c yellow WARN:)" "$*" >&2; fi }
+_out_success() { if $json_mode || $print_url_only; then return; fi; if $use_ui; then ui_success_simple "$*"; else printf "%s %s\n" "$(_c green ✔)" "$*"; fi }
+_out_dim() {
+  if $json_mode || $print_url_only; then return; fi
+  if $_color_support || $force_color; then
+    printf $'\e[2m%s\e[0m\n' "$*"
+  else
+    printf "%s\n" "$*"
+  fi
+}
+
+err() {
+  if $json_mode; then
+    # Escape backslashes and double quotes for JSON string value
+    local esc=${1//\\/\\\\}
+    esc=${esc//"/\\"}
+    printf '{"ok":false,"error":"%s"}\n' "$esc" >&2
+  else
+    printf "Error: %s\n" "$1" >&2
+  fi
+  exit "${2:-1}"
+}
+warn() { _out_warn "$*"; }
+info() { _out_info "$*"; }
+run() { if $dry_run; then _out_info "[dry-run] $*"; else eval "$*"; fi }
+
+confirm() {
+  local prompt="$1"
+  if $force; then return 0; fi
+  printf "%s [y/N]: " "$prompt" >&2
+  local reply
+  read -r reply || true
+  [[ "$reply" == "y" || "$reply" == "Y" ]] || return 1
+  return 0
+}
+
+remote=origin
+dry_run=false
+rename_dir=false
+force=false
+open_after=false
+print_url_only=false
+json_mode=false
+no_color_flag=false
+
+args=()
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -r|--remote) remote=${2:-}; [[ -z "$remote" ]] && err "--remote requires a value" 64; shift 2 ;;
+    --rename-directory) rename_dir=true; shift ;;
+    --open) open_after=true; shift ;;
+    --print-url) print_url_only=true; shift ;;
+  --json) json_mode=true; shift ;;
+  --no-color) _color_support=false; force_color=false; no_color_flag=true; shift ;;
+  --color) _color_support=true; force_color=true; shift ;;
+    -n|--dry-run) dry_run=true; shift ;;
+    -f|--force) force=true; shift ;;
+    -h|--help) usage; exit 0 ;;
+    --) shift; break ;;
+    -*) err "Unknown option: $1" 64 ;;
+    *) args+="$1"; shift ;;
+  esac
+done
+
+if [[ ${#args[@]} -ne 1 ]]; then
+  usage >&2
+  exit 64
+fi
+
+new_name=${args[1]}
+[[ -z "$new_name" ]] && err "New repository name cannot be empty" 64
+
+git rev-parse --is-inside-work-tree &>/dev/null || err "Not inside a git repository" 2
+git remote get-url "$remote" &>/dev/null || err "Remote '$remote' not found" 3
+
+remote_url=$(git remote get-url "$remote" | head -n1)
+
+owner_full=""; is_ssh=false
+case "$remote_url" in
+  git@github.com:*)
+    is_ssh=true
+    owner_full=${remote_url#git@github.com:}
+    owner_full=${owner_full%.git}
+    ;;
+  https://github.com/*)
+    owner_full=${remote_url#https://github.com/}
+    owner_full=${owner_full%.git}
+    ;;
+  ssh://git@github.com/*)
+    is_ssh=true
+    owner_full=${remote_url#ssh://git@github.com/}
+    owner_full=${owner_full%.git}
+    ;;
+  *) err "Unsupported remote URL format: $remote_url" 4 ;;
+esac
+
+[[ "$owner_full" == */* ]] || err "Failed to parse owner/repo from remote URL" 5
+old_name=${owner_full##*/}
+owner=${owner_full%/*}
+
+[[ "$old_name" == "$new_name" ]] && err "New name is identical to current repo name ($old_name)" 6
+[[ "$new_name" =~ ^[A-Za-z0-9._-]+$ ]] || err "Invalid repo name '$new_name' (allowed: A-Za-z0-9._-)" 7
+
+if ! $print_url_only && ! $json_mode; then
+  printf "\n%s %s\n" "$(_c cyan '➜')" "$(_c bold 'GitHub Repository Rename')"
+  _out_info "Remote      : $remote"
+  _out_info "Owner       : $owner"
+  _out_info "Current     : $old_name"
+  _out_info "New name    : $new_name"
+  _out_info "Protocol    : $([[ $is_ssh == true ]] && echo SSH || echo HTTPS)"
+  _out_info "Dir rename  : $rename_dir"
+  _out_info "Mode        : $([[ $dry_run == true ]] && echo dry-run || echo live)"
+  _out_dim  "Remote URL  : $remote_url"
+  echo
+fi
+
+command -v gh >/dev/null 2>&1 || err "gh CLI is required" 20
+
+if ! $print_url_only && ! $json_mode; then
+  if ! confirm "Proceed with rename?"; then
+    err "Aborted by user" 10
+  fi
+fi
+
+if $dry_run; then
+  info "[dry-run] gh repo rename $new_name --yes"
+else
+  gh repo rename "$new_name" --yes || err "gh repo rename failed" 30
+fi
+
+new_remote_url=""
+if $is_ssh; then
+  new_remote_url="git@github.com:${owner}/${new_name}.git"
+else
+  new_remote_url="https://github.com/${owner}/${new_name}.git"
+fi
+
+info "Updating local remote URL -> $new_remote_url"
+run "git remote set-url $remote $new_remote_url"
+
+if $rename_dir; then
+  current_dir_name=${PWD##*/}
+  if [[ "$current_dir_name" == "$old_name" ]]; then
+    info "Renaming directory '$current_dir_name' -> '$new_name'"
+    if $dry_run; then
+      info "[dry-run] mv '../$current_dir_name' '../$new_name'"
+    else
+      parent_dir=${PWD%/*}
+      cd "$parent_dir"
+      mv "$current_dir_name" "$new_name"
+      cd "$new_name"
+    fi
+  else
+    warn "Directory name ($current_dir_name) != old repo name ($old_name); skipping directory rename"
+  fi
+fi
+
+if $print_url_only; then
+  printf "%s\n" "$new_remote_url"
+  exit 0
+fi
+
+if $json_mode; then
+  jq -cn --arg owner "$owner" \
+         --arg old "$old_name" \
+         --arg new "$new_name" \
+         --arg remote "$remote" \
+         --arg url "$new_remote_url" \
+         --arg dry "$dry_run" \
+         --arg dir "$rename_dir" '{ok:true, owner:$owner, old:$old, new:$new, remote:$remote, new_url:$url, dry_run:($dry=="true"), directory_renamed:($dir=="true")}' 2>/dev/null || printf '{"ok":true,"owner":"%s","old":"%s","new":"%s","remote":"%s","new_url":"%s"}\n' "$owner" "$old_name" "$new_name" "$remote" "$new_remote_url"
+  exit 0
+fi
+
+_out_success "Renamed repository to $owner/$new_name"
+if $dry_run; then _out_warn "(dry-run) No changes were actually made."; fi
+
+if $open_after && ! $dry_run; then
+  if command -v open >/dev/null 2>&1; then
+    info "Opening new repository in browser..."
+    open "https://github.com/${owner}/${new_name}" >/dev/null 2>&1 || true
+  else
+    warn "'open' command not available; cannot launch browser"
+  fi
+fi
+
+if ! $dry_run && ! $rename_dir; then
+  _out_dim "Tip: Use --rename-directory if you also want to rename the local folder."
+fi
+
+_out_dim "New remote URL: $new_remote_url"
+
+exit 0
