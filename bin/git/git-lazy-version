@@ -48,4 +48,5 @@ NEW_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "?
 
 git push --follow-tags
 
+echo ""
 echo "Bumped & pushed version v$NEW_VERSION" >&2
