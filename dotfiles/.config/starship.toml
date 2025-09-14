@@ -25,12 +25,12 @@ add_newline = true
 
 # Directory
 [directory]
-style = "31"
+style = "#ff0174"
 truncation_length = 4
 truncate_to_repo = false
 truncation_symbol = "…/"
 fish_style_pwd_dir_length = 1
-repo_root_style = "bold 197"
+repo_root_style = "bold #0092ba"
 home_symbol = ""
 read_only = " 󰌾"
 read_only_style = "160"
