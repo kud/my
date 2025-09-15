@@ -20,7 +20,7 @@ source $MY/core/utils/ui-kit.zsh
 ################################################################################
 
 setup_system_foundation() {
-    ui_section "🏗️ Setting up system foundation"
+    ui_section "${UI_ICON_TOOLS} Setting up system foundation"
     ui_subtitle "Cloud Storage Setup"
     $MY/core/apps/pcloud.zsh
 
@@ -40,7 +40,7 @@ setup_system_foundation() {
 }
 
 setup_package_managers() {
-    ui_section "📦 Installing packages"
+    ui_section "${UI_ICON_INSTALL} Installing packages"
     ui_subtitle "Homebrew Formulae & Casks"
     if ! $MY/core/packages/brew.zsh; then
         exit 1
@@ -68,7 +68,7 @@ setup_package_managers() {
 }
 
 setup_development_tools() {
-    ui_section "🛠️ Configuring development tools"
+    ui_section "${UI_ICON_TOOLS} Configuring development tools"
     ui_subtitle "Shell Abbreviations"
     $MY/core/cli/abbr.zsh
 
@@ -79,7 +79,7 @@ setup_development_tools() {
 }
 
 setup_applications() {
-    ui_section "💻 Configuring applications"
+    ui_section "${UI_ICON_COMPUTER} Configuring applications"
     ui_subtitle "Sublime Merge Preferences"
     $MY/core/apps/sublime-merge.zsh
 
@@ -93,7 +93,7 @@ setup_applications() {
 }
 
 setup_system_components() {
-    ui_section "🔌 Installing system components"
+    ui_section "${UI_ICON_PLUG} Installing system components"
     ui_subtitle "Git Submodule Updates"
     $MY/core/system/submodules.zsh
 

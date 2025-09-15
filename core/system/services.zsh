@@ -10,6 +10,9 @@
 
 set -euo pipefail
 
+# Load UI kit for icons and formatting
+source "$MY/core/utils/ui-kit.zsh"
+
 SERVICES_DIR="$MY/services"
 LAUNCHD_DAEMON_DIR="/Library/LaunchDaemons"
 LAUNCHD_AGENT_DIR="/Library/LaunchAgents"
@@ -121,17 +124,17 @@ install_service() {
     local target_file="$LAUNCHD_DAEMON_DIR/${service}.plist"
 
     if [[ ! -f "$plist_file" ]]; then
-        echo "❌ Service '$service' not found in $SERVICES_DIR"
+        echo "${UI_ICON_ERROR} Service '$service' not found in $SERVICES_DIR"
         return 1
     fi
 
     # Check if already installed and running
     if [[ -f "$target_file" ]] && sudo launchctl list | grep -q "$service" 2>/dev/null; then
-        echo "✅ $service already running"
+        echo "${UI_ICON_SUCCESS} $service already running"
         return 0
     fi
 
-    echo "📦 Installing $service..."
+    echo "${UI_ICON_INSTALL} Installing $service..."
 
     # Copy plist to LaunchDaemons
     sudo cp "$plist_file" "$target_file"
@@ -143,7 +146,7 @@ install_service() {
     # Load the service
     sudo launchctl load -w "$target_file"
 
-    echo "✅ $service installed and loaded"
+    echo "${UI_ICON_SUCCESS} $service installed and loaded"
 }
 
 uninstall_service() {
@@ -151,11 +154,11 @@ uninstall_service() {
     local target_file="$LAUNCHD_DAEMON_DIR/${service}.plist"
 
     if [[ ! -f "$target_file" ]]; then
-        echo "⚠️  Service '$service' not installed"
+        echo "${UI_ICON_WARNING} Service '$service' not installed"
         return 1
     fi
 
-    echo "🗑️  Uninstalling $service..."
+    echo "${UI_ICON_DELETE} Uninstalling $service..."
 
     # Unload the service
     sudo launchctl unload -w "$target_file" 2>/dev/null || true
@@ -163,7 +166,7 @@ uninstall_service() {
     # Remove plist
     sudo rm -f "$target_file"
 
-    echo "✅ $service uninstalled"
+    echo "${UI_ICON_SUCCESS} $service uninstalled"
 }
 
 status_service() {
@@ -171,15 +174,15 @@ status_service() {
     local target_file="$LAUNCHD_DAEMON_DIR/${service}.plist"
 
     if [[ ! -f "$target_file" ]]; then
-        echo "❌ $service: Not installed"
+        echo "${UI_ICON_ERROR} $service: Not installed"
         return 1
     fi
 
     # Check if loaded
     if sudo launchctl list | grep -q "$service"; then
-        echo "✅ $service: Installed and loaded"
+        echo "${UI_ICON_SUCCESS} $service: Installed and loaded"
     else
-        echo "⚠️  $service: Installed but not loaded"
+        echo "${UI_ICON_WARNING} $service: Installed but not loaded"
     fi
 }
 
@@ -188,21 +191,21 @@ reload_service() {
     local target_file="$LAUNCHD_DAEMON_DIR/${service}.plist"
 
     if [[ ! -f "$target_file" ]]; then
-        echo "❌ Service '$service' not installed"
+        echo "${UI_ICON_ERROR} Service '$service' not installed"
         return 1
     fi
 
-    echo "🔄 Reloading $service..."
+    echo "${UI_ICON_REFRESH} Reloading $service..."
 
     # Unload and reload
     sudo launchctl unload -w "$target_file" 2>/dev/null || true
     sudo launchctl load -w "$target_file"
 
-    echo "✅ $service reloaded"
+    echo "${UI_ICON_SUCCESS} $service reloaded"
 }
 
 install_all() {
-    echo "📦 Installing all services..."
+    echo "${UI_ICON_INSTALL} Installing all services..."
     for plist in "$SERVICES_DIR"/*.plist; do
         [ -f "$plist" ] || continue
         local service=$(basename "$plist" .plist)
@@ -211,7 +214,7 @@ install_all() {
 }
 
 uninstall_all() {
-    echo "🗑️  Uninstalling all services..."
+    echo "${UI_ICON_DELETE} Uninstalling all services..."
     for plist in "$LAUNCHD_DAEMON_DIR"/*.plist; do
         [ -f "$plist" ] || continue
         local service=$(basename "$plist" .plist)
@@ -223,7 +226,7 @@ uninstall_all() {
 }
 
 status_all() {
-    echo "📊 Service status:"
+    echo "${UI_ICON_CHART} Service status:"
     for plist in "$SERVICES_DIR"/*.plist; do
         [ -f "$plist" ] || continue
         local service=$(basename "$plist" .plist)
@@ -232,7 +235,7 @@ status_all() {
 }
 
 reload_all() {
-    echo "🔄 Reloading all services..."
+    echo "${UI_ICON_REFRESH} Reloading all services..."
     for plist in "$SERVICES_DIR"/*.plist; do
         [ -f "$plist" ] || continue
         local service=$(basename "$plist" .plist)

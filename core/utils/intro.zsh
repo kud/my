@@ -70,7 +70,7 @@ show_animated_intro() {
     done
     
     # Clear the line completely and show final ready message
-    printf "\r\033[K\033[10C\033[92m⚡ Let's go!\033[0m\n\n"
+    printf "\r\033[K\033[10C\033[92m${UI_ICON_BOLT} Let's go!\033[0m\n\n"
     
     # Restore cursor
     printf "\033[?25h"
