@@ -165,6 +165,68 @@ _ai_debug() {
   echo "$out" | $renderer
 }
 
+# cmd (internal): translate natural language into raw zsh commands (no commentary)
+_ai_cmd() {
+  local model_override="" strict=1 multiline=0 shell="zsh"
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --model) shift; model_override=$1; shift ;;
+      --bash) shell="bash"; shift ;;
+      --zsh) shell="zsh"; shift ;;
+      --no-strict) strict=0; shift ;;
+      --multi|--multiline) multiline=1; shift ;;
+      --) shift; break ;;
+      --help|-h)
+        cat >&2 <<EOF
+Usage: ai cmd [options] <natural language request>
+
+Translate a natural language description into one or more ${shell} commands.
+Output is RAW commands only (no code fences, no explanation).
+
+Options:
+  --model <name>     Use a different model just for this invocation
+  --bash|--zsh       Force target shell (default: zsh)
+  --multiline        Allow multiple commands separated by newlines
+  --no-strict        Allow model to include minimal comments (default strictly commands)
+  -h, --help         Show this help
+
+Examples:
+  ai cmd list node processes
+  ai cmd --multiline clone my repo kud/my and cd into it
+  ai cmd --bash compile a c file main.c with warnings enabled
+EOF
+        return 0
+        ;;
+      --*) echo "Unknown flag: $1" >&2; return 2 ;;
+      *) break ;;
+    esac
+  done
+  if [[ $# -eq 0 ]]; then
+    echo "Usage: ai cmd <natural language request>" >&2; return 1
+  fi
+  [[ -n $model_override ]] && AI_MODEL=$model_override
+  local request="$*"
+  local constraints="" extra=""
+  if (( strict )); then
+    constraints+="Rules: 1) Output ONLY valid ${shell} command line(s). 2) NO explanations, NO comments, NO blank prelude. 3) Do not wrap in backticks or fences. "
+  else
+    constraints+="Rule: Primary output must be executable ${shell} command(s). Keep any comments inline if essential. "
+  fi
+  if (( ! multiline )); then
+    constraints+="Return a SINGLE line command unless truly impossible. Concatenate with '&&' if multiple steps needed. "
+  fi
+  local prompt="You are going to translate a natural language description into ${shell} shell command(s) for a macOS (Darwin) environment. ${constraints}Description: ${request}\nCommands:"
+  local out
+  if ! out=$(_ai_call "$prompt"); then
+    return 1
+  fi
+  # Post-filter: remove surrounding code fences/backticks if model ignored
+  out=$(printf '%s' "$out" | sed -E 's/^```[a-zA-Z0-9]*//; s/^```$//; s/^`(.*)`$/\1/; s/^```//; s/```$//')
+  # Trim leading/trailing blank lines
+  out=$(printf '%s' "$out" | awk 'NF{p=1} p')
+  printf '%s\n' "$out"
+}
+
 # help (internal): list AI helpers
 _ai_help() {
   local no_color=0
@@ -191,6 +253,7 @@ ${B}Core Commands:${R}
   ${CY}tldr${R}       <topic>        Ultra-short what / why / examples / pitfalls
   ${CY}summarize${R}  [text]|(pipe)  Summarize provided or piped content
   ${CY}debug${R}      <command>      Suggest structured debugging steps
+  ${CY}cmd${R}        <text>         Natural language -> raw shell command(s)
 
 ${B}Model Management:${R}
   ${CY}model${R}                     Show current model
@@ -207,6 +270,7 @@ ${B}Examples:${R}
   ${G}ai summarize${R} < README.md
   ${G}ai model set github-copilot/gpt-4.1${R}
   ${G}ai debug${R} 'curl https://localhost:8443/health'
+  ${G}ai cmd${R} 'list largest 5 log files recursively'
 
 ${DIM}Tip:${R} Set a persistent model in your shell profile: ${BL}export AI_MODEL=github-copilot/gpt-5${R}
 EOF
@@ -225,6 +289,7 @@ ai() {
     tldr) _ai_tldr "$@" ;;
   summarize|sum) _ai_summarize "$@" ;;
     debug) _ai_debug "$@" ;;
+  cmd|command|translate) _ai_cmd "$@" ;;
     model)
       if [[ $# -eq 0 ]]; then
         echo "Current AI_MODEL=$AI_MODEL"

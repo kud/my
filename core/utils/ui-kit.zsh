@@ -126,6 +126,11 @@ export UI_ICON_PALETTE=""  # fallback: use star for broader support
 export UI_ICON_GLOBE=""
 export UI_ICON_TABLE=""
 export UI_ICON_FORWARD=""
+export UI_ICON_TOOLS=""
+export UI_ICON_COMPUTER=""
+export UI_ICON_PLUG=""
+export UI_ICON_BUG=""
+export UI_ICON_CHART=""
 
 # Navigation (Nerd Font)
 export UI_ICON_ARROW_RIGHT=""
@@ -212,7 +217,7 @@ ui_accent() { ui_color "$UI_ACCENT" "$1"; }
 # Debug logging functions
 ui_debug() {
   if [[ "${MY_DEBUG:-false}" == "true" ]]; then
-    ui_color "$UI_MUTED" "🐛 [DEBUG] $1"
+    ui_color "$UI_MUTED" "${UI_ICON_BUG} [DEBUG] $1"
   fi
 }
 
@@ -233,13 +238,13 @@ ui_debug_timing() {
 
     # Use awk for floating-point arithmetic (more portable than bc)
     local duration=$(awk "BEGIN {printf \"%.3f\", $end_time - $start_time}")
-    ui_color "$UI_MUTED" "⏱️  [TIMING] $operation: ${duration}s"
+    ui_color "$UI_MUTED" "${UI_ICON_CLOCK} [TIMING] $operation: ${duration}s"
   fi
 }
 
 ui_debug_command() {
   if [[ "${MY_DEBUG:-false}" == "true" ]]; then
-    ui_color "$UI_MUTED" "💻 [CMD] $*"
+    ui_color "$UI_MUTED" "${UI_ICON_COMPUTER} [CMD] $*"
   fi
 }
 

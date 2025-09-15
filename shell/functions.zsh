@@ -6,6 +6,9 @@
 #                                                                              #
 ################################################################################
 
+# Load UI kit for icon variables
+source "$MY/core/utils/ui-kit.zsh"
+
 # 🏷️ Tab title to current dir
 precmd() {
   local title=""
@@ -44,7 +47,7 @@ function wtf() {
   fi
 
   # Show basic command info
-  echo "🔍 Command: $cmd"
+  echo "${UI_ICON_SEARCH} Command: $cmd"
   echo "────────────────────"
   whence -v "$cmd" 2>/dev/null || echo "Command not found"
   echo
@@ -52,7 +55,7 @@ function wtf() {
   # Package-specific intelligence
   case "$cmd" in
     npm)
-      echo "📦 NPM Information:"
+      echo "${UI_ICON_INSTALL} NPM Information:"
       echo "Version: $(npm --version 2>/dev/null || echo 'not installed')"
       echo "Location: $(which npm 2>/dev/null || echo 'not found')"
       echo "Registry: $(npm config get registry 2>/dev/null || echo 'unknown')"
@@ -77,13 +80,13 @@ function wtf() {
       fi
       ;;
     brew)
-      echo "🍺 Homebrew Information:"
+      echo "${UI_ICON_INSTALL} Homebrew Information:"
       echo "Version: $(brew --version 2>/dev/null | head -1 || echo 'not installed')"
       echo "Location: $(which brew 2>/dev/null || echo 'not found')"
       echo "Prefix: $(brew --prefix 2>/dev/null || echo 'unknown')"
       ;;
     git)
-      echo "📚 Git Information:"
+      echo "${UI_ICON_TABLE} Git Information:"
       echo "Version: $(git --version 2>/dev/null || echo 'not installed')"
       echo "Location: $(which git 2>/dev/null || echo 'not found')"
       echo "Config user: $(git config --global user.name 2>/dev/null || echo 'not set')"
@@ -100,7 +103,7 @@ function wtf() {
     *)
       # For other commands, show additional info if available
       if command -v "$cmd" >/dev/null 2>&1; then
-        echo "ℹ️  Additional Information:"
+        echo "${UI_ICON_INFO} Additional Information:"
 
         # Try to get version
         for flag in --version -v -V version; do
