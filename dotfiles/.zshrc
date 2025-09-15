@@ -22,7 +22,6 @@ for module in \
   homebrew.zsh \
   path/homebrew.zsh \
   functions.zsh \
-  ai.zsh \
   completions.zsh \
   bindings.zsh \
   aliases.zsh \

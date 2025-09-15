@@ -1,28 +1,29 @@
+#!/usr/bin/env zsh
 ################################################################################
 #                                                                              #
-#   🤖 AI SHELL UTILITIES                                                      #
-#   ---------------------                                                      #
-#   Centralised AI helpers using the `opencode` CLI. Provides higher-level     #
+#   🤖 AI CLI UTILITIES                                                        #
+#   ------------------                                                         #
+#   Centralized AI helpers using the `opencode` CLI. Provides higher-level    #
 #   convenience functions for common developer tasks.                          #
 #                                                                              #
 ################################################################################
 
 # Default model (overridable via $AI_MODEL or falls back to opencode config)
-: ${AI_MODEL:="github-copilot/gpt-5"}
+: ${AI_MODEL:="github-copilot/gpt-4.1"}
 
 # Internal: choose first available markdown renderer, else fallback
-_ai_markdown_renderer() {
+ai_markdown_renderer() {
   if command -v glow >/dev/null 2>&1; then
     echo glow
   elif command -v mdcat >/dev/null 2>&1; then
     echo mdcat
   else
-    echo _ai_markdown_fallback
+    echo ai_markdown_fallback
   fi
 }
 
 # Internal: simple markdown-ish pretty printer (headings, lists, code blocks)
-_ai_markdown_fallback() {
+ai_markdown_fallback() {
   local line in_code=0
   while IFS= read -r line; do
     if [[ $line == '```'* ]]; then
@@ -60,7 +61,7 @@ _ai_markdown_fallback() {
 }
 
 # Internal helper to call opencode with model fallback and capture clean output
-_ai_call() {
+ai_call() {
   if ! command -v opencode >/dev/null 2>&1; then
     echo "Error: opencode CLI not found in PATH." >&2
     return 127
@@ -80,8 +81,8 @@ _ai_call() {
   printf '%s' "$raw"
 }
 
-# explain (internal): explain a shell command with risk, alternatives, example
-_ai_explain() {
+# explain: explain a shell command with risk, alternatives, example
+ai_explain() {
   local plain=0
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -93,43 +94,43 @@ _ai_explain() {
     esac
   done
   if [[ $# -eq 0 ]]; then
-    echo "Usage: explain [--plain] [--model <model>] <command...>" >&2
+    echo "Usage: ai explain [--plain] [--model <model>] <command...>" >&2
     return 1
   fi
   local input_command="$*"
   local prompt="Explain this shell command step by step, then provide: 1) concise plain English summary 2) potential risks 3) safer or common alternatives 4) a practical variant. Command:\n\n$input_command"
   local out
-  if ! out=$(_ai_call "$prompt"); then
+  if ! out=$(ai_call "$prompt"); then
     return 1
   fi
   if (( plain )); then
     echo "$out"; return 0
   fi
-  local renderer=$(_ai_markdown_renderer)
+  local renderer=$(ai_markdown_renderer)
   echo "$out" | $renderer
 }
 
-# tldr (internal): quick what/why/how summary of a command or topic
-_ai_tldr() {
+# tldr: quick what/why/how summary of a command or topic
+ai_tldr() {
   if [[ $# -eq 0 ]]; then
-    echo "Usage: aitldr <topic>" >&2
+    echo "Usage: ai tldr <topic>" >&2
     return 1
   fi
   local prompt="Provide a terse TL;DR (max ~12 lines) for: $*\nFormat with: Heading, What, Why, Typical usage examples (2), Pitfalls."
   local out
-  if ! out=$(_ai_call "$prompt"); then
+  if ! out=$(ai_call "$prompt"); then
     return 1
   fi
-  local renderer=$(_ai_markdown_renderer)
+  local renderer=$(ai_markdown_renderer)
   echo "$out" | $renderer
 }
 
-# summarize (internal): summarise stdin (pipe) or args
-_ai_summarize() {
+# summarize: summarise stdin (pipe) or args
+ai_summarize() {
   local input
   if [[ -t 0 ]]; then
     if [[ $# -eq 0 ]]; then
-      echo "Usage: aisummarize <text...> or pipe data" >&2
+      echo "Usage: ai summarize <text...> or pipe data" >&2
       return 1
     fi
     input="$*"
@@ -138,18 +139,17 @@ _ai_summarize() {
   fi
   local prompt="Summarize the following content into: 1) High-level summary 2) Key points 3) Risks / caveats 4) Action items (if any). Content:\n\n$input"
   local out
-  if ! out=$(_ai_call "$prompt"); then
+  if ! out=$(ai_call "$prompt"); then
     return 1
   fi
-  local renderer=$(_ai_markdown_renderer)
+  local renderer=$(ai_markdown_renderer)
   echo "$out" | $renderer
 }
 
-
-# debug (internal): suggest next debugging steps for a failing command's stderr
-_ai_debug() {
+# debug: suggest next debugging steps for a failing command's stderr
+ai_debug() {
   if [[ $# -eq 0 ]]; then
-    echo "Usage: aidebug <command...>" >&2; return 1
+    echo "Usage: ai debug <command...>" >&2; return 1
   fi
   local cmd="$*"
   local output
@@ -158,15 +158,15 @@ _ai_debug() {
   fi
   local prompt="Given this failing command: $cmd\nStderr / diagnostic output:\n\n$output\n\nSuggest structured next debugging steps: 1) Likely root causes 2) Commands to run to verify 3) Potential quick fixes (explicit)."
   local out
-  if ! out=$(_ai_call "$prompt"); then
+  if ! out=$(ai_call "$prompt"); then
     return 1
   fi
-  local renderer=$(_ai_markdown_renderer)
+  local renderer=$(ai_markdown_renderer)
   echo "$out" | $renderer
 }
 
-# cmd (internal): translate natural language into raw zsh commands (no commentary)
-_ai_cmd() {
+# cmd: translate natural language into raw zsh commands (no commentary)
+ai_cmd() {
   local model_override="" strict=1 multiline=0 shell="zsh"
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -217,7 +217,7 @@ EOF
   fi
   local prompt="You are going to translate a natural language description into ${shell} shell command(s) for a macOS (Darwin) environment. ${constraints}Description: ${request}\nCommands:"
   local out
-  if ! out=$(_ai_call "$prompt"); then
+  if ! out=$(ai_call "$prompt"); then
     return 1
   fi
   # Post-filter: remove surrounding code fences/backticks if model ignored
@@ -227,8 +227,8 @@ EOF
   printf '%s\n' "$out"
 }
 
-# help (internal): list AI helpers
-_ai_help() {
+# help: list AI helpers
+ai_help() {
   local no_color=0
   if [[ -n $NO_COLOR || ! -t 1 ]]; then
     no_color=1
@@ -239,8 +239,8 @@ _ai_help() {
     B=$'\e[1m'; R=$'\e[0m'; DIM=$'\e[2m'; CY=$'\e[36m'; MAG=$'\e[35m'; Y=$'\e[33m'; G=$'\e[32m'; BL=$'\e[34m'; GRY=$'\e[90m'
   fi
   local model_disp=${AI_MODEL:-"(unset)"}
-  local renderer=$(_ai_markdown_renderer)
-  [[ $renderer == _ai_markdown_fallback ]] && renderer="internal"
+  local renderer=$(ai_markdown_renderer)
+  [[ $renderer == ai_markdown_fallback ]] && renderer="internal"
   cat <<EOF
 ${B}🤖 AI Toolkit${R}  ${DIM}(model: ${model_disp}, render: ${renderer})${R}
 ${GRY}────────────────────────────────────────────────────────────${R}
@@ -276,20 +276,20 @@ ${DIM}Tip:${R} Set a persistent model in your shell profile: ${BL}export AI_MODE
 EOF
 }
 
-# Dispatcher: unified entrypoint `ai <subcommand>`
-ai() {
+# Main dispatcher: unified entrypoint
+main() {
   if [[ $# -eq 0 ]]; then
-    _ai_help
+    ai_help
     return 0
   fi
   local sub=$1; shift || true
   case "$sub" in
-    help|-h|--help) _ai_help ;;
-    explain) _ai_explain "$@" ;;
-    tldr) _ai_tldr "$@" ;;
-  summarize|sum) _ai_summarize "$@" ;;
-    debug) _ai_debug "$@" ;;
-  cmd|command|translate) _ai_cmd "$@" ;;
+    help|-h|--help) ai_help ;;
+    explain) ai_explain "$@" ;;
+    tldr) ai_tldr "$@" ;;
+    summarize|sum) ai_summarize "$@" ;;
+    debug) ai_debug "$@" ;;
+    cmd|command|translate) ai_cmd "$@" ;;
     model)
       if [[ $# -eq 0 ]]; then
         echo "Current AI_MODEL=$AI_MODEL"
@@ -309,9 +309,11 @@ ai() {
       ;;
     *)
       echo "Unknown ai subcommand: $sub" >&2
-      _ai_help >&2
+      ai_help >&2
       return 1
       ;;
   esac
 }
 
+# Execute main function with all arguments
+main "$@"
