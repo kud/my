@@ -33,6 +33,31 @@ create_single_symlink() {
   local expanded_source=$(expand_path_variables "$source")
   local expanded_target=$(expand_path_variables "$target")
 
+  # If target exists and is a directory (not a symlink), move it aside to avoid nesting
+  if [[ -e "$expanded_target" && ! -L "$expanded_target" ]]; then
+    # Detect already-correct case where directory's parent is same as we would link? Not reliable; always back up.
+    local ts=$(date +%Y%m%d%H%M%S)
+    local backup_path="${expanded_target}.backup.${ts}"
+    if mv "$expanded_target" "$backup_path" 2>/dev/null; then
+      ui_warning_simple "$name: existing path moved to backup"
+      ui_muted "  Backup: $backup_path"
+    else
+      ui_error_simple "${name}: failed to move existing path (permission?)"
+      ui_muted "  Target: $expanded_target"
+      return 1
+    fi
+  fi
+
+  # If target is an existing symlink pointing to desired source, skip
+  if [[ -L "$expanded_target" ]]; then
+    local current_link_target=$(readlink "$expanded_target")
+    if [[ "$current_link_target" == "$expanded_source" ]]; then
+      ui_success_simple "$name: already linked"
+      ui_muted "  $expanded_target → $expanded_source"
+      return 0
+    fi
+  fi
+
   if ln -sfn "$expanded_source" "$expanded_target" 2>/dev/null; then
     ui_success_simple "$name: $description"
     ui_muted "  $expanded_source → $expanded_target"
