@@ -13,7 +13,7 @@ export YSU_MESSAGE_POSITION="after"
 # The message uses tput for bold formatting and a leading newline for clarity.
 # Icon can be customized by setting YSU_ICON before sourcing; defaults to an info glyph
 : "${YSU_ICON:=ⓘ}"
-export YSU_MESSAGE_FORMAT="$(echo; echo "${YSU_ICON}  Instead of $(tput bold)%command$(tput sgr0), you can use $(tput bold)%alias$(tput sgr0)")"
+export YSU_MESSAGE_FORMAT="$(echo; echo "$(tput setaf 3)${YSU_ICON}$(tput sgr0)  Instead of $(tput bold)%command$(tput sgr0), you can use $(tput bold)%alias$(tput sgr0)")"
 
 # Ignore certain commands that might not need aliases
 export YSU_IGNORED_ALIASES=("g" "l" "ll" "la")
