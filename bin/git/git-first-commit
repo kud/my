@@ -1,0 +1,54 @@
+#!/usr/bin/env zsh
+
+# Ultra-simple first commit helper: fixed conventional + gitmoji title.
+# Usage:
+#   git first-commit
+# (Any arguments are ignored; title is always the same.)
+
+set -euo pipefail
+
+# Always use UI kit (environment assumed to provide MY + file)
+source "$MY/core/utils/ui-kit.zsh"
+
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  ui_error_msg "Not a git repository"
+  exit 1
+fi
+
+HEADER="🎉 init: initial commit"
+
+# Build a fun multi-line commit message in a temp file
+tmp_file=$(mktemp /tmp/first-commit-msg.XXXXXX)
+project_name=$(basename "$(pwd)")
+now=$(date '+%Y-%m-%d %H:%M:%S')
+author=${GIT_AUTHOR_NAME:-$USER}
+
+cat > "$tmp_file" <<EOF
+$HEADER
+
+Bootstrap for ${project_name}
+
+┌───────────────────────────────────┐
+│ date   : ${now}
+│ author : ${author}
+└───────────────────────────────────┘
+
+Made with ♥ by ${author}
+EOF
+
+ui_section "First Commit"
+ui_info_simple "Staging all files..."
+
+git add -A
+
+if git diff --cached --quiet; then
+  ui_warning_simple "Nothing to commit"
+  rm -f "$tmp_file"
+  exit 0
+fi
+
+git commit -F "$tmp_file"
+rm -f "$tmp_file"
+
+ui_success_simple "Created first commit: $HEADER"
+
