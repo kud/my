@@ -278,7 +278,71 @@ EOF
   fi
 }
 
-# help: list AI helpers
+# regex: generate or explain a regex from description or pattern
+ai_regex() {
+  local mode="auto" flags="" plain=0
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --explain) mode="explain"; shift ;;
+      --generate) mode="generate"; shift ;;
+      --flags) shift; flags="$1"; shift ;;
+      --plain|-p) plain=1; shift ;;
+      --model) shift; AI_MODEL=$1; shift ;;
+      --help|-h)
+        cat >&2 <<EOF
+Usage: ai regex [--generate|--explain] [--flags <flags>] [--plain] <description or /pattern/>
+
+Description Modes:
+  (default) Auto: If input looks like /pattern/flags or ^...$ with metachars, explain it.
+              Otherwise, generate a concise, readable regex for the natural language description.
+
+Options:
+  --generate        Force generation from description
+  --explain         Force explanation of supplied pattern
+  --flags <flags>   Suggest or apply flags (e.g. i, m, g) when generating
+  --plain           Raw output (no markdown formatting)
+  --model <name>    Override AI model for this call
+
+Behaviors:
+  Generation returns: 1) Regex (with delimiters) 2) Brief explanation 3) Sample matches 4) Sample non-matches
+  Explanation returns: 1) Classification (what it matches) 2) Component breakdown 3) Potential pitfalls 4) Test ideas
+EOF
+        return 0 ;;
+      --*) echo "Unknown flag: $1" >&2; return 2 ;;
+      *) break ;;
+    esac
+  done
+  if [[ $# -eq 0 ]]; then
+    echo "Usage: ai regex <description or /pattern/>" >&2; return 1
+  fi
+  local input="$*"
+  # Heuristic detection for pattern vs description when in auto mode
+  if [[ $mode == auto ]]; then
+    if [[ $input =~ ^/.+/[a-zA-Z]*$ ]] || [[ $input == *'['*']'* ]] || [[ $input == *'('*')'* ]] || [[ $input == *'\\d'* ]] || [[ $input == ^^* || $input == *'$' ]]; then
+      mode="explain"
+    else
+      mode="generate"
+    fi
+  fi
+  local prompt out
+  if [[ $mode == explain ]]; then
+    prompt="Explain this regular expression in a structured way. Provide: 1) Plain English summary (what it matches) 2) Component breakdown line-by-line or segment-by-segment 3) Edge cases / pitfalls 4) Suggested test strings (match / no match). Regex:\n\n$input"
+  else
+    local flag_text=""
+    [[ -n $flags ]] && flag_text=" Desired flags: $flags."
+    prompt="From this natural language description, produce a concise regular expression. Requirements: 1) Provide final regex wrapped in forward slashes with flags if appropriate 2) Avoid over-capture, prefer explicit character classes 3) Make it readable (use grouping only when needed) 4) Include 3 sample matches and 3 non-matches 5) Brief explanation (one line) then bullet breakdown. Description:$flag_text\n\n$input"
+  fi
+  if ! out=$(ai_call "$prompt"); then
+    return 1
+  fi
+  if (( plain )); then
+    echo "$out"; return 0
+  fi
+  local renderer=$(ai_markdown_renderer)
+  echo "$out" | $renderer
+}
+
+ # help: list AI helpers
 ai_help() {
   local no_color=0
   if [[ -n $NO_COLOR || ! -t 1 ]]; then
@@ -305,6 +369,7 @@ ${B}Core Commands:${R}
   ${CY}summarize${R}  [text]|(pipe)  Summarize provided or piped content
   ${CY}debug${R}      <command>      Suggest structured debugging steps
   ${CY}cmd${R}        <text>         Natural language -> raw shell command(s)
+  ${CY}regex${R}      <desc|/pat/>   Generate or explain a regular expression
 
 ${B}Model Management:${R}
   ${CY}model${R}                     Show current model
@@ -341,6 +406,7 @@ main() {
     summarize|sum) ai_summarize "$@" ;;
     debug) ai_debug "$@" ;;
     cmd|command|translate) ai_cmd "$@" ;;
+    regex) ai_regex "$@" ;;
     model)
       if [[ $# -eq 0 ]]; then
         echo "Current AI_MODEL=$AI_MODEL"
