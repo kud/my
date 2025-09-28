@@ -64,7 +64,7 @@ strip_ansi() {
 }
 
 # Lines (without the previous Next hint per user request)
-SUMMARY="Version bump: $OLD_VERSION -> $NEW_VERSION"
+SUMMARY="Version bump: v$OLD_VERSION -> v$NEW_VERSION"
 TYPE_INFO="Type: $VERSION_TYPE"
 TAG_INFO="Tag pushed: v${NEW_VERSION}"
 
@@ -86,23 +86,12 @@ print_line() {
 }
 
 echo
-# Colorized border + refined inner colors
-if [[ -n ${Y:-} ]]; then
-  BORDER_COLOR=$Y
-else
-  BORDER_COLOR=$B
-fi
-printf "${BORDER_COLOR}┌%s┐${R}\n" "$EDGE"
-# Colored summary: label in yellow bold, versions in green, arrow dim
-LABEL_COL="${Y}${B}Version bump:${R}"
+# Plain (no border) summary lines
+LABEL_COL="${Y}Version bump:${R}"
 OLD_COL="${G}v${OLD_VERSION}${R}"
 NEW_COL="${G}v${NEW_VERSION}${R}"
 ARROW_COL="->"
-SUMMARY_COLORED="${LABEL_COL} ${OLD_COL} ${ARROW_COL} ${NEW_COL}"
-print_line "$SUMMARY_COLORED"
-# Type line: label consistent spacing
-print_line "${Y}Type:${R} ${C}${VERSION_TYPE}${R}"
-# Tag line
-print_line "${Y}Tag pushed:${R} v${NEW_VERSION}"
-printf "${BORDER_COLOR}└%s┘${R}\n" "$EDGE"
+echo "${LABEL_COL} ${OLD_COL} ${ARROW_COL} ${NEW_COL}"
+echo "${Y}Type:${R} ${C}${VERSION_TYPE}${R}"
+echo "${Y}Tag pushed:${R} v${NEW_VERSION}"
 echo
