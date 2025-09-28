@@ -220,11 +220,62 @@ EOF
   if ! out=$(ai_call "$prompt"); then
     return 1
   fi
-  # Post-filter: remove surrounding code fences/backticks if model ignored
+  # Sanitize fences/backticks
   out=$(printf '%s' "$out" | sed -E 's/^```[a-zA-Z0-9]*//; s/^```$//; s/^`(.*)`$/\1/; s/^```//; s/```$//')
-  # Trim leading/trailing blank lines
+  # Normalize whitespace, trim empties
   out=$(printf '%s' "$out" | awk 'NF{p=1} p')
-  printf '%s\n' "$out"
+  # De-duplicate identical lines while preserving order
+  local dedup
+  dedup=$(printf '%s\n' "$out" | awk '!seen[$0]++')
+  out=$dedup
+  # If multiline not requested but we still have multiple lines, collapse with &&
+  if (( ! multiline )); then
+    local line_count
+    line_count=$(printf '%s\n' "$out" | wc -l | tr -d ' ')
+    if (( line_count > 1 )); then
+      out=$(printf '%s' "$out" | paste -sd ' && ' -)
+    fi
+  fi
+  # Interactive fancy prompt (skip if not TTY or AI_CMD_NO_PROMPT set)
+  if [[ -t 1 && -t 0 && -z ${AI_CMD_NO_PROMPT:-} ]]; then
+    local B=$'\e[1m' R=$'\e[0m' CY=$'\e[36m' G=$'\e[32m' Y=$'\e[33m' M=$'\e[35m' GRY=$'\e[90m'
+    echo
+    echo "${B}Proposed Command:${R}"
+    while IFS= read -r line; do
+      [[ -z $line ]] && continue
+      printf "  ${CY}%s${R}\n" "$line"
+    done <<< "$out"
+    echo
+    local choice
+    while true; do
+      printf "${M}Action?${R} [${G}r${R}un/${Y}e${R}dit/${GRY}c${R}ancel]: "
+      read -r choice
+      case "$choice" in
+        r|R|"") break ;;
+        e|E)
+          local tmp=$(mktemp /tmp/ai-cmd-XXXX)
+            printf '%s\n' "$out" > "$tmp"
+            ${EDITOR:-vi} "$tmp"
+            out=$(<"$tmp")
+            rm -f "$tmp"
+            echo
+            echo "${B}Updated command(s):${R}"
+            printf '%s\n' "$out"
+            ;;
+        c|C)
+          echo "Cancelled."
+          return 130
+          ;;
+        *) echo "Please enter r, e or c." ;;
+      esac
+    done
+    echo
+    echo "${G}→ Executing...${R}"
+    eval "$out"
+    return $?
+  else
+    printf '%s\n' "$out"
+  fi
 }
 
 # help: list AI helpers
