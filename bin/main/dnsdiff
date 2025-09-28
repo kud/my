@@ -1,0 +1,80 @@
+#! /usr/bin/env zsh
+
+# dnsdiff - Compare DNS answers across resolvers.
+# Usage: dnsdiff <domain>
+# Resolvers queried: system default, 1.1.1.1 (Cloudflare), 8.8.8.8 (Google)
+# Shows A, AAAA, CNAME (others can be added easily).
+
+set -euo pipefail
+DOMAIN="${1:-}"
+if [[ -z "$DOMAIN" ]]; then
+  echo "Usage: dnsdiff <domain>" >&2
+  exit 1
+fi
+
+if ! command -v dig >/dev/null 2>&1; then
+  echo "dig not found" >&2
+  exit 2
+fi
+
+query(){
+  local resolver="$1" type="$2"
+  dig +noidnout +nottl +nocmd +noauth +noquestion +nostats @"$resolver" "$DOMAIN" "$type" 2>/dev/null |
+    awk '/^;/ {next} /^[A-Z0-9.-]+\s+IN\s+'$type'/ {print $5}' |
+    sort -u
+}
+
+systems(){
+  scutil --dns 2>/dev/null | awk '/nameserver\[[0-9]+\]/{print $3}' | head -3
+}
+
+print_section(){
+  local rr="$1"
+  echo "\n== $rr =="
+  local sysresolvers=($(systems))
+  [[ ${#sysresolvers[@]} -eq 0 ]] && sysresolvers=(system)
+
+  local sysset=""
+  if [[ ${sysresolvers[1]} == system ]]; then
+    sysset=$(query "" "$rr")
+  else
+    # Merge answers from first 2 system resolvers
+    local tmp
+    for r in "${sysresolvers[@]}"; do
+      tmp+=$'\n'"$(query "$r" "$rr")"
+    done
+    sysset=$(echo "$tmp" | grep -v '^$' | sort -u)
+  fi
+
+  local cf=$(query 1.1.1.1 "$rr")
+  local gg=$(query 8.8.8.8 "$rr")
+
+  echo "System:"
+  [[ -n "$sysset" ]] && echo "$sysset" | sed 's/^/  /' || echo "  (none)"
+  echo "1.1.1.1:"
+  [[ -n "$cf" ]] && echo "$cf" | sed 's/^/  /' || echo "  (none)"
+  echo "8.8.8.8:"
+  [[ -n "$gg" ]] && echo "$gg" | sed 's/^/  /' || echo "  (none)"
+
+  # Differences summary
+  local union=$(printf "%s\n%s\n%s\n" "$sysset" "$cf" "$gg" | grep -v '^$' | sort -u)
+  local diff_flag=false
+  while IFS= read -r rec; do
+    [[ -z "$rec" ]] && continue
+    local present=""
+    echo "$sysset" | grep -qx "$rec" && present+="S"
+    echo "$cf"     | grep -qx "$rec" && present+="C"
+    echo "$gg"     | grep -qx "$rec" && present+="G"
+    if [[ "$present" != SCG ]]; then
+      [[ $diff_flag == false ]] && { echo "-- MISMATCHED ($rr) --"; diff_flag=true; }
+      echo "  $rec [$present]"
+    fi
+  done <<< "$union"
+}
+
+echo "dnsdiff: $DOMAIN"
+print_section A
+print_section AAAA
+print_section CNAME
+
+exit 0
