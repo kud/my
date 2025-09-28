@@ -1,0 +1,129 @@
+#! /usr/bin/env zsh
+
+# portwho - Inspect which process owns a TCP/UDP port and show rich context.
+# Usage: portwho <port> [tcp|udp]
+# Examples:
+#   portwho 8080
+#   portwho 53 udp
+#
+# Features:
+# - Resolves PID, command, user, protocol, and listening address
+# - Shows parent process chain (up to root)
+# - Displays binary path, file type, size
+# - Verifies code signature (macOS) if possible
+# - Prints process start time & runtime
+# - Handles multiple listeners on same port
+#
+# Exits non‑zero if port not found.
+
+set -euo pipefail
+
+PORT="${1:-}"
+PROTO="${2:-tcp}"
+
+if [[ -z "$PORT" || ! "$PORT" =~ ^[0-9]+$ ]]; then
+  echo "Usage: portwho <port> [tcp|udp]" >&2
+  exit 1
+fi
+
+if [[ "$PROTO" != tcp && "$PROTO" != udp ]]; then
+  echo "Protocol must be tcp or udp" >&2
+  exit 1
+fi
+
+# Require lsof
+if ! command -v lsof >/dev/null 2>&1; then
+  echo "lsof not found" >&2
+  exit 2
+fi
+
+# Collect listeners (avoid DNS with -n and don't resolve hosts with -P)
+LIST=$(lsof -nP -i ${PROTO}:$PORT 2>/dev/null | awk 'NR>1') || true
+
+if [[ -z "$LIST" ]]; then
+  echo "No ${PROTO^^} listener found on port $PORT" >&2
+  exit 3
+fi
+
+echo "▶ Port: $PORT ($PROTO)"
+
+print_process(){
+  local line="$1"
+  # lsof columns: COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME
+  # We grab first 9 reliably then the rest as NAME
+  local COMMAND PID USER FD TYPE DEVICE SIZEOFF NODE NAME
+  COMMAND=$(echo "$line" | awk '{print $1}')
+  PID=$(echo "$line"     | awk '{print $2}')
+  USER=$(echo "$line"    | awk '{print $3}')
+  FD=$(echo "$line"      | awk '{print $4}')
+  TYPE=$(echo "$line"    | awk '{print $5}')
+  DEVICE=$(echo "$line"  | awk '{print $6}')
+  SIZEOFF=$(echo "$line" | awk '{print $7}')
+  NODE=$(echo "$line"    | awk '{print $8}')
+  NAME=$(echo "$line"    | cut -d' ' -f9-)
+
+  local BIN="/proc/$PID/exe"
+  local BINPATH
+
+  # macOS: use ps to get command path; /proc often absent
+  if [[ "$OSTYPE" == darwin* ]]; then
+    BINPATH=$(ps -o comm= -p "$PID" 2>/dev/null || true)
+  else
+    BINPATH=$(readlink "$BIN" 2>/dev/null || ps -o comm= -p "$PID" 2>/dev/null || true)
+  fi
+
+  local START ELAPSED
+  START=$(ps -o lstart= -p "$PID" 2>/dev/null || true)
+  ELAPSED=$(ps -o etime=  -p "$PID" 2>/dev/null | tr -d ' ' || true)
+
+  echo "─ PID: $PID  CMD: $COMMAND  USER: $USER  FD: $FD  TYPE: $TYPE"
+  echo "  Started: ${START:-unknown}  Elapsed: ${ELAPSED:-?}"
+  echo "  Listen: $NAME"
+
+  if [[ -n "$BINPATH" ]]; then
+    if [[ -f "$BINPATH" ]]; then
+      local FILEINFO SIZE HASH
+      FILEINFO=$(file "$BINPATH" 2>/dev/null | cut -d: -f2- | sed 's/^ *//')
+      SIZE=$(ls -lh "$BINPATH" 2>/dev/null | awk '{print $5}')
+      HASH=$(shasum -a 256 "$BINPATH" 2>/dev/null | awk '{print $1}')
+      echo "  Binary: $BINPATH ($SIZE)"
+      [[ -n "$FILEINFO" ]] && echo "  Type:   $FILEINFO"
+      [[ -n "$HASH" ]] && echo "  SHA256: $HASH"
+      if [[ "$OSTYPE" == darwin* ]]; then
+        local SIGN
+        SIGN=$(codesign -dv "$BINPATH" 2>&1 | grep -E 'Identifier|TeamIdentifier' || true)
+        if [[ -n "$SIGN" ]]; then
+          echo "  CodeSign:"
+          echo "$SIGN" | sed 's/^/    /'
+        fi
+      fi
+    else
+      echo "  Binary: $BINPATH"
+    fi
+  fi
+
+  # Parent chain
+  local PCHAIN=""
+  local CUR=$PID
+  local depth=0
+  while [[ $depth -lt 6 ]]; do
+    local PPID CMDLINE
+    PPID=$(ps -o ppid= -p "$CUR" 2>/dev/null | tr -d ' ')
+    CMDLINE=$(ps -o comm= -p "$CUR" 2>/dev/null)
+    [[ -z "$PPID" || "$PPID" == 0 || "$CUR" == "$PPID" ]] && break
+    PCHAIN+="$CUR($CMDLINE) <- "
+    CUR=$PPID
+    depth=$((depth+1))
+  done
+  if [[ -n "$PCHAIN" ]]; then
+    echo "  Parents: ${PCHAIN% <- }"
+  fi
+  echo
+}
+
+# Iterate unique PIDs (some processes may appear multiple times with different FDs)
+echo "$LIST" | awk '{print $2" "$0}' | sort -u -k1,1 | cut -d' ' -f2- | while IFS= read -r l; do
+  print_process "$l"
+done
+
+exit 0
