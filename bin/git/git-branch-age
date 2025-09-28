@@ -1,0 +1,111 @@
+#! /usr/bin/env zsh
+
+# git-branch-age - List local branches with last commit age and ahead/behind vs base.
+# Usage: git-branch-age [--base <ref>] [--limit N] [--stale DAYS] [--json]
+# Defaults: base = main (fallback master), limit = all, stale = 30
+# Output columns: BRANCH | AGE | AHEAD | BEHIND | LAST COMMIT SUBJECT
+# AGE format: <n>d / <n>h / <n>m (rounded)
+
+set -euo pipefail
+
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "git-branch-age: not inside a git repository" >&2
+  exit 1
+fi
+
+base=""
+limit=""
+stale=30
+json=false
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --base)
+      base="$2"; shift 2 ;;
+    --limit)
+      limit="$2"; shift 2 ;;
+    --stale)
+      stale="$2"; shift 2 ;;
+    --json)
+      json=true; shift ;;
+    -h|--help)
+      sed -n '3,20p' "$0"; exit 0 ;;
+    *)
+      echo "Unknown arg: $1" >&2; exit 2 ;;
+  esac
+done
+
+if [[ -z "$base" ]]; then
+  if git show-ref --verify --quiet refs/heads/main; then base=main
+  elif git show-ref --verify --quiet refs/heads/master; then base=master
+  else echo "git-branch-age: cannot determine base (main/master missing, use --base)" >&2; exit 3
+  fi
+fi
+
+# Ensure base up to date (non-fatal if fetch fails)
+(git fetch --quiet --no-tags origin "$base" 2>/dev/null || true) &
+
+now_epoch=$(date +%s)
+
+# Gather branch info
+branches=$(git for-each-ref --format='%(refname:short)|%(committerdate:iso8601)|%(objectname)|%(authorname)|%(contents:subject)' refs/heads/)
+
+print_json(){
+  echo '['
+  local first=true
+  echo "$1" | while IFS='|' read -r name isodate commit author subject; do
+    # epoch
+    epoch=$(date -j -f '%Y-%m-%d %H:%M:%S %z' "$isodate" +%s 2>/dev/null || date -d "$isodate" +%s 2>/dev/null || echo 0)
+    age_sec=$((now_epoch-epoch))
+    ahead=$(git rev-list --left-right --count "$base"..."$name" 2>/dev/null | awk '{print $2}')
+    behind=$(git rev-list --left-right --count "$base"..."$name" 2>/dev/null | awk '{print $1}')
+    subj=$(echo "$subject" | sed 's/"/\\"/g')
+    if [[ $first == true ]]; then first=false; else echo ','; fi
+    printf '{"branch":"%s","age_seconds":%s,"ahead":%s,"behind":%s,"subject":"%s"}' "$name" "$age_sec" "$ahead" "$behind" "$subj"
+  done
+  echo ']'
+}
+
+format_age(){
+  local sec=$1
+  if (( sec < 3600 )); then echo "$((sec/60))m"; return; fi
+  if (( sec < 86400 )); then echo "$((sec/3600))h"; return; fi
+  echo "$((sec/86400))d"
+}
+
+rows=()
+while IFS='|' read -r name isodate commit author subject; do
+  epoch=$(date -j -f '%Y-%m-%d %H:%M:%S %z' "$isodate" +%s 2>/dev/null || date -d "$isodate" +%s 2>/dev/null || echo 0)
+  age_sec=$((now_epoch-epoch))
+  ahead_behind=$(git rev-list --left-right --count "$base"..."$name" 2>/dev/null || echo '0\t0')
+  ahead=$(echo "$ahead_behind" | awk '{print $2}')
+  behind=$(echo "$ahead_behind" | awk '{print $1}')
+  rows+="$name|$age_sec|$ahead|$behind|$subject\n"
+
+done <<< "$branches"
+
+# Sort by age descending
+sorted=$(printf "%s" "$rows" | sort -t'|' -k2,2nr)
+
+if [[ "$json" == true ]]; then
+  print_json "$sorted"
+  exit 0
+fi
+
+echo "Base: $base  (stale > ${stale}d)"
+printf "%-24s %-6s %-5s %-6s %s\n" BRANCH AGE AHEAD BEHIND SUBJECT
+printf "%-24s %-6s %-5s %-6s %s\n" "------" "---" "-----" "------" "-------"
+count_printed=0
+printf "%s" "$sorted" | while IFS='|' read -r name age_sec ahead behind subject; do
+  [[ -z "$name" ]] && continue
+  age_fmt=$(format_age "$age_sec")
+  days=$((age_sec/86400))
+  mark=""
+  if (( days > stale )); then mark="*"; fi
+  printf "%-24s %-6s %-5s %-6s %s%s\n" "$name" "$age_fmt" "$ahead" "$behind" "$subject" "$mark"
+  count_printed=$((count_printed+1))
+  if [[ -n "$limit" && $count_printed -ge $limit ]]; then break; fi
+
+done
+
+exit 0
