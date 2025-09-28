@@ -1,0 +1,137 @@
+#! /usr/bin/env zsh
+
+# git-changes-since - Summarize changes since a reference or date.
+# Usage:
+#   git-changes-since [<ref>] [--since=DATE] [--stat]
+#     <ref>        Reference to compare against (default: main if exists else master)
+#     --since=DATE  Instead of a ref, summarize commits since DATE (YYYY-MM-DD or git date)
+#     --stat        Append standard git diff --stat at end
+#
+# Output:
+#   Commits: <count>
+#   Files Changed: <count>  (+adds / -dels)
+#   Top Directories:
+#   Top Extensions:
+#
+# Notes:
+#   - If both <ref> and --since provided, --since wins.
+#   - Treats rename changes as file modifications (from numstat lines).
+#   - Requires being inside a git work tree.
+
+set -euo pipefail
+
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "git-changes-since: not inside a git repository" >&2
+  exit 1
+fi
+
+ref=""
+since=""
+show_stat=false
+
+for arg in "$@"; do
+  case "$arg" in
+    --since=*) since="${arg#*=}" ;;
+    --stat) show_stat=true ;;
+    --help|-h)
+      sed -n '3,25p' "$0"
+      exit 0
+      ;;
+    *) ref="$arg" ;;
+  esac
+done
+
+# Determine default ref if not given and no --since
+if [[ -z "$since" && -z "$ref" ]]; then
+  if git show-ref --verify --quiet refs/heads/main; then
+    ref=main
+  elif git show-ref --verify --quiet refs/heads/master; then
+    ref=master
+  else
+    echo "git-changes-since: could not determine default base (main/master missing)" >&2
+    exit 2
+  fi
+fi
+
+# Collect commit range or revision list
+commit_count=0
+if [[ -n "$since" ]]; then
+  commit_count=$(git rev-list --count --since="$since" HEAD 2>/dev/null || echo 0)
+else
+  # Ensure ref exists
+  if ! git rev-parse --verify "$ref" >/dev/null 2>&1; then
+    echo "git-changes-since: ref not found: $ref" >&2
+    exit 3
+  fi
+  commit_count=$(git rev-list --count "$ref"..HEAD 2>/dev/null || echo 0)
+fi
+
+# Early exit if no commits
+if [[ "$commit_count" -eq 0 ]]; then
+  echo "No new commits (${since:+since $since}${ref:+since $ref})"
+  exit 0
+fi
+
+# Get diff numstat
+if [[ -n "$since" ]]; then
+  numstat=$(git log --since="$since" -p --format= --numstat)
+else
+  numstat=$(git diff --numstat "$ref"..HEAD)
+fi
+
+# Aggregate
+typeset -A dir_counts
+typeset -A ext_counts
+files_changed=0
+adds_total=0
+dels_total=0
+
+while IFS=$'\t' read -r adds dels path; do
+  [[ -z "$path" ]] && continue
+  # Skip binary markers (adds or dels = -)
+  if [[ "$adds" == "-" || "$dels" == "-" ]]; then
+    adds=0; dels=0
+  fi
+  ((files_changed++))
+  ((adds_total += adds))
+  ((dels_total += dels))
+  # Directory (top-level)
+  topdir=${path%%/*}
+  if [[ "$path" != */* ]]; then
+    topdir="(root)"
+  fi
+  ((dir_counts[$topdir]++))
+  # Extension
+  ext="${path##*.}"
+  if [[ "$path" == *.* && "$ext" != "$path" ]]; then
+    ((ext_counts[$ext]++))
+  else
+    ((ext_counts[none]++))
+  fi
+done <<< "$numstat"
+
+# Helper to print top N of assoc array
+print_top(){
+  local -n assoc=$1
+  local label=$2
+  local n=${3:-5}
+  [[ ${#assoc[@]} -eq 0 ]] && return
+  echo "$label:" | sed 's/$/ /'
+  printf '%s\n' ${(k)assoc} | while read -r k; do echo "${assoc[$k]}\t$k"; done | sort -rn -k1,1 | head -n $n | awk '{printf "  %-6s %s\n", $1, $2}'
+}
+
+echo "Commits:        $commit_count"
+echo "Files Changed:  $files_changed (+$adds_total / -$dels_total)"
+print_top dir_counts "Top Directories"
+print_top ext_counts "Top Extensions"
+
+if [[ "$show_stat" == true ]]; then
+  echo
+  if [[ -n "$since" ]]; then
+    git diff --stat "@{${since}}" 2>/dev/null || git log --since="$since" --stat --format= | sed '/^$/d'
+  else
+    git diff --stat "$ref"..HEAD
+  fi
+fi
+
+exit 0
