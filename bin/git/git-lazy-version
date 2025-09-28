@@ -86,9 +86,23 @@ print_line() {
 }
 
 echo
-printf "${B}┌%s┐${R}\n" "$EDGE"
-print_line "${B}${SUMMARY}${R}"
-print_line "${C}${TYPE_INFO}${R}"
-print_line "$TAG_INFO"
-printf "${B}└%s┘${R}\n" "$EDGE"
+# Colorized border + refined inner colors
+if [[ -n ${Y:-} ]]; then
+  BORDER_COLOR=$Y
+else
+  BORDER_COLOR=$B
+fi
+printf "${BORDER_COLOR}┌%s┐${R}\n" "$EDGE"
+# Colored summary: label in yellow bold, versions in green, arrow dim
+LABEL_COL="${Y}${B}Version bump:${R}"
+OLD_COL="${G}v${OLD_VERSION}${R}"
+NEW_COL="${G}v${NEW_VERSION}${R}"
+ARROW_COL="->"
+SUMMARY_COLORED="${LABEL_COL} ${OLD_COL} ${ARROW_COL} ${NEW_COL}"
+print_line "$SUMMARY_COLORED"
+# Type line: label consistent spacing
+print_line "${Y}Type:${R} ${C}${VERSION_TYPE}${R}"
+# Tag line
+print_line "${Y}Tag pushed:${R} v${NEW_VERSION}"
+printf "${BORDER_COLOR}└%s┘${R}\n" "$EDGE"
 echo
