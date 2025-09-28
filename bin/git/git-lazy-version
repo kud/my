@@ -42,11 +42,45 @@ if ! git aicommit; then
   exit 1
 fi
 
-# Suppress npm's own output; capture new version afterwards.
+# Capture old version (best effort)
+OLD_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "?")
+
+# Perform bump (suppress noisy npm output) and read new version
 npm version "$VERSION_TYPE" >/dev/null
 NEW_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "?")
 
+# Single push including tag
 git push --follow-tags
 
-echo ""
-echo "Bumped & pushed version v$NEW_VERSION" >&2
+# Fancy summary (TTY & colors if possible)
+if [[ -t 1 && -z ${NO_COLOR:-} ]]; then
+  B=$'\e[1m'; R=$'\e[0m'; G=$'\e[32m'; Y=$'\e[33m'; C=$'\e[36m'; M=$'\e[35m'; GRY=$'\e[90m'
+else
+  B=""; R=""; G=""; Y=""; C=""; M=""; GRY=""
+fi
+
+box_line() {
+  local content="$1" width=${2:-0}
+  local pad=$(( width - ${#content} ))
+  (( pad < 0 )) && pad=0
+  printf "│ %s%*s │\n" "$content" $pad ""
+}
+
+# Determine width
+SUMMARY="Version bump: $OLD_VERSION -> $NEW_VERSION"
+ACTION_HINT="Next: publish / release / changelog"
+TYPE_INFO="Type: $VERSION_TYPE"
+LONGEST=${#SUMMARY}
+(( ${#ACTION_HINT} > LONGEST )) && LONGEST=${#ACTION_HINT}
+(( ${#TYPE_INFO} > LONGEST )) && LONGEST=${#TYPE_INFO}
+WIDTH=$(( LONGEST ))
+EDGE=$(printf '%*s' $(( WIDTH + 4 )) '' | tr ' ' '─')
+
+echo
+printf "${B}┌%s┐${R}\n" "$EDGE"
+box_line "${B}${SUMMARY}${R}" $WIDTH
+box_line "${C}${TYPE_INFO}${R}" $WIDTH
+box_line "Tag pushed: v${NEW_VERSION}" $WIDTH
+box_line "${GRY}${ACTION_HINT}${R}" $WIDTH
+printf "${B}└%s┘${R}\n" "$EDGE"
+echo
