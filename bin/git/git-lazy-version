@@ -59,28 +59,36 @@ else
   B=""; R=""; G=""; Y=""; C=""; M=""; GRY=""
 fi
 
-box_line() {
-  local content="$1" width=${2:-0}
-  local pad=$(( width - ${#content} ))
-  (( pad < 0 )) && pad=0
-  printf "│ %s%*s │\n" "$content" $pad ""
+strip_ansi() {
+  printf '%s' "$1" | sed -E $'s/\x1b\[[0-9;]*m//g'
 }
 
-# Determine width
+# Lines (without the previous Next hint per user request)
 SUMMARY="Version bump: $OLD_VERSION -> $NEW_VERSION"
-ACTION_HINT="Next: publish / release / changelog"
 TYPE_INFO="Type: $VERSION_TYPE"
-LONGEST=${#SUMMARY}
-(( ${#ACTION_HINT} > LONGEST )) && LONGEST=${#ACTION_HINT}
-(( ${#TYPE_INFO} > LONGEST )) && LONGEST=${#TYPE_INFO}
-WIDTH=$(( LONGEST ))
+TAG_INFO="Tag pushed: v${NEW_VERSION}"
+
+# Compute max visible length
+LONGEST=0
+for L in "$SUMMARY" "$TYPE_INFO" "$TAG_INFO"; do
+  vis=$(strip_ansi "$L")
+  (( ${#vis} > LONGEST )) && LONGEST=${#vis}
+done
+WIDTH=$LONGEST
 EDGE=$(printf '%*s' $(( WIDTH + 4 )) '' | tr ' ' '─')
+
+print_line() {
+  local raw="$1"
+  local vis=$(strip_ansi "$raw")
+  local pad=$(( WIDTH - ${#vis} ))
+  (( pad < 0 )) && pad=0
+  printf "│ %s%*s │\n" "$raw" $pad ""
+}
 
 echo
 printf "${B}┌%s┐${R}\n" "$EDGE"
-box_line "${B}${SUMMARY}${R}" $WIDTH
-box_line "${C}${TYPE_INFO}${R}" $WIDTH
-box_line "Tag pushed: v${NEW_VERSION}" $WIDTH
-box_line "${GRY}${ACTION_HINT}${R}" $WIDTH
+print_line "${B}${SUMMARY}${R}"
+print_line "${C}${TYPE_INFO}${R}"
+print_line "$TAG_INFO"
 printf "${B}└%s┘${R}\n" "$EDGE"
 echo
