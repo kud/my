@@ -108,6 +108,7 @@ detect_files = ["package.json", ".node-version", ".nvmrc"]
 detect_folders = ["node_modules"]
 
 [python]
+disabled = true
 style = "blue"
 symbol = " "
 format = " [$symbol$version]($style)"
@@ -115,16 +116,19 @@ detect_extensions = ["py"]
 detect_files = ["requirements.txt", "pyproject.toml", "Pipfile", ".python-version"]
 
 [rust]
+disabled = true
 style = "red"
 symbol = "󱘗 "
 format = " [$symbol$version]($style)"
 
 [golang]
+disabled = true
 style = "cyan"
 symbol = " "
 format = " [$symbol$version]($style)"
 
 [java]
+disabled = true
 style = "red"
 symbol = " "
 format = " [$symbol$version]($style)"
