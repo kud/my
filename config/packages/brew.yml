@@ -36,6 +36,15 @@ packages:
     - viddy
     - z
 
+    # 🔐 Security & Productivity Additions
+    - navi
+    - tealdeer
+    - gitleaks
+    - trivy
+    - gping
+    - bandwhich
+    - yq
+
     # 🌐 Networking Tools
     - curl
     - dnsmasq
