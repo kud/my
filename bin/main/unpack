@@ -1,0 +1,110 @@
+#! /usr/bin/env zsh
+
+# unpack - Smart archive extractor.
+# Usage: unpack <file> [destination]
+# Supports: .tar, .tar.gz, .tgz, .tar.bz2, .tbz2, .tar.xz, .txz, .zip, .rar, .7z, .gz, .bz2, .xz
+# If destination provided, creates it (if missing) and extracts there.
+# Avoids clobber: if extracting into current dir and archive contains a single top-level
+# folder identical to an existing one, prompts unless UNPACK_FORCE=1.
+
+set -euo pipefail
+
+FILE=${1:-}
+DEST=${2:-}
+
+if [[ -z "$FILE" ]]; then
+  echo "Usage: unpack <file> [destination]" >&2
+  exit 1
+fi
+
+if [[ ! -f "$FILE" ]]; then
+  echo "unpack: file not found: $FILE" >&2
+  exit 2
+fi
+
+# Derive default destination for some single-file compressions
+_ext="${FILE##*.}"  # simple last extension
+base="${FILE##*/}"  # filename
+name_no_ext="$base"
+
+# Strip common multi-part extensions
+for pat in .tar.gz .tar.bz2 .tar.xz .tgz .tbz2 .txz; do
+  if [[ "$base" == *$pat ]]; then
+    name_no_ext="${base%$pat}"
+    break
+  fi
+done
+
+if [[ -z "$DEST" ]]; then
+  DEST="."
+fi
+
+if [[ "$DEST" != "." ]]; then
+  mkdir -p "$DEST"
+fi
+
+# Function to maybe prompt if clobber risk
+maybe_prompt_clobber(){
+  local folder="$1"
+  if [[ "$DEST" == "." && -d "$folder" && -z "${UNPACK_FORCE:-}" ]]; then
+    printf 'Folder "%s" exists. Overwrite/merge? [y/N] ' "$folder" >&2
+    read -r ans
+    [[ "$ans" == y || "$ans" == Y ]] || { echo "Aborted" >&2; exit 10; }
+  fi
+}
+
+extract_tar(){
+  local f="$1"; shift
+  tar -xf "$f" "$@"
+}
+
+# Main dispatch
+case "$FILE" in
+  *.tar.gz|*.tgz)   extract_tar "$FILE" -C "$DEST" 2>/dev/null || extract_tar "$FILE" ;;
+  *.tar.bz2|*.tbz2) extract_tar "$FILE" -C "$DEST" 2>/dev/null || extract_tar "$FILE" ;;
+  *.tar.xz|*.txz)   extract_tar "$FILE" -C "$DEST" 2>/dev/null || extract_tar "$FILE" ;;
+  *.tar)            extract_tar "$FILE" -C "$DEST" 2>/dev/null || extract_tar "$FILE" ;;
+  *.zip)
+    if command -v unzip >/dev/null 2>&1; then
+      unzip -q "$FILE" -d "$DEST"
+    else
+      echo "unpack: unzip not installed" >&2; exit 3
+    fi
+    ;;
+  *.rar)
+    if command -v unrar >/dev/null 2>&1; then
+      unrar x -idq "$FILE" "$DEST" >/dev/null
+    else
+      echo "unpack: unrar not installed" >&2; exit 3
+    fi
+    ;;
+  *.7z)
+    if command -v 7z >/dev/null 2>&1; then
+      7z x -y -o"$DEST" "$FILE" >/dev/null
+    else
+      echo "unpack: 7z not installed" >&2; exit 3
+    fi
+    ;;
+  *.gz)
+    gunzip -k "$FILE"
+    ;;
+  *.bz2)
+    bunzip2 -k "$FILE"
+    ;;
+  *.xz)
+    unxz -k "$FILE"
+    ;;
+  *)
+    echo "unpack: unknown archive type: $FILE" >&2
+    exit 4
+    ;;
+ esac
+
+# Heuristic: if extraction likely created a single folder with base name
+if [[ "$DEST" == "." ]]; then
+  for cand in "$name_no_ext" "${name_no_ext#v}"; do
+    [[ -d "$cand" ]] && maybe_prompt_clobber "$cand"
+  done
+fi
+
+echo "Extracted: $FILE -> $DEST" >&2

@@ -1,0 +1,84 @@
+#! /usr/bin/env zsh
+
+# git-scan-big - List largest tracked files in the current git repository.
+# Usage: git-scan-big [count] [--history]
+#   count      Number of largest files to show (default: 20)
+#   --history  ALSO scan full git object history (slow) for large blobs
+#
+# Columns:
+#   SIZE  PATH (for working tree) or BLOB:HASH (for history)
+#
+# Notes:
+# - Working tree mode respects .gitignore (only tracked files via git ls-files)
+# - History mode: shows unique blob sizes across all refs (can reveal deleted large files)
+#
+# Exit codes:
+#   0 success
+#   1 not a git repo
+#   2 invalid arguments
+
+set -euo pipefail
+
+count=20
+scan_history=false
+
+for arg in "$@"; do
+  case "$arg" in
+    --history) scan_history=true ;;
+    ''|*[!0-9]*) ;; # ignore non-numeric here, will validate below
+    *) count="$arg" ;;
+  esac
+done
+
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "git-scan-big: not inside a git repository" >&2
+  exit 1
+fi
+
+if ! [[ "$count" =~ ^[0-9]+$ ]]; then
+  echo "git-scan-big: count must be a number" >&2
+  exit 2
+fi
+
+human(){
+  local size=$1
+  local units=(B K M G T)
+  local i=0
+  local val=$size
+  while (( val > 1024 && i < ${#units[@]}-1 )); do
+    val=$(( (val + 1023)/1024 ))
+    ((i++))
+  done
+  echo "${val}${units[$i]}"
+}
+
+# Working tree largest tracked files
+echo "== Working Tree (Top $count) =="
+# git ls-files -z for safety; du in KB; convert to bytes (KB*1024) for sort precision
+# Use awk to format human-readable
+if git ls-files -z | xargs -0 du -k 2>/dev/null | sort -n | tail -n "$count" | awk '{print $1"\t"$2}' | while IFS=$'\t' read -r kb path; do
+  bytes=$((kb*1024))
+  printf "%8s  %s\n" "$(human "$bytes")" "$path"
+fi; then
+  :
+else
+  echo "(no tracked files?)"
+fi
+
+echo
+if [[ "$scan_history" == true ]]; then
+  echo "== History Blobs (Top $count) =="
+  # rev-list objects, map to blob sizes
+  # Format: <size> <hash> <path?> (path unknown for deleted unless using more plumbing; we just show hash)
+  tmp=$(mktemp -t git-scan-big.XXXX)
+  git rev-list --objects --all | awk '{print $1}' | git cat-file --batch-check > "$tmp"
+  # Lines look like: <hash> blob <size>
+  awk '/ blob /{print $3"\t"$1}' "$tmp" | sort -n | tail -n "$count" | while IFS=$'\t' read -r size hash; do
+    printf "%8s  BLOB:%s\n" "$(human "$size")" "$hash"
+  done
+  rm -f "$tmp"
+else
+  echo "(Add --history to include historical large blobs)"
+fi
+
+exit 0
