@@ -319,7 +319,7 @@ ${B}Environment:${R}
 ${B}Examples:${R}
   ${G}ai explain${R} 'grep -R "TODO" -n src'
   ${G}ai summarize${R} < README.md
-  ${G}ai model set github-copilot/gpt-4.1${R}
+  ${G}ai model set${R} github-copilot/gpt-4.1
   ${G}ai debug${R} 'curl https://localhost:8443/health'
   ${G}ai cmd${R} 'list largest 5 log files recursively'
 
