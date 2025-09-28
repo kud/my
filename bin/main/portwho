@@ -1,7 +1,7 @@
 #! /usr/bin/env zsh
 
 # portwho - Inspect which process owns a TCP/UDP port and show rich context.
-# Usage: portwho <port> [tcp|udp]
+# Usage: portwho <port> [tcp|udp] [--threads]
 # Examples:
 #   portwho 8080
 #   portwho 53 udp
@@ -11,7 +11,7 @@
 # - Shows parent process chain (up to root)
 # - Displays binary path, file type, size
 # - Verifies code signature (macOS) if possible
-# - Prints process start time & runtime
+# - Prints process start time & runtime, RSS/VSZ memory, FD count
 # - Handles multiple listeners on same port
 #
 # Exits non‑zero if port not found.
@@ -20,9 +20,13 @@ set -euo pipefail
 
 PORT="${1:-}"
 PROTO="${2:-tcp}"
+SHOW_THREADS=false
+for a in "$@"; do
+  [[ "$a" == "--threads" ]] && SHOW_THREADS=true
+done
 
 if [[ -z "$PORT" || ! "$PORT" =~ ^[0-9]+$ ]]; then
-  echo "Usage: portwho <port> [tcp|udp]" >&2
+  echo "Usage: portwho <port> [tcp|udp] [--threads]" >&2
   exit 1
 fi
 
@@ -76,7 +80,17 @@ print_process(){
   START=$(ps -o lstart= -p "$PID" 2>/dev/null || true)
   ELAPSED=$(ps -o etime=  -p "$PID" 2>/dev/null | tr -d ' ' || true)
 
+  # Memory + FD metrics
+  local RSS VSZ FDS THREADS
+  RSS=$(ps -o rss= -p "$PID" 2>/dev/null | tr -d ' ' || echo 0) # KB
+  VSZ=$(ps -o vsz= -p "$PID" 2>/dev/null | tr -d ' ' || echo 0) # KB
+  FDS=$(lsof -p "$PID" 2>/dev/null | awk 'NR>1' | wc -l | tr -d ' ' || echo 0)
+  if [[ "$SHOW_THREADS" == true ]]; then
+    THREADS=$(ps -o thcount= -p "$PID" 2>/dev/null | tr -d ' ' || echo 0)
+  fi
+
   echo "─ PID: $PID  CMD: $COMMAND  USER: $USER  FD: $FD  TYPE: $TYPE"
+  echo "  Memory: RSS=$((RSS/1024))M VSZ=$((VSZ/1024))M  OpenFDs=$FDS${SHOW_THREADS:+ Threads=$THREADS}"
   echo "  Started: ${START:-unknown}  Elapsed: ${ELAPSED:-?}"
   echo "  Listen: $NAME"
 
