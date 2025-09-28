@@ -87,7 +87,6 @@ alias explain='ai explain'
 
 
 # 🐙 GH aliases
-alias copilot='gh copilot'
 alias prw='gh pr view --web'
 
 # 🚫 No Correct
