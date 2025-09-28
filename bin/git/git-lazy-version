@@ -59,36 +59,32 @@ else
   B=""; R=""; G=""; Y=""; C=""; M=""; GRY=""
 fi
 
-strip_ansi() {
-  printf '%s' "$1" | sed -E $'s/\x1b\[[0-9;]*m//g'
-}
+# Default simple one‑liner (less brittle for fonts)
+if [[ -z ${GIT_LAZY_VERSION_BOX:-} ]]; then
+  echo "${G}v${OLD_VERSION}${R} ➜ ${G}v${NEW_VERSION}${R} (${C}${VERSION_TYPE}${R}) tag: v${NEW_VERSION}" | sed 's/v\?\?/?/'
+  exit 0
+fi
 
-# Lines (without the previous Next hint per user request)
-SUMMARY="Version bump: $OLD_VERSION -> $NEW_VERSION"
-TYPE_INFO="Type: $VERSION_TYPE"
-TAG_INFO="Tag pushed: v${NEW_VERSION}"
-
-# Compute max visible length
+# Optional boxed output when GIT_LAZY_VERSION_BOX=1
+strip_ansi() { printf '%s' "$1" | sed -E $'s/\x1b\[[0-9;]*m//g'; }
+LINES=( "Version bump: v${OLD_VERSION} -> v${NEW_VERSION}" "Type: ${VERSION_TYPE}" "Tag: v${NEW_VERSION}" )
 LONGEST=0
-for L in "$SUMMARY" "$TYPE_INFO" "$TAG_INFO"; do
-  vis=$(strip_ansi "$L")
+for raw in "${LINES[@]}"; do
+  vis=$(strip_ansi "$raw")
   (( ${#vis} > LONGEST )) && LONGEST=${#vis}
 done
-WIDTH=$LONGEST
-EDGE=$(printf '%*s' $(( WIDTH + 4 )) '' | tr ' ' '─')
-
+EDGE=$(printf '%*s' $(( LONGEST + 4 )) '' | tr ' ' '─')
 print_line() {
-  local raw="$1"
-  local vis=$(strip_ansi "$raw")
-  local pad=$(( WIDTH - ${#vis} ))
+  local raw="$1"; local vis=$(strip_ansi "$raw")
+  local pad=$(( LONGEST - ${#vis} ))
   (( pad < 0 )) && pad=0
   printf "│ %s%*s │\n" "$raw" $pad ""
 }
 
 echo
 printf "${B}┌%s┐${R}\n" "$EDGE"
-print_line "${B}${SUMMARY}${R}"
-print_line "${C}${TYPE_INFO}${R}"
-print_line "$TAG_INFO"
+print_line "${B}${LINES[1]}${R}"  # first line (Version bump...)
+print_line "${C}${LINES[2]}${R}"  # Type
+print_line "${LINES[3]}"          # Tag
 printf "${B}└%s┘${R}\n" "$EDGE"
 echo
