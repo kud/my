@@ -1,4 +1,4 @@
 [tools]
-node = "lts"
-python = "3.12"
-ruby = "3.3"
+node = "latest"
+python = "latest"
+ruby = "latest"
