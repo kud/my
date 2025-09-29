@@ -29,7 +29,7 @@ fi
 ################################################################################
 # Install the Python version declared in ~/.config/mise/config.toml if missing.
 # We intentionally avoid auto-selecting newest to keep upgrades controlled
-# (handled by core/mise.zsh sync + version pin in config).
+# (handled by core/packages/mise.zsh sync + version pin in config).
 
 if ! mise current | grep -q '^python'; then
     ui_subsection "Installing configured Python via mise"
