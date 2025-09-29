@@ -2,10 +2,10 @@
 
 ################################################################################
 #                                                                              #
-#   🚀 MISE RUNTIME MAINTENANCE                                                 #
-#   ---------------------------                                                #
-#   Automatically shows current runtimes, upgrades them, and prunes old ones.  #
-#   Zero arguments. Always performs full maintenance.                          #
+#   🚀 MISE TOOL SYNC                                                           #
+#   -----------------                                                           #
+#   Shows active tools, upgrades them, and prunes old ones.                     #
+#   Zero arguments. Always performs full sync.                                  #
 #                                                                              #
 ################################################################################
 
@@ -18,8 +18,7 @@ if ! command -v mise >/dev/null 2>&1; then
   exit 1
 fi
 
-ui_section "${UI_ICON_TOOLS} Runtime Manager (mise)"
-
+ui_section "${UI_ICON_TOOLS} mise tool sync"
 ui_subsection "Resolved Active Tools"
 if ! mise current >/dev/null 2>&1; then
   ui_warning_simple "No active tools resolved (check mise config)."
@@ -44,4 +43,4 @@ else
 fi
 
 ui_spacer
-ui_success_simple "Runtime maintenance complete" 1
+ui_success_simple "mise sync complete" 1

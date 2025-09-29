@@ -46,6 +46,14 @@ setup_package_managers() {
         exit 1
     fi
 
+    # Run mise early so language globals are current before package installs
+    ui_subtitle "mise Tool Sync"
+    if command -v mise >/dev/null 2>&1; then
+        $MY/core/mise.zsh || ui_warning_simple "mise sync failed"
+    else
+        ui_warning_simple "mise not found (brew install mise)"
+    fi
+
     ui_subtitle "GitHub CLI Extensions"
     $MY/core/packages/gh.zsh
 
@@ -114,14 +122,6 @@ main() {
     setup_development_tools
     setup_applications
     setup_system_components
-
-    # Runtime maintenance (mise) - simple always-upgrade & prune
-    ui_section "  Runtime maintenance (mise)"
-    if command -v mise >/dev/null 2>&1; then
-        $MY/core/mise.zsh || ui_warning_simple "Runtime maintenance failed"
-    else
-        ui_warning_simple "mise not found (brew install mise)"
-    fi
 }
 
 # Execute main setup
