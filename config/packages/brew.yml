@@ -70,6 +70,9 @@ packages:
     - neovim
 
     # 🧑‍💻 Programming Languages & Runtimes
+    - node
+    - python
+    - ruby
     - readline
     - xz
     - zlib
@@ -88,8 +91,8 @@ packages:
     - tokei
     - viu
     - ffmpegthumbnailer
-    - fnm
-    - frum
+    - mise
+
     - git-recent
     - glow
     - gnupg
@@ -103,15 +106,14 @@ packages:
     - jq
     - mas
     - molovo/revolver/revolver
-    - node
+
     - openssl@3
     - pandoc
     - poppler
-    - pyenv
-    - pyenv-virtualenv
-    - python@3.11
+
+
     - tcl-tk
-    - ruby
+
     - sdkman-cli
     - subversion
     - switchaudio-osx

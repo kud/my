@@ -2,9 +2,8 @@
 #                                                                                #
 #   🟢 NODE.JS ENVIRONMENT INITIALISATION                                        #
 #   -------------------------------                                              #
-#   Sets up Node.js via fnm and configures npm global packages.                  #
+#   Sets up Node.js via mise (unified runtime manager) and configures npm globals.#
 #                                                                                #
 # ################################################################################
 
-# Initialize fnm (Fast Node Manager)
-eval "$(fnm env --use-on-cd --shell zsh)"
+

@@ -114,6 +114,14 @@ main() {
     setup_development_tools
     setup_applications
     setup_system_components
+
+    # Runtime maintenance (mise) - simple always-upgrade & prune
+    ui_section "  Runtime maintenance (mise)"
+    if command -v mise >/dev/null 2>&1; then
+        $MY/core/mise.zsh || ui_warning_simple "Runtime maintenance failed"
+    else
+        ui_warning_simple "mise not found (brew install mise)"
+    fi
 }
 
 # Execute main setup
