@@ -1,3 +1,4 @@
 [tools]
+java = "latest"
 node = "latest"
 ruby = "latest"

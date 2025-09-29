@@ -2,7 +2,7 @@
 #                                                                                #
 #   🐍 PYTHON ENVIRONMENT INITIALISATION                                         #
 #   ------------------------------------                                         #
-#   Sets up Python via mise (replacing pyenv & pyenv-virtualenv).                #
+#   Sets up Python via mise. (Removed legacy pyenv/virtualenv tooling)          #
 #                                                                                #
 # ################################################################################
 

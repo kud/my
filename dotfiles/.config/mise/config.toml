@@ -2,3 +2,4 @@
 node = "latest"
 python = "latest"
 ruby = "latest"
+java = "latest"
