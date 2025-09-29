@@ -4,7 +4,7 @@
 #                                                                              #
 #   🐍 PYTHON PACKAGE MANAGER                                                  #
 #   ------------------------                                                   #
-#   Manages Python installations via pyenv and pip packages.                  #
+#   Manages Python via mise and pip packages.                                  #
 #   Installs latest Python and essential development packages.                #
 #                                                                              #
 ################################################################################
@@ -18,28 +18,21 @@ source $MY/core/utils/ui-kit.zsh
 ensure_command_available "yq" "Install with: brew install yq"
 
 ################################################################################
-# 🐍 PYTHON INSTALLATION VIA PYENV
+# 🐍 PYTHON INSTALLATION VIA MISE
 ################################################################################
 
-# Check if pyenv is available
-if ensure_command_available "pyenv" "" "false"; then
-    # Get latest Python version from brew info
-    local _PIP_LATEST_PYTHON_VERSION=$(brew info python | grep '(bottled)' | sed 's/==> python@3...: stable //g' | sed 's/ (bottled).*//g')
+# Ensure mise is available
+if ensure_command_available "mise" "Install with: brew install mise" "false"; then
+    # Determine the latest stable Python version via mise
+    local _PIP_LATEST_PYTHON_VERSION=$(mise ls-remote python | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | tail -n 1)
 
     if [[ -n "$_PIP_LATEST_PYTHON_VERSION" ]]; then
-        ui_subsection "Installing Python $_PIP_LATEST_PYTHON_VERSION"
-
-        # Set environment variables for proper compilation with GUI support
-        # (assumes tcl-tk is installed via brew.yml)
-        export PYTHON_CONFIGURE_OPTS="--enable-framework"
-        export LDFLAGS="-L$(brew --prefix)/lib -L$(brew --prefix tcl-tk)/lib"
-        export CPPFLAGS="-I$(brew --prefix)/include -I$(brew --prefix tcl-tk)/include"
-        export PKG_CONFIG_PATH="$(brew --prefix tcl-tk)/lib/pkgconfig"
-
-        # Install with GUI support
-        pyenv install -s $_PIP_LATEST_PYTHON_VERSION
-        pyenv global $_PIP_LATEST_PYTHON_VERSION
-        ui_success_simple "Python $_PIP_LATEST_PYTHON_VERSION installed and set as global"
+        ui_subsection "Installing Python $_PIP_LATEST_PYTHON_VERSION via mise"
+        mise install python@$_PIP_LATEST_PYTHON_VERSION
+        mise use -g python@$_PIP_LATEST_PYTHON_VERSION
+        ui_success_simple "Python $_PIP_LATEST_PYTHON_VERSION installed and set globally via mise"
+    else
+        ui_warning "Could not determine latest Python version via mise"
     fi
 fi
 
