@@ -57,6 +57,9 @@ else
     os)
       $MY/core/os/main.zsh
       ;;
+    postinstall)
+      $MY/core/system/post-install.zsh "${@:3}"
+      ;;
     doc)
       case "$3" in
       --offline)
@@ -197,7 +200,7 @@ else
 
     echo
     echo "  System Components:"
-    echo "    default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlinks, sync-files"
+    echo "    default-folders, doc, dotfiles, edit, open, os, postinstall, shims, submodules, symlinks, sync-files"
 
     ui_spacer
     ;;
