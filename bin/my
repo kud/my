@@ -131,6 +131,9 @@ else
     pip)
       $MY/core/packages/pip.zsh
       ;;
+    mise)
+      $MY/core/mise.zsh
+      ;;
 
     # System (core/system) - fallback and specific ones
     dotfiles)
@@ -188,8 +191,7 @@ else
 
     echo
     echo "  Package Managers:"
-    echo "    antidote, brew, gh, gem, mas, npm, pip"
-
+    echo "    antidote, brew, gh, gem, mas, npm, pip, mise"
     echo
     echo "  Applications:"
     echo "    firefox, keepassxc, pcloud, sublime-merge, bruno"
