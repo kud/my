@@ -132,7 +132,7 @@ else
       $MY/core/packages/pip.zsh
       ;;
     mise)
-      $MY/core/mise.zsh
+      $MY/core/packages/mise.zsh # relocated from core/mise.zsh
       ;;
 
     # System (core/system) - fallback and specific ones
