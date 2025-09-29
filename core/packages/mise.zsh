@@ -27,10 +27,22 @@ else
 fi
 
 ui_spacer
-ui_subsection "Upgrading"
-if ! mise upgrade >/dev/null 2>&1; then
-  ui_error_simple "Upgrade failed"
+ui_subsection "Installing (ensuring configured tools present)"
+if ! INSTALL_OUTPUT=$(mise install 2>&1); then
+  ui_error_simple "Install step failed"
+  echo "$INSTALL_OUTPUT"
 else
+  echo "$INSTALL_OUTPUT" | grep -v '^$' || true
+  ui_success_simple "Configured tools installed/verified"
+fi
+
+ui_spacer
+ui_subsection "Upgrading"
+if ! UPGRADE_OUTPUT=$(mise upgrade 2>&1); then
+  ui_error_simple "Upgrade failed"
+  echo "$UPGRADE_OUTPUT"
+else
+  echo "$UPGRADE_OUTPUT" | grep -v '^$' || true
   ui_success_simple "Runtimes upgraded"
 fi
 
