@@ -149,6 +149,7 @@ ui_success_simple "Preferences updated"
 
 ui_section "Interface styling"
 ui_subtle "  $(shorten_path "$USER_CHROME_FILE")"
+mkdir -p "${USER_CHROME_FILE%/*}" 2>/dev/null
 yq eval '.user_chrome_css' "$CONFIG_FILE" > "$USER_CHROME_FILE"
 ui_success_simple "Interface styling updated"
 
