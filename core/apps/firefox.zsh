@@ -98,15 +98,30 @@ display_shortcuts() {
   ui_spacer; ui_info_simple "Use 'my run firefox' to apply these shortcuts to Firefox"
 }
 
-# Check for command line arguments
-case "${1:-}" in
-  --only-shortcuts|-sc|--shortcuts) display_shortcuts; exit 0 ;;
-  --help|-h)
-    ui_title "Firefox Configuration Tool"
-    echo "Usage: my run firefox [OPTIONS]"; echo; echo "Options:";
-    echo "  --only-shortcuts, -sc    Display configured shortcuts only";
-    echo "  --help, -h               Show this help"; echo; echo "Without options: apply full configuration"; exit 0 ;;
-esac
+# Argument parsing (supports multiple flags)
+RESTART=false
+SHOW_SHORTCUTS=false
+ARGS=()
+for arg in "$@"; do
+  case "$arg" in
+    --only-shortcuts|-sc|--shortcuts) SHOW_SHORTCUTS=true ;;
+    --restart) RESTART=true ;;
+    --help|-h)
+      ui_title "Firefox Configuration Tool"
+      echo "Usage: my run firefox [OPTIONS]"; echo; echo "Options:";
+      echo "  --only-shortcuts, -sc    Display configured shortcuts only";
+      echo "  --restart                Quit & reopen Firefox Nightly after applying";
+      echo "  --help, -h               Show this help"; echo;
+      echo "Without options: apply configuration only (no automatic restart)";
+      exit 0 ;;
+    *) ARGS+=("$arg") ;;
+  esac
+done
+
+if $SHOW_SHORTCUTS; then
+  display_shortcuts
+  exit 0
+fi
 
 ui_title "Firefox Configuration"
 ui_info_simple "Profile: $(echo "$DEFAULT_FOLDER" | sed "s|$HOME|~|")"
@@ -246,10 +261,14 @@ if ! json_is_empty "$EXTENSION_COMMANDS"; then
 fi
 
 ui_spacer
-ui_info_simple "Restarting Firefox..."
-
-quit "Firefox Nightly" 2>/dev/null || true
-sleep 2
-open -a "Firefox Nightly" >/dev/null 2>&1 &
+if $RESTART; then
+  ui_info_simple "Restarting Firefox in 3s..."
+  quit "Firefox Nightly" 2>/dev/null || true
+  sleep 3
+  open -a "Firefox Nightly" >/dev/null 2>&1 &
+  ui_success_simple "Firefox restarted"
+else
+  ui_subtle "Skipping automatic restart (use --restart to force)."
+fi
 
 ui_success "Firefox configuration completed!"
