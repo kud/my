@@ -1,5 +1,5 @@
 taps:
-  - sdkman/tap
+  # (removed legacy sdkman tap)
 
 packages:
   formulae:
@@ -114,7 +114,7 @@ packages:
 
     - tcl-tk
 
-    - sdkman-cli
+    # - sdkman-cli (removed: using mise for Java)
     - subversion
     - switchaudio-osx
     - trdsql
