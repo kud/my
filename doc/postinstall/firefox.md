@@ -6,12 +6,11 @@
 - Set Gmail as default mail handler (via handler prompt or settings) if needed.
 - Add `!g` for quick Google search if using keyword shortcuts.
 
-## Screenshots
+## GUI
 
 ![](../assets/firefox-001.png)
 ![](../assets/firefox-002.png)
 
 ### Adaptive Tab Bar Colour
 
-![](../assets/firefox-adaptive-colours-001.png)
-![](../assets/firefox-adaptive-colours-002.png)
+Import `$SYNC_FOLDER/Appdata/Firefox/atbc_pref.json` in the addon's settings.
