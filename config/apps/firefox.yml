@@ -341,13 +341,13 @@ extension_settings:
     raindrop_io:
       bookmark_save_highlights: "Command+Shift+Alt+S"
       open_sidebar: "Command+MacCtrl+Period"
-      save_page: "Alt+Shift+S"
+      save_page: "MacCtrl+S"
       execute_sidebar_action: "Command+Period"
 
     # Readwise Highlighter (team@readwise.io)
     readwise_highlighter:
       activate_toolbar_button: "Command+Alt+R"
-      execute_browser_action: "Alt+Shift+R"
+      execute_browser_action: "MacCtrl+R"
 
     # KeePassXC Browser (keepassxc-browser@keepassxc.org)
     keepassxc_browser:
