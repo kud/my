@@ -5,6 +5,11 @@
 - GUI customisation as desired.
 - Set Gmail as default mail handler (via handler prompt or settings) if needed.
 - Add `!g` for quick Google search if using keyword shortcuts.
+- Configure extension hotkeys (see Extension Hotkey Reference below) to match screenshots.
+- Review Settings (General, Privacy & Security, Search) and apply preferred privacy/performance tweaks.
+- Activate and sign into key extensions (Raindrop.io, Readwise, KeePassXC Browser) and grant required permissions.
+- For KeePassXC Browser: enable native messaging & pair with KeePassXC database.
+- Run through each installed extension's options page to finalize preferred defaults.
 
 ## GUI
 
