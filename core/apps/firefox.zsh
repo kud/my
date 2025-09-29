@@ -7,7 +7,6 @@ source $MY/core/utils/packages.zsh
 
 REL_USER_JS="user.js"
 REL_CONTAINERS="containers.json"
-REL_EXTENSION_SETTINGS="extension-settings.json"
 REL_USER_CHROME="chrome/userChrome.css"
 
 # Ensure required commands are available
@@ -45,77 +44,27 @@ fi
 
 USER_JS_FILE="$DEFAULT_FOLDER/$REL_USER_JS"
 CONTAINERS_FILE="$DEFAULT_FOLDER/$REL_CONTAINERS"
-EXTENSION_SETTINGS_FILE="$DEFAULT_FOLDER/$REL_EXTENSION_SETTINGS"
 USER_CHROME_FILE="$DEFAULT_FOLDER/$REL_USER_CHROME"
-ADDONS_FILE="$DEFAULT_FOLDER/addons.json"
 
 ###############################################################################
 # Helper functions
 ###############################################################################
 
-json_is_empty() {
-  # Args: JSON string (already evaluated / plain text) considered empty if null or {}
-  [[ -z "$1" || "$1" == "null" || "$1" == "{}" ]]
-}
-
 shorten_path() {
   local p="$1"; p="${p/#$HOME/~}"; [[ $p == $DEFAULT_FOLDER/* ]] && echo "${p#${DEFAULT_FOLDER}/}" || echo "$p"
 }
 
-extension_id_map() {
-  [[ -f "$ADDONS_FILE" ]] || { echo '{}'; return; }
-  jq -r '.addons | map({ key: (.name | gsub("[^a-zA-Z0-9]"; "_") | ascii_downcase), value: .id }) | from_entries' "$ADDONS_FILE" 2>/dev/null || echo '{}'
-}
-
-extension_name_map() {
-  [[ -f "$ADDONS_FILE" ]] || { echo '{}'; return; }
-  jq -r '.addons | map({ key: (.name | gsub("[^a-zA-Z0-9]"; "_") | ascii_downcase), value: .name }) | from_entries' "$ADDONS_FILE" 2>/dev/null || echo '{}'
-}
-
-render_shortcuts_table() {
-  local commands_json name_map
-  commands_json="$1"   # raw yaml or json
-  name_map="$(extension_name_map)"
-  echo "$commands_json" | yq eval -o=json | jq -r --argjson name_map "$name_map" '
-    def title_case: gsub("_"; " ") | split(" ") | map(. | ascii_upcase[0:1] + .[1:]) | join(" ");
-    def fmt: gsub("Ctrl\\+"; "⌃") | gsub("MacCtrl\\+"; "⌃") | gsub("Shift\\+"; "⇧") | gsub("Alt\\+"; "⌥") | gsub("Command\\+"; "⌘");
-    to_entries | map(
-      .key as $k | ($name_map[$k] // ($k | title_case)) as $ext_name |
-      "## " + $ext_name + "\n" + ( .value | to_entries | map("  " + (.key | title_case) + ": " + (.value | fmt)) | join("\n"))
-    ) | join("\n\n")'
-}
-
-display_shortcuts() {
-  ui_title "Firefox Extension Shortcuts"
-  ui_info_simple "Profile: $(echo "$DEFAULT_FOLDER" | sed "s|$HOME|~|")"
-  ui_spacer
-
-  local EXTENSION_COMMANDS MARKDOWN
-  EXTENSION_COMMANDS=$(yq eval '.extension_settings.commands // {}' "$CONFIG_FILE")
-  if json_is_empty "$EXTENSION_COMMANDS"; then
-    ui_warning_simple "No shortcuts configured in firefox.yml"; return 0; fi
-  MARKDOWN=$(render_shortcuts_table "$EXTENSION_COMMANDS")
-  if command -v glow >/dev/null 2>&1; then
-    echo "$MARKDOWN" | glow -
-  else
-    echo "$MARKDOWN"
-    ui_subtle "Install 'glow' for richer rendering: brew install glow"
-  fi
-  ui_spacer; ui_info_simple "Apply configuration: my run firefox (--restart optional)"
-}
-
-# Argument parsing (supports multiple flags)
+###############################################################################
+# Argument parsing
+###############################################################################
 RESTART=false
-SHOW_SHORTCUTS=false
 ARGS=()
 for arg in "$@"; do
   case "$arg" in
-    --only-shortcuts|-sc|--shortcuts) SHOW_SHORTCUTS=true ;;
     --restart) RESTART=true ;;
     --help|-h)
       ui_title "Firefox Configuration Tool"
       echo "Usage: my run firefox [OPTIONS]"; echo; echo "Options:";
-      echo "  --only-shortcuts, -sc    Display configured shortcuts only";
       echo "  --restart               Quit & reopen Firefox Nightly after applying";
       echo "  --help, -h              Show this help"; echo;
       echo "Without options: preferences, containers, styling only (no restart)";
@@ -123,11 +72,6 @@ for arg in "$@"; do
     *) ARGS+=("$arg") ;;
   esac
 done
-
-if $SHOW_SHORTCUTS; then
-  display_shortcuts
-  exit 0
-fi
 
 ui_title "Firefox Configuration"
 ui_info_simple "Profile: $(echo "$DEFAULT_FOLDER" | sed "s|$HOME|~|")"
@@ -178,8 +122,6 @@ ui_section "Container tabs"
 ui_subtle "  $(shorten_path "$CONTAINERS_FILE")"
 yq eval '.containers' "$CONFIG_FILE" --output-format=json > "$CONTAINERS_FILE"
 ui_success_simple "Container tabs updated"
-
-# Extension settings disabled (intentionally skipped)
 
 ui_spacer
 if $RESTART; then
