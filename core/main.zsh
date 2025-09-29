@@ -49,7 +49,7 @@ setup_package_managers() {
     # Run mise early so language globals are current before package installs
     ui_subtitle "mise Tool Sync"
     if command -v mise >/dev/null 2>&1; then
-        $MY/core/mise.zsh || ui_warning_simple "mise sync failed"
+        $MY/core/packages/mise.zsh || ui_warning_simple "mise sync failed" # relocated from core/mise.zsh
     else
         ui_warning_simple "mise not found (brew install mise)"
     fi
