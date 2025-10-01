@@ -1,10 +1,12 @@
 taps:
   - ankitpokhrel/jira-cli
+  - dashlane/tap
 
 packages:
   formulae:
     - awscli
     - jira-cli
+    - dashlane-cli
   casks:
     - eloston-chromium
     - neo4j
