@@ -39,6 +39,7 @@ alias .gitconfig='$EDITOR -n  ~/.gitconfig'
 alias .gitconfig_local='$EDITOR -n  ~/.gitconfig_local'
 alias network-sharing='sudo $EDITOR -n /etc/bootpd.plist'
 alias dnsmasq.conf='$EDITOR -n ${HOMEBREW_PREFIX}/etc/dnsmasq.conf'
+alias vscode-settings='code -n "$HOME/Library/Application Support/Code/User/settings.json"'
 
 # 🤖 Android
 alias android-inspector='adb forward tcp:9222 localabstract:chrome_devtools_remote'
