@@ -24,12 +24,9 @@ ui_section "${UI_ICON_TOOLS} mise tool sync"
 BEFORE_STATE=$(mise current 2>/dev/null || true)
 
 ui_subsection "Ensuring configured tools present"
-if ! INSTALL_OUTPUT=$(mise install 2>&1); then
+if ! mise install; then
   ui_error_simple "Install step failed"
-  echo "$INSTALL_OUTPUT"
 else
-  # Show only non-empty lines from install output (avoids blank spam)
-  echo "$INSTALL_OUTPUT" | grep -v '^$' || true
   ui_success_simple "Configured tools installed/verified"
 fi
 
