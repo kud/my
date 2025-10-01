@@ -1,8 +1,0 @@
-[tools]
-java = "latest"
-node = "latest"
-ruby = "latest"
-python = "latest"
-pnpm = "latest"
-yarn = "latest"
-uv = "latest"
