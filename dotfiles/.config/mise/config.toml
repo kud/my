@@ -1,5 +1,6 @@
 [settings]
-idiomatic_version_file_enable_tools = ['node','ruby','java','yarn']
+auto_install = true
+idiomatic_version_file_enable_tools = ['node', 'ruby', 'java', 'yarn', 'python']
 
 [tools]
 java = "latest"
@@ -9,3 +10,5 @@ python = "latest"
 pnpm = "latest"
 yarn = "latest"
 uv = "latest"
+go = "latest"
+rust = "latest"
