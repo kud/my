@@ -12,6 +12,7 @@ packages:
     - steermouse
     - todoist-app
     - whatsapp
+    - protonvpn
 
 post_install:
   - sudo brew services start dnscrypt-proxy
