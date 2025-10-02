@@ -1,3 +1,6 @@
+[settings]
+legacy_version_file = true
+
 [tools]
 java = "latest"
 node = "latest"
