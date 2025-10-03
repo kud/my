@@ -4,14 +4,25 @@
 #                                                                              #
 #   🚀 MISE TOOL SYNC                                                           #
 #   -----------------                                                           #
-#   Ensures configured tools are installed, then upgrades and prunes.           #
-#   Single entrypoint: always performs full maintenance cycle.                  #
+#   Ensures configured tools are installed, upgrades (when needed),             #
+#   refreshes plugins, optionally prunes, and reports changes.                  #
 #                                                                              #
 ################################################################################
 
 set -euo pipefail
 
 source "$MY/core/utils/ui-kit.zsh"
+
+# --- Trap for nicer failure summary -------------------------------------------------
+_mise_sync_fail() {
+  local exit_code=$?
+  if (( exit_code != 0 )); then
+    ui_spacer
+    ui_error_simple "mise tool sync failed (exit $exit_code)"
+  fi
+  exit $exit_code
+}
+trap _mise_sync_fail EXIT
 
 if ! command -v mise >/dev/null 2>&1; then
   ui_error_simple "mise not installed (brew install mise)"
@@ -22,6 +33,14 @@ ui_section "${UI_ICON_TOOLS} mise tool sync"
 
 # Capture initial state (may be empty or fail silently)
 BEFORE_STATE=$(mise current 2>/dev/null || true)
+
+# Refresh plugin index (ensures latest runtime listings)
+ui_subsection "Updating plugin index"
+if ! mise plugins update >/dev/null 2>&1; then
+  ui_warning_simple "Plugin index update failed"
+else
+  ui_success_simple "Plugin index updated"
+fi
 
 ui_subsection "Ensuring configured tools present"
 if ! mise install; then
@@ -116,3 +135,6 @@ fi
 
 ui_spacer
 ui_success_simple "mise maintenance complete" 1
+
+# Clear trap on success so EXIT handler does not double-report
+trap - EXIT
