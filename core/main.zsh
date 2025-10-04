@@ -64,7 +64,7 @@ setup_package_managers() {
     $MY/core/packages/gem.zsh
 
     ui_subtitle "Python Packages"
-    $MY/core/packages/pip.zsh
+    $MY/core/packages/uv.zsh
 
     ui_subtitle "Node.js Packages"
     $MY/core/packages/npm.zsh
