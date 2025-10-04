@@ -79,13 +79,16 @@ ui_spacer
 
 ui_section "  Updating environment"
 
-# Run main update script
+# Run main update script (lightweight ensure during orchestration)
 if ! $MY/core/main.zsh; then
     ui_error_msg "Environment update failed"
     exit 1
 fi
 
+# Full runtime maintenance already handled inside mise.zsh now; nothing extra here.
+
 ui_spacer
+
 
 ################################################################################
 # ✅ UPDATE COMPLETE

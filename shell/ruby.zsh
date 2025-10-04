@@ -2,8 +2,8 @@
 #                                                                                #
 #   💎 RUBY/FRUM INITIALISATION                                                  #
 #   --------------------------                                                  #
-#   Loads Frum Ruby version manager.                                             #
+#   Sets up Ruby via mise (replacing frum).                                      #
 #                                                                                #
 # ################################################################################
 
-eval "$(frum init)"
+
