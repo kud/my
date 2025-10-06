@@ -56,7 +56,7 @@ python_install_package() {
   fi
 }
 
-ui_subsection "Installing development packages (${USE_UV:+uv}${USE_UV==0:pip})"
+ui_subsection "Installing development packages ($([[ $USE_UV -eq 1 ]] && echo uv || echo pip))"
 process_package_configs "python" "python_install_package"
 ui_success_simple "Development packages installed" 1
 
