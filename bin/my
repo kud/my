@@ -47,7 +47,7 @@ else
       echo "Error: 'run' requires a module name. Available modules:"
       echo "  Apps: firefox (use -sc for shortcuts), keepassxc, pcloud, sublime-merge, bruno"
       echo "  CLI: abbr, aicommits, opencode, ssh"
-      echo "  Packages: antidote, brew, gh, gem, mas, npm, pip"
+      echo "  Packages: antidote, brew, gh, gem, mas, npm, uv"
       echo "  System: default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlinks"
       exit 1
     fi
@@ -128,9 +128,10 @@ else
     npm)
       $MY/core/packages/npm.zsh
       ;;
-    pip)
-      $MY/core/packages/pip.zsh
-      ;;
+    uv)
+       # Python development packages installer (uv only)
+       $MY/core/packages/uv.zsh
+       ;;
     mise)
       $MY/core/packages/mise.zsh # relocated from core/mise.zsh
       ;;
@@ -191,7 +192,7 @@ else
 
     echo
     echo "  Package Managers:"
-    echo "    antidote, brew, gh, gem, mas, npm, pip, mise"
+    echo "    antidote, brew, gh, gem, mas, npm, uv, mise"
     echo
     echo "  Applications:"
     echo "    firefox, keepassxc, pcloud, sublime-merge, bruno"
