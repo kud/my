@@ -65,7 +65,7 @@ function wtf() {
       echo "🟢 Node.js Information:"
       echo "Version: $(node --version 2>/dev/null || echo 'not installed')"
       echo "Location: $(which node 2>/dev/null || echo 'not found')"
-      # (legacy nvm reference removed; migration to mise/homebrew)
+
       ;;
     python|python3|pip|pip3)
       echo "🐍 Python Information:"
