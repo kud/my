@@ -8,7 +8,7 @@ pre_install:
   - npm config set fetch-retry-mintimeout 15000
   - npm config set fetch-retry-maxtimeout 90000
   # Yarn configuration
-  - yarn config set save-exact true
+  - yarn config set defaultSemverRangePrefix ""
 
 packages:
   - "@anthropic-ai/claude-code"
