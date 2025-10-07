@@ -85,6 +85,8 @@ alias litter='trash'
 
 # 🤖 AI
 alias explain='ai explain'
+# Git rapid commit & push (adds all, AI commit, push)
+alias gcap='git add . && git aicommit && git push'
 
 
 # 🐙 GH aliases
