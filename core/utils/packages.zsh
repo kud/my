@@ -90,7 +90,7 @@ process_package_configs() {
     local start_time=$(date +%s.%N)
     local package_type="$1"      # e.g., "npm", "gem", "pip"
     local install_function="$2"  # Function to call for each package
-    local batch_run_function="$3" # Optional batch run function
+    local batch_run_function="${3-}" # Optional batch run function (safe with set -u)
 
     ui_debug "process_package_configs: Starting for $package_type"
 

@@ -65,9 +65,7 @@ function wtf() {
       echo "🟢 Node.js Information:"
       echo "Version: $(node --version 2>/dev/null || echo 'not installed')"
       echo "Location: $(which node 2>/dev/null || echo 'not found')"
-      if command -v nvm >/dev/null 2>&1; then
-        echo "NVM current: $(nvm current 2>/dev/null || echo 'unknown')"
-      fi
+
       ;;
     python|python3|pip|pip3)
       echo "🐍 Python Information:"
