@@ -92,6 +92,43 @@ wtf_inspect() {
 
   print -- "${CLR_BOLD}${ICON_SEARCH} ${CLR_BOLD}Command:${CLR_RESET} $cmd"
   print -- "${CLR_GREY}────────────────────${CLR_RESET}"
+
+  # Alias detection (handles both loaded aliases and static scan of alias files)
+  # If an alias is defined in current shell, use builtin reporting; otherwise, scan known alias file(s)
+  {
+    # Try active alias (if aliases are enabled and loaded)
+    if alias_out=$(alias "$cmd" 2>/dev/null); then
+      # alias format: alias name='value'
+      alias_rhs=${alias_out#*=}
+      alias_rhs=${alias_rhs#\'}; alias_rhs=${alias_rhs%\'}
+      alias_rhs=${alias_rhs#\"}; alias_rhs=${alias_rhs%\"}
+      echo "${ICON_INFO} ${CLR_BOLD}Type:${CLR_RESET} alias"
+      echo "${ICON_INFO} ${CLR_BOLD}Alias for:${CLR_RESET} $alias_rhs"
+      echo
+      return 0
+    fi
+
+    # Static scan (non-interactive shell hasn't sourced aliases)
+    if [[ -n ${MY:-} ]]; then
+      local alias_files
+      alias_files=()
+      [[ -f "$MY/shell/aliases.zsh" ]] && alias_files+="$MY/shell/aliases.zsh"
+      # Future: append more alias files if project adds them
+      for af in "${alias_files[@]}"; do
+        if line=$(grep -E "^[[:space:]]*alias[[:space:]]+$cmd=" "$af" 2>/dev/null | head -1); then
+          rhs=${line#*=}
+          rhs=${rhs#\'}; rhs=${rhs%\'}
+          rhs=${rhs#\"}; rhs=${rhs%\"}
+          echo "${ICON_INFO} ${CLR_BOLD}Type:${CLR_RESET} alias (not loaded in this shell)"
+          echo "${ICON_INFO} ${CLR_BOLD}Alias for:${CLR_RESET} $rhs"
+          echo "${ICON_INFO} ${CLR_BOLD}Source file:${CLR_RESET} $af"
+          echo
+          return 0
+        fi
+      done
+    fi
+  }
+
   if ! whence -v "$cmd" 2>/dev/null; then
     echo "${ICON_FAIL} Command not found"
     overall_status=127
