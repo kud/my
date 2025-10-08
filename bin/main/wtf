@@ -1,69 +1,413 @@
 #! /usr/bin/env zsh
 
-# Enhanced command inspector (migrated from shell/functions.zsh)
-# Usage: wtf <command>
+# Enhanced command inspector (rich details: origin, metadata, packaging) with multi-command support
+# Usage: wtf <command> [command ...]
+# (No flags; always attempts best-effort discovery.)
 
-set -euo pipefail
+# Be resilient: continue on failures of sub-steps (avoid -e so multiple args keep processing)
+set -u
+set -o pipefail
 
-cmd="$1" 2>/dev/null || true
-if [[ -z "${cmd:-}" ]]; then
-  echo "Usage: wtf <command>" >&2
+if [[ $# -eq 0 ]]; then
+  echo "Usage: wtf <command> [command ...]" >&2
   exit 1
 fi
 
-# Load UI kit icons if available
+# Load UI kit icons if available (graceful fallback)
 if [[ -n "${MY:-}" && -f "$MY/core/utils/ui-kit.zsh" ]]; then
   source "$MY/core/utils/ui-kit.zsh"
 fi
 
-print -- "${UI_ICON_SEARCH:-🔍} Command: $cmd"
-print -- "────────────────────"
-whence -v "$cmd" 2>/dev/null || echo "Command not found"
-print --
+# Colours (disable if not a tty or NO_COLOR set)
+if [[ -t 1 && -z "${NO_COLOR:-}" ]]; then
+  CLR_RESET=$'\e[0m'
+  CLR_BOLD=$'\e[1m'
+  CLR_DIM=$'\e[2m'
+  CLR_RED=$'\e[31m'
+  CLR_GREEN=$'\e[32m'
+  CLR_YELLOW=$'\e[33m'
+  CLR_BLUE=$'\e[34m'
+  CLR_MAGENTA=$'\e[35m'
+  CLR_CYAN=$'\e[36m'
+  CLR_GREY=$'\e[90m'
+else
+  CLR_RESET=""; CLR_BOLD=""; CLR_DIM=""; CLR_RED=""; CLR_GREEN=""; CLR_YELLOW=""; CLR_BLUE=""; CLR_MAGENTA=""; CLR_CYAN=""; CLR_GREY="";
+fi
 
-case "$cmd" in
-  npm)
-    echo "${UI_ICON_INSTALL:-📦} NPM Information:"
-    echo "Version: $(npm --version 2>/dev/null || echo 'not installed')"
-    echo "Registry: $(npm config get registry 2>/dev/null || echo 'unknown')"
-    echo "Global packages location: $(npm root -g 2>/dev/null || echo 'unknown')"
-    ;;
-  node)
-    echo "🟢 Node.js Information:"
-    echo "Version: $(node --version 2>/dev/null || echo 'not installed')"
-    ;;
-  python|python3|pip|pip3)
-    echo "🐍 Python Information:"
-    echo "Version: $($cmd --version 2>/dev/null || echo 'not installed')"
-    ;;
-  brew)
-    echo "${UI_ICON_INSTALL:-📦} Homebrew Information:"
-    echo "Version: $(brew --version 2>/dev/null | head -1 || echo 'not installed')"
-    echo "Prefix: $(brew --prefix 2>/dev/null || echo 'unknown')"
-    ;;
-  git)
-    echo "${UI_ICON_TABLE:-📊} Git Information:"
-    echo "Version: $(git --version 2>/dev/null || echo 'not installed')"
-    echo "Config user: $(git config --global user.name 2>/dev/null || echo 'not set')"
-    ;;
-  ruby|gem)
-    echo "💎 Ruby Information:"
-    echo "Version: $($cmd --version 2>/dev/null || echo 'not installed')"
-    ;;
-  *)
-    if command -v "$cmd" >/dev/null 2>&1; then
-      echo "${UI_ICON_INFO:-ℹ️} Additional Information:"
-      for flag in --version -v -V version; do
-        if output=$($cmd $flag 2>/dev/null) && [[ -n "$output" ]]; then
-          echo "Version: $(echo "$output" | head -1)"
-          break
+# Glyph icons (Nerd Font / Powerline friendly). Fallback to ASCII if font lacking.
+ICON_SEARCH="${CLR_CYAN}${CLR_RESET}"         # nf-oct-search
+ICON_INSTALL="${CLR_MAGENTA}${CLR_RESET}"       # nf-oct-package
+ICON_INFO="${CLR_BLUE}${CLR_RESET}"             # nf-fa-info_circle
+ICON_TABLE="${CLR_YELLOW}${CLR_RESET}"           # nf-fa-table
+ICON_WARN="${CLR_YELLOW}${CLR_RESET}"            # nf-fa-warning
+ICON_OK="${CLR_GREEN}${CLR_RESET}"               # nf-fa-check_circle
+ICON_FAIL="${CLR_RED}${CLR_RESET}"               # nf-fa-times
+ICON_GIT="${CLR_RED}${CLR_RESET}"                 # nf-dev-git
+ICON_NODE="${CLR_GREEN}${CLR_RESET}"               # nf-dev-nodejs_small
+ICON_NPM="${CLR_RED}${CLR_RESET}"                 # nf-dev-npm
+ICON_PYTHON="${CLR_YELLOW}${CLR_RESET}"            # nf-dev-python
+ICON_RUBY="${CLR_MAGENTA}${CLR_RESET}"             # nf-dev-ruby
+ICON_RUST="${CLR_YELLOW}${CLR_RESET}"              # nf-dev-rust
+ICON_BREW="${CLR_YELLOW}${CLR_RESET}"              # reuse package icon for brew
+
+# Ensure ASCII fallbacks if glyphs render as empty (very naive width test)
+for v in ICON_SEARCH ICON_INSTALL ICON_INFO ICON_TABLE ICON_WARN ICON_OK ICON_FAIL; do
+  eval "val=\${$v}"
+  if [[ ${#val} -le 0 ]]; then
+    case $v in
+      ICON_SEARCH) ICON_SEARCH='[?]';;
+      ICON_INSTALL) ICON_INSTALL='[pkg]';;
+      ICON_INFO) ICON_INFO='[i]';;
+      ICON_TABLE) ICON_TABLE='[tbl]';;
+      ICON_WARN) ICON_WARN='[!]';;
+      ICON_OK) ICON_OK='[ok]';;
+      ICON_FAIL) ICON_FAIL='[x]';;
+    esac
+  fi
+done
+
+# Function to resolve real path (follow symlinks manually)
+resolve_real_path() {
+  local p="$1"
+  while [[ -L $p ]]; do
+    local tgt
+    tgt=$(readlink "$p" 2>/dev/null || break)
+    [[ -z $tgt ]] && break
+    if [[ $tgt != /* ]]; then
+      p="${p%/*}/$tgt"
+    else
+      p="$tgt"
+    fi
+  done
+  echo "$p"
+}
+
+overall_status=0
+
+wtf_inspect() {
+  local cmd="$1"
+  local printed_origin_header=0
+  local cmd_path real_path cmd_type
+  local origin_summary=""
+
+  print -- "${CLR_BOLD}${ICON_SEARCH} ${CLR_BOLD}Command:${CLR_RESET} $cmd"
+  print -- "${CLR_GREY}────────────────────${CLR_RESET}"
+  if ! whence -v "$cmd" 2>/dev/null; then
+    echo "${ICON_FAIL} Command not found"
+    overall_status=127
+    echo
+    return 0
+  fi
+  print --
+
+  # Determine type
+  cmd_type=$(whence -w "$cmd" 2>/dev/null || true)
+  if [[ $cmd_type == built* || $cmd_type == alias* || $cmd_type == function* ]]; then
+    echo "${ICON_INFO} ${CLR_BOLD}Type:${CLR_RESET} $cmd_type"
+    if [[ $cmd_type == function* ]]; then
+      echo "${ICON_INFO} ${CLR_BOLD}Function definition (truncated):${CLR_RESET}"
+      typeset -f -- "$cmd" | sed -n '1,40p'
+    fi
+    # For builtins & aliases we stop after showing type
+    if [[ $cmd_type == built* || $cmd_type == alias* ]]; then
+      echo
+      return 0
+    fi
+    echo
+  fi
+
+  # Paths
+  cmd_path=$(command -v -- "$cmd" 2>/dev/null || true)
+  real_path=$(resolve_real_path "$cmd_path")
+  if [[ -n $cmd_path ]]; then
+    echo "${ICON_INFO} ${CLR_BOLD}Resolved path:${CLR_RESET} $cmd_path"
+  fi
+  if [[ -n $real_path && $real_path != $cmd_path ]]; then
+    echo "${ICON_INFO} ${CLR_BOLD}Real path:${CLR_RESET} $real_path"
+  fi
+
+  # Symlink chain
+  if [[ -L $cmd_path ]]; then
+    echo "${ICON_INFO} ${CLR_BOLD}Symlink chain:${CLR_RESET}"
+    local current="$cmd_path" depth=0 target
+    while [[ -L $current && $depth -lt 10 ]]; do
+      target=$(readlink "$current")
+      echo "  $(printf '%2d' $depth): $current -> $target"
+      if [[ $target != /* ]]; then
+        current="${current%/*}/$target"
+      else
+        current="$target"
+      fi
+      (( depth++ )) || true
+    done
+  fi
+
+  # File metadata
+  if [[ -f $real_path ]]; then
+    if stat_out=$(stat -f '%z %m %Su %Sg %Lp' "$real_path" 2>/dev/null); then
+      local size mtime_epoch owner group perms rest mtime_readable
+      size=${stat_out%% *}; rest=${stat_out#* }
+      mtime_epoch=${rest%% *}; rest=${rest#* }
+      owner=${rest%% *}; rest=${rest#* }
+      group=${rest%% *}; perms=${rest#* }
+      mtime_readable=$(date -r "$mtime_epoch" '+%Y-%m-%d %H:%M:%S')
+      echo "${ICON_INFO} ${CLR_BOLD}Size:${CLR_RESET} $size bytes"
+      echo "${ICON_INFO} ${CLR_BOLD}Modified:${CLR_RESET} $mtime_readable"
+      echo "${ICON_INFO} ${CLR_BOLD}Owner:${CLR_RESET} $owner:$group"
+      echo "${ICON_INFO} ${CLR_BOLD}Mode:${CLR_RESET} $perms"
+    fi
+    if file_type=$(file -b "$real_path" 2>/dev/null); then
+      echo "${ICON_INFO} ${CLR_BOLD}File type:${CLR_RESET} $file_type"
+      # If universal binary list architectures (macOS file output already includes)
+    fi
+    if IFS= read -r first_line < "$real_path" && [[ $first_line == '#!'* ]]; then
+      echo "${ICON_INFO} ${CLR_BOLD}Shebang:${CLR_RESET} ${first_line#\#! }"
+    fi
+    if command -v shasum >/dev/null 2>&1; then
+      local sha
+      sha=$(shasum -a 256 "$real_path" 2>/dev/null | awk '{print $1}')
+      [[ -n $sha ]] && echo "${ICON_INFO} ${CLR_BOLD}SHA256:${CLR_RESET} ${sha:0:16}…"
+    elif command -v openssl >/dev/null 2>&1; then
+      local sha
+      sha=$(openssl dgst -sha256 "$real_path" 2>/dev/null | awk '{print $NF}')
+      [[ -n $sha ]] && echo "${ICON_INFO} ${CLR_BOLD}SHA256:${CLR_RESET} ${sha:0:16}…"
+    fi
+    echo
+  fi
+
+  # Version / targeted intelligence
+  case "$cmd" in
+    npm)
+      echo "${ICON_NPM} ${CLR_BOLD}NPM:${CLR_RESET}"
+      echo "${CLR_BOLD}Version:${CLR_RESET} $(npm --version 2>/dev/null || echo 'not installed')"
+      echo "${CLR_BOLD}Registry:${CLR_RESET} $(npm config get registry 2>/dev/null || echo 'unknown')"
+      echo "${CLR_BOLD}Global root:${CLR_RESET} $(npm root -g 2>/dev/null || echo 'unknown')"
+      echo
+      ;;
+    node)
+      echo "${ICON_NODE} ${CLR_BOLD}Node.js:${CLR_RESET}"
+      echo "${CLR_BOLD}Version:${CLR_RESET} $(node --version 2>/dev/null || echo 'not installed')"
+      echo
+      ;;
+    python|python3|pip|pip3)
+      echo "${ICON_PYTHON} ${CLR_BOLD}Python:${CLR_RESET}"
+      echo "${CLR_BOLD}Version:${CLR_RESET} $($cmd --version 2>/dev/null || echo 'not installed')"
+      echo
+      ;;
+    brew)
+      echo "${ICON_BREW} ${CLR_BOLD}Homebrew:${CLR_RESET}"
+      echo "${CLR_BOLD}Version:${CLR_RESET} $(brew --version 2>/dev/null | head -1 || echo 'not installed')"
+      echo "Prefix: $(brew --prefix 2>/dev/null || echo 'unknown')"
+      echo
+      ;;
+    git)
+      echo "${ICON_GIT} ${CLR_BOLD}Git:${CLR_RESET}"
+      echo "${CLR_BOLD}Version:${CLR_RESET} $(git --version 2>/dev/null || echo 'not installed')"
+      echo "${CLR_BOLD}Global user:${CLR_RESET} $(git config --global user.name 2>/dev/null || echo 'not set')"
+      echo
+      ;;
+    ruby|gem)
+      echo "${ICON_RUBY} ${CLR_BOLD}Ruby:${CLR_RESET}"
+      echo "${CLR_BOLD}Version:${CLR_RESET} $($cmd --version 2>/dev/null || echo 'not installed')"
+      echo
+      ;;
+    *)
+      if command -v "$cmd" >/dev/null 2>&1; then
+        echo "${ICON_INFO} Attempting generic version probes:"
+        for flag in --version -v -V version; do
+          if output=$($cmd $flag 2>/dev/null) && [[ -n $output ]]; then
+            echo "Version: $(echo "$output" | head -1)"
+            break
+          fi
+        done
+        echo
+      fi
+      ;;
+   esac
+
+  # Origin header helper
+  print_origin_header() {
+    [[ $printed_origin_header == 1 ]] && return 0
+    echo "${ICON_INFO} ${CLR_BOLD}Package / Install Origin:${CLR_RESET}"; printed_origin_header=1
+  }
+
+  add_origin() {
+    local entry="$1"
+    if [[ -z $origin_summary ]]; then
+      origin_summary="$entry"
+    else
+      origin_summary+="; $entry"
+    fi
+  }
+
+  # Homebrew origin
+  if [[ -n ${real_path:-} ]] && command -v brew >/dev/null 2>&1; then
+    local brew_prefix formula after
+    brew_prefix=$(brew --prefix 2>/dev/null || true)
+    if [[ $real_path == *"/Cellar/"* ]]; then
+      after=${real_path#*/Cellar/}; formula=${after%%/*}
+    elif [[ -n ${brew_prefix:-} && $real_path == $brew_prefix/opt/* ]]; then
+      after=${real_path#*$brew_prefix/opt/}; formula=${after%%/*}
+    else
+      formula=""
+    fi
+    if [[ -n $formula ]]; then
+      print_origin_header
+      echo "  - Homebrew formula: $formula"
+      add_origin "brew:$formula"
+      if command -v jq >/dev/null 2>&1; then
+        if info_json=$(brew info --json=v2 "$formula" 2>/dev/null); then
+          local current_version latest_version ver_status
+            current_version=$(echo "$info_json" | jq -r '.formulae[0].installed[0].version' 2>/dev/null)
+            latest_version=$(echo "$info_json" | jq -r '.formulae[0].versions.stable' 2>/dev/null)
+            [[ $current_version == null ]] && current_version="?"; [[ $latest_version == null ]] && latest_version="?"
+            ver_status="ok"
+            [[ $current_version != "$latest_version" ]] && ver_status="outdated"
+            echo "    Installed: $current_version (latest: $latest_version)${ver_status:+ [$ver_status]}"
         fi
-      done
-      cmd_path=$(which "$cmd" 2>/dev/null || true)
-      if [[ -n "${cmd_path:-}" ]]; then
-        echo "File type: $(file "$cmd_path" 2>/dev/null | cut -d: -f2- | sed 's/^ *//')"
-        echo "Size: $(ls -lh "$cmd_path" 2>/dev/null | awk '{print $5}')"
+      else
+        if info_text=$(brew info "$formula" 2>/dev/null | head -5); then
+          echo "    Info: $(echo "$info_text" | tr '\n' ' ' | sed 's/  */ /g')"
+        fi
+      fi
+      echo "    Update cmd: brew upgrade $formula"
+    fi
+  fi
+
+  # npm global origin
+  if [[ -n ${real_path:-} ]] && command -v npm >/dev/null 2>&1; then
+    if npm_root=$(npm root -g 2>/dev/null); then
+      case $real_path in
+        *"$npm_root"/node_modules/*)
+          local pkg_part pkg_name pkg_json_dir pkg_ver
+          pkg_part=${real_path#*"$npm_root"/node_modules/}
+          pkg_name=${pkg_part%%/*}
+          if [[ $pkg_name != .* ]]; then
+            pkg_json_dir="$npm_root/node_modules/$pkg_name"
+            if [[ -f $pkg_json_dir/package.json ]]; then
+              pkg_ver=$(grep -E '"version"' "$pkg_json_dir/package.json" 2>/dev/null | head -1 | sed -E 's/.*"version" *: *"([^"]+)".*/\1/')
+              print_origin_header
+              echo "  - npm global package: $pkg_name@$pkg_ver"
+              add_origin "npm:$pkg_name@$pkg_ver"
+              echo "    Update cmd: npm install -g $pkg_name"
+            fi
+          fi
+          ;;
+      esac
+    fi
+  fi
+
+  # pipx origin
+  if [[ -n ${real_path:-} && $real_path == *"/pipx/venvs/"*"/bin/"* ]]; then
+    local after pkg_name pv
+    after=${real_path#*/pipx/venvs/}; pkg_name=${after%%/bin/*}
+    print_origin_header
+    echo "  - pipx venv: $pkg_name"
+    add_origin "pipx:$pkg_name"
+    if command -v pipx >/dev/null 2>&1; then
+      pv=$(pipx list 2>/dev/null | grep -E "^package $pkg_name " | sed -E 's/package [^ ]+ ([^ ]+) .*/\1/' || true)
+      [[ -n $pv ]] && echo "    Version: $pv"
+      echo "    Update cmd: pipx upgrade $pkg_name"
+    fi
+  fi
+
+  # Python site-packages heuristic
+  if [[ -n ${real_path:-} && $real_path == *"/site-packages/"* ]]; then
+    local sitepkg_root comp_candidate
+    sitepkg_root=${real_path%%/site-packages/*}/site-packages
+    if comp_candidate=$(printf '%s\n' "$sitepkg_root"/* | grep -E "/$cmd(\\.py)?$" 2>/dev/null | head -1); then
+      print_origin_header
+      echo "  - Python script in site-packages (heuristic)"
+      add_origin "python-site-packages"
+    fi
+  fi
+
+  # Ruby gem origin
+  if [[ -n ${real_path:-} && $real_path == *"/gems/"*"/bin/"* ]]; then
+    local after namever gem_name gem_ver
+    after=${real_path#*/gems/}
+    namever=${after%%/bin/*}
+    gem_name=${namever%-*}
+    gem_ver=${namever##*-}
+    print_origin_header
+    echo "  - Ruby gem: $gem_name@$gem_ver"
+    add_origin "gem:$gem_name@$gem_ver"
+    if command -v gem >/dev/null 2>&1; then
+      echo "    Update cmd: gem update $gem_name"
+    fi
+  fi
+
+  # Cargo origin
+  if [[ -n ${real_path:-} && $real_path == $HOME/.cargo/bin/* ]]; then
+    print_origin_header
+    echo "  - ${ICON_RUST} Cargo installed binary"
+    add_origin "cargo:$cmd"
+    if command -v cargo >/dev/null 2>&1; then
+      if cargo install --list 2>/dev/null | grep -E "^$cmd v" >/dev/null 2>&1; then
+        local crate_line ver
+        crate_line=$(cargo install --list 2>/dev/null | grep -E "^$cmd v" | head -1)
+        ver=$(echo "$crate_line" | awk '{print $2}')
+        echo "    Crate: $cmd@$ver"
+        echo "    Update cmd: cargo install $cmd --force"
       fi
     fi
-    ;;
- esac
+  fi
+
+  # mise shim origin
+  if [[ -n ${cmd_path:-} && $cmd_path == *"/mise/shims/"* ]]; then
+    print_origin_header
+    echo "  - mise shim"
+    add_origin "mise:$cmd"
+    if command -v mise >/dev/null 2>&1; then
+      local real_mise current_versions
+      real_mise=$(mise which "$cmd" 2>/dev/null || true)
+      [[ -n $real_mise ]] && echo "    Target: $real_mise"
+      current_versions=$(mise list 2>/dev/null | grep -E " $cmd(" || true)
+      [[ -n $current_versions ]] && echo "    mise list: $current_versions"
+    fi
+  fi
+
+  # asdf shim origin
+  if [[ -n ${cmd_path:-} && $cmd_path == *"/.asdf/shims/"* ]]; then
+    print_origin_header
+    echo "  - asdf shim"
+    add_origin "asdf:$cmd"
+    if command -v asdf >/dev/null 2>&1; then
+      local plugin
+      plugin=$(asdf which "$cmd" 2>/dev/null | awk -F/ '{print $(NF-2)}' || true)
+      [[ -n $plugin ]] && echo "    Plugin: $plugin"
+    fi
+  fi
+
+  if [[ -n $origin_summary ]]; then
+    echo "${ICON_INFO} ${CLR_BOLD}Origin summary:${CLR_RESET} $origin_summary"
+  fi
+
+  [[ $printed_origin_header == 1 ]] && echo
+
+  # Linked libraries (Mach-O / ELF)
+  if [[ -f ${real_path:-} ]]; then
+    if command -v otool >/dev/null 2>&1 && file "$real_path" 2>/dev/null | grep -q 'Mach-O'; then
+      echo "${ICON_INFO} ${CLR_BOLD}Mach-O linked libraries (truncated):${CLR_RESET}"
+      otool -L "$real_path" 2>/dev/null | sed -n '2,11p'
+      echo
+    elif command -v ldd >/dev/null 2>&1 && file "$real_path" 2>/dev/null | grep -qi 'ELF'; then
+      echo "${ICON_INFO} ${CLR_BOLD}ELF linked libraries (truncated):${CLR_RESET}"
+      ldd "$real_path" 2>/dev/null | sed -n '1,10p'
+      echo
+    fi
+  fi
+}
+
+first=1
+for arg in "$@"; do
+  if [[ $first -eq 0 ]]; then
+    # separator between multiple command outputs
+    echo "${CLR_DIM}${CLR_GREY}========================================${CLR_RESET}"
+    echo
+  fi
+  wtf_inspect "$arg"
+  first=0
+done
+
+exit $overall_status
