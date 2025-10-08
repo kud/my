@@ -734,7 +734,7 @@ ui_theme_cyberpunk() {
 # 📋 STEP PROGRESS TRACKING
 ################################################################################
 
-# Installation progress tracking (migrated from helper.zsh)
+
 _CURRENT_STEP=0
 _TOTAL_STEPS=0
 
@@ -752,7 +752,7 @@ ui_next_step() {
 # 🎯 TASK MANAGEMENT
 ################################################################################
 
-# Task execution functions (migrated from helper.zsh)
+
 ui_task_start() {
     echo -e "${UI_CYAN}${UI_ICON_ROCKET} ${UI_RESET}$1..."
 }
@@ -816,7 +816,7 @@ ui_hr() {
 ################################################################################
 
 # Title functions for section headers
-# Legacy title function (deprecated - use ui_section instead)
+
 ui_title() {
     echo -e "${UI_CYAN}${UI_ICON_STARTER} $@${UI_RESET}"
 }
@@ -848,7 +848,7 @@ ui_input_prompt() {
 # 🔄 BACKWARD COMPATIBILITY FUNCTIONS
 ################################################################################
 
-# Migration functions for helper.zsh functions
+
 # These provide backward compatibility during the transition period
 
 # Message functions
