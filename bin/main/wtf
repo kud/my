@@ -1,0 +1,69 @@
+#! /usr/bin/env zsh
+
+# Enhanced command inspector (migrated from shell/functions.zsh)
+# Usage: wtf <command>
+
+set -euo pipefail
+
+cmd="$1" 2>/dev/null || true
+if [[ -z "${cmd:-}" ]]; then
+  echo "Usage: wtf <command>" >&2
+  exit 1
+fi
+
+# Load UI kit icons if available
+if [[ -n "${MY:-}" && -f "$MY/core/utils/ui-kit.zsh" ]]; then
+  source "$MY/core/utils/ui-kit.zsh"
+fi
+
+print -- "${UI_ICON_SEARCH:-🔍} Command: $cmd"
+print -- "────────────────────"
+whence -v "$cmd" 2>/dev/null || echo "Command not found"
+print --
+
+case "$cmd" in
+  npm)
+    echo "${UI_ICON_INSTALL:-📦} NPM Information:"
+    echo "Version: $(npm --version 2>/dev/null || echo 'not installed')"
+    echo "Registry: $(npm config get registry 2>/dev/null || echo 'unknown')"
+    echo "Global packages location: $(npm root -g 2>/dev/null || echo 'unknown')"
+    ;;
+  node)
+    echo "🟢 Node.js Information:"
+    echo "Version: $(node --version 2>/dev/null || echo 'not installed')"
+    ;;
+  python|python3|pip|pip3)
+    echo "🐍 Python Information:"
+    echo "Version: $($cmd --version 2>/dev/null || echo 'not installed')"
+    ;;
+  brew)
+    echo "${UI_ICON_INSTALL:-📦} Homebrew Information:"
+    echo "Version: $(brew --version 2>/dev/null | head -1 || echo 'not installed')"
+    echo "Prefix: $(brew --prefix 2>/dev/null || echo 'unknown')"
+    ;;
+  git)
+    echo "${UI_ICON_TABLE:-📊} Git Information:"
+    echo "Version: $(git --version 2>/dev/null || echo 'not installed')"
+    echo "Config user: $(git config --global user.name 2>/dev/null || echo 'not set')"
+    ;;
+  ruby|gem)
+    echo "💎 Ruby Information:"
+    echo "Version: $($cmd --version 2>/dev/null || echo 'not installed')"
+    ;;
+  *)
+    if command -v "$cmd" >/dev/null 2>&1; then
+      echo "${UI_ICON_INFO:-ℹ️} Additional Information:"
+      for flag in --version -v -V version; do
+        if output=$($cmd $flag 2>/dev/null) && [[ -n "$output" ]]; then
+          echo "Version: $(echo "$output" | head -1)"
+          break
+        fi
+      done
+      cmd_path=$(which "$cmd" 2>/dev/null || true)
+      if [[ -n "${cmd_path:-}" ]]; then
+        echo "File type: $(file "$cmd_path" 2>/dev/null | cut -d: -f2- | sed 's/^ *//')"
+        echo "Size: $(ls -lh "$cmd_path" 2>/dev/null | awk '{print $5}')"
+      fi
+    fi
+    ;;
+ esac
