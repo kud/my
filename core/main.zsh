@@ -46,6 +46,14 @@ setup_package_managers() {
         exit 1
     fi
 
+    # Run mise early so language globals are current before package installs
+    ui_subtitle "mise Tool Sync"
+    if command -v mise >/dev/null 2>&1; then
+        $MY/core/packages/mise.zsh || ui_warning_simple "mise sync failed" # relocated from core/mise.zsh
+    else
+        ui_warning_simple "mise not found (brew install mise)"
+    fi
+
     ui_subtitle "GitHub CLI Extensions"
     $MY/core/packages/gh.zsh
 
@@ -56,7 +64,7 @@ setup_package_managers() {
     $MY/core/packages/gem.zsh
 
     ui_subtitle "Python Packages"
-    $MY/core/packages/pip.zsh
+    $MY/core/packages/uv.zsh
 
     ui_subtitle "Node.js Packages"
     $MY/core/packages/npm.zsh

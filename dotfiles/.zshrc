@@ -21,6 +21,7 @@ for module in \
   limits.zsh \
   homebrew.zsh \
   path/homebrew.zsh \
+  mise.zsh \
   functions.zsh \
   completions.zsh \
   bindings.zsh \

@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-# Wrapper script to run Node.js scripts with Homebrew's Node instead of fnm's Node
+# Wrapper script to run Node.js scripts with Homebrew's Node (legacy fnm reference removed)
 
 # Resolve Node by existence (fast) with Homebrew-first preference
 typeset -a __node_candidates
