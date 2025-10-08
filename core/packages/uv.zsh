@@ -50,9 +50,15 @@ fi
 python_install_package() {
   local package="$1"
   if (( USE_UV )); then
-    uv pip install "$package"
+    if ! uv pip install "$package"; then
+      ui_error_simple "Failed to install package '$package' with uv"
+      return 1
+    fi
   else
-    python -m pip install "$package"
+    if ! python -m pip install "$package"; then
+      ui_error_simple "Failed to install package '$package' with pip"
+      return 1
+    fi
   fi
 }
 
