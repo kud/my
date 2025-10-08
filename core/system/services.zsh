@@ -290,7 +290,7 @@ case "${1:-list}" in
             status_all
         fi
         ;;
-    # Legacy compatibility (can be removed later)
+
     install)
         if [[ -n "${2:-}" ]]; then
             install_service "$2"
