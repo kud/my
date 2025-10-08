@@ -53,6 +53,7 @@ ui_subsection "Upgrading"
 if ! UPGRADE_OUTPUT=$(mise upgrade 2>&1); then
   ui_error_simple "Upgrade failed"
   echo "$UPGRADE_OUTPUT"
+  exit 1
 else
   echo "$UPGRADE_OUTPUT" | grep -v '^$' || true
   ui_success_simple "Runtimes upgraded"
