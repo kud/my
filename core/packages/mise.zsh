@@ -50,12 +50,10 @@ fi
 
 ui_spacer
 ui_subsection "Upgrading"
-if ! UPGRADE_OUTPUT=$(mise upgrade 2>&1); then
+if ! mise upgrade; then
   ui_error_simple "Upgrade failed"
-  echo "$UPGRADE_OUTPUT"
   exit 1
 else
-  echo "$UPGRADE_OUTPUT" | grep -v '^$' || true
   ui_success_simple "Runtimes upgraded"
 fi
 
