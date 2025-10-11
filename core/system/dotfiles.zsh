@@ -65,6 +65,26 @@ if [[ -d "$MY/dotfiles/.config" ]]; then
 fi
 
 ############################################################
+# 🔔 Codex config directory setup
+############################################################
+
+if [[ -d "$MY/dotfiles/.codex" ]]; then
+  mkdir -p "$HOME/.codex"
+
+  find "$MY/dotfiles/.codex" -type f | while read -r codex_file; do
+    rel_path="${codex_file#$MY/dotfiles/.codex/}"
+    target_path="$HOME/.codex/$rel_path"
+    target_dir="$(dirname "$target_path")"
+
+    mkdir -p "$target_dir"
+
+    if ln -sf "$codex_file" "$target_path" 2>/dev/null; then
+      ui_success_simple "Linked .codex/$rel_path"
+    fi
+  done
+fi
+
+############################################################
 # 🧩 Zsh config directory setup
 ############################################################
 mkdir -p "$HOME_CONFIG_DIR/zsh"
