@@ -1,0 +1,11 @@
+# Claude Code Configuration - Common
+# Settings applied to all profiles
+
+# General settings (keys must match .claude.json keys exactly)
+settings:
+  autoUpdates: true
+  theme: dark-daltonized
+
+# Common MCP servers (all profiles)
+# Add common MCP servers here if needed
+mcp:

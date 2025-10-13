@@ -46,7 +46,7 @@ else
     if [[ -z "$2" ]]; then
       echo "Error: 'run' requires a module name. Available modules:"
       echo "  Apps: firefox (use -sc for shortcuts), keepassxc, pcloud, sublime-merge, bruno"
-      echo "  CLI: abbr, aicommits, opencode, ssh"
+      echo "  CLI: abbr, aicommits, claude, opencode, ssh"
       echo "  Packages: antidote, brew, gh, gem, mas, npm, uv"
       echo "  System: default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlinks"
       exit 1
@@ -101,6 +101,9 @@ else
       ;;
     aicommits)
       $MY/core/cli/aicommits.zsh
+      ;;
+    claude)
+      $MY/core/cli/claude.zsh
       ;;
     opencode)
       $MY/core/cli/opencode.zsh
@@ -199,7 +202,7 @@ else
 
     echo
     echo "  Development Tools:"
-    echo "    abbr, aicommits, opencode, ssh"
+    echo "    abbr, aicommits, claude, opencode, ssh"
 
     echo
     echo "  System Components:"
