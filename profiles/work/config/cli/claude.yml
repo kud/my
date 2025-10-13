@@ -1,0 +1,11 @@
+# Claude Code Configuration - Work Profile
+# Profile-specific MCP server settings for work usage
+
+# MCP Servers
+mcp:
+  atlassian:
+    transport: sse
+    url: https://mcp.atlassian.com/v1/sse
+  figma:
+    transport: http
+    url: http://127.0.0.1:3845/mcp

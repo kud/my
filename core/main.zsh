@@ -80,6 +80,9 @@ setup_development_tools() {
     ui_subtitle "Shell Abbreviations"
     $MY/core/cli/abbr.zsh
 
+    ui_subtitle "Claude Code Configuration"
+    $MY/core/cli/claude.zsh
+
     ui_subtitle "Opencode Configuration"
     $MY/core/cli/opencode.zsh
 
