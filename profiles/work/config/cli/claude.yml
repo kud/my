@@ -9,3 +9,6 @@ mcp:
   figma:
     transport: http
     url: http://127.0.0.1:3845/mcp
+  sentry:
+    transport: sse
+    url: https://mcp.sentry.dev/mcp

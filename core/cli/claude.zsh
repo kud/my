@@ -66,8 +66,10 @@ add_mcp_server() {
         return 0
     fi
 
-    # Add the server
-    if claude mcp add --transport "$transport" "$name" "$url" >/dev/null 2>&1; then
+    # Add the server (suppress all output)
+    local output
+    output=$(claude mcp add --transport "$transport" "$name" "$url" 2>&1)
+    if [[ $? -eq 0 ]]; then
         ui_success_simple "Added MCP server: $name" 1
         return 0
     else
