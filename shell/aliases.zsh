@@ -83,6 +83,7 @@ alias pbc='pbcopy'
 alias pbp='pbpaste'
 alias rubbish='trash'
 alias litter='trash'
+alias fix-cursor='echo -e "\e[6 q"'
 
 # 🤖 AI
 alias explain='ai explain'
