@@ -6,9 +6,9 @@ mcp:
   atlassian:
     transport: sse
     url: https://mcp.atlassian.com/v1/sse
-  figma:
-    transport: http
-    url: http://127.0.0.1:3845/mcp
   sentry:
     transport: sse
     url: https://mcp.sentry.dev/mcp
+  figma-remote-mcp:
+    transport: http
+    url: https://mcp.figma.com/mcp

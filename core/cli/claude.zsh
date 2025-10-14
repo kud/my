@@ -54,11 +54,56 @@ update_claude_settings() {
     fi
 }
 
+# Function to check if environment variables in a string are set
+check_env_vars() {
+    local text="$1"
+    local missing_vars=()
+
+    # Extract all ${VAR_NAME} patterns
+    while [[ "$text" =~ \$\{([A-Za-z_][A-Za-z0-9_]*)\} ]]; do
+        local var_name="${BASH_REMATCH[1]}"
+
+        # Check if the variable is set
+        if [[ -z "${(P)var_name}" ]]; then
+            missing_vars+=("$var_name")
+        fi
+
+        # Remove the matched pattern to continue searching
+        text="${text#*${BASH_REMATCH[0]}}"
+    done
+
+    if [[ ${#missing_vars[@]} -gt 0 ]]; then
+        for var in "${missing_vars[@]}"; do
+            ui_error_msg "Environment variable \$$var is not set" 1
+        done
+        ui_error_msg "Please define the missing environment variables and try again" 1
+        return 1
+    fi
+
+    return 0
+}
+
 # Function to add MCP server
 add_mcp_server() {
     local name="$1"
     local transport="$2"
     local url="$3"
+    shift 3
+    local headers=("$@")
+
+    # Check if environment variables in URL are set
+    if ! check_env_vars "$url"; then
+        ui_error_msg "Cannot add MCP server '$name' due to missing environment variables" 1
+        return 1
+    fi
+
+    # Check if environment variables in headers are set
+    for header in "${headers[@]}"; do
+        if ! check_env_vars "$header"; then
+            ui_error_msg "Cannot add MCP server '$name' due to missing environment variables in headers" 1
+            return 1
+        fi
+    done
 
     # Check if already configured
     if claude mcp list 2>&1 | grep -q "$name"; then
@@ -66,9 +111,15 @@ add_mcp_server() {
         return 0
     fi
 
+    # Build command with headers
+    local cmd=(claude mcp add --transport "$transport" "$name" "$url")
+    for header in "${headers[@]}"; do
+        cmd+=(-H "$header")
+    done
+
     # Add the server (suppress all output)
     local output
-    output=$(claude mcp add --transport "$transport" "$name" "$url" 2>&1)
+    output=$("${cmd[@]}" 2>&1)
     if [[ $? -eq 0 ]]; then
         ui_success_simple "Added MCP server: $name" 1
         return 0
@@ -104,8 +155,16 @@ if [[ -f "$COMMON_CONFIG" ]]; then
         transport=$(yq -r ".mcp.$name.transport" "$COMMON_CONFIG" 2>/dev/null)
         url=$(yq -r ".mcp.$name.url" "$COMMON_CONFIG" 2>/dev/null)
 
+        # Read headers if they exist
+        local headers=()
+        local header_keys=($(yq -r ".mcp.$name.headers | keys[]" "$COMMON_CONFIG" 2>/dev/null))
+        for key in "${header_keys[@]}"; do
+            value=$(yq -r ".mcp.$name.headers.$key" "$COMMON_CONFIG" 2>/dev/null)
+            headers+=("$key: $value")
+        done
+
         if [[ -n "$transport" && -n "$url" ]]; then
-            add_mcp_server "$name" "$transport" "$url"
+            add_mcp_server "$name" "$transport" "$url" "${headers[@]}"
         fi
     done
 fi
@@ -119,8 +178,16 @@ if [[ -f "$PROFILE_CONFIG" ]]; then
         transport=$(yq -r ".mcp.$name.transport" "$PROFILE_CONFIG" 2>/dev/null)
         url=$(yq -r ".mcp.$name.url" "$PROFILE_CONFIG" 2>/dev/null)
 
+        # Read headers if they exist
+        local headers=()
+        local header_keys=($(yq -r ".mcp.$name.headers | keys[]" "$PROFILE_CONFIG" 2>/dev/null))
+        for key in "${header_keys[@]}"; do
+            value=$(yq -r ".mcp.$name.headers.$key" "$PROFILE_CONFIG" 2>/dev/null)
+            headers+=("$key: $value")
+        done
+
         if [[ -n "$transport" && -n "$url" ]]; then
-            add_mcp_server "$name" "$transport" "$url"
+            add_mcp_server "$name" "$transport" "$url" "${headers[@]}"
         fi
     done
 fi
