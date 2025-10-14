@@ -10,10 +10,9 @@ settings:
 mcp:
   github:
     transport: http
-    url: https://api.githubcopilot.com/mcp/
+    url: https://api.githubcopilot.com/mcp
+    headers:
+      Authorization: Bearer ${MCP_GITHUB_TOKEN}
   notion:
     transport: http
     url: https://mcp.notion.com/mcp
-  figma-remote-mcp:
-    transport: http
-    url: https://mcp.figma.com/mcp
