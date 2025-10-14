@@ -50,7 +50,7 @@ update_claude_settings() {
         # Create temp file with updated value
         local temp_file=$(mktemp)
         jq ".$key = $value" "$CLAUDE_CONFIG" > "$temp_file" && mv "$temp_file" "$CLAUDE_CONFIG"
-        ui_success_simple "Updated setting: $key = $value" 1
+        ui_success_simple "Updated setting: $key = $value" 0
     fi
 }
 
@@ -74,9 +74,9 @@ check_env_vars() {
 
     if [[ ${#missing_vars[@]} -gt 0 ]]; then
         for var in "${missing_vars[@]}"; do
-            ui_error_msg "Environment variable \$$var is not set" 1
+            ui_error_msg "Environment variable \$$var is not set" 0
         done
-        ui_error_msg "Please define the missing environment variables and try again" 1
+        ui_error_msg "Please define the missing environment variables and try again" 0
         return 1
     fi
 
@@ -95,26 +95,26 @@ add_mcp_server() {
 
     # Check if environment variables in URL/command are set
     if ! check_env_vars "$url_or_command"; then
-        ui_error_msg "Cannot add MCP server '$name' due to missing environment variables" 1
+        ui_error_msg "Cannot add MCP server '$name' due to missing environment variables" 0
         return 1
     fi
 
     # Check if environment variables in extra args are set
     for arg in "${extra_args[@]}"; do
         if ! check_env_vars "$arg"; then
-            ui_error_msg "Cannot add MCP server '$name' due to missing environment variables" 1
+            ui_error_msg "Cannot add MCP server '$name' due to missing environment variables" 0
             return 1
         fi
     done
 
     # Check if already configured
     if claude mcp list 2>&1 | grep -q "$name"; then
-        ui_info_simple "MCP server '$name' already configured" 1
+        ui_info_simple "MCP server '$name' already configured" 0
         return 0
     fi
 
     # Build command based on transport type
-    local cmd=(claude mcp add --transport "$transport" "$name")
+    local cmd=(claude mcp add --scope user --transport "$transport" "$name")
 
     if [[ "$transport" == "stdio" ]]; then
         # For stdio, url_or_command is the command, extra_args are command arguments
@@ -132,10 +132,10 @@ add_mcp_server() {
     local output
     output=$("${cmd[@]}" 2>&1)
     if [[ $? -eq 0 ]]; then
-        ui_success_simple "Added MCP server: $name" 1
+        ui_success_simple "Added MCP server: $name" 0
         return 0
     else
-        ui_error_msg "Failed to add MCP server: $name" 1
+        ui_error_msg "Failed to add MCP server: $name" 0
         return 1
     fi
 }
