@@ -87,20 +87,22 @@ check_env_vars() {
 add_mcp_server() {
     local name="$1"
     local transport="$2"
-    local url="$3"
+    local url_or_command="$3"
     shift 3
-    local headers=("$@")
 
-    # Check if environment variables in URL are set
-    if ! check_env_vars "$url"; then
+    # Remaining args could be headers (for http/sse) or command args (for stdio)
+    local extra_args=("$@")
+
+    # Check if environment variables in URL/command are set
+    if ! check_env_vars "$url_or_command"; then
         ui_error_msg "Cannot add MCP server '$name' due to missing environment variables" 1
         return 1
     fi
 
-    # Check if environment variables in headers are set
-    for header in "${headers[@]}"; do
-        if ! check_env_vars "$header"; then
-            ui_error_msg "Cannot add MCP server '$name' due to missing environment variables in headers" 1
+    # Check if environment variables in extra args are set
+    for arg in "${extra_args[@]}"; do
+        if ! check_env_vars "$arg"; then
+            ui_error_msg "Cannot add MCP server '$name' due to missing environment variables" 1
             return 1
         fi
     done
@@ -111,11 +113,20 @@ add_mcp_server() {
         return 0
     fi
 
-    # Build command with headers
-    local cmd=(claude mcp add --transport "$transport" "$name" "$url")
-    for header in "${headers[@]}"; do
-        cmd+=(-H "$header")
-    done
+    # Build command based on transport type
+    local cmd=(claude mcp add --transport "$transport" "$name")
+
+    if [[ "$transport" == "stdio" ]]; then
+        # For stdio, url_or_command is the command, extra_args are command arguments
+        cmd+=("$url_or_command")
+        cmd+=("${extra_args[@]}")
+    else
+        # For http/sse, url_or_command is the URL, extra_args are headers
+        cmd+=("$url_or_command")
+        for header in "${extra_args[@]}"; do
+            cmd+=(-H "$header")
+        done
+    fi
 
     # Add the server (suppress all output)
     local output
@@ -153,18 +164,34 @@ if [[ -f "$COMMON_CONFIG" ]]; then
 
     for name in "${mcp_names[@]}"; do
         transport=$(yq -r ".mcp.$name.transport" "$COMMON_CONFIG" 2>/dev/null)
-        url=$(yq -r ".mcp.$name.url" "$COMMON_CONFIG" 2>/dev/null)
 
-        # Read headers if they exist
-        local headers=()
-        local header_keys=($(yq -r ".mcp.$name.headers | keys[]" "$COMMON_CONFIG" 2>/dev/null))
-        for key in "${header_keys[@]}"; do
-            value=$(yq -r ".mcp.$name.headers.$key" "$COMMON_CONFIG" 2>/dev/null)
-            headers+=("$key: $value")
-        done
+        if [[ "$transport" == "stdio" ]]; then
+            # For stdio transport, read command and args
+            command=$(yq -r ".mcp.$name.command" "$COMMON_CONFIG" 2>/dev/null)
+            local args=()
+            local arg_values=($(yq -r ".mcp.$name.args[]" "$COMMON_CONFIG" 2>/dev/null))
+            for arg in "${arg_values[@]}"; do
+                args+=("$arg")
+            done
 
-        if [[ -n "$transport" && -n "$url" ]]; then
-            add_mcp_server "$name" "$transport" "$url" "${headers[@]}"
+            if [[ -n "$transport" && -n "$command" ]]; then
+                add_mcp_server "$name" "$transport" "$command" "${args[@]}"
+            fi
+        else
+            # For http/sse transport, read url and headers
+            url=$(yq -r ".mcp.$name.url" "$COMMON_CONFIG" 2>/dev/null)
+
+            # Read headers if they exist
+            local headers=()
+            local header_keys=($(yq -r ".mcp.$name.headers | keys[]" "$COMMON_CONFIG" 2>/dev/null))
+            for key in "${header_keys[@]}"; do
+                value=$(yq -r ".mcp.$name.headers.$key" "$COMMON_CONFIG" 2>/dev/null)
+                headers+=("$key: $value")
+            done
+
+            if [[ -n "$transport" && -n "$url" ]]; then
+                add_mcp_server "$name" "$transport" "$url" "${headers[@]}"
+            fi
         fi
     done
 fi
@@ -176,18 +203,34 @@ if [[ -f "$PROFILE_CONFIG" ]]; then
 
     for name in "${mcp_names[@]}"; do
         transport=$(yq -r ".mcp.$name.transport" "$PROFILE_CONFIG" 2>/dev/null)
-        url=$(yq -r ".mcp.$name.url" "$PROFILE_CONFIG" 2>/dev/null)
 
-        # Read headers if they exist
-        local headers=()
-        local header_keys=($(yq -r ".mcp.$name.headers | keys[]" "$PROFILE_CONFIG" 2>/dev/null))
-        for key in "${header_keys[@]}"; do
-            value=$(yq -r ".mcp.$name.headers.$key" "$PROFILE_CONFIG" 2>/dev/null)
-            headers+=("$key: $value")
-        done
+        if [[ "$transport" == "stdio" ]]; then
+            # For stdio transport, read command and args
+            command=$(yq -r ".mcp.$name.command" "$PROFILE_CONFIG" 2>/dev/null)
+            local args=()
+            local arg_values=($(yq -r ".mcp.$name.args[]" "$PROFILE_CONFIG" 2>/dev/null))
+            for arg in "${arg_values[@]}"; do
+                args+=("$arg")
+            done
 
-        if [[ -n "$transport" && -n "$url" ]]; then
-            add_mcp_server "$name" "$transport" "$url" "${headers[@]}"
+            if [[ -n "$transport" && -n "$command" ]]; then
+                add_mcp_server "$name" "$transport" "$command" "${args[@]}"
+            fi
+        else
+            # For http/sse transport, read url and headers
+            url=$(yq -r ".mcp.$name.url" "$PROFILE_CONFIG" 2>/dev/null)
+
+            # Read headers if they exist
+            local headers=()
+            local header_keys=($(yq -r ".mcp.$name.headers | keys[]" "$PROFILE_CONFIG" 2>/dev/null))
+            for key in "${header_keys[@]}"; do
+                value=$(yq -r ".mcp.$name.headers.$key" "$PROFILE_CONFIG" 2>/dev/null)
+                headers+=("$key: $value")
+            done
+
+            if [[ -n "$transport" && -n "$url" ]]; then
+                add_mcp_server "$name" "$transport" "$url" "${headers[@]}"
+            fi
         fi
     done
 fi
