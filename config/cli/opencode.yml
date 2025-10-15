@@ -7,7 +7,25 @@
 #                                                                              #
 ################################################################################
 
-opencode:
-  theme: tokyonight
-  model: github-copilot/gpt-5
-  autoupdate: true
+$schema: https://opencode.ai/config.json
+
+theme: tokyonight
+model: github-copilot/gpt-5
+autoupdate: true
+
+# MCP servers (all profiles)
+mcp:
+  github:
+    type: remote
+    enabled: true
+    url: https://api.githubcopilot.com/mcp
+    headers:
+      Authorization: Bearer ${MCP_GITHUB_TOKEN}
+  notion:
+    type: local
+    enabled: true
+    command:
+      - npx
+      - -y
+      - mcp-remote
+      - https://mcp.notion.com/mcp

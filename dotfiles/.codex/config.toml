@@ -1,6 +1,0 @@
-# Codex CLI configuration that enables the custom notification script.
-notify = ["/usr/bin/env", "bash", "-lc", "~/.codex/notify.sh \"$1\"", "codex-notify"]
-
-[tui]
-# Keep terminal notifications available alongside the custom notifier.
-notifications = true
