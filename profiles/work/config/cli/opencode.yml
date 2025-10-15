@@ -5,7 +5,7 @@
 mcp:
   atlassian:
     type: local
-    enabled: true
+    enabled: false
     command:
       - npx
       - -y
@@ -13,7 +13,7 @@ mcp:
       - https://mcp.atlassian.com/v1/sse
   sentry:
     type: local
-    enabled: true
+    enabled: false
     command:
       - npx
       - -y

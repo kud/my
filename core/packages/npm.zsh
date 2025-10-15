@@ -39,7 +39,15 @@ ui_success_simple "npm packages updated" 1
 
 ui_spacer
 
+ui_subsection "Ensuring npm CLI latest"
+if npm install -g npm@latest; then
+  ui_success_simple "npm CLI updated" 1
+else
+  ui_warning_simple "npm CLI update failed"
+fi
+
+ui_spacer
+
 # Process npm packages using shared utilities
 process_package_configs "npm" "npm_install" "npm_install_run"
 ui_success_simple "npm packages installed" 1
-

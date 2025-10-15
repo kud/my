@@ -57,7 +57,7 @@ packages:
   - npm-upgrade
   - ntl
   - open-pip-cli
-  - opencode-ai
+  - opencode-ai@latest
   - pageres-cli
   - pnpm
   - prettier
