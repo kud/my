@@ -23,7 +23,7 @@ mcp:
       Authorization: Bearer ${MCP_GITHUB_TOKEN}
   notion:
     type: local
-    enabled: true
+    enabled: false
     command:
       - npx
       - -y

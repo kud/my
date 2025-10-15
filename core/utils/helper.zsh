@@ -194,17 +194,26 @@ function npm_install_run() {
   local packages_to_install=()
   ui_debug "npm_install_run: Filtering already installed packages"
   for package in "${_LOCAL_NPM_PACKAGES[@]}"; do
-    # Extract package name without version (handle @scope/package@version format)
+    # Extract package name and detect explicit version/dist-tag requests
     local package_name="${package}"
-    # Remove version if present (everything after the last @)
+    local has_version=0
+
     if [[ "$package_name" == *"@"*"/"*"@"* ]]; then
-      # Scoped package with version: @scope/package@version
+      # Scoped package with version: @scope/name@version
       package_name="${package_name%@*}"
+      has_version=1
     elif [[ "$package_name" != *"/"* && "$package_name" == *"@"* ]]; then
-      # Non-scoped package with version: package@version
+      # Non-scoped package with version/dist-tag: name@version
       package_name="${package_name%@*}"
+      has_version=1
     fi
-    
+
+    if (( has_version )); then
+      packages_to_install+=("$package")
+      ui_debug "npm_install_run: Reinstalling $package (explicit version/dist-tag)"
+      continue
+    fi
+
     if ! echo "$installed_packages" | grep -q "^${package_name}$"; then
       packages_to_install+=("$package")
       ui_debug "npm_install_run: Need to install $package"
@@ -354,4 +363,3 @@ merge_app_preferences() {
 
   echo "$merged_prefs"
 }
-
