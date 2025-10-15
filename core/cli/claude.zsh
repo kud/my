@@ -83,6 +83,14 @@ check_env_vars() {
     return 0
 }
 
+# Function to expand environment variables in a string
+expand_env_vars() {
+    local text="$1"
+
+    # Use eval to expand variables (safe because we validate them with check_env_vars first)
+    eval echo "$text"
+}
+
 # Function to add MCP server
 add_mcp_server() {
     local name="$1"
@@ -168,10 +176,11 @@ if [[ -f "$COMMON_CONFIG" ]]; then
         if [[ "$transport" == "stdio" ]]; then
             # For stdio transport, read command and args
             command=$(yq -r ".mcp.$name.command" "$COMMON_CONFIG" 2>/dev/null)
+            command=$(expand_env_vars "$command")
             local args=()
             local arg_values=($(yq -r ".mcp.$name.args[]" "$COMMON_CONFIG" 2>/dev/null))
             for arg in "${arg_values[@]}"; do
-                args+=("$arg")
+                args+=("$(expand_env_vars "$arg")")
             done
 
             if [[ -n "$transport" && -n "$command" ]]; then
@@ -180,12 +189,14 @@ if [[ -f "$COMMON_CONFIG" ]]; then
         else
             # For http/sse transport, read url and headers
             url=$(yq -r ".mcp.$name.url" "$COMMON_CONFIG" 2>/dev/null)
+            url=$(expand_env_vars "$url")
 
             # Read headers if they exist
             local headers=()
             local header_keys=($(yq -r ".mcp.$name.headers | keys[]" "$COMMON_CONFIG" 2>/dev/null))
             for key in "${header_keys[@]}"; do
                 value=$(yq -r ".mcp.$name.headers.$key" "$COMMON_CONFIG" 2>/dev/null)
+                value=$(expand_env_vars "$value")
                 headers+=("$key: $value")
             done
 
@@ -207,10 +218,11 @@ if [[ -f "$PROFILE_CONFIG" ]]; then
         if [[ "$transport" == "stdio" ]]; then
             # For stdio transport, read command and args
             command=$(yq -r ".mcp.$name.command" "$PROFILE_CONFIG" 2>/dev/null)
+            command=$(expand_env_vars "$command")
             local args=()
             local arg_values=($(yq -r ".mcp.$name.args[]" "$PROFILE_CONFIG" 2>/dev/null))
             for arg in "${arg_values[@]}"; do
-                args+=("$arg")
+                args+=("$(expand_env_vars "$arg")")
             done
 
             if [[ -n "$transport" && -n "$command" ]]; then
@@ -219,12 +231,14 @@ if [[ -f "$PROFILE_CONFIG" ]]; then
         else
             # For http/sse transport, read url and headers
             url=$(yq -r ".mcp.$name.url" "$PROFILE_CONFIG" 2>/dev/null)
+            url=$(expand_env_vars "$url")
 
             # Read headers if they exist
             local headers=()
             local header_keys=($(yq -r ".mcp.$name.headers | keys[]" "$PROFILE_CONFIG" 2>/dev/null))
             for key in "${header_keys[@]}"; do
                 value=$(yq -r ".mcp.$name.headers.$key" "$PROFILE_CONFIG" 2>/dev/null)
+                value=$(expand_env_vars "$value")
                 headers+=("$key: $value")
             done
 
