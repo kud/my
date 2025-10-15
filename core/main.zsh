@@ -86,6 +86,9 @@ setup_development_tools() {
     ui_subtitle "Opencode Configuration"
     $MY/core/cli/opencode.zsh
 
+    ui_subtitle "Codex Configuration"
+    $MY/core/cli/codex.zsh
+
     ui_success_simple "Development tools configured" 1
 }
 

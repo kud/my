@@ -1,0 +1,18 @@
+################################################################################
+#                                                                              #
+#   🧠 CODEX CLI CONFIGURATION                                                 #
+#   ---------------------------                                                #
+#   Defines default Codex CLI settings, including MCP server registrations.   #
+#   This YAML is rendered to TOML by core/cli/codex.zsh.                       #
+#                                                                              #
+################################################################################
+
+settings:
+  experimental_use_rmcp_client: true
+
+mcp_servers:
+  github:
+    url: https://api.githubcopilot.com/mcp
+    bearer_token_env_var: ${MCP_GITHUB_TOKEN}
+  notion:
+    url: https://mcp.notion.com/mcp
