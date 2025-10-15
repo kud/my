@@ -7,8 +7,11 @@ mcp:
     transport: sse
     url: https://mcp.atlassian.com/v1/sse
   sentry:
-    transport: sse
-    url: https://mcp.sentry.dev/mcp
+    transport: stdio
+    command: npx
+    args:
+      - mcp-remote
+      - https://mcp.sentry.dev/mcp
   figma-remote:
     transport: http
     url: https://mcp.figma.com/mcp
