@@ -126,7 +126,7 @@ add_mcp_server() {
 
     if [[ "$transport" == "stdio" ]]; then
         # For stdio, url_or_command is the command, extra_args are command arguments
-        cmd+=("$url_or_command")
+        cmd+=(-- "$url_or_command")
         cmd+=("${extra_args[@]}")
     else
         # For http/sse, url_or_command is the URL, extra_args are headers
@@ -137,6 +137,7 @@ add_mcp_server() {
     fi
 
     # Add the server (suppress all output)
+    ui_debug_command "${cmd[@]}"
     local output
     output=$("${cmd[@]}" 2>&1)
     if [[ $? -eq 0 ]]; then
@@ -144,6 +145,9 @@ add_mcp_server() {
         return 0
     else
         ui_error_msg "Failed to add MCP server: $name" 0
+        if [[ -n "$output" ]]; then
+            ui_error_msg "  Claude CLI: $output" 0
+        fi
         return 1
     fi
 }
