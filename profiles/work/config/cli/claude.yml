@@ -14,7 +14,6 @@ mcp:
     command: npx
     args:
       - mcp-remote
-      - -y
       - https://mcp.sentry.dev/mcp
   figma-remote:
     transport: http
