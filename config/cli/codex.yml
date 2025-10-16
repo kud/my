@@ -12,7 +12,18 @@ settings:
 
 mcp_servers:
   github:
-    url: https://api.githubcopilot.com/mcp
-    bearer_token_env_var: ${MCP_GITHUB_TOKEN}
+    command: npx
+    args:
+      - -y
+      - mcp-remote
+      - https://api.githubcopilot.com/mcp
+      - --header
+      - Authorization: Bearer ${GITHUB_TOKEN}
+      - --name
+      - github
+      - --transport
+      - http-first
+    env:
+      GITHUB_TOKEN: ${MCP_GITHUB_TOKEN}
   notion:
     url: https://mcp.notion.com/mcp
