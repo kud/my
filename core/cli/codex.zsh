@@ -70,15 +70,22 @@ fi
 ui_info_simple "Checking for environment placeholders"
 
 # Expand environment variables inside the merged YAML (if any)
-typeset -a placeholders missing_env
+typeset -a placeholders missing_env substitution_targets
+typeset -A skip_placeholder_env
+skip_placeholder_env=( [GITHUB_TOKEN]=1 )
 if placeholders_raw="$(grep -o '\${[A-Za-z_][A-Za-z0-9_]*}' "$tmp_yaml" | sort -u 2>/dev/null)"; then
   while IFS= read -r placeholder; do
     [[ -z "$placeholder" ]] && continue
     var_name="${placeholder:2:${#placeholder}-3}"
     placeholders+=("$var_name")
+    if (( ${+skip_placeholder_env[$var_name]} )); then
+      continue
+    fi
     if ! printenv "$var_name" >/dev/null 2>&1; then
       missing_env+=("$var_name")
+      continue
     fi
+    substitution_targets+=("$var_name")
   done <<< "$placeholders_raw"
 fi
 
@@ -87,14 +94,14 @@ if (( ${#missing_env[@]} )); then
   exit 1
 fi
 
-if (( ${#placeholders[@]} )); then
+if (( ${#substitution_targets[@]} )); then
   ensure_command_available "envsubst" "Install with: brew install gettext"
   tmp_expanded=$(mktemp -t codex-config-expanded) || {
     ui_error_msg "Failed to create temporary expanded Codex config" 1
     exit 1
   }
   _tmp_files+=("$tmp_expanded")
-  substitution_vars=$(printf ' ${%s}' "${placeholders[@]}")
+  substitution_vars=$(printf ' \\${%s}' "${substitution_targets[@]}")
   if ! command envsubst "${substitution_vars# }" < "$tmp_yaml" > "$tmp_expanded"; then
     ui_error_msg "Failed to expand environment variables in Codex config" 1
     exit 1
@@ -114,6 +121,14 @@ _tmp_files+=("$tmp_py")
 cat <<'PY' > "$tmp_py"
 import json
 import sys
+from copy import deepcopy
+from pathlib import Path
+
+try:
+    import tomllib
+except ModuleNotFoundError:  # pragma: no cover
+    tomllib = None
+
 
 def format_value(value):
     if isinstance(value, str):
@@ -133,27 +148,122 @@ def format_value(value):
         raise TypeError("null values not supported in Codex config")
     raise TypeError(f"Unsupported TOML value type: {type(value)}")
 
-def main():
-    output_path = sys.argv[1]
-    data = json.load(sys.stdin)
-    lines = []
 
-    settings = data.get("settings") or {}
-    for key, value in settings.items():
+def is_inline_table(value):
+    return isinstance(value, dict) and all(not isinstance(v, dict) for v in value.values())
+
+
+def write_table(lines, table_name, table_dict, *, skip_if_empty=False, force_nested_inline=False):
+    simple_items = []
+    nested_items = []
+
+    for key in sorted(table_dict):
+        value = table_dict[key]
+        if isinstance(value, dict):
+            treat_as_nested = not is_inline_table(value) or (force_nested_inline and "." not in table_name)
+            if treat_as_nested:
+                nested_items.append((key, value))
+                continue
+        simple_items.append((key, value))
+
+    if skip_if_empty and not simple_items and "." not in table_name:
+        for nested_key, nested_val in nested_items:
+            write_table(lines, f"{table_name}.{nested_key}", nested_val, skip_if_empty=False)
+        return
+
+    if lines and lines[-1] != "":
+        lines.append("")
+    lines.append(f"[{table_name}]")
+
+    for key, value in simple_items:
         lines.append(f"{key} = {format_value(value)}")
 
-    mcp_servers = data.get("mcp_servers") or {}
-    if settings and mcp_servers:
-        lines.append("")
-    for server, config in mcp_servers.items():
-        lines.append(f"[mcp_servers.{server}]")
-        for key, value in (config or {}).items():
-            lines.append(f"{key} = {format_value(value)}")
-        lines.append("")
+    for nested_key, nested_val in nested_items:
+        write_table(lines, f"{table_name}.{nested_key}", nested_val, skip_if_empty=False, force_nested_inline=False)
 
-    with open(output_path, "w", encoding="utf-8") as fh:
-        fh.write("\n".join(lines))
-        fh.write("\n")
+
+def load_existing(path):
+    if tomllib is None:
+        return {}
+    file_path = Path(path)
+    if not file_path.exists():
+        return {}
+    try:
+        with file_path.open("rb") as fh:
+            return tomllib.load(fh)
+    except Exception:
+        return {}
+
+
+def merge_data(existing, fresh):
+    if not isinstance(existing, dict):
+        existing = {}
+    result = deepcopy(existing)
+
+    settings = fresh.get("settings") or {}
+    for key, value in settings.items():
+        result[key] = value
+
+    servers_existing = result.get("mcp_servers")
+    servers_merged = deepcopy(servers_existing) if isinstance(servers_existing, dict) else {}
+    for server, config in (fresh.get("mcp_servers") or {}).items():
+        existing_config = servers_merged.get(server)
+        merged_config = deepcopy(existing_config) if isinstance(existing_config, dict) else {}
+        merged_config.update(config or {})
+        servers_merged[server] = merged_config
+    if servers_merged:
+        result["mcp_servers"] = servers_merged
+    else:
+        result.pop("mcp_servers", None)
+
+    for key, value in fresh.items():
+        if key in ("settings", "mcp_servers"):
+            continue
+        result[key] = value
+
+    result.pop("settings", None)
+    return result
+
+
+def render(data):
+    lines = []
+    simple_items = []
+    table_items = []
+
+    for key in sorted(data):
+        value = data[key]
+        if isinstance(value, dict) and not is_inline_table(value):
+            table_items.append((key, value))
+        else:
+            simple_items.append((key, value))
+
+    for key, value in simple_items:
+        lines.append(f"{key} = {format_value(value)}")
+
+    for key, value in table_items:
+        write_table(
+            lines,
+            key,
+            value,
+            skip_if_empty=True,
+            force_nested_inline=(key == "mcp_servers"),
+        )
+
+    if not lines or lines[-1] != "":
+        lines.append("")
+    return "\n".join(lines)
+
+
+def main():
+    output_path = Path(sys.argv[1])
+    existing_path = Path(sys.argv[2]) if len(sys.argv) > 2 else output_path
+    fresh_data = json.load(sys.stdin)
+    existing_data = load_existing(existing_path)
+    merged = merge_data(existing_data, fresh_data)
+    rendered = render(merged)
+    with output_path.open("w", encoding="utf-8") as fh:
+        fh.write(rendered)
+
 
 if __name__ == "__main__":
     main()
@@ -166,7 +276,7 @@ tmp_toml=$(mktemp -t codex-config) || {
 }
 _tmp_files+=("$tmp_toml")
 
-if ! command yq eval -o=json '.' "$tmp_yaml" | command python3 "$tmp_py" "$tmp_toml"; then
+if ! command yq eval -o=json '.' "$tmp_yaml" | command python3 "$tmp_py" "$tmp_toml" "$output_file"; then
   ui_error_msg "Failed to render Codex config as TOML" 1
   exit 1
 fi
