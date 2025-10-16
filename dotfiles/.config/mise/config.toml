@@ -4,7 +4,7 @@ idiomatic_version_file_enable_tools = ['node', 'ruby', 'java', 'yarn', 'python']
 
 [tools]
 java = "latest"
-node = "latest"
+node = "24"
 ruby = "latest"
 python = "latest"
 pnpm = "latest"
