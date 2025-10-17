@@ -18,7 +18,7 @@ mcp_servers:
       - mcp-remote
       - https://api.githubcopilot.com/mcp
       - --header
-      - Authorization: Bearer ${GITHUB_TOKEN}
+      - "Authorization: Bearer ${GITHUB_TOKEN}"
       - --name
       - github
       - --transport

@@ -18,7 +18,7 @@ ui_subsection "Configuring Codex CLI"
 
 # Ensure prerequisites
 ensure_command_available "yq" "Install with: brew install yq"
-ensure_command_available "python3" "Install with: brew install python"
+ensure_command_available "jq" "Install with: brew install jq"
 
 # Warn (non-fatal) if Codex CLI missing
 if ! command -v codex >/dev/null 2>&1; then
@@ -112,171 +112,129 @@ fi
 
 ui_info_simple "Rendering Codex config to TOML"
 
-# Prepare Python transformer for reliable TOML conversion
-tmp_py=$(mktemp -t codex-toml.py) || {
-  ui_error_msg "Failed to create temporary transformer script" 1
+tmp_fresh_json=$(mktemp -t codex-fresh-json) || {
+  ui_error_msg "Failed to create temporary JSON file for Codex config" 1
   exit 1
 }
-_tmp_files+=("$tmp_py")
-cat <<'PY' > "$tmp_py"
-import json
-import sys
-from copy import deepcopy
-from pathlib import Path
+_tmp_files+=("$tmp_fresh_json")
 
-try:
-    import tomllib
-except ModuleNotFoundError:  # pragma: no cover
-    tomllib = None
+if ! command yq eval -o=json '.' "$tmp_yaml" > "$tmp_fresh_json"; then
+  ui_error_msg "Failed to convert merged Codex config to JSON" 1
+  exit 1
+fi
 
+tmp_existing_json=$(mktemp -t codex-existing-json) || {
+  ui_error_msg "Failed to create temporary JSON file for existing Codex config" 1
+  exit 1
+}
+_tmp_files+=("$tmp_existing_json")
 
-def format_value(value):
-    if isinstance(value, str):
-        return json.dumps(value)
-    if isinstance(value, bool):
-        return "true" if value else "false"
-    if isinstance(value, (int, float)):
-        return json.dumps(value)
-    if isinstance(value, list):
-        return "[" + ", ".join(format_value(v) for v in value) + "]"
-    if isinstance(value, dict):
-        if not value:
-            return "{}"
-        inner = ", ".join(f"{k} = {format_value(v)}" for k, v in value.items())
-        return "{ " + inner + " }"
-    if value is None:
-        raise TypeError("null values not supported in Codex config")
-    raise TypeError(f"Unsupported TOML value type: {type(value)}")
+if [[ -f "$output_file" ]]; then
+  if ! command yq eval --input-format=toml -o=json '.' "$output_file" > "$tmp_existing_json" 2>/dev/null; then
+    printf '{}' > "$tmp_existing_json"
+  fi
+else
+  printf '{}' > "$tmp_existing_json"
+fi
 
+tmp_merged_json=$(mktemp -t codex-merged-json) || {
+  ui_error_msg "Failed to create temporary merged JSON file for Codex config" 1
+  exit 1
+}
+_tmp_files+=("$tmp_merged_json")
 
-def is_inline_table(value):
-    return isinstance(value, dict) and all(not isinstance(v, dict) for v in value.values())
+jq_merge_program='
+  def ensure_obj($x): if ($x | type) == "object" then $x else {} end;
+  def merge_simple($base; $overrides):
+    reduce (ensure_obj($overrides) | to_entries[]) as $entry (ensure_obj($base);
+      .[$entry.key] = $entry.value
+    );
+  def merge_servers($existing; $fresh):
+    reduce (ensure_obj($fresh) | to_entries[]) as $srv (
+      ensure_obj($existing);
+      .[$srv.key] = merge_simple(.[$srv.key]; $srv.value)
+    );
+  def merge_configs($existing; $fresh):
+    (merge_simple($existing; $fresh.settings))
+    | .mcp_servers = merge_servers(.mcp_servers; $fresh.mcp_servers)
+    | (merge_simple(.; ($fresh | del(.settings, .mcp_servers))))
+    | del(.settings)
+    | if (.mcp_servers | type) == "object" and (.mcp_servers | length) == 0 then del(.mcp_servers) else . end;
 
+  (.[0] // {}) as $existing
+  | (.[1] // {}) as $fresh
+  | merge_configs($existing; $fresh)
+'
 
-def write_table(lines, table_name, table_dict, *, skip_if_empty=False, force_nested_inline=False):
-    simple_items = []
-    nested_items = []
+if ! command jq -s "$jq_merge_program" "$tmp_existing_json" "$tmp_fresh_json" > "$tmp_merged_json"; then
+  ui_error_msg "Failed to merge Codex configs" 1
+  exit 1
+fi
 
-    for key in sorted(table_dict):
-        value = table_dict[key]
-        if isinstance(value, dict):
-            treat_as_nested = not is_inline_table(value) or (force_nested_inline and "." not in table_name)
-            if treat_as_nested:
-                nested_items.append((key, value))
-                continue
-        simple_items.append((key, value))
+tmp_render_jq=$(mktemp -t codex-render.jq) || {
+  ui_error_msg "Failed to create temporary renderer for Codex config" 1
+  exit 1
+}
+_tmp_files+=("$tmp_render_jq")
 
-    if skip_if_empty and not simple_items and "." not in table_name:
-        for nested_key, nested_val in nested_items:
-            write_table(lines, f"{table_name}.{nested_key}", nested_val, skip_if_empty=False)
-        return
+cat <<'JQ' > "$tmp_render_jq"
+def key_to_string($k): ($k | if type=="string" then . else tostring end);
+def bare_key($s): ($s | test("^[A-Za-z0-9_-]+$"));
+def format_key:
+  (key_to_string(.)) as $s
+  | if bare_key($s) then $s
+    else "\"" + ($s | gsub("\\\\";"\\\\") | gsub("\"";"\\\"")) + "\""
+    end;
+def format_value:
+  if type=="string" then @json
+  elif type=="boolean" then (if . then "true" else "false" end)
+  elif type=="number" then tostring
+  elif type=="array" then "[" + (map(format_value)|join(", ")) + "]"
+  elif type=="object" then
+    if length==0 then "{}"
+    else "{ " + (to_entries | sort_by(.key|tostring) | map("\(.key|format_key) = \(.value|format_value)") | join(", ")) + " }"
+    end
+  else error("Unsupported TOML value type: " + (type|tostring))
+  end;
+def should_nest($path; $key; $value):
+  ($value | type) == "object" and ($value | length) > 0 and (
+    ($value | to_entries | any(.value|type=="object"))
+    or (bare_key(key_to_string($key)) == false)
+    or (($path|length) == 0)
+    or (($path|length) == 1 and key_to_string($path[0]) == "mcp_servers")
+  );
+def sorted_entries($obj):
+  $obj | to_entries | sort_by(.key|tostring);
+def render($path; $obj):
+  ( sorted_entries($obj) ) as $entries
+  | ( $entries | map(select(should_nest($path; .key; .value) | not))) as $simple_entries
+  | ( $entries | map(select(should_nest($path; .key; .value)))) as $nested_entries
+  | ( $simple_entries | map("\(.key|format_key) = \(.value|format_value)")) as $simple_lines
+  | (if ($path|length) == 0 then
+       (if ($simple_lines|length) > 0 then ($simple_lines | join("\n")) + "\n\n" else "" end)
+     else
+       (if ($simple_lines|length) > 0 then
+           "[" + ($path | map(format_key) | join(".")) + "]\n"
+           + ($simple_lines | join("\n")) + "\n\n"
+        else ""
+        end)
+     end) as $current
+  | $current
+    + ( $nested_entries
+        | map(render($path + [ .key ]; .value))
+        | join("")
+      );
 
-    if lines and lines[-1] != "":
-        lines.append("")
-    lines.append(f"[{table_name}]")
+(render([]; .) | sub("\n+$"; "\n"))
+JQ
 
-    for key, value in simple_items:
-        lines.append(f"{key} = {format_value(value)}")
-
-    for nested_key, nested_val in nested_items:
-        write_table(lines, f"{table_name}.{nested_key}", nested_val, skip_if_empty=False, force_nested_inline=False)
-
-
-def load_existing(path):
-    if tomllib is None:
-        return {}
-    file_path = Path(path)
-    if not file_path.exists():
-        return {}
-    try:
-        with file_path.open("rb") as fh:
-            return tomllib.load(fh)
-    except Exception:
-        return {}
-
-
-def merge_data(existing, fresh):
-    if not isinstance(existing, dict):
-        existing = {}
-    result = deepcopy(existing)
-
-    settings = fresh.get("settings") or {}
-    for key, value in settings.items():
-        result[key] = value
-
-    servers_existing = result.get("mcp_servers")
-    servers_merged = deepcopy(servers_existing) if isinstance(servers_existing, dict) else {}
-    for server, config in (fresh.get("mcp_servers") or {}).items():
-        existing_config = servers_merged.get(server)
-        merged_config = deepcopy(existing_config) if isinstance(existing_config, dict) else {}
-        merged_config.update(config or {})
-        servers_merged[server] = merged_config
-    if servers_merged:
-        result["mcp_servers"] = servers_merged
-    else:
-        result.pop("mcp_servers", None)
-
-    for key, value in fresh.items():
-        if key in ("settings", "mcp_servers"):
-            continue
-        result[key] = value
-
-    result.pop("settings", None)
-    return result
-
-
-def render(data):
-    lines = []
-    simple_items = []
-    table_items = []
-
-    for key in sorted(data):
-        value = data[key]
-        if isinstance(value, dict) and not is_inline_table(value):
-            table_items.append((key, value))
-        else:
-            simple_items.append((key, value))
-
-    for key, value in simple_items:
-        lines.append(f"{key} = {format_value(value)}")
-
-    for key, value in table_items:
-        write_table(
-            lines,
-            key,
-            value,
-            skip_if_empty=True,
-            force_nested_inline=(key == "mcp_servers"),
-        )
-
-    if not lines or lines[-1] != "":
-        lines.append("")
-    return "\n".join(lines)
-
-
-def main():
-    output_path = Path(sys.argv[1])
-    existing_path = Path(sys.argv[2]) if len(sys.argv) > 2 else output_path
-    fresh_data = json.load(sys.stdin)
-    existing_data = load_existing(existing_path)
-    merged = merge_data(existing_data, fresh_data)
-    rendered = render(merged)
-    with output_path.open("w", encoding="utf-8") as fh:
-        fh.write(rendered)
-
-
-if __name__ == "__main__":
-    main()
-PY
-
-# Convert merged YAML to TOML
 tmp_toml=$(mktemp -t codex-config) || {
   ui_error_msg "Failed to create temporary TOML file for Codex config" 1
   exit 1
 }
 _tmp_files+=("$tmp_toml")
 
-if ! command yq eval -o=json '.' "$tmp_yaml" | command python3 "$tmp_py" "$tmp_toml" "$output_file"; then
+if ! command jq -r -f "$tmp_render_jq" "$tmp_merged_json" > "$tmp_toml"; then
   ui_error_msg "Failed to render Codex config as TOML" 1
   exit 1
 fi
