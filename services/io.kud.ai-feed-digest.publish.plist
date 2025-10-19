@@ -17,7 +17,7 @@
     <key>HOME</key>
     <string>/Users/kud</string>
     <key>PATH</key>
-    <string>/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <string>/Users/kud/.npm-global/bin:/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
   </dict>
 
   <key>ProgramArguments</key>
