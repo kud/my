@@ -90,7 +90,7 @@ list_services() {
     fi
 
     # Print header
-    printf "\033[1m%-20s %-10s %-10s %s\033[0m\n" "Name" "Status" "User" "File"
+    printf "\033[1m%-32s %-10s %-10s %s\033[0m\n" "Name" "Status" "User" "File"
 
     # Print services
     for plist in "$SERVICES_DIR"/*.plist; do
@@ -98,8 +98,8 @@ list_services() {
         local name=$(basename "$plist" .plist)
         local target_file="$LAUNCHD_DAEMON_DIR/${name}.plist"
         local service_status="none"
-        local user=""
-        local file=""
+        local user="-"
+        local file="-"
 
         if [[ -f "$target_file" ]]; then
             # Check if loaded
@@ -114,7 +114,7 @@ list_services() {
             fi
         fi
 
-        printf "%-20s %-10s %-10s %s\n" "$name" "$service_status" "$user" "$file"
+        printf "%-32s %-10s %-10s %s\n" "$name" "$service_status" "$user" "$file"
     done
 }
 
