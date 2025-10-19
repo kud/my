@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN"
+ "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>io.kud.ai-feed-digest.publish</string>
+
+  <key>UserName</key>
+  <string>kud</string>
+
+  <key>WorkingDirectory</key>
+  <string>/Users/kud/Projects/ai-feed-digest</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>HOME</key>
+    <string>/Users/kud</string>
+    <key>PATH</key>
+    <string>/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+  </dict>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>-lc</string>
+    <string>set -eu; set -o pipefail; /usr/local/bin/git checkout generated; /usr/local/bin/npm run publish</string>
+  </array>
+
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key>
+    <integer>18</integer>
+    <key>Minute</key>
+    <integer>35</integer>
+  </dict>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>StandardOutPath</key>
+  <string>/Users/kud/Library/Logs/ai-feed-digest.publish.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/kud/Library/Logs/ai-feed-digest.publish.error.log</string>
+</dict>
+</plist>
