@@ -24,7 +24,7 @@
   <array>
     <string>/bin/zsh</string>
     <string>-lc</string>
-    <string>set -eu; set -o pipefail; /usr/local/bin/git checkout generated; /usr/local/bin/npm run publish</string>
+    <string>set -eu; set -o pipefail; STASH_REF=""; if ! /usr/local/bin/git diff --quiet || ! /usr/local/bin/git diff --quiet --cached; then /usr/local/bin/git stash push -u -m "ai-feed-digest.publish" >/dev/null; STASH_REF=$(/usr/local/bin/git stash list | head -n1 | cut -d: -f1); fi; cleanup() { if [ -n "$STASH_REF" ]; then /usr/local/bin/git stash pop --index "$STASH_REF" >/dev/null 2>&1 || /usr/local/bin/git stash pop "$STASH_REF" >/dev/null 2>&1 || true; fi; }; trap cleanup EXIT; /usr/local/bin/git checkout generated; /usr/local/bin/npm run publish; /usr/local/bin/git checkout -</string>
   </array>
 
   <key>StartCalendarInterval</key>

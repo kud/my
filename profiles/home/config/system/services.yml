@@ -1,0 +1,2 @@
+services:
+  - io.kud.ai-feed-digest.publish

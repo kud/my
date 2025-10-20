@@ -17,6 +17,56 @@ SERVICES_DIR="$MY/services"
 LAUNCHD_DAEMON_DIR="/Library/LaunchDaemons"
 LAUNCHD_AGENT_DIR="/Library/LaunchAgents"
 
+SERVICES_CONFIG="$MY/config/system/services.yml"
+PROFILE="${OS_PROFILE:-default}"
+PROFILE_SERVICES_CONFIG="$MY/profiles/$PROFILE/config/system/services.yml"
+
+typeset -gA ALLOWED_SERVICES
+typeset -g SERVICE_FILTER_ACTIVE=false
+
+load_service_filter() {
+    ALLOWED_SERVICES=()
+    SERVICE_FILTER_ACTIVE=false
+
+    if ! command -v yq >/dev/null 2>&1; then
+        return
+    fi
+
+    local -a config_files=()
+    if [[ -f "$SERVICES_CONFIG" ]]; then
+        config_files+=("$SERVICES_CONFIG")
+    fi
+    if [[ -f "$PROFILE_SERVICES_CONFIG" ]]; then
+        config_files+=("$PROFILE_SERVICES_CONFIG")
+    fi
+
+    if [[ ${#config_files[@]} -eq 0 ]]; then
+        return
+    fi
+
+    SERVICE_FILTER_ACTIVE=true
+
+    for cfg in "${config_files[@]}"; do
+        while IFS= read -r service_name; do
+            [[ -z "$service_name" || "$service_name" == "null" ]] && continue
+            ALLOWED_SERVICES["$service_name"]=1
+        done < <(yq eval -r '
+            .services[]?
+            | (.name // .)
+        ' "$cfg" 2>/dev/null)
+    done
+}
+
+service_is_allowed() {
+    local service="$1"
+    if [[ "$SERVICE_FILTER_ACTIVE" != true ]]; then
+        return 0
+    fi
+    [[ -n "${ALLOWED_SERVICES[$service]:-}" ]]
+}
+
+load_service_filter
+
 usage() {
     cat << EOF
 Usage: my services [subcommand]
@@ -90,7 +140,7 @@ list_services() {
     fi
 
     # Print header
-    printf "\033[1m%-32s %-10s %-10s %s\033[0m\n" "Name" "Status" "User" "File"
+    printf "\033[1m%-32s %-10s %-10s %-8s %s\033[0m\n" "Name" "Status" "User" "Managed" "File"
 
     # Print services
     for plist in "$SERVICES_DIR"/*.plist; do
@@ -100,6 +150,7 @@ list_services() {
         local service_status="none"
         local user="-"
         local file="-"
+        local managed="yes"
 
         if [[ -f "$target_file" ]]; then
             # Check if loaded
@@ -114,7 +165,11 @@ list_services() {
             fi
         fi
 
-        printf "%-32s %-10s %-10s %s\n" "$name" "$service_status" "$user" "$file"
+        if [[ "$SERVICE_FILTER_ACTIVE" == true ]] && ! service_is_allowed "$name"; then
+            managed="no"
+        fi
+
+        printf "%-32s %-10s %-10s %-8s %s\n" "$name" "$service_status" "$user" "$managed" "$file"
     done
 }
 
@@ -126,6 +181,10 @@ install_service() {
     if [[ ! -f "$plist_file" ]]; then
         echo "${UI_ICON_ERROR} Service '$service' not found in $SERVICES_DIR"
         return 1
+    fi
+
+    if [[ "$SERVICE_FILTER_ACTIVE" == true ]] && ! service_is_allowed "$service"; then
+        echo "${UI_ICON_INFO} $service not enabled for profile $PROFILE (continuing manual install)"
     fi
 
     # Check if already installed and running
@@ -209,6 +268,10 @@ install_all() {
     for plist in "$SERVICES_DIR"/*.plist; do
         [ -f "$plist" ] || continue
         local service=$(basename "$plist" .plist)
+        if [[ "$SERVICE_FILTER_ACTIVE" == true ]] && ! service_is_allowed "$service"; then
+            echo "${UI_ICON_INFO} Skipping $service (not enabled for $PROFILE profile)"
+            continue
+        fi
         install_service "$service"
     done
 }
@@ -230,6 +293,10 @@ status_all() {
     for plist in "$SERVICES_DIR"/*.plist; do
         [ -f "$plist" ] || continue
         local service=$(basename "$plist" .plist)
+        if [[ "$SERVICE_FILTER_ACTIVE" == true ]] && ! service_is_allowed "$service"; then
+            echo "${UI_ICON_INFO} $service: Skipped (not enabled for $PROFILE profile)"
+            continue
+        fi
         status_service "$service"
     done
 }
@@ -239,6 +306,10 @@ reload_all() {
     for plist in "$SERVICES_DIR"/*.plist; do
         [ -f "$plist" ] || continue
         local service=$(basename "$plist" .plist)
+        if [[ "$SERVICE_FILTER_ACTIVE" == true ]] && ! service_is_allowed "$service"; then
+            echo "${UI_ICON_INFO} Skipping $service (not enabled for $PROFILE profile)"
+            continue
+        fi
         reload_service "$service"
     done
 }
