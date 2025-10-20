@@ -6,13 +6,13 @@ set -o pipefail
 
 # Ensure we're in a git repo
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-	echo "Not a git repository." >&2
+	echo $'\033[1;31m\uf00d\033[0m'" Not a git repository." >&2
 	exit 1
 fi
 
 # Ensure origin exists
 if ! git config --get remote.origin.url >/dev/null 2>&1; then
-	echo "Remote 'origin' not configured." >&2
+	echo $'\033[1;31m\uf00d\033[0m'" Remote 'origin' not configured." >&2
 	exit 1
 fi
 
@@ -30,13 +30,13 @@ if [[ -z "${HEAD_BRANCH:-}" ]]; then
 	elif git show-ref --verify --quiet refs/remotes/origin/master; then
 		HEAD_BRANCH=master
 	else
-		echo "Unable to determine origin default branch." >&2
+		echo $'\033[1;31m\uf00d\033[0m'" Unable to determine origin default branch." >&2
 		exit 1
 	fi
 fi
 
 CURRENT_BRANCH=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || git rev-parse --abbrev-ref HEAD)
-echo "Refreshing '$CURRENT_BRANCH' onto 'origin/$HEAD_BRANCH'..."
+echo $'\033[1;36m\uf021\033[0m'" Refreshing "$'\033[1;33m\ue0a0\033[0m\033[1m'" $CURRENT_BRANCH"$'\033[0m'" onto "$'\033[1;35m\uf09b\033[0m\033[1m'" origin/$HEAD_BRANCH"$'\033[0m'"..."
 
 # Auto-stash uncommitted changes to avoid rebase aborts
 STASH_LABEL="tmp-refresh-$(date +%s)"
@@ -49,12 +49,22 @@ restore_stash() {
 }
 trap restore_stash EXIT INT TERM
 
+HAS_CHANGES=false
+if ! git diff-index --quiet HEAD -- 2>/dev/null || [[ -n $(git ls-files --others --exclude-standard 2>/dev/null) ]]; then
+	HAS_CHANGES=true
+	echo $'\033[1;33m\uf187\033[0m'" Stashing uncommitted changes..."
+fi
 git stash push -u -m "$STASH_LABEL" >/dev/null 2>&1 || true
 
+echo $'\033[1;34m\uf0ed\033[0m'" Fetching from origin..."
 git fetch --prune origin
+echo $'\033[1;35m\ue727\033[0m'" Rebasing onto origin/${HEAD_BRANCH}..."
 git rebase "origin/${HEAD_BRANCH}"
 
+if [[ "$HAS_CHANGES" == "true" ]]; then
+	echo $'\033[1;32m\uf0e2\033[0m'" Restoring stashed changes..."
+fi
 restore_stash
 trap - EXIT INT TERM
 
-echo "Done. Branch '$CURRENT_BRANCH' is up to date on 'origin/$HEAD_BRANCH'."
+echo $'\033[1;32m\uf00c\033[0m'" Done! Branch "$'\033[1;33m\ue0a0\033[0m\033[1m'" $CURRENT_BRANCH"$'\033[0m'" is up to date with "$'\033[1;35m\uf09b\033[0m\033[1m'" origin/$HEAD_BRANCH"$'\033[0m'
