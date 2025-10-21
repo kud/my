@@ -49,7 +49,7 @@ load_service_filter() {
     for cfg in "${config_files[@]}"; do
         while IFS= read -r service_name; do
             [[ -z "$service_name" || "$service_name" == "null" ]] && continue
-            ALLOWED_SERVICES["$service_name"]=1
+            ALLOWED_SERVICES[$service_name]=1
         done < <(yq eval -r '
             .services[]?
             | (.name // .)
