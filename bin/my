@@ -48,7 +48,7 @@ else
       echo "  Apps: firefox (use -sc for shortcuts), keepassxc, pcloud, sublime-merge, bruno"
       echo "  CLI: abbr, aicommits, claude, codex, opencode, ssh"
       echo "  Packages: antidote, brew, gh, gem, mas, npm, uv"
-      echo "  System: default-folders, doc, dotfiles, edit, open, os, shims, submodules, symlinks"
+      echo "  System: default-folders, doc, dotfiles, edit, open, os, services, shims, submodules, symlinks"
       exit 1
     fi
 
@@ -56,6 +56,9 @@ else
     # System modules
     os)
       $MY/core/os/main.zsh
+      ;;
+    services)
+      $MY/core/system/services.zsh install
       ;;
     postinstall)
       $MY/core/system/post-install.zsh "${@:3}"
@@ -209,7 +212,7 @@ else
 
     echo
     echo "  System Components:"
-    echo "    default-folders, doc, dotfiles, edit, open, os, postinstall, shims, submodules, symlinks, sync-files"
+    echo "    default-folders, doc, dotfiles, edit, open, os, postinstall, services, shims, submodules, symlinks, sync-files"
 
     ui_spacer
     ;;
