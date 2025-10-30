@@ -27,3 +27,9 @@ mcp_servers:
       GITHUB_TOKEN: ${MCP_GITHUB_TOKEN}
   notion:
     url: https://mcp.notion.com/mcp
+  basic-memory:
+    command: uvx
+    args:
+      - basic-memory
+      - mcp
+    env: {}

@@ -5,11 +5,17 @@
 settings:
   autoUpdates: true
   theme: dark-daltonized
-
 # Common MCP servers (all profiles)
-mcp:
-  github:
-    transport: http
-    url: https://api.githubcopilot.com/mcp
-    headers:
-      Authorization: Bearer ${MCP_GITHUB_TOKEN}
+# mcp:
+#   github:
+#     transport: http
+#     url: https://api.githubcopilot.com/mcp
+#     headers:
+#       Authorization: Bearer ${MCP_GITHUB_TOKEN}
+#   basic-memory:
+#     type: stdio
+#     command: uvx
+#     args:
+#       - basic-memory
+#       - mcp
+#     env: {}
