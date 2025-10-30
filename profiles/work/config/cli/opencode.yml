@@ -19,14 +19,14 @@ mcp:
       - -y
       - mcp-remote
       - https://mcp.sentry.dev/mcp
-  # figma-remote:
-  #   type: local
-  #   enabled: true
-  #   command:
-  #     - npx
-  #     - -y
-  #     - mcp-remote
-  #     - https://mcp.figma.com/mcp
+  figma:
+    type: local
+    enabled: true
+    command:
+      - npx
+      - -y
+      - mcp-remote
+      - https://mcp.figma.com/mcp
   # figma-local:
   #   type: remote
   #   enabled: true
