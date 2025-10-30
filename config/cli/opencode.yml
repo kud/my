@@ -30,9 +30,9 @@ mcp:
       - mcp-remote
       - https://mcp.notion.com/mcp
   basic-memory:
-    type: stdio
+    type: local
     enabled: true
-    command: uvx
-    args:
+    command:
+      - uvx
       - basic-memory
       - mcp

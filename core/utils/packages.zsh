@@ -37,12 +37,13 @@ get_main_config_path() {
 collect_packages_from_yaml() {
     local yaml_file="$1"
     local install_function="$2"  # Function to call for each package
+    local yaml_path="${3:-.packages[]}"  # Optional: defaults to .packages[]
 
     if [[ ! -f "$yaml_file" ]]; then
         return 0
     fi
 
-    local packages=$(yq eval '.packages[]?' "$yaml_file" 2>/dev/null)
+    local packages=$(yq eval "${yaml_path}?" "$yaml_file" 2>/dev/null)
     if [[ -n "$packages" ]]; then
         while IFS= read -r package; do
             [[ -n "$package" ]] && $install_function "$package"
