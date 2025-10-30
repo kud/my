@@ -29,3 +29,10 @@ mcp:
       - -y
       - mcp-remote
       - https://mcp.notion.com/mcp
+  basic-memory:
+    type: stdio
+    enabled: true
+    command: uvx
+    args:
+      - basic-memory
+      - mcp
