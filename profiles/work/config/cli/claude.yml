@@ -3,9 +3,6 @@
 
 # MCP Servers
 mcp:
-  notion:
-    transport: http
-    url: https://mcp.notion.com/mcp
   atlassian:
     transport: sse
     url: https://mcp.atlassian.com/v1/sse
