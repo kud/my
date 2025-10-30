@@ -210,13 +210,23 @@ if [[ -f "$COMMON_CONFIG" ]]; then
             # Read environment variables if they exist
             local env_vars=()
             local env_keys=($(yq -r ".mcp.$name.env | keys[]" "$COMMON_CONFIG" 2>/dev/null))
+            local env_validation_failed=0
+
             for key in "${env_keys[@]}"; do
                 value=$(yq -r ".mcp.$name.env.$key" "$COMMON_CONFIG" 2>/dev/null)
+
+                # Validate environment variables before expanding
+                if ! check_env_vars "$value"; then
+                    ui_warning_simple "Skipping MCP server '$name' due to missing environment variables" 0
+                    env_validation_failed=1
+                    break
+                fi
+
                 value=$(expand_env_vars "$value")
                 env_vars+=("$key=$value")
             done
 
-            if [[ -n "$transport" && -n "$command" ]]; then
+            if [[ $env_validation_failed -eq 0 && -n "$transport" && -n "$command" ]]; then
                 add_mcp_server "$name" "$transport" "$command" "${args[@]}" "${env_vars[@]}"
             fi
         else
@@ -261,13 +271,23 @@ if [[ -f "$PROFILE_CONFIG" ]]; then
             # Read environment variables if they exist
             local env_vars=()
             local env_keys=($(yq -r ".mcp.$name.env | keys[]" "$PROFILE_CONFIG" 2>/dev/null))
+            local env_validation_failed=0
+
             for key in "${env_keys[@]}"; do
                 value=$(yq -r ".mcp.$name.env.$key" "$PROFILE_CONFIG" 2>/dev/null)
+
+                # Validate environment variables before expanding
+                if ! check_env_vars "$value"; then
+                    ui_warning_simple "Skipping MCP server '$name' due to missing environment variables" 0
+                    env_validation_failed=1
+                    break
+                fi
+
                 value=$(expand_env_vars "$value")
                 env_vars+=("$key=$value")
             done
 
-            if [[ -n "$transport" && -n "$command" ]]; then
+            if [[ $env_validation_failed -eq 0 && -n "$transport" && -n "$command" ]]; then
                 add_mcp_server "$name" "$transport" "$command" "${args[@]}" "${env_vars[@]}"
             fi
         else
