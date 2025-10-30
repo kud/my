@@ -46,11 +46,11 @@ if ! command -v python >/dev/null 2>&1; then
   return 1
 fi
 
-# Installer function (abstract over uv/pip)
+# Installer function for pip packages
 python_install_package() {
   local package="$1"
   if (( USE_UV )); then
-    if ! uv pip install "$package"; then
+    if ! uv pip install --system "$package"; then
       ui_error_simple "Failed to install package '$package' with uv"
       return 1
     fi
@@ -62,9 +62,38 @@ python_install_package() {
   fi
 }
 
-ui_subsection "Installing development packages ($([[ $USE_UV -eq 1 ]] && echo uv || echo pip))"
-process_package_configs "python" "python_install_package"
-ui_success_simple "Development packages installed" 1
+# Installer function for uv tools
+python_install_tool() {
+  local package="$1"
+  if (( USE_UV )); then
+    if ! uv tool install "$package"; then
+      ui_error_simple "Failed to install tool '$package' with uv"
+      return 1
+    fi
+  else
+    ui_warning_simple "Skipping tool '$package' (uv not available)"
+  fi
+}
+
+# Get config paths
+main_config=$(get_main_config_path "uv")
+profile_config=$(get_profile_config_path "uv")
+
+# Install pip packages
+ui_subsection "Installing pip packages ($([[ $USE_UV -eq 1 ]] && echo uv || echo pip))"
+collect_packages_from_yaml "$main_config" "python_install_package" ".packages.pip[]"
+collect_packages_from_yaml "$profile_config" "python_install_package" ".packages.pip[]"
+ui_success_simple "Pip packages installed" 1
+
+ui_spacer
+
+# Install uv tools (uv creates ~/.local/bin automatically)
+if (( USE_UV )); then
+  ui_subsection "Installing uv tools"
+  collect_packages_from_yaml "$main_config" "python_install_tool" ".packages.tool[]"
+  collect_packages_from_yaml "$profile_config" "python_install_tool" ".packages.tool[]"
+  ui_success_simple "Tools installed" 1
+fi
 
 ui_spacer
 ui_success_simple "Python package maintenance complete" 1

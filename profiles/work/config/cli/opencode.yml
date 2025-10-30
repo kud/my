@@ -32,10 +32,10 @@ mcp:
   #   enabled: true
   #   url: http://127.0.0.1:3845/mcp
   jenkins:
-    type: stdio
+    type: local
     enabled: true
-    command: npx
-    args:
+    command:
+      - npx
       - --yes
       - "@kud/mcp-jenkins@latest"
     env:
@@ -43,10 +43,10 @@ mcp:
       JENKINS_USER: ${MCP_JENKINS_USER}
       JENKINS_API_TOKEN: ${MCP_JENKINS_API_TOKEN}
   datadog:
-    type: stdio
+    type: local
     enabled: true
-    command: npx
-    args:
+    command:
+      - npx
       - --yes
       - "@kud/mcp-datadog@latest"
     env:

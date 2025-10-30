@@ -1,3 +1,5 @@
 packages:
-  - pdf2docx
-  - basic-memory
+  pip:
+    - pdf2docx
+  tool:
+    - basic-memory
