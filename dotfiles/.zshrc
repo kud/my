@@ -34,6 +34,7 @@ for module in \
   java.zsh \
   node.zsh \
   path/node.zsh \
+  path/local.zsh \
   babel.zsh \
   android.zsh \
   antidote.zsh \
