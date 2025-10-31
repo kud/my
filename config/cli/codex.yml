@@ -7,29 +7,28 @@
 #                                                                              #
 ################################################################################
 
-settings:
-  experimental_use_rmcp_client: true
+features:
+  rmcp_client: true
 
 mcp_servers:
   github:
     command: npx
     args:
       - -y
-      - mcp-remote
+      - mcp-remote@latest
       - https://api.githubcopilot.com/mcp
       - --header
-      - "Authorization: Bearer ${GITHUB_TOKEN}"
+      - "Authorization: Bearer ${MCP_GITHUB_TOKEN}"
       - --name
       - github
       - --transport
       - http-first
-    env:
-      GITHUB_TOKEN: ${MCP_GITHUB_TOKEN}
+    env: {}
   notion:
     url: https://mcp.notion.com/mcp
   basic-memory:
-    command: uvx
+    command: bash
     args:
-      - basic-memory
-      - mcp
+      - -c
+      - "uvx basic-memory mcp"
     env: {}
