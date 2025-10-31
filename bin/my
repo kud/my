@@ -64,14 +64,7 @@ else
       $MY/core/system/post-install.zsh "${@:3}"
       ;;
     doc)
-      case "$3" in
-      --offline)
-        mdlive --dir $MY/doc
-        ;;
-      *)
-        open https://github.com/kud/my/tree/master/doc
-        ;;
-      esac
+      open https://github.com/kud/my/tree/master/doc
       ;;
     edit)
       code $MY
