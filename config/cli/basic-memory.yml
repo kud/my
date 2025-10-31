@@ -1,0 +1,13 @@
+################################################################################
+#                                                                              #
+#   🧠 BASIC MEMORY CONFIGURATION                                              #
+#   ------------------------------                                             #
+#   Configuration for Basic Memory CLI tool                                    #
+#                                                                              #
+################################################################################
+
+# Projects configuration
+projects:
+  main:
+    path: ${SYNC_FOLDER}/Memory
+    default: true
