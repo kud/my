@@ -24,7 +24,7 @@ output_file="$config_dir/opencode.jsonc"
 
 mkdir -p "$config_dir"
 
-ui_subsection "Generating $output_file"
+ui_subsection "Configuring OpenCode"
 
 # Check if common config exists and is not empty
 if [[ ! -s "$COMMON_CONFIG" ]]; then
