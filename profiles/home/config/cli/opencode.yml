@@ -1,0 +1,12 @@
+# OpenCode Configuration - Home Profile
+# Adds Todoist MCP server for home usage
+
+mcp:
+  todoist:
+    type: local
+    enabled: true
+    command:
+      - npx
+      - -y
+      - mcp-remote@latest
+      - https://ai.todoist.net/mcp

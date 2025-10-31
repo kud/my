@@ -1,0 +1,10 @@
+# Codex CLI Configuration - Home Profile
+# Adds Todoist MCP server for home usage (command wrapper for reliability)
+
+mcp_servers:
+  todoist:
+    command: npx
+    args:
+      - -y
+      - mcp-remote@latest
+      - https://ai.todoist.net/mcp
