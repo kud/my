@@ -1,0 +1,7 @@
+# Claude Code Configuration - Home Profile
+# Adds Todoist MCP server for home usage
+
+mcp:
+  todoist:
+    transport: http
+    url: https://ai.todoist.net/mcp
