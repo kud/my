@@ -32,3 +32,5 @@ mcp_servers:
       - -c
       - "uvx basic-memory mcp"
     env: {}
+  context7:
+    url: https://mcp.context7.com/mcp
