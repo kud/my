@@ -84,7 +84,7 @@ setup_development_tools() {
     $MY/core/cli/basic-memory.zsh
 
     ui_subtitle "Claude Code Configuration"
-    $MY/core/cli/claude.zsh
+    $MY/core/cli/claude-code.zsh
 
     ui_subtitle "Opencode Configuration"
     $MY/core/cli/opencode.zsh
@@ -97,6 +97,9 @@ setup_development_tools() {
 
 setup_applications() {
     ui_section "${UI_ICON_COMPUTER} Configuring applications"
+    ui_subtitle "Claude Desktop Configuration"
+    $MY/core/apps/claude-desktop.zsh
+
     ui_subtitle "Sublime Merge Preferences"
     $MY/core/apps/sublime-merge.zsh
 

@@ -98,3 +98,6 @@ if (( ${#placeholders[@]} )); then
 fi
 
 mv "$tmp_file" "$output_file"
+
+ui_success_simple "Opencode configuration complete" 1
+ui_info_simple "Config file: $output_file" 1
