@@ -5,11 +5,11 @@
 mcp:
   atlassian:
     type: local
-    enabled: false
+    enabled: true
     command:
       - npx
       - -y
-      - mcp-remote
+      - mcp-remote@latest
       - https://mcp.atlassian.com/v1/sse
   sentry:
     type: local
@@ -17,15 +17,15 @@ mcp:
     command:
       - npx
       - -y
-      - mcp-remote
+      - mcp-remote@latest
       - https://mcp.sentry.dev/mcp
   figma:
     type: local
-    enabled: true
+    enabled: false
     command:
       - npx
       - -y
-      - mcp-remote
+      - mcp-remote@latest
       - https://mcp.figma.com/mcp
   # figma-local:
   #   type: remote
@@ -38,18 +38,18 @@ mcp:
       - npx
       - --yes
       - "@kud/mcp-jenkins@latest"
-    env:
+    environment:
       JENKINS_URL: ${MCP_JENKINS_URL}
       JENKINS_USER: ${MCP_JENKINS_USER}
       JENKINS_API_TOKEN: ${MCP_JENKINS_API_TOKEN}
   datadog:
     type: local
-    enabled: true
+    enabled: false
     command:
       - npx
       - --yes
       - "@kud/mcp-datadog@latest"
-    env:
+    environment:
       DD_API_KEY: ${MCP_DATADOG_API_KEY}
       DD_APP_KEY: ${MCP_DATADOG_APP_KEY}
       DD_SITE: ${MCP_DATADOG_SITE}

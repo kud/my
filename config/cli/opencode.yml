@@ -27,7 +27,7 @@ mcp:
     command:
       - npx
       - -y
-      - mcp-remote
+      - mcp-remote@latest
       - https://mcp.notion.com/mcp
   basic-memory:
     type: local

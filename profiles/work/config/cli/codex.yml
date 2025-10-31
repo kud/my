@@ -7,27 +7,28 @@ mcp_servers:
   sentry:
     command: npx
     args:
-      - mcp-remote
+      - -y
+      - mcp-remote@latest
       - https://mcp.sentry.dev/mcp
   figma:
     url: https://mcp.figma.com/mcp
   # figma-local:
   #   url: http://127.0.0.1:3845/mcp
-  jenkins:
-    command: npx
-    args:
-      - --yes
-      - "@kud/mcp-jenkins@latest"
-    env:
-      JENKINS_URL: ${MCP_JENKINS_URL}
-      JENKINS_USER: ${MCP_JENKINS_USER}
-      JENKINS_API_TOKEN: ${MCP_JENKINS_API_TOKEN}
-  datadog:
-    command: npx
-    args:
-      - --yes
-      - "@kud/mcp-datadog@latest"
-    env:
-      DD_API_KEY: ${MCP_DATADOG_API_KEY}
-      DD_APP_KEY: ${MCP_DATADOG_APP_KEY}
-      DD_SITE: ${MCP_DATADOG_SITE}
+  # jenkins:
+  #   command: npx
+  #   args:
+  #     - --yes
+  #     - "@kud/mcp-jenkins@latest"
+  #   env:
+  #     JENKINS_URL: ${MCP_JENKINS_URL}
+  #     JENKINS_USER: ${MCP_JENKINS_USER}
+  #     JENKINS_API_TOKEN: ${MCP_JENKINS_API_TOKEN}
+  # datadog:
+  #   command: npx
+  #   args:
+  #     - --yes
+  #     - "@kud/mcp-datadog@latest"
+  #   env:
+  #     DD_API_KEY: ${MCP_DATADOG_API_KEY}
+  #     DD_APP_KEY: ${MCP_DATADOG_APP_KEY}
+  #     DD_SITE: ${MCP_DATADOG_SITE}
