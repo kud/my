@@ -19,3 +19,10 @@ mcp:
     args:
       - basic-memory
       - mcp
+  context7:
+    transport: stdio
+    command: npx
+    args:
+      - -y
+      - mcp-remote@latest
+      - https://mcp.context7.com/mcp
