@@ -23,8 +23,8 @@ fi
 PROFILE="${OS_PROFILE:-default}"
 
 # Define config file paths
-COMMON_CONFIG="$MY/config/cli/claude.yml"
-PROFILE_CONFIG="$MY/profiles/$PROFILE/config/cli/claude.yml"
+COMMON_CONFIG="$MY/config/cli/claude-code.yml"
+PROFILE_CONFIG="$MY/profiles/$PROFILE/config/cli/claude-code.yml"
 CLAUDE_CONFIG="$HOME/.claude.json"
 
 # Function to update Claude Code settings
@@ -310,3 +310,6 @@ if [[ -f "$PROFILE_CONFIG" ]]; then
         fi
     done
 fi
+
+ui_success_simple "Claude Code configuration complete" 1
+ui_info_simple "Config file: $CLAUDE_CONFIG" 1

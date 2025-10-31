@@ -1,0 +1,21 @@
+# Claude Desktop Configuration - Common
+# MCP servers for Claude Desktop app (macOS: ~/Library/Application Support/Claude/claude_desktop_config.json)
+#
+# This YAML config maps directly to the JSON format:
+# mcp:
+#   server-name:
+#     transport: stdio
+#     command: <command>
+#     args:
+#       - <arg1>
+#       - <arg2>
+#     env:  # optional, only include if you need environment variables
+#       KEY: value
+
+mcp:
+  basic-memory:
+    transport: stdio
+    command: ${HOME}/.local/share/mise/shims/uvx
+    args:
+      - basic-memory
+      - mcp

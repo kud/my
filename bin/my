@@ -45,8 +45,8 @@ else
   run)
     if [[ -z "$2" ]]; then
       echo "Error: 'run' requires a module name. Available modules:"
-      echo "  Apps: firefox (use -sc for shortcuts), keepassxc, pcloud, sublime-merge, bruno"
-      echo "  CLI: abbr, basic-memory, claude, codex, opencode, ssh"
+      echo "  Apps: firefox (use -sc for shortcuts), keepassxc, pcloud, sublime-merge, bruno, claude-desktop"
+      echo "  CLI: abbr, basic-memory, claude-code, codex, opencode, ssh"
       echo "  Packages: antidote, brew, gh, gem, mas, npm, uv"
       echo "  System: default-folders, doc, dotfiles, edit, open, os, services, shims, submodules, symlinks"
       exit 1
@@ -97,13 +97,16 @@ else
     bruno)
       $MY/core/apps/bruno.zsh
       ;;
+    claude-desktop)
+      $MY/core/apps/claude-desktop.zsh
+      ;;
 
     # CLI tools (core/cli)
     abbr)
       $MY/core/cli/abbr.zsh
       ;;
-    claude)
-      $MY/core/cli/claude.zsh
+    claude-code)
+      $MY/core/cli/claude-code.zsh
       ;;
     codex)
       $MY/core/cli/codex.zsh
@@ -204,11 +207,11 @@ else
     echo "    antidote, brew, gh, gem, mas, npm, uv, mise"
     echo
     echo "  Applications:"
-    echo "    firefox, keepassxc, pcloud, sublime-merge, bruno"
+    echo "    firefox, keepassxc, pcloud, sublime-merge, bruno, claude-desktop"
 
     echo
     echo "  Development Tools:"
-    echo "    abbr, basic-memory, claude, codex, opencode, ssh"
+    echo "    abbr, basic-memory, claude-code, codex, opencode, ssh"
 
     echo
     echo "  System Components:"
