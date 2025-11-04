@@ -96,16 +96,20 @@ echo "${LABEL_COL} ${OLD_COL} ${ARROW_COL} ${NEW_COL}"
 if [[ -t 1 && -z ${NO_COLOR:-} ]]; then
   case "$VERSION_TYPE" in
     major)
-      TYPE_BG=$'\e[48;5;160m'; TYPE_FG=$'\e[38;5;15m' ;;
+      TYPE_CLR=160 ;;
     minor)
-      TYPE_BG=$'\e[48;5;99m'; TYPE_FG=$'\e[38;5;15m' ;;
+      TYPE_CLR=99 ;;
     patch)
-      TYPE_BG=$'\e[48;5;28m'; TYPE_FG=$'\e[38;5;15m' ;;
+      TYPE_CLR=28 ;;
     *)
-      TYPE_BG=$'\e[48;5;240m'; TYPE_FG=$'\e[38;5;15m' ;;
+      TYPE_CLR=240 ;;
   esac
-  # Powerline-style pill with rounded edges (nerd font). Fallback to plain if glyphs unsupported.
-  TYPE_TAG=$'\e[0m'"${TYPE_FG}${TYPE_BG}${TYPE_FG} ${VERSION_TYPE} ${R}${TYPE_FG}${R}"
+  TYPE_BG=$'\e[48;5;'${TYPE_CLR}'m'
+  TYPE_FG=$'\e[38;5;'${TYPE_CLR}'m'
+  TYPE_TEXT_FG=$'\e[38;5;15m'
+  # Left rounded edge: foreground same as pill color on default background
+  # Then set background for pill content; right edge printed after reset.
+  TYPE_TAG=$'\e[0m'"${TYPE_FG}${TYPE_BG}${TYPE_TEXT_FG} ${VERSION_TYPE} ${R}${TYPE_FG}${R}"
 else
   TYPE_TAG="[${VERSION_TYPE}]"
 fi
