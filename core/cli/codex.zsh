@@ -12,7 +12,21 @@
 source $MY/core/utils/helper.zsh
 source $MY/core/utils/ui-kit.zsh
 
+# Parse command line arguments
+FORCE_MODE=0
+for arg in "$@"; do
+    if [[ "$arg" == "--force" ]]; then
+        FORCE_MODE=1
+        break
+    fi
+done
+
 ui_subsection "Configuring Codex CLI"
+
+# Show force mode status
+if [[ $FORCE_MODE -eq 1 ]]; then
+    ui_info_simple "Force mode enabled - will re-add existing servers" 0
+fi
 
 # Check if Codex CLI is installed
 if ! command -v codex >/dev/null 2>&1; then
@@ -246,10 +260,17 @@ add_codex_mcp_server() {
         fi
     done
 
-    # Check if already configured and remove it to ensure clean state
-    if codex mcp list 2>&1 | grep -q "^$name\$"; then
-        ui_info_simple "Removing existing MCP server '$name' for clean re-add" 0
-        codex mcp remove "$name" >/dev/null 2>&1
+    # Check if already configured using JSON output for reliable parsing
+    local existing_server=$(codex mcp list --json 2>/dev/null | jq -r ".[] | select(.name == \"$name\") | .name" 2>/dev/null)
+
+    if [[ -n "$existing_server" && "$existing_server" == "$name" ]]; then
+        if [[ $FORCE_MODE -eq 1 ]]; then
+            ui_info_simple "MCP server '$name' exists, removing for clean re-add (--force)" 0
+            codex mcp remove "$name" >/dev/null 2>&1
+        else
+            ui_info_simple "MCP server '$name' already exists, skipping" 0
+            return 0
+        fi
     fi
 
     # Separate command args from env vars
