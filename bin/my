@@ -102,7 +102,8 @@ else
       $MY/core/cli/claude-code.zsh
       ;;
     codex)
-      $MY/core/cli/codex.zsh
+      shift 2 # Remove 'run' and 'codex' from arguments
+      $MY/core/cli/codex.zsh "$@"
       ;;
     opencode)
       $MY/core/cli/opencode.zsh
