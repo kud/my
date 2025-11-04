@@ -96,13 +96,13 @@ echo "${LABEL_COL} ${OLD_COL} ${ARROW_COL} ${NEW_COL}"
 if [[ -t 1 && -z ${NO_COLOR:-} ]]; then
   case "$VERSION_TYPE" in
     major)
-      TYPE_CLR=160 ;;
+      TYPE_CLR=196 ;;  # bright red
     minor)
-      TYPE_CLR=99 ;;
+      TYPE_CLR=208 ;;  # orange
     patch)
-      TYPE_CLR=28 ;;
+      TYPE_CLR=34 ;;   # green
     *)
-      TYPE_CLR=240 ;;
+      TYPE_CLR=240 ;;  # gray fallback
   esac
   TYPE_BG=$'\e[48;5;'${TYPE_CLR}'m'
   TYPE_FG=$'\e[38;5;'${TYPE_CLR}'m'
