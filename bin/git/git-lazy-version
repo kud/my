@@ -92,6 +92,23 @@ OLD_COL="${G}v${OLD_VERSION}${R}"
 NEW_COL="${G}v${NEW_VERSION}${R}"
 ARROW_COL="->"
 echo "${LABEL_COL} ${OLD_COL} ${ARROW_COL} ${NEW_COL}"
-echo "${Y}Type:${R} ${C}${VERSION_TYPE}${R}"
+# Styled type pill
+if [[ -t 1 && -z ${NO_COLOR:-} ]]; then
+  case "$VERSION_TYPE" in
+    major)
+      TYPE_BG=$'\e[48;5;160m'; TYPE_FG=$'\e[38;5;15m' ;;
+    minor)
+      TYPE_BG=$'\e[48;5;99m'; TYPE_FG=$'\e[38;5;15m' ;;
+    patch)
+      TYPE_BG=$'\e[48;5;28m'; TYPE_FG=$'\e[38;5;15m' ;;
+    *)
+      TYPE_BG=$'\e[48;5;240m'; TYPE_FG=$'\e[38;5;15m' ;;
+  esac
+  # Powerline-style pill with rounded edges (nerd font). Fallback to plain if glyphs unsupported.
+  TYPE_TAG=$'\e[0m'"${TYPE_FG}${TYPE_BG}${TYPE_FG} ${VERSION_TYPE} ${R}${TYPE_FG}${R}"
+else
+  TYPE_TAG="[${VERSION_TYPE}]"
+fi
+echo "${Y}Type:${R} ${TYPE_TAG}"
 echo "${Y}Tag pushed:${R} v${NEW_VERSION}"
 echo
