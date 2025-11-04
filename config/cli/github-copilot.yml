@@ -1,0 +1,29 @@
+# GitHub Copilot CLI Configuration - Common
+# MCP servers for GitHub Copilot CLI (~/.copilot/mcp-config.json)
+# Settings applied to all profiles
+
+# Copilot settings
+config:
+  banner: always
+
+# Common MCP servers (all profiles)
+mcpServers:
+  basic-memory:
+    type: local
+    command: uvx
+    args:
+      - basic-memory
+      - mcp
+    headers: {}
+    tools:
+      - "*"
+  context7:
+    type: local
+    command: npx
+    args:
+      - -y
+      - mcp-remote@latest
+      - https://mcp.context7.com/mcp
+    headers: {}
+    tools:
+      - "*"
