@@ -1,0 +1,14 @@
+# GitHub Copilot CLI Configuration - Home Profile
+# Adds Todoist MCP server for home usage
+
+mcpServers:
+  todoist:
+    type: local
+    command: npx
+    args:
+      - -y
+      - mcp-remote@latest
+      - https://ai.todoist.net/mcp
+    headers: {}
+    tools:
+      - "*"
