@@ -92,6 +92,9 @@ setup_development_tools() {
     ui_subtitle "Codex Configuration"
     $MY/core/cli/codex.zsh
 
+    ui_subtitle "GitHub Copilot Configuration"
+    $MY/core/cli/github-copilot.zsh
+
     ui_success_simple "Development tools configured" 1
 }
 
