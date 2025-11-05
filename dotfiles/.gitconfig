@@ -121,7 +121,6 @@
 	aac = "!git add -A && git commit"
 	add-plus = "!git ls-files -m -o --exclude-standard|fzf --print0 -m --preview-window right:75%  --preview 'git diff --color=always {}'|xargs -0 -t -o git add"
 	ahead = "!git rev-list --left-right --count @{u}...HEAD 2>/dev/null || echo 'no upstream'"
-	# aicommit = "!aicommits"
 	aicommit = "!ai-conventional-commit --style gitmoji"
 	amend = commit --amend --no-edit
 	apc = "!git add -p && git commit"
@@ -170,6 +169,7 @@
 	publish = "!git push -u origin HEAD"
 	recommit = commit --amend
 	reset-soft-last = reset --soft HEAD~1
+	rewind = undo
 	rmdf = "!git rm $(git ls-files --deleted)"
 	root = rev-parse --show-toplevel
 	show-commands = "!git config --get-regexp alias|sed \"s/alias.\\([a-zA-Z-]*\\) \\(\\.\\)*/$(tput setaf 2)\\1 $(tput setaf 0)\\2/\""
