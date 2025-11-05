@@ -1,0 +1,5 @@
+# Firefox keyboard shortcut configurations - false positives
+3c9efecc3a8419ec5ade4ccfd1bfccbd317c08f0:config/apps/firefox.yml:generic-api-key:354
+3c9efecc3a8419ec5ade4ccfd1bfccbd317c08f0:config/apps/firefox.yml:generic-api-key:355
+3c9efecc3a8419ec5ade4ccfd1bfccbd317c08f0:config/apps/firefox.yml:generic-api-key:357
+3c9efecc3a8419ec5ade4ccfd1bfccbd317c08f0:config/apps/firefox.yml:generic-api-key:358
