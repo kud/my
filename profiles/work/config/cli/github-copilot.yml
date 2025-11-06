@@ -3,8 +3,12 @@
 
 mcpServers:
   atlassian:
-    type: sse
-    url: https://mcp.atlassian.com/v1/sse
+    type: local
+    command: npx
+    args:
+      - -y
+      - mcp-remote@latest
+      - https://mcp.atlassian.com/v1/sse
     headers: {}
     tools:
       - "*"
