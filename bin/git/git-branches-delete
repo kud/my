@@ -131,7 +131,9 @@ const main = async () => {
       {
         type: "confirm",
         name: "confirmed",
-        message: `Delete these ${branchesToDelete.length} branches?`,
+        message: branchesToDelete.length === 1
+          ? `Delete this branch?`
+          : `Delete these ${branchesToDelete.length} branches?`,
         default: false,
       },
     ])
@@ -144,29 +146,27 @@ const main = async () => {
     // Delete local branches
     for (const branch of localToDelete) {
       try {
-        console.log(chalk.gray(`Deleting local branch: ${branch.name}...`))
         await git.branch(["-D", branch.name])
-        console.log(chalk.green(`✓ Deleted local branch: ${branch.name}`))
+        console.log(`${chalk.green("✓")} Deleted local branch: ${branch.name}`)
       } catch (error) {
         console.log(chalk.red(`✗ Failed to delete local branch: ${branch.name}`))
         console.log(chalk.gray(`  ${error.message}`))
       }
     }
-    
+
     // Delete remote branches
     for (const branch of remoteToDelete) {
       try {
-        console.log(chalk.gray(`Deleting remote branch: origin/${branch.name}...`))
         await git.push("origin", `:${branch.name}`)
-        console.log(chalk.green(`✓ Deleted remote branch: origin/${branch.name}`))
+        console.log(`${chalk.green("✓")} Deleted remote branch: origin/${branch.name}`)
       } catch (error) {
         console.log(chalk.red(`✗ Failed to delete remote branch: origin/${branch.name}`))
         console.log(chalk.gray(`  ${error.message}`))
       }
     }
-    
+
     console.log("")
-    console.log(chalk.green.bold("All selected branches processed."))
+    console.log(chalk.dim(`${branchesToDelete.length} ${branchesToDelete.length === 1 ? "branch" : "branches"} deleted.`))
     
   } catch (error) {
     console.error(chalk.red(`Error: ${error.message}`))
