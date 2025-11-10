@@ -9,6 +9,9 @@ pre_install:
   - npm config set fetch-retry-maxtimeout 90000
   # Yarn configuration
   - yarn config set --home defaultSemverRangePrefix ""
+  # Disable Corepack for yarn/pnpm since Mise manages versions per-project
+  - corepack disable yarn
+  - corepack disable pnpm
 
 packages:
   - "@anthropic-ai/claude-code"
