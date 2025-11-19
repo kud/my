@@ -1,0 +1,96 @@
+#! /usr/bin/env zsh
+
+# Codex launcher with a cinematic ">_ OpenAI Codex" splash
+# animation, then hands off to the real `codex` CLI.
+
+set -e
+
+# Ensure codex exists
+if ! command -v codex >/dev/null 2>&1; then
+  echo "cdx: codex binary not found in PATH" >&2
+  exit 127
+fi
+
+show_codex_splash() {
+  # Only animate when attached to a real terminal
+  if [[ ! -t 0 || ! -t 1 ]]; then
+    return
+  fi
+
+  # Basic colors
+  local RESET=$'\e[0m'
+  local BOLD=$'\e[1m'
+  local WHITE=$'\e[97m'
+  local DIM=$'\e[2m'
+
+  # Hide cursor during animation and restore afterwards
+  tput civis 2>/dev/null || true
+  local restore_cursor() { tput cnorm 2>/dev/null || true; }
+  trap restore_cursor EXIT
+
+  printf "\n"
+
+  # Title text
+  local full_line=">_ OpenAI Codex"
+  local cursor="▊"
+
+  # Phase 1: blinking prompt ">_" before the rest appears
+  local prompt=">_"
+  local k
+  for k in {1..4}; do
+    printf "\r  %s%s%s%s" "$BOLD$WHITE" "$prompt" "$cursor" "$RESET"
+    sleep 0.13
+    printf "\r  %s%s  %s" "$BOLD$WHITE" "$prompt" "$RESET"
+    sleep 0.13
+  done
+
+  # Phase 2: type the rest of the text after ">_ "
+  local suffix=" OpenAI Codex"
+  local fragment i
+  for (( i = 1; i <= ${#suffix}; i++ )); do
+    fragment=${suffix[1,i]}
+    printf "\r  %s>_%s%s%s" "$BOLD$WHITE" "$fragment" "$cursor" "$RESET"
+    sleep 0.05
+  done
+
+  full_line=">_${suffix}"
+
+  # Phase 3: subtle cursor blink at the completed title
+  local j
+  for j in {1..6}; do
+    if (( j % 2 )); then
+      printf "\r  %s%s%s%s" "$BOLD$WHITE" "$full_line" "$cursor" "$RESET"
+    else
+      printf "\r  %s%s  %s" "$BOLD$WHITE" "$full_line" "$RESET"
+    fi
+    sleep 0.1
+  done
+
+  # Phase 4: shiny highlight sweep across the title (like a light passing over)
+  local len=${#full_line}
+  local idx left mid right
+  for (( idx = 1; idx <= len; idx++ )); do
+    left=""; right=""; mid="${full_line[idx,1]}"
+    if (( idx > 1 )); then
+      left=${full_line[1,idx-1]}
+    fi
+    if (( idx < len )); then
+      right=${full_line[idx+1,-1]}
+    fi
+    # Dim outer text, bright highlight on current character
+    printf "\r  %s%s%s%s%s%s" "$DIM$WHITE" "$left" "$BOLD$WHITE" "$mid" "$DIM$WHITE" "$right$RESET"
+    sleep 0.03
+  done
+
+  # Phase 5: settle on the final bright title
+  printf "\r  %s%s  %s\n\n" "$BOLD$WHITE" "$full_line" "$RESET"
+
+  # Restore cursor before leaving the function
+  restore_cursor
+  trap - EXIT
+}
+
+show_codex_splash
+
+# Hand off to the real codex binary, preserving args
+exec codex "$@"
