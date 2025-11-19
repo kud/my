@@ -12,8 +12,12 @@ features:
 
 mcp_servers:
   github:
-    command: npx
+    command: mise
     args:
+      - exec
+      - node@latest
+      - --
+      - npx
       - -y
       - mcp-remote@latest
       - https://api.githubcopilot.com/mcp

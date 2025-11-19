@@ -5,8 +5,12 @@ mcp_servers:
   atlassian:
     url: https://mcp.atlassian.com/v1/sse
   sentry:
-    command: npx
+    command: mise
     args:
+      - exec
+      - node@latest
+      - --
+      - npx
       - -y
       - mcp-remote@latest
       - https://mcp.sentry.dev/mcp

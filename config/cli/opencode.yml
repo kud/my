@@ -25,6 +25,10 @@ mcp:
     type: local
     enabled: true
     command:
+      - mise
+      - exec
+      - node@latest
+      - --
       - npx
       - -y
       - mcp-remote@latest

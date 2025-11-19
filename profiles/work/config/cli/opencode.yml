@@ -9,7 +9,7 @@ mcp:
     command:
       - mise
       - exec
-      - node@24
+      - node@latest
       - --
       - npx
       - -y
@@ -19,6 +19,10 @@ mcp:
     type: local
     enabled: false
     command:
+      - mise
+      - exec
+      - node@latest
+      - --
       - npx
       - -y
       - mcp-remote@latest
@@ -27,6 +31,10 @@ mcp:
     type: local
     enabled: false
     command:
+      - mise
+      - exec
+      - node@latest
+      - --
       - npx
       - -y
       - mcp-remote@latest
