@@ -19,8 +19,12 @@ mcpServers:
       - "*"
   context7:
     type: local
-    command: npx
+    command: mise
     args:
+      - exec
+      - node@latest
+      - --
+      - npx
       - -y
       - mcp-remote@latest
       - https://mcp.context7.com/mcp

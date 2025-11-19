@@ -3,8 +3,12 @@
 
 mcp_servers:
   todoist:
-    command: npx
+    command: mise
     args:
+      - exec
+      - node@latest
+      - --
+      - npx
       - -y
       - mcp-remote@latest
       - https://ai.todoist.net/mcp

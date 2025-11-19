@@ -4,8 +4,12 @@
 mcpServers:
   atlassian:
     type: local
-    command: npx
+    command: mise
     args:
+      - exec
+      - node@latest
+      - --
+      - npx
       - -y
       - mcp-remote@latest
       - https://mcp.atlassian.com/v1/sse
@@ -32,10 +36,14 @@ mcpServers:
       - "*"
   sentry:
     type: local
-    command: npx
+    command: mise
     tools:
       - "*"
     args:
+      - exec
+      - node@latest
+      - --
+      - npx
       - -y
       - mcp-remote@latest
       - https://mcp.sentry.dev/mcp
