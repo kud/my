@@ -31,9 +31,10 @@ MY_VERSION=$(git --git-dir="$MY/.git" describe --tags --always 2>/dev/null || ec
 HOSTNAME=$(hostname -s)
 PROFILE="${OS_PROFILE:-default}"
 
-ui_info_simple "Version: $MY_VERSION"
-ui_info_simple "Host: $HOSTNAME"
-ui_info_simple "Profile: $PROFILE"
+# Display environment info as a table for better readability
+local headers=$'Version	Host	Profile'
+local rows=$"$MY_VERSION\t$HOSTNAME\t$PROFILE"
+ui_table "$headers" "$rows"
 
 ui_spacer
 

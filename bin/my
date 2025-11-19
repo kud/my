@@ -25,6 +25,9 @@ else
   update)
     $MY/core/commands/update.zsh
     ;;
+  info)
+    $MY/core/commands/info.zsh
+    ;;
   uninstall)
     $MY/core/commands/uninstall.zsh
     ;;
@@ -190,6 +193,7 @@ else
     ui_subtitle "Direct Commands:"
     echo "  install               Set up complete development environment"
     echo "  update                Refresh all components and packages"
+    echo "  info                  Show environment info (version/host/profile)"
     echo "  uninstall             Remove the project"
     echo "  doctor                Check system health and configuration"
     echo "  services              Manage system services (LaunchDaemons)"
