@@ -121,7 +121,7 @@
 	aac = "!git add -A && git commit"
 	add-plus = "!git ls-files -m -o --exclude-standard|fzf --print0 -m --preview-window right:75%  --preview 'git diff --color=always {}'|xargs -0 -t -o git add"
 	ahead = "!git rev-list --left-right --count @{u}...HEAD 2>/dev/null || echo 'no upstream'"
-	aicommit = "!ai-conventional-commit --style gitmoji"
+	aicommit = "!mise exec node@24 -- ai-conventional-commit --style gitmoji"
 	amend = commit --amend --no-edit
 	apc = "!git add -p && git commit"
 	blame-ignore = "!git blame -w --ignore-revs-file .git-blame-ignore-revs"
