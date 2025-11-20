@@ -149,6 +149,17 @@ if [[ -f "$PROFILE_CONFIG" ]]; then
     done
 fi
 
+# Collect top-level model setting
+model_value=""
+if [[ -f "$PROFILE_CONFIG" ]]; then
+    model_value=$(yq -r '.model' "$PROFILE_CONFIG" 2>/dev/null)
+    [[ "$model_value" == "null" ]] && model_value=""
+fi
+if [[ -z "$model_value" && -f "$COMMON_CONFIG" ]]; then
+    model_value=$(yq -r '.model' "$COMMON_CONFIG" 2>/dev/null)
+    [[ "$model_value" == "null" ]] && model_value=""
+fi
+
 # Configure all features once
 if [[ ${#all_features[@]} -gt 0 ]]; then
     temp_file="${CODEX_CONFIG_FILE}.tmp"
@@ -159,8 +170,17 @@ if [[ ${#all_features[@]} -gt 0 ]]; then
     in_features_section=0
     features_written=0
 
-    # Start fresh temp file with features section
-    echo "[features]" > "$temp_file"
+    # Start fresh temp file with model (if set) before features section
+    if [[ -n "$model_value" ]]; then
+        echo "model = \"$model_value\"" > "$temp_file"
+        echo "" >> "$temp_file"
+        ui_success_simple "Set model: $model_value" 0
+    else
+        touch "$temp_file"
+    fi
+
+    # Add features section
+    echo "[features]" >> "$temp_file"
     for key in "${(@k)all_features}"; do
         echo "$key = ${all_features[$key]}" >> "$temp_file"
         ui_success_simple "Set feature: $key = ${all_features[$key]}" 0
@@ -171,6 +191,11 @@ if [[ ${#all_features[@]} -gt 0 ]]; then
     # If config file exists, preserve non-feature content
     if [[ -f "$CODEX_CONFIG_FILE" ]]; then
         while IFS= read -r line || [[ -n "$line" ]]; do
+            # Skip any standalone model line (we already wrote it above)
+            if [[ "$line" =~ ^model[[:space:]]*= ]]; then
+                continue
+            fi
+
             # Skip any [features] section headers (we already wrote it above)
             if [[ "$line" =~ ^\\[features\\] ]]; then
                 in_features_section=1
