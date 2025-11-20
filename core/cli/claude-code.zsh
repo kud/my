@@ -26,6 +26,7 @@ PROFILE="${OS_PROFILE:-default}"
 COMMON_CONFIG="$MY/config/cli/claude-code.yml"
 PROFILE_CONFIG="$MY/profiles/$PROFILE/config/cli/claude-code.yml"
 CLAUDE_CONFIG="$HOME/.claude.json"
+CLAUDE_SETTINGS="$HOME/.claude/settings.json"
 
 # Function to update Claude Code settings
 update_claude_settings() {
@@ -51,6 +52,37 @@ update_claude_settings() {
         local temp_file=$(mktemp)
         jq ".$key = $value" "$CLAUDE_CONFIG" > "$temp_file" && mv "$temp_file" "$CLAUDE_CONFIG"
         ui_success_simple "Updated setting: $key = $value" 0
+    fi
+}
+
+# Function to update Claude UI settings (~/.claude/settings.json)
+update_claude_ui_settings() {
+    local key="$1"
+    local value="$2"
+
+    # Create directory if it doesn't exist
+    mkdir -p "$(dirname "$CLAUDE_SETTINGS")"
+
+    # Initialize file if it doesn't exist
+    if [[ ! -f "$CLAUDE_SETTINGS" ]]; then
+        echo "{}" > "$CLAUDE_SETTINGS"
+    fi
+
+    # Check if jq is available
+    if ! command -v jq >/dev/null 2>&1; then
+        ui_warning_simple "jq not found, skipping UI settings update" 1
+        return 0
+    fi
+
+    # Get current value
+    local current_value=$(jq -r ".$key // empty" "$CLAUDE_SETTINGS" 2>/dev/null)
+
+    # Only update if different
+    if [[ "$current_value" != "$value" ]]; then
+        # Create temp file with updated value
+        local temp_file=$(mktemp)
+        jq ".$key = $value" "$CLAUDE_SETTINGS" > "$temp_file" && mv "$temp_file" "$CLAUDE_SETTINGS"
+        ui_success_simple "Updated UI setting: $key = $value" 0
     fi
 }
 
@@ -174,6 +206,20 @@ add_mcp_server() {
 
 # Apply common settings (if config exists)
 if [[ -f "$COMMON_CONFIG" ]]; then
+    # Read and apply all global settings from the global section
+    global_setting_keys=($(yq -r '.global | keys[]' "$COMMON_CONFIG" 2>/dev/null))
+
+    for key in "${global_setting_keys[@]}"; do
+        value=$(yq -r ".global.$key" "$COMMON_CONFIG" 2>/dev/null)
+
+        # Properly handle strings vs booleans/numbers
+        if [[ "$value" =~ ^(true|false|[0-9]+)$ ]]; then
+            update_claude_settings "$key" "$value"
+        else
+            update_claude_settings "$key" "\"$value\""
+        fi
+    done
+
     # Read and apply all settings from the settings section
     setting_keys=($(yq -r '.settings | keys[]' "$COMMON_CONFIG" 2>/dev/null))
 
@@ -182,9 +228,9 @@ if [[ -f "$COMMON_CONFIG" ]]; then
 
         # Properly handle strings vs booleans/numbers
         if [[ "$value" =~ ^(true|false|[0-9]+)$ ]]; then
-            update_claude_settings "$key" "$value"
+            update_claude_ui_settings "$key" "$value"
         else
-            update_claude_settings "$key" "\"$value\""
+            update_claude_ui_settings "$key" "\"$value\""
         fi
     done
 fi
