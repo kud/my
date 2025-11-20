@@ -85,6 +85,18 @@ if [[ -d "$MY/dotfiles/.codex" ]]; then
 fi
 
 ############################################################
+# 🤖 Claude agents directory setup
+############################################################
+
+if [[ -d "$MY/dotfiles/.claude/agents" ]]; then
+  mkdir -p "$HOME/.claude"
+  
+  if ln -sfn "$MY/dotfiles/.claude/agents" "$HOME/.claude/agents" 2>/dev/null; then
+    ui_success_simple "Linked .claude/agents/"
+  fi
+fi
+
+############################################################
 # 🧩 Zsh config directory setup
 ############################################################
 mkdir -p "$HOME_CONFIG_DIR/zsh"
