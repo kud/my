@@ -13,11 +13,11 @@
 source $MY/core/utils/ui-kit.zsh
 
 # Global Nerd Font icons now provided by ui-kit; no per-script overrides needed
-# Enable animated intro for update process
-export MY_SHOW_INTRO="true"
 
-# Run the animation directly (synchronously) for better display
+# Source intro functions (without auto-running)
 source $MY/core/utils/intro.zsh
+
+# Always show animated intro for update
 if [[ -z "$CI" ]] && [[ -t 1 ]]; then
     show_animated_intro
 fi
@@ -32,8 +32,8 @@ HOSTNAME=$(hostname -s)
 PROFILE="${OS_PROFILE:-default}"
 
 # Display environment info as a table for better readability
-local headers=$'Version	Host	Profile'
-local rows=$"$MY_VERSION\t$HOSTNAME\t$PROFILE"
+headers=$'Version	Host	Profile'
+rows=$MY_VERSION$'\t'$HOSTNAME$'\t'$PROFILE
 ui_table "$headers" "$rows"
 
 ui_spacer
