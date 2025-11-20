@@ -2,3 +2,5 @@ modules/*
 !modules/.gitkeep
 node_modules/
 *.log
+.claude
+!dotfiles/.claude
