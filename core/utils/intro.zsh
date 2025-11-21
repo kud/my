@@ -65,7 +65,8 @@ show_animated_intro() {
     printf "\n\033[10C"
     local spinner=("⠋" "⠙" "⠹" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏")
     for ((k=0; k<20; k++)); do
-        printf "\r\033[10C\033[92m${spinner[$((k % 10))]} Starting update...\033[0m"
+        local char="${spinner[$((k % 10))]:-" "}"
+        printf "\r\033[10C\033[92m${char} Starting update...\033[0m"
         sleep 0.05
     done
     
