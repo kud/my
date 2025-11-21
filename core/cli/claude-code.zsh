@@ -82,7 +82,7 @@ update_claude_ui_settings() {
         # Create temp file with updated value
         local temp_file=$(mktemp)
         jq ".$key = $value" "$CLAUDE_SETTINGS" > "$temp_file" && mv "$temp_file" "$CLAUDE_SETTINGS"
-        ui_success_simple "Updated UI setting: $key = $value" 0
+        ui_success_simple "Updated UI setting: $key" 0
     fi
 }
 
@@ -147,8 +147,8 @@ add_mcp_server() {
         fi
     done
 
-    # Check if already configured
-    if claude mcp list 2>&1 | grep -q "$name"; then
+    # Check if already configured using cached list
+    if echo "$MCP_SERVER_LIST" | grep -q "$name"; then
         ui_info_simple "MCP server '$name' already configured" 0
         return 0
     fi
@@ -204,6 +204,9 @@ add_mcp_server() {
     fi
 }
 
+# Cache MCP server list once to avoid repeated calls
+MCP_SERVER_LIST=$(claude mcp list 2>&1)
+
 # Apply common settings (if config exists)
 if [[ -f "$COMMON_CONFIG" ]]; then
     # Read and apply all global settings from the global section
@@ -224,15 +227,35 @@ if [[ -f "$COMMON_CONFIG" ]]; then
     setting_keys=($(yq -r '.settings | keys[]' "$COMMON_CONFIG" 2>/dev/null))
 
     for key in "${setting_keys[@]}"; do
-        value=$(yq -r ".settings.$key" "$COMMON_CONFIG" 2>/dev/null)
-
-        # Properly handle strings vs booleans/numbers
-        if [[ "$value" =~ ^(true|false|[0-9]+)$ ]]; then
+        # Check if the value is an object or array
+        value_type=$(yq -r ".settings.$key | type" "$COMMON_CONFIG" 2>/dev/null)
+        
+        if [[ "$value_type" == "!!map" || "$value_type" == "!!seq" ]]; then
+            # It's an object or array, output as JSON
+            value=$(yq -o json ".settings.$key" "$COMMON_CONFIG" 2>/dev/null)
             update_claude_ui_settings "$key" "$value"
         else
-            update_claude_ui_settings "$key" "\"$value\""
+            value=$(yq -r ".settings.$key" "$COMMON_CONFIG" 2>/dev/null)
+            
+            # Properly handle strings vs booleans/numbers
+            if [[ "$value" =~ ^(true|false|[0-9]+)$ ]]; then
+                update_claude_ui_settings "$key" "$value"
+            else
+                update_claude_ui_settings "$key" "\"$value\""
+            fi
         fi
     done
+    
+    # Show statusLine preview if configured
+    if [[ -f "$CLAUDE_SETTINGS" ]] && jq -e '.statusLine' "$CLAUDE_SETTINGS" >/dev/null 2>&1; then
+        local status_type=$(jq -r '.statusLine.type' "$CLAUDE_SETTINGS" 2>/dev/null)
+        if [[ "$status_type" == "command" ]]; then
+            local status_cmd=$(jq -r '.statusLine.command' "$CLAUDE_SETTINGS" 2>/dev/null)
+            local mock_input='{"workspace":{"current_dir":"'$PWD'"}}'
+            local status_result=$(echo "$mock_input" | bash -c "$status_cmd" 2>/dev/null)
+            ui_success_simple "Updated setting: statusLine = $status_result" 0
+        fi
+    fi
 fi
 
 # Process common MCP servers (if config exists)
@@ -358,4 +381,4 @@ if [[ -f "$PROFILE_CONFIG" ]]; then
 fi
 
 ui_success_simple "Claude Code configuration complete" 1
-ui_info_simple "Config file: $CLAUDE_CONFIG" 1
+ui_info_simple "Config files: $CLAUDE_CONFIG, $CLAUDE_SETTINGS" 1
