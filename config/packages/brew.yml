@@ -1,6 +1,5 @@
 taps:
 
-
 packages:
   formulae:
     # 🖥️ System Utilities
@@ -111,9 +110,7 @@ packages:
     - pandoc
     - poppler
 
-
     - tcl-tk
-
 
     - subversion
     - switchaudio-osx
@@ -183,7 +180,7 @@ packages:
     - xcodes-app
     - xquartz
     - localsend
-    - claudia
+    - opcode
     - svu
 
     # 🔤 Fonts
