@@ -4,6 +4,7 @@ packages:
   formulae:
     # 🖥️ System Utilities
     - autojump
+    - blueutil
     - brightness
     - exiftool
     - fastfetch
