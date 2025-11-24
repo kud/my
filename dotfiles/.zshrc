@@ -48,6 +48,7 @@ for module in \
   path/console-ninja.zsh \
   path/android.zsh \
   path/my.zsh \
+  profiles.zsh \
   starship.zsh
 
 do
