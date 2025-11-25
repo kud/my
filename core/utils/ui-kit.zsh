@@ -365,6 +365,31 @@ ui_dots_loading() {
     printf "\r${UI_SUCCESS}${message} Complete!${UI_RESET}\n"
 }
 
+# Inline spinner for manual control in loops
+# Usage:
+#   local frames=($(ui_spinner_frames))
+#   local idx=0
+#   while condition; do
+#     ui_spinner_tick "$idx" "Message"
+#     idx=$(((idx + 1) % ${#frames[@]}))
+#     # your logic here
+#   done
+#   ui_spinner_clear
+ui_spinner_frames() {
+    echo "⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏"
+}
+
+ui_spinner_tick() {
+    local idx="$1"
+    local message="$2"
+    local frames=("⠋" "⠙" "⠹" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏")
+    printf "\r${UI_PRIMARY}${frames[$idx]} ${message}${UI_RESET}"
+}
+
+ui_spinner_clear() {
+    printf "\r\033[K"
+}
+
 ################################################################################
 # 📦 LAYOUT COMPONENTS
 ################################################################################
