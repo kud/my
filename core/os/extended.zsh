@@ -103,6 +103,89 @@ defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
 # defaults write com.apple.controlcenter "NSStatusItem Visible Sound" -int 1
 
 ###############################################################################
+# Window Management (macOS 13+)                                               #
+###############################################################################
+
+# Disable Stage Manager by default
+defaults write com.apple.WindowManager GloballyEnabled -bool false
+
+# Group windows by application in app switcher
+defaults write com.apple.WindowManager AppWindowGroupingBehavior -int 1
+
+# Hide Desktop widgets in standard mode
+defaults write com.apple.WindowManager StandardHideWidgets -int 0
+
+###############################################################################
+# Modern macOS 15+ Features                                                   #
+###############################################################################
+
+# Auto-hide menu bar in fullscreen
+defaults write NSGlobalDomain AppleMenuBarVisibleInFullscreen -int 0
+
+# Disable inline predictive text (macOS 14+)
+defaults write NSGlobalDomain NSAutomaticInlinePredictionEnabled -bool false
+
+# Function key behavior (0 = F1-F12 as standard, 1 = special features)
+defaults write NSGlobalDomain com.apple.keyboard.fnState -int 0
+
+###############################################################################
+# Enhanced Trackpad Gestures                                                  #
+###############################################################################
+
+# Enable three-finger drag
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true
+
+# Four-finger gestures for Mission Control
+defaults write com.apple.AppleMultitouchTrackpad TrackpadFourFingerHorizSwipeGesture -int 2
+defaults write com.apple.AppleMultitouchTrackpad TrackpadFourFingerVertSwipeGesture -int 2
+
+###############################################################################
+# Control Center & Menu Bar Items                                             #
+###############################################################################
+
+# Show/hide specific Control Center items
+defaults write com.apple.controlcenter "NSStatusItem Visible Battery" -bool true
+defaults write com.apple.controlcenter "NSStatusItem Visible Bluetooth" -bool false
+defaults write com.apple.controlcenter "NSStatusItem Visible WiFi" -bool true
+defaults write com.apple.controlcenter "NSStatusItem Visible Sound" -bool true
+
+###############################################################################
+# Enhanced Dock Settings                                                      #
+###############################################################################
+
+# Dock magnification
+defaults write com.apple.dock magnification -bool false
+defaults write com.apple.dock largesize -int 64
+
+###############################################################################
+# Enhanced Finder Settings                                                    #
+###############################################################################
+
+# Show folder item count in Icon view
+defaults write com.apple.finder ShowItemInfo -bool true
+
+# Set default Finder folder arrangement
+defaults write com.apple.finder FXArrangeGroupViewBy -string "Name"
+
+###############################################################################
+# Screenshots Enhancements                                                    #
+###############################################################################
+
+# Show thumbnail after screenshot
+defaults write com.apple.screencapture show-thumbnail -bool true
+
+###############################################################################
+# Privacy & Security                                                          #
+###############################################################################
+
+# Disable Siri suggestions in Spotlight
+defaults write com.apple.lookup.shared LookupSuggestionsDisabled -bool true
+
+# Disable personalized ads
+defaults write com.apple.AdLib allowApplePersonalizedAdvertising -bool false
+
+###############################################################################
 # MiddleClick                                                                 #
 ###############################################################################
 
