@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#
+# Print the current branch name with a newline
+#
+
+git rev-parse --abbrev-ref HEAD
