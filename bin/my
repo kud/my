@@ -52,6 +52,7 @@ else
       echo "  CLI: abbr, basic-memory, claude-code, codex, github-copilot, opencode, ssh"
       echo "  Packages: antidote, brew, gh, gem, mas, npm, uv"
       echo "  System: default-folders, doc, dotfiles, edit, open, os, services, shims, submodules, symlinks"
+      echo "  Utils: ui-kit-demo"
       exit 1
     fi
 
@@ -164,6 +165,12 @@ else
     default-folders)
       $MY/core/system/default-folders.zsh
       ;;
+    
+    # Utils (core/utils)
+    ui-kit-demo)
+      $MY/core/utils/ui-kit-demo.zsh
+      ;;
+    
     *)
       if [[ -f "$MY/core/system/$2.zsh" ]]; then
         $MY/core/system/$2.zsh

@@ -87,14 +87,13 @@ alias fix-cursor='echo -e "\e[6 q"'
 
 # 🤖 AI
 alias explain='ai explain'
-# Git rapid commit & push (adds all, AI commit, push)
+alias gca='git add . && git aicommit'
 alias gcap='git add . && git aicommit && git push'
 
 # 🧠 Basic Memory
 alias note="basic-memory tools write-note"
 alias search="basic-memory tools search-notes --query"
 alias recent="basic-memory tools recent-activity"
-
 
 # 🐙 GH aliases
 alias prw='gh pr view --web'
