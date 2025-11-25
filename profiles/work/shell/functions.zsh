@@ -11,30 +11,39 @@ sudo() {
   # Check if user is in admin group using dscl (more reliable than groups)
   local group_membership=$(dscl . -read /Groups/admin GroupMembership 2>/dev/null)
   if ! echo "$group_membership" | grep -q "\b$USER\b"; then
-    ui_info_simple "Requesting admin rights..."
-
     # Run the automated Jamf request script silently
     local admin_script="$SYNC_FOLDER/Appdata/Raycast/scripts/commands/request-admin-privileges/index.js"
     (osascript -l JavaScript "$admin_script" &>/dev/null &)
 
-    # Poll every 2 seconds for up to 30 seconds
+    # Use ui-kit inline spinner
+    local spinner_idx=0
+
+    # Poll every 0.5 seconds for up to 30 seconds
     local attempts=0
-    local max_attempts=15
+    local max_attempts=60
 
     while [ $attempts -lt $max_attempts ]; do
-      sleep 2
+      # Show spinner using ui-kit
+      ui_spinner_tick "$spinner_idx" "Requesting admin rights..."
+      spinner_idx=$(((spinner_idx + 1) % 10))
+
+      sleep 0.5
       attempts=$((attempts + 1))
 
-      # Check if admin rights were granted
-      group_membership=$(dscl . -read /Groups/admin GroupMembership 2>/dev/null)
-      if echo "$group_membership" | grep -q "\b$USER\b"; then
-        ui_success_simple "Admin rights granted."
-        command sudo "$@"
-        return
+      # Check every 2 seconds (every 4th attempt)
+      if (( attempts % 4 == 0 )); then
+        group_membership=$(dscl . -read /Groups/admin GroupMembership 2>/dev/null)
+        if echo "$group_membership" | grep -q "\b$USER\b"; then
+          ui_spinner_clear
+          ui_success_simple "Admin rights granted."
+          command sudo "$@"
+          return
+        fi
       fi
     done
 
     # Timeout reached
+    ui_spinner_clear
     ui_error_simple "Admin rights request timed out."
     return 1
   fi
