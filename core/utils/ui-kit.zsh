@@ -6,7 +6,9 @@
 #   ------------------                                                         #
 #   A comprehensive collection of modern UI components for creating beautiful  #
 #   and interactive Zsh scripts. Includes colors, icons, layouts, animations, #
-#   progress indicators, and interactive elements.                             #
+#   progress indicators, pills, and interactive elements.                      #
+#                                                                              #
+#   NEW: Pill components with 256-color support and rounded edges!            #
 #                                                                              #
 ################################################################################
 
@@ -298,19 +300,107 @@ ui_info_simple() { echo -e "${UI_INFO}${UI_ICON_INFO_BRACKET}${UI_RESET} ${1}"; 
 ui_badge() {
     local type="$1"
     local text="$2"
-    local bg_color fg_color
+
+    # Check for NO_COLOR
+    if [[ -n ${NO_COLOR:-} ]]; then
+        echo -ne "[ ${text} ]"
+        return
+    fi
+
+    # Use direct ANSI codes for better compatibility
+    local reset=$'\e[0m'
+    local bg fg
 
     case "$type" in
-        "success") bg_color="$UI_BG_GREEN"; fg_color="$UI_WHITE" ;;
-        "error") bg_color="$UI_BG_RED"; fg_color="$UI_WHITE" ;;
-        "warning") bg_color="$UI_BG_YELLOW"; fg_color="$UI_BLACK" ;;
-        "info") bg_color="$UI_BG_BLUE"; fg_color="$UI_WHITE" ;;
-        "primary") bg_color="$UI_BG_BLUE"; fg_color="$UI_WHITE" ;;
-        *) bg_color="$UI_BG_BLACK"; fg_color="$UI_WHITE" ;;
+        "success")
+            bg=$'\e[48;5;46m'   # Bright green background
+            fg=$'\e[38;5;0m'    # Black text
+            ;;
+        "error")
+            bg=$'\e[48;5;196m'  # Bright red background
+            fg=$'\e[38;5;15m'   # White text
+            ;;
+        "warning")
+            bg=$'\e[48;5;208m'  # Orange background
+            fg=$'\e[38;5;0m'    # Black text
+            ;;
+        "info")
+            bg=$'\e[48;5;39m'   # Blue background
+            fg=$'\e[38;5;15m'   # White text
+            ;;
+        "primary")
+            bg=$'\e[48;5;226m'  # Yellow background
+            fg=$'\e[38;5;0m'    # Black text
+            ;;
+        *)
+            bg=$'\e[48;5;240m'  # Grey background
+            fg=$'\e[38;5;15m'   # White text
+            ;;
     esac
 
-    echo -e "${bg_color}${fg_color} ${text} ${UI_RESET}"
+    echo -ne "${bg}${fg} ${text} ${reset}"
 }
+
+# Pill-style tags with rounded edges
+ui_pill() {
+    local type="$1"
+    local text="$2"
+    local color_code
+
+    # Check for NO_COLOR
+    if [[ -n ${NO_COLOR:-} ]]; then
+        echo -n "[${text}]"
+        return
+    fi
+
+    # Map type to 256-color code
+    case "$type" in
+        "major"|"danger"|"critical")
+            color_code=196 ;;  # Bright red
+        "minor"|"warning")
+            color_code=208 ;;  # Orange
+        "patch"|"muted"|"default")
+            color_code=240 ;;  # Grey
+        "success"|"done")
+            color_code=46 ;;   # Bright green
+        "info"|"primary")
+            color_code=39 ;;   # Blue
+        "accent")
+            color_code=226 ;;  # Yellow
+        *)
+            # Allow custom color codes (0-255)
+            if [[ "$type" =~ ^[0-9]+$ ]] && [[ "$type" -ge 0 ]] && [[ "$type" -le 255 ]]; then
+                color_code=$type
+            else
+                color_code=240  # Default grey
+            fi
+            ;;
+    esac
+
+    # Use 256-color codes with rounded corners - EXACT pattern from git-lazy-version
+    local reset=$'\e[0m'
+    local bg=$'\e[48;5;'${color_code}'m'
+    local fg=$'\e[38;5;'${color_code}'m'
+    local white=$'\e[38;5;15m'
+
+    # Rounded pill pattern: ${FG}█${BG}${WHITE}text${RESET}${FG}█${RESET}
+    # Creates smooth rounded edges with █ character transitioning from/to background
+    echo -ne "${reset}${fg}${bg}${white}${text}${reset}${fg}${reset}"
+}
+
+# Pill with custom 256 color code
+ui_pill_custom() {
+    local color_code="$1"
+    local text="$2"
+    ui_pill "$color_code" "$text"
+}
+
+# Convenience functions for common pill types
+ui_pill_success() { ui_pill "success" "$1"; }
+ui_pill_danger() { ui_pill "danger" "$1"; }
+ui_pill_warning() { ui_pill "warning" "$1"; }
+ui_pill_info() { ui_pill "info" "$1"; }
+ui_pill_muted() { ui_pill "muted" "$1"; }
 
 ################################################################################
 # 📊 PROGRESS INDICATORS

@@ -98,6 +98,12 @@ demo_messages() {
     echo -e "  $(ui_badge "success" "DONE") $(ui_badge "error" "FAILED") $(ui_badge "warning" "CAUTION") $(ui_badge "info" "NEW")"
     echo -e "  $(ui_badge "primary" "FEATURED") $(ui_badge "default" "NORMAL")"
 
+    ui_spacer 1
+    echo "Pill Tags:"
+    echo -e "  $(ui_pill "success" "v2.1.0") $(ui_pill "danger" "breaking") $(ui_pill "warning" "beta") $(ui_pill "info" "stable")"
+    echo -e "  $(ui_pill "major" "major") $(ui_pill "minor" "minor") $(ui_pill "patch" "patch") $(ui_pill "muted" "deprecated")"
+    echo -e "  $(ui_pill "accent" "featured") $(ui_pill_custom 93 "custom-color")"
+
     sleep $DEMO_DELAY
 }
 
