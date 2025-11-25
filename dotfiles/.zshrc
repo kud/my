@@ -45,6 +45,7 @@ for module in \
   fzf.zsh \
   zoxide.zsh \
   local.zsh \
+  profile.zsh \
   path/console-ninja.zsh \
   path/android.zsh \
   path/my.zsh \
