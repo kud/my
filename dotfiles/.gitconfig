@@ -149,6 +149,7 @@
 	history = reflog --relative-date
 	hotfix = "!git add -A && git commit -m '🚒'"
 	ign = ls-files -o -i --exclude-standard
+	jira-ticket-id = "!git rev-parse --abbrev-ref HEAD | grep -Eo '^[A-Z]+-[0-9]+' || echo '🎫 No Jira ticket found in branch name.' >&2"
 	last = log -1 HEAD
 	last-files = diff --name-only HEAD~1
 	lazy = "!lazygit"
