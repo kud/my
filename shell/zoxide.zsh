@@ -11,8 +11,10 @@
 # - Resolve symlinks to avoid duplicate entries of the same path
 # - Ignore noisy/generated folders (node_modules, build, caches, etc.)
 # - Provide rich FZF preview/navigation for the interactive picker
+# - Use fuzzy matching algorithm for more flexible queries
 export _ZO_RESOLVE_SYMLINKS=1
 export _ZO_MAXAGE=50000
+export _ZO_FZF_OPTS="--scheme=path"
 
 # Glob patterns separated by ':'
 # Note: Patterns are evaluated by zoxide (not the shell); '**' works regardless of zsh glob options
