@@ -38,6 +38,7 @@ Direct Commands:
     install           Set up complete development environment
     update            Refresh all components and packages
     uninstall         Remove the project
+    migrate           Run pending one-time migrations
     brew-clean        Remove unused Homebrew packages
     npm-clean         Clean up Node.js global packages
     doctor            Check system health and configuration

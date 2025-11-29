@@ -90,6 +90,22 @@ fi
 
 ui_spacer
 
+################################################################################
+# 🔄 MIGRATIONS
+################################################################################
+
+# Check for pending migrations first
+pending_count=$($MY/core/system/migrations.zsh --check-only 2>/dev/null)
+if [[ "$pending_count" -gt 0 ]]; then
+    # Run migrations with full output
+    if ! $MY/core/system/migrations.zsh; then
+        ui_error_simple "Some migrations failed"
+        ui_info_simple "Run 'my migrate --list' to see details"
+        exit 1
+    fi
+    ui_spacer
+fi
+
 
 ################################################################################
 # ✅ UPDATE COMPLETE

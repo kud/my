@@ -40,6 +40,9 @@ else
   doctor)
     $MY/core/commands/doctor.zsh
     ;;
+  migrate)
+    $MY/core/system/migrations.zsh "${@:2}"
+    ;;
   services)
     $MY/core/system/services.zsh "${@:2}"
     ;;
@@ -203,6 +206,7 @@ else
     echo "  info                  Show environment info (version/host/profile)"
     echo "  uninstall             Remove the project"
     echo "  doctor                Check system health and configuration"
+    echo "  migrate               Run pending one-time migrations"
     echo "  services              Manage system services (LaunchDaemons)"
     echo "  brew-clean            Remove unused Homebrew packages"
     echo "  npm-clean             Clean up Node.js global packages"
