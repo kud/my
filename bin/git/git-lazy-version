@@ -17,6 +17,8 @@ usage() {
   echo "Auto-detects project type:" >&2
   echo "  - With package.json: uses npm version" >&2
   echo "  - Without package.json: uses git tags (svu)" >&2
+  echo "" >&2
+  echo "For svu-specific operations (next, current), use git tag-next or git tag-current" >&2
 }
 
 arg=${1:-}
@@ -27,6 +29,10 @@ case "$arg" in
     VERSION_TYPE=minor ;;
   patch|z)
     VERSION_TYPE=patch ;;
+  next|current)
+    echo "Error: '$arg' is not supported by git lazy-version" >&2
+    echo "Use 'git tag-$arg' instead for svu-specific operations" >&2
+    exit 1 ;;
   -h|--help|"")
     usage; exit 1 ;;
   *)
@@ -53,22 +59,20 @@ if [[ -f package.json ]]; then
   # Single push including tag
   git push --follow-tags
 else
-  # Git tag workflow (using svu like tag-patch/minor/major aliases)
-  if ! command -v svu &>/dev/null; then
-    echo "Error: svu not found. Install with: brew install caarlos0/tap/svu" >&2
-    exit 1
-  fi
-
-  # Get current version (or 0.0.0 if no tags exist)
+  # Git tag workflow - delegate to git tag-version for consistency
   OLD_VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || echo "0.0.0")
 
-  # Calculate and create new tag
-  NEW_TAG=$(svu "$VERSION_TYPE")
-  git tag "$NEW_TAG"
-  NEW_VERSION="${NEW_TAG#v}"
+  # Create tag with fancy output
+  git tag-version "$VERSION_TYPE"
+
+  # Get the new version that was just created
+  NEW_VERSION=$(git describe --tags --abbrev=0 | sed 's/^v//')
 
   # Push commits and tags separately
   git push && git push --tags
+
+  # Skip the fancy summary below since git tag-version already showed it
+  exit 0
 fi
 
 # Fancy summary (TTY & colors if possible)
