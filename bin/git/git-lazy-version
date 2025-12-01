@@ -1,18 +1,22 @@
 #!/usr/bin/env zsh
 
 # Lazy version bump + push helper
-# Improves on original by:
+# Works with both npm projects (package.json) and git-only projects (tags via svu)
+# Features:
 # - validating input (patch|minor|major)
 # - failing fast (set -euo pipefail)
-# - collapsing two pushes into one (git push --follow-tags)
-# - showing resulting version
-# - guarding against missing package.json
+# - auto-detects project type (npm vs git tags)
+# - showing resulting version with fancy formatting
 
 set -euo pipefail
 
 usage() {
   echo "Usage: git lazy-version {major|minor|patch}" >&2
   echo "Aliases: x=major, y=minor, z=patch" >&2
+  echo "" >&2
+  echo "Auto-detects project type:" >&2
+  echo "  - With package.json: uses npm version" >&2
+  echo "  - Without package.json: uses git tags (svu)" >&2
 }
 
 arg=${1:-}
@@ -30,27 +34,42 @@ case "$arg" in
     usage; exit 1 ;;
 esac
 
-if [[ ! -f package.json ]]; then
-  echo "Error: package.json not found (run inside the project root)." >&2
-  exit 1
-fi
-
-# Stage & AI commit current changes so that `npm version` finds a clean tree.
+# Stage & AI commit current changes
 git add -A
 if ! git aicommit; then
   echo "Error: git aicommit failed" >&2
   exit 1
 fi
 
-# Capture old version (best effort)
-OLD_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "?")
+# Check if we have package.json (npm-based) or use git tags (svu-based)
+if [[ -f package.json ]]; then
+  # NPM workflow
+  OLD_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "?")
 
-# Perform bump (suppress noisy npm output) and read new version
-npm version "$VERSION_TYPE" >/dev/null
-NEW_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "?")
+  # Perform bump (suppress noisy npm output) and read new version
+  npm version "$VERSION_TYPE" >/dev/null
+  NEW_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "?")
 
-# Single push including tag
-git push --follow-tags
+  # Single push including tag
+  git push --follow-tags
+else
+  # Git tag workflow (using svu like tag-patch/minor/major aliases)
+  if ! command -v svu &>/dev/null; then
+    echo "Error: svu not found. Install with: brew install caarlos0/tap/svu" >&2
+    exit 1
+  fi
+
+  # Get current version (or 0.0.0 if no tags exist)
+  OLD_VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || echo "0.0.0")
+
+  # Calculate and create new tag
+  NEW_TAG=$(svu "$VERSION_TYPE")
+  git tag "$NEW_TAG"
+  NEW_VERSION="${NEW_TAG#v}"
+
+  # Push commits and tags separately
+  git push && git push --tags
+fi
 
 # Fancy summary (TTY & colors if possible)
 if [[ -t 1 && -z ${NO_COLOR:-} ]]; then
