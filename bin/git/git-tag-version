@@ -1,0 +1,93 @@
+#!/usr/bin/env zsh
+
+# Git tag version helper with fancy output
+# Creates semantic version tags using svu
+# Usage: git tag-version {major|minor|patch|next|current}
+
+set -euo pipefail
+
+usage() {
+  echo "Usage: git tag-version {major|minor|patch|next|current}" >&2
+  echo "Creates a semantic version tag using svu" >&2
+}
+
+arg=${1:-}
+case "$arg" in
+  major)
+    VERSION_TYPE=major ;;
+  minor)
+    VERSION_TYPE=minor ;;
+  patch)
+    VERSION_TYPE=patch ;;
+  next)
+    VERSION_TYPE=next ;;
+  current)
+    VERSION_TYPE=current ;;
+  -h|--help|"")
+    usage; exit 1 ;;
+  *)
+    echo "Error: version type must be one of: major minor patch next current" >&2
+    usage; exit 1 ;;
+esac
+
+# Check for svu
+if ! command -v svu &>/dev/null; then
+  echo "Error: svu not found. Install with: brew install caarlos0/tap/svu" >&2
+  exit 1
+fi
+
+# Get current version (or 0.0.0 if no tags exist)
+OLD_VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || echo "0.0.0")
+
+# Calculate and create new tag
+NEW_TAG=$(svu "$VERSION_TYPE")
+git tag "$NEW_TAG"
+NEW_VERSION="${NEW_TAG#v}"
+
+# Fancy summary (TTY & colors if possible)
+if [[ -t 1 && -z ${NO_COLOR:-} ]]; then
+  B=$'\e[1m'; R=$'\e[0m'; G=$'\e[32m'; Y=$'\e[33m'; C=$'\e[36m'; M=$'\e[35m'; GRY=$'\e[90m'
+else
+  B=""; R=""; G=""; Y=""; C=""; M=""; GRY=""
+fi
+
+strip_ansi() {
+  printf '%s' "$1" | sed -E $'s/\x1b\[[0-9;]*m//g'
+}
+
+echo
+# Plain (no border) summary lines
+LABEL_COL="${Y}Tag created:${R}"
+OLD_COL="${G}v${OLD_VERSION}${R}"
+NEW_COL="${G}v${NEW_VERSION}${R}"
+ARROW_COL="->"
+echo "${LABEL_COL} ${OLD_COL} ${ARROW_COL} ${NEW_COL}"
+
+# Styled type pill
+if [[ -t 1 && -z ${NO_COLOR:-} ]]; then
+  case "$VERSION_TYPE" in
+    major)
+      TYPE_CLR=196 ;;  # bright red
+    minor)
+      TYPE_CLR=208 ;;  # orange
+    patch)
+      TYPE_CLR=240 ;;  # grey
+    next)
+      TYPE_CLR=39 ;;   # cyan/blue for pre-release
+    current)
+      TYPE_CLR=34 ;;   # green for current
+    *)
+      TYPE_CLR=240 ;;  # gray fallback
+  esac
+  TYPE_BG=$'\e[48;5;'${TYPE_CLR}'m'
+  TYPE_FG=$'\e[38;5;'${TYPE_CLR}'m'
+  TYPE_TEXT_FG=$'\e[38;5;15m'
+  # Left rounded edge: foreground same as pill color on default background
+  # Then set background for pill content; right edge printed after reset.
+  TYPE_TAG=$'\e[0m'"${TYPE_FG}${TYPE_BG}${TYPE_TEXT_FG}${VERSION_TYPE}${R}${TYPE_FG}${R}"
+else
+  TYPE_TAG="[${VERSION_TYPE}]"
+fi
+echo "${Y}Type:${R} ${TYPE_TAG}"
+echo "${GRY}Tip: Push with 'git push --tags'${R}"
+echo
