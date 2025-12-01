@@ -180,11 +180,11 @@
 	smerge = "!'/Applications/Sublime Merge.app/Contents/SharedSupport/bin/smerge' ."
 	st = status
 	staged-files = diff --name-only --cached
-	tag-current = "!git tag \"$@\" \"$(svu current)\""
-	tag-major = "!git tag \"$@\" \"$(svu major)\""
-	tag-minor = "!git tag \"$@\" \"$(svu minor)\""
-	tag-next = "!git tag \"$@\" \"$(svu next)\""
-	tag-patch = "!git tag \"$@\" \"$(svu patch)\""
+	tag-current = "!f() { TAG=$(svu current); git tag \"$@\" \"$TAG\" && echo \"Tagged: $TAG\"; }; f"
+	tag-major = "!f() { TAG=$(svu major); git tag \"$@\" \"$TAG\" && echo \"Tagged: $TAG (major)\"; }; f"
+	tag-minor = "!f() { TAG=$(svu minor); git tag \"$@\" \"$TAG\" && echo \"Tagged: $TAG (minor)\"; }; f"
+	tag-next = "!f() { TAG=$(svu next); git tag \"$@\" \"$TAG\" && echo \"Tagged: $TAG\"; }; f"
+	tag-patch = "!f() { TAG=$(svu patch); git tag \"$@\" \"$TAG\" && echo \"Tagged: $TAG (patch)\"; }; f"
 	tags = tag -ln --sort=-creatordate
 	tig = "!tig"
 	today = "!git log --since=midnight --oneline --decorate"
