@@ -11,7 +11,7 @@ settings:
   alwaysThinkingEnabled: true
   statusLine:
     type: command
-    command: "input=$(cat); cwd=$(echo \"$input\" | jq -r '.workspace.current_dir'); cd \"$cwd\" 2>/dev/null || exit 0; dir_path=\"${cwd/#$HOME/~}\"; dir_display=$(printf '\\033[38;5;117m%s\\033[0m' \"$dir_path\"); git_branch=\"\"; if git rev-parse --git-dir > /dev/null 2>&1; then branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null); if [[ -n \"$branch\" ]]; then git_branch=$(printf ' \\033[38;5;141m⎇ %s\\033[0m' \"$branch\"); fi; fi; printf '%s%s' \"${dir_display}\" \"${git_branch}\""
+    command: "input=$(cat); cwd=$(echo \"$input\" | jq -r '.workspace.current_dir'); cd \"$cwd\" 2>/dev/null || exit 0; dir_path=\"${cwd/#$HOME/~}\"; dir_display=$(printf '\\033[38;5;117m%s\\033[0m' \"$dir_path\"); git_branch=\"\"; if git rev-parse --git-dir > /dev/null 2>&1; then branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null); if [[ -n \"$branch\" ]]; then git_branch=$(printf ' \\033[38;2;128;212;64m⎇ %s\\033[0m' \"$branch\"); fi; fi; printf '%s%s' \"${dir_display}\" \"${git_branch}\""
 
 # Common MCP servers (all profiles)
 mcp:
