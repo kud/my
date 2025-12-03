@@ -1,9 +1,9 @@
 taps:
+  - caarlos0/tap
 
 packages:
   formulae:
     # 🖥️ System Utilities
-    - autojump
     - blueutil
     - brightness
     - exiftool
@@ -53,7 +53,6 @@ packages:
     - rclone
     - rsync
     - syncthing
-    - tcpflow
     - wget
 
     # 🗂️ Git & Version Control
@@ -85,7 +84,6 @@ packages:
     - duf
     - dust
     - hyperfine
-    - mdcat
     - procs
     - sd
     - tokei
@@ -152,7 +150,6 @@ packages:
     - loom
     - macmediakeyforwarder
     - middleclick
-    - min
     - minisim
     - mitmproxy
     - monitorcontrol
@@ -182,7 +179,7 @@ packages:
     - xquartz
     - localsend
     - opcode
-    - svu
+    - caarlos0/tap/svu
 
     # 🔤 Fonts
     - font-symbols-only-nerd-font
@@ -212,14 +209,7 @@ packages:
     - font-ubuntu-nerd-font
 
     # 👁️ QuickLook Plugins
-    - qlcolorcode
-    - qlmarkdown
-    - qlprettypatch
-    - qlstephen
     - qlvideo
-    - quicklook-csv
-    - quicklook-json
-    - quicklookase
     - suspicious-package
 
 post_install:
