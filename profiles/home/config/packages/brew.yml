@@ -2,8 +2,6 @@ packages:
   formulae:
     - dnscrypt-proxy
   casks:
-    - darktable
-    - deluge
     - gswitch
     - notion
     - rawtherapee
