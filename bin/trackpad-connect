@@ -1,9 +1,9 @@
 #!/usr/bin/env zsh
 
-# Get the trackpad MAC address from connected devices
+# Get the Home Trackpad MAC address from connected devices
 get_trackpad_address() {
   system_profiler SPBluetoothDataType 2>/dev/null | \
-    grep -i -A 10 "trackpad" | \
+    grep -i -A 10 "Home Trackpad" | \
     grep "Address" | \
     head -1 | \
     awk '{print $NF}'
@@ -31,7 +31,7 @@ case "${1:-switch}" in
     echo ""
     
     blueutil --inquiry 5 2>/dev/null | while read -r line; do
-      if echo "$line" | grep -iq "trackpad"; then
+      if echo "$line" | grep -iq "Home Trackpad"; then
         ADDR=$(echo "$line" | awk '{print $2}' | tr -d ',')
         echo "🔵 Found trackpad: $ADDR"
         echo "🔗 Attempting to pair..."
@@ -62,7 +62,7 @@ case "${1:-switch}" in
     sleep 2
     
     blueutil --inquiry 5 2>/dev/null | while read -r line; do
-      if echo "$line" | grep -iq "trackpad"; then
+      if echo "$line" | grep -iq "Home Trackpad"; then
         ADDR=$(echo "$line" | awk '{print $2}' | tr -d ',')
         echo "🔵 Found trackpad: $ADDR"
         echo "🔗 Attempting to pair..."
