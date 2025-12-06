@@ -56,8 +56,10 @@ if [[ -f package.json ]]; then
   npm version "$VERSION_TYPE" >/dev/null
   NEW_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "?")
 
-  # Single push including tag
-  git push --follow-tags
+  # Only push if a remote is configured
+  if git remote | grep -q .; then
+    git push --follow-tags
+  fi
 else
   # Git tag workflow - delegate to git tag-version for consistency
   OLD_VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || echo "0.0.0")
@@ -68,8 +70,10 @@ else
   # Get the new version that was just created
   NEW_VERSION=$(git describe --tags --abbrev=0 | sed 's/^v//')
 
-  # Push commits and tags separately
-  git push && git push --tags
+  # Only push if a remote is configured
+  if git remote | grep -q .; then
+    git push && git push --tags
+  fi
 
   # Skip the fancy summary below since git tag-version already showed it
   exit 0
