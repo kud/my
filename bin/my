@@ -40,6 +40,9 @@ else
   doctor)
     $MY/core/commands/doctor.zsh
     ;;
+  profile-update)
+    $MY/core/commands/profile-update.zsh
+    ;;
   migrate)
     $MY/core/system/migrations.zsh "${@:2}"
     ;;
@@ -203,6 +206,7 @@ else
     ui_subtitle "Direct Commands:"
     echo "  install               Set up complete development environment"
     echo "  update                Refresh all components and packages"
+    echo "  profile-update        Update only current profile packages"
     echo "  info                  Show environment info (version/host/profile)"
     echo "  uninstall             Remove the project"
     echo "  doctor                Check system health and configuration"
