@@ -85,7 +85,7 @@ else
 
     # Apps (core/apps)
     firefox)
-      shift 2 # Remove 'run' and 'firefox' from arguments
+      shift 2
       $MY/core/apps/firefox.zsh "$@"
       ;;
     keepassxc)
@@ -101,7 +101,8 @@ else
       $MY/core/apps/bruno.zsh
       ;;
     claude-desktop)
-      $MY/core/apps/claude-desktop.zsh
+      shift 2
+      $MY/core/apps/claude-desktop.zsh "$@"
       ;;
 
     # CLI tools (core/cli)
@@ -109,20 +110,24 @@ else
       $MY/core/cli/abbr.zsh
       ;;
     claude-code)
-      $MY/core/cli/claude-code.zsh
+      shift 2
+      $MY/core/cli/claude-code.zsh "$@"
       ;;
     codex)
-      shift 2 # Remove 'run' and 'codex' from arguments
+      shift 2
       $MY/core/cli/codex.zsh "$@"
       ;;
     opencode)
-      $MY/core/cli/opencode.zsh
+      shift 2
+      $MY/core/cli/opencode.zsh "$@"
       ;;
     basic-memory)
-      $MY/core/cli/basic-memory.zsh
+      shift 2
+      $MY/core/cli/basic-memory.zsh "$@"
       ;;
     github-copilot)
-      $MY/core/cli/github-copilot.zsh
+      shift 2
+      $MY/core/cli/github-copilot.zsh "$@"
       ;;
     ssh)
       $MY/core/system/ssh.zsh
