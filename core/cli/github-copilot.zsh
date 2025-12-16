@@ -12,6 +12,24 @@ source $MY/core/utils/helper.zsh
 source $MY/core/utils/ui-kit.zsh
 source $MY/shell/globals.zsh
 
+# Handle show-config subcommand
+if [[ "$1" == "show-config" ]]; then
+    ui_subtitle "GitHub Copilot Config:"
+
+    CONFIG_FILE="$HOME/.copilot/config.json"
+    MCP_CONFIG_FILE="$HOME/.copilot/mcp-config.json"
+
+    for config_file in "$CONFIG_FILE" "$MCP_CONFIG_FILE"; do
+        if [[ -f "$config_file" ]]; then
+            ui_info_simple "$config_file" 0
+        else
+            ui_warning_simple "$config_file (not found)" 0
+        fi
+    done
+    ui_spacer
+    return 0
+fi
+
 ui_subsection "Configuring GitHub Copilot MCP"
 
 # Check if yq is available

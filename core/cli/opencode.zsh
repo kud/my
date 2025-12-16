@@ -12,6 +12,21 @@
 source $MY/core/utils/helper.zsh
 source $MY/core/utils/ui-kit.zsh
 
+# Handle show-config subcommand
+if [[ "$1" == "show-config" ]]; then
+    ui_subtitle "OpenCode Config:"
+
+    config_file="$HOME/.config/opencode/opencode.jsonc"
+
+    if [[ -f "$config_file" ]]; then
+        ui_info_simple "$config_file" 0
+    else
+        ui_warning_simple "$config_file (not found)" 0
+    fi
+    ui_spacer
+    return 0
+fi
+
 # Get current profile
 PROFILE="${OS_PROFILE:-default}"
 

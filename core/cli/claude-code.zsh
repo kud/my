@@ -11,6 +11,24 @@
 source $MY/core/utils/helper.zsh
 source $MY/core/utils/ui-kit.zsh
 
+# Handle show-config subcommand
+if [[ "$1" == "show-config" ]]; then
+    ui_subtitle "Claude Code Config:"
+
+    CLAUDE_CONFIG="$HOME/.claude.json"
+    CLAUDE_SETTINGS="$HOME/.claude/settings.json"
+
+    for config_file in "$CLAUDE_CONFIG" "$CLAUDE_SETTINGS"; do
+        if [[ -f "$config_file" ]]; then
+            ui_info_simple "$config_file" 0
+        else
+            ui_warning_simple "$config_file (not found)" 0
+        fi
+    done
+    ui_spacer
+    return 0
+fi
+
 ui_subsection "Configuring Claude Code"
 
 # Check if Claude Code is installed
