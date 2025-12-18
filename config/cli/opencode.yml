@@ -23,7 +23,7 @@ mcp:
       Authorization: Bearer ${MCP_GITHUB_TOKEN}
   notion:
     type: local
-    enabled: true
+    enabled: false
     command:
       - mise
       - exec
@@ -42,5 +42,5 @@ mcp:
       - mcp
   context7:
     type: remote
-    enabled: true
+    enabled: false
     url: https://mcp.context7.com/mcp
