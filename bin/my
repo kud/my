@@ -55,7 +55,7 @@ else
     if [[ -z "$2" ]]; then
       echo "Error: 'run' requires a module name. Available modules:"
       echo "  Apps: firefox (use -sc for shortcuts), keepassxc, pcloud, sublime-merge, bruno, claude-desktop"
-      echo "  CLI: abbr, basic-memory, claude-code, codex, github-copilot, opencode, ssh"
+      echo "  CLI: abbr, basic-memory, claude-code, codex, github-copilot, mistral-vibe, opencode, ssh"
       echo "  Packages: antidote, brew, gh, gem, mas, npm, uv"
       echo "  System: default-folders, doc, dotfiles, edit, open, os, services, shims, submodules, symlinks"
       echo "  Utils: ui-kit-demo"
@@ -128,6 +128,10 @@ else
     github-copilot)
       shift 2
       $MY/core/cli/github-copilot.zsh "$@"
+      ;;
+    mistral-vibe)
+      shift 2
+      $MY/core/cli/mistral-vibe.zsh "$@"
       ;;
     ssh)
       $MY/core/system/ssh.zsh
@@ -232,7 +236,7 @@ else
 
     echo
     echo "  Development Tools:"
-    echo "    abbr, basic-memory, claude-code, codex, github-copilot, opencode, ssh"
+    echo "    abbr, basic-memory, claude-code, codex, github-copilot, mistral-vibe, opencode, ssh"
 
     echo
     echo "  System Components:"

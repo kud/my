@@ -1,0 +1,30 @@
+################################################################################
+#                                                                              #
+#   🤖 MISTRAL VIBE CONFIGURATION                                               #
+#   -----------------------------                                               #
+#   Simple YAML config for Mistral Vibe theme and MCP servers                  #
+#                                                                              #
+################################################################################
+
+# Theme configuration
+theme: "tokyo-night"
+
+# MCP Servers configuration
+mcp_servers:
+  - name: "github"
+    transport: "http"
+    url: "https://api.githubcopilot.com/mcp"
+    headers:
+      Authorization: "Bearer ${MCP_GITHUB_TOKEN}"
+    
+  - name: "basic-memory"
+    transport: "stdio"
+    command: ["uvx", "basic-memory", "mcp"]
+    
+  - name: "notion"
+    transport: "http"
+    url: "https://mcp.notion.com/mcp"
+    
+  - name: "context7"
+    transport: "http"
+    url: "https://mcp.context7.com/mcp"
