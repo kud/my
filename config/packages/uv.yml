@@ -3,3 +3,4 @@ packages:
     - pdf2docx
   tool:
     - basic-memory
+    - mistral-vibe
