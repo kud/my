@@ -58,6 +58,83 @@ expand_env_vars() {
     eval echo "$text"
 }
 
+# Function to check if a project exists
+project_exists() {
+    local name="$1"
+    local output
+    
+    # Use timeout to prevent hanging
+    output=$(timeout 10 "$BASIC_MEMORY_CMD" status --project "$name" 2>&1)
+    local exit_code=$?
+    
+    # If exit code is 0 or 124 (timeout), project exists
+    # Exit code 1 means project doesn't exist or other error
+    if [[ $exit_code -eq 0 || $exit_code -eq 124 ]]; then
+        return 0
+    else
+        # Check if the error is about project not existing
+        if [[ "$output" =~ "does not exist" ]]; then
+            return 1
+        fi
+        # For other errors, assume project exists to be safe
+        return 0
+    fi
+}
+
+# Function to get current path of a project
+get_project_path() {
+    local name="$1"
+    
+    # Try to get path from project info with timeout
+    local output
+    output=$(timeout 10 "$BASIC_MEMORY_CMD" project info "$name" 2>&1)
+    local exit_code=$?
+    
+    if [[ $exit_code -eq 0 ]]; then
+        # Extract path from info output
+        # Look for line containing "Path:"
+        while IFS= read -r line; do
+            if [[ "$line" =~ "Path:" ]]; then
+                # Extract path after "Path:"
+                local path="${line#*Path:}"
+                path="${path## }"  # Trim leading spaces
+                path="${path%% }"  # Trim trailing spaces
+                echo "$path"
+                return 0
+            fi
+        done <<< "$output"
+    fi
+    
+    return 1
+}
+
+# Function to check if a project is default
+is_project_default() {
+    local name="$1"
+    local output
+    
+    # Use timeout to prevent hanging
+    output=$(timeout 10 "$BASIC_MEMORY_CMD" project info "$name" 2>&1)
+    local exit_code=$?
+    
+    if [[ $exit_code -eq 0 ]]; then
+        # Look for "Default Project:" line
+        while IFS= read -r line; do
+            if [[ "$line" =~ "Default Project:" ]]; then
+                local default_project="${line#*Default Project:}"
+                default_project="${default_project## }"  # Trim leading spaces
+                default_project="${default_project%% }"  # Trim trailing spaces
+                
+                if [[ "$default_project" == "$name" ]]; then
+                    return 0
+                fi
+            fi
+        done <<< "$output"
+    fi
+    
+    return 1
+}
+
 # Function to add a project
 add_project() {
     local name="$1"
@@ -67,50 +144,35 @@ add_project() {
     # Expand environment variables in path
     path=$(expand_env_vars "$path")
 
-    # Check if project already exists at the correct path
-    local list_output
-    list_output=$("$BASIC_MEMORY_CMD" project list 2>&1)
+    # Check if project already exists
+    if project_exists "$name"; then
+        # Project exists - get current path
+        local current_path
+        current_path=$(get_project_path "$name")
+        
+        if [[ -n "$current_path" ]]; then
+            # Expand ~ in current_path for comparison
+            current_path="${current_path/#\~/$HOME}"
 
-    # Check if project exists
-    if [[ "$list_output" =~ "│ $name" ]]; then
-        # Project exists - extract current path from the line
-        # The output format is: │ name │ path │ default │
-        local project_line
-        while IFS= read -r line; do
-            if [[ "$line" =~ "│ $name" ]]; then
-                project_line="$line"
-                break
-            fi
-        done <<< "$list_output"
-
-        # Extract the path (3rd column between │ separators)
-        local current_path="${project_line#*│}"      # Remove first column
-        current_path="${current_path#*│}"            # Remove second column (name)
-        current_path="${current_path%%│*}"           # Keep only third column (path)
-        current_path="${current_path## }"            # Trim leading spaces
-        current_path="${current_path%% }"            # Trim trailing spaces
-
-        # Expand ~ in current_path for comparison
-        current_path="${current_path/#\~/$HOME}"
-
-        if [[ "$current_path" == "$path" ]]; then
-            ui_info_simple "Project '$name' already at correct path" 0
-        else
-            ui_info_simple "Project '$name' exists at different path, updating..." 0
-
-            # Move project to new location
-            local move_output
-            move_output=$("$BASIC_MEMORY_CMD" project move "$name" "$path" 2>&1)
-            local move_exit=$?
-
-            if [[ $move_exit -eq 0 ]]; then
-                ui_success_simple "Updated project: $name -> $path" 0
+            if [[ "$current_path" == "$path" ]]; then
+                ui_info_simple "Project '$name' already at correct path" 0
             else
-                ui_error_msg "Failed to move project: $name" 0
-                if [[ -n "$move_output" ]]; then
-                    ui_error_msg "  $move_output" 0
+                ui_info_simple "Project '$name' exists at different path, updating..." 0
+
+                # Move project to new location
+                local move_output
+                move_output=$("$BASIC_MEMORY_CMD" project move "$name" "$path" 2>&1)
+                local move_exit=$?
+
+                if [[ $move_exit -eq 0 ]]; then
+                    ui_success_simple "Updated project: $name -> $path" 0
+                else
+                    ui_error_msg "Failed to move project: $name" 0
+                    if [[ -n "$move_output" ]]; then
+                        ui_error_msg "  $move_output" 0
+                    fi
+                    return 1
                 fi
-                return 1
             fi
         fi
     else
@@ -132,8 +194,7 @@ add_project() {
 
     # Set as default if needed
     if [[ "$is_default" == "true" ]]; then
-        # Check if already default (has ✓ in the line)
-        if ! [[ "$list_output" =~ "│ $name".*"✓" ]]; then
+        if ! is_project_default "$name"; then
             "$BASIC_MEMORY_CMD" project default "$name" >/dev/null 2>&1
             ui_success_simple "Set '$name' as default project" 0
         fi
