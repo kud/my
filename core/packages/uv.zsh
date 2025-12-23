@@ -6,7 +6,7 @@
 #   --------------------------------                                            #
 #   Minimal maintenance: ensure Python via mise, then install configured        #
 #   development packages using `uv` if available, otherwise fall back to pip.   #
-#   No mass upgrade loops, no pip self-upgrade churn.                           #
+#   Includes self-upgrade for both uv and pip.                                   #
 #                                                                              #
 ################################################################################
 
@@ -38,6 +38,24 @@ fi
 USE_UV=0
 if command -v uv >/dev/null 2>&1; then
   USE_UV=1
+  
+  # Upgrade uv itself first
+  ui_subsection "Upgrading uv"
+  # Try uv self update first (works for standalone installations)
+  if uv self update 2>/dev/null; then
+    ui_success_simple "uv upgraded" 1
+  else
+    # If self update fails, try upgrading via mise (if available)
+    if command -v mise >/dev/null 2>&1; then
+      if mise upgrade uv 2>/dev/null; then
+        ui_success_simple "uv upgraded via mise" 1
+      else
+        ui_warning_simple "uv upgrade not available (standalone/mise)"
+      fi
+    else
+      ui_warning_simple "uv upgrade not available (standalone only)"
+    fi
+  fi
 fi
 
 # Verify python still present
@@ -79,6 +97,22 @@ python_install_tool() {
 main_config=$(get_main_config_path "uv")
 profile_config=$(get_profile_config_path "uv")
 
+# Upgrade pip itself first
+ui_subsection "Upgrading pip"
+if (( USE_UV )); then
+  if ! uv pip install --upgrade pip; then
+    ui_warning_simple "Failed to upgrade pip with uv"
+  else
+    ui_success_simple "pip upgraded" 1
+  fi
+else
+  if ! python -m pip install --upgrade pip; then
+    ui_warning_simple "Failed to upgrade pip"
+  else
+    ui_success_simple "pip upgraded" 1
+  fi
+fi
+
 # Install pip packages
 ui_subsection "Installing pip packages ($([[ $USE_UV -eq 1 ]] && echo uv || echo pip))"
 collect_packages_from_yaml "$main_config" "python_install_package" ".packages.pip[]"
@@ -86,6 +120,20 @@ collect_packages_from_yaml "$profile_config" "python_install_package" ".packages
 ui_success_simple "Pip packages installed" 1
 
 ui_spacer
+
+# Upgrade existing uv tools first
+if (( USE_UV )); then
+  ui_subsection "Upgrading uv tools"
+  if uv tool list >/dev/null 2>&1; then
+    if uv tool upgrade --all; then
+      ui_success_simple "uv tools upgraded" 1
+    else
+      ui_warning_simple "Failed to upgrade uv tools"
+    fi
+  else
+    ui_subtle "No uv tools installed yet"
+  fi
+fi
 
 # Install uv tools (uv creates ~/.local/bin automatically)
 if (( USE_UV )); then
