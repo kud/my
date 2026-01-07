@@ -180,6 +180,7 @@ packages:
     - localsend
     - opcode
     - caarlos0/tap/svu
+    - superwhisper
 
     # 🔤 Fonts
     - font-symbols-only-nerd-font
