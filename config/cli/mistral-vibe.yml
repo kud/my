@@ -7,7 +7,7 @@
 ################################################################################
 
 # Theme configuration
-theme: "tokyo-night"
+theme: "terminal"
 
 # MCP Servers configuration
 mcp_servers:

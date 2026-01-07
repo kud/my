@@ -172,11 +172,15 @@ EOF
 else
     # Update theme in existing config
     if [[ -f "$output_file" ]]; then
-        if command -v sed >/dev/null 2>&1; then
-            sed -i '' "s/textual_theme = \".*\"/textual_theme = \"$theme\"/" "$output_file"
+        # Use a temp file approach for better portability (works with both BSD and GNU sed)
+        local temp_file=$(mktemp) || { ui_error_msg "Failed to create temp file" 0; return 1; }
+        sed 's/textual_theme = ".*"/textual_theme = "'"$theme"'"/' "$output_file" >| "$temp_file"
+        if [[ $? -eq 0 ]]; then
+            mv "$temp_file" "$output_file"
             ui_success_simple "Updated theme to: $theme" 0
         else
-            ui_warning_simple "sed not available, theme not updated" 0
+            rm -f "$temp_file"
+            ui_error_msg "Failed to update theme" 0
         fi
     fi
 fi
@@ -184,13 +188,20 @@ fi
 # Add MCP servers section
 ui_info_simple "Adding MCP servers configuration" 0
 
-# Remove existing MCP servers section if it exists
+# Remove existing MCP servers section if it exists (from "# MCP Servers" to end of file)
+# Also remove trailing empty lines to prevent accumulation
 if command -v sed >/dev/null 2>&1; then
-    sed -i '' '/^# MCP Servers/,/^$/d' "$output_file" 2>/dev/null || true
-    sed -i '' '/^\[\[mcp_servers\]\]/,/^$/d' "$output_file" 2>/dev/null || true
+    local temp_file=$(mktemp)
+    # Remove MCP servers section, then remove trailing blank lines
+    sed '/^# MCP Servers/,$d' "$output_file" | awk '/^[[:space:]]*$/ {blank=blank"\n"; next} {printf "%s", blank; blank=""; print}' >| "$temp_file"
+    if [[ $? -eq 0 ]]; then
+        mv "$temp_file" "$output_file"
+    else
+        rm -f "$temp_file"
+    fi
 fi
 
-# Add MCP servers section
+# Add MCP servers section with proper spacing
 echo "" >> "$output_file"
 echo "# MCP Servers" >> "$output_file"
 echo "" >> "$output_file"
@@ -224,5 +235,6 @@ echo "transport = \"http\"" >> "$output_file"
 echo "url = \"https://mcp.context7.com/mcp\"" >> "$output_file"
 echo "" >> "$output_file"
 
-ui_success_simple "Mistral Vibe theme and MCP servers configured" 1
-ui_info_simple "Config file: $output_file" 1
+ui_success_simple "Mistral Vibe theme and MCP servers configured" 0
+ui_info_simple "Config file: $output_file" 0
+ui_spacer
