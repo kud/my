@@ -168,7 +168,8 @@ packages:
     - runjs
     - signal
     - slack
-    - spotify
+    # - spotify
+    - qobuz
     - stats
     - sublime-merge@dev
     - syncthing-app
