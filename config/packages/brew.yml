@@ -148,7 +148,7 @@ packages:
     - jordanbaird-ice
     - keepassxc
     - loom
-    - macmediakeyforwarder
+    # - macmediakeyforwarder
     - middleclick
     - minisim
     - mitmproxy
