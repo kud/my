@@ -12,6 +12,8 @@ mcpServers:
     type: local
     command: uvx
     args:
+      - --python
+      - "3.12"
       - basic-memory
       - mcp
     headers: {}

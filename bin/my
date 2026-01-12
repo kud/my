@@ -55,10 +55,13 @@ else
     if [[ -z "$2" ]]; then
       echo "Error: 'run' requires a module name. Available modules:"
       echo "  Apps: firefox (use -sc for shortcuts), keepassxc, pcloud, sublime-merge, bruno, claude-desktop"
-      echo "  CLI: abbr, basic-memory, claude-code, codex, github-copilot, mistral-vibe, opencode, ssh"
+      echo "  CLI: abbr, ai [client], basic-memory, ssh"
       echo "  Packages: antidote, brew, gh, gem, mas, npm, uv"
       echo "  System: default-folders, doc, dotfiles, edit, open, os, services, shims, submodules, symlinks"
       echo "  Utils: ui-kit-demo"
+      echo ""
+      echo "  AI clients (use 'my run ai <client>'):"
+      echo "    claude-code, codex, opencode, github-copilot, mistral-vibe"
       exit 1
     fi
 
@@ -109,29 +112,13 @@ else
     abbr)
       $MY/core/cli/abbr.zsh
       ;;
-    claude-code)
+    ai)
       shift 2
-      $MY/core/cli/claude-code.zsh "$@"
-      ;;
-    codex)
-      shift 2
-      $MY/core/cli/codex.zsh "$@"
-      ;;
-    opencode)
-      shift 2
-      $MY/core/cli/opencode.zsh "$@"
+      $MY/core/cli/ai.zsh "$@"
       ;;
     basic-memory)
       shift 2
       $MY/core/cli/basic-memory.zsh "$@"
-      ;;
-    github-copilot)
-      shift 2
-      $MY/core/cli/github-copilot.zsh "$@"
-      ;;
-    mistral-vibe)
-      shift 2
-      $MY/core/cli/mistral-vibe.zsh "$@"
       ;;
     ssh)
       $MY/core/system/ssh.zsh
@@ -236,7 +223,10 @@ else
 
     echo
     echo "  Development Tools:"
-    echo "    abbr, basic-memory, claude-code, codex, github-copilot, mistral-vibe, opencode, ssh"
+    echo "    abbr, ai [client], basic-memory, ssh"
+    echo
+    echo "  AI Clients (use with 'my run ai <client>'):"
+    echo "    claude-code, codex, opencode, github-copilot, mistral-vibe"
 
     echo
     echo "  System Components:"
