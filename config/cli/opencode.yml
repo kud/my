@@ -38,6 +38,8 @@ mcp:
     enabled: true
     command:
       - uvx
+      - --python
+      - "3.12"
       - basic-memory
       - mcp
   context7:

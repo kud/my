@@ -36,7 +36,7 @@ mcp_servers:
     command: bash
     args:
       - -c
-      - "uvx basic-memory mcp"
+      - "uvx --python 3.12 basic-memory mcp"
     env: {}
   context7:
     url: https://mcp.context7.com/mcp

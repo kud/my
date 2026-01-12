@@ -28,6 +28,8 @@ mcp:
     transport: stdio
     command: uvx
     args:
+      - --python
+      - "3.12"
       - basic-memory
       - mcp
     env: {}
