@@ -249,6 +249,13 @@ user_chrome_css: |
     }
   }
 
+  /* Hide screen sharing indicator popup */
+  @-moz-document url('chrome://browser/content/webrtcIndicator.xhtml') {
+    :root {
+      display: none !important;
+    }
+  }
+
 # Container Configuration
 containers:
   version: 5
