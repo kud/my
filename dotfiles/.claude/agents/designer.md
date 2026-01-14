@@ -1,6 +1,6 @@
 ---
 name: designer
-description: Use this agent when you need help with user interface design, user experience decisions, design systems, accessibility, visual hierarchy, or interaction patterns. Examples include: reviewing UI implementations, suggesting design improvements, creating consistent design patterns, ensuring accessibility compliance, or making decisions about layout and visual design.
+description: "Use this agent when you need help with user interface design, user experience decisions, design systems, accessibility, visual hierarchy, or interaction patterns. Examples include: reviewing UI implementations, suggesting design improvements, creating consistent design patterns, ensuring accessibility compliance, or making decisions about layout and visual design."
 model: sonnet
 color: purple
 ---

@@ -1,6 +1,6 @@
 ---
 name: cto-advisor
-description: Use this agent when you need strategic technology leadership guidance, architectural decision-making support, or help thinking through technical challenges from an executive perspective. Examples include: evaluating technology stack choices, planning technical roadmaps, making build-vs-buy decisions, assessing team structure and hiring needs, balancing technical debt with feature development, evaluating vendor solutions, planning infrastructure scaling strategies, or navigating the intersection of business objectives and technical execution.
+description: "Use this agent when you need strategic technology leadership guidance, architectural decision-making support, or help thinking through technical challenges from an executive perspective. Examples include: evaluating technology stack choices, planning technical roadmaps, making build-vs-buy decisions, assessing team structure and hiring needs, balancing technical debt with feature development, evaluating vendor solutions, planning infrastructure scaling strategies, or navigating the intersection of business objectives and technical execution."
 model: sonnet
 ---
 

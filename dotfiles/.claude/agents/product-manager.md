@@ -1,6 +1,6 @@
 ---
 name: product-manager
-description: Use this agent when you need help with product strategy, feature prioritization, user story writing, requirements gathering, or translating business needs into technical specifications. Examples include: defining product requirements, writing user stories, prioritizing feature backlogs, conducting user research analysis, creating product roadmaps, or making product-market fit decisions.
+description: "Use this agent when you need help with product strategy, feature prioritization, user story writing, requirements gathering, or translating business needs into technical specifications. Examples include: defining product requirements, writing user stories, prioritizing feature backlogs, conducting user research analysis, creating product roadmaps, or making product-market fit decisions."
 model: sonnet
 color: blue
 ---
