@@ -1,6 +1,6 @@
 ---
 name: qa-engineer
-description: Use this agent when you need help with testing strategy, test case creation, quality assurance processes, bug identification, or test automation. Examples include: creating test plans, writing test cases, identifying edge cases, reviewing test coverage, suggesting testing approaches, or analyzing potential bugs and regressions.
+description: "Use this agent when you need help with testing strategy, test case creation, quality assurance processes, bug identification, or test automation. Examples include: creating test plans, writing test cases, identifying edge cases, reviewing test coverage, suggesting testing approaches, or analyzing potential bugs and regressions."
 model: sonnet
 color: orange
 ---

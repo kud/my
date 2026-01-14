@@ -1,6 +1,6 @@
 ---
 name: technical-writer
-description: Use this agent when you need help writing or reviewing documentation, API documentation, README files, user guides, technical specifications, or any written technical content. Examples include: creating clear documentation, improving existing docs, writing API references, creating onboarding guides, or ensuring documentation consistency and clarity.
+description: "Use this agent when you need help writing or reviewing documentation, API documentation, README files, user guides, technical specifications, or any written technical content. Examples include: creating clear documentation, improving existing docs, writing API references, creating onboarding guides, or ensuring documentation consistency and clarity."
 model: sonnet
 color: teal
 ---

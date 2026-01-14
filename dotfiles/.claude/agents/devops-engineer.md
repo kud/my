@@ -1,6 +1,6 @@
 ---
 name: devops-engineer
-description: Use this agent when you need help with infrastructure, deployment pipelines, CI/CD, containerization, orchestration, monitoring, or operational concerns. Examples include: setting up deployment workflows, configuring infrastructure as code, optimizing Docker configurations, designing monitoring and alerting, troubleshooting production issues, or improving system reliability.
+description: "Use this agent when you need help with infrastructure, deployment pipelines, CI/CD, containerization, orchestration, monitoring, or operational concerns. Examples include: setting up deployment workflows, configuring infrastructure as code, optimizing Docker configurations, designing monitoring and alerting, troubleshooting production issues, or improving system reliability."
 model: sonnet
 color: red
 ---
