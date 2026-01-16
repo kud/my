@@ -96,7 +96,7 @@ alias search="basic-memory tools search-notes --query"
 alias recent="basic-memory tools recent-activity"
 
 # 🐙 GH aliases
-alias prw='gh pr view --web'
+alias prw='gh prw'
 
 # 🚫 No Correct
 alias mkdir='nocorrect mkdir'
