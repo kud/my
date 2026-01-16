@@ -84,6 +84,7 @@ alias pbp='pbpaste'
 alias rubbish='trash'
 alias litter='trash'
 alias fix-cursor='echo -e "\e[6 q"'
+alias cilogs='jenkins logs $(gh pr checks --json name,link,state -q ".[] | select(.name == \"default\") | .link") -f'
 
 # 🤖 AI
 alias explain='ai explain'
