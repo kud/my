@@ -145,7 +145,7 @@ packages:
     - imageoptim
     - insomnia
     - iterm2@nightly
-    - jordanbaird-ice
+    - jordanbaird-ice@beta
     - keepassxc
     - loom
     # - macmediakeyforwarder
