@@ -228,13 +228,6 @@ echo "transport = \"http\"" >> "$output_file"
 echo "url = \"https://mcp.notion.com/mcp\"" >> "$output_file"
 echo "" >> "$output_file"
 
-# Add Context7 MCP server
-echo "[[mcp_servers]]" >> "$output_file"
-echo "name = \"context7\"" >> "$output_file"
-echo "transport = \"http\"" >> "$output_file"
-echo "url = \"https://mcp.context7.com/mcp\"" >> "$output_file"
-echo "" >> "$output_file"
-
 ui_success_simple "Mistral Vibe theme and MCP servers configured" 0
 ui_info_simple "Config file: $output_file" 0
 ui_spacer

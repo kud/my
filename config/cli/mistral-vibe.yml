@@ -24,7 +24,3 @@ mcp_servers:
   - name: "notion"
     transport: "http"
     url: "https://mcp.notion.com/mcp"
-    
-  - name: "context7"
-    transport: "http"
-    url: "https://mcp.context7.com/mcp"
