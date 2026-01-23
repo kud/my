@@ -132,6 +132,7 @@ packages:
     - bruno
     - cap
     - claude
+    - claude-code
     - cleanshot
     - discord
     - espanso
