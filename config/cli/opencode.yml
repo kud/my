@@ -42,7 +42,3 @@ mcp:
       - "3.12"
       - basic-memory
       - mcp
-  context7:
-    type: remote
-    enabled: false
-    url: https://mcp.context7.com/mcp
