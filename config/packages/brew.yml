@@ -127,7 +127,6 @@ packages:
   casks:
     # ⚡ Productivity & Utilities
     - altair-graphql-client
-    - android-commandlinetools
     - android-studio
     - bruno
     - cap
