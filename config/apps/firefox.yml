@@ -241,6 +241,11 @@ user_chrome_css: |
     }
   }
 
+  /* Hide sidebar in fullscreen */
+  :root[sizemode="fullscreen"] #sidebar-main {
+    visibility: collapse;
+  }
+
   /* Fix container line with Adaptive Tab Bar Colour addon */
   .tabbrowser-tab[usercontextid] > .tab-stack > .tab-background > .tab-context-line {
   #vertical-pinned-tabs-container &, #tabbrowser-tabs[orient="vertical"] & {
@@ -290,5 +295,3 @@ containers:
       public: true
       userContextId: 322
       name: "Facebook"
-
-
