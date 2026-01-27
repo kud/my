@@ -56,3 +56,4 @@ bower_components/
 # Claude #
 #########
 .claude/
+.githuman
