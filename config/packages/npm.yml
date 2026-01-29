@@ -25,6 +25,7 @@ packages:
   - battery-level-cli
   - bodybuilder
   - caniuse-cmd
+  - ccusage
   - diff-so-fancy
   - envinfo
   - eslint
