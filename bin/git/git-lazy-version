@@ -3,7 +3,7 @@
 # Lazy version bump + push helper
 # Works with both npm projects (package.json) and git-only projects (tags via svu)
 # Features:
-# - validating input (patch|minor|major)
+# - validating input (patch|minor|major|next)
 # - failing fast (set -euo pipefail)
 # - auto-detects project type (npm vs git tags)
 # - showing resulting version with fancy formatting
@@ -11,14 +11,18 @@
 set -euo pipefail
 
 usage() {
-  echo "Usage: git lazy-version {major|minor|patch}" >&2
+  echo "Usage: git lazy-version {major|minor|patch|next}" >&2
   echo "Aliases: x=major, y=minor, z=patch" >&2
   echo "" >&2
   echo "Auto-detects project type:" >&2
   echo "  - With package.json: uses npm version" >&2
   echo "  - Without package.json: uses git tags (svu)" >&2
   echo "" >&2
-  echo "For svu-specific operations (next, current), use git tag-next or git tag-current" >&2
+  echo "Version types:" >&2
+  echo "  major/x: Bump major version (1.0.0 -> 2.0.0)" >&2
+  echo "  minor/y: Bump minor version (1.0.0 -> 1.1.0)" >&2
+  echo "  patch/z: Bump patch version (1.0.0 -> 1.0.1)" >&2
+  echo "  next:    Create pre-release version" >&2
 }
 
 arg=${1:-}
@@ -29,14 +33,12 @@ case "$arg" in
     VERSION_TYPE=minor ;;
   patch|z)
     VERSION_TYPE=patch ;;
-  next|current)
-    echo "Error: '$arg' is not supported by git lazy-version" >&2
-    echo "Use 'git tag-$arg' instead for svu-specific operations" >&2
-    exit 1 ;;
+  next)
+    VERSION_TYPE=next ;;
   -h|--help|"")
     usage; exit 1 ;;
   *)
-    echo "Error: version type must be one of: major minor patch (aliases: x y z)" >&2
+    echo "Error: version type must be one of: major minor patch next (aliases: x y z)" >&2
     usage; exit 1 ;;
 esac
 
@@ -52,8 +54,16 @@ if [[ -f package.json ]]; then
   # NPM workflow
   OLD_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "?")
 
+  # Map version types to npm version commands
+  case "$VERSION_TYPE" in
+    major|minor|patch)
+      NPM_VERSION_TYPE="$VERSION_TYPE" ;;
+    next)
+      NPM_VERSION_TYPE="prerelease" ;;
+  esac
+
   # Perform bump (suppress noisy npm output) and read new version
-  npm version "$VERSION_TYPE" >/dev/null
+  npm version "$NPM_VERSION_TYPE" >/dev/null
   NEW_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "?")
 
   # Only push if a remote is configured
@@ -128,6 +138,8 @@ if [[ -t 1 && -z ${NO_COLOR:-} ]]; then
       TYPE_CLR=208 ;;  # orange
     patch)
       TYPE_CLR=240 ;;  # grey
+    next)
+      TYPE_CLR=39 ;;   # cyan/blue for pre-release
     *)
       TYPE_CLR=240 ;;  # gray fallback
   esac
