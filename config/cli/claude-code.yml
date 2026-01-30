@@ -5,7 +5,6 @@
 global:
   autoUpdates: true
   theme: dark-daltonized
-
 # Settings (keys must match .claude/settings.json keys exactly)
 settings:
   alwaysThinkingEnabled: true
@@ -14,7 +13,16 @@ settings:
     type: command
     command: |
       input=$(cat); trunc_mid() { local s="$1"; local max="$2"; if (( ${#s} > max )); then local head=$(( (max - 3) / 2 )); local tail=$(( max - 3 - head )); printf '%s...%s' "${s:0:head}" "${s: -tail}"; else printf '%s' "$s"; fi; }; cwd=$(echo "$input" | jq -r '.workspace.current_dir'); cd "$cwd" 2>/dev/null || exit 0; raw_path="${cwd/#$HOME/}"; raw_path=$(trunc_mid "$raw_path" 40); parent_dir=$(dirname "$raw_path"); last_dir=$(basename "$raw_path"); if [[ "$parent_dir" == "." ]]; then dir_display=$(printf '\033[38;2;0;146;186m%s\033[0m' "$last_dir"); else dir_display=$(printf '\033[38;2;255;1;116m%s/\033[38;2;0;146;186m%s\033[0m' "$parent_dir" "$last_dir"); fi; git_branch=""; if git rev-parse --git-dir > /dev/null 2>&1; then branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null); if [[ -n "$branch" ]]; then branch=$(trunc_mid "$branch" 32); git_branch=$(printf ' \033[38;2;128;212;64m⎇ %s\033[0m' "$branch"); fi; fi; model=$(echo "$input" | jq -r 'if (.model|type)=="object" then (.model.display_name // .model.name // .model.id // empty) else (.model // empty) end'); model_display=$(printf ' \033[38;2;182;216;138m[%s]\033[0m' "${model:-?}"); printf '%s%s%s' "${dir_display}" "${git_branch}" "${model_display}"
-
+  permissions:
+    allow:
+      - Bash(npm run test *)
+      - Bash(git diff *)
+    ask:
+      - Bash(git push *)
+      - Bash(npm publish *)
+    deny:
+      - Read(.env*)
+      - Bash(rm -rf *)
 # Common MCP servers (all profiles)
 mcp:
   github:
