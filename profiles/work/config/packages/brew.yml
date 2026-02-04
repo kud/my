@@ -11,3 +11,4 @@ packages:
     - eloston-chromium
     - neo4j
     - redisinsight
+    - codex-app

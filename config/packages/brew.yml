@@ -183,7 +183,6 @@ packages:
     - caarlos0/tap/svu
     - superwhisper
     - codex
-    - codex-app
 
     # 🔤 Fonts
     - font-symbols-only-nerd-font
