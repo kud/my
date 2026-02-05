@@ -6,6 +6,9 @@
 #                                                                              #
 ################################################################################
 
+settings:
+  default_project_mode: true
+
 # Projects configuration
 projects:
   main:
