@@ -100,7 +100,7 @@ profile_config=$(get_profile_config_path "uv")
 # Upgrade pip itself first
 ui_subsection "Upgrading pip"
 if (( USE_UV )); then
-  if ! uv pip install --upgrade pip; then
+  if ! uv pip install --system --upgrade pip; then
     ui_warning_simple "Failed to upgrade pip with uv"
   else
     ui_success_simple "pip upgraded" 1
