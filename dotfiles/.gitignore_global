@@ -56,3 +56,7 @@ bower_components/
 # GitHuman #
 ############
 .githuman
+
+# Claude Code #
+###############
+.claude/settings.local.json
