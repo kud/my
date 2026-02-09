@@ -63,7 +63,7 @@ record_settings() {
         return 0
     fi
 
-    SETTINGS_JSON=$(/usr/local/bin/jq -s '.[0] * .[1]' <(printf '%s' "$SETTINGS_JSON") <(printf '%s' "$settings"))
+    SETTINGS_JSON=$(jq -s '.[0] * .[1]' <(printf '%s' "$SETTINGS_JSON") <(printf '%s' "$settings"))
 }
 
 # Function to write settings to config.json
@@ -74,10 +74,10 @@ apply_settings_to_config() {
 
     /bin/mkdir -p "$CONFIG_DIR"
     if [[ -f "$CONFIG_FILE" ]]; then
-        /usr/local/bin/jq --argjson settings "$SETTINGS_JSON" '. * $settings' "$CONFIG_FILE" > "${CONFIG_FILE}.tmp"
+        jq --argjson settings "$SETTINGS_JSON" '. * $settings' "$CONFIG_FILE" > "${CONFIG_FILE}.tmp"
         /bin/mv "${CONFIG_FILE}.tmp" "$CONFIG_FILE"
     else
-        /usr/local/bin/jq -n --argjson settings "$SETTINGS_JSON" '$settings' > "$CONFIG_FILE"
+        jq -n --argjson settings "$SETTINGS_JSON" '$settings' > "$CONFIG_FILE"
     fi
     ui_success_simple "Updated config settings" 0
 }
