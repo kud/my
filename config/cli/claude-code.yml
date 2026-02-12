@@ -28,6 +28,11 @@ settings:
       - mcp__atlassian__fetch
       - mcp__atlassian__lookup*
       - mcp__atlassian__atlassianUserInfo
+      # GitHub read operations - auto-accept
+      - mcp__github__get*
+      - mcp__github__list*
+      - mcp__github__search*
+      - mcp__github__*_read
     ask:
       - Bash(npm publish *)
       # Force push - requires confirmation
