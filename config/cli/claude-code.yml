@@ -17,9 +17,24 @@ settings:
     allow:
       - Bash(npm run test *)
       - Bash(git diff *)
+      # Regular git push - auto-accept
+      - Bash(git push)
+      - Bash(git push origin *)
+      - Bash(git push -u *)
+      - Bash(git push --set-upstream *)
+      # Jira/Atlassian read operations - auto-accept
+      - mcp__atlassian__get*
+      - mcp__atlassian__search*
+      - mcp__atlassian__fetch
+      - mcp__atlassian__lookup*
+      - mcp__atlassian__atlassianUserInfo
     ask:
-      - Bash(git push *)
       - Bash(npm publish *)
+      # Force push - requires confirmation
+      - Bash(git push --force*)
+      - Bash(git push -f*)
+      - Bash(git push *--force*)
+      - Bash(git push *-f*)
     deny:
       - Read(.env*)
       - Bash(rm -rf *)
