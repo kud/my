@@ -28,7 +28,20 @@ settings:
       - mcp__atlassian__fetch
       - mcp__atlassian__lookup*
       - mcp__atlassian__atlassianUserInfo
-      # GitHub read operations - auto-accept
+      # GitHub CLI read operations - auto-accept
+      - Bash(gh pr list*)
+      - Bash(gh pr view*)
+      - Bash(gh pr diff*)
+      - Bash(gh pr checks*)
+      - Bash(gh pr status*)
+      - Bash(gh issue list*)
+      - Bash(gh issue view*)
+      - Bash(gh issue status*)
+      - Bash(gh repo view*)
+      - Bash(gh repo list*)
+      - Bash(gh search *)
+      - Bash(gh api *)
+      # GitHub MCP read operations - auto-accept
       - mcp__github__get*
       - mcp__github__list*
       - mcp__github__search*
