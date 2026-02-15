@@ -194,17 +194,13 @@ if [[ ${#all_features[@]} -gt 0 ]]; then
         touch "$temp_file"
     fi
 
-    # Add features section
-    echo "[features]" >> "$temp_file"
-    for key in "${(@k)all_features}"; do
-        echo "$key = ${all_features[$key]}" >> "$temp_file"
-        ui_success_simple "Set feature: $key = ${all_features[$key]}" 0
-    done
-    echo "" >> "$temp_file"
-    features_written=1
+    # Collect top-level and table entries from existing config
+    local -a top_level_lines=()
+    local -a table_lines=()
 
     # If config file exists, preserve non-feature content
     if [[ -f "$CODEX_CONFIG_FILE" ]]; then
+        local seen_section=0
         while IFS= read -r line || [[ -n "$line" ]]; do
             # Skip any standalone model line (we already wrote it above)
             if [[ "$line" =~ ^model[[:space:]]*= ]]; then
@@ -214,6 +210,7 @@ if [[ ${#all_features[@]} -gt 0 ]]; then
             # Skip any [features] section headers (we already wrote it above)
             if [[ "$line" =~ ^\\[features\\] ]]; then
                 in_features_section=1
+                seen_section=1
                 continue
             fi
 
@@ -223,19 +220,50 @@ if [[ ${#all_features[@]} -gt 0 ]]; then
                 if [[ $in_features_section -eq 1 ]]; then
                     in_features_section=0
                 fi
-                # Preserve this new section header
-                echo "$line" >> "$temp_file"
+                seen_section=1
+                table_lines+=("$line")
                 continue
             fi
 
             # Skip lines in features section
             if [[ $in_features_section -eq 1 ]]; then
+                if [[ "$line" =~ ^[A-Za-z0-9_.-]+[[:space:]]*=[[:space:]]*(true|false)[[:space:]]*$ ]]; then
+                    continue
+                fi
+                [[ -n "$line" && "$line" != \#* ]] && top_level_lines+=("$line")
                 continue
             fi
 
-            # Preserve all other content
-            echo "$line" >> "$temp_file"
+            if [[ $seen_section -eq 0 ]]; then
+                top_level_lines+=("$line")
+            else
+                table_lines+=("$line")
+            fi
         done < "$CODEX_CONFIG_FILE"
+    fi
+
+    # Preserve top-level lines before features to keep them out of tables
+    if [[ ${#top_level_lines[@]} -gt 0 ]]; then
+        for line in "${top_level_lines[@]}"; do
+            echo "$line" >> "$temp_file"
+        done
+        echo "" >> "$temp_file"
+    fi
+
+    # Add features section
+    echo "[features]" >> "$temp_file"
+    for key in "${(@k)all_features}"; do
+        echo "$key = ${all_features[$key]}" >> "$temp_file"
+        ui_success_simple "Set feature: $key = ${all_features[$key]}" 0
+    done
+    echo "" >> "$temp_file"
+    features_written=1
+
+    # Append preserved table content
+    if [[ ${#table_lines[@]} -gt 0 ]]; then
+        for line in "${table_lines[@]}"; do
+            echo "$line" >> "$temp_file"
+        done
     fi
 
     # Ensure temp file was created successfully
