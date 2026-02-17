@@ -53,9 +53,10 @@ settings:
       - Bash(git push -f*)
       - Bash(git push *--force*)
       - Bash(git push *-f*)
+      - Bash(rm -rf *)
     deny:
       - Read(.env*)
-      - Bash(rm -rf *)
+
 # Common MCP servers (all profiles)
 mcp:
   github:
