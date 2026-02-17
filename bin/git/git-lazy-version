@@ -4,11 +4,18 @@
 # Works with both npm projects (package.json) and git-only projects (tags via svu)
 # Features:
 # - validating input (patch|minor|major|next)
+# - interactive selection when no argument provided
 # - failing fast (set -euo pipefail)
 # - auto-detects project type (npm vs git tags)
 # - showing resulting version with fancy formatting
 
 set -euo pipefail
+
+# Compute MY_DIR from script location (script is at MY_DIR/bin/git/git-lazy-version)
+MY_DIR="${0:A:h:h:h}"
+
+# Source ui-kit for interactive selection
+source "${MY_DIR}/core/utils/ui-kit.zsh"
 
 usage() {
   echo "Usage: git lazy-version {major|minor|patch|next}" >&2
@@ -35,8 +42,57 @@ case "$arg" in
     VERSION_TYPE=patch ;;
   next)
     VERSION_TYPE=next ;;
-  -h|--help|"")
+  -h|--help)
     usage; exit 1 ;;
+  "")
+    # No argument provided - show interactive selection with smart default
+
+    # Get current version to suggest smart default
+    if [[ -f package.json ]]; then
+      CURRENT_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "0.0.0")
+    else
+      # Use svu or git describe for git-tag based projects
+      if command -v svu &>/dev/null; then
+        CURRENT_VERSION=$(svu current 2>/dev/null | sed 's/^v//' || echo "0.0.0")
+      else
+        CURRENT_VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || echo "0.0.0")
+      fi
+    fi
+
+    # Determine smart default based on current version
+    local default_selection=0  # Default to patch
+    if [[ "$CURRENT_VERSION" =~ - ]]; then
+      # Pre-release version (e.g., 1.0.0-beta.1) -> suggest next
+      default_selection=3
+    elif [[ "$CURRENT_VERSION" =~ ^0\. ]]; then
+      # Pre-1.0 version (e.g., 0.5.2) -> suggest minor
+      default_selection=1
+    fi
+
+    ui_select "Select version bump type (current: v${CURRENT_VERSION}):" \
+      $default_selection \
+      "patch (z) - Bump patch version (e.g., ${CURRENT_VERSION} -> $(echo $CURRENT_VERSION | awk -F. '{print $1"."$2"."$3+1}'))" \
+      "minor (y) - Bump minor version (e.g., ${CURRENT_VERSION} -> $(echo $CURRENT_VERSION | awk -F. '{print $1"."$2+1".0"}' | sed 's/-.*//'))"\
+      "major (x) - Bump major version (e.g., ${CURRENT_VERSION} -> $(echo $CURRENT_VERSION | awk -F. '{print $1+1".0.0"}' | sed 's/-.*//'))"\
+      "next - Create/continue pre-release version"
+
+    selection=$?
+    if [[ $selection -eq 255 ]]; then
+      echo "Selection cancelled." >&2
+      exit 1
+    fi
+
+    # Map selection index to version type
+    case $selection in
+      0) VERSION_TYPE=patch ;;
+      1) VERSION_TYPE=minor ;;
+      2) VERSION_TYPE=major ;;
+      3) VERSION_TYPE=next ;;
+      *)
+        echo "Error: Invalid selection" >&2
+        exit 1 ;;
+    esac
+    ;;
   *)
     echo "Error: version type must be one of: major minor patch next (aliases: x y z)" >&2
     usage; exit 1 ;;

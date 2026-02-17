@@ -570,8 +570,16 @@ ui_confirm() {
 ui_select() {
     local prompt="$1"
     shift
+
+    # Check if first argument is a number (default index in 0-based)
+    local default_idx=0
+    if [[ "$1" =~ ^[0-9]+$ ]]; then
+        default_idx="$1"
+        shift
+    fi
+
     local options=("$@")
-    local selected=0
+    local selected=$((default_idx + 1))  # Convert to 1-based for zsh
     local key
 
     # Save cursor position and clear area
@@ -580,12 +588,13 @@ ui_select() {
     echo
 
     while true; do
-        # Display options
-        for ((i=0; i<${#options[@]}; i++)); do
+        # Display options (zsh arrays are 1-indexed)
+        for ((i=1; i<=${#options[@]}; i++)); do
             if [[ $i -eq $selected ]]; then
                 echo -e "  ${UI_PRIMARY}${UI_ICON_ARROW_RIGHT} ${options[i]}${UI_RESET}"
             else
-                echo -e "    ${UI_MUTED}${options[i]}${UI_RESET}"
+                # Use dark grey (color 243) for subtle unselected options
+                echo -e "    \033[38;5;243m${options[i]}${UI_RESET}"
             fi
         done
 
@@ -595,22 +604,22 @@ ui_select() {
             $'\033') # Arrow keys
                 read -s -k2 key
                 case "$key" in
-                    '[A') ((selected > 0)) && ((selected--)) ;;
-                    '[B') ((selected < ${#options[@]} - 1)) && ((selected++)) ;;
+                    '[A') ((selected > 1)) && ((selected--)) ;;
+                    '[B') ((selected < ${#options[@]})) && ((selected++)) ;;
                 esac
                 ;;
             $'\n'|$'\r'|'') # Enter (newline, carriage return, or empty)
                 # Clear the menu completely
-                for ((i=0; i<${#options[@]}; i++)); do
+                for ((i=1; i<=${#options[@]}; i++)); do
                     echo -ne "\033[A\033[K"
                 done
                 echo -ne "\033[A\033[K"  # Clear the empty line
                 echo -ne "\033[A\033[K"  # Clear the prompt
-                return $selected
+                return $((selected - 1))  # Return 0-based index for compatibility
                 ;;
             'q'|'Q') # Quit
                 # Clear the menu completely
-                for ((i=0; i<${#options[@]}; i++)); do
+                for ((i=1; i<=${#options[@]}; i++)); do
                     echo -ne "\033[A\033[K"
                 done
                 echo -ne "\033[A\033[K"  # Clear the empty line
@@ -620,7 +629,7 @@ ui_select() {
         esac
 
         # Clear previous options for redraw
-        for ((i=0; i<${#options[@]}; i++)); do
+        for ((i=1; i<=${#options[@]}; i++)); do
             echo -ne "\033[A\033[K"
         done
     done

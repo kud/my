@@ -36,6 +36,12 @@ if ! command -v svu &>/dev/null; then
   exit 1
 fi
 
+# Handle 'current' separately - just output current version and exit
+if [[ "$VERSION_TYPE" == "current" ]]; then
+  svu current
+  exit 0
+fi
+
 # Get current version (or 0.0.0 if no tags exist)
 OLD_VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || echo "0.0.0")
 
