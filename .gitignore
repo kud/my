@@ -1,6 +1,7 @@
 modules/*
 !modules/.gitkeep
 profiles/*
+!profiles/.gitkeep
 node_modules/
 *.log
 .claude
