@@ -1,6 +1,3 @@
 [submodule "profiles/work"]
 	path = profiles/work
 	url = git@github.com:kud/my-profile-work.git
-[submodule "profiles/home"]
-	path = profiles/home
-	url = git@github.com:kud/my-profile-home.git
