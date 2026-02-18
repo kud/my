@@ -43,6 +43,10 @@ sync)
       [[ -L "$target_dir" ]] && rm -f "$target_dir"
       mkdir -p "$target_dir"
 
+      for stale in "$target_dir"/*.md(N@); do
+        rm -f "$stale"
+      done
+
       if [[ -d "$common_dir" ]]; then
         for f in "$common_dir"/*.md(N); do
           ln -sf "$f" "$target_dir/$(basename "$f")"
