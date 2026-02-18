@@ -72,14 +72,22 @@ else
     exit 1
 fi
 
-# Update profile submodule
+# Update profile
 if [[ -n "$OS_PROFILE" ]]; then
-    ui_info_simple "Updating $OS_PROFILE profile submodule..."
-    git -C "$MY" submodule update --init "profiles/$OS_PROFILE" 2>&1
-    if [[ $? -eq 0 ]]; then
-        ui_success_simple "Profile '$OS_PROFILE' up to date"
+    local profile_dir="$MY/profiles/$OS_PROFILE"
+    local profile_repo="git@github.com:kud/my-profile-${OS_PROFILE}.git"
+
+    if [[ -d "$profile_dir/.git" ]]; then
+        ui_info_simple "Updating $OS_PROFILE profile..."
+        git -C "$profile_dir" pull 2>&1
+        if [[ $? -eq 0 ]]; then
+            ui_success_simple "Profile '$OS_PROFILE' up to date"
+        else
+            ui_warning_simple "Failed to update profile"
+        fi
     else
-        ui_warning_simple "Failed to update profile submodule"
+        ui_info_simple "Installing $OS_PROFILE profile..."
+        git clone "$profile_repo" "$profile_dir"
     fi
 fi
 

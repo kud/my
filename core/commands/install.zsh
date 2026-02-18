@@ -101,28 +101,36 @@ fi
 export MY=$HOME/my
 
 ################################################################################
-# 👤 PROFILE SUBMODULE SETUP
+# 👤 PROFILE SETUP
 ################################################################################
 
 ui_spacer
-ui_panel "Step 2.5: Profile Setup" "Initializing profile submodule" "info"
+ui_panel "Step 2.5: Profile Setup" "Installing profile" "info"
 ui_spacer
 
 # Source local config to get OS_PROFILE
 source $MY/shell/local.zsh
 
 if [[ -n "$OS_PROFILE" ]]; then
-    ui_info_msg "Initializing $OS_PROFILE profile submodule..."
-    git -C "$PROJECT_DIR" submodule update --init "profiles/$OS_PROFILE"
+    local profile_dir="$MY/profiles/$OS_PROFILE"
+    local profile_repo="git@github.com:kud/my-profile-${OS_PROFILE}.git"
 
-    if [[ $? -eq 0 ]]; then
-        ui_success_msg "Profile '$OS_PROFILE' initialized successfully"
+    if [[ -d "$profile_dir/.git" ]]; then
+        ui_info_msg "Profile '$OS_PROFILE' already installed"
     else
-        ui_error_msg "Failed to initialize profile submodule"
-        ui_muted "  You can retry later with: git submodule update --init profiles/$OS_PROFILE"
+        ui_info_msg "Cloning $OS_PROFILE profile..."
+        ui_muted "  Source: $profile_repo"
+        git clone "$profile_repo" "$profile_dir"
+
+        if [[ $? -eq 0 ]]; then
+            ui_success_msg "Profile '$OS_PROFILE' installed successfully"
+        else
+            ui_error_msg "Failed to install profile"
+            ui_muted "  Check your SSH keys and try: git clone $profile_repo $profile_dir"
+        fi
     fi
 else
-    ui_warning_simple "No profile set — skipping profile submodule"
+    ui_warning_simple "No profile set — skipping profile installation"
     ui_muted "  Set your profile in ~/.config/zsh/local.zsh"
 fi
 
