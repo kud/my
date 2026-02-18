@@ -72,6 +72,17 @@ else
     exit 1
 fi
 
+# Update profile submodule
+if [[ -n "$OS_PROFILE" ]]; then
+    ui_info_simple "Updating $OS_PROFILE profile submodule..."
+    git -C "$MY" submodule update --init "profiles/$OS_PROFILE" 2>&1
+    if [[ $? -eq 0 ]]; then
+        ui_success_simple "Profile '$OS_PROFILE' up to date"
+    else
+        ui_warning_simple "Failed to update profile submodule"
+    fi
+fi
+
 ui_spacer
 
 ################################################################################
