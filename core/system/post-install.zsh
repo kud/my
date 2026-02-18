@@ -1,8 +1,8 @@
 #!/usr/bin/env zsh
 # 📮 Post-install documentation opener (minimal by request)
 # Usage:
-#   my run postinstall          # open GitHub doc in browser
-#   my run postinstall --offline # open local markdown file
+#   my postinstall              # open GitHub doc in browser
+#   my postinstall --offline    # open local markdown file
 
 # Known section files (basename without .md)
 sections=(
@@ -18,7 +18,7 @@ open_local() {
 }
 
 show_usage() {
-  echo "Usage: my run postinstall [section] [--offline]" >&2
+  echo "Usage: my postinstall [section] [--offline]" >&2
   echo "Sections: ${sections[*]}" >&2
 }
 

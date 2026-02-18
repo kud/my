@@ -68,7 +68,7 @@ Primary language: **Zsh** (with some Node/JS helpers).
   - Do **not** embed heavy logic directly in `bin/my`; put it in the appropriate `core/` script.
 - When adding new subcommands:
   - For `my <command>`: point to `core/commands/<name>.zsh` or `core/system/<name>.zsh` as appropriate.
-  - For `my run <module>`: extend the nested `case "$2" in` with a clear branch.
+  - For `my <module>`: add a new branch to the top-level `case "$1" in`.
   - Keep help text (`--help` output) in `bin/my` in sync with new commands.
 
 ---
@@ -103,7 +103,7 @@ Place new logic where its *primary responsibility* fits best, rather than where 
 
 ## 9. Testing & Validation
 - When possible, validate changes by:
-  - Running individual commands, e.g. `my update`, `my doctor`, or specific `my run <module>`.
+  - Running individual commands, e.g. `my update`, `my doctor`, or `my <module>`.
   - Using `zsh -n` to syntax‑check modified Zsh scripts.
 - Do not introduce new global test frameworks unless explicitly requested.
 

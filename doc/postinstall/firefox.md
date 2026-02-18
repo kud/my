@@ -1,6 +1,6 @@
 # Firefox
 
-- Launch Firefox, close it after ~5 seconds, then run: `my run firefox`
+- Launch Firefox, close it after ~5 seconds, then run: `my firefox`
 - Login to Sync for bookmarks/preferences.
 - GUI customisation as desired.
 - Set Gmail as default mail handler (via handler prompt or settings) if needed.

@@ -64,7 +64,7 @@ for arg in "$@"; do
     --restart) RESTART=true ;;
     --help|-h)
       ui_title "Firefox Configuration Tool"
-      echo "Usage: my run firefox [OPTIONS]"; echo; echo "Options:";
+      echo "Usage: my firefox [OPTIONS]"; echo; echo "Options:";
       echo "  --restart               Quit & reopen Firefox Nightly after applying";
       echo "  --help, -h              Show this help"; echo;
       echo "Without options: preferences, containers, styling only (no restart)";
