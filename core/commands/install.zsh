@@ -101,6 +101,32 @@ fi
 export MY=$HOME/my
 
 ################################################################################
+# 👤 PROFILE SUBMODULE SETUP
+################################################################################
+
+ui_spacer
+ui_panel "Step 2.5: Profile Setup" "Initializing profile submodule" "info"
+ui_spacer
+
+# Source local config to get OS_PROFILE
+source $MY/shell/local.zsh
+
+if [[ -n "$OS_PROFILE" ]]; then
+    ui_info_msg "Initializing $OS_PROFILE profile submodule..."
+    git -C "$PROJECT_DIR" submodule update --init "profiles/$OS_PROFILE"
+
+    if [[ $? -eq 0 ]]; then
+        ui_success_msg "Profile '$OS_PROFILE' initialized successfully"
+    else
+        ui_error_msg "Failed to initialize profile submodule"
+        ui_muted "  You can retry later with: git submodule update --init profiles/$OS_PROFILE"
+    fi
+else
+    ui_warning_simple "No profile set — skipping profile submodule"
+    ui_muted "  Set your profile in ~/.config/zsh/local.zsh"
+fi
+
+################################################################################
 # 🎯 ENVIRONMENT INSTALLATION
 ################################################################################
 
