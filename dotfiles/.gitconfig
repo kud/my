@@ -153,6 +153,7 @@
 	last = log -1 HEAD
 	last-files = diff --name-only HEAD~1
 	lazy = "!lazygit"
+	lzv = lazy-version
 	lg = log -p
 	lga = log --graph --decorate --all --oneline
 	lgb = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
