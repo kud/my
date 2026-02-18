@@ -18,7 +18,7 @@ if [[ $# -eq 0 ]]; then
 else
 
   case "$1" in
-  # Direct commands (only core/commands)
+  # Commands (core/commands)
   install)
     $MY/core/commands/install.zsh
     ;;
@@ -46,142 +46,111 @@ else
   migrate)
     $MY/core/system/migrations.zsh "${@:2}"
     ;;
+
+  # System modules
+  os)
+    $MY/core/os/main.zsh
+    ;;
   services)
     $MY/core/system/services.zsh "${@:2}"
     ;;
+  postinstall)
+    $MY/core/system/post-install.zsh "${@:2}"
+    ;;
+  doc)
+    open https://github.com/kud/my/tree/master/doc
+    ;;
+  edit)
+    code $MY
+    ;;
+  open)
+    open $MY
+    ;;
 
-  # Everything else under run
-  run)
-    if [[ -z "$2" ]]; then
-      echo "Error: 'run' requires a module name. Available modules:"
-      echo "  Apps: firefox (use -sc for shortcuts), keepassxc, pcloud, sublime-merge, bruno, claude-desktop"
-      echo "  CLI: abbr, ai [client], basic-memory, ssh"
-      echo "  Packages: antidote, brew, gh, gem, mas, npm, uv"
-      echo "  System: default-folders, doc, dotfiles, edit, open, os, services, shims, submodules, symlinks"
-      echo "  Utils: ui-kit-demo"
-      echo ""
-      echo "  AI clients (use 'my run ai <client>'):"
-      echo "    claude-code, codex, opencode, github-copilot, mistral-vibe"
-      exit 1
-    fi
+  # Apps (core/apps)
+  firefox)
+    shift 1
+    $MY/core/apps/firefox.zsh "$@"
+    ;;
+  keepassxc)
+    $MY/core/apps/keepassxc.zsh
+    ;;
+  pcloud)
+    $MY/core/apps/pcloud.zsh
+    ;;
+  sublime-merge)
+    $MY/core/apps/sublime-merge.zsh
+    ;;
+  bruno)
+    $MY/core/apps/bruno.zsh
+    ;;
+  claude-desktop)
+    shift 1
+    $MY/core/apps/claude-desktop.zsh "$@"
+    ;;
 
-    case "$2" in
-    # System modules
-    os)
-      $MY/core/os/main.zsh
-      ;;
-    services)
-      $MY/core/system/services.zsh install
-      ;;
-    postinstall)
-      $MY/core/system/post-install.zsh "${@:3}"
-      ;;
-    doc)
-      open https://github.com/kud/my/tree/master/doc
-      ;;
-    edit)
-      code $MY
-      ;;
-    open)
-      open $MY
-      ;;
+  # CLI tools (core/cli)
+  abbr)
+    $MY/core/cli/abbr.zsh
+    ;;
+  ai)
+    shift 1
+    $MY/core/cli/ai.zsh "$@"
+    ;;
+  basic-memory)
+    shift 1
+    $MY/core/cli/basic-memory.zsh "$@"
+    ;;
+  ssh)
+    $MY/core/system/ssh.zsh
+    ;;
 
-    # Apps (core/apps)
-    firefox)
-      shift 2
-      $MY/core/apps/firefox.zsh "$@"
-      ;;
-    keepassxc)
-      $MY/core/apps/keepassxc.zsh
-      ;;
-    pcloud)
-      $MY/core/apps/pcloud.zsh
-      ;;
-    sublime-merge)
-      $MY/core/apps/sublime-merge.zsh
-      ;;
-    bruno)
-      $MY/core/apps/bruno.zsh
-      ;;
-    claude-desktop)
-      shift 2
-      $MY/core/apps/claude-desktop.zsh "$@"
-      ;;
+  # Packages (core/packages)
+  antidote)
+    $MY/core/packages/antidote.zsh
+    ;;
+  brew)
+    $MY/core/packages/brew.zsh
+    ;;
+  gh)
+    $MY/core/packages/gh.zsh
+    ;;
+  gem)
+    $MY/core/packages/gem.zsh
+    ;;
+  mas)
+    $MY/core/packages/mas.zsh
+    ;;
+  npm)
+    $MY/core/packages/npm.zsh
+    ;;
+  uv)
+    $MY/core/packages/uv.zsh
+    ;;
+  mise)
+    $MY/core/packages/mise.zsh
+    ;;
 
-    # CLI tools (core/cli)
-    abbr)
-      $MY/core/cli/abbr.zsh
-      ;;
-    ai)
-      shift 2
-      $MY/core/cli/ai.zsh "$@"
-      ;;
-    basic-memory)
-      shift 2
-      $MY/core/cli/basic-memory.zsh "$@"
-      ;;
-    ssh)
-      $MY/core/system/ssh.zsh
-      ;;
+  # System (core/system)
+  dotfiles)
+    $MY/core/system/dotfiles.zsh
+    ;;
+  symlinks)
+    $MY/core/system/symlinks.zsh
+    ;;
+  shims)
+    $MY/core/system/shims.zsh
+    ;;
+  submodules)
+    $MY/core/system/submodules.zsh
+    ;;
+  default-folders)
+    $MY/core/system/default-folders.zsh
+    ;;
 
-    # Packages (core/packages)
-    antidote)
-      $MY/core/packages/antidote.zsh
-      ;;
-    brew)
-      $MY/core/packages/brew.zsh
-      ;;
-    gh)
-      $MY/core/packages/gh.zsh
-      ;;
-    gem)
-      $MY/core/packages/gem.zsh
-      ;;
-    mas)
-      $MY/core/packages/mas.zsh
-      ;;
-    npm)
-      $MY/core/packages/npm.zsh
-      ;;
-    uv)
-      # Python development packages installer (uv only)
-      $MY/core/packages/uv.zsh
-      ;;
-    mise)
-      $MY/core/packages/mise.zsh # relocated from core/mise.zsh
-      ;;
-
-    # System (core/system) - fallback and specific ones
-    dotfiles)
-      $MY/core/system/dotfiles.zsh
-      ;;
-    symlinks)
-      $MY/core/system/symlinks.zsh
-      ;;
-    shims)
-      $MY/core/system/shims.zsh
-      ;;
-    submodules)
-      $MY/core/system/submodules.zsh
-      ;;
-    default-folders)
-      $MY/core/system/default-folders.zsh
-      ;;
-    
-    # Utils (core/utils)
-    ui-kit-demo)
-      $MY/core/utils/ui-kit-demo.zsh
-      ;;
-    
-    *)
-      if [[ -f "$MY/core/system/$2.zsh" ]]; then
-        $MY/core/system/$2.zsh
-      else
-        echo "Error: Module '$2' not found. Use 'my --help' to see available modules."
-        exit 1
-      fi
-      ;;
-    esac
+  # Utils (core/utils)
+  ui-kit-demo)
+    $MY/core/utils/ui-kit-demo.zsh
     ;;
 
   --help|-h|help)
@@ -193,13 +162,12 @@ else
     ui_spacer
 
     ui_subtitle "Usage:"
-    echo "  my <command>          Run command directly"
-    echo "  my run <module>       Run specific module"
+    echo "  my <command>          Run a command or module"
     echo "  my --debug <command>  Run with verbose debugging"
     echo "  my --help             Show this help"
 
     ui_spacer
-    ui_subtitle "Direct Commands:"
+    ui_subtitle "Commands:"
     echo "  install               Set up complete development environment"
     echo "  update                Refresh all components and packages"
     echo "  profile-update        Update only current profile packages"
@@ -212,7 +180,7 @@ else
     echo "  npm-clean             Clean up Node.js global packages"
 
     ui_spacer
-    ui_subtitle "Module Categories (use with 'my run <module>'):"
+    ui_subtitle "Modules:"
 
     echo
     echo "  Package Managers:"
@@ -223,10 +191,10 @@ else
 
     echo
     echo "  Development Tools:"
-    echo "    abbr, ai [client], basic-memory, ssh"
+    echo "    abbr, ai, basic-memory, ssh"
     echo
-    echo "  AI Clients (use with 'my run ai <client>'):"
-    echo "    claude-code, codex, opencode, github-copilot, mistral-vibe"
+    echo "  AI (use 'my ai <command>'):"
+    echo "    sync, client [name]"
 
     echo
     echo "  System Components:"
@@ -235,8 +203,12 @@ else
     ui_spacer
     ;;
   *)
-    echo "Error: Unrecognized command '$1'. Use --help for a list of commands."
-    exit 1
+    if [[ -f "$MY/core/system/$1.zsh" ]]; then
+      $MY/core/system/$1.zsh
+    else
+      echo "Error: Unrecognized command '$1'. Use --help for a list of commands."
+      exit 1
+    fi
     ;;
   esac
 

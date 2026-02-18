@@ -69,14 +69,14 @@ case "$arg" in
       default_selection=1
     fi
 
+    selection=0
     ui_select "Select version bump type (current: v${CURRENT_VERSION}):" \
       $default_selection \
       "patch (z) - Bump patch version (e.g., ${CURRENT_VERSION} -> $(echo $CURRENT_VERSION | awk -F. '{print $1"."$2"."$3+1}'))" \
-      "minor (y) - Bump minor version (e.g., ${CURRENT_VERSION} -> $(echo $CURRENT_VERSION | awk -F. '{print $1"."$2+1".0"}' | sed 's/-.*//'))"\
-      "major (x) - Bump major version (e.g., ${CURRENT_VERSION} -> $(echo $CURRENT_VERSION | awk -F. '{print $1+1".0.0"}' | sed 's/-.*//'))"\
-      "next - Create/continue pre-release version"
-
-    selection=$?
+      "minor (y) - Bump minor version (e.g., ${CURRENT_VERSION} -> $(echo $CURRENT_VERSION | awk -F. '{print $1"."$2+1".0"}' | sed 's/-.*//'))" \
+      "major (x) - Bump major version (e.g., ${CURRENT_VERSION} -> $(echo $CURRENT_VERSION | awk -F. '{print $1+1".0.0"}' | sed 's/-.*//'))" \
+      "next - Create/continue pre-release version" \
+      || selection=$?
     if [[ $selection -eq 255 ]]; then
       echo "Selection cancelled." >&2
       exit 1
