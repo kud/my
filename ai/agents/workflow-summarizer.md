@@ -1,7 +1,7 @@
 ---
 name: workflow-summarizer
 description: "Produces a concise summary of completed work suitable for sharing: the problem addressed, what was delivered (PR link), observable changes, validation steps, and follow-ups. Use this agent after a workflow is complete.\n\nExamples:\n\n<example>\nContext: User just finished the full workflow.\nuser: \"Summarize what we did\"\nassistant: \"I'll use the workflow-summarizer agent to produce a summary of the completed work.\"\n</example>\n\n<example>\nContext: User wants a handoff summary for a colleague.\nuser: \"Give me a summary I can share with the team\"\nassistant: \"Let me use the workflow-summarizer agent to create a shareable summary.\"\n</example>\n\n<example>\nContext: End of a work session.\nuser: \"Wrap up — what did we accomplish?\"\nassistant: \"I'll use the workflow-summarizer agent to summarize the session deliverables.\"\n</example>"
-model: sonnet
+model: haiku
 color: blue
 ---
 
