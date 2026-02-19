@@ -1,7 +1,7 @@
 ---
 name: parallel-work-checker
 description: "Checks git worktree state, detects conflicts with in-progress parallel tasks, and provides worktree setup commands when needed. Use this agent before starting a new branch to avoid stepping on concurrent work.\n\nExamples:\n\n<example>\nContext: User is about to start a second task while another is in progress.\nuser: \"I want to start on a second task but I'm still working on the first one\"\nassistant: \"Let me use the parallel-work-checker agent to check for worktree conflicts and set up parallel workspaces.\"\n</example>\n\n<example>\nContext: User wants to know what branches are active.\nuser: \"What tasks am I currently working on in parallel?\"\nassistant: \"I'll use the parallel-work-checker agent to list active worktrees and branches.\"\n</example>\n\n<example>\nContext: Before creating a new branch.\nuser: \"Create a branch for the new CLI command\"\nassistant: \"First, let me use the parallel-work-checker agent to make sure there are no conflicts with existing work.\"\n</example>"
-model: sonnet
+model: haiku
 color: orange
 ---
 

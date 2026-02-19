@@ -1,7 +1,7 @@
 ---
 name: git-workflow-output
 description: "Outputs the complete git command sequence for a task: branch creation, staging, commit, push, and PR creation. Use this agent when you need a copy-pasteable command reference for the full git workflow.\n\nExamples:\n\n<example>\nContext: User wants the full command sequence for their task.\nuser: \"Give me the git commands for this feature\"\nassistant: \"I'll use the git-workflow-output agent to generate the complete command sequence.\"\n</example>\n\n<example>\nContext: User prefers to run commands manually.\nuser: \"Don't run anything — just show me what to do\"\nassistant: \"Let me use the git-workflow-output agent to output the full command reference.\"\n</example>\n\n<example>\nContext: User wants a cheat sheet for the workflow.\nuser: \"What's the full git workflow for this task?\"\nassistant: \"I'll use the git-workflow-output agent to produce the step-by-step command sequence.\"\n</example>"
-model: sonnet
+model: haiku
 color: gray
 ---
 

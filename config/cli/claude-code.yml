@@ -41,6 +41,8 @@ settings:
       - Bash(gh repo list*)
       - Bash(gh search *)
       - Bash(gh api *)
+      # File search - auto-accept
+      - Bash(find *)
       # GitHub MCP read operations - auto-accept
       - mcp__github__get*
       - mcp__github__list*

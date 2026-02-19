@@ -1,7 +1,7 @@
 ---
 name: conventions-reader
 description: "Reads claude.md, agents.md/AGENTS.md, and github_instructions.md to synthesize and return project conventions with a clear priority order. Use this agent as the mandatory first step before any workflow.\n\nExamples:\n\n<example>\nContext: User is about to start a new feature and needs to know the rules.\nuser: \"What conventions should I follow for this repo?\"\nassistant: \"I'll use the conventions-reader agent to gather and synthesize all project conventions for you.\"\n</example>\n\n<example>\nContext: Agent needs conventions before generating code or a PR.\nuser: \"Set up the workflow for my next task\"\nassistant: \"First, let me use the conventions-reader agent to load the project conventions so every subsequent step is compliant.\"\n</example>\n\n<example>\nContext: User is unsure which style rules apply.\nuser: \"Does this project use inline comments?\"\nassistant: \"Let me use the conventions-reader agent to check the documented conventions.\"\n</example>"
-model: sonnet
+model: haiku
 color: gray
 ---
 
