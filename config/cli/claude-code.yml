@@ -41,6 +41,15 @@ settings:
       - Bash(gh repo list*)
       - Bash(gh search *)
       - Bash(gh api *)
+      # GitHub CLI write operations - auto-accept
+      - Bash(gh pr ready*)
+      - Bash(gh pr merge*)
+      - Bash(gh pr create*)
+      # Jira/Atlassian write operations - auto-accept
+      - mcp__atlassian__createJiraIssue
+      - mcp__atlassian__editJiraIssue
+      - mcp__atlassian__transitionJiraIssue
+      - mcp__atlassian__addCommentToJiraIssue
       # File search - auto-accept
       - Bash(find *)
       # GitHub MCP read operations - auto-accept
