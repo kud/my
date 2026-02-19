@@ -35,32 +35,57 @@ sync)
     # into tool-specific locations (~/.claude/).
     # Profile files override common ones when names collide.
 
-    for asset_type in agents skills; do
-      target_dir="$HOME/.claude/$asset_type"
-      common_dir="$MY/ai/$asset_type"
-      profile_dir="$MY/profiles/$OS_PROFILE/ai/$asset_type"
+    # --- Agents: flat .md files ---
+    target_dir="$HOME/.claude/agents"
+    common_dir="$MY/ai/agents"
+    profile_dir="$MY/profiles/$OS_PROFILE/ai/agents"
 
-      [[ -L "$target_dir" ]] && rm -f "$target_dir"
-      mkdir -p "$target_dir"
+    [[ -L "$target_dir" ]] && rm -f "$target_dir"
+    mkdir -p "$target_dir"
 
-      for stale in "$target_dir"/*.md(N@); do
-        rm -f "$stale"
-      done
-
-      if [[ -d "$common_dir" ]]; then
-        for f in "$common_dir"/*.md(N); do
-          ln -sf "$f" "$target_dir/$(basename "$f")"
-        done
-      fi
-
-      if [[ -n "$OS_PROFILE" && -d "$profile_dir" ]]; then
-        for f in "$profile_dir"/*.md(N); do
-          ln -sf "$f" "$target_dir/$(basename "$f")"
-        done
-      fi
-
-      ui_success_simple "Linked .claude/$asset_type/"
+    for stale in "$target_dir"/*.md(N@); do
+      rm -f "$stale"
     done
+
+    if [[ -d "$common_dir" ]]; then
+      for f in "$common_dir"/*.md(N); do
+        ln -sf "$f" "$target_dir/$(basename "$f")"
+      done
+    fi
+
+    if [[ -n "$OS_PROFILE" && -d "$profile_dir" ]]; then
+      for f in "$profile_dir"/*.md(N); do
+        ln -sf "$f" "$target_dir/$(basename "$f")"
+      done
+    fi
+
+    ui_success_simple "Linked ~/.claude/agents/"
+
+    # --- Skills: directories containing SKILL.md ---
+    target_dir="$HOME/.claude/skills"
+    common_dir="$MY/ai/skills"
+    profile_dir="$MY/profiles/$OS_PROFILE/ai/skills"
+
+    [[ -L "$target_dir" ]] && rm -f "$target_dir"
+    mkdir -p "$target_dir"
+
+    for stale in "$target_dir"/*(N@); do
+      rm -f "$stale"
+    done
+
+    if [[ -d "$common_dir" ]]; then
+      for d in "$common_dir"/*(N/); do
+        ln -sf "$d" "$target_dir/$(basename "$d")"
+      done
+    fi
+
+    if [[ -n "$OS_PROFILE" && -d "$profile_dir" ]]; then
+      for d in "$profile_dir"/*(N/); do
+        ln -sf "$d" "$target_dir/$(basename "$d")"
+      done
+    fi
+
+    ui_success_simple "Linked ~/.claude/skills/"
     ;;
 
 ############################################################

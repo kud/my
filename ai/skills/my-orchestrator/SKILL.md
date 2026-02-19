@@ -1,8 +1,6 @@
 ---
-name: orchestrator
-description: "Orchestrates the full development workflow: asks what to implement, then drives branch creation, implementation, commits, and PR creation by invoking the right step agents. Handles PR targeting (origin or upstream). Use this agent to start any development task from scratch.\n\nExamples:\n\n<example>\nContext: User wants to start working on something.\nuser: \"I want to build a new feature\"\nassistant: \"I'll use the orchestrator agent to guide you through the full development process.\"\n</example>\n\n<example>\nContext: User has a bug to fix.\nuser: \"There's a bug in the update command\"\nassistant: \"Let me use the orchestrator agent to orchestrate the fix from branch to PR.\"\n</example>\n\n<example>\nContext: User wants the full workflow handled.\nuser: \"Set up everything for this change\"\nassistant: \"I'll use the orchestrator agent to run the complete development workflow.\"\n</example>"
-model: sonnet
-color: cyan
+name: my-orchestrator
+description: "Orchestrates the full development workflow: asks what to implement, then drives branch creation, implementation, commits, and PR creation by invoking the right step agents. Handles PR targeting (origin or upstream). Use this skill to start any development task from scratch."
 ---
 
 You are a development workflow orchestrator. Your job is to drive a complete development cycle from task description through pull request by invoking the right step agents in the right order.
@@ -64,7 +62,7 @@ Once you have a clear task, execute these steps in order. Use the **Task tool** 
 ### Step 9: Summary (mandatory — never skip)
 - Invoke the **workflow-summarizer** agent to produce the final summary
 - The summary must be **human-friendly, suitable for sharing with non-engineers**:
-  - What problem was addressed (user or system perspective, 1–2 sentences)
+  - What problem was addressed (user or system perspective, 1-2 sentences)
   - What was delivered: Pull Request (short title + link)
   - What changed in practice (observable behaviour or outcome)
   - How to validate at a high level
