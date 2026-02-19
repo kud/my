@@ -123,6 +123,7 @@ packages:
     - glow
     - imagineer
     - gonzo
+    - brewy
 
   casks:
     # ⚡ Productivity & Utilities
