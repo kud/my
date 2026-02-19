@@ -90,6 +90,7 @@ alias cilogs='jenkins logs $(gh pr checks --json name,link,state -q ".[] | selec
 alias explain='ai explain'
 alias gca='git add . && git aicommit'
 alias gcap='git add . && git aicommit && git push'
+alias cld='claude'
 alias cldc='claude --continue'
 alias cldr='claude --resume'
 
