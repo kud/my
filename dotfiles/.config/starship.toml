@@ -33,7 +33,7 @@ fish_style_pwd_dir_length = 1
 repo_root_style = "bold #0092ba"
 home_symbol = ""
 read_only = " 󰌾"
-read_only_style = "160"
+read_only_style = "#d70000"
 format = "[$path]($style) "
 
 # Optional pure basename alternative (disabled in main format for now)
@@ -45,14 +45,14 @@ format = '[($output)](31) '
 
 # Git branch
 [git_branch]
-style = "76"
+style = "#80d440"
 format = "[ $branch]($style)"
 truncation_length = 32
 truncation_symbol = "…"
 
 # Git statuss
 [git_status]
-style = "244"
+style = "#808080"
 conflicted = "="
 ahead = "⇡"
 behind = "⇣"
@@ -67,7 +67,7 @@ format = '([$staged$modified$untracked$ahead_behind]($style))'
 
 # Git state
 [git_state]
-style = "bold 203"
+style = "bold #ff5f87"
 format = '[\($state( $progress_current of $progress_total)\)]($style) '
 
 # Character
