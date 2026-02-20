@@ -225,13 +225,38 @@ add_mcp_server() {
 # Cache MCP server list once to avoid repeated calls
 MCP_SERVER_LIST=$(claude mcp list 2>&1)
 
-# Apply common settings (if config exists)
-if [[ -f "$COMMON_CONFIG" ]]; then
+# Merge common + profile configs (profile overrides common, arrays are concatenated)
+MERGED_CONFIG=$(mktemp)
+if [[ -f "$COMMON_CONFIG" && -f "$PROFILE_CONFIG" ]]; then
+    # Deep merge: profile values override common, arrays are appended (not replaced)
+    yq eval-all '
+        select(fileIndex == 0) *d select(fileIndex == 1)
+        | .settings.permissions.allow = (
+            ([select(fileIndex == 0) | .settings.permissions.allow // []] | .[0]) +
+            ([select(fileIndex == 1) | .settings.permissions.allow // []] | .[0])
+          | unique)
+        | .settings.permissions.ask = (
+            ([select(fileIndex == 0) | .settings.permissions.ask // []] | .[0]) +
+            ([select(fileIndex == 1) | .settings.permissions.ask // []] | .[0])
+          | unique)
+        | .settings.permissions.deny = (
+            ([select(fileIndex == 0) | .settings.permissions.deny // []] | .[0]) +
+            ([select(fileIndex == 1) | .settings.permissions.deny // []] | .[0])
+          | unique)
+    ' "$COMMON_CONFIG" "$PROFILE_CONFIG" > "$MERGED_CONFIG" 2>/dev/null
+elif [[ -f "$COMMON_CONFIG" ]]; then
+    cp "$COMMON_CONFIG" "$MERGED_CONFIG"
+elif [[ -f "$PROFILE_CONFIG" ]]; then
+    cp "$PROFILE_CONFIG" "$MERGED_CONFIG"
+fi
+
+# Apply merged settings
+if [[ -f "$MERGED_CONFIG" ]]; then
     # Read and apply all global settings from the global section
-    global_setting_keys=($(yq -r '.global | keys[]' "$COMMON_CONFIG" 2>/dev/null))
+    global_setting_keys=($(yq -r '.global | keys[]' "$MERGED_CONFIG" 2>/dev/null))
 
     for key in "${global_setting_keys[@]}"; do
-        value=$(yq -r ".global.$key" "$COMMON_CONFIG" 2>/dev/null)
+        value=$(yq -r ".global.$key" "$MERGED_CONFIG" 2>/dev/null)
 
         # Properly handle strings vs booleans/numbers
         if [[ "$value" =~ ^(true|false|[0-9]+)$ ]]; then
@@ -242,19 +267,19 @@ if [[ -f "$COMMON_CONFIG" ]]; then
     done
 
     # Read and apply all settings from the settings section
-    setting_keys=($(yq -r '.settings | keys[]' "$COMMON_CONFIG" 2>/dev/null))
+    setting_keys=($(yq -r '.settings | keys[]' "$MERGED_CONFIG" 2>/dev/null))
 
     for key in "${setting_keys[@]}"; do
         # Check if the value is an object or array
-        value_type=$(yq -r ".settings.$key | type" "$COMMON_CONFIG" 2>/dev/null)
-        
+        value_type=$(yq -r ".settings.$key | type" "$MERGED_CONFIG" 2>/dev/null)
+
         if [[ "$value_type" == "!!map" || "$value_type" == "!!seq" ]]; then
             # It's an object or array, output as JSON
-            value=$(yq -o json ".settings.$key" "$COMMON_CONFIG" 2>/dev/null)
+            value=$(yq -o json ".settings.$key" "$MERGED_CONFIG" 2>/dev/null)
             update_claude_ui_settings "$key" "$value"
         else
-            value=$(yq -r ".settings.$key" "$COMMON_CONFIG" 2>/dev/null)
-            
+            value=$(yq -r ".settings.$key" "$MERGED_CONFIG" 2>/dev/null)
+
             # Properly handle strings vs booleans/numbers
             if [[ "$value" =~ ^(true|false|[0-9]+)$ ]]; then
                 update_claude_ui_settings "$key" "$value"
@@ -263,7 +288,7 @@ if [[ -f "$COMMON_CONFIG" ]]; then
             fi
         fi
     done
-    
+
     # Show statusLine preview if configured
     if [[ -f "$CLAUDE_SETTINGS" ]] && jq -e '.statusLine' "$CLAUDE_SETTINGS" >/dev/null 2>&1; then
         local status_type=$(jq -r '.statusLine.type' "$CLAUDE_SETTINGS" 2>/dev/null)
@@ -276,31 +301,30 @@ if [[ -f "$COMMON_CONFIG" ]]; then
     fi
 fi
 
-# Process common MCP servers (if config exists)
-if [[ -f "$COMMON_CONFIG" ]]; then
-    # Read common MCP servers from YAML
-    mcp_names=($(yq -r '.mcp | keys[]' "$COMMON_CONFIG" 2>/dev/null))
+# Process MCP servers from merged config
+if [[ -f "$MERGED_CONFIG" ]]; then
+    mcp_names=($(yq -r '.mcp | keys[]' "$MERGED_CONFIG" 2>/dev/null))
 
     for name in "${mcp_names[@]}"; do
-        transport=$(yq -r ".mcp.$name.transport" "$COMMON_CONFIG" 2>/dev/null)
+        transport=$(yq -r ".mcp.$name.transport" "$MERGED_CONFIG" 2>/dev/null)
 
         if [[ "$transport" == "stdio" ]]; then
             # For stdio transport, read command and args
-            command=$(yq -r ".mcp.$name.command" "$COMMON_CONFIG" 2>/dev/null)
+            command=$(yq -r ".mcp.$name.command" "$MERGED_CONFIG" 2>/dev/null)
             command=$(expand_env_vars "$command")
             local args=()
-            local arg_values=($(yq -r ".mcp.$name.args[]" "$COMMON_CONFIG" 2>/dev/null))
+            local arg_values=($(yq -r ".mcp.$name.args[]" "$MERGED_CONFIG" 2>/dev/null))
             for arg in "${arg_values[@]}"; do
                 args+=("$(expand_env_vars "$arg")")
             done
 
             # Read environment variables if they exist
             local env_vars=()
-            local env_keys=($(yq -r ".mcp.$name.env | keys[]" "$COMMON_CONFIG" 2>/dev/null))
+            local env_keys=($(yq -r ".mcp.$name.env | keys[]" "$MERGED_CONFIG" 2>/dev/null))
             local env_validation_failed=0
 
             for key in "${env_keys[@]}"; do
-                value=$(yq -r ".mcp.$name.env.$key" "$COMMON_CONFIG" 2>/dev/null)
+                value=$(yq -r ".mcp.$name.env.$key" "$MERGED_CONFIG" 2>/dev/null)
 
                 # Validate environment variables before expanding
                 if ! check_env_vars "$value"; then
@@ -318,14 +342,14 @@ if [[ -f "$COMMON_CONFIG" ]]; then
             fi
         else
             # For http/sse transport, read url and headers
-            url=$(yq -r ".mcp.$name.url" "$COMMON_CONFIG" 2>/dev/null)
+            url=$(yq -r ".mcp.$name.url" "$MERGED_CONFIG" 2>/dev/null)
             url=$(expand_env_vars "$url")
 
             # Read headers if they exist
             local headers=()
-            local header_keys=($(yq -r ".mcp.$name.headers | keys[]" "$COMMON_CONFIG" 2>/dev/null))
+            local header_keys=($(yq -r ".mcp.$name.headers | keys[]" "$MERGED_CONFIG" 2>/dev/null))
             for key in "${header_keys[@]}"; do
-                value=$(yq -r ".mcp.$name.headers.$key" "$COMMON_CONFIG" 2>/dev/null)
+                value=$(yq -r ".mcp.$name.headers.$key" "$MERGED_CONFIG" 2>/dev/null)
                 value=$(expand_env_vars "$value")
                 headers+=("$key: $value")
             done
@@ -337,66 +361,8 @@ if [[ -f "$COMMON_CONFIG" ]]; then
     done
 fi
 
-# Process profile-specific MCP servers (if config exists)
-if [[ -f "$PROFILE_CONFIG" ]]; then
-    # Read profile-specific MCP servers from YAML
-    mcp_names=($(yq -r '.mcp | keys[]' "$PROFILE_CONFIG" 2>/dev/null))
-
-    for name in "${mcp_names[@]}"; do
-        transport=$(yq -r ".mcp.$name.transport" "$PROFILE_CONFIG" 2>/dev/null)
-
-        if [[ "$transport" == "stdio" ]]; then
-            # For stdio transport, read command and args
-            command=$(yq -r ".mcp.$name.command" "$PROFILE_CONFIG" 2>/dev/null)
-            command=$(expand_env_vars "$command")
-            local args=()
-            local arg_values=($(yq -r ".mcp.$name.args[]" "$PROFILE_CONFIG" 2>/dev/null))
-            for arg in "${arg_values[@]}"; do
-                args+=("$(expand_env_vars "$arg")")
-            done
-
-            # Read environment variables if they exist
-            local env_vars=()
-            local env_keys=($(yq -r ".mcp.$name.env | keys[]" "$PROFILE_CONFIG" 2>/dev/null))
-            local env_validation_failed=0
-
-            for key in "${env_keys[@]}"; do
-                value=$(yq -r ".mcp.$name.env.$key" "$PROFILE_CONFIG" 2>/dev/null)
-
-                # Validate environment variables before expanding
-                if ! check_env_vars "$value"; then
-                    ui_warning_simple "Skipping MCP server '$name' due to missing environment variables" 0
-                    env_validation_failed=1
-                    break
-                fi
-
-                value=$(expand_env_vars "$value")
-                env_vars+=("$key=$value")
-            done
-
-            if [[ $env_validation_failed -eq 0 && -n "$transport" && -n "$command" ]]; then
-                add_mcp_server "$name" "$transport" "$command" "${args[@]}" "${env_vars[@]}"
-            fi
-        else
-            # For http/sse transport, read url and headers
-            url=$(yq -r ".mcp.$name.url" "$PROFILE_CONFIG" 2>/dev/null)
-            url=$(expand_env_vars "$url")
-
-            # Read headers if they exist
-            local headers=()
-            local header_keys=($(yq -r ".mcp.$name.headers | keys[]" "$PROFILE_CONFIG" 2>/dev/null))
-            for key in "${header_keys[@]}"; do
-                value=$(yq -r ".mcp.$name.headers.$key" "$PROFILE_CONFIG" 2>/dev/null)
-                value=$(expand_env_vars "$value")
-                headers+=("$key: $value")
-            done
-
-            if [[ -n "$transport" && -n "$url" ]]; then
-                add_mcp_server "$name" "$transport" "$url" "${headers[@]}"
-            fi
-        fi
-    done
-fi
+# Clean up temp file
+rm -f "$MERGED_CONFIG"
 
 ui_success_simple "Claude Code configuration complete" 1
 ui_info_simple "Config files: $CLAUDE_CONFIG, $CLAUDE_SETTINGS" 1
