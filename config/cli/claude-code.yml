@@ -78,6 +78,9 @@ mcp:
   notion:
     transport: http
     url: https://mcp.notion.com/mcp
+  excalidraw:
+    transport: http
+    url: https://mcp.excalidraw.com/mcp
   basic-memory:
     transport: stdio
     command: uvx
