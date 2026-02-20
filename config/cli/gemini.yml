@@ -1,0 +1,11 @@
+################################################################################
+#                                                                              #
+#   GEMINI CLI CONFIGURATION                                                   #
+#   -------------------------                                                  #
+#   Defines Gemini CLI extensions and settings.                                #
+#   Processed by core/cli/gemini.zsh.                                          #
+#                                                                              #
+################################################################################
+
+extensions:
+  - https://github.com/gemini-cli-extensions/workspace
