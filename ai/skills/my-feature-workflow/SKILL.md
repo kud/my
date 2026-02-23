@@ -24,10 +24,12 @@ Once you have a clear task, execute these steps in order. Use the **Task tool** 
 - If the user has feedback, adjust and re-plan
 - Pass the approved plan to the implementer in step 4
 
-### Step 2: Create worktree and branch (mandatory)
-- Invoke the **worktree-creator** agent (haiku) with branch `<type>/<description>` and an identifier derived from the description
-- This creates an isolated worktree at `../<repo>-worktrees/<identifier>` with the branch
-- All subsequent steps (implement, commit, push, PR) operate **inside the worktree**
+### Step 2: Create branch (mandatory)
+- Invoke the **git-branch-creator** agent (haiku) with the task description
+- This creates and checks out a branch on the current working tree following naming conventions
+- All subsequent steps operate in the current working directory
+
+> **Worktree mode (opt-in):** If the user explicitly asks to use a worktree (e.g., "use a worktree", "run this in the background"), invoke the **worktree-creator** agent instead. This creates an isolated worktree at `../<repo>-worktrees/<identifier>` with the branch, and all subsequent steps operate inside that worktree.
 
 ### Step 3: Implement
 - Invoke the **implementer** agent (sonnet) with the task description and the approved plan from step 1
@@ -40,10 +42,16 @@ Once you have a clear task, execute these steps in order. Use the **Task tool** 
 - If yes, let it write them
 - Test descriptions should reflect behaviour or scenarios, not implementation details
 
-### Step 5: Commit
+### Step 5: Lint and test
+- Invoke the **linter** and **test-runner** agents in parallel
+- Only run checks relevant to the changed files when possible (pass file list from implementation step)
+- If issues are found, fix them before proceeding
+- If fixes require code changes, those changes are included in the commit
+
+### Step 6: Commit
 - Invoke the **commit-creator** agent (haiku) with a summary of changes
 
-### Step 6: Create PR
+### Step 7: Create PR
 - Invoke the **pr-creator** agent (sonnet)
 - **PR target logic**:
   - Check if an `upstream` remote exists (`git remote get-url upstream`)
@@ -51,10 +59,10 @@ Once you have a clear task, execute these steps in order. Use the **Task tool** 
   - If no upstream: PR targets **origin** default branch
 - Pass the target information to the pr-creator agent
 
-### Step 7: Git command output
+### Step 8: Git command output
 - Invoke the **git-workflow-output** agent (haiku) to produce the full command reference
 
-### Step 8: Summary (mandatory — never skip)
+### Step 9: Summary (mandatory — never skip)
 - Invoke the **workflow-summarizer** agent (haiku) to produce the final summary
 - The summary must be **human-friendly, suitable for sharing with non-engineers**:
   - What problem was addressed (user or system perspective, 1-2 sentences)
@@ -66,10 +74,10 @@ Once you have a clear task, execute these steps in order. Use the **Task tool** 
 
 ## Orchestration Rules
 
-- **Always use worktrees**: Every task gets its own worktree. This enables running multiple Claude instances on different tasks simultaneously.
-- **Pass context forward**: Each agent's output feeds into the next agent's input. Summarize key outputs (worktree path, branch name, file list, commit message, PR URL) as you go.
+- **Branch by default**: Create a branch on the current working tree. Only use worktrees when the user explicitly requests it (for parallel/background work).
+- **Pass context forward**: Each agent's output feeds into the next agent's input. Summarize key outputs (branch name, file list, commit message, PR URL) as you go.
 - **Stop on failure**: If any agent reports an error or blocker, stop the workflow and ask the user how to proceed.
-- **Mandatory steps**: Steps 1, 2, and 8 are never skippable.
+- **Mandatory steps**: Steps 1, 2, and 9 are never skippable.
 - **Be transparent**: Tell the user which step you're on and what agent you're invoking.
 
 ## Error Handling
