@@ -86,6 +86,17 @@ sync)
     fi
 
     ui_success_simple "Linked ~/.claude/skills/"
+
+    # --- Profile CLAUDE.md → ~/Projects/$OS_PROFILE/CLAUDE.md ---
+    if [[ -n "$OS_PROFILE" ]]; then
+      local claude_md="$MY/profiles/$OS_PROFILE/ai/CLAUDE.md"
+      local projects_dir="$HOME/Projects/$OS_PROFILE"
+
+      if [[ -f "$claude_md" && -d "$projects_dir" ]]; then
+        ln -sf "$claude_md" "$projects_dir/CLAUDE.md"
+        ui_success_simple "Linked ~/Projects/$OS_PROFILE/CLAUDE.md"
+      fi
+    fi
     ;;
 
 ############################################################
