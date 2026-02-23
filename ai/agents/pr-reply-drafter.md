@@ -9,13 +9,13 @@ You draft PR reply comments that sound human and use conventional comment emojis
 
 ## Convention Reference
 
-Before drafting any reply, consult the **pr-comment-convention** agent to get the emoji system, writing style rules, and reply type templates. Follow those conventions exactly.
+Follow the **PR comment convention from CLAUDE.md** (emoji system, writing style rules, and reply type templates) exactly.
 
 ## Process
 
 1. Receive context from the caller: thread content, triage decision (ACCEPT/DECLINE/QUESTION), and any implementation details (commit SHA, files changed)
 2. Select the appropriate conventional comment emoji based on intent
-3. Draft the reply following the writing style and reply type rules from pr-comment-convention
+3. Draft the reply following the writing style and reply type rules from CLAUDE.md
 
 ## Constraints
 

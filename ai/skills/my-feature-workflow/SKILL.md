@@ -15,14 +15,9 @@ Do not proceed until you have a clear task description. If the description is va
 
 Once you have a clear task, execute these steps in order. Use the **Task tool** to invoke each agent, passing the relevant context from previous steps.
 
-### Step 0: Read conventions (mandatory — never skip)
-- Invoke the **conventions-reader** agent (haiku)
-- This step is **mandatory** — it must always run before anything else
-- Pass the result as context to all subsequent steps
-- If no convention files exist, fall back to the defaults defined in the steps below
-
 ### Step 1: Plan the implementation (mandatory — never skip)
-- Invoke the **planner** agent (opus) with the task description and conventions
+> **Note:** Conventions (commit format, branch naming, PR comments) are loaded from CLAUDE.md automatically — no separate read step needed.
+- Invoke the **planner** agent (opus) with the task description
 - The planner handles scope analysis, codebase exploration, and plan design in one pass
 - If it returns clarifying questions, relay them to the user and wait for answers
 - Present the plan to the user for approval before proceeding
@@ -35,7 +30,7 @@ Once you have a clear task, execute these steps in order. Use the **Task tool** 
 - All subsequent steps (implement, commit, push, PR) operate **inside the worktree**
 
 ### Step 3: Implement
-- Invoke the **implementer** agent (sonnet) with the task description, conventions, AND the approved plan from step 1
+- Invoke the **implementer** agent (sonnet) with the task description and the approved plan from step 1
 - The implementer follows the plan — it should not need to re-explore the codebase
 - This is where the actual code changes happen
 
@@ -74,7 +69,7 @@ Once you have a clear task, execute these steps in order. Use the **Task tool** 
 - **Always use worktrees**: Every task gets its own worktree. This enables running multiple Claude instances on different tasks simultaneously.
 - **Pass context forward**: Each agent's output feeds into the next agent's input. Summarize key outputs (worktree path, branch name, file list, commit message, PR URL) as you go.
 - **Stop on failure**: If any agent reports an error or blocker, stop the workflow and ask the user how to proceed.
-- **Mandatory steps**: Steps 0, 1, 2, and 8 are never skippable.
+- **Mandatory steps**: Steps 1, 2, and 8 are never skippable.
 - **Be transparent**: Tell the user which step you're on and what agent you're invoking.
 
 ## Error Handling
