@@ -35,6 +35,24 @@ sync)
     # into tool-specific locations (~/.claude/).
     # Profile files override common ones when names collide.
 
+    # --- Global CLAUDE.md → ~/.claude/CLAUDE.md ---
+    local global_claude_md="$MY/ai/CLAUDE.md"
+    if [[ -f "$global_claude_md" ]]; then
+      ln -sf "$global_claude_md" "$HOME/.claude/CLAUDE.md"
+      ui_success_simple "Linked ~/.claude/CLAUDE.md"
+    fi
+
+    # --- Profile CLAUDE.md → ~/Projects/$OS_PROFILE/CLAUDE.md ---
+    if [[ -n "$OS_PROFILE" ]]; then
+      local claude_md="$MY/profiles/$OS_PROFILE/ai/CLAUDE.md"
+      local projects_dir="$HOME/Projects/$OS_PROFILE"
+
+      if [[ -f "$claude_md" && -d "$projects_dir" ]]; then
+        ln -sf "$claude_md" "$projects_dir/CLAUDE.md"
+        ui_success_simple "Linked ~/Projects/$OS_PROFILE/CLAUDE.md"
+      fi
+    fi
+
     # --- Agents: flat .md files ---
     target_dir="$HOME/.claude/agents"
     common_dir="$MY/ai/agents"
@@ -47,19 +65,22 @@ sync)
       rm -f "$stale"
     done
 
+    local agent_count=0
     if [[ -d "$common_dir" ]]; then
       for f in "$common_dir"/*.md(N); do
         ln -sf "$f" "$target_dir/$(basename "$f")"
+        ((agent_count++))
       done
     fi
 
     if [[ -n "$OS_PROFILE" && -d "$profile_dir" ]]; then
       for f in "$profile_dir"/*.md(N); do
         ln -sf "$f" "$target_dir/$(basename "$f")"
+        ((agent_count++))
       done
     fi
 
-    ui_success_simple "Linked ~/.claude/agents/"
+    ui_success_simple "Linked $agent_count agents into ~/.claude/agents/"
 
     # --- Skills: directories containing SKILL.md ---
     target_dir="$HOME/.claude/skills"
@@ -73,30 +94,22 @@ sync)
       rm -f "$stale"
     done
 
+    local skill_count=0
     if [[ -d "$common_dir" ]]; then
       for d in "$common_dir"/*(N/); do
         ln -sf "$d" "$target_dir/$(basename "$d")"
+        ((skill_count++))
       done
     fi
 
     if [[ -n "$OS_PROFILE" && -d "$profile_dir" ]]; then
       for d in "$profile_dir"/*(N/); do
         ln -sf "$d" "$target_dir/$(basename "$d")"
+        ((skill_count++))
       done
     fi
 
-    ui_success_simple "Linked ~/.claude/skills/"
-
-    # --- Profile CLAUDE.md → ~/Projects/$OS_PROFILE/CLAUDE.md ---
-    if [[ -n "$OS_PROFILE" ]]; then
-      local claude_md="$MY/profiles/$OS_PROFILE/ai/CLAUDE.md"
-      local projects_dir="$HOME/Projects/$OS_PROFILE"
-
-      if [[ -f "$claude_md" && -d "$projects_dir" ]]; then
-        ln -sf "$claude_md" "$projects_dir/CLAUDE.md"
-        ui_success_simple "Linked ~/Projects/$OS_PROFILE/CLAUDE.md"
-      fi
-    fi
+    ui_success_simple "Linked $skill_count skills into ~/.claude/skills/"
     ;;
 
 ############################################################
