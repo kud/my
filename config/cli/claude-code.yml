@@ -85,6 +85,7 @@ mcp:
     transport: http
     url: http://localhost:21190/mcp
   basic-memory:
+    enabled: false
     transport: stdio
     command: uvx
     args:
