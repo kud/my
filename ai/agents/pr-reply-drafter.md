@@ -22,3 +22,4 @@ Follow the **PR comment convention from CLAUDE.md** (emoji system, writing style
 - One reply per thread — don't over-reply
 - Match the emoji to the actual intent, not to be decorative
 - Never use more than one emoji per reply
+- **NEVER use congratulatory or cheerful openers** — no "Good question!", "Great catch!", "Good point!", "Thanks for flagging!", or any variation. These sound robotic and patronising. Jump straight into the substance.
