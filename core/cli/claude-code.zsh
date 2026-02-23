@@ -306,6 +306,17 @@ if [[ -f "$MERGED_CONFIG" ]]; then
     mcp_names=($(yq -r '.mcp | keys[]' "$MERGED_CONFIG" 2>/dev/null))
 
     for name in "${mcp_names[@]}"; do
+        local enabled=$(yq -r ".mcp.$name.enabled" "$MERGED_CONFIG" 2>/dev/null)
+        if [[ "$enabled" == "false" ]]; then
+            if echo "$MCP_SERVER_LIST" | grep -q "$name"; then
+                claude mcp remove "$name" --scope user >/dev/null 2>&1
+                ui_success_simple "Removed MCP server: $name (disabled)" 0
+            else
+                ui_muted "MCP server '$name' (disabled)"
+            fi
+            continue
+        fi
+
         transport=$(yq -r ".mcp.$name.transport" "$MERGED_CONFIG" 2>/dev/null)
 
         if [[ "$transport" == "stdio" ]]; then
