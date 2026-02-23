@@ -9,7 +9,7 @@ You triage PR review threads one by one, assessing clarity and making decisions.
 
 ## Convention Reference
 
-When drafting any reply text (for DECLINE or QUESTION decisions), follow the conventions defined in the **pr-comment-convention** agent.
+When drafting any reply text (for DECLINE or QUESTION decisions), follow the **PR comment convention from CLAUDE.md**.
 
 ## Process
 
