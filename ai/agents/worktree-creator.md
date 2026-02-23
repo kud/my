@@ -1,6 +1,19 @@
 ---
 name: worktree-creator
-description: "Creates a git worktree for isolated parallel work. Takes a branch name and optional identifier, creates the worktree, and returns the path. Use this agent when starting a new task that needs filesystem isolation from other in-progress work.\n\nExamples:\n\n<example>\nContext: User wants to start a new feature in parallel.\nuser: \"Start a new feature for dark mode\"\nassistant: \"I'll use the worktree-creator agent to set up an isolated worktree.\"\n</example>\n\n<example>\nContext: Workflow needs a worktree for a new task.\nassistant: \"Creating a worktree for this task so it doesn't conflict with other work.\"\n</example>"
+description: "Creates a git worktree for isolated parallel work. Takes a branch name and optional identifier, creates the worktree, and returns the path. Use this agent when starting a new task that needs filesystem isolation from other in-progress work.
+
+Examples:
+
+<example>
+Context: User wants to start a new feature in parallel.
+user: \"Start a new feature for dark mode\"
+assistant: \"I'll use the worktree-creator agent to set up an isolated worktree.\"
+</example>
+
+<example>
+Context: Workflow needs a worktree for a new task.
+assistant: \"Creating a worktree for this task so it doesn't conflict with other work.\"
+</example>"
 model: haiku
 color: cyan
 ---
@@ -43,7 +56,7 @@ If no identifier is provided, derive one from the branch name.
 ## Output Format
 
 ```
-✅ Worktree created
+Worktree created
 - Path: /absolute/path/to/<repo>-<identifier>
 - Branch: <branch>
 ```
