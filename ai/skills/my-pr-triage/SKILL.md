@@ -23,21 +23,26 @@ Execute these steps in order using the **Task tool** to invoke each agent.
 - For DECLINE and QUESTION decisions, invoke the **pr-reply-drafter** agent to draft replies
 - Present all triage decisions and draft replies to the user for review
 
-### Step 3: Implementation gate
-- Ask explicitly: **"Proceed to implement ACCEPTed items? (yes/no)"**
-- If not an explicit "yes", stop and wait.
-- Also ask if the user wants to post the DECLINE/QUESTION replies now.
+### Step 3: Approval gate
+- Present all triage decisions, draft replies, and implementation plans to the user
+- Ask explicitly: **"Do you want to adjust any decisions or replies before I proceed?"**
+- Let the user debate, edit, or override any decision — this is a discussion, not a rubber stamp
+- Only proceed when the user explicitly approves
 
 ### Step 4: Implement accepted items
 - Invoke the **implementer** agent with ACCEPTed items and their plans
 - Once code changes are done, invoke the **commit-creator** agent to stage and commit
-- For each implemented thread, invoke the **pr-reply-drafter** agent to draft a confirmation reply referencing the commit SHA
-- Post each reply using `gh api`
-- If the user approved posting DECLINE/QUESTION replies, post those too
+
+### Step 5: Post replies (requires explicit approval)
+- Show the user every reply that will be posted (ACCEPT confirmations with commit SHA, DECLINE rationales, QUESTION clarifications)
+- Ask explicitly: **"Ready to post these replies? (yes/no)"**
+- **NEVER post a reply to GitHub without the user's explicit approval**
+- Post approved replies using `gh api`
 - Push: `git push`
 
 ## Constraints
 
+- **NEVER post a comment or reply to GitHub without explicit user approval** — draft first, discuss, then post only when told to
 - Prefer questions over assumptions
 - Avoid unrelated refactors
 - Default to zero comments in code; rely on naming and structure for clarity
