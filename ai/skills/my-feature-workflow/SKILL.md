@@ -58,6 +58,7 @@ Once you have a clear task, execute these steps in order. Use the **Task tool** 
   - If upstream exists: PR targets **upstream** (fork workflow)
   - If no upstream: PR targets **origin** default branch
 - Pass the target information to the pr-creator agent
+- **CRITICAL — PR description MUST use the repo's PR template**: The pr-creator agent MUST find and fill the repo's `.github/pull_request_template.md` (or equivalent). Do NOT override or replace the template structure — all content goes INSIDE the template's sections. Explicitly tell the agent to read the template file first.
 
 ### Step 8: Git command output
 - Invoke the **git-workflow-output** agent (haiku) to produce the full command reference
