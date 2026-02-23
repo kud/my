@@ -28,27 +28,45 @@ You will receive:
 
 If no identifier is provided, derive one from the branch name.
 
+## Directory Layout
+
+Worktrees are grouped in a sibling folder next to the main repo:
+
+```
+parent/
+├── <repo>/                      ← main repo
+├── <repo>-worktrees/            ← worktree container (created if needed)
+│   ├── <identifier>/            ← this worktree
+│   └── <other-identifier>/
+```
+
 ## Steps
 
 1. **Get repo name and root**:
    ```bash
-   basename "$(git rev-parse --show-toplevel)"
+   REPO_ROOT=$(git rev-parse --show-toplevel)
+   REPO_NAME=$(basename "$REPO_ROOT")
    ```
 
-2. **Check for existing worktree** at the target path:
+2. **Ensure the worktrees container exists**:
+   ```bash
+   mkdir -p "$REPO_ROOT/../${REPO_NAME}-worktrees"
+   ```
+
+3. **Check for existing worktree** at the target path:
    ```bash
    git worktree list
    ```
-   - If `../<repo>-<identifier>` already exists, report it and ask the user whether to reuse or pick a new name
+   - If `../<repo>-worktrees/<identifier>` already exists, report it and ask the user whether to reuse or pick a new name
 
-3. **Create the worktree**:
+4. **Create the worktree**:
    ```bash
-   git worktree add ../<repo>-<identifier> -b <branch>
+   git worktree add "$REPO_ROOT/../${REPO_NAME}-worktrees/<identifier>" -b <branch>
    ```
    - The worktree is created from the current HEAD of the default branch
-   - If the branch already exists, use `git worktree add ../<repo>-<identifier> <branch>` (without `-b`)
+   - If the branch already exists, use the same command without `-b`
 
-4. **Return the result**:
+5. **Return the result**:
    - Worktree path (absolute)
    - Branch name
    - Confirmation that it's ready
@@ -57,7 +75,7 @@ If no identifier is provided, derive one from the branch name.
 
 ```
 Worktree created
-- Path: /absolute/path/to/<repo>-<identifier>
+- Path: /absolute/path/to/<repo>-worktrees/<identifier>
 - Branch: <branch>
 ```
 
