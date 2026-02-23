@@ -26,7 +26,7 @@ Once you have a clear task, execute these steps in order. Use the **Task tool** 
 
 ### Step 2: Create worktree and branch (mandatory)
 - Invoke the **worktree-creator** agent (haiku) with branch `<type>/<description>` and an identifier derived from the description
-- This creates an isolated worktree at `../<repo>-<identifier>` with the branch
+- This creates an isolated worktree at `../<repo>-worktrees/<identifier>` with the branch
 - All subsequent steps (implement, commit, push, PR) operate **inside the worktree**
 
 ### Step 3: Implement
