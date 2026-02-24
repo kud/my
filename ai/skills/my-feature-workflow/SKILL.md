@@ -52,12 +52,13 @@ Once you have a clear task, execute these steps in order. Use the **Task tool** 
 - Invoke the **commit-creator** agent (haiku) with a summary of changes
 
 ### Step 7: Create PR
-- Invoke the **pr-creator** agent (sonnet)
-- **PR target logic**:
-  - Check if an `upstream` remote exists (`git remote get-url upstream`)
-  - If upstream exists: PR targets **upstream** (fork workflow)
-  - If no upstream: PR targets **origin** default branch
-- Pass the target information to the pr-creator agent
+- **Before invoking pr-creator**, run `git remote get-url upstream` yourself (Bash tool) to determine the target
+- **Fork workflow** (upstream remote exists):
+  - Derive `<upstream-owner>/<repo>` from the upstream URL (e.g. `git@github.com:gnachman/iTerm2.git` → `gnachman/iTerm2`)
+  - Derive `<fork-owner>` from the origin URL (e.g. `git@github.com:kud/iTerm2.git` → `kud`)
+  - Tell pr-creator: use `gh pr create --repo <upstream-owner>/<repo> --head <fork-owner>:<branch> --base master`
+- **No upstream** (origin-only workflow):
+  - Tell pr-creator: PR targets origin default branch, use standard `gh pr create`
 - **CRITICAL — PR description MUST use the repo's PR template**: The pr-creator agent MUST find and fill the repo's `.github/pull_request_template.md` (or equivalent). Do NOT override or replace the template structure — all content goes INSIDE the template's sections. Explicitly tell the agent to read the template file first.
 
 ### Step 8: Git command output
