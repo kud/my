@@ -10,7 +10,8 @@ pager:
 aliases:
     co: pr checkout
     prw: pr view --web
-    jenkins: '!gh pr checks --json name,link | jq -r ".[] | select(.name==\"default\") | .link" | xargs open'
+    jenkins: '!gh-jenkins'
+    pr-status: '!gh-pr-status'
 # The path to a unix socket through which send HTTP connections. If blank, HTTP traffic will be handled by net/http.DefaultTransport.
 http_unix_socket:
 # What web browser gh should use when opening URLs. If blank, will refer to environment.
