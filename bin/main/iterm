@@ -1,0 +1,100 @@
+#!/usr/bin/env zsh
+
+################################################################################
+#                                                                              #
+#   🖥  ITERM2 SUGAR                                                           #
+#   ---------------                                                            #
+#   Convenience wrappers around the iTerm2 Python API.                        #
+#                                                                              #
+#   Usage:                                                                     #
+#     iterm pane [--right|--bottom] [cmd]   Split pane, run optional command  #
+#     iterm tab  [cmd]              Open new tab, run optional command         #
+#     iterm focus                   Bring iTerm2 window to front              #
+#                                                                              #
+################################################################################
+
+# ---------------------------------------------------------------------------
+# Locate a Python that has the iterm2 package available
+# ---------------------------------------------------------------------------
+_iterm_python() {
+  # iTerm2 bundled runtime (installed via Scripts → Manage → Install Python Runtime)
+  local bundled
+  bundled=$(print -l "$HOME/Library/ApplicationSupport/iTerm2/iterm2env/versions/"*/bin/python3(N) 2>/dev/null | sort | tail -1)
+  if [[ -n "$bundled" && -x "$bundled" ]]; then
+    echo "$bundled"
+    return
+  fi
+
+  # System / mise / homebrew python3 with iterm2 installed via pip
+  if python3 -c "import iterm2" 2>/dev/null; then
+    echo "python3"
+    return
+  fi
+
+  echo ""
+}
+
+# ---------------------------------------------------------------------------
+# Run iterm.py with action + options via environment variables
+# ---------------------------------------------------------------------------
+_iterm_run() {
+  local python
+  python=$(_iterm_python)
+
+  if [[ -z "$python" ]]; then
+    echo "iterm: iTerm2 Python API not found."
+    echo "Install it with: my uv  (iterm2 is in config/packages/uv.yml)"
+    exit 1
+  fi
+
+  ITERM_ACTION="$ITERM_ACTION" \
+  ITERM_VERTICAL="$ITERM_VERTICAL" \
+  ITERM_CMD="$ITERM_CMD" \
+  "$python" "$MY/core/scripts/iterm.py"
+}
+
+# ---------------------------------------------------------------------------
+# Commands
+# ---------------------------------------------------------------------------
+case "$1" in
+
+pane)
+  shift
+  export ITERM_ACTION="pane"
+  export ITERM_VERTICAL="true"
+  case "$1" in
+    --right)  export ITERM_VERTICAL="true";  shift ;;
+    --bottom) export ITERM_VERTICAL="false"; shift ;;
+  esac
+  export ITERM_CMD="${*:-}"
+  _iterm_run
+  ;;
+
+tab)
+  shift
+  export ITERM_ACTION="tab"
+  export ITERM_VERTICAL=""
+  export ITERM_CMD="${*:-}"
+  _iterm_run
+  ;;
+
+focus)
+  osascript -e 'tell application "iTerm2" to activate'
+  ;;
+
+--help|-h|help|"")
+  echo "Usage: iterm <command> [options] [cmd]"
+  echo ""
+  echo "Commands:"
+  echo "  pane [--right|--bottom] [cmd]   Split right (default) or below, run command"
+  echo "  tab  [cmd]              Open new tab and run command"
+  echo "  focus                   Bring iTerm2 to front"
+  ;;
+
+*)
+  echo "iterm: unknown command '$1'"
+  echo "Run 'iterm --help' for usage."
+  exit 1
+  ;;
+
+esac

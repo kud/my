@@ -1,6 +1,7 @@
 packages:
   pip:
     - pdf2docx
+    - iterm2
   tool:
     - basic-memory
     - mistral-vibe
