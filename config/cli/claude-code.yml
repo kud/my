@@ -16,6 +16,13 @@ settings:
   permissions:
     allow:
       - Bash(npm run test *)
+      # Git read/inspect operations - auto-accept
+      - Bash(git -C * rev-parse *)
+      - Bash(git -C * status *)
+      - Bash(git -C * log *)
+      - Bash(git rev-parse *)
+      - Bash(git status *)
+      - Bash(git log *)
       - Bash(git diff *)
       # Regular git push - auto-accept
       - Bash(git push)
