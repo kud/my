@@ -1,0 +1,20 @@
+#!/usr/bin/env zsh
+
+################################################################################
+#                                                                              #
+#   🏗  GH JENKINS                                                              #
+#   -------------                                                              #
+#   Opens the Jenkins CI build for the current PR in the browser.             #
+#                                                                              #
+#   Usage: gh jenkins                                                          #
+#                                                                              #
+################################################################################
+
+url=$(gh pr checks --json name,link | jq -r '.[] | select(.name=="default") | .link')
+
+if [[ -z "$url" ]]; then
+  echo "gh-jenkins: no Jenkins build found for this PR"
+  exit 1
+fi
+
+open "$url"

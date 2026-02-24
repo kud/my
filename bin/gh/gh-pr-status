@@ -1,0 +1,49 @@
+#!/usr/bin/env zsh
+
+################################################################################
+#                                                                              #
+#   🔍 PR STATUS                                                               #
+#   ----------                                                                 #
+#   Shows CI checks + approval count for the current branch's PR.             #
+#                                                                              #
+#   Usage: pr-status                                                           #
+#                                                                              #
+################################################################################
+
+data=$(gh pr view --json number,title,headRefName,statusCheckRollup,reviews 2>/dev/null)
+
+if [[ -z "$data" ]]; then
+  echo "pr-status: no open PR found for this branch"
+  exit 1
+fi
+
+echo "$data" | python3 - <<'EOF'
+import sys, json
+
+data = json.load(sys.stdin)
+
+number      = data["number"]
+branch      = data["headRefName"]
+checks      = data.get("statusCheckRollup") or []
+reviews     = data.get("reviews") or []
+
+# Checks
+passed   = sum(1 for c in checks if c.get("conclusion") in ("SUCCESS", "NEUTRAL", "SKIPPED"))
+failed   = sum(1 for c in checks if c.get("conclusion") in ("FAILURE", "ERROR", "CANCELLED", "TIMED_OUT", "ACTION_REQUIRED"))
+pending  = sum(1 for c in checks if c.get("conclusion") is None and c.get("state") not in ("SUCCESS", "FAILURE", "ERROR"))
+
+# Reviews (latest per author)
+latest = {}
+for r in reviews:
+    latest[r["author"]["login"]] = r["state"]
+approved   = sum(1 for s in latest.values() if s == "APPROVED")
+changes    = sum(1 for s in latest.values() if s == "CHANGES_REQUESTED")
+rev_pending = sum(1 for s in latest.values() if s == "PENDING")
+
+checks_icon  = "✅" if failed == 0 and pending == 0 and passed > 0 else ("❌" if failed > 0 else "⏳")
+reviews_icon = "✅" if approved > 0 and changes == 0 else ("❌" if changes > 0 else "⏳")
+
+print(f"PR #{number}  {branch}\n")
+print(f"Checks   {checks_icon}  {passed} passed  {'❌ ' + str(failed) + ' failed  ' if failed else ''}{('⏳ ' + str(pending) + ' pending') if pending else ''}")
+print(f"Reviews  {reviews_icon}  {approved} approved  {changes} changes requested  {rev_pending} pending")
+EOF

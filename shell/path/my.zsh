@@ -15,6 +15,9 @@ export PATH=$MY/bin/main:$PATH
 # Git commands
 export PATH=$MY/bin/git:$PATH
 
+# GitHub CLI commands
+export PATH=$MY/bin/gh:$PATH
+
 # Profile-specific bins (requires OS_PROFILE to be set by local.zsh first)
 if [[ -n "$OS_PROFILE" ]]; then
   export PATH=$MY/profiles/$OS_PROFILE/bin/main:$PATH
