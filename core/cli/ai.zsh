@@ -61,7 +61,7 @@ sync)
     [[ -L "$target_dir" ]] && rm -f "$target_dir"
     mkdir -p "$target_dir"
 
-    for stale in "$target_dir"/*.md(N@); do
+    for stale in "$target_dir"/*.md(N); do
       rm -f "$stale"
     done
 
@@ -90,8 +90,8 @@ sync)
     [[ -L "$target_dir" ]] && rm -f "$target_dir"
     mkdir -p "$target_dir"
 
-    for stale in "$target_dir"/*(N@); do
-      rm -f "$stale"
+    for stale in "$target_dir"/*(N); do
+      rm -rf "$stale"
     done
 
     local skill_count=0

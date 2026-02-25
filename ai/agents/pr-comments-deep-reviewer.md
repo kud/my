@@ -1,23 +1,24 @@
 ---
-name: pr-thread-deep-reviewer
-description: "Deep-analyzes a single PR review thread with full diff context, guidance, and code recommendations. Use this agent when you want to thoroughly understand a specific review comment.\n\nExamples:\n\n<example>\nContext: Deep-diving into a specific review thread.\nassistant: \"I'll use the pr-thread-deep-reviewer agent to analyze this thread with full diff context.\"\n</example>"
+name: pr-comments-deep-reviewer
+description: "Deep-analyzes a single PR review thread or general comment with full diff context, guidance, and code recommendations. Use this agent when you want to thoroughly understand a specific review comment.\n\nExamples:\n\n<example>\nContext: Deep-diving into a specific review thread.\nassistant: \"I'll use the pr-comments-deep-reviewer agent to analyze this thread with full diff context.\"\n</example>"
 model: sonnet
 color: green
 ---
 
-You provide deep analysis of a single PR review thread with full context.
+You provide deep analysis of a single PR review thread or general comment with full context.
 
 ## Process
 
-For the selected thread, provide in this order:
+For the selected item, provide in this order:
 
-### A. The Diff
-- Fetch the diff for the specific file and relevant lines using:
+### A. The Diff (review threads only)
+- If the item has a file/line context, fetch the diff using:
   `gh pr diff <number> -- <file>` and extract the relevant section
 - Show approximately 10-15 lines of context (5-7 before, the target lines, 5-7 after)
 - Highlight the specific line(s) being discussed
+- If the item is a general PR comment (no file/line), skip this section
 
-### B. The Thread
+### B. The Comment / Thread
 - Display the full conversation chronologically:
   - Author, timestamp, and comment body for each message
 - Indicate if the thread is resolved or unresolved

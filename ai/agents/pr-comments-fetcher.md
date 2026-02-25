@@ -1,6 +1,6 @@
 ---
-name: pr-thread-fetcher
-description: "Identifies the current PR and fetches both unresolved review threads (GraphQL) and general PR comments (REST). Supports filtering by author (include or exclude). Returns structured data for downstream agents.\n\nExamples:\n\n<example>\nContext: Fetching all unresolved threads on current PR.\nassistant: \"I'll use the pr-thread-fetcher agent to identify the PR and pull unresolved review threads.\"\n</example>\n\n<example>\nContext: Fetching only threads from a specific reviewer.\nassistant: \"Let me use the pr-thread-fetcher agent to get unresolved threads from that reviewer.\"\n</example>"
+name: pr-comments-fetcher
+description: "Identifies the current PR and fetches both unresolved review threads (GraphQL) and general PR comments from the main discussion (REST). Supports filtering by author (include or exclude). Returns structured data for downstream agents.\n\nExamples:\n\n<example>\nContext: Fetching all unresolved threads on current PR.\nassistant: \"I'll use the pr-comments-fetcher agent to identify the PR and pull unresolved review threads.\"\n</example>\n\n<example>\nContext: Fetching only threads from a specific reviewer.\nassistant: \"Let me use the pr-comments-fetcher agent to get unresolved threads from that reviewer.\"\n</example>"
 model: haiku
 color: cyan
 ---
