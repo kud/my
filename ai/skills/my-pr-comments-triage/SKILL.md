@@ -1,5 +1,5 @@
 ---
-name: my-pr-triage
+name: my-pr-comments-triage
 description: "Triages and processes PR review feedback from others on your current branch. Fetches unresolved threads, builds a TODO checklist, triages each thread (ACCEPT/DECLINE/QUESTION), drafts replies, and implements accepted items after approval. Use this when others have reviewed your PR and you need to respond."
 ---
 

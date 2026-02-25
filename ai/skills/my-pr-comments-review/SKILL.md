@@ -1,5 +1,5 @@
 ---
-name: my-pr-review
+name: my-pr-comments-review
 description: "Helps discuss and debate review threads on PRs you are reviewing (not your own). Fetches threads, shows diff context, provides guidance, drafts replies using conventional comment emojis. Use this when reviewing someone else's PR and you want help thinking through feedback."
 ---
 
@@ -13,7 +13,7 @@ Execute these steps in order using the **Task tool** to invoke each agent.
 - If a PR number is provided, invoke the **pr-comments-fetcher** agent with that PR number and filter: `all`
 - If no PR number, ask for it explicitly.
 - Confirm the PR author is NOT "kud" (this skill is for reviewing other people's PRs).
-- If the PR author is "kud", stop and suggest using `/my-pr-address` or `/my-pr-triage` instead.
+- If the PR author is "kud", stop and suggest using `/my-pr-comments-address` or `/my-pr-comments-triage` instead.
 
 ### Step 1: List threads
 - Present a numbered list of threads from the fetcher output:
