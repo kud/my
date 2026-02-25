@@ -37,6 +37,7 @@ Execute these steps in order using the **Task tool** to invoke each agent.
 - Show the user every reply that will be posted (ACCEPT confirmations with commit SHA, DECLINE rationales, QUESTION clarifications)
 - Ask explicitly: **"Ready to post these replies? (yes/no)"**
 - **NEVER post a reply to GitHub without the user's explicit approval**
+- Every reply must start with `@<reviewer-username>` to mention the author being replied to
 - Post approved replies using `gh api`
 - Push: `git push`
 
