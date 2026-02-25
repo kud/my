@@ -10,7 +10,7 @@ You are helping "kud" discuss and debate review threads on a PR they are reviewi
 Execute these steps in order using the **Task tool** to invoke each agent.
 
 ### Step 0: Identify the target PR
-- If a PR number is provided, invoke the **pr-thread-fetcher** agent with that PR number and filter: `all`
+- If a PR number is provided, invoke the **pr-comments-fetcher** agent with that PR number and filter: `all`
 - If no PR number, ask for it explicitly.
 - Confirm the PR author is NOT "kud" (this skill is for reviewing other people's PRs).
 - If the PR author is "kud", stop and suggest using `/my-pr-address` or `/my-pr-triage` instead.
@@ -28,7 +28,7 @@ Execute these steps in order using the **Task tool** to invoke each agent.
 - If only one unresolved thread exists, proceed with it automatically.
 
 ### Step 3: Analyze thread
-- Invoke the **pr-thread-deep-reviewer** agent with the selected thread and PR number
+- Invoke the **pr-comments-deep-reviewer** agent with the selected thread/comment and PR number
 - It will show: diff context, full thread conversation, guidance, and recommendations
 
 ### Step 4: Discussion options
