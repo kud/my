@@ -7,6 +7,7 @@
 #   Manages AI assets and client configurations.                              #
 #                                                                              #
 #   Usage:                                                                     #
+#     my ai show                      List all agents and skills by profile   #
 #     my ai sync                      Symlink agents/skills into ~/.claude/   #
 #     my ai client <name>             Configure a specific AI client          #
 #     my ai client [--force]          Configure all AI clients                #
@@ -26,6 +27,48 @@ declare -a ai_clients=(
 )
 
 case "$1" in
+
+############################################################
+# my ai show
+############################################################
+show)
+    local global_agents="$MY/ai/agents"
+    local global_skills="$MY/ai/skills"
+    local profile_agents="$MY/profiles/$OS_PROFILE/ai/agents"
+    local profile_skills="$MY/profiles/$OS_PROFILE/ai/skills"
+
+    ui_section "Agents"
+
+    ui_subsection "Global"
+    if [[ -d "$global_agents" ]]; then
+        for f in "$global_agents"/*.md(N); do
+            ui_info_simple "$(basename $f .md)" 0
+        done
+    fi
+
+    if [[ -n "$OS_PROFILE" && -d "$profile_agents" ]]; then
+        ui_subsection "$OS_PROFILE"
+        for f in "$profile_agents"/*.md(N); do
+            ui_info_simple "$(basename $f .md)" 0
+        done
+    fi
+
+    ui_section "Skills"
+
+    ui_subsection "Global"
+    if [[ -d "$global_skills" ]]; then
+        for d in "$global_skills"/*(N/); do
+            ui_info_simple "$(basename $d)" 0
+        done
+    fi
+
+    if [[ -n "$OS_PROFILE" && -d "$profile_skills" ]]; then
+        ui_subsection "$OS_PROFILE"
+        for d in "$profile_skills"/*(N/); do
+            ui_info_simple "$(basename $d)" 0
+        done
+    fi
+    ;;
 
 ############################################################
 # my ai sync
@@ -204,6 +247,7 @@ client)
     echo "Usage: my ai <command>"
     echo ""
     echo "Commands:"
+    echo "  show                  List all agents and skills by profile"
     echo "  sync                  Symlink agents/skills into ~/.claude/"
     echo "  client [name]         Configure AI client(s)"
     echo ""
