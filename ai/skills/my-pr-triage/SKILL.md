@@ -9,16 +9,16 @@ You are processing PR review feedback for the current branch. The user ("kud") i
 
 Execute these steps in order using the **Task tool** to invoke each agent.
 
-### Step 0: Fetch threads
-- Invoke the **pr-thread-fetcher** agent with filter: `exclude-author:kud`
-- If no PR is found or no unresolved threads from reviewers exist, stop.
+### Step 0: Fetch comments
+- Invoke the **pr-comments-fetcher** agent with filter: `exclude-author:kud`
+- If no PR is found or no unresolved threads/comments from reviewers exist, stop.
 
 ### Step 1: Build checklist
-- Invoke the **pr-checklist-builder** agent with the thread data from step 0
+- Invoke the **pr-checklist-builder** agent with the comment data from step 0
 - Present the checklist to the user
 
-### Step 2: Triage threads
-- Invoke the **pr-thread-triager** agent with all threads
+### Step 2: Triage comments
+- Invoke the **pr-comments-triager** agent with all threads and general comments
 - For each thread, it will assess clarity and decide: ACCEPT / DECLINE / QUESTION
 - For DECLINE and QUESTION decisions, invoke the **pr-reply-drafter** agent to draft replies
 - Present all triage decisions and draft replies to the user for review

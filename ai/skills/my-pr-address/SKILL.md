@@ -9,12 +9,12 @@ You are implementing the PR author's own review comments on the current branch. 
 
 Execute these steps in order using the **Task tool** to invoke each agent.
 
-### Step 0: Fetch threads
-- Invoke the **pr-thread-fetcher** agent with filter: `author-only:kud`
-- If no PR is found or no unresolved threads from kud exist, stop.
+### Step 0: Fetch comments
+- Invoke the **pr-comments-fetcher** agent with filter: `author-only:kud`
+- If no PR is found or no unresolved threads/comments from kud exist, stop.
 
 ### Step 1: Build checklist
-- Invoke the **pr-checklist-builder** agent with the thread data from step 0
+- Invoke the **pr-checklist-builder** agent with the comment data from step 0
 - Present the checklist to the user
 
 ### Step 2: Planning (no code changes yet)
