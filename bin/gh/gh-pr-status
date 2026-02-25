@@ -11,39 +11,60 @@
 ################################################################################
 
 data=$(gh pr view --json number,title,headRefName,statusCheckRollup,reviews 2>/dev/null)
+gh_exit=$?
 
-if [[ -z "$data" ]]; then
+if [[ $gh_exit -ne 0 || -z "$data" ]]; then
   echo "pr-status: no open PR found for this branch"
   exit 1
 fi
 
-echo "$data" | python3 - <<'EOF'
-import sys, json
+PR_JSON="$data" python3 - <<'EOF'
+import json, os
 
-data = json.load(sys.stdin)
+RESET  = "\033[0m"
+BOLD   = "\033[1m"
+DIM    = "\033[2m"
+GREEN  = "\033[32m"
+RED    = "\033[31m"
+YELLOW = "\033[33m"
+
+def green(s):  return f"{GREEN}{s}{RESET}"
+def red(s):    return f"{RED}{s}{RESET}"
+def yellow(s): return f"{YELLOW}{s}{RESET}"
+def bold(s):   return f"{BOLD}{s}{RESET}"
+def dim(s):    return f"{DIM}{s}{RESET}"
+
+data = json.loads(os.environ['PR_JSON'])
 
 number      = data["number"]
 branch      = data["headRefName"]
 checks      = data.get("statusCheckRollup") or []
 reviews     = data.get("reviews") or []
 
-# Checks
 passed   = sum(1 for c in checks if c.get("conclusion") in ("SUCCESS", "NEUTRAL", "SKIPPED"))
 failed   = sum(1 for c in checks if c.get("conclusion") in ("FAILURE", "ERROR", "CANCELLED", "TIMED_OUT", "ACTION_REQUIRED"))
 pending  = sum(1 for c in checks if c.get("conclusion") is None and c.get("state") not in ("SUCCESS", "FAILURE", "ERROR"))
 
-# Reviews (latest per author)
 latest = {}
 for r in reviews:
     latest[r["author"]["login"]] = r["state"]
-approved   = sum(1 for s in latest.values() if s == "APPROVED")
-changes    = sum(1 for s in latest.values() if s == "CHANGES_REQUESTED")
+approved    = sum(1 for s in latest.values() if s == "APPROVED")
+changes     = sum(1 for s in latest.values() if s == "CHANGES_REQUESTED")
 rev_pending = sum(1 for s in latest.values() if s == "PENDING")
 
 checks_icon  = "✅" if failed == 0 and pending == 0 and passed > 0 else ("❌" if failed > 0 else "⏳")
 reviews_icon = "✅" if approved > 0 and changes == 0 else ("❌" if changes > 0 else "⏳")
 
-print(f"PR #{number}  {branch}\n")
-print(f"Checks   {checks_icon}  {passed} passed  {'❌ ' + str(failed) + ' failed  ' if failed else ''}{('⏳ ' + str(pending) + ' pending') if pending else ''}")
-print(f"Reviews  {reviews_icon}  {approved} approved  {changes} changes requested  {rev_pending} pending")
+check_parts = [green(f"{passed} passed")]
+if failed:  check_parts.append(red(f"{failed} failed"))
+if pending: check_parts.append(yellow(f"{pending} pending"))
+
+review_parts = [green(f"{approved} approved") if approved else dim(f"{approved} approved")]
+if changes:     review_parts.append(red(f"{changes} changes requested"))
+if rev_pending: review_parts.append(yellow(f"{rev_pending} pending"))
+
+sep = dim(" · ")
+print(f"{bold(f'PR #{number}')}  {dim('·')}  {branch}\n")
+print(f"  Checks   {checks_icon}  {sep.join(check_parts)}")
+print(f"  Reviews  {reviews_icon}  {sep.join(review_parts)}")
 EOF
