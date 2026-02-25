@@ -40,6 +40,11 @@ Execute these steps in order using the **Task tool** to invoke each agent.
 - Post approved replies using `gh api`
 - Push: `git push`
 
+### Step 6: Re-request review (requires explicit approval)
+- Ask explicitly: **"Re-request review from all reviewers? (yes/no)"**
+- If yes, run: `gh pr edit <number> --add-reviewer <reviewer1>,<reviewer2>,...` using the current reviewers on the PR (`gh pr view --json reviewRequests`)
+- Output: ✅ **Review re-requested** from <reviewer logins>
+
 ## Constraints
 
 - **NEVER post a comment or reply to GitHub without explicit user approval** — draft first, discuss, then post only when told to
