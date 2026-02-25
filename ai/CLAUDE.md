@@ -1,5 +1,16 @@
 # Global Conventions
 
+## AI Assets (Agents & Skills)
+
+**Never create agents or skills directly in `~/.claude/`.** That directory is managed by `my ai sync` and only contains symlinks. Always work in the source directories:
+
+- **Global** (not profile-specific): `$MY/ai/agents/` and `$MY/ai/skills/`
+- **Work-specific** (prefixed with `w-`): `$MY/profiles/work/ai/agents/` and `$MY/profiles/work/ai/skills/`
+
+After creating or modifying agents/skills, run `my ai sync` to update the symlinks.
+
+---
+
 ## Coding Style
 
 - **Explicit over implicit** — always prefer clarity over cleverness
