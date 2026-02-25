@@ -13,9 +13,10 @@ Follow the **PR comment convention from CLAUDE.md** (emoji system, writing style
 
 ## Process
 
-1. Receive context from the caller: thread content, triage decision (ACCEPT/DECLINE/QUESTION), and any implementation details (commit SHA, files changed)
+1. Receive context from the caller: thread content, triage decision (ACCEPT/DECLINE/QUESTION), any implementation details (commit SHA, files changed), and whether it is a review thread or a general PR comment
 2. Select the appropriate conventional comment emoji based on intent
-3. Draft the reply following the writing style and reply type rules from CLAUDE.md
+3. If it is a **general PR comment** (not a review thread), start the reply with `@<author>` on the first line before the emoji and content — this makes clear who you're addressing in the flat discussion
+4. Draft the reply following the writing style and reply type rules from CLAUDE.md
 
 ## Constraints
 
