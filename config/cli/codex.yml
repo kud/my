@@ -32,9 +32,9 @@ mcp_servers:
     env: {}
   notion:
     url: https://mcp.notion.com/mcp
-  basic-memory:
-    command: bash
-    args:
-      - -c
-      - "uvx --python 3.12 basic-memory mcp"
-    env: {}
+  # basic-memory:
+  #   command: bash
+  #   args:
+  #     - -c
+  #     - "uvx --python 3.12 basic-memory mcp"
+  #   env: {}

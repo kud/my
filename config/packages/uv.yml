@@ -3,5 +3,5 @@ packages:
     - pdf2docx
     - iterm2
   tool:
-    - basic-memory
+    # - basic-memory
     - mistral-vibe

@@ -17,9 +17,9 @@ mcp_servers:
     headers:
       Authorization: "Bearer ${MCP_GITHUB_TOKEN}"
     
-  - name: "basic-memory"
-    transport: "stdio"
-    command: ["uvx", "--python", "3.12", "basic-memory", "mcp"]
+  # - name: "basic-memory"
+  #   transport: "stdio"
+  #   command: ["uvx", "--python", "3.12", "basic-memory", "mcp"]
     
   - name: "notion"
     transport: "http"

@@ -33,12 +33,12 @@ mcp:
       - -y
       - mcp-remote@latest
       - https://mcp.notion.com/mcp
-  basic-memory:
-    type: local
-    enabled: true
-    command:
-      - uvx
-      - --python
-      - "3.12"
-      - basic-memory
-      - mcp
+  # basic-memory:
+  #   type: local
+  #   enabled: true
+  #   command:
+  #     - uvx
+  #     - --python
+  #     - "3.12"
+  #     - basic-memory
+  #     - mcp

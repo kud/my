@@ -8,14 +8,14 @@ config:
 
 # Common MCP servers (all profiles)
 mcpServers:
-  basic-memory:
-    type: local
-    command: uvx
-    args:
-      - --python
-      - "3.12"
-      - basic-memory
-      - mcp
-    headers: {}
-    tools:
-      - "*"
+  # basic-memory:
+  #   type: local
+  #   command: uvx
+  #   args:
+  #     - --python
+  #     - "3.12"
+  #     - basic-memory
+  #     - mcp
+  #   headers: {}
+  #   tools:
+  #     - "*"
