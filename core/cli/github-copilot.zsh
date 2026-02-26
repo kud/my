@@ -106,11 +106,10 @@ if [[ -f "$COMMON_CONFIG" ]]; then
         local server_count=$(yq eval '.mcpServers | keys | length' -o=json "$MCP_OUTPUT_FILE")
         local servers=$(yq eval '.mcpServers | keys | .[]' -o=json "$MCP_OUTPUT_FILE" | tr '\n' ' ')
         
-        echo ""
-        ui_success_simple "GitHub Copilot MCP configuration complete" 0
-        ui_info_simple "Config file: $CONFIG_OUTPUT_FILE" 0
-        ui_info_simple "MCP config: $MCP_OUTPUT_FILE" 0
-        ui_info_simple "MCP servers ($server_count): $servers" 0
+        ui_success_simple "GitHub Copilot MCP configuration complete" 1
+        ui_info_simple "Config file: $CONFIG_OUTPUT_FILE"
+        ui_info_simple "MCP config: $MCP_OUTPUT_FILE"
+        ui_info_simple "MCP servers ($server_count): $servers"
     else
         ui_error_msg "Failed to generate valid JSON config" 1
         return 1

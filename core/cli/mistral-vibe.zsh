@@ -228,6 +228,6 @@ echo "transport = \"http\"" >> "$output_file"
 echo "url = \"https://mcp.notion.com/mcp\"" >> "$output_file"
 echo "" >> "$output_file"
 
-ui_success_simple "Mistral Vibe theme and MCP servers configured" 0
-ui_info_simple "Config file: $output_file" 0
+ui_success_simple "Mistral Vibe configuration complete" 1
+ui_info_simple "Config file: $output_file"
 ui_spacer

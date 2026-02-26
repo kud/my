@@ -376,4 +376,5 @@ fi
 rm -f "$MERGED_CONFIG"
 
 ui_success_simple "Claude Code configuration complete" 1
-ui_info_simple "Config files: $CLAUDE_CONFIG, $CLAUDE_SETTINGS" 1
+ui_info_simple "Config files: $CLAUDE_CONFIG, $CLAUDE_SETTINGS"
+ui_spacer
