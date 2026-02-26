@@ -91,13 +91,13 @@ mcp:
   whimsical:
     transport: http
     url: http://localhost:21190/mcp
-  basic-memory:
-    enabled: false
-    transport: stdio
-    command: uvx
-    args:
-      - --python
-      - "3.12"
-      - basic-memory
-      - mcp
-    env: {}
+  # basic-memory:
+  #   enabled: false
+  #   transport: stdio
+  #   command: uvx
+  #   args:
+  #     - --python
+  #     - "3.12"
+  #     - basic-memory
+  #     - mcp
+  #   env: {}
