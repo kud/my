@@ -505,8 +505,6 @@ if [[ -f "$PROFILE_CONFIG" ]]; then
     done
 fi
 
-echo ""
-ui_success_simple "Codex CLI configuration complete" 0
-ui_info_simple "Config file: $HOME/.codex/config.toml" 0
-
+ui_success_simple "Codex CLI configuration complete" 1
+ui_info_simple "Config file: $HOME/.codex/config.toml"
 ui_spacer
