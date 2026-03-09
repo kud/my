@@ -33,6 +33,17 @@ if [[ -d "$npm_prefix/lib/node_modules" ]]; then
     find "$npm_prefix/lib/node_modules" -type d -name ".*-*" -exec rm -rf {} + 2>/dev/null || true
 fi
 
+################################################################################
+# 🧹 YARN v1/.yarnrc CLEANUP
+################################################################################
+
+# yarn v4 (berry) can leak `"" true` into ~/.yarnrc (v1 format) when both
+# ~/.yarnrc and ~/.yarnrc.yml coexist — strip any such empty-key lines.
+if [[ -f ~/.yarnrc ]] && grep -q '^""' ~/.yarnrc 2>/dev/null; then
+    sed -i '' '/^""/d' ~/.yarnrc
+    ui_success_simple "Removed corrupt yarn v1 entry from ~/.yarnrc" 1
+fi
+
 ui_subsection "Updating npm packages"
 npm update -g
 ui_success_simple "npm packages updated" 1
