@@ -25,6 +25,7 @@ Execute these steps in order using the **Task tool** to invoke each agent.
 
 ### Step 3: Approval gate
 - Present all triage decisions, draft replies, and implementation plans to the user
+- Format draft replies as fenced code blocks (``` ` ``` ` ``` ` ```) so they render with full contrast, never as blockquotes
 - Ask explicitly: **"Do you want to adjust any decisions or replies before I proceed?"**
 - Let the user debate, edit, or override any decision — this is a discussion, not a rubber stamp
 - Only proceed when the user explicitly approves

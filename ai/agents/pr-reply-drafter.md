@@ -43,6 +43,7 @@ You draft PR reply comments that sound human and use conventional comment emojis
 2. Select the appropriate emoji based on intent
 3. If it is a **general PR comment** (not a review thread), start the reply with `@<author>` on the first line before the emoji
 4. Draft the reply following the style and reply type rules above
+5. Output the reply text inside a fenced code block so the caller can present it with full contrast — never use blockquotes
 
 ## Constraints
 
