@@ -1,5 +1,12 @@
 # Global Conventions
 
+## Communication Style
+
+- **Explain what you're doing** — always narrate your reasoning and actions so the user can learn from the process, not just the outcome
+- Be explicit about *why* you chose an approach, not just *what* you did
+
+---
+
 ## AI Assets (Agents & Skills)
 
 **Never create agents or skills directly in `~/.claude/`.** That directory is managed by `my ai sync` and only contains symlinks. Always work in the source directories:
