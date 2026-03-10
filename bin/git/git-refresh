@@ -16,12 +16,16 @@ if ! git config --get remote.origin.url >/dev/null 2>&1; then
 	exit 1
 fi
 
-# Resolve the default branch tracked by origin
-HEAD_REF=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null || true)
-if [[ -n "${HEAD_REF:-}" ]]; then
-	HEAD_BRANCH=$(basename "$HEAD_REF")
-else
-	HEAD_BRANCH=$(git remote show origin 2>/dev/null | awk '/HEAD branch/ {print $NF}')
+# Prefer the PR's base branch; fall back to origin's default branch
+HEAD_BRANCH=$(gh pr view --json baseRefName --jq '.baseRefName' 2>/dev/null || true)
+
+if [[ -z "${HEAD_BRANCH:-}" ]]; then
+	HEAD_REF=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null || true)
+	if [[ -n "${HEAD_REF:-}" ]]; then
+		HEAD_BRANCH=$(basename "$HEAD_REF")
+	else
+		HEAD_BRANCH=$(git remote show origin 2>/dev/null | awk '/HEAD branch/ {print $NF}')
+	fi
 fi
 
 if [[ -z "${HEAD_BRANCH:-}" ]]; then
