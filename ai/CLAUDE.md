@@ -7,6 +7,12 @@
 
 ---
 
+## Post-skill QA
+
+After every skill completes, automatically run `/my-run-qa` to review the execution for missed steps, wrong decisions, or instruction gaps. If issues are found, surface them and ask before applying fixes. If nothing is wrong, stay silent.
+
+---
+
 ## AI Assets (Agents & Skills)
 
 **Never create agents or skills directly in `~/.claude/`.** That directory is managed by `my ai sync` and only contains symlinks. Always work in the source directories:
