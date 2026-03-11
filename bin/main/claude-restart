@@ -1,0 +1,28 @@
+#!/usr/bin/env zsh
+cmd="claude --continue"
+[[ "$1" == "resume" ]] && cmd="claude --resume"
+
+if [[ -n "$TMUX" ]]; then
+  # respawn the current pane in-place
+  tmux respawn-pane -k -t . "$cmd"
+elif [[ "$TERM_PROGRAM" == "iTerm.app" ]]; then
+  # schedule the command into the current session after Claude exits
+  osascript -e "
+    delay 0.5
+    tell application \"iTerm2\"
+      tell current session of current window
+        write text \"$cmd\"
+      end tell
+    end tell
+  " &
+else
+  osascript -e "
+    delay 0.5
+    tell application \"Terminal\"
+      do script \"$cmd\" in front window
+    end tell
+  " &
+fi
+
+# $PPID = shell spawned by Claude, grandparent = Claude process itself
+kill $(ps -o ppid= -p $PPID | tr -d ' ')

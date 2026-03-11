@@ -53,3 +53,6 @@ Execute these steps in order using the **Task tool** to invoke each agent.
 - Avoid unrelated refactors
 - Default to zero comments in code; rely on naming and structure for clarity
 - Do not resolve threads — let the reviewer do that
+## Final step — QA
+
+Run `/my-run-qa` to review this execution for missed steps or wrong decisions. If issues are found, surface them and ask before applying fixes. If nothing is wrong, stay silent.

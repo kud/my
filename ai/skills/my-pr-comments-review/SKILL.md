@@ -48,3 +48,6 @@ After the analysis, offer:
 - Focus on the specific code being discussed, avoid scope creep
 - Default to constructive, educational explanations
 - If you disagree with feedback, explain both perspectives clearly
+## Final step — QA
+
+Run `/my-run-qa` to review this execution for missed steps or wrong decisions. If issues are found, surface them and ask before applying fixes. If nothing is wrong, stay silent.

@@ -93,6 +93,7 @@ alias gcap='git add . && git aicommit && git push'
 alias cld='claude'
 alias cldc='claude --continue'
 alias cldr='claude --resume'
+alias cld-restart='claude-restart'
 
 # 🧠 Basic Memory
 alias note="basic-memory tools write-note"
