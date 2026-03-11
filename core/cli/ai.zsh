@@ -24,6 +24,7 @@ declare -a ai_clients=(
     "opencode"
     "github-copilot"
     "mistral-vibe"
+    "gemini"
 )
 
 case "$1" in

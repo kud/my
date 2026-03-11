@@ -3,22 +3,13 @@
 ## Communication Style
 
 - **Explain what you're doing** — always narrate your reasoning and actions so the user can learn from the process, not just the outcome
-- Be explicit about *why* you chose an approach, not just *what* you did
+- Be explicit about _why_ you chose an approach, not just _what_ you did
 
 ---
 
-## Tips & Notes Callout Format
+## Tips & Notes
 
-Whenever a skill or agent has advisory tips, follow-up suggestions, or flags for the user, render them as a styled callout at the very end of the output — never inline as prose:
-
-```
-### 💡 Tips & Notes
-
-- **<topic>**: <concise actionable tip>
-- **<topic>**: <concise actionable tip>
-```
-
-Use this for: caveats, missing setup steps, follow-up actions, or anything the user should be aware of but that isn't blocking.
+At the end of every response, automatically run `/my-tips-notes` to surface caveats, follow-up actions, missing setup steps, or anything the user should be aware of. If there is nothing worth noting, it stays silent.
 
 ---
 
@@ -53,6 +44,7 @@ After creating or modifying agents/skills, run `my ai sync` to update the symlin
 ## Commit Messages
 
 Format:
+
 ```
 <emoji> <type>(<scope>): <description>
 ```
@@ -61,19 +53,19 @@ Example: `✨ feat(auth): add JWT token validation`
 
 ### Emoji Mapping
 
-| Emoji | Type |
-|-------|------|
-| ✨ | feat |
-| 🐛 | fix |
-| 📝 | docs |
-| 🎨 | style |
-| ♻️ | refactor |
-| ✅ | test |
-| 🔧 | chore |
-| ⚡ | perf |
-| 👷 | ci |
-| 🔨 | build |
-| ⏪ | revert |
+| Emoji | Type     |
+| ----- | -------- |
+| ✨    | feat     |
+| 🐛    | fix      |
+| 📝    | docs     |
+| 🎨    | style    |
+| ♻️    | refactor |
+| ✅    | test     |
+| 🔧    | chore    |
+| ⚡    | perf     |
+| 👷    | ci       |
+| 🔨    | build    |
+| ⏪    | revert   |
 
 ### Rules
 
@@ -92,6 +84,7 @@ Format: `<type>/<description>`
 Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `ci`, `perf`, `style`
 
 Rules:
+
 - Description is kebab-case, 2-5 words max
 - No ticket IDs in the default format
 
