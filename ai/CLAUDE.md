@@ -12,11 +12,10 @@
 Whenever a skill or agent has advisory tips, follow-up suggestions, or flags for the user, render them as a styled callout at the very end of the output — never inline as prose:
 
 ```
----
-> 💡 **Tips & Notes**
->
-> - **<topic>**: <concise actionable tip>
-> - **<topic>**: <concise actionable tip>
+### 💡 Tips & Notes
+
+- **<topic>**: <concise actionable tip>
+- **<topic>**: <concise actionable tip>
 ```
 
 Use this for: caveats, missing setup steps, follow-up actions, or anything the user should be aware of but that isn't blocking.

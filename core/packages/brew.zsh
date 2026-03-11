@@ -60,7 +60,9 @@ configure_modern_shell() {
 ################################################################################
 
 update_homebrew() {
-    brew update && brew upgrade
+    local brew_update_log="${TMPDIR:-/tmp}/my-brew-update.log"
+    brew update 2>&1 | tee "$brew_update_log"
+    brew upgrade
     ui_success_simple "Homebrew updated"
     ui_spacer
 
