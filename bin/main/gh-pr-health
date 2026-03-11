@@ -1,0 +1,121 @@
+#!/usr/bin/env zsh
+
+set -euo pipefail
+
+if [[ -t 1 && -z ${NO_COLOR:-} ]]; then
+  R=$'\e[0m'; BOLD=$'\e[1m'; DIM=$'\e[2m'
+  WHITE=$'\e[97m'; GREY=$'\e[90m'
+  RED=$'\e[31m'; YELLOW=$'\e[33m'; CYAN=$'\e[36m'; GREEN=$'\e[32m'; BLUE=$'\e[34m'
+else
+  R=""; BOLD=""; DIM=""; WHITE=""; GREY=""; RED=""; YELLOW=""; CYAN=""; GREEN=""; BLUE=""
+fi
+
+data=$(gh pr list --author @me \
+  --json number,title,isDraft,reviewDecision,mergeable,statusCheckRollup,headRefName \
+  --limit 30)
+
+count=$(echo "$data" | jq 'length')
+if [[ "$count" -eq 0 ]]; then
+  echo "${DIM}No open pull requests.${R}"
+  exit 0
+fi
+
+ci_status() {
+  local rollup="$1"
+  local failing=$(echo "$rollup" | jq -r '
+    [.[] | select(
+      (.conclusion == "FAILURE") or (.state == "FAILURE")
+    ) | (.name // .context)] | first // ""')
+  local pending=$(echo "$rollup" | jq -r '
+    [.[] | select(
+      (.status == "IN_PROGRESS") or (.state == "PENDING")
+    ) | (.name // .context)] | first // ""')
+  if [[ -n "$failing" ]]; then echo "failing:$failing"
+  elif [[ -n "$pending" ]]; then echo "pending:$pending"
+  else echo "ok"
+  fi
+}
+
+strip_ticket() {
+  echo "$1" | sed 's/^[A-Z][A-Z0-9]*-[0-9]*: //' | sed 's/^[^[:alpha:]]*//'
+}
+
+truncate_str() {
+  local s="$1" max="$2"
+  if (( ${#s} > max )); then echo "${s:0:$max}…"; else echo "$s"; fi
+}
+
+typeset -a needs_action waiting drafts ready
+
+while IFS=$'\t' read -r number title is_draft decision mergeable rollup_json branch; do
+  title=$(strip_ticket "$title")
+  ci=$(ci_status "$rollup_json")
+
+  blockers=()
+  icon=""
+
+  if [[ "$is_draft" == "true" && "$ci" == failing:* ]]; then
+    icon="❌"; blockers+=("draft · CI failing · ${ci#failing:}")
+    needs_action+=("$icon"$'\t'"#$number"$'\t'"$title"$'\t'"$branch"$'\t'"${blockers[1]}")
+  elif [[ "$ci" == failing:* ]]; then
+    icon="❌"; blockers+=("CI failing · ${ci#failing:}")
+    needs_action+=("$icon"$'\t'"#$number"$'\t'"$title"$'\t'"$branch"$'\t'"${blockers[1]}")
+  elif [[ "$mergeable" == "CONFLICTING" ]]; then
+    icon="💥"; blockers+=("merge conflict")
+    needs_action+=("$icon"$'\t'"#$number"$'\t'"$title"$'\t'"$branch"$'\t'"${blockers[1]}")
+  elif [[ "$decision" == "CHANGES_REQUESTED" ]]; then
+    icon="🔧"; blockers+=("changes requested")
+    needs_action+=("$icon"$'\t'"#$number"$'\t'"$title"$'\t'"$branch"$'\t'"${blockers[1]}")
+  elif [[ "$is_draft" == "true" ]]; then
+    icon="🚧"
+    drafts+=("$icon"$'\t'"#$number"$'\t'"$title"$'\t'"$branch"$'\t'"draft")
+  elif [[ "$ci" == pending:* ]]; then
+    icon="⏳"; blockers+=("CI pending · ${ci#pending:}")
+    waiting+=("$icon"$'\t'"#$number"$'\t'"$title"$'\t'"$branch"$'\t'"${blockers[1]}")
+  elif [[ "$decision" != "APPROVED" ]]; then
+    icon="👀"
+    waiting+=("$icon"$'\t'"#$number"$'\t'"$title"$'\t'"$branch"$'\t'"no approval yet")
+  else
+    icon="✅"
+    ready+=("$icon"$'\t'"#$number"$'\t'"$title"$'\t'"$branch"$'\t')
+  fi
+done < <(echo "$data" | jq -r '.[] | [
+  (.number | tostring),
+  .title,
+  (.isDraft | tostring),
+  (.reviewDecision // ""),
+  (.mergeable // ""),
+  ((.statusCheckRollup // []) | tojson),
+  .headRefName
+] | @tsv')
+
+print_section() {
+  local label="$1"; shift
+  local entries=("$@")
+  [[ ${#entries[@]} -eq 0 ]] && return
+
+  local icon number title branch reason
+  printf "\n  ${BOLD}%s${R}\n" "$label"
+  for entry in "${entries[@]}"; do
+    IFS=$'\t' read -r icon number title branch reason <<< "$entry"
+    title=$(truncate_str "$title" 52)
+    branch=$(truncate_str "$branch" 38)
+    printf "  %s  ${WHITE}%-5s${R}  ${WHITE}%-53s${R}  ${GREY}%-39s${R}  ${CYAN}%s${R}\n" \
+      "$icon" "$number" "$title" "$branch" "$reason"
+  done
+}
+
+total=$(( ${#needs_action[@]} + ${#waiting[@]} + ${#drafts[@]} + ${#ready[@]} ))
+
+print_section "Needs action" "${needs_action[@]}"
+print_section "Waiting"      "${waiting[@]}"
+print_section "Draft"        "${drafts[@]}"
+print_section "Ready"        "${ready[@]}"
+
+echo ""
+printf "  ${DIM}%d PRs" "$total"
+(( ${#needs_action[@]} > 0 )) && printf "  ·  ${RED}%d blocking${R}${DIM}" "${#needs_action[@]}"
+(( ${#waiting[@]} > 0 ))      && printf "  ·  ${YELLOW}%d waiting${R}${DIM}" "${#waiting[@]}"
+(( ${#drafts[@]} > 0 ))       && printf "  ·  %d drafts" "${#drafts[@]}"
+(( ${#ready[@]} > 0 ))        && printf "  ·  ${GREEN}%d ready${R}${DIM}" "${#ready[@]}"
+printf "${R}\n\n"
