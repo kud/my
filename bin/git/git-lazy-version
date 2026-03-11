@@ -32,6 +32,12 @@ usage() {
   echo "  next:    Create pre-release version" >&2
 }
 
+# Bail out early if there is nothing to commit
+if [[ -z $(git status --porcelain) ]]; then
+  echo "Nothing to commit — no version bump created." >&2
+  exit 1
+fi
+
 arg=${1:-}
 case "$arg" in
   major|x)
@@ -97,12 +103,6 @@ case "$arg" in
     echo "Error: version type must be one of: major minor patch next (aliases: x y z)" >&2
     usage; exit 1 ;;
 esac
-
-# Bail out if there is nothing to commit
-if [[ -z $(git status --porcelain) ]]; then
-  echo "Nothing to commit — no version bump created." >&2
-  exit 1
-fi
 
 # Stage & AI commit current changes
 git add -A
