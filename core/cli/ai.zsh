@@ -153,6 +153,35 @@ sync)
     fi
 
     ui_success_simple "Linked $skill_count skills into ~/.claude/skills/"
+
+    # --- Commands: flat .md files → ~/.claude/commands/ ---
+    target_dir="$HOME/.claude/commands"
+    common_dir="$MY/ai/commands"
+    profile_dir="$MY/profiles/$OS_PROFILE/ai/commands"
+
+    [[ -L "$target_dir" ]] && rm -f "$target_dir"
+    mkdir -p "$target_dir"
+
+    for stale in "$target_dir"/*.md(N); do
+      rm -f "$stale"
+    done
+
+    local command_count=0
+    if [[ -d "$common_dir" ]]; then
+      for f in "$common_dir"/*.md(N); do
+        ln -sf "$f" "$target_dir/$(basename "$f")"
+        ((command_count++))
+      done
+    fi
+
+    if [[ -n "$OS_PROFILE" && -d "$profile_dir" ]]; then
+      for f in "$profile_dir"/*.md(N); do
+        ln -sf "$f" "$target_dir/$(basename "$f")"
+        ((command_count++))
+      done
+    fi
+
+    ui_success_simple "Linked $command_count commands into ~/.claude/commands/"
     ;;
 
 ############################################################

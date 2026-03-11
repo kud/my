@@ -33,8 +33,8 @@ After every skill completes, automatically run `/my-run-qa` to review the execut
 
 **Never create agents or skills directly in `~/.claude/`.** That directory is managed by `my ai sync` and only contains symlinks. Always work in the source directories:
 
-- **Global** (not profile-specific): `$MY/ai/agents/` and `$MY/ai/skills/`
-- **Work-specific** (prefixed with `w-`): `$MY/profiles/work/ai/agents/` and `$MY/profiles/work/ai/skills/`
+- **Global** (not profile-specific): `$MY/ai/agents/`, `$MY/ai/skills/`, `$MY/ai/commands/`
+- **Work-specific** (prefixed with `w-`): `$MY/profiles/work/ai/agents/`, `$MY/profiles/work/ai/skills/`, `$MY/profiles/work/ai/commands/`
 
 After creating or modifying agents/skills, run `my ai sync` to update the symlinks.
 
