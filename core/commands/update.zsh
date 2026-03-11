@@ -42,7 +42,7 @@ ui_spacer
 # 📦 PROJECT SYNCHRONIZATION
 ################################################################################
 
-ui_section "  Updating repository"
+ui_section "  Updating repository"
 ui_info_simple "Path: $MY"
 
 # Capture git output for better formatting
@@ -97,7 +97,7 @@ ui_spacer
 # 🔧 ENVIRONMENT REFRESH
 ################################################################################
 
-ui_section "  Updating environment"
+ui_section "  Updating environment"
 
 # Run main update script (lightweight ensure during orchestration)
 if ! $MY/core/main.zsh; then
@@ -127,7 +127,61 @@ fi
 
 
 ################################################################################
+# 🆕 BREW UPDATE SUMMARY
+################################################################################
+
+brew_update_log="${TMPDIR:-/tmp}/my-brew-update.log"
+if [[ -f "$brew_update_log" ]]; then
+    new_formulae=$(awk '/^==> New Formulae/{f=1;next} /^==>/{f=0} f && NF{print "  "$0}' "$brew_update_log")
+    new_casks=$(awk '/^==> New Casks/{f=1;next} /^==>/{f=0} f && NF{print "  "$0}' "$brew_update_log")
+    new_formulae_full=$(awk '/^==> New Formulae/{f=1;next} /^==>/{f=0} f && NF{print}' "$brew_update_log")
+    new_casks_full=$(awk '/^==> New Casks/{f=1;next} /^==>/{f=0} f && NF{print}' "$brew_update_log")
+    outdated_formulae=$(awk '/^==> Outdated Formulae/{f=1;next} /^==>/{f=0} f && /^[a-z]/{n+=NF} END{print n+0}' "$brew_update_log")
+    outdated_casks=$(awk '/^==> Outdated Casks/{f=1;next} /^==>/{f=0} f && /^[a-z]/{n+=NF} END{print n+0}' "$brew_update_log")
+
+    if [[ -n "$new_formulae" ]] || [[ -n "$new_casks" ]] || [[ "$outdated_formulae" -gt 0 ]] || [[ "$outdated_casks" -gt 0 ]]; then
+        ui_section "  Homebrew Summary"
+
+        if [[ -n "$new_formulae" ]]; then
+            ui_subtitle "New Formulae"
+            echo "$new_formulae" | while IFS= read -r line; do
+                ui_info_simple "$line"
+            done
+        fi
+
+        if [[ -n "$new_casks" ]]; then
+            ui_subtitle "New Casks"
+            echo "$new_casks" | while IFS= read -r line; do
+                ui_info_simple "$line"
+            done
+        fi
+
+        if [[ "$outdated_formulae" -gt 0 ]] || [[ "$outdated_casks" -gt 0 ]]; then
+            ui_subtitle "Outdated"
+            [[ "$outdated_formulae" -gt 0 ]] && ui_warning_simple "$outdated_formulae formula(e) available to upgrade"
+            [[ "$outdated_casks" -gt 0 ]] && ui_warning_simple "$outdated_casks cask(s) available to upgrade"
+        fi
+
+        if [[ -n "$new_formulae_full" ]] || [[ -n "$new_casks_full" ]]; then
+            ui_subtitle "AI Digest"
+            ai_prompt="You are a macOS developer assistant. Based on the new Homebrew packages below, highlight 2-4 that look genuinely interesting or useful for a developer, and briefly flag any to skip. Be concise and direct — no fluff.
+
+New formulae:
+${new_formulae_full:-none}
+
+New casks:
+${new_casks_full:-none}"
+            echo "$ai_prompt" | env -u CLAUDECODE claude --print 2>/dev/null || ui_muted "  (claude not available)"
+        fi
+
+        ui_spacer
+    fi
+
+    rm -f "$brew_update_log"
+fi
+
+################################################################################
 # ✅ UPDATE COMPLETE
 ################################################################################
 
-ui_primary "Update complete! "
+ui_primary "Update complete! "

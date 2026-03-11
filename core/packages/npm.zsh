@@ -40,7 +40,7 @@ fi
 # yarn v4 (berry) can leak `"" true` into ~/.yarnrc (v1 format) when both
 # ~/.yarnrc and ~/.yarnrc.yml coexist — strip any such empty-key lines.
 if [[ -f ~/.yarnrc ]] && grep -q '^""' ~/.yarnrc 2>/dev/null; then
-    sed -i '' '/^""/d' ~/.yarnrc
+    grep -v '^""' ~/.yarnrc > ~/.yarnrc.tmp && mv ~/.yarnrc.tmp ~/.yarnrc
     ui_success_simple "Removed corrupt yarn v1 entry from ~/.yarnrc" 1
 fi
 
