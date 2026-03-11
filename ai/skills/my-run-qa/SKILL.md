@@ -26,11 +26,14 @@ Look at the execution that just happened:
 If issues were found:
 
 ```
-⚠️  Run QA — {skill name or "this prompt"}
-
-• [issue]: [what happened] → [suggested fix: which file to update and what to add/change]
-
-• [issue]: ...
+---
+> ⚠️ **QA — {skill name or "this prompt"}**
+>
+> **[issue type]** — what happened
+> → Fix: `<file>` — what to add or change
+>
+> **[issue type]** — what happened
+> → Fix: `<file>` — what to add or change
 ```
 
 Then ask the user: **"Want me to apply these fixes?"** and wait for their response before touching any file.

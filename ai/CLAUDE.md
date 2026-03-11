@@ -7,6 +7,22 @@
 
 ---
 
+## Tips & Notes Callout Format
+
+Whenever a skill or agent has advisory tips, follow-up suggestions, or flags for the user, render them as a styled callout at the very end of the output — never inline as prose:
+
+```
+---
+> 💡 **Tips & Notes**
+>
+> - **<topic>**: <concise actionable tip>
+> - **<topic>**: <concise actionable tip>
+```
+
+Use this for: caveats, missing setup steps, follow-up actions, or anything the user should be aware of but that isn't blocking.
+
+---
+
 ## Post-skill QA
 
 After every skill completes, automatically run `/my-run-qa` to review the execution for missed steps, wrong decisions, or instruction gaps. If issues are found, surface them and ask before applying fixes. If nothing is wrong, stay silent.
