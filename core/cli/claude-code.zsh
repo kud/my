@@ -61,19 +61,12 @@ update_claude_settings() {
         return 0
     fi
 
-    # Get current value
-    local current_value=$(jq -r ".$key // empty" "$CLAUDE_CONFIG" 2>/dev/null)
-
-    # Only update if different
-    if [[ "$current_value" != "$value" ]]; then
-        # Create temp file with updated value
-        local temp_file=$(mktemp)
-        jq ".$key = $value" "$CLAUDE_CONFIG" > "$temp_file" && mv "$temp_file" "$CLAUDE_CONFIG"
-        ui_success_simple "Updated setting: $key = $value" 0
-    fi
+    local temp_file=$(mktemp)
+    jq ".$key = $value" "$CLAUDE_CONFIG" > "$temp_file" && mv "$temp_file" "$CLAUDE_CONFIG"
+    ui_success_simple "setting: $key = $value" 0
 }
 
-# Function to update Claude UI settings (~/.claude/settings.json)
+# Function to update Claude settings (~/.claude/settings.json)
 update_claude_ui_settings() {
     local key="$1"
     local value="$2"
@@ -88,19 +81,37 @@ update_claude_ui_settings() {
 
     # Check if jq is available
     if ! command -v jq >/dev/null 2>&1; then
-        ui_warning_simple "jq not found, skipping UI settings update" 1
+        ui_warning_simple "jq not found, skipping settings update" 1
         return 0
     fi
 
-    # Get current value
-    local current_value=$(jq -r ".$key // empty" "$CLAUDE_SETTINGS" 2>/dev/null)
+    local temp_file=$(mktemp)
+    jq ".$key = $value" "$CLAUDE_SETTINGS" > "$temp_file" && mv "$temp_file" "$CLAUDE_SETTINGS"
 
-    # Only update if different
-    if [[ "$current_value" != "$value" ]]; then
-        # Create temp file with updated value
-        local temp_file=$(mktemp)
-        jq ".$key = $value" "$CLAUDE_SETTINGS" > "$temp_file" && mv "$temp_file" "$CLAUDE_SETTINGS"
-        ui_success_simple "Updated UI setting: $key" 0
+    if [[ "$key" == "hooks" ]]; then
+        ui_success_simple "setting: hooks" 0
+    elif [[ "$key" == "permissions" ]]; then
+        ui_success_simple "setting: permissions" 0
+        for section in allow ask deny; do
+            local items=$(echo "$value" | jq -r --arg s "$section" '.[$s][]? // empty' 2>/dev/null)
+            if [[ -n "$items" ]]; then
+                ui_muted "    $section:"
+                echo "$items" | while IFS= read -r item; do
+                    ui_muted "      - $item"
+                done
+            fi
+        done
+    elif [[ "$key" == "statusLine" ]]; then
+        local status_cmd=$(jq -r '.statusLine.command // empty' "$CLAUDE_SETTINGS" 2>/dev/null)
+        local display_value=""
+        if [[ -n "$status_cmd" ]]; then
+            local mock_input='{"workspace":{"current_dir":"'$PWD'"}}'
+            display_value=$(echo "$mock_input" | bash -c "$status_cmd" 2>/dev/null)
+        fi
+        ui_success_simple "setting: statusLine = $display_value" 0
+    else
+        local display_value="${value//$'\n'/ }"
+        ui_success_simple "setting: $key = $display_value" 0
     fi
 }
 
@@ -289,16 +300,6 @@ if [[ -f "$MERGED_CONFIG" ]]; then
         fi
     done
 
-    # Show statusLine preview if configured
-    if [[ -f "$CLAUDE_SETTINGS" ]] && jq -e '.statusLine' "$CLAUDE_SETTINGS" >/dev/null 2>&1; then
-        local status_type=$(jq -r '.statusLine.type' "$CLAUDE_SETTINGS" 2>/dev/null)
-        if [[ "$status_type" == "command" ]]; then
-            local status_cmd=$(jq -r '.statusLine.command' "$CLAUDE_SETTINGS" 2>/dev/null)
-            local mock_input='{"workspace":{"current_dir":"'$PWD'"}}'
-            local status_result=$(echo "$mock_input" | bash -c "$status_cmd" 2>/dev/null)
-            ui_success_simple "Updated setting: statusLine = $status_result" 0
-        fi
-    fi
 fi
 
 # Process MCP servers from merged config
