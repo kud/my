@@ -90,7 +90,7 @@ if [[ -t 1 && -z ${NO_COLOR:-} ]]; then
   TYPE_TEXT_FG=$'\e[38;5;15m'
   # Left rounded edge: foreground same as pill color on default background
   # Then set background for pill content; right edge printed after reset.
-  TYPE_TAG=$'\e[0m'"${TYPE_FG}${TYPE_BG}${TYPE_TEXT_FG}${VERSION_TYPE}${R}${TYPE_FG}${R}"
+  TYPE_TAG=$'\e[0m'"${TYPE_FG}${TYPE_BG}${TYPE_TEXT_FG} ${VERSION_TYPE} ${R}${TYPE_FG}${R}"
 else
   TYPE_TAG="[${VERSION_TYPE}]"
 fi
