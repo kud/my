@@ -1,7 +1,7 @@
 ---
 name: pr-comments-deep-reviewer
 description: "Deep-analyzes a single PR review thread or general comment with full diff context, guidance, and code recommendations. Use this agent when you want to thoroughly understand a specific review comment.\n\nExamples:\n\n<example>\nContext: Deep-diving into a specific review thread.\nassistant: \"I'll use the pr-comments-deep-reviewer agent to analyze this thread with full diff context.\"\n</example>"
-model: sonnet
+model: opus
 color: green
 ---
 

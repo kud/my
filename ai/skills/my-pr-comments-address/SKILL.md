@@ -44,3 +44,6 @@ Execute these steps in order using the **Task tool** to invoke each agent.
 - Avoid unrelated refactors — only touch what the comments ask for
 - If a comment is unclear, implement your best interpretation and mention it in the PR reply
 - Do not resolve threads — let the author do that
+## Final step — QA
+
+Run `/my-run-qa` to review this execution for missed steps or wrong decisions. If issues are found, surface them and ask before applying fixes. If nothing is wrong, stay silent.

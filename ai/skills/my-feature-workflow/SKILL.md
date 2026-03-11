@@ -86,3 +86,6 @@ Once you have a clear task, execute these steps in order. Use the **Task tool** 
 
 - If an agent is unavailable, execute that step's logic directly using your own knowledge of the conventions.
 - If the user wants to skip a step, allow it (except mandatory ones) but note what was skipped in the final summary.
+## Final step — QA
+
+Run `/my-run-qa` to review this execution for missed steps or wrong decisions. If issues are found, surface them and ask before applying fixes. If nothing is wrong, stay silent.

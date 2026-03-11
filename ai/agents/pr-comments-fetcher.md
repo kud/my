@@ -21,7 +21,9 @@ Query fields at minimum:
 - thread: id, isResolved, path, line, originalLine, diffSide
 - comments: author.login, body, createdAt
 
-Include only threads where `isResolved == false`.
+Include only threads where:
+- `isResolved == false`
+- The last commenter in the thread is **not** the PR author (i.e., the reviewer spoke last — threads where the PR author replied last are already addressed and should be excluded)
 
 ## Step 3 — Fetch general PR comments
 
