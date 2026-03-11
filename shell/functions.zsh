@@ -9,17 +9,20 @@
 # Load UI kit for icon variables
 source "$MY/core/utils/ui-kit.zsh"
 
-# 🏷️ Tab title to current dir
+# 🏷️ Tab title: auto or manual
+_custom_title=""
+
 precmd() {
-  local title=""
-
-  if [[ "$PWD" == "$HOME" ]]; then
-    title="~"
-  else
+  local title="${_custom_title}"
+  if [[ -z "$title" ]]; then
     title="${PWD##*/}"
+    [[ "$PWD" == "$HOME" ]] && title="~"
   fi
-
   echo -ne "\e]1;$title\a"
+}
+
+title() {
+  _custom_title="$*"
 }
 
 # 📁 Create folder and cd into it
