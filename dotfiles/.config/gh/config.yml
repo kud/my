@@ -14,6 +14,7 @@ aliases:
     pr-status: '!gh-pr-status'
     my-prs: pr list --author @me
     prs: '!/Users/mest001/my/bin/main/gh-prs'
+    pr-health: '!/Users/mest001/my/bin/main/gh-pr-health'
 # The path to a unix socket through which send HTTP connections. If blank, HTTP traffic will be handled by net/http.DefaultTransport.
 http_unix_socket:
 # What web browser gh should use when opening URLs. If blank, will refer to environment.
