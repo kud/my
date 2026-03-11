@@ -10,7 +10,7 @@
 #                                                                              #
 ################################################################################
 
-data=$(gh pr view --json number,title,headRefName,statusCheckRollup,reviews 2>/dev/null)
+data=$(gh pr view --json number,title,headRefName,statusCheckRollup,reviews,mergeable,mergeStateStatus 2>/dev/null)
 gh_exit=$?
 
 if [[ $gh_exit -ne 0 || -z "$data" ]]; then
@@ -40,6 +40,8 @@ number      = data["number"]
 branch      = data["headRefName"]
 checks      = data.get("statusCheckRollup") or []
 reviews     = data.get("reviews") or []
+mergeable   = data.get("mergeable", "UNKNOWN")
+merge_state = data.get("mergeStateStatus", "UNKNOWN")
 
 passed   = sum(1 for c in checks if c.get("conclusion") in ("SUCCESS", "NEUTRAL", "SKIPPED"))
 failed   = sum(1 for c in checks if c.get("conclusion") in ("FAILURE", "ERROR", "CANCELLED", "TIMED_OUT", "ACTION_REQUIRED"))
@@ -63,8 +65,19 @@ review_parts = [green(f"{approved} approved") if approved else dim(f"{approved} 
 if changes:     review_parts.append(red(f"{changes} changes requested"))
 if rev_pending: review_parts.append(yellow(f"{rev_pending} pending"))
 
+if mergeable == "CONFLICTING" or merge_state == "DIRTY":
+    conflicts_icon = "❌"
+    conflicts_text = red("conflicts detected")
+elif mergeable == "MERGEABLE":
+    conflicts_icon = "✅"
+    conflicts_text = green("no conflicts")
+else:
+    conflicts_icon = "⏳"
+    conflicts_text = yellow("checking…")
+
 sep = dim(" · ")
 print(f"{bold(f'PR #{number}')}  {dim('·')}  {branch}\n")
-print(f"  Checks   {checks_icon}  {sep.join(check_parts)}")
-print(f"  Reviews  {reviews_icon}  {sep.join(review_parts)}")
+print(f"  Checks    {checks_icon}  {sep.join(check_parts)}")
+print(f"  Reviews   {reviews_icon}  {sep.join(review_parts)}")
+print(f"  Conflicts {conflicts_icon}  {conflicts_text}")
 EOF
