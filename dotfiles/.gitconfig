@@ -204,3 +204,4 @@
 	wt-list = worktree list
 	wt-new = "!f() { [ -n \"$1\" ] || { echo 'worktree name required' >&2; exit 1; }; git worktree add ../$1 $1; }; f"
 	wt-rm = "!f() { [ -n \"$1\" ] || { echo 'worktree name required' >&2; exit 1; }; git worktree remove ../$1; }; f"
+	lbs = lazy-branch-select
