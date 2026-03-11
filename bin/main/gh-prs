@@ -1,0 +1,55 @@
+#!/usr/bin/env zsh
+
+set -euo pipefail
+
+if [[ -t 1 && -z ${NO_COLOR:-} ]]; then
+  R=$'\e[0m'; BOLD=$'\e[1m'; DIM=$'\e[2m'
+  CYAN=$'\e[36m'; GREEN=$'\e[32m'; RED=$'\e[31m'; YELLOW=$'\e[33m'; GREY=$'\e[90m'; WHITE=$'\e[97m'
+else
+  R=""; BOLD=""; DIM=""; CYAN=""; GREEN=""; RED=""; YELLOW=""; GREY=""; WHITE=""
+fi
+
+relative_time() {
+  local iso="$1"
+  local ts now diff
+  ts=$(date -j -f "%Y-%m-%dT%H:%M:%SZ" "$iso" "+%s" 2>/dev/null) || return
+  now=$(date +%s)
+  diff=$(( now - ts ))
+  if   (( diff < 3600 ));       then echo "$((diff / 60))m"
+  elif (( diff < 86400 ));      then echo "$((diff / 3600))h"
+  elif (( diff < 604800 ));     then echo "$((diff / 86400))d"
+  else                               echo "$((diff / 604800))w"
+  fi
+}
+
+status_icon() {
+  local is_draft="$1" decision="$2"
+  if   [[ "$is_draft"  == "true" ]];              then echo "🚧"
+  elif [[ "$decision"  == "APPROVED" ]];           then echo "✅"
+  elif [[ "$decision"  == "CHANGES_REQUESTED" ]];  then echo "🔧"
+  else                                                  echo "👀"
+  fi
+}
+
+data=$(gh pr list --author @me \
+  --json number,title,isDraft,reviewDecision,createdAt \
+  --limit 30)
+
+count=$(echo "$data" | jq 'length')
+if [[ "$count" -eq 0 ]]; then
+  echo "${DIM}No open pull requests.${R}"
+  exit 0
+fi
+
+echo "$data" | jq -r '.[] | [
+  (.number | tostring),
+  .title,
+  (.isDraft | tostring),
+  (.reviewDecision // ""),
+  .createdAt
+] | @tsv' | while IFS=$'\t' read -r number title is_draft decision created_at; do
+  icon=$(status_icon "$is_draft" "$decision")
+  age=$(relative_time "$created_at")
+  printf "  ${GREY}#%-5s${R}  %s  ${WHITE}%s${R}  ${GREY}%s${R}\n" \
+    "$number" "$icon" "$title" "$age"
+done
