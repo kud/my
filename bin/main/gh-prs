@@ -23,8 +23,9 @@ relative_time() {
 }
 
 status_icon() {
-  local is_draft="$1" decision="$2"
+  local is_draft="$1" decision="$2" mergeable="$3"
   if   [[ "$is_draft"  == "true" ]];              then echo "🚧"
+  elif [[ "$mergeable" == "CONFLICTING" ]];        then echo "💥"
   elif [[ "$decision"  == "APPROVED" ]];           then echo "✅"
   elif [[ "$decision"  == "CHANGES_REQUESTED" ]];  then echo "🔧"
   else                                                  echo "👀"
@@ -32,7 +33,7 @@ status_icon() {
 }
 
 data=$(gh pr list --author @me \
-  --json number,title,isDraft,reviewDecision,createdAt \
+  --json number,title,isDraft,reviewDecision,createdAt,headRefName,mergeable,mergeStateStatus \
   --limit 30)
 
 count=$(echo "$data" | jq 'length')
@@ -46,10 +47,12 @@ echo "$data" | jq -r '.[] | [
   .title,
   (.isDraft | tostring),
   (.reviewDecision // ""),
-  .createdAt
-] | @tsv' | while IFS=$'\t' read -r number title is_draft decision created_at; do
-  icon=$(status_icon "$is_draft" "$decision")
+  .createdAt,
+  .headRefName,
+  (.mergeable // "")
+] | @tsv' | while IFS=$'\t' read -r number title is_draft decision created_at branch mergeable; do
+  icon=$(status_icon "$is_draft" "$decision" "$mergeable")
   age=$(relative_time "$created_at")
-  printf "  ${GREY}#%-5s${R}  %s  ${WHITE}%s${R}  ${GREY}%s${R}\n" \
-    "$number" "$icon" "$title" "$age"
+  printf "  ${GREY}#%-5s${R}  %s  ${WHITE}%s${R}  ${GREY}%s  %s${R}\n" \
+    "$number" "$icon" "$title" "$age" "$branch"
 done
