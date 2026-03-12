@@ -130,23 +130,26 @@ Present the analysis in this format:
 
 ### AI Improvement Suggestions
 
-**[Issue]**
-- Root cause: <AI tendency / missing rule / etc.>
-- Suggested fix:
-  - Rule for CLAUDE.md: `<rule text>`
-  - OR Step to add to `<skill name>`: `<step description>`
+**[Issue]** — <AI tendency / missing rule / unclear spec>
 
-**[Issue]**
-...
+```
+<exact rule text as it would appear in CLAUDE.md or skill>
 ```
 
-Then append the standard tips callout if there are any follow-up actions:
+**[Issue]** — ...
+
 ```
----
-> 💡 **Tips & Notes**
->
-> - **Apply rules**: run `/my-run-qa` on this output to decide which suggestions to commit to CLAUDE.md
-> - **Track patterns**: if the same theme appears across multiple PRs, it's a systemic issue worth fixing in a skill
+<rule text>
+```
+```
+
+Then on a new line, append tips if there are PR-specific follow-ups (open threads, spec gaps, highest ROI callouts):
+
+```
+💡 **Tips & Notes**
+
+- **<topic>**: <concise actionable tip>
+- **<topic>**: <concise actionable tip>
 ```
 
 ## Constraints
