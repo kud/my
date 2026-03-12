@@ -42,6 +42,7 @@ After creating or modifying agents/skills, run `my ai sync` to update the symlin
 - **Clear naming over comments** — function and variable names should explain intent; avoid comments entirely unless the logic is genuinely hard to understand even after refactoring
 - **Split and name** — when something needs explaining, extract a well-named function instead of adding a comment
 - **One-liners when possible** — prefer concise single-line functions if readability is preserved
+- **`const` over `let`** — never use `let` + mutation when a `const` + ternary is possible; if a ternary is hard to read, extract a well-named intermediate `const` to clarify intent — never reach for `let`/`if` blocks
 - **Boy Scout Rule (scoped)** — improve nearby code when touching a file, but keep it small; don't let cleanup bloat the PR
 - **Kebab-case for files and folders** — unless the project already follows a different convention
 
