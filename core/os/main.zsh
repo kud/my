@@ -47,9 +47,9 @@ fi
 ###############################################################################
 
 # Set computer name (as done via System Preferences → Sharing)
-#sudo scutil --set ComputerName "_kud.laptop"
-#sudo scutil --set HostName "_kud.laptop"
-#sudo scutil --set LocalHostName "_kud.laptop"
+#sudo scutil --set ComputerName "kud · laptop"
+#sudo scutil --set HostName "kud.laptop"
+#sudo scutil --set LocalHostName "kud-laptop"
 #sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "kud-laptop"
 
 # Disable the sound effects on boot
