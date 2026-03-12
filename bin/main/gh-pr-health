@@ -54,9 +54,12 @@ while IFS=$'\t' read -r number title is_draft decision mergeable rollup_json bra
   blockers=()
   icon=""
 
-  if [[ "$is_draft" == "true" && "$ci" == failing:* ]]; then
-    icon="❌"; blockers+=("draft · CI failing · ${ci#failing:}")
-    needs_action+=("$icon"$'\t'"#$number"$'\t'"$title"$'\t'"$branch"$'\t'"${blockers[1]}")
+  if [[ "$is_draft" == "true" ]]; then
+    icon="🚧"
+    draft_note="draft"
+    [[ "$ci" == failing:* ]] && draft_note="draft · CI failing · ${ci#failing:}"
+    [[ "$ci" == pending:* ]] && draft_note="draft · CI pending · ${ci#pending:}"
+    drafts+=("$icon"$'\t'"#$number"$'\t'"$title"$'\t'"$branch"$'\t'"$draft_note")
   elif [[ "$ci" == failing:* ]]; then
     icon="❌"; blockers+=("CI failing · ${ci#failing:}")
     needs_action+=("$icon"$'\t'"#$number"$'\t'"$title"$'\t'"$branch"$'\t'"${blockers[1]}")
@@ -66,9 +69,6 @@ while IFS=$'\t' read -r number title is_draft decision mergeable rollup_json bra
   elif [[ "$decision" == "CHANGES_REQUESTED" ]]; then
     icon="🔧"; blockers+=("changes requested")
     needs_action+=("$icon"$'\t'"#$number"$'\t'"$title"$'\t'"$branch"$'\t'"${blockers[1]}")
-  elif [[ "$is_draft" == "true" ]]; then
-    icon="🚧"
-    drafts+=("$icon"$'\t'"#$number"$'\t'"$title"$'\t'"$branch"$'\t'"draft")
   elif [[ "$ci" == pending:* ]]; then
     icon="⏳"; blockers+=("CI pending · ${ci#pending:}")
     waiting+=("$icon"$'\t'"#$number"$'\t'"$title"$'\t'"$branch"$'\t'"${blockers[1]}")
