@@ -36,19 +36,52 @@ ci_status() {
   fi
 }
 
-strip_ticket() {
-  echo "$1" | sed 's/^[A-Z][A-Z0-9]*-[0-9]*: //' | sed 's/^[^[:alpha:]]*//'
-}
 
 truncate_str() {
   local s="$1" max="$2"
   if (( ${#s} > max )); then echo "${s:0:$max}…"; else echo "$s"; fi
 }
 
+# Truncate string to target display columns and pad to exactly target cols.
+# Handles wide chars (emoji) and variation selectors correctly.
+format_col() {
+  printf '%s' "$1" | python3 -c "
+import sys, unicodedata
+
+s = sys.stdin.read()
+target = $2
+
+def cw(c, peek=None):
+    if ord(c) == 0xFE0F: return 0
+    e = unicodedata.east_asian_width(c)
+    if e in ('W', 'F'): return 2
+    if peek and ord(peek) == 0xFE0F: return 2
+    if unicodedata.category(c) == 'Mn': return 0
+    return 1
+
+def total_dw(s):
+    return sum(cw(c, s[i+1] if i+1 < len(s) else None) for i, c in enumerate(s))
+
+if total_dw(s) <= target:
+    sys.stdout.write(s + ' ' * (target - total_dw(s)))
+else:
+    w, result, i = 0, '', 0
+    while i < len(s):
+        c = s[i]
+        peek = s[i+1] if i+1 < len(s) else None
+        width = cw(c, peek)
+        if w + width > target - 1:
+            break
+        result += c
+        w += width
+        i += 1
+    sys.stdout.write(result + '…')
+"
+}
+
 typeset -a needs_action waiting drafts ready
 
 while IFS=$'\t' read -r number title is_draft decision mergeable rollup_json branch; do
-  title=$(strip_ticket "$title")
   ci=$(ci_status "$rollup_json")
 
   blockers=()
@@ -98,9 +131,9 @@ print_section() {
   printf "\n  ${BOLD}%s${R}\n" "$label"
   for entry in "${entries[@]}"; do
     IFS=$'\t' read -r icon number title branch reason <<< "$entry"
-    title=$(truncate_str "$title" 52)
+    title=$(format_col "$title" 53)
     branch=$(truncate_str "$branch" 38)
-    printf "  %s  ${WHITE}%-5s${R}  ${WHITE}%-53s${R}  ${GREY}%-39s${R}  ${CYAN}%s${R}\n" \
+    printf "  %s  ${WHITE}%-5s${R}  ${WHITE}%s${R}  ${GREY}%-39s${R}  ${CYAN}%s${R}\n" \
       "$icon" "$number" "$title" "$branch" "$reason"
   done
 }
