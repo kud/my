@@ -30,6 +30,12 @@ After creating or modifying agents/skills, run `my ai sync` to update the symlin
 
 ---
 
+## Shell & Platform
+
+- **sed**: GNU sed is installed via Homebrew but only available in login shells. Non-login shells (subprocesses, agents) may fall back to macOS BSD sed. Always use `sed -i ''` — it works on both. Prefer the `Edit` tool over `sed` entirely to avoid the issue.
+
+---
+
 ## Coding Style
 
 - **Explicit over implicit** — always prefer clarity over cleverness
