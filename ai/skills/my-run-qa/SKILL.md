@@ -23,20 +23,18 @@ Look at the execution that just happened:
 
 ## Output format
 
-If issues were found:
+If issues were found, output exactly this structure:
 
 ```
----
-> ⚠️ **QA — {skill name or "this prompt"}**
->
-> **[issue type]** — what happened
-> → Fix: `<file>` — what to add or change
->
-> **[issue type]** — what happened
-> → Fix: `<file>` — what to add or change
+⚠️ QA — {skill name or "this prompt"}
+
+| # | Issue | What happened | Fix |
+|---|-------|--------------|-----|
+| 1 | **[issue type]** | what happened | `<file>` — what to change |
+| 2 | **[issue type]** | what happened | `<file>` — what to change |
 ```
 
-Then ask the user: **"Want me to apply these fixes?"** and wait for their response before touching any file.
+Then on a new line ask: **"Want me to apply these fixes?"** and wait for their response before touching any file.
 
 If no issues were found, say nothing — do not output a "all good" message.
 
