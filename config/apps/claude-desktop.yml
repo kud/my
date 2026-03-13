@@ -13,6 +13,12 @@
 #       KEY: value
 
 mcp:
+  playwright:
+    transport: stdio
+    command: npx
+    args:
+      - -y
+      - "@playwright/mcp@latest"
   # basic-memory:
   #   transport: stdio
   #   command: ${HOME}/.local/share/mise/shims/uvx
