@@ -133,6 +133,7 @@ packages:
     - cap
     - claude
     - claude-code
+    - claude-island
     - cleanshot
     - discord
     - espanso
