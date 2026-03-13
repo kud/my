@@ -35,6 +35,12 @@ settings:
       - Bash(git push origin *)
       - Bash(git push -u *)
       - Bash(git push --set-upstream *)
+      # Notion read operations - auto-accept
+      - mcp__notion__notion-fetch
+      - mcp__notion__notion-search
+      - mcp__notion__notion-get-comments
+      - mcp__notion__notion-get-users
+      - mcp__notion__notion-get-teams
       # Jira/Atlassian read operations - auto-accept
       - mcp__atlassian__get*
       - mcp__atlassian__search*
