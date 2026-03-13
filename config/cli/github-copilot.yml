@@ -8,6 +8,14 @@ config:
 
 # Common MCP servers (all profiles)
 mcpServers:
+  playwright:
+    type: local
+    command: npx
+    args:
+      - -y
+      - "@playwright/mcp@latest"
+    tools:
+      - "*"
   # basic-memory:
   #   type: local
   #   command: uvx

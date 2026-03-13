@@ -97,6 +97,12 @@ mcp:
   whimsical:
     transport: http
     url: http://localhost:21190/mcp
+  playwright:
+    transport: stdio
+    command: npx
+    args:
+      - -y
+      - "@playwright/mcp@latest"
   # basic-memory:
   #   enabled: false
   #   transport: stdio

@@ -21,6 +21,13 @@ mcp:
     url: https://api.githubcopilot.com/mcp
     headers:
       Authorization: Bearer ${MCP_GITHUB_TOKEN}
+  playwright:
+    type: local
+    enabled: true
+    command:
+      - npx
+      - -y
+      - "@playwright/mcp@latest"
   notion:
     type: local
     enabled: false
