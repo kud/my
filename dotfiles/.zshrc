@@ -14,6 +14,7 @@ export MY="$HOME/my"
 # Load shell modules (order matters for dependencies)
 for module in \
   globals.zsh \
+  environment.zsh \
   directory.zsh \
   editor.zsh \
   history.zsh \
@@ -29,10 +30,7 @@ for module in \
   display.zsh \
   cursor.zsh \
   openssl.zsh \
-  python.zsh \
-  ruby.zsh \
   java.zsh \
-  node.zsh \
   path/node.zsh \
   path/local.zsh \
   babel.zsh \

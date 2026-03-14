@@ -21,14 +21,6 @@ _NPM_PACKAGES_TO_INSTALL=()
 _BREW_PACKAGES_TO_INSTALL=()
 _CASK_PACKAGES_TO_INSTALL=()
 
-function init_brew_cache() {
-  if command -v brew >/dev/null 2>&1; then
-    _BREW_FORMULAE_CACHE=$(brew list --formula 2>/dev/null || echo "")
-    _BREW_CASKS_CACHE=$(brew list --cask 2>/dev/null || echo "")
-    _BREW_OUTDATED_CACHE=$(brew outdated 2>/dev/null || echo "")
-  fi
-}
-
 function refresh_brew_cache() {
   if command -v brew >/dev/null 2>&1; then
     _BREW_FORMULAE_CACHE=$(brew list --formula 2>/dev/null || echo "")
@@ -126,10 +118,6 @@ function cask_install_run() {
     return 0
   fi
 
-  # Load UI functions if not already loaded
-  if ! command -v ui_info_simple >/dev/null 2>&1; then
-  fi
-
   ui_info_simple "Installing ${#_LOCAL_CASK_PACKAGES[@]} casks:"
   for package in "${_LOCAL_CASK_PACKAGES[@]}"; do
     echo "  • $package"
@@ -175,10 +163,6 @@ function npm_install_run() {
   if [[ ${#_LOCAL_NPM_PACKAGES[@]} -eq 0 ]]; then
     ui_debug "npm_install_run: No packages to install"
     return 0
-  fi
-
-  # Load UI functions if not already loaded
-  if ! command -v ui_info_simple >/dev/null 2>&1; then
   fi
 
   # Get installed packages list once
@@ -249,10 +233,6 @@ function npm_install_run() {
 function pip_install() {
   local package="${@}"
 
-  # Load UI functions if not already loaded
-  if ! command -v ui_subtle >/dev/null 2>&1; then
-  fi
-
   # Check if command exists
   if command -v "$package" >/dev/null 2>&1; then
     ui_subtle "✓ ${package} (already installed)"
@@ -288,10 +268,6 @@ ensure_command_available() {
   local exit_on_fail="${3:-true}"
 
   if ! command -v "$command_name" >/dev/null 2>&1; then
-    # Load UI functions if not already loaded
-    if ! command -v ui_error_simple >/dev/null 2>&1; then
-    fi
-
     local error_msg="$command_name is not installed."
     if [[ -n "$install_hint" ]]; then
       error_msg="$error_msg $install_hint"
@@ -315,10 +291,6 @@ show_command_help() {
   local usage="$3"
   shift 3
   local commands=("$@")
-
-  # Load UI functions if not already loaded
-  if ! command -v ui_spacer >/dev/null 2>&1; then
-  fi
 
   ui_spacer
   ui_highlight "$script_name - $description"

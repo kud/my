@@ -67,7 +67,7 @@ update_homebrew() {
     ui_spacer
 
     # Initialize brew cache for faster package checking
-    init_brew_cache
+    refresh_brew_cache
 }
 
 merge_and_install_brew_packages() {

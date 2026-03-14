@@ -174,7 +174,7 @@ for component_info in "${components[@]}"; do
             $MY/core/system/ssh.zsh || ui_warning_simple "SSH setup skipped"
             ;;
         "symlink")
-            $MY/core/system/symlink.zsh || ui_warning_simple "Symlinks skipped"
+            $MY/core/system/symlinks.zsh || ui_warning_simple "Symlinks skipped"
             ;;
         "os")
             $MY/core/os/main.zsh || ui_warning_simple "OS settings skipped"

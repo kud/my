@@ -88,7 +88,7 @@ fi
 # 🤖 AI assets (agents, skills)
 ############################################################
 
-$MY/core/cli/ai.zsh sync
+$MY/core/ai.zsh sync
 
 ############################################################
 # 🧩 Zsh config directory setup
