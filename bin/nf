@@ -1,0 +1,73 @@
+#! /usr/bin/env zsh
+
+# Nerd Font glyph picker — browse, search, copy to clipboard
+# Reads glyphs directly from installed Nerd Font files (no network needed)
+
+CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/nf"
+CACHE_FILE="$CACHE_DIR/icons.tsv"
+PREVIEW_SCRIPT="$CACHE_DIR/preview.sh"
+
+_nf_find_font() {
+  local fonts_dir="$HOME/Library/Fonts"
+  local font
+  font=$(ls "$fonts_dir"/*NerdFontMono-Regular.ttf 2>/dev/null | head -1)
+  [[ -z "$font" ]] && font=$(ls "$fonts_dir"/*NerdFont-Regular.ttf 2>/dev/null | head -1)
+  echo "$font"
+}
+
+_nf_build_cache() {
+  local font=$(_nf_find_font)
+  if [[ -z "$font" ]]; then
+    echo "error: no Nerd Font found in ~/Library/Fonts" >&2
+    exit 1
+  fi
+  mkdir -p "$CACHE_DIR"
+  echo "reading glyphs from $(basename "$font")..." >&2
+  python3 << PYEOF > "$CACHE_FILE"
+from fontTools.ttLib import TTFont
+
+font = TTFont("$font")
+cmap = font.getBestCmap()
+
+for code, name in sorted(cmap.items()):
+    if code < 0xE000:
+        continue
+    glyph = chr(code)
+    print(f"{glyph}\t{name}\tU+{code:04X}")
+PYEOF
+  echo "cached $(wc -l < "$CACHE_FILE" | tr -d ' ') glyphs" >&2
+}
+
+_nf_write_preview_script() {
+  cat > "$PREVIEW_SCRIPT" << 'EOF'
+#!/usr/bin/env zsh
+g=$(awk '{print $1}' <<< "$*")
+n=$(awk '{print $2}' <<< "$*")
+c=$(awk '{print $3}' <<< "$*")
+printf "\n"
+printf "  \033[1m%s\033[0m\n" "$g"
+printf "\n"
+printf "  \033[2m%s\033[0m\n" "$n"
+printf "  \033[2m%s\033[0m\n" "$c"
+EOF
+  chmod +x "$PREVIEW_SCRIPT"
+}
+
+if [[ "$1" == "--refresh" ]]; then
+  _nf_build_cache
+  exit 0
+fi
+
+[[ -f "$CACHE_FILE" ]] || _nf_build_cache
+[[ -f "$PREVIEW_SCRIPT" ]] || _nf_write_preview_script
+
+awk -F'\t' '{ printf "%-4s  %-55s  %s\n", $1, $2, $3 }' "$CACHE_FILE" \
+  | fzf \
+      --prompt="  nf › " \
+      --layout=reverse \
+      --no-sort \
+      --header=$'enter: copy & close  │  tab: copy & stay\n' \
+      --preview="$PREVIEW_SCRIPT {}" \
+      --preview-window=right:20:wrap \
+      --bind='enter:execute(echo {} | awk '"'"'{print $1}'"'"' | tr -d "\n" | pbcopy)+abort' \
+      --bind='tab:execute(echo {} | awk '"'"'{print $1}'"'"' | tr -d "\n" | pbcopy)'
