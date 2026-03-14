@@ -50,7 +50,7 @@ format = "[ $branch]($style)"
 truncation_length = 32
 truncation_symbol = "…"
 
-# Git statuss
+# Git status
 [git_status]
 style = "#808080"
 conflicted = "="
