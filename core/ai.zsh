@@ -20,6 +20,7 @@ source $MY/core/utils/ui-kit.zsh
 # List of available AI clients
 declare -a ai_clients=(
     "claude-code"
+    "claude-desktop"
     "codex"
     "opencode"
     "github-copilot"
@@ -202,6 +203,7 @@ client)
         fi
 
         script="$MY/core/cli/${client}.zsh"
+        [[ ! -f "$script" ]] && script="$MY/core/apps/${client}.zsh"
 
         if [[ ! -f "$script" ]]; then
             ui_error_msg "Script not found: $script" 0
@@ -231,6 +233,7 @@ client)
 
     for client in "${ai_clients[@]}"; do
         script="$MY/core/cli/${client}.zsh"
+        [[ ! -f "$script" ]] && script="$MY/core/apps/${client}.zsh"
 
         if [[ ! -f "$script" ]]; then
             ui_warning_simple "Script not found: $script" 0
@@ -271,9 +274,13 @@ client)
     ;;
 
 ############################################################
-# Help / unknown
+# Shorthand: my ai <client-name> → my ai client <client-name>
 ############################################################
 *)
+    if [[ " ${ai_clients[@]} " =~ " $1 " ]]; then
+        exec "$MY/core/ai.zsh" client "$@"
+    fi
+
     echo "Usage: my ai <command>"
     echo ""
     echo "Commands:"
