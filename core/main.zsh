@@ -80,8 +80,8 @@ setup_development_tools() {
     ui_subtitle "Shell Abbreviations"
     $MY/core/cli/abbr.zsh
 
-    ui_subtitle "Basic Memory Configuration"
-    $MY/core/cli/basic-memory.zsh
+    # ui_subtitle "Basic Memory Configuration"
+    # $MY/core/cli/basic-memory.zsh
 
     ui_subtitle "Claude Code Configuration"
     $MY/core/cli/claude-code.zsh

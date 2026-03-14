@@ -214,12 +214,12 @@ echo "url = \"https://api.githubcopilot.com/mcp\"" >> "$output_file"
 echo "headers = { Authorization = \"Bearer ${MCP_GITHUB_TOKEN}\" }" >> "$output_file"
 echo "" >> "$output_file"
 
-# Add Basic Memory MCP server
-echo "[[mcp_servers]]" >> "$output_file"
-echo "name = \"basic-memory\"" >> "$output_file"
-echo "transport = \"stdio\"" >> "$output_file"
-echo "command = [\"uvx\", \"basic-memory\", \"mcp\"]" >> "$output_file"
-echo "" >> "$output_file"
+# Basic Memory MCP server (disabled)
+# echo "[[mcp_servers]]" >> "$output_file"
+# echo "name = \"basic-memory\"" >> "$output_file"
+# echo "transport = \"stdio\"" >> "$output_file"
+# echo "command = [\"uvx\", \"basic-memory\", \"mcp\"]" >> "$output_file"
+# echo "" >> "$output_file"
 
 # Add Notion MCP server
 echo "[[mcp_servers]]" >> "$output_file"

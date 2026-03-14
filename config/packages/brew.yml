@@ -120,9 +120,10 @@ packages:
     - yazi
     - yt-dlp
     - silicon
-    - glow
     - imagineer
     - gonzo
+
+  arm_formulae:
     - brewy
 
   casks:
@@ -218,6 +219,4 @@ packages:
     - suspicious-package
 
 post_install:
-  # System configuration
-  - brew link --overwrite node
   - xattr -d -r com.apple.quarantine ~/Library/QuickLook

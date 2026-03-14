@@ -97,10 +97,10 @@ else
     shift 1
     $MY/core/cli/ai.zsh "$@"
     ;;
-  basic-memory)
-    shift 1
-    $MY/core/cli/basic-memory.zsh "$@"
-    ;;
+  # basic-memory)
+  #   shift 1
+  #   $MY/core/cli/basic-memory.zsh "$@"
+  #   ;;
   ssh)
     $MY/core/system/ssh.zsh
     ;;
@@ -191,7 +191,7 @@ else
 
     echo
     echo "  Development Tools:"
-    echo "    abbr, ai, basic-memory, ssh"
+    echo "    abbr, ai, ssh"  # basic-memory
     echo
     echo "  AI (use 'my ai <command>'):"
     echo "    sync, client [name]"
