@@ -61,7 +61,7 @@ configure_modern_shell() {
 
 update_homebrew() {
     local brew_update_log="${TMPDIR:-/tmp}/my-brew-update.log"
-    HOMEBREW_COLOR=1 brew update 2>&1 | tee "$brew_update_log"
+    HOMEBREW_COLOR=1 brew update 2>&1 | tee >(sed 's/\x1b\[[0-9;]*m//g' > "$brew_update_log")
     brew upgrade
     ui_success_simple "Homebrew updated"
     ui_spacer
@@ -71,10 +71,15 @@ update_homebrew() {
 }
 
 merge_and_install_brew_packages() {
-    merge_and_install_packages "brew" \
-        ".taps[]:brew_tap:-" \
-        ".packages.formulae[]:brew_install:brew_install_run" \
+    local sections=(
+        ".taps[]:brew_tap:-"
+        ".packages.formulae[]:brew_install:brew_install_run"
         ".packages.casks[]:cask_install:cask_install_run"
+    )
+
+    [[ $(uname -m) == "arm64" ]] && sections+=(".packages.arm_formulae[]:brew_install:brew_install_run")
+
+    merge_and_install_packages "brew" "${sections[@]}"
     ui_success_simple "Homebrew packages installed"
 }
 

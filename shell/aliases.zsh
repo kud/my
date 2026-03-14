@@ -96,10 +96,10 @@ alias cldc='claude --continue'
 alias cldr='claude --resume'
 alias cld-restart='claude-restart'
 
-# 🧠 Basic Memory
-alias note="basic-memory tools write-note"
-alias search="basic-memory tools search-notes --query"
-alias recent="basic-memory tools recent-activity"
+# 🧠 Basic Memory (disabled)
+# alias note="basic-memory tools write-note"
+# alias search="basic-memory tools search-notes --query"
+# alias recent="basic-memory tools recent-activity"
 
 # 🐙 GH aliases
 alias prw='gh prw'
