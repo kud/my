@@ -20,6 +20,14 @@ mcp:
   #     - -y
   #     - mcp-remote
   #     - https://api.raindrop.io/rest/v2/ai/mcp
+  Raindrop:
+    transport: stdio
+    command: npx
+    args:
+      - --yes
+      - "@kud/mcp-raindrop-io@latest"
+    env:
+      RAINDROP_TOKEN: ${MCP_RAINDROPIO_TOKEN}
   Playwright:
     transport: stdio
     command: npx
