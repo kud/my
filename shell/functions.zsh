@@ -12,13 +12,21 @@ source "$MY/core/utils/ui-kit.zsh"
 # 🏷️ Tab title: auto or manual
 _custom_title=""
 
+_tab_title() {
+  [[ "$PWD" == "$HOME" ]] && echo "~" && return
+  local words="${${PWD##*/}:gs/-/ /}"
+  echo "${(C)words}"
+}
+
 precmd() {
-  local title="${_custom_title}"
-  if [[ -z "$title" ]]; then
-    title="${PWD##*/}"
-    [[ "$PWD" == "$HOME" ]] && title="~"
-  fi
+  local title="${_custom_title:-$(_tab_title)}"
   echo -ne "\e]1;$title\a"
+}
+
+preexec() {
+  local cmd="${1%% *}"
+  local base="${_custom_title:-$(_tab_title)}"
+  echo -ne "\e]1;$base ($cmd)\a"
 }
 
 title() {
