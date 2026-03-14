@@ -36,20 +36,11 @@ title() {
 }
 
 claude() {
-  setopt local_options no_monitor
   local prev="$_custom_title"
   local project="${_custom_title:-$(_tab_title)}"
-  local claude_title="$project · Claude 🤖"
-  _custom_title="$claude_title"
+  _custom_title="$project · Claude 🤖"
   precmd
-  ( while true; do
-      echo -ne "\e]1;$claude_title\a"
-      sleep 2
-    done ) &
-  local title_loop=$!
   command claude "$@"
-  kill "$title_loop" 2>/dev/null
-  wait "$title_loop" 2>/dev/null
   _custom_title="$prev"
   precmd
 }
