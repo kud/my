@@ -13,6 +13,13 @@
 #       KEY: value
 
 mcp:
+  raindrop:
+    transport: stdio
+    command: npx
+    args:
+      - -y
+      - mcp-remote
+      - https://api.raindrop.io/rest/v2/ai/mcp
   playwright:
     transport: stdio
     command: npx

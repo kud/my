@@ -68,42 +68,32 @@ else
     ;;
 
   # Apps (core/apps)
-  firefox)
+  apps)
     shift 1
-    $MY/core/apps/firefox.zsh "$@"
+    app="$1"; shift 1
+    script="$MY/core/apps/${app}.zsh"
+    if [[ ! -f "$script" ]]; then
+      ui_error_msg "Unknown app: $app" 0
+      ui_info_simple "Available: bruno, claude-desktop, firefox, keepassxc, pcloud, sublime-merge" 0
+      exit 1
+    fi
+    exec "$script" "$@"
     ;;
-  keepassxc)
-    $MY/core/apps/keepassxc.zsh
-    ;;
-  pcloud)
-    $MY/core/apps/pcloud.zsh
-    ;;
-  sublime-merge)
-    $MY/core/apps/sublime-merge.zsh
-    ;;
-  bruno)
-    $MY/core/apps/bruno.zsh
-    ;;
-  claude-desktop)
+
+  # AI (core/ai.zsh)
+  ai)
     shift 1
-    $MY/core/apps/claude-desktop.zsh "$@"
+    $MY/core/ai.zsh "$@"
     ;;
 
   # CLI tools (core/cli)
   abbr)
     $MY/core/cli/abbr.zsh
     ;;
-  ai)
-    shift 1
-    $MY/core/cli/ai.zsh "$@"
-    ;;
   # basic-memory)
   #   shift 1
   #   $MY/core/cli/basic-memory.zsh "$@"
   #   ;;
-  ssh)
-    $MY/core/system/ssh.zsh
-    ;;
 
   # Packages (core/packages)
   antidote)
@@ -132,6 +122,9 @@ else
     ;;
 
   # System (core/system)
+  ssh)
+    $MY/core/system/ssh.zsh
+    ;;
   dotfiles)
     $MY/core/system/dotfiles.zsh
     ;;
@@ -186,8 +179,8 @@ else
     echo "  Package Managers:"
     echo "    antidote, brew, gh, gem, mas, npm, uv, mise"
     echo
-    echo "  Applications:"
-    echo "    firefox, keepassxc, pcloud, sublime-merge, bruno, claude-desktop"
+    echo "  Applications (use 'my apps <name>'):"
+    echo "    bruno, claude-desktop, firefox, keepassxc, pcloud, sublime-merge"
 
     echo
     echo "  Development Tools:"
