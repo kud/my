@@ -14,6 +14,7 @@ _custom_title=""
 
 _tab_title() {
   [[ "$PWD" == "$HOME" ]] && echo "~" && return
+  [[ "$PWD" == "$MY/profiles/"* ]] && echo "My · ${(C)${${PWD#$MY/profiles/}%%/*}:gs/-/ /}" && return
   local words="${${PWD##*/}:gs/-/ /}"
   echo "${(C)words}"
 }
@@ -25,12 +26,32 @@ precmd() {
 
 preexec() {
   local cmd="${1%% *}"
+  [[ "$cmd" == "claude" ]] && return
   local base="${_custom_title:-$(_tab_title)}"
   echo -ne "\e]1;$base ($cmd)\a"
 }
 
 title() {
   _custom_title="$*"
+}
+
+claude() {
+  setopt local_options no_monitor
+  local prev="$_custom_title"
+  local project="${_custom_title:-$(_tab_title)}"
+  local claude_title="$project · Claude 🤖"
+  _custom_title="$claude_title"
+  precmd
+  ( while true; do
+      echo -ne "\e]1;$claude_title\a"
+      sleep 2
+    done ) &
+  local title_loop=$!
+  command claude "$@"
+  kill "$title_loop" 2>/dev/null
+  wait "$title_loop" 2>/dev/null
+  _custom_title="$prev"
+  precmd
 }
 
 # 📁 Create folder and cd into it
