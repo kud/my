@@ -39,9 +39,9 @@ Read the skill/agent definition file and audit it for structural and efficiency 
 To locate the file, check these paths in order:
 
 1. `$MY/ai/skills/<name>/SKILL.md`
-2. `$MY/profiles/work/ai/skills/<name>/SKILL.md`
+2. `$MY/profiles/*/ai/skills/<name>/SKILL.md`
 3. `$MY/ai/agents/<name>/AGENT.md` or `$MY/ai/agents/<name>.md`
-4. `$MY/profiles/work/ai/agents/<name>.md`
+4. `$MY/profiles/*/ai/agents/<name>.md`
 
 ---
 
@@ -68,8 +68,8 @@ If no issues were found, say nothing.
 
 - Global skills: `$MY/ai/skills/<name>/SKILL.md`
 - Global agents: `$MY/ai/agents/<name>/AGENT.md`
-- Work skills: `$MY/profiles/work/ai/skills/<name>/SKILL.md`
-- Work agents: `$MY/profiles/work/ai/agents/<name>/AGENT.md`
+- Profile skills: `$MY/profiles/<profile>/ai/skills/<name>/SKILL.md`
+- Profile agents: `$MY/profiles/<profile>/ai/agents/<name>/AGENT.md`
 - Global CLAUDE.md: `$MY/ai/CLAUDE.md`
 
 After applying any fixes, run `my ai sync`.

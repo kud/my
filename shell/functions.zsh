@@ -15,6 +15,7 @@ _custom_title=""
 _tab_title() {
   [[ "$PWD" == "$HOME" ]] && echo "~" && return
   [[ "$PWD" == "$MY/profiles/"* ]] && echo "My · ${(C)${${PWD#$MY/profiles/}%%/*}:gs/-/ /}" && return
+  [[ "$PWD" == */my-profile-* ]] && echo "My · ${(C)${${PWD##*/my-profile-}%%/*}:gs/-/ /}" && return
   local words="${${PWD##*/}:gs/-/ /}"
   echo "${(C)words}"
 }

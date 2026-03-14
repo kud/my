@@ -16,7 +16,9 @@ Do not proceed until you have a clear task description. If the description is va
 Once you have a clear task, execute these steps in order. Use the **Task tool** to invoke each agent, passing the relevant context from previous steps.
 
 ### Step 1: Plan the implementation (mandatory — never skip)
+
 > **Note:** Conventions (commit format, branch naming, PR comments) are loaded from CLAUDE.md automatically — no separate read step needed.
+
 - Invoke the **planner** agent (opus) with the task description
 - The planner handles scope analysis, codebase exploration, and plan design in one pass
 - If it returns clarifying questions, relay them to the user and wait for answers
@@ -25,33 +27,37 @@ Once you have a clear task, execute these steps in order. Use the **Task tool** 
 - Pass the approved plan to the implementer in step 4
 
 ### Step 2: Create branch (mandatory)
+
 - Invoke the **git-branch-creator** agent (haiku) with the task description
 - This creates and checks out a branch on the current working tree following naming conventions
 - All subsequent steps operate in the current working directory
 
-> **Worktree mode (opt-in):** If the user explicitly asks to use a worktree (e.g., "use a worktree", "run this in the background"), invoke the **worktree-creator** agent instead. This creates an isolated worktree at `../<repo>-worktrees/<identifier>` with the branch, and all subsequent steps operate inside that worktree.
-
 ### Step 3: Implement
+
 - Invoke the **implementer** agent (sonnet) with the task description and the approved plan from step 1
 - The implementer follows the plan — it should not need to re-explore the codebase
 - This is where the actual code changes happen
 
 ### Step 4: Evaluate tests (conditional)
+
 - Invoke the **e2e-test-writer** agent (sonnet) to assess whether tests are needed
 - Evaluate if the change introduces new behaviour, fixes a bug, or risks regressions
 - If yes, let it write them
 - Test descriptions should reflect behaviour or scenarios, not implementation details
 
 ### Step 5: Lint and test
+
 - Invoke the **linter** and **test-runner** agents in parallel
 - Only run checks relevant to the changed files when possible (pass file list from implementation step)
 - If issues are found, fix them before proceeding
 - If fixes require code changes, those changes are included in the commit
 
 ### Step 6: Commit
+
 - Invoke the **commit-creator** agent (haiku) with a summary of changes
 
 ### Step 7: Create PR
+
 - **Before invoking pr-creator**, run `git remote get-url upstream` yourself (Bash tool) to determine the target
 - **Fork workflow** (upstream remote exists):
   - Derive `<upstream-owner>/<repo>` from the upstream URL (e.g. `git@github.com:gnachman/iTerm2.git` → `gnachman/iTerm2`)
@@ -62,9 +68,11 @@ Once you have a clear task, execute these steps in order. Use the **Task tool** 
 - **CRITICAL — PR description MUST use the repo's PR template**: The pr-creator agent MUST find and fill the repo's `.github/pull_request_template.md` (or equivalent). Do NOT override or replace the template structure — all content goes INSIDE the template's sections. Explicitly tell the agent to read the template file first.
 
 ### Step 8: Git command output
+
 - Invoke the **git-workflow-output** agent (haiku) to produce the full command reference
 
 ### Step 9: Summary (mandatory — never skip)
+
 - Invoke the **workflow-summarizer** agent (haiku) to produce the final summary
 - The summary must be **human-friendly, suitable for sharing with non-engineers**:
   - What problem was addressed (user or system perspective, 1-2 sentences)
@@ -76,7 +84,7 @@ Once you have a clear task, execute these steps in order. Use the **Task tool** 
 
 ## Orchestration Rules
 
-- **Branch by default**: Create a branch on the current working tree. Only use worktrees when the user explicitly requests it (for parallel/background work).
+- **Branch by default**: Create a branch on the current working tree.
 - **Pass context forward**: Each agent's output feeds into the next agent's input. Summarize key outputs (branch name, file list, commit message, PR URL) as you go.
 - **Stop on failure**: If any agent reports an error or blocker, stop the workflow and ask the user how to proceed.
 - **Mandatory steps**: Steps 1, 2, and 9 are never skippable.
@@ -86,6 +94,7 @@ Once you have a clear task, execute these steps in order. Use the **Task tool** 
 
 - If an agent is unavailable, execute that step's logic directly using your own knowledge of the conventions.
 - If the user wants to skip a step, allow it (except mandatory ones) but note what was skipped in the final summary.
+
 ## Final step — QA
 
 Run `/my-run-qa` to review this execution for missed steps or wrong decisions. If issues are found, surface them and ask before applying fixes. If nothing is wrong, stay silent.
