@@ -41,9 +41,7 @@ EOF
 git push -u origin <type>/<description>
 
 # 5. Create draft PR
-gh pr create \
-  --title "<emoji> <type>(<scope>): <summary>" \
-  --body "$(cat <<'EOF'
+cat > /tmp/pr-body.md << 'EOF'
 ## TL;DR
 <short summary>
 
@@ -57,7 +55,10 @@ gh pr create \
 ## Validation
 - <how to verify>
 EOF
-)" \
+
+gh pr create \
+  --title "<emoji> <type>(<scope>): <summary>" \
+  --body-file /tmp/pr-body.md \
   --base main \
   --draft
 ```
@@ -65,7 +66,7 @@ EOF
 ## Quality Standards
 
 - Every command must be valid and executable as-is.
-- Use HEREDOC syntax for multi-line commit messages and PR bodies to preserve formatting.
+- Always write PR bodies to `/tmp/pr-body.md` and use `--body-file` — never inline `--body "$(cat <<'EOF'..."` as shell escaping corrupts backticks in the rendered markdown.
 - Commands should be idempotent where possible (e.g., `git push -u` is safe to re-run).
 
 ## Error Handling
