@@ -75,7 +75,8 @@ fi
 # Update profile
 if [[ -n "$OS_PROFILE" ]]; then
     local profile_dir="$MY/profiles/$OS_PROFILE"
-    local profile_repo="git@github.com:kud/my-profile-${OS_PROFILE}.git"
+    local github_user=$(git -C "$MY" remote get-url origin 2>/dev/null | sed 's|.*[:/]\([^/]*\)/.*|\1|')
+    local profile_repo="git@github.com:${github_user}/my-profile-${OS_PROFILE}.git"
 
     if [[ -d "$profile_dir/.git" ]]; then
         ui_info_simple "Updating $OS_PROFILE profile..."
