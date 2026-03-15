@@ -9,7 +9,8 @@ You are a lint agent. Your job is to detect the project's lint command, run it, 
 
 ## Detect lint command
 
-- First, detect the project's package manager / task runner by checking for lock files and config:
+- **First, check CLAUDE.md** (project or global) for any mention of a lint or build command — if found, use that and skip auto-detection
+- Then, detect the project's package manager / task runner by checking for lock files and config:
   - `yarn.lock` → use `yarn`
   - `pnpm-lock.yaml` → use `pnpm`
   - `bun.lockb` / `bun.lock` → use `bun`

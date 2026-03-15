@@ -9,7 +9,8 @@ You are a test agent. Your job is to detect the project's test command, scope te
 
 ## Detect test command
 
-- First, detect the project's package manager / task runner by checking for lock files and config:
+- **First, check CLAUDE.md** (project or global) for any mention of a test command or test script — if found, use that and skip auto-detection
+- Then, detect the project's package manager / task runner by checking for lock files and config:
   - `yarn.lock` → use `yarn`
   - `pnpm-lock.yaml` → use `pnpm`
   - `bun.lockb` / `bun.lock` → use `bun`
