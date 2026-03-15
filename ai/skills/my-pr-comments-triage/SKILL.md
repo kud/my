@@ -50,9 +50,10 @@ Execute these steps in order using the **Task tool** to invoke each agent.
 
 ### Step 6: Re-request review (automatic)
 
-- Always re-request from the full reviewer team (Yaroslav, Yevhenii, Vlad — from CLAUDE.md), regardless of who commented
-- Run: `gh pr edit <number> --add-reviewer zyvpeople,muryj,vladTysia`
-- Output: ✅ **Review re-requested** from <reviewer logins>
+- Check the active CLAUDE.md for a **Reviewers** section listing GitHub logins to re-request from
+- If reviewer logins are defined there, run: `gh pr edit <number> --add-reviewer <logins>`
+- If no reviewer logins are found in CLAUDE.md, skip this step silently
+- Output: ✅ **Review re-requested** from <reviewer logins>, or nothing if skipped
 
 ## Constraints
 
