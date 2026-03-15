@@ -31,6 +31,13 @@ After creating or modifying agents/skills, run `my ai sync` to update the symlin
 
 ---
 
+## Audits & Destructive Actions
+
+- When auditing a project (pre-publish, security, file hygiene), run all independent scans in a single parallel batch — git status, secret grep, directory listing, and config reads can all be concurrent.
+- When destructive actions (file deletions, overwrites) are identified during an audit, present the full list and ask once for confirmation before executing any of them.
+
+---
+
 ## Shell & Platform
 
 - **sed**: GNU sed is installed via Homebrew but only available in login shells. Non-login shells (subprocesses, agents) may fall back to macOS BSD sed. Always use `sed -i ''` — it works on both. Prefer the `Edit` tool over `sed` entirely to avoid the issue.

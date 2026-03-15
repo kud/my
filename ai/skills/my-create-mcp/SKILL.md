@@ -119,12 +119,42 @@ import { z } from "zod"
 
 ### Auth — fail fast
 
-Read the token at startup, exit immediately if missing:
+Auth pattern depends on the auth type:
+
+**Simple API key / bearer token** — env var is standard and fine. Set it in `.mcp.json` or Claude Desktop config:
 
 ```ts
 const API_TOKEN = process.env.MY_API_TOKEN
 if (!API_TOKEN) {
   console.error("MY_API_TOKEN env var is required")
+  process.exit(1)
+}
+```
+
+**OAuth2** — tokens expire and need refresh; env vars are a poor fit. Read from `~/.config/<service>.json` written by a `setup.js` device flow script (see Step 6b). Config files can then be committed without credentials:
+
+```ts
+import { readFileSync } from "fs"
+import { homedir } from "os"
+import { join } from "path"
+
+const loadConfigFile = () => {
+  try {
+    return JSON.parse(
+      readFileSync(join(homedir(), ".config", "<service>.json"), "utf8"),
+    )
+  } catch {
+    return {}
+  }
+}
+
+const fileConfig = loadConfigFile()
+const API_TOKEN = process.env.MY_API_TOKEN ?? fileConfig.accessToken
+
+if (!API_TOKEN) {
+  console.error(
+    "MY_API_TOKEN env var or accessToken in ~/.config/<service>.json is required",
+  )
   process.exit(1)
 }
 ```
@@ -232,25 +262,52 @@ npm run build
 
 Build must succeed with zero errors before proceeding.
 
-## Step 7 — Claude Desktop config
+## Step 6b — Local MCP for development + setup script
 
-Snippet to add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+Create `.mcp.json` in the project root (no credentials — server reads from `~/.config/<service>.json`):
 
 ```json
 {
   "mcpServers": {
-    "<ServiceName>": {
+    "<service-name>": {
       "command": "node",
-      "args": ["/Users/kud/Projects/mcp-<service-name>/dist/index.js"],
-      "env": {
-        "MY_API_TOKEN": "your-token-here"
-      }
+      "args": ["./dist/index.js"]
     }
   }
 }
 ```
 
-Remind the user to restart Claude Desktop after saving.
+If the API uses OAuth, also create `setup.js` — a device flow script that writes `~/.config/<service>.json`. Add `"setup": "node setup.js"` to package.json scripts. The script should:
+
+1. Prompt for Client ID + Client Secret
+2. POST to the device code endpoint
+3. Print the verification URL and user code
+4. Poll for the access token
+5. Write `{ clientId, clientSecret, accessToken, refreshToken }` to `~/.config/<service>.json`
+
+Add `.mcp.json` and `.claude/` to `.gitignore`. Never add `~/.config/<service>.json` to the repo.
+
+## Step 7 — Register with Claude Desktop
+
+Add the server to `~/my/config/apps/claude-desktop.yml` under the `mcp:` block:
+
+```yaml
+<ServiceName>:
+  transport: stdio
+  command: node
+  args:
+    - /Users/kud/Projects/mcp-<service-name>/dist/index.js
+  env:
+    MY_API_TOKEN: ${MCP_<SERVICE_NAME>_TOKEN}
+```
+
+Then apply it:
+
+```bash
+my apps claude-desktop
+```
+
+Remind the user to restart Claude Desktop after this step.
 
 ## Step 8 — CLAUDE.md
 
