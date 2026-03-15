@@ -65,12 +65,12 @@ Pick 10 feeds at random from this list:
 
 ## Step 2 — Summarise all 20 items
 
-For each item, `WebFetch` the article page and write a 2–3 sentence summary in French. If unreachable, use the RSS `<description>` or Raindrop excerpt — but always keep the direct article URL.
+For each item, `WebFetch` the article page and write a 4–6 sentence summary in French. If unreachable, use the RSS `<description>` or Raindrop excerpt — but always keep the direct article URL.
 
 Output two clearly separated sections, with no instructions, no prompts, no commentary — only article content:
 
 ```
-## 📌 Vos Raindrops
+## 📌 Mes Raindrops
 
 ### 1. <titre> [<tags>]
 <résumé 2–3 phrases>
