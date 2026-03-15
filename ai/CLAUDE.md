@@ -31,6 +31,21 @@ After creating or modifying agents/skills, run `my ai sync` to update the symlin
 
 ---
 
+## AI vs Scripts
+
+When solving a task, prefer a script over AI/MCP calls when:
+
+- The task is repetitive or will be run more than once
+- The data source is stable and machine-readable (APIs, files, CLI output)
+- The logic is deterministic (filtering, formatting, aggregating)
+- Speed and reliability matter more than natural-language interpretation
+
+In those cases, proactively suggest writing a script (Zsh, Node, etc.) instead of reaching for an MCP tool or an agent. AI and MCP calls should be reserved for tasks that genuinely require reasoning, natural language, or access to live data that isn't easily scriptable.
+
+If you catch yourself chaining multiple MCP calls to do something a one-liner could handle, flag it.
+
+---
+
 ## Audits & Destructive Actions
 
 - When auditing a project (pre-publish, security, file hygiene), run all independent scans in a single parallel batch — git status, secret grep, directory listing, and config reads can all be concurrent.
