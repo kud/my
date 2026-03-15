@@ -42,6 +42,7 @@ After creating or modifying agents/skills, run `my ai sync` to update the symlin
 
 - **sed**: GNU sed is installed via Homebrew but only available in login shells. Non-login shells (subprocesses, agents) may fall back to macOS BSD sed. Always use `sed -i ''` — it works on both. Prefer the `Edit` tool over `sed` entirely to avoid the issue.
 - **gh PR bodies**: Always write to a temp file and use `--body-file /tmp/pr-body.md` — never pass `--body "$(cat <<'EOF'...)"` inline, as shell escaping corrupts backticks in rendered markdown.
+- **Scripting language**: Always use Node.js (`node -e "..."`) for inline scripts and one-liners — never Python. The user prefers JavaScript and finds it easier to debug.
 
 ---
 

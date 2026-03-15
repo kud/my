@@ -44,6 +44,32 @@ settings:
       - mcp__notion__notion-get-comments
       - mcp__notion__notion-get-users
       - mcp__notion__notion-get-teams
+      # Todoist read operations - auto-accept
+      - mcp__todoist__find-tasks
+      - mcp__todoist__find-tasks-by-date
+      - mcp__todoist__find-projects
+      - mcp__todoist__find-sections
+      - mcp__todoist__find-comments
+      - mcp__todoist__find-completed-tasks
+      - mcp__todoist__find-labels
+      - mcp__todoist__find-project-collaborators
+      - mcp__todoist__find-activity
+      - mcp__todoist__fetch
+      - mcp__todoist__fetch-object
+      - mcp__todoist__get-overview
+      - mcp__todoist__list-workspaces
+      - mcp__todoist__search
+      - mcp__todoist__user-info
+      # Google Calendar read operations - auto-accept
+      - mcp__claude_ai_Google_Calendar__gcal_list_events
+      - mcp__claude_ai_Google_Calendar__gcal_list_calendars
+      - mcp__claude_ai_Google_Calendar__gcal_get_event
+      - mcp__claude_ai_Google_Calendar__gcal_find_meeting_times
+      - mcp__claude_ai_Google_Calendar__gcal_find_my_free_time
+      # Excalidraw read operations - auto-accept
+      - mcp__excalidraw__read_checkpoint
+      - mcp__excalidraw__read_me
+      - mcp__excalidraw__create_view
       # GitHub CLI read operations - auto-accept
       - Bash(gh pr list*)
       - Bash(gh pr view*)
@@ -64,10 +90,28 @@ settings:
       # File search - auto-accept
       - Bash(find *)
       # GitHub MCP read operations - auto-accept
-      - mcp__github__get*
-      - mcp__github__list*
-      - mcp__github__search*
-      - mcp__github__*_read
+      - mcp__github__search_pull_requests
+      - mcp__github__search_issues
+      - mcp__github__search_repositories
+      - mcp__github__search_code
+      - mcp__github__search_users
+      - mcp__github__list_issues
+      - mcp__github__list_pull_requests
+      - mcp__github__list_commits
+      - mcp__github__list_branches
+      - mcp__github__list_tags
+      - mcp__github__list_releases
+      - mcp__github__get_me
+      - mcp__github__get_commit
+      - mcp__github__get_file_contents
+      - mcp__github__get_label
+      - mcp__github__get_latest_release
+      - mcp__github__get_release_by_tag
+      - mcp__github__get_tag
+      - mcp__github__get_team_members
+      - mcp__github__get_teams
+      - mcp__github__issue_read
+      - mcp__github__pull_request_read
     ask:
       - Bash(npm publish *)
       # Force push - requires confirmation
