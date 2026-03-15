@@ -89,11 +89,6 @@ _Nothing here._
 
 ---
 
-### 🎯 Top 3 things to do now
-
-1. **[repo#number]** <one-line action>
-2. **[repo#number]** <one-line action>
-3. **[repo#number]** <one-line action>
 ```
 
 Rules:
@@ -101,5 +96,8 @@ Rules:
 - Deduplicate issues: show each once in the highest-priority category (assigned > mentions > opened by you). Add a "Source" column to the issues table showing where it came from (`assigned` / `mention` / `author`).
 - If a section has no items, write `_Nothing here._` — don't skip the section entirely.
 - Truncate long titles to ~60 chars with `…` to keep the table readable.
-- The "Top 3" block should pick the highest-impact items across all sections — prioritise 🔴 items and anything where someone is waiting on you.
 - Do not ask the user for confirmation before fetching — just run it.
+
+## Step 4 — Interactive next moves
+
+After rendering the triage tables, invoke `/my-next-moves` with the top actionable items (max 7). Prioritise 🔴 items first, then 🟡, then 🟠. Each item label should be a concrete action ("Reply to @grafst on #22967", "Check comment on PR #26347", "Ping iTerm2 maintainer on #615").

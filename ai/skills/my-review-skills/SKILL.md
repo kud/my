@@ -35,9 +35,9 @@ Signal: why this suggests a deeper issue
 Suggestion: promote to CLAUDE.md / consolidate / rewrite / remove
 ```
 
-Then ask: **"Want me to apply any of these?"** and wait before touching files.
+Then invoke `/my-next-moves` with each suggested change as a candidate action ("Promote debounce rule to CLAUDE.md", "Rewrite my-foo skill intro", "Remove my-bar — unused for 60 days", etc.).
 
-If no patterns are found, say: "Skills look healthy — no recurring corrections detected in the last 30 days."
+If no patterns are found, say: "Skills look healthy — no recurring corrections detected in the last 30 days." and do not invoke `/my-next-moves`.
 
 ## What NOT to do
 

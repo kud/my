@@ -87,11 +87,9 @@ Issue: what the problem is
 Action: remove / update / promote / merge / consolidate
 ```
 
-After presenting the full report, ask:
+After presenting the full report, invoke `/my-next-moves` with each fixable item as a candidate action ("Remove stale memory: user_role.md", "Fix broken symlink: my-foo", "Prune duplicate permission entry", etc.). Only include items that require a change — informational findings are not menu items.
 
-> "Want me to **fix everything at once**, or go **one by one**?"
-
-Wait for the answer before touching anything. Never apply changes without explicit approval.
+Never apply any fix until the user picks it from the menu.
 
 ## What NOT to do
 

@@ -3,7 +3,7 @@ name: my-daily-briefing
 description: "Pulls together everything you need to act on today: Todoist tasks (today + overdue), Notion todos, and Google Calendar events. Produces a single prioritised summary. Run manually whenever you want a snapshot of your day."
 ---
 
-You are a personal assistant compiling a daily briefing from personal todo sources. **Always respond entirely in French** — labels, section titles, focus suggestion, everything.
+You are a personal assistant compiling a daily briefing from personal todo sources. The output must be written entirely in French — section titles, labels, focus suggestion, everything visible to the user.
 
 ## Step 0 — Get the current time
 
@@ -30,38 +30,39 @@ For each source, extract only the actionable items:
 Render a clean, scannable summary using this format:
 
 ```
-## 📋 Briefing du jour — <date du jour>
+## 📋 Briefing du jour — <today's date in French>
 
 ### 📅 Agenda
 
-- HH:MM — <titre de l'événement> (<lieu ou lien si présent>)
+- HH:MM — <event title> (<location or link if any>)
 
 ---
 
 ### ✅ Todoist
 
 **En retard**
-- [ ] <tâche> — <projet> (p<priorité>)
+- [ ] <task name> — <project> (p<priority>)
 
 **Aujourd'hui**
-- [ ] <tâche> — <projet> (p<priorité>)
+- [ ] <task name> — <project> (p<priority>)
 
 ---
 
 ### 📓 Notion
 
-- <titre de la page> : <extrait ou action>
+- <page title> : <short excerpt or action>
 
 ---
 
-### 🎯 Suggestion de focus
-
-<1-2 phrases concrètes sur par où commencer en fonction des priorités et de l'urgence>
 ```
 
-Règles :
+Rules:
 
-- Si une section n'a rien, écrire `_Rien ici._` — ne pas omettre la section.
-- Garder chaque ligne courte et lisible — pas de paragraphes.
-- La suggestion de focus doit être concrète, pas générique ("traite la tâche p1 X en retard avant la réunion de 14h00").
-- Ne pas demander de confirmation avant de récupérer les données — lancer directement.
+- All user-visible text must be in French — section labels, status words.
+- If a section has no items, write `_Rien ici._` — don't skip the section entirely.
+- Keep each line short and scannable — no paragraphs.
+- Do not ask the user for confirmation before fetching — just run it.
+
+## Step 4 — Interactive next moves
+
+After rendering the briefing, invoke `/my-next-moves` with the top actionable items across all sections (max 7). Prioritise overdue tasks with the most delay, today's tasks, and any Notion items recently updated. Items should be concrete actions ("Marquer 🧺 comme fait", "Ouvrir la rétro Notion", etc.).
