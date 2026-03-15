@@ -252,7 +252,21 @@ Snippet to add to `~/Library/Application Support/Claude/claude_desktop_config.js
 
 Remind the user to restart Claude Desktop after saving.
 
-## Step 8 — README
+## Step 8 — CLAUDE.md
+
+Create a `CLAUDE.md` in the project root containing the official API docs URL:
+
+```markdown
+# mcp-<service-name>
+
+## API Reference
+
+Official API docs: <url>
+```
+
+This is required so `my-update-mcp` can find the docs in future audits without asking.
+
+## Step 9 — README
 
 Create `README.md` following this exact structure and style (see `github.com/kud/mcp-raindrop-io` as the reference):
 

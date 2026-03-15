@@ -27,7 +27,7 @@ alias filesizer='du -sc * | sort -n | tail'
 # ⚙️ Config Files
 alias .profile='$EDITOR -n ~/.profile'
 alias .zshrc='$EDITOR -n  ~/.zshrc'
-alias .zshrc_local='$EDITOR -n  ~/.zshrc_local'
+alias zlocal='$EDITOR -n  ~/.config/zsh/local.zsh'
 alias .npmrc='$EDITOR -n  ~/.npmrc'
 alias .claude.json='$EDITOR -n  ~/.claude.json'
 alias nvimconfig='$EDITOR ~/.config/nvim/init.lua'
