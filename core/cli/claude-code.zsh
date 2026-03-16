@@ -86,7 +86,11 @@ update_claude_ui_settings() {
     fi
 
     local temp_file=$(mktemp)
-    jq ".$key = $value" "$CLAUDE_SETTINGS" > "$temp_file" && mv "$temp_file" "$CLAUDE_SETTINGS"
+    if [[ "$key" == "hooks" ]]; then
+        jq ".hooks = (.hooks // {}) * $value" "$CLAUDE_SETTINGS" > "$temp_file" && mv "$temp_file" "$CLAUDE_SETTINGS"
+    else
+        jq ".$key = $value" "$CLAUDE_SETTINGS" > "$temp_file" && mv "$temp_file" "$CLAUDE_SETTINGS"
+    fi
 
     if [[ "$key" == "hooks" ]]; then
         ui_success_simple "setting: hooks" 0
