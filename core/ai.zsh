@@ -273,14 +273,7 @@ client)
     ui_spacer
     ;;
 
-############################################################
-# Shorthand: my ai <client-name> → my ai client <client-name>
-############################################################
 *)
-    if [[ " ${ai_clients[@]} " =~ " $1 " ]]; then
-        exec "$MY/core/ai.zsh" client "$@"
-    fi
-
     echo "Usage: my ai <command>"
     echo ""
     echo "Commands:"

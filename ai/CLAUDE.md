@@ -31,6 +31,17 @@ After creating or modifying agents/skills, run `my ai sync` to update the symlin
 
 ---
 
+## MCP Config
+
+To add or remove an MCP server:
+
+1. Edit the yml (`$MY/config/cli/claude-code.yml` or `$MY/profiles/<profile>/config/cli/claude-code.yml`)
+2. Run `my ai client claude-code` to apply the changes
+
+**`my ai sync` does NOT apply MCP config** — it is only for agents, skills, and CLAUDE.md symlinks.
+
+---
+
 ## AI vs Scripts
 
 When solving a task, prefer a script over AI/MCP calls when:

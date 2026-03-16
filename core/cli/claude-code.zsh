@@ -147,9 +147,7 @@ check_env_vars() {
 # Function to expand environment variables in a string
 expand_env_vars() {
     local text="$1"
-
-    # Use eval to expand variables (safe because we validate them with check_env_vars first)
-    eval echo "$text"
+    print -r -- "${(e)text}"
 }
 
 # Function to add MCP server

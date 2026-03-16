@@ -3,13 +3,32 @@ name: my-update-mcp
 description: "Audits an existing MCP server against the official API docs to ensure full coverage, then implements any missing or outdated tools. Use this when the upstream API may have changed or you want to verify completeness."
 ---
 
-You are auditing and updating an existing TypeScript MCP server. Follow every step exactly.
+You are auditing and updating an MCP server integration. Follow every step exactly.
 
-## Step 1 — Identify the project
+## Step 1 — Identify the MCP
 
-Ask the user which MCP project to audit (e.g. `mcp-trakt`, `mcp-raindrop-io`).
+Ask the user which MCP to audit (e.g. `datadog`, `mcp-trakt`).
 
-Resolve the project path: `~/Projects/<project-name>/`.
+Check `$MY/profiles/*/config/cli/claude-code.yml` and `$MY/config/cli/claude-code.yml` for an entry matching the name.
+
+**Determine the type:**
+
+- If the entry has `transport: http` or `transport: sse` with a remote URL → it is a **remote MCP** → go to Step 1b
+- If the entry has `transport: stdio` with a local command/project → it is a **local MCP** → go to Step 2
+
+## Step 1b — Remote MCP: audit and update config
+
+For remote MCPs, the only thing to update is the config entry in `claude-code.yml`.
+
+1. Fetch the official docs (from the URL provided or found via WebSearch)
+2. Extract: current endpoint URL, available query params (toolsets, scopes, etc.), auth method, any new config options
+3. Compare against the current entry in `claude-code.yml`
+4. Show a diff of what would change and ask for confirmation
+5. Apply the update to the correct `claude-code.yml`
+6. Run `my ai sync` to apply
+7. **Stop here** — no code changes needed for remote MCPs
+
+---
 
 ## Step 2 — Find the official API docs URL
 

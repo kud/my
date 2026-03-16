@@ -556,9 +556,9 @@ ui_confirm() {
     local response
 
     if [[ "$default" == "y" ]]; then
-        echo -ne "${UI_QUESTION} ${message} ${UI_MUTED}[Y/n]${UI_RESET} "
+        echo -ne "${UI_ICON_QUESTION} ${message} ${UI_MUTED}[Y/n]${UI_RESET} "
     else
-        echo -ne "${UI_QUESTION} ${message} ${UI_MUTED}[y/N]${UI_RESET} "
+        echo -ne "${UI_ICON_QUESTION} ${message} ${UI_MUTED}[y/N]${UI_RESET} "
     fi
 
     read -r response

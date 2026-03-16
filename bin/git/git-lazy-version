@@ -32,10 +32,10 @@ usage() {
   echo "  next:    Create pre-release version" >&2
 }
 
-# Bail out early if there is nothing to commit
+# Warn if there is nothing to commit, but let the user continue
 if [[ -z $(git status --porcelain) ]]; then
-  echo "Nothing to commit — no version bump created." >&2
-  exit 1
+  ui_warning_simple "Nothing to commit."
+  ui_confirm "Continue with version bump anyway?" || exit 0
 fi
 
 arg=${1:-}
