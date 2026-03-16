@@ -75,6 +75,8 @@ ai_call() {
   fi
   # strip ANSI
   raw=$(print -r -- "$raw" | sed -E 's/\x1b\[[0-9;]*m//g')
+  # strip opencode status header lines (e.g. "> build · gpt-4.1")
+  raw=$(echo "$raw" | grep -v '^> build ')
   # normalise blank lines
   raw=$(echo "$raw" | sed -E '/^[[:space:]]*$/ {/./!d;:a;N;$!ba;}')
   raw=$(echo "$raw" | sed -E 's/^\[0m[[:space:]]*//')
