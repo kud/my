@@ -4,78 +4,43 @@
 #                                                                              #
 #   🖥  ITERM2 SUGAR                                                           #
 #   ---------------                                                            #
-#   Convenience wrappers around the iTerm2 Python API.                        #
+#   Convenience wrappers around the iTerm2 it2api CLI.                        #
 #                                                                              #
 #   Usage:                                                                     #
+#     iterm title <name>                    Set the tab title                 #
 #     iterm pane [--right|--bottom] [cmd]   Split pane, run optional command  #
-#     iterm tab  [cmd]              Open new tab, run optional command         #
-#     iterm focus                   Bring iTerm2 window to front              #
+#     iterm tab  [cmd]                      Open new tab, run optional command #
+#     iterm focus                           Bring iTerm2 window to front      #
+#     iterm <it2api-cmd> [args]             Passthrough to it2api             #
 #                                                                              #
 ################################################################################
 
-# ---------------------------------------------------------------------------
-# Locate a Python that has the iterm2 package available
-# ---------------------------------------------------------------------------
-_iterm_python() {
-  # iTerm2 bundled runtime (installed via Scripts → Manage → Install Python Runtime)
-  local bundled
-  bundled=$(print -l "$HOME/Library/ApplicationSupport/iTerm2/iterm2env/versions/"*/bin/python3(N) 2>/dev/null | sort | tail -1)
-  if [[ -n "$bundled" && -x "$bundled" ]]; then
-    echo "$bundled"
-    return
-  fi
-
-  # System / mise / homebrew python3 with iterm2 installed via pip
-  if python3 -c "import iterm2" 2>/dev/null; then
-    echo "python3"
-    return
-  fi
-
-  echo ""
-}
-
-# ---------------------------------------------------------------------------
-# Run iterm.py with action + options via environment variables
-# ---------------------------------------------------------------------------
-_iterm_run() {
-  local python
-  python=$(_iterm_python)
-
-  if [[ -z "$python" ]]; then
-    echo "iterm: iTerm2 Python API not found."
-    echo "Install it with: my uv  (iterm2 is in config/packages/uv.yml)"
-    exit 1
-  fi
-
-  ITERM_ACTION="$ITERM_ACTION" \
-  ITERM_VERTICAL="$ITERM_VERTICAL" \
-  ITERM_CMD="$ITERM_CMD" \
-  "$python" "$MY/core/scripts/iterm.py"
-}
-
-# ---------------------------------------------------------------------------
-# Commands
-# ---------------------------------------------------------------------------
 case "$1" in
+
+title)
+  shift
+  if command -v it2api &>/dev/null; then
+    it2api set-name "$*"
+  else
+    echo -ne "\e]1;$*\a"
+  fi
+  ;;
 
 pane)
   shift
-  export ITERM_ACTION="pane"
-  export ITERM_VERTICAL="true"
-  case "$1" in
-    --right)  export ITERM_VERTICAL="true";  shift ;;
-    --bottom) export ITERM_VERTICAL="false"; shift ;;
-  esac
-  export ITERM_CMD="${*:-}"
-  _iterm_run
+  vertical_flag="--vertical"
+  [[ "$1" == "--bottom" ]] && vertical_flag="" && shift
+  [[ "$1" == "--right" ]] && shift
+  session="${ITERM_SESSION_ID##*:}"
+  new=$(it2api split-pane ${vertical_flag:+$vertical_flag} "$session")
+  new_session="${${new##*id=}%% *}"
+  [[ -n "$*" ]] && it2api send-text "$new_session" "$*
+"
   ;;
 
 tab)
   shift
-  export ITERM_ACTION="tab"
-  export ITERM_VERTICAL=""
-  export ITERM_CMD="${*:-}"
-  _iterm_run
+  it2api create-tab ${1:+--command "$*"}
   ;;
 
 focus)
@@ -83,18 +48,25 @@ focus)
   ;;
 
 --help|-h|help|"")
-  echo "Usage: iterm <command> [options] [cmd]"
-  echo ""
-  echo "Commands:"
-  echo "  pane [--right|--bottom] [cmd]   Split right (default) or below, run command"
-  echo "  tab  [cmd]              Open new tab and run command"
-  echo "  focus                   Bring iTerm2 to front"
+  local bold='\033[1m' cyan='\033[36m' dim='\033[2m' reset='\033[0m'
+  echo -e "${bold}Usage:${reset} iterm <command> [options] [cmd]\n"
+  echo -e "${bold}Commands:${reset}"
+  echo -e "  ${cyan}title${reset} <name>                    Set the tab title"
+  echo -e "  ${cyan}pane${reset} [--right|--bottom] [cmd]   Split right (default) or below, run command"
+  echo -e "  ${cyan}tab${reset}  [cmd]                      Open new tab and run command"
+  echo -e "  ${cyan}focus${reset}                           Bring iTerm2 to front"
+  echo -e "\n${bold}it2api commands:${reset}"
+  it2api --help 2>&1 | awk '
+    /^    [a-z][a-z-]/ { if (cmd) print cmd "\t" desc; cmd=$1; $1=""; sub(/^ +/,""); desc=$0 }
+    /^ {20,}/ && cmd && !desc { sub(/^ +/,""); desc=$0 }
+    END { if (cmd) print cmd "\t" desc }
+  ' | sort | awk -v cyan='\033[36m' -v dim='\033[2m' -v reset='\033[0m' -F'\t' '
+    { printf "  %s%-30s%s %s%s%s\n", cyan, $1, reset, dim, $2, reset }
+  '
   ;;
 
 *)
-  echo "iterm: unknown command '$1'"
-  echo "Run 'iterm --help' for usage."
-  exit 1
+  it2api "$@"
   ;;
 
 esac

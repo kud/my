@@ -32,62 +32,6 @@ preexec() {
   echo -ne "\e]1;$base ($cmd)\a"
 }
 
-iterm() {
-  local cmd="$1"; shift
-  case "$cmd" in
-    title)
-      if command -v it2api &>/dev/null; then
-        it2api set-name "$*"
-      else
-        echo -ne "\e]1;$*\a"
-      fi
-      ;;
-    pane)
-      local vertical="true"
-      [[ "$1" == "--bottom" ]] && vertical="false" && shift
-      [[ "$1" == "--right" ]] && shift
-      it2api split-pane --vertical=$vertical ${1:+--command "$*"}
-      ;;
-    tab)
-      it2api create-tab ${1:+--command "$*"}
-      ;;
-    focus)
-      osascript -e 'tell application "iTerm2" to activate'
-      ;;
-    --help|help)
-      echo "Usage: iterm <command> [args]"
-      echo ""
-      echo "Custom commands:"
-      echo "  title <name>             Set and lock the tab title"
-      echo "  pane [--right|--bottom] [cmd]  Split pane, run optional command"
-      echo "  tab [cmd]                Open new tab, run optional command"
-      echo "  focus                    Bring iTerm2 to front"
-      echo ""
-      echo "it2api commands:"
-      if command -v it2api &>/dev/null; then
-        it2api --help 2>&1 | awk '
-          /^    [a-z][a-z-]+/ {
-            cmd = $1
-            rest = substr($0, length($1) + 5)
-            gsub(/^ +/, "", rest)
-            if (rest == "") {
-              getline line
-              gsub(/^ +/, "", line)
-              rest = line
-            }
-            printf "  %-30s %s\n", cmd, rest
-          }
-        ' | sort
-      else
-        echo "  (it2api not available)"
-      fi
-      ;;
-    *)
-      command iterm "$cmd" "$@"
-      ;;
-  esac
-}
-
 title() {
   _custom_title="$*"
   [[ -n "$*" ]] && iterm title "$*" || precmd
