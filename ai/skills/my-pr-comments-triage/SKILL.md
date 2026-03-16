@@ -50,9 +50,9 @@ Execute these steps in order using the **Task tool** to invoke each agent.
 
 ### Step 6: Re-request review (automatic)
 
-- Check the active CLAUDE.md for a **Reviewers** section listing GitHub logins to re-request from
-- If reviewer logins are defined there, run: `gh pr edit <number> --add-reviewer <logins>`
-- If no reviewer logins are found in CLAUDE.md, skip this step silently
+- Run: `gh pr view <number> --json reviews --jq '[.reviews[] | select(.state == "CHANGES_REQUESTED") | .author.login] | unique | join(",")'` to get reviewers who requested changes
+- If the result is non-empty, run: `gh pr edit <number> --add-reviewer <logins>`
+- If no one requested changes, skip this step silently
 - Output: ✅ **Review re-requested** from <reviewer logins>, or nothing if skipped
 
 ## Constraints
