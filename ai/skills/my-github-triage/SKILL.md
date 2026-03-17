@@ -7,13 +7,66 @@ You are a GitHub triage assistant. Your goal is not just to list items — it's 
 
 ## Step 1 — Fetch everything in parallel
 
-Call all of the following in the same message:
+Run a **single** GraphQL call that fetches everything at once:
 
-1. **Your open PRs** — `mcp__github__search_pull_requests` with query `"is:open is:pr author:@me"`
-2. **PRs awaiting your review** — `mcp__github__search_pull_requests` with query `"is:open is:pr review-requested:@me"`
-3. **Issues assigned to you** — `mcp__github__search_issues` with query `"is:open is:issue assignee:@me"`
-4. **Issues mentioning you** — `mcp__github__search_issues` with query `"is:open is:issue mentions:@me"`
-5. **Issues you opened** — `mcp__github__search_issues` with query `"is:open is:issue author:@me"`
+```bash
+gh api graphql -f query='
+{
+  myPRs: search(query: "is:open is:pr author:@me", type: ISSUE, first: 50) {
+    nodes {
+      ... on PullRequest {
+        number title url updatedAt isDraft reviewDecision
+        repository { nameWithOwner }
+        labels(first: 10) { nodes { name } }
+        comments { totalCount }
+        commits(last: 1) { nodes { commit { statusCheckRollup { state } } } }
+      }
+    }
+  }
+  reviewRequests: search(query: "is:open is:pr review-requested:@me", type: ISSUE, first: 50) {
+    nodes {
+      ... on PullRequest {
+        number title url updatedAt isDraft reviewDecision
+        repository { nameWithOwner }
+        labels(first: 10) { nodes { name } }
+        comments { totalCount }
+        author { login }
+      }
+    }
+  }
+  assignedIssues: search(query: "is:open is:issue assignee:@me", type: ISSUE, first: 50) {
+    nodes {
+      ... on Issue {
+        number title url updatedAt
+        repository { nameWithOwner }
+        labels(first: 10) { nodes { name } }
+        comments { totalCount }
+      }
+    }
+  }
+  mentionedIssues: search(query: "is:open is:issue mentions:@me", type: ISSUE, first: 50) {
+    nodes {
+      ... on Issue {
+        number title url updatedAt
+        repository { nameWithOwner }
+        labels(first: 10) { nodes { name } }
+        comments { totalCount }
+      }
+    }
+  }
+  authoredIssues: search(query: "is:open is:issue author:@me", type: ISSUE, first: 50) {
+    nodes {
+      ... on Issue {
+        number title url updatedAt
+        repository { nameWithOwner }
+        labels(first: 10) { nodes { name } }
+        comments { totalCount }
+      }
+    }
+  }
+}
+'
+```
 
 ## Step 2 — Classify each item and write a next-action hint
 

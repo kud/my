@@ -142,29 +142,30 @@ if [[ -f "$brew_update_log" ]]; then
 
     if [[ -n "$new_formulae" ]] || [[ -n "$new_casks" ]] || [[ "$outdated_formulae" -gt 0 ]] || [[ "$outdated_casks" -gt 0 ]]; then
         ui_section "  Homebrew Summary"
+        brew_label() { echo -e " ${UI_PRIMARY}${UI_ICON_STARTER}${UI_RESET} ${UI_BOLD_WHITE}$1${UI_RESET}"; }
 
         if [[ -n "$new_formulae" ]]; then
-            ui_subtitle "New Formulae"
+            brew_label "New Formulae"
             echo "$new_formulae" | while IFS= read -r line; do
                 ui_info_simple "$line"
             done
         fi
 
         if [[ -n "$new_casks" ]]; then
-            ui_subtitle "New Casks"
+            brew_label "New Casks"
             echo "$new_casks" | while IFS= read -r line; do
                 ui_info_simple "$line"
             done
         fi
 
         if [[ "$outdated_formulae" -gt 0 ]] || [[ "$outdated_casks" -gt 0 ]]; then
-            ui_subtitle "Outdated"
+            brew_label "Outdated"
             [[ "$outdated_formulae" -gt 0 ]] && ui_warning_simple "$outdated_formulae formula(e) available to upgrade"
             [[ "$outdated_casks" -gt 0 ]] && ui_warning_simple "$outdated_casks cask(s) available to upgrade"
         fi
 
         if [[ -n "$new_formulae_full" ]] || [[ -n "$new_casks_full" ]]; then
-            ui_subtitle "AI Digest"
+            brew_label "AI Digest"
             ai_prompt="You are a macOS developer assistant. Based on the new Homebrew packages below, highlight 2-4 that look genuinely interesting or useful for a developer, and briefly flag any to skip. Be concise and direct — no fluff.
 
 New formulae:
