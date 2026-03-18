@@ -88,15 +88,15 @@ mcp-<service-name>/
     "access": "public"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.10.2",
-    "zod": "^3.24.0"
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
-    "@vitest/coverage-v8": "^3.0.0",
+    "@types/node": "^25.5.0",
+    "@vitest/coverage-v8": "^4.1.0",
     "tsx": "^4.7.0",
-    "typescript": "^5.0.0",
-    "vitest": "^3.0.0"
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.0"
   }
 }
 ```
@@ -269,36 +269,56 @@ main().catch((e) => {
 
 ## Step 7 — src/**tests**/tools.test.ts
 
-Test every tool handler. Mock `apiFetch` at the module level with `vi.mock`:
+Test every tool handler. Use `vi.hoisted` to set the required env var before module evaluation, then stub `global.fetch` — do **not** use `vi.mock` on the module itself, as it cannot intercept internal calls made by handlers within the same file.
 
 ```ts
-import { describe, it, expect, vi, beforeEach } from "vitest"
-import * as api from "../index.js"
+import { describe, it, expect, vi, beforeAll, beforeEach } from "vitest"
 
-vi.mock("../index.js", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("../index.js")>()
-  return {
-    ...mod,
-    apiFetch: vi.fn(),
-  }
+vi.hoisted(() => {
+  process.env.MY_API_TOKEN = "test-token"
 })
 
-const mockFetch = vi.mocked(api.apiFetch)
+import { getItem, ok, err } from "../index.js"
 
-describe("get_item", () => {
-  beforeEach(() => vi.clearAllMocks())
+const mockFetch = vi.fn()
 
+beforeAll(() => {
+  vi.stubGlobal("fetch", mockFetch)
+})
+
+beforeEach(() => {
+  mockFetch.mockReset()
+})
+
+const res = (data: unknown) =>
+  Promise.resolve({
+    ok: true,
+    status: 200,
+    json: () => Promise.resolve(data),
+  } as Response)
+
+const failRes = () =>
+  Promise.resolve({
+    ok: false,
+    status: 500,
+    json: () => Promise.resolve({}),
+  } as Response)
+
+const text = (result: { content: Array<{ text: string }> }) =>
+  result.content[0].text
+
+describe("getItem", () => {
   it("returns item on success", async () => {
-    mockFetch.mockResolvedValue({ item: { id: "1", name: "Test" } })
-    const result = await api.getItem({ id: "1" })
-    expect(result.content[0].text).toContain("Test")
-    expect(mockFetch).toHaveBeenCalledWith("/items/1")
+    mockFetch.mockReturnValue(res({ item: { id: "1", name: "Test" } }))
+    const result = await getItem({ id: "1" })
+    expect(text(result)).toContain("Test")
+    expect(mockFetch.mock.calls[0][0]).toContain("/items/1")
   })
 
   it("returns error when fetch fails", async () => {
-    mockFetch.mockResolvedValue(null)
-    const result = await api.getItem({ id: "1" })
-    expect(result.content[0].text).toContain("Error:")
+    mockFetch.mockReturnValue(failRes())
+    const result = await getItem({ id: "1" })
+    expect(text(result)).toContain("Error:")
   })
 })
 ```
@@ -500,12 +520,16 @@ Create or update as needed.
 
 ## Step U10 — Update dependencies
 
-Run `npm outdated`. If packages are outdated:
+Run `npx npm-check-updates` to list outdated packages, then update everything to latest without asking:
 
-1. Show the list to the user
-2. Ask for confirmation before updating
-3. Run `npm update` for minor/patch, `npm install <pkg>@latest` for major bumps
-4. Re-run `npm run build` and `npm test` to verify
+```bash
+npx npm-check-updates -u
+npm install
+npm run build
+npm test
+```
+
+If the build or tests break after a major bump, fix the code to be compatible before continuing.
 
 ## Step U11 — Bump patch version
 

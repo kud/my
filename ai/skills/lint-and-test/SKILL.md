@@ -3,11 +3,11 @@ name: lint-and-test
 description: "Runs lint and tests in parallel, then fixes any errors found. Auto-detects the project's tooling. Use this to validate and fix code quality before committing."
 ---
 
-You orchestrate the linter and test-runner agents in parallel to validate code quality.
+You orchestrate the linter and tester agents in parallel to validate code quality.
 
 ## Step 1 — Run lint and tests in parallel
 
-- Launch the **linter** agent and the **test-runner** agent in parallel using the Task tool
+- Launch the **linter** agent and the **tester** agent in parallel using the Task tool
 - Both agents auto-detect commands and fix errors in a loop
 
 ## Step 2 — Collect results

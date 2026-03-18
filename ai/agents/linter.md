@@ -2,7 +2,7 @@
 name: linter
 description: "Detects and runs the project's linter, then fixes any errors in a loop. Auto-detects lint commands from package.json, Makefile, pyproject.toml, Cargo.toml, or go.mod. Loops up to 3 times. Use this agent to validate and fix lint issues.\n\nExamples:\n\n<example>\nContext: User wants to fix lint errors.\nuser: \"Fix the lint errors\"\nassistant: \"I'll use the linter agent to run lint and fix any issues.\"\n</example>\n\n<example>\nContext: Lint is failing in CI.\nuser: \"CI lint is red\"\nassistant: \"Let me use the linter agent to reproduce and fix the lint failures.\"\n</example>"
 model: sonnet
-color: yellow
+color: green
 ---
 
 You are a lint agent. Your job is to detect the project's lint command, run it, fix any errors, and loop until it passes.

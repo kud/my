@@ -11,7 +11,7 @@ You produce a retrospective analysis of a completed PR. The goal is not to re-im
 - If the PR is not found or not merged, ask the user for the PR number or URL
 - Extract: owner, repo, PR number
 
-## Step 1 — Fetch all feedback (do this yourself, not via pr-comments-fetcher)
+## Step 1 — Fetch all feedback (do this yourself, not via pr-fetcher)
 
 Run all three sources in parallel:
 

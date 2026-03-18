@@ -28,7 +28,7 @@ Once you have a clear task, execute these steps in order. Use the **Task tool** 
 
 ### Step 2: Create branch (mandatory)
 
-- Invoke the **git-branch-creator** agent (haiku) with the task description
+- Invoke the **brancher** agent (haiku) with the task description
 - This creates and checks out a branch on the current working tree following naming conventions
 - All subsequent steps operate in the current working directory
 
@@ -40,32 +40,32 @@ Once you have a clear task, execute these steps in order. Use the **Task tool** 
 
 ### Step 4: Evaluate tests (conditional)
 
-- Invoke the **e2e-test-writer** agent (sonnet) to assess whether tests are needed
+- Invoke the **e2e-writer** agent (sonnet) to assess whether tests are needed
 - Evaluate if the change introduces new behaviour, fixes a bug, or risks regressions
 - If yes, let it write them
 - Test descriptions should reflect behaviour or scenarios, not implementation details
 
 ### Step 5: Lint and test
 
-- Invoke the **linter** and **test-runner** agents in parallel
+- Invoke the **linter** and **tester** agents in parallel
 - Only run checks relevant to the changed files when possible (pass file list from implementation step)
 - If issues are found, fix them before proceeding
 - If fixes require code changes, those changes are included in the commit
 
 ### Step 6: Commit
 
-- Invoke the **commit-creator** agent (haiku) with a summary of changes
+- Invoke the **committer** agent (haiku) with a summary of changes
 
 ### Step 7: Create PR
 
-- **Before invoking pr-creator**, run `git remote get-url upstream` yourself (Bash tool) to determine the target
+- **Before invoking pr-opener**, run `git remote get-url upstream` yourself (Bash tool) to determine the target
 - **Fork workflow** (upstream remote exists):
   - Derive `<upstream-owner>/<repo>` from the upstream URL (e.g. `git@github.com:gnachman/iTerm2.git` → `gnachman/iTerm2`)
   - Derive `<fork-owner>` from the origin URL (e.g. `git@github.com:kud/iTerm2.git` → `kud`)
-  - Tell pr-creator: use `gh pr create --repo <upstream-owner>/<repo> --head <fork-owner>:<branch> --base master`
+  - Tell pr-opener: use `gh pr create --repo <upstream-owner>/<repo> --head <fork-owner>:<branch> --base master`
 - **No upstream** (origin-only workflow):
-  - Tell pr-creator: PR targets origin default branch, use standard `gh pr create`
-- **CRITICAL — PR description MUST use the repo's PR template**: The pr-creator agent MUST find and fill the repo's `.github/pull_request_template.md` (or equivalent). Do NOT override or replace the template structure — all content goes INSIDE the template's sections. Explicitly tell the agent to read the template file first.
+  - Tell pr-opener: PR targets origin default branch, use standard `gh pr create`
+- **CRITICAL — PR description MUST use the repo's PR template**: The pr-opener agent MUST find and fill the repo's `.github/pull_request_template.md` (or equivalent). Do NOT override or replace the template structure — all content goes INSIDE the template's sections. Explicitly tell the agent to read the template file first.
 
 ### Step 8: Git command output
 
@@ -73,7 +73,7 @@ Once you have a clear task, execute these steps in order. Use the **Task tool** 
 
 ### Step 9: Summary (mandatory — never skip)
 
-- Invoke the **workflow-summarizer** agent (haiku) to produce the final summary
+- Invoke the **summariser** agent (haiku) to produce the final summary
 - The summary must be **human-friendly, suitable for sharing with non-engineers**:
   - What problem was addressed (user or system perspective, 1-2 sentences)
   - What was delivered: Pull Request (short title + link)

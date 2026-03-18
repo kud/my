@@ -11,12 +11,12 @@ Execute these steps in order using the **Task tool** to invoke each agent.
 
 ### Step 0: Fetch comments
 
-- Invoke the **pr-comments-fetcher** agent with filter: `author-only:kud`
+- Invoke the **pr-fetcher** agent with filter: `author-only:kud`
 - If no PR is found or no unresolved threads/comments from kud exist, stop.
 
 ### Step 1: Build checklist
 
-- Invoke the **pr-checklist-builder** agent with the comment data from step 0
+- Invoke the **pr-checker** agent with the comment data from step 0
 - Present the checklist to the user
 
 ### Step 2: Planning (no code changes yet)
@@ -32,11 +32,11 @@ Execute these steps in order using the **Task tool** to invoke each agent.
 ### Step 4: Implement
 
 - Invoke the **implementer** agent with the plans from step 2
-- Once code changes are done, invoke the **commit-creator** agent to stage and commit
+- Once code changes are done, invoke the **committer** agent to stage and commit
 
 ### Step 5: Post replies (requires explicit approval)
 
-- For each addressed thread, invoke the **pr-reply-drafter** agent to draft a confirmation reply referencing the commit SHA
+- For each addressed thread, invoke the **pr-replier** agent to draft a confirmation reply referencing the commit SHA
 - Show the user every reply that will be posted
 - Ask explicitly: **"Ready to post these replies? (yes/no)"**
 - **NEVER post a reply to GitHub without the user's explicit approval**

@@ -11,19 +11,19 @@ Execute these steps in order using the **Task tool** to invoke each agent.
 
 ### Step 0: Fetch comments
 
-- Invoke the **pr-comments-fetcher** agent with filter: `exclude-author:kud`
+- Invoke the **pr-fetcher** agent with filter: `exclude-author:kud`
 - If no PR is found or no unresolved threads/comments from reviewers exist, stop.
 
 ### Step 1: Build checklist
 
-- Invoke the **pr-checklist-builder** agent with the comment data from step 0
+- Invoke the **pr-checker** agent with the comment data from step 0
 - Present the checklist to the user
 
 ### Step 2: Triage comments
 
-- Invoke the **pr-comments-triager** agent with all threads and general comments
+- Invoke the **pr-triager** agent with all threads and general comments
 - For each thread, it will assess clarity and decide: ACCEPT / DECLINE / QUESTION
-- For DECLINE and QUESTION decisions, invoke the **pr-reply-drafter** agent to draft replies
+- For DECLINE and QUESTION decisions, invoke the **pr-replier** agent to draft replies
 - Present all triage decisions and draft replies to the user for review
 
 ### Step 3: Approval gate
@@ -37,7 +37,7 @@ Execute these steps in order using the **Task tool** to invoke each agent.
 ### Step 4: Implement accepted items
 
 - Invoke the **implementer** agent with ACCEPTed items and their plans
-- Once code changes are done, invoke the **commit-creator** agent to stage and commit
+- Once code changes are done, invoke the **committer** agent to stage and commit
 
 ### Step 5: Post replies (requires explicit approval)
 
