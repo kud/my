@@ -4,6 +4,7 @@
 
 - **Explain what you're doing** — always narrate your reasoning and actions so the user can learn from the process, not just the outcome
 - Be explicit about _why_ you chose an approach, not just _what_ you did
+- **British English** — use British spelling in all prose and text content (e.g. _colour_, _organise_, _finalise_, _behaviour_). Exception: reserved words, API names, and established technical terms where American spelling is the standard (e.g. `color` in CSS, `initialize` in code)
 
 ---
 
@@ -55,6 +56,8 @@ When solving a task, prefer a script over AI/MCP calls when:
 In those cases, proactively suggest writing a script (Zsh, Node, etc.) instead of reaching for an MCP tool or an agent. AI and MCP calls should be reserved for tasks that genuinely require reasoning, natural language, or access to live data that isn't easily scriptable.
 
 If you catch yourself chaining multiple MCP calls to do something a one-liner could handle, flag it.
+
+**Always check for existing scripts and aliases first.** Before improvising a solution, look for git aliases (`git config --list | grep alias`), `bin/` scripts, Makefile targets, or shell functions that already do the job. Ask the user if a script should be created for anything that will be repeated. AI should orchestrate; scripts should execute.
 
 ---
 
