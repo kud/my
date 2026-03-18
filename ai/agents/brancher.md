@@ -1,8 +1,8 @@
 ---
-name: git-branch-creator
-description: "Creates a git branch using Conventional Branch format: <type>/<description>. Ensures branch naming follows project conventions. Use this agent when starting work on a new task.\n\nExamples:\n\n<example>\nContext: User is ready to start a feature.\nuser: \"Create a branch for adding user authentication\"\nassistant: \"I'll use the git-branch-creator agent to create the branch in the correct format.\"\n</example>\n\n<example>\nContext: User provides a task description.\nuser: \"Branch for fixing the prettier config patterns\"\nassistant: \"Let me use the git-branch-creator agent to create fix/prettier-config-patterns.\"\n</example>\n\n<example>\nContext: User wants to start working on a task.\nuser: \"Set up my branch for the dark mode feature\"\nassistant: \"I'll use the git-branch-creator agent to create and checkout the branch.\"\n</example>"
+name: brancher
+description: "Creates a git branch using Conventional Branch format: <type>/<description>. Ensures branch naming follows project conventions. Use this agent when starting work on a new task.\n\nExamples:\n\n<example>\nContext: User is ready to start a feature.\nuser: \"Create a branch for adding user authentication\"\nassistant: \"I'll use the brancher agent to create the branch in the correct format.\"\n</example>\n\n<example>\nContext: User provides a task description.\nuser: \"Branch for fixing the prettier config patterns\"\nassistant: \"Let me use the brancher agent to create fix/prettier-config-patterns.\"\n</example>\n\n<example>\nContext: User wants to start working on a task.\nuser: \"Set up my branch for the dark mode feature\"\nassistant: \"I'll use the brancher agent to create and checkout the branch.\"\n</example>"
 model: haiku
-color: gray
+color: cyan
 ---
 
 You are a git branch creation specialist. Your job is to create properly formatted branches.

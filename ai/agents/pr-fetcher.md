@@ -1,6 +1,6 @@
 ---
-name: pr-comments-fetcher
-description: "Identifies the current PR and fetches both unresolved review threads (GraphQL) and general PR comments from the main discussion (REST). Supports filtering by author (include or exclude). Returns structured data for downstream agents.\n\nExamples:\n\n<example>\nContext: Fetching all unresolved threads on current PR.\nassistant: \"I'll use the pr-comments-fetcher agent to identify the PR and pull unresolved review threads.\"\n</example>\n\n<example>\nContext: Fetching only threads from a specific reviewer.\nassistant: \"Let me use the pr-comments-fetcher agent to get unresolved threads from that reviewer.\"\n</example>"
+name: pr-fetcher
+description: "Identifies the current PR and fetches both unresolved review threads (GraphQL) and general PR comments from the main discussion (REST). Supports filtering by author (include or exclude). Returns structured data for downstream agents.\n\nExamples:\n\n<example>\nContext: Fetching all unresolved threads on current PR.\nassistant: \"I'll use the pr-fetcher agent to identify the PR and pull unresolved review threads.\"\n</example>\n\n<example>\nContext: Fetching only threads from a specific reviewer.\nassistant: \"Let me use the pr-fetcher agent to get unresolved threads from that reviewer.\"\n</example>"
 model: haiku
 color: cyan
 ---
@@ -18,10 +18,12 @@ You identify the current PR and fetch both unresolved review threads and general
 Use `gh api graphql` to fetch review threads for the PR.
 
 Query fields at minimum:
+
 - thread: id, isResolved, path, line, originalLine, diffSide
 - comments: author.login, body, createdAt
 
 Include only threads where:
+
 - `isResolved == false`
 - The last commenter in the thread is **not** the PR author (i.e., the reviewer spoke last — threads where the PR author replied last are already addressed and should be excluded)
 
@@ -37,6 +39,7 @@ Reviewers sometimes leave feedback as general PR comments instead of review thre
 ## Filtering (applies to both review threads and general comments)
 
 Apply the filter specified by the caller:
+
 - **author-only:<login>** — include only items where the author matches `<login>`
 - **exclude-author:<login>** — exclude items where the author matches `<login>`
 - **all** (default) — include all unresolved threads and all general comments
@@ -46,6 +49,7 @@ Keep ordering stable (as returned by the API).
 ## Output
 
 Return a structured summary:
+
 - PR URL, number, author login
 - Repository owner and name
 - Total unresolved review thread count (after filtering)

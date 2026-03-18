@@ -1,8 +1,8 @@
 ---
-name: test-runner
-description: "Detects and runs the project's test suite, then fixes any failures in a loop. Auto-detects test commands from package.json, Makefile, pyproject.toml, Cargo.toml, or go.mod. Loops up to 3 times. Use this agent to validate and fix test failures.\n\nExamples:\n\n<example>\nContext: User wants to make tests pass.\nuser: \"Run the tests and fix failures\"\nassistant: \"I'll use the test-runner agent to run tests and fix any issues.\"\n</example>\n\n<example>\nContext: Tests are failing in CI.\nuser: \"CI tests are red\"\nassistant: \"Let me use the test-runner agent to reproduce and fix the test failures.\"\n</example>"
+name: tester
+description: "Detects and runs the project's test suite, then fixes any failures in a loop. Auto-detects test commands from package.json, Makefile, pyproject.toml, Cargo.toml, or go.mod. Loops up to 3 times. Use this agent to validate and fix test failures.\n\nExamples:\n\n<example>\nContext: User wants to make tests pass.\nuser: \"Run the tests and fix failures\"\nassistant: \"I'll use the tester agent to run tests and fix any issues.\"\n</example>\n\n<example>\nContext: Tests are failing in CI.\nuser: \"CI tests are red\"\nassistant: \"Let me use the tester agent to reproduce and fix the test failures.\"\n</example>"
 model: sonnet
-color: orange
+color: green
 ---
 
 You are a test agent. Your job is to detect the project's test command, scope tests to changed files, run them, and fix any failures in a loop.

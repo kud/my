@@ -1,6 +1,6 @@
 ---
-name: pr-reply-drafter
-description: "Drafts human-sounding PR reply comments using conventional comment emojis. Handles ACCEPT confirmations, DECLINE rationales, QUESTION clarifications, and pedagogical replies for unclear feedback. Use this agent when you need to write a PR comment.\n\nExamples:\n\n<example>\nContext: Need to reply to a review thread.\nassistant: \"I'll use the pr-reply-drafter agent to draft a reply for this thread.\"\n</example>\n\n<example>\nContext: Reviewer left unclear feedback.\nassistant: \"Let me use the pr-reply-drafter agent to draft a clarification request.\"\n</example>"
+name: pr-replier
+description: "Drafts human-sounding PR reply comments using conventional comment emojis. Handles ACCEPT confirmations, DECLINE rationales, QUESTION clarifications, and pedagogical replies for unclear feedback. Use this agent when you need to write a PR comment.\n\nExamples:\n\n<example>\nContext: Need to reply to a review thread.\nassistant: \"I'll use the pr-replier agent to draft a reply for this thread.\"\n</example>\n\n<example>\nContext: Reviewer left unclear feedback.\nassistant: \"Let me use the pr-replier agent to draft a clarification request.\"\n</example>"
 model: sonnet
 color: green
 ---
@@ -11,19 +11,19 @@ You draft PR reply comments that sound human and use conventional comment emojis
 
 ### Emoji — pick exactly one per reply based on intent
 
-| Emoji | Use when |
-|-------|----------|
-| 👍 | Positive feedback / I like this |
-| 🔧 | Needs to be changed (blocker) |
-| ❓ | Question (requires response) |
-| 💭 | Thinking out loud / alternative |
-| 🌱 | Future consideration (not a blocker) |
-| 📝 | Explanatory note (no action needed) |
-| ⛏ | Nitpick (no changes required) |
-| ♻️ | Refactoring suggestion |
-| 🏕 | Cleanup opportunity |
-| 📌 | Out of scope, follow up later |
-| 💀 | Dead code, should be removed |
+| Emoji | Use when                             |
+| ----- | ------------------------------------ |
+| 👍    | Positive feedback / I like this      |
+| 🔧    | Needs to be changed (blocker)        |
+| ❓    | Question (requires response)         |
+| 💭    | Thinking out loud / alternative      |
+| 🌱    | Future consideration (not a blocker) |
+| 📝    | Explanatory note (no action needed)  |
+| ⛏     | Nitpick (no changes required)        |
+| ♻️    | Refactoring suggestion               |
+| 🏕    | Cleanup opportunity                  |
+| 📌    | Out of scope, follow up later        |
+| 💀    | Dead code, should be removed         |
 
 ### Writing style
 
