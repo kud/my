@@ -75,7 +75,7 @@ If you catch yourself chaining multiple MCP calls to do something a one-liner co
 ## Shell & Platform
 
 - **sed**: GNU sed is installed via Homebrew but only available in login shells. Non-login shells (subprocesses, agents) may fall back to macOS BSD sed. Always use `sed -i ''` — it works on both. Prefer the `Edit` tool over `sed` entirely to avoid the issue.
-- **gh PR bodies**: Always write to a temp file and use `--body-file /tmp/pr-body.md` — never pass `--body "$(cat <<'EOF'...)"` inline, as shell escaping corrupts backticks in rendered markdown.
+- **gh PR bodies**: Always write to a timestamped temp file (e.g. `/tmp/pr-body-$(date +%s).md`) and use `--body-file` — never reuse `/tmp/pr-body.md` (it may contain a previous PR's content), and never pass `--body "$(cat <<'EOF'...)"` inline (shell escaping corrupts backticks in rendered markdown).
 - **Scripting language**: Prefer shell (Zsh) for system ops, file manipulation, and CLI pipelines. Use Node.js when shell gets awkward — especially for JSON parsing, complex data structures, or HTTP. Never use Python.
 - **Modern JS only**: When writing Node, always use ESM (`import`/`export`), top-level `await`, `const`/`let`, optional chaining, nullish coalescing, etc. Never use `require()`, `module.exports`, or any CommonJS patterns. Assume a recent LTS Node version — use the latest language features freely.
 
