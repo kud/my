@@ -12,12 +12,24 @@ source "$MY/core/utils/ui-kit.zsh"
 # 🏷️ Tab title: auto or manual
 _custom_title=""
 
+_acronyms=(MCP PR CI CD QA API CLI TUI UI DB AWS GCP HTTP HTTPS CSS JS TS)
+
+_fix_acronyms() {
+  local s="$1"
+  for a in $_acronyms; do
+    s="${s//${(C)a}/$a}"
+  done
+  echo "$s"
+}
+
 _tab_title() {
-  [[ "$PWD" == "$HOME" ]] && echo "~" && return
-  [[ "$PWD" == "$MY/profiles/"* ]] && echo "My · ${(C)${${PWD#$MY/profiles/}%%/*}:gs/-/ /}" && return
-  [[ "$PWD" == */my-profile-* ]] && echo "My · ${(C)${${PWD##*/my-profile-}%%/*}:gs/-/ /}" && return
-  local words="${${PWD##*/}:gs/-/ /}"
-  echo "${(C)words}"
+  [[ "$PWD" == "$HOME" ]] && echo "" && return
+  [[ "$PWD" == "$MY/profiles/"* ]] && echo "My · $(_fix_acronyms "${(C)${${PWD#$MY/profiles/}%%/*}:gs/-/ /}")" && return
+  [[ "$PWD" == */my-profile-* ]] && echo "My · $(_fix_acronyms "${(C)${${PWD##*/my-profile-}%%/*}:gs/-/ /}")" && return
+  local git_root
+  git_root=$(git rev-parse --show-toplevel 2>/dev/null)
+  local name="${${git_root:-$PWD}##*/}"
+  _fix_acronyms "${(C)${name:gs/-/ /}}"
 }
 
 precmd() {
@@ -25,12 +37,6 @@ precmd() {
   echo -ne "\e]1;$title\a"
 }
 
-preexec() {
-  local cmd="${1%% *}"
-  [[ "$cmd" == "claude" ]] && return
-  local base="${_custom_title:-$(_tab_title)}"
-  echo -ne "\e]1;$base ($cmd)\a"
-}
 
 title() {
   _custom_title="$*"
