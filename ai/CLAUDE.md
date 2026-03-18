@@ -9,13 +9,13 @@
 
 ## Tips & Notes
 
-At the end of every response, automatically run `/my-tips-notes` to surface caveats, follow-up actions, missing setup steps, or anything the user should be aware of. If there is nothing worth noting, it stays silent.
+At the end of every response, automatically run `/tips-notes` to surface caveats, follow-up actions, missing setup steps, or anything the user should be aware of. If there is nothing worth noting, it stays silent.
 
 ---
 
 ## Post-skill QA
 
-After every skill completes, automatically run `/my-run-qa` to review the execution for missed steps, wrong decisions, or instruction gaps. If issues are found, surface them and ask before applying fixes. If nothing is wrong, stay silent.
+After every skill completes, automatically run `/qa-run` to review the execution for missed steps, wrong decisions, or instruction gaps. If issues are found, surface them and ask before applying fixes. If nothing is wrong, stay silent.
 
 ---
 
@@ -25,7 +25,7 @@ After every skill completes, automatically run `/my-run-qa` to review the execut
 
 - **Global** (not profile-specific): `$MY/ai/agents/`, `$MY/ai/skills/`, `$MY/ai/commands/`
 - **Profile-specific**: `$MY/profiles/<profile>/ai/agents/`, `$MY/profiles/<profile>/ai/skills/`, `$MY/profiles/<profile>/ai/commands/`
-  - Work assets are prefixed with `w-` (e.g. `my-w-weekly-wrapped`)
+  - Work assets are prefixed with `w-` (e.g. `w-weekly-wrapped`)
 
 After creating or modifying agents/skills, run `my ai sync` to update the symlinks.
 
