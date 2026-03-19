@@ -45,6 +45,12 @@ To add or remove an MCP server:
 
 ---
 
+## opencode MCP
+
+Never call `mcp__plugin_mcp-opencode_mcp-opencode__query` autonomously. Only invoke it when the user explicitly runs `/ask-opencode` or `/mcp-opencode:ask-opencode`. It exists to give the user a second opinion on demand — not as a tool for general reasoning.
+
+---
+
 ## AI vs Scripts
 
 When solving a task, prefer a script over AI/MCP calls when:

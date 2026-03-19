@@ -13,6 +13,7 @@ settings:
     swift-lsp@claude-plugins-official: true
     typescript-lsp@claude-plugins-official: true
     rust-analyzer-lsp@claude-plugins-official: true
+    mcp-opencode@kud-plugins: true
   statusLine:
     type: command
     command: |
@@ -110,17 +111,13 @@ settings:
     deny:
       - Read(.env*)
 
+# Plugin marketplaces
+marketplaces:
+  kud-plugins:
+    source: kud/claude-plugins
+
 # Common MCP servers (all profiles)
 mcp:
-  opencode:
-    transport: stdio
-    command: npx
-    args:
-      - -y
-      - "@kud/mcp-opencode@latest"
-    env:
-      OPENCODE_MODEL_ALLOW: ${OPENCODE_MODEL_ALLOW:-github-copilot/*}
-      OPENCODE_MODEL_BLOCK: ${OPENCODE_MODEL_BLOCK:-}
   github:
     transport: http
     url: https://api.githubcopilot.com/mcp

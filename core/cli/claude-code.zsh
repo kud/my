@@ -238,6 +238,9 @@ add_mcp_server() {
 # Cache MCP server list once to avoid repeated calls
 MCP_SERVER_LIST=$(claude mcp list 2>&1)
 
+# Cache marketplace list once
+MARKETPLACE_LIST=$(claude plugin marketplace list 2>&1)
+
 # Merge common + profile configs (profile overrides common, arrays are concatenated)
 MERGED_CONFIG=$(mktemp)
 if [[ -f "$COMMON_CONFIG" && -f "$PROFILE_CONFIG" ]]; then
@@ -302,6 +305,28 @@ if [[ -f "$MERGED_CONFIG" ]]; then
         fi
     done
 
+fi
+
+# Process plugin marketplaces from merged config
+if [[ -f "$MERGED_CONFIG" ]]; then
+    marketplace_names=($(yq -r '.marketplaces | keys[]' "$MERGED_CONFIG" 2>/dev/null))
+
+    for name in "${marketplace_names[@]}"; do
+        if echo "$MARKETPLACE_LIST" | grep -q "$name"; then
+            ui_info_simple "Marketplace '$name' already configured" 0
+            continue
+        fi
+
+        source=$(yq -r ".marketplaces.$name.source" "$MERGED_CONFIG" 2>/dev/null)
+
+        local output
+        output=$(claude plugin marketplace add "$source" 2>&1)
+        if [[ $? -eq 0 ]]; then
+            ui_success_simple "Added marketplace: $name ($source)" 0
+        else
+            ui_error_msg "Failed to add marketplace: $name — $output" 0
+        fi
+    done
 fi
 
 # Process MCP servers from merged config
