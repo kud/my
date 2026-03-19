@@ -36,12 +36,10 @@ mcp:
       - "@playwright/mcp@latest"
   Trakt:
     transport: stdio
-    command: node
+    command: npx
     args:
-      - /Users/kud/Projects/mcp-trakt/dist/index.js
-    env:
-      TRAKT_CLIENT_ID: ${MCP_TRAKT_CLIENT_ID}
-      TRAKT_ACCESS_TOKEN: ${MCP_TRAKT_ACCESS_TOKEN}
+      - --yes
+      - "@kud/mcp-trakt@latest"
   # basic-memory:
   #   transport: stdio
   #   command: ${HOME}/.local/share/mise/shims/uvx
