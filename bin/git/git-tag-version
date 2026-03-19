@@ -1,14 +1,17 @@
 #!/usr/bin/env zsh
 
 # Git tag version helper with fancy output
-# Creates semantic version tags using svu
+# Auto-detects project type: npm (package.json) or git-only (svu tags)
+# For npm projects: updates package.json + commits + creates tag
+# For git-only projects: creates tag via svu
 # Usage: git tag-version {major|minor|patch|next|current}
 
 set -euo pipefail
 
 usage() {
   echo "Usage: git tag-version {major|minor|patch|next|current}" >&2
-  echo "Creates a semantic version tag using svu" >&2
+  echo "npm projects: uses npm version (updates package.json + commit + tag)" >&2
+  echo "git-only projects: uses svu to compute version + git tag" >&2
 }
 
 arg=${1:-}
@@ -30,25 +33,35 @@ case "$arg" in
     usage; exit 1 ;;
 esac
 
-# Check for svu
-if ! command -v svu &>/dev/null; then
-  echo "Error: svu not found. Install with: brew install caarlos0/tap/svu" >&2
-  exit 1
-fi
-
 # Handle 'current' separately - just output current version and exit
 if [[ "$VERSION_TYPE" == "current" ]]; then
-  svu current
+  if [[ -f package.json ]]; then
+    node -p "require('./package.json').version"
+  else
+    command -v svu &>/dev/null && svu current || git describe --tags --abbrev=0
+  fi
   exit 0
 fi
 
 # Get current version (or 0.0.0 if no tags exist)
 OLD_VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || echo "0.0.0")
 
-# Calculate and create new tag
-NEW_TAG=$(svu "$VERSION_TYPE")
-git tag "$NEW_TAG"
-NEW_VERSION="${NEW_TAG#v}"
+if [[ -f package.json ]]; then
+  # npm project: npm version handles package.json update + commit + tag
+  local npm_type="$VERSION_TYPE"
+  [[ "$VERSION_TYPE" == "next" ]] && npm_type="prerelease"
+  npm version "$npm_type" >/dev/null
+  NEW_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "?")
+else
+  # git-only: use svu to compute next version and tag manually
+  if ! command -v svu &>/dev/null; then
+    echo "Error: svu not found. Install with: brew install caarlos0/tap/svu" >&2
+    exit 1
+  fi
+  NEW_TAG=$(svu "$VERSION_TYPE")
+  NEW_VERSION="${NEW_TAG#v}"
+  git tag "$NEW_TAG"
+fi
 
 # Fancy summary (TTY & colors if possible)
 if [[ -t 1 && -z ${NO_COLOR:-} ]]; then

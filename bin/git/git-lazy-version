@@ -1,13 +1,8 @@
 #!/usr/bin/env zsh
 
 # Lazy version bump + push helper
-# Works with both npm projects (package.json) and git-only projects (tags via svu)
-# Features:
-# - validating input (patch|minor|major|next)
-# - interactive selection when no argument provided
-# - failing fast (set -euo pipefail)
-# - auto-detects project type (npm vs git tags)
-# - showing resulting version with fancy formatting
+# UX layer: interactive selection + aicommit, then delegates to git tag-version
+# git tag-version handles all versioning logic (npm sync + tag + fancy output)
 
 set -euo pipefail
 
@@ -20,10 +15,6 @@ source "${MY_DIR}/core/utils/ui-kit.zsh"
 usage() {
   echo "Usage: git lazy-version {major|minor|patch|next}" >&2
   echo "Aliases: x=major, y=minor, z=patch" >&2
-  echo "" >&2
-  echo "Auto-detects project type:" >&2
-  echo "  - With package.json: uses npm version" >&2
-  echo "  - Without package.json: uses git tags (svu)" >&2
   echo "" >&2
   echo "Version types:" >&2
   echo "  major/x: Bump major version (1.0.0 -> 2.0.0)" >&2
@@ -57,7 +48,6 @@ case "$arg" in
     if [[ -f package.json ]]; then
       CURRENT_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "0.0.0")
     else
-      # Use svu or git describe for git-tag based projects
       if command -v svu &>/dev/null; then
         CURRENT_VERSION=$(svu current 2>/dev/null | sed 's/^v//' || echo "0.0.0")
       else
@@ -68,10 +58,8 @@ case "$arg" in
     # Determine smart default based on current version
     local default_selection=0  # Default to patch
     if [[ "$CURRENT_VERSION" =~ - ]]; then
-      # Pre-release version (e.g., 1.0.0-beta.1) -> suggest next
       default_selection=3
     elif [[ "$CURRENT_VERSION" =~ ^0\. ]]; then
-      # Pre-1.0 version (e.g., 0.5.2) -> suggest minor
       default_selection=1
     fi
 
@@ -88,7 +76,6 @@ case "$arg" in
       exit 1
     fi
 
-    # Map selection index to version type
     case $selection in
       0) VERSION_TYPE=patch ;;
       1) VERSION_TYPE=minor ;;
@@ -111,109 +98,10 @@ if ! git aicommit; then
   exit 1
 fi
 
-# Check if we have package.json (npm-based) or use git tags (svu-based)
-if [[ -f package.json ]]; then
-  # NPM workflow
-  OLD_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "?")
+# Delegate all versioning logic to git tag-version (handles npm + git)
+git tag-version "$VERSION_TYPE"
 
-  # Map version types to npm version commands
-  case "$VERSION_TYPE" in
-    major|minor|patch)
-      NPM_VERSION_TYPE="$VERSION_TYPE" ;;
-    next)
-      NPM_VERSION_TYPE="prerelease" ;;
-  esac
-
-  # Perform bump (suppress noisy npm output) and read new version
-  npm version "$NPM_VERSION_TYPE" >/dev/null
-  NEW_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "?")
-
-  # Only push if a remote is configured
-  if git remote | grep -q .; then
-    git push --follow-tags
-  fi
-else
-  # Git tag workflow - delegate to git tag-version for consistency
-  OLD_VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || echo "0.0.0")
-
-  # Create tag with fancy output
-  git tag-version "$VERSION_TYPE"
-
-  # Get the new version that was just created
-  NEW_VERSION=$(git describe --tags --abbrev=0 | sed 's/^v//')
-
-  # Only push if a remote is configured
-  if git remote | grep -q .; then
-    git push && git push --tags
-  fi
-
-  # Skip the fancy summary below since git tag-version already showed it
-  exit 0
+# Push commits and tags
+if git remote | grep -q .; then
+  git push && git push --tags
 fi
-
-# Fancy summary (TTY & colors if possible)
-if [[ -t 1 && -z ${NO_COLOR:-} ]]; then
-  B=$'\e[1m'; R=$'\e[0m'; G=$'\e[32m'; Y=$'\e[33m'; C=$'\e[36m'; M=$'\e[35m'; GRY=$'\e[90m'
-else
-  B=""; R=""; G=""; Y=""; C=""; M=""; GRY=""
-fi
-
-strip_ansi() {
-  printf '%s' "$1" | sed -E $'s/\x1b\[[0-9;]*m//g'
-}
-
-# Lines (without the previous Next hint per user request)
-SUMMARY="Version bump: v$OLD_VERSION -> v$NEW_VERSION"
-TYPE_INFO="Type: $VERSION_TYPE"
-TAG_INFO="Tag pushed: v${NEW_VERSION}"
-
-# Compute max visible length
-LONGEST=0
-for L in "$SUMMARY" "$TYPE_INFO" "$TAG_INFO"; do
-  vis=$(strip_ansi "$L")
-  (( ${#vis} > LONGEST )) && LONGEST=${#vis}
-done
-WIDTH=$LONGEST
-EDGE=$(printf '%*s' $(( WIDTH + 4 )) '' | tr ' ' '─')
-
-print_line() {
-  local raw="$1"
-  local vis=$(strip_ansi "$raw")
-  local pad=$(( WIDTH - ${#vis} ))
-  (( pad < 0 )) && pad=0
-  printf "│ %s%*s │\n" "$raw" $pad ""
-}
-
-echo
-# Plain (no border) summary lines
-LABEL_COL="${Y}Version bump:${R}"
-OLD_COL="${G}v${OLD_VERSION}${R}"
-NEW_COL="${G}v${NEW_VERSION}${R}"
-ARROW_COL="->"
-echo "${LABEL_COL} ${OLD_COL} ${ARROW_COL} ${NEW_COL}"
-# Styled type pill
-if [[ -t 1 && -z ${NO_COLOR:-} ]]; then
-  case "$VERSION_TYPE" in
-    major)
-      TYPE_CLR=196 ;;  # bright red
-    minor)
-      TYPE_CLR=208 ;;  # orange
-    patch)
-      TYPE_CLR=240 ;;  # grey
-    next)
-      TYPE_CLR=39 ;;   # cyan/blue for pre-release
-    *)
-      TYPE_CLR=240 ;;  # gray fallback
-  esac
-  TYPE_BG=$'\e[48;5;'${TYPE_CLR}'m'
-  TYPE_FG=$'\e[38;5;'${TYPE_CLR}'m'
-  TYPE_TEXT_FG=$'\e[38;5;15m'
-  # Left rounded edge: foreground same as pill color on default background
-  # Then set background for pill content; right edge printed after reset.
-  TYPE_TAG=$'\e[0m'"${TYPE_FG}${TYPE_BG}${TYPE_TEXT_FG}${VERSION_TYPE}${R}${TYPE_FG}${R}"
-else
-  TYPE_TAG="[${VERSION_TYPE}]"
-fi
-echo "${Y}Type:${R} ${TYPE_TAG}"
-echo "${Y}Tag pushed:${R} v${NEW_VERSION}"
-echo
