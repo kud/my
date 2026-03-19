@@ -1,5 +1,5 @@
 ---
-name: security-audit
+name: k-security-audit
 description: "Audits a project for security issues before publishing: leaked credentials, misconfigured .gitignore, hardcoded tokens in scripts or configs, and sensitive files that shouldn't be committed. Use this before pushing a repo public."
 ---
 

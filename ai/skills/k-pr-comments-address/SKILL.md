@@ -1,5 +1,5 @@
 ---
-name: pr-comments-address
+name: k-pr-comments-address
 description: "Implements your own PR review comments. Fetches unresolved threads you (kud) left on your PR, builds a TODO checklist, plans minimal fixes, and implements them after your approval. Use this when you've self-reviewed your PR and want AI to address your comments."
 ---
 

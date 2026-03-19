@@ -1,5 +1,5 @@
 ---
-name: mcp-manage
+name: k-mcp-manage
 description: "Create or maintain a TypeScript MCP server. Auto-detects whether the project already exists and runs the full scaffold (create) or audit-and-update flow accordingly. Covers structure, tools, Vitest, README, CLAUDE.md, and Claude Desktop config."
 ---
 

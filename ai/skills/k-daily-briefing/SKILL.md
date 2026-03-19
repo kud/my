@@ -1,5 +1,5 @@
 ---
-name: daily-briefing
+name: k-daily-briefing
 description: "Pulls together everything you need to act on today: Todoist tasks (today + overdue), Notion todos, and Google Calendar events. Produces a single prioritised summary. Run manually whenever you want a snapshot of your day."
 ---
 

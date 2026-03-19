@@ -1,5 +1,5 @@
 ---
-name: github-triage
+name: k-github-triage
 description: "GitHub situation recap: fetches open PRs (yours + review requests) and issues (assigned, mentioned, opened by you), then tells you exactly what your next move is on each. Run when you need to understand your GitHub workload and decide what to act on."
 ---
 

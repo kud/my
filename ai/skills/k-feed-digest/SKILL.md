@@ -1,5 +1,5 @@
 ---
-name: feed-digest
+name: k-feed-digest
 description: "Daily reading digest: 10 unsorted Raindrop.io bookmarks (needing triage) + 10 fresh items from a random selection of RSS feeds. Summarises each with its direct link, shows a recap table, then handles triage — Raindrop items get move/delete/later, feed items get save/skip."
 ---
 

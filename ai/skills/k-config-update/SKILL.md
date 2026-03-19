@@ -1,5 +1,5 @@
 ---
-name: config-update
+name: k-config-update
 description: "Configure the Claude Code harness via the managed source files. Edits claude-code.yml for settings/MCP/hooks/permissions, or source ai/ dirs for agents/skills/CLAUDE.md, then runs the correct sync command. Use this instead of the built-in update-config skill."
 ---
 

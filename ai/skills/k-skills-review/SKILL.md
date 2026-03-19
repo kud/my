@@ -1,5 +1,5 @@
 ---
-name: skills-review
+name: k-skills-review
 description: "Periodically reviews skill health by correlating recent manual skill edits (git history) with patterns to identify recurring corrections that should be promoted to global rules or permanent skill improvements. Run manually when you feel something keeps coming up."
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: pr-comments-review
+name: k-pr-comments-review
 description: "Helps discuss and debate review threads on PRs you are reviewing (not your own). Fetches threads, shows diff context, provides guidance, drafts replies using conventional comment emojis. Use this when reviewing someone else's PR and you want help thinking through feedback."
 ---
 

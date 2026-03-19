@@ -1,5 +1,5 @@
 ---
-name: lint-and-test
+name: k-lint-and-test
 description: "Runs lint and tests in parallel, then fixes any errors found. Auto-detects the project's tooling. Use this to validate and fix code quality before committing."
 ---
 

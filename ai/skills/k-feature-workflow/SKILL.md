@@ -1,5 +1,5 @@
 ---
-name: feature-workflow
+name: k-feature-workflow
 description: "Drives the full feature delivery workflow: asks what to implement, plans the approach, then drives branch creation, implementation, commits, and PR creation by invoking the right step agents. Handles PR targeting (origin or upstream). Use this skill to start any development task from scratch."
 ---
 

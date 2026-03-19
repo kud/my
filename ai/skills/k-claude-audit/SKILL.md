@@ -1,5 +1,5 @@
 ---
-name: claude-audit
+name: k-claude-audit
 description: "Audits the full Claude Code setup (~/.claude, memory, skills, agents, CLAUDE.md files, settings) to surface stale entries, duplicates, broken symlinks, drift between managed config and live files, and cleanup opportunities. Run manually when things feel messy."
 ---
 

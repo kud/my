@@ -1,5 +1,5 @@
 ---
-name: tips-notes
+name: k-tips-notes
 description: "Generates a Tips & Notes callout summarizing caveats, follow-up actions, missing setup steps, or anything the user should be aware of from the current conversation. Run automatically at the end of every response, or invoke manually."
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: qa-run
+name: k-qa-run
 description: "Reviews the current skill or prompt execution for missed steps, wrong decisions, and suboptimal agent/skill usage. Points issues and suggests fixes to agents/skills/CLAUDE.md. Run automatically after every skill, or invoke manually. Also accepts a skill/agent name as argument to statically audit its definition."
 ---
 

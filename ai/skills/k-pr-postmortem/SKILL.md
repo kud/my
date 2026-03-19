@@ -1,5 +1,5 @@
 ---
-name: pr-postmortem
+name: k-pr-postmortem
 description: "Runs a post-mortem on a merged PR: fetches all review comments (resolved and unresolved), categorizes the feedback, identifies patterns, and produces AI improvement suggestions. Use this after a PR is merged to learn from reviewer feedback."
 ---
 

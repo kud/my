@@ -1,5 +1,5 @@
 ---
-name: cli-create
+name: k-cli-create
 description: "Scaffolds a new @kud CLI project from scratch following established conventions: ESM+tsx, tsup build, bin structure, dev/build/typecheck/clean scripts, Ink for TUI, chalk+ora+inquirer for interactive CLIs. Use this when starting any new CLI tool."
 ---
 

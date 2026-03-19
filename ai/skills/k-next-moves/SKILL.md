@@ -1,5 +1,5 @@
 ---
-name: next-moves
+name: k-next-moves
 description: "Renders a numbered Inquirer-style CLI menu from a list of actionable items, waits for the user to pick one, then executes it. Invoked at the end of other skills (daily-briefing, k-github-triage, etc.) to turn static summaries into interactive next steps."
 ---
 
