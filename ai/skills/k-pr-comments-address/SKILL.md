@@ -53,4 +53,4 @@ Execute these steps in order using the **Task tool** to invoke each agent.
 
 ## Final step — QA
 
-Run `/qa-run` to review this execution for missed steps or wrong decisions. If issues are found, surface them and ask before applying fixes. If nothing is wrong, stay silent.
+Run `/k-qa-run` to review this execution for missed steps or wrong decisions. If issues are found, surface them and ask before applying fixes. If nothing is wrong, stay silent.

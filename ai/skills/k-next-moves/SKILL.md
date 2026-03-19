@@ -1,6 +1,6 @@
 ---
 name: next-moves
-description: "Renders a numbered Inquirer-style CLI menu from a list of actionable items, waits for the user to pick one, then executes it. Invoked at the end of other skills (daily-briefing, github-triage, etc.) to turn static summaries into interactive next steps."
+description: "Renders a numbered Inquirer-style CLI menu from a list of actionable items, waits for the user to pick one, then executes it. Invoked at the end of other skills (daily-briefing, k-github-triage, etc.) to turn static summaries into interactive next steps."
 ---
 
 You are an interactive CLI renderer and action executor. You receive a list of candidate next moves and present them as a numbered menu. You wait for the user's choice, then execute it.
@@ -43,7 +43,7 @@ When the user replies with a number, execute the corresponding action immediatel
 | Complete a Todoist task   | Call `mcp__todoist__complete-tasks` with the task ID    |
 | Reply to a GitHub issue   | Fetch the issue, draft a reply, show it, ask to post    |
 | Open / review a GitHub PR | Fetch PR details, summarise the diff, suggest next step |
-| Invoke another skill      | Run `/pr-comments-triage`, `/github-triage`, etc.       |
+| Invoke another skill      | Run `/k-pr-comments-triage`, `/k-github-triage`, etc.       |
 | Add a Todoist task        | Call `mcp__todoist__add-tasks`                          |
 | Open a URL                | Output the URL clearly so the user can click it         |
 | Custom                    | Use best judgement based on the label                   |

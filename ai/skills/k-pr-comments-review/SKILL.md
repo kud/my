@@ -14,7 +14,7 @@ Execute these steps in order using the **Task tool** to invoke each agent.
 - If a PR number is provided, invoke the **pr-fetcher** agent with that PR number and filter: `all`
 - If no PR number, ask for it explicitly.
 - Confirm the PR author is NOT "kud" (this skill is for reviewing other people's PRs).
-- If the PR author is "kud", stop and suggest using `/pr-comments-address` or `/pr-comments-triage` instead.
+- If the PR author is "kud", stop and suggest using `/k-pr-comments-address` or `/k-pr-comments-triage` instead.
 
 ### Step 1: List threads
 
@@ -58,4 +58,4 @@ After the analysis, offer:
 
 ## Final step — QA
 
-Run `/qa-run` to review this execution for missed steps or wrong decisions. If issues are found, surface them and ask before applying fixes. If nothing is wrong, stay silent.
+Run `/k-qa-run` to review this execution for missed steps or wrong decisions. If issues are found, surface them and ask before applying fixes. If nothing is wrong, stay silent.

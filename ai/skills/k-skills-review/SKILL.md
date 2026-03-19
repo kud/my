@@ -35,9 +35,9 @@ Signal: why this suggests a deeper issue
 Suggestion: promote to CLAUDE.md / consolidate / rewrite / remove
 ```
 
-Then invoke `/next-moves` with each suggested change as a candidate action ("Promote debounce rule to CLAUDE.md", "Rewrite foo skill intro", "Remove bar — unused for 60 days", etc.).
+Then invoke `/k-next-moves` with each suggested change as a candidate action ("Promote debounce rule to CLAUDE.md", "Rewrite foo skill intro", "Remove bar — unused for 60 days", etc.).
 
-If no patterns are found, say: "Skills look healthy — no recurring corrections detected in the last 30 days." and do not invoke `/next-moves`.
+If no patterns are found, say: "Skills look healthy — no recurring corrections detected in the last 30 days." and do not invoke `/k-next-moves`.
 
 ## What NOT to do
 

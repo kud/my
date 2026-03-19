@@ -9,7 +9,7 @@
 
 Use the `scaffolder` agent to create or modify agents and skills. Never touch `~/.claude/` directly — it only contains symlinks managed by `my ai sync`.
 
-Use `/config-update` for any settings, MCP servers, hooks, or permissions changes. Never use the built-in `update-config` skill — it edits the wrong file.
+Use `/k-config-update` for any settings, MCP servers, hooks, or permissions changes. Never use the built-in `update-config` skill — it edits the wrong file.
 
 ## opencode MCP
 

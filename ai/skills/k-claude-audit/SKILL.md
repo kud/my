@@ -87,7 +87,7 @@ Issue: what the problem is
 Action: remove / update / promote / merge / consolidate
 ```
 
-After presenting the full report, invoke `/next-moves` with each fixable item as a candidate action ("Remove stale memory: user_role.md", "Fix broken symlink: my-foo", "Prune duplicate permission entry", etc.). Only include items that require a change — informational findings are not menu items.
+After presenting the full report, invoke `/k-next-moves` with each fixable item as a candidate action ("Remove stale memory: user_role.md", "Fix broken symlink: my-foo", "Prune duplicate permission entry", etc.). Only include items that require a change — informational findings are not menu items.
 
 Never apply any fix until the user picks it from the menu.
 

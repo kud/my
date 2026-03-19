@@ -65,4 +65,4 @@ Rules:
 
 ## Step 4 — Interactive next moves
 
-After rendering the briefing, invoke `/next-moves` with the top actionable items across all sections (max 7). Prioritise overdue tasks with the most delay, today's tasks, and any Notion items recently updated. Items should be concrete actions ("Marquer 🧺 comme fait", "Ouvrir la rétro Notion", etc.).
+After rendering the briefing, invoke `/k-next-moves` with the top actionable items across all sections (max 7). Prioritise overdue tasks with the most delay, today's tasks, and any Notion items recently updated. Items should be concrete actions ("Marquer 🧺 comme fait", "Ouvrir la rétro Notion", etc.).

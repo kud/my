@@ -552,4 +552,4 @@ Increment the patch version in `package.json` (e.g. `1.2.3` → `1.2.4`).
 
 ## Final step — QA
 
-Run `/qa-run` to review this execution for missed steps or wrong decisions.
+Run `/k-qa-run` to review this execution for missed steps or wrong decisions.

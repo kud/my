@@ -97,4 +97,4 @@ Once you have a clear task, execute these steps in order. Use the **Task tool** 
 
 ## Final step — QA
 
-Run `/qa-run` to review this execution for missed steps or wrong decisions. If issues are found, surface them and ask before applying fixes. If nothing is wrong, stay silent.
+Run `/k-qa-run` to review this execution for missed steps or wrong decisions. If issues are found, surface them and ask before applying fixes. If nothing is wrong, stay silent.

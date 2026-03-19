@@ -153,4 +153,4 @@ Rules:
 
 ## Step 4 — Interactive next moves
 
-After rendering the triage tables, invoke `/next-moves` with the top actionable items (max 7). Prioritise 🔴 items first, then 🟡, then 🟠. Each item label should be a concrete action ("Reply to @grafst on #22967", "Check comment on PR #26347", "Ping iTerm2 maintainer on #615").
+After rendering the triage tables, invoke `/k-next-moves` with the top actionable items (max 7). Prioritise 🔴 items first, then 🟡, then 🟠. Each item label should be a concrete action ("Reply to @grafst on #22967", "Check comment on PR #26347", "Ping iTerm2 maintainer on #615").
