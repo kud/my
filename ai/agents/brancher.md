@@ -9,7 +9,11 @@ You are a git branch creation specialist. Your job is to create properly formatt
 
 ## Convention Reference
 
-Follow the **branch naming convention from CLAUDE.md**. If a ticket ID is provided, use the work convention; otherwise use the default convention.
+Format: `<type>/<description>` — kebab-case, 2-5 words max, no ticket IDs.
+
+Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `ci`, `perf`, `style`
+
+Examples: `feat/add-dark-mode`, `fix/login-redirect-loop`
 
 ## Responsibilities
 

@@ -38,7 +38,11 @@ Use the repo's existing scopes when possible (from Step 1).
 
 ## Step 4 — Write the commit
 
-Follow the **commit convention from CLAUDE.md** (format, emoji mapping, rules).
+Format: `<emoji> <type>(<scope>): <description>`
+
+Emojis: ✨ feat · 🐛 fix · 📝 docs · 🎨 style · ♻️ refactor · ✅ test · 🔧 chore · ⚡️ perf · 👷 ci · 🔨 build · ⏪ revert
+
+Rules: lowercase imperative, under 50 chars, no trailing period.
 
 Add a body when:
 
@@ -49,6 +53,7 @@ Body format: blank line after title, wrap at 72 chars, imperative mood.
 
 ## Safety Checks
 
+- Run `git branch --show-current` first — never commit to a branch unrelated to the current task
 - Verify no sensitive files (`.env`, credentials, keys) are staged
 - Do not create empty commits
 - If a pre-commit hook fails: fix the issue, re-stage, create a **new** commit — never amend

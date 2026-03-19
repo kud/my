@@ -9,6 +9,7 @@ global:
 settings:
   alwaysThinkingEnabled: true
   includeCoAuthoredBy: false
+  outputStyle: Explanatory
   enabledPlugins:
     swift-lsp@claude-plugins-official: true
     typescript-lsp@claude-plugins-official: true
@@ -110,6 +111,7 @@ settings:
       - Bash(rm -rf *)
     deny:
       - Read(.env*)
+      - Skill(update-config)
 
 # Plugin marketplaces
 marketplaces:
