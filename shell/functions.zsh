@@ -48,6 +48,16 @@ claude() {
   local project="${_custom_title:-$(_tab_title)}"
   _custom_title="$project · Claude 🤖"
   precmd
+
+  local brew_output
+  brew_output=$(brew upgrade claude-code 2>&1)
+
+  if echo "$brew_output" | grep -q "Not upgrading"; then
+    echo "✓ up to date"
+  else
+    echo "✨ updated"
+  fi
+
   command claude "$@"
   _custom_title="$prev"
   precmd
