@@ -45,6 +45,7 @@ Execute these steps in order using the **Task tool** to invoke each agent.
 - Ask explicitly: **"Ready to post these replies? (yes/no)"**
 - **NEVER post a reply to GitHub without the user's explicit approval**
 - Every reply must start with `@<reviewer-username>` to mention the author being replied to
+- **Copilot threads** (`copilot-pull-request-reviewer`): **do NOT reply** — replying (even a confirmation) triggers Copilot to open a new PR. Instead, just resolve the thread via GraphQL `resolveReviewThread` mutation.
 - Post approved replies using `gh api`
 - Push: `git push`
 
