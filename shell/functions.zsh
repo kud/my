@@ -44,26 +44,6 @@ title() {
   [[ -n "$*" ]] && iterm title "$*" || precmd
 }
 
-claude() {
-  local prev="$_custom_title"
-  local project="${_custom_title:-$(_tab_title)}"
-  _custom_title="$project · Claude 🤖"
-  precmd
-
-  local brew_output
-  brew_output=$(HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade claude-code 2>&1)
-
-  if echo "$brew_output" | grep -q "Not upgrading"; then
-    echo "✓ up to date"
-  else
-    echo "✨ updated"
-  fi
-  echo
-
-  command claude "$@"
-  _custom_title="$prev"
-  precmd
-}
 
 copiloted-claude() {
   if ! lsof -i :4141 -sTCP:LISTEN -t &>/dev/null; then
