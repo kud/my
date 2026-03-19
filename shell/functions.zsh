@@ -64,6 +64,9 @@ claude() {
 }
 
 copiloted-claude() {
+  if ! lsof -i :4141 -sTCP:LISTEN -t &>/dev/null; then
+    copilot-api start &>/dev/null &
+  fi
   env -u ANTHROPIC_API_KEY \
   ANTHROPIC_BASE_URL=http://localhost:4141 \
   ANTHROPIC_MODEL=claude-sonnet-4.6 \

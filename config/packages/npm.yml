@@ -21,6 +21,7 @@ packages:
   - "@kud/wifi-tool-cli"
   - "@openai/codex"
   - "@github/copilot"
+  - copilot-api
   - "@google/gemini-cli"
   - battery-level-cli
   - bodybuilder

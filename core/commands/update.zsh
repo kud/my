@@ -173,7 +173,7 @@ ${new_formulae_full:-none}
 
 New casks:
 ${new_casks_full:-none}"
-            ai_output=$(echo "$ai_prompt" | env -u CLAUDECODE claude --print 2>/dev/null)
+            ai_output=$(opencode run -m github-copilot/gpt-4.1 "$ai_prompt" 2>/dev/null)
             if [[ -n "$ai_output" ]]; then
                 if command -v glow &>/dev/null; then
                     echo "$ai_output" | glow -
@@ -181,7 +181,7 @@ ${new_casks_full:-none}"
                     echo "$ai_output"
                 fi
             else
-                ui_muted "  (claude not available)"
+                ui_muted "  (opencode not available)"
             fi
         fi
 
