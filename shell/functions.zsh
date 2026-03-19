@@ -29,6 +29,7 @@ _tab_title() {
   local git_root
   git_root=$(git rev-parse --show-toplevel 2>/dev/null)
   local name="${${git_root:-$PWD}##*/}"
+  [[ "$PWD" == $HOME/__tmp* || "$git_root" == $HOME/__tmp* ]] && echo "󰦖" && return
   _fix_acronyms "${(C)${name:gs/-/ /}}"
 }
 
@@ -50,13 +51,14 @@ claude() {
   precmd
 
   local brew_output
-  brew_output=$(brew upgrade claude-code 2>&1)
+  brew_output=$(HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade claude-code 2>&1)
 
   if echo "$brew_output" | grep -q "Not upgrading"; then
     echo "✓ up to date"
   else
     echo "✨ updated"
   fi
+  echo
 
   command claude "$@"
   _custom_title="$prev"
