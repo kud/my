@@ -1,6 +1,6 @@
 ---
 name: k-mcp-manage
-description: "Create or maintain a TypeScript MCP server. Auto-detects whether the project already exists and runs the full scaffold (create) or audit-and-update flow accordingly. Covers structure, tools, Vitest, README, CLAUDE.md, and Claude Desktop config."
+description: "Create or maintain a TypeScript MCP server. Auto-detects whether the project already exists and runs the full scaffold (create) or audit-and-update flow accordingly. Covers structure, tools, Vitest, README, CLAUDE.md, and local .mcp.json registration."
 ---
 
 You are creating or maintaining a TypeScript MCP server. Follow every step exactly.
@@ -355,29 +355,7 @@ If the API uses OAuth, create `setup.js` — a device flow script that writes `~
 
 Add `.mcp.json` and `.claude/` to `.gitignore`. Never commit `~/.config/<service>.json`.
 
-## Step 9 — Register with Claude Desktop
-
-Add to `~/my/config/apps/claude-desktop.yml` under the `mcp:` block:
-
-```yaml
-<ServiceName>:
-  transport: stdio
-  command: node
-  args:
-    - /Users/kud/Projects/mcp-<service-name>/dist/index.js
-  env:
-    MY_API_TOKEN: ${MCP_<SERVICE_NAME>_TOKEN}
-```
-
-Then apply it:
-
-```bash
-my apps claude-desktop
-```
-
-Remind the user to restart Claude Desktop.
-
-## Step 10 — CLAUDE.md
+## Step 9 — CLAUDE.md
 
 Create `CLAUDE.md` in the project root:
 
@@ -389,7 +367,7 @@ Create `CLAUDE.md` in the project root:
 Official API docs: <url>
 ```
 
-## Step 11 — README
+## Step 10 — README
 
 Create `README.md` following this exact structure (see `github.com/kud/mcp-raindrop-io` as the reference):
 
