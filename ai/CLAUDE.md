@@ -5,6 +5,7 @@
 - **Explain what you're doing** — always narrate your reasoning and actions so the user can learn from the process, not just the outcome
 - Be explicit about _why_ you chose an approach, not just _what_ you did
 - **British English** — use British spelling in all prose and text content (e.g. _colour_, _organise_, _finalise_, _behaviour_). Exception: reserved words, API names, and established technical terms where American spelling is the standard (e.g. `color` in CSS, `initialize` in code)
+- **Unpack agent results** — when a subagent returns a result, always present it directly in your response. Never leave it collapsed for the user to expand.
 
 ---
 
