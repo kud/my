@@ -63,6 +63,13 @@ claude() {
   precmd
 }
 
+copiloted-claude() {
+  env -u ANTHROPIC_API_KEY \
+  ANTHROPIC_BASE_URL=http://localhost:4141 \
+  ANTHROPIC_MODEL=claude-sonnet-4.6 \
+    command claude "$@"
+}
+
 # 📁 Create folder and cd into it
 function mcd() {
   mkdir -p "$1" && cd "$1";
