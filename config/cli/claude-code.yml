@@ -41,12 +41,20 @@ settings:
       - Bash(git push origin *)
       - Bash(git push -u *)
       - Bash(git push --set-upstream *)
-      # Notion read operations - auto-accept
+      # Notion operations - auto-accept
       - mcp__notion__notion-fetch
       - mcp__notion__notion-search
       - mcp__notion__notion-get-comments
       - mcp__notion__notion-get-users
       - mcp__notion__notion-get-teams
+      - mcp__notion__notion-create-pages
+      - mcp__notion__notion-update-page
+      - mcp__notion__notion-create-comment
+      - mcp__notion__notion-create-view
+      - mcp__notion__notion-update-view
+      - mcp__notion__notion-update-data-source
+      - mcp__notion__notion-duplicate-page
+      - mcp__notion__notion-move-pages
       # Todoist read operations - auto-accept
       - mcp__todoist__find-tasks
       - mcp__todoist__find-tasks-by-date
@@ -101,6 +109,30 @@ settings:
       - mcp__github__pull_request_review_write
       - mcp__github__add_issue_comment
       - mcp__github__add_reply_to_pull_request_comment
+      # Atlassian / Jira - auto-accept
+      - mcp__atlassian__atlassianUserInfo
+      - mcp__atlassian__getAccessibleAtlassianResources
+      - mcp__atlassian__getVisibleJiraProjects
+      - mcp__atlassian__getJiraIssue
+      - mcp__atlassian__searchJiraIssuesUsingJql
+      - mcp__atlassian__searchAtlassian
+      - mcp__atlassian__lookupJiraAccountId
+      - mcp__atlassian__getJiraIssueTypeMetaWithFields
+      - mcp__atlassian__getJiraProjectIssueTypesMetadata
+      - mcp__atlassian__getTransitionsForJiraIssue
+      - mcp__atlassian__getIssueLinkTypes
+      - mcp__atlassian__getJiraIssueRemoteIssueLinks
+      - mcp__atlassian__createJiraIssue
+      - mcp__atlassian__editJiraIssue
+      - mcp__atlassian__transitionJiraIssue
+      - mcp__atlassian__addCommentToJiraIssue
+      - mcp__atlassian__addWorklogToJiraIssue
+      - mcp__atlassian__createIssueLink
+      - mcp__atlassian__fetchAtlassian
+      # Slack - auto-accept
+      - Bash(slack-send *)
+      # my ai toolchain - auto-accept
+      - Bash(my ai *)
     ask:
       - Bash(npm publish *)
       # Force push - requires confirmation

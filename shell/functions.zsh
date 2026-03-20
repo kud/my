@@ -38,6 +38,11 @@ precmd() {
   echo -ne "\e]1;$title\a"
 }
 
+preexec() {
+  local title="${_custom_title:-$(_tab_title)}"
+  echo -ne "\e]1;⟳ $title\a"
+}
+
 
 title() {
   _custom_title="$*"

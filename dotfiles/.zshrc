@@ -47,7 +47,8 @@ for module in \
   path/console-ninja.zsh \
   path/android.zsh \
   path/my.zsh \
-  starship.zsh
+  starship.zsh \
+  iterm.zsh
 
 do
   [[ -f $MY/shell/$module ]] && source $MY/shell/$module
@@ -55,3 +56,4 @@ done
 
 # Show profiling report if enabled
 [[ -n "$ZPROF" ]] && zprof
+

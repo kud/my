@@ -94,7 +94,7 @@ alias gcap='git add . && git aicommit && git push'
 alias cld='claude'
 alias cldc='claude --continue'
 alias cldr='claude --resume'
-alias cld-restart='claude-restart'
+alias cld-rs='claude-restart'
 alias cldu='brew upgrade claude-code'
 
 # 🧠 Basic Memory (disabled)
