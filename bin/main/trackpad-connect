@@ -1,84 +1,70 @@
 #!/usr/bin/env zsh
 
-# Get the Home Trackpad MAC address from connected devices
-get_trackpad_address() {
-  system_profiler SPBluetoothDataType 2>/dev/null | \
-    grep -i -A 10 "Home Trackpad" | \
-    grep "Address" | \
-    head -1 | \
-    awk '{print $NF}'
+TRACKPAD_ID="${TRACKPAD_ID:-64:C7:53:EE:D7:2F}"
+
+is_connected() {
+  blueutil --is-connected "$TRACKPAD_ID" 2>/dev/null | grep -q "1"
 }
 
+echo "🖱️  Trackpad: $TRACKPAD_ID"
+
 case "${1:-switch}" in
-  unpair)
-    TRACKPAD_ADDR=$(get_trackpad_address)
-
-    if [[ -z "$TRACKPAD_ADDR" ]]; then
-      echo "⚠️  No trackpad currently connected."
-      exit 1
+  forget)
+    echo "📡 Checking connection..."
+    if is_connected; then
+      echo "✅ Trackpad is connected."
+    else
+      echo "⚠️  Trackpad is not connected — unpairing anyway..."
     fi
-
-    echo "🔵 Found trackpad: $TRACKPAD_ADDR"
-    echo "🔌 Unpairing trackpad..."
-    blueutil --unpair "$TRACKPAD_ADDR"
-
-    echo "✅ Trackpad unpaired. You can now pair it with another computer."
+    echo "🗑️  Forgetting trackpad..."
+    blueutil --unpair "$TRACKPAD_ID"
+    echo "✅ Done. You can now pair it with another computer."
     ;;
 
-  pair)
-    echo "🔍 Scanning for trackpad in pairing mode..."
-    echo "💡 Make sure your trackpad is in pairing mode (hold power button until LED blinks)"
+  add)
+    echo "💡 Put your trackpad in pairing mode (hold power button until LED blinks)"
+    read -r "?Press Enter when ready..."
+    echo "🔗 Sending pair request..."
+    blueutil --pair "$TRACKPAD_ID" --connect "$TRACKPAD_ID"
     echo ""
-    
-    blueutil --inquiry 5 2>/dev/null | while read -r line; do
-      if echo "$line" | grep -iq "Home Trackpad"; then
-        ADDR=$(echo "$line" | awk '{print $2}' | tr -d ',')
-        echo "🔵 Found trackpad: $ADDR"
-        echo "🔗 Attempting to pair..."
-        blueutil --pair "$ADDR"
-        echo "✅ Pairing initiated!"
-        break
-      fi
-    done
+    echo "📡 Verifying connection..."
+    if is_connected; then
+      echo "✅ Trackpad connected!"
+    else
+      echo "⚠️  Trackpad not detected yet — it may take a moment."
+    fi
     ;;
 
   switch)
-    TRACKPAD_ADDR=$(get_trackpad_address)
-
-    if [[ -n "$TRACKPAD_ADDR" ]]; then
-      echo "🔵 Found trackpad: $TRACKPAD_ADDR"
-      echo "🔌 Unpairing trackpad..."
-      blueutil --unpair "$TRACKPAD_ADDR"
-      echo "✅ Trackpad unpaired."
-      echo ""
+    echo "📡 Checking connection..."
+    if is_connected; then
+      echo "✅ Trackpad is connected."
+      echo "🗑️  Forgetting trackpad..."
+      blueutil --unpair "$TRACKPAD_ID"
+      echo "✅ Trackpad forgotten."
     else
-      echo "⚠️  No trackpad currently connected. Skipping unpair step."
-      echo ""
+      echo "⚠️  Trackpad not connected — skipping unpair."
     fi
-
-    echo "🔍 Now scanning for trackpad in pairing mode..."
-    echo "💡 Put your trackpad in pairing mode (hold power button until LED blinks)"
     echo ""
-    sleep 2
-    
-    blueutil --inquiry 5 2>/dev/null | while read -r line; do
-      if echo "$line" | grep -iq "Home Trackpad"; then
-        ADDR=$(echo "$line" | awk '{print $2}' | tr -d ',')
-        echo "🔵 Found trackpad: $ADDR"
-        echo "🔗 Attempting to pair..."
-        blueutil --pair "$ADDR"
-        echo "✅ Pairing initiated!"
-        break
-      fi
-    done
+    echo "💡 Put your trackpad in pairing mode (hold power button until LED blinks)"
+    read -r "?Press Enter when ready..."
+    echo "🔗 Sending pair request..."
+    blueutil --pair "$TRACKPAD_ID" --connect "$TRACKPAD_ID"
+    echo ""
+    echo "📡 Verifying connection..."
+    if is_connected; then
+      echo "✅ Trackpad connected!"
+    else
+      echo "⚠️  Trackpad not detected yet — it may take a moment."
+    fi
     ;;
 
   *)
-    echo "Usage: trackpad-connect [switch|unpair|pair]"
+    echo "Usage: trackpad-connect [forget|add|switch]"
     echo ""
-    echo "  switch  - Unpair then pair again (default)"
-    echo "  unpair  - Unpair current trackpad"
-    echo "  pair    - Scan and pair trackpad in pairing mode"
+    echo "  switch  - Forget then add again (default)"
+    echo "  forget  - Remove trackpad so another Mac can claim it"
+    echo "  add     - Pair trackpad with this Mac"
     exit 1
     ;;
 esac
