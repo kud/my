@@ -52,7 +52,7 @@ list_pending_migrations() {
     if [[ "$context" == "global" ]]; then
         migrations_path="$MIGRATIONS_DIR/global"
     else
-        migrations_path="$MIGRATIONS_DIR/profiles/$context"
+        migrations_path="$MY/profiles/$context/migrations"
     fi
     
     [[ ! -d "$migrations_path" ]] && return
@@ -209,8 +209,8 @@ list_all_migrations() {
     
     ui_spacer
     ui_subsection "Profile migrations ($PROFILE)"
-    if [[ -d "$MIGRATIONS_DIR/profiles/$PROFILE" ]]; then
-        for migration_file in "$MIGRATIONS_DIR/profiles/$PROFILE"/*.zsh(N); do
+    if [[ -d "$MY/profiles/$PROFILE/migrations" ]]; then
+        for migration_file in "$MY/profiles/$PROFILE/migrations"/*.zsh(N); do
             local migration_id="$PROFILE/$(basename "$migration_file" .zsh)"
             if is_migration_completed "$migration_id"; then
                 ui_success_simple "✓ $(basename "$migration_file" .zsh) (completed)"
