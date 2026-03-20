@@ -60,7 +60,6 @@ packages:
     - gh
     - git
     - git-delta
-    - git-filter-repo
     - gitui
     - lazygit
     - spr
