@@ -45,31 +45,33 @@ ui_spacer
 ui_section "  Updating repository"
 ui_info_simple "Path: $MY"
 
-# Capture git output for better formatting
-git_output=$(git --git-dir="$MY/.git" --work-tree="$MY/" pull 2>&1)
-git_status=$?
-
-if [[ $git_status -eq 0 ]]; then
-    if [[ "$git_output" == *"Already up to date"* ]]; then
-        ui_success_simple "Repository already up to date"
-    else
-        # Show what was updated
-        echo "$git_output" | while IFS= read -r line; do
-            if [[ "$line" == *"Fast-forward"* ]]; then
-                ui_success_simple "Updates downloaded"
-            elif [[ "$line" == *"files changed"* ]]; then
-                ui_info_simple "$line"
-            elif [[ "$line" == *"|"* ]]; then
-                ui_muted "  $line"
-            fi
-        done
-    fi
-else
-    ui_error_msg "Failed to update repository"
-    echo "$git_output" | while IFS= read -r line; do
-        ui_muted "  $line"
-    done
+if ! git -C "$MY" diff --quiet 2>/dev/null || ! git -C "$MY" diff --cached --quiet 2>/dev/null; then
+    ui_error_simple "Uncommitted changes detected — stash or commit before updating"
     exit 1
+fi
+
+if ! git -C "$MY" fetch origin 2>/dev/null; then
+    ui_error_simple "Failed to fetch from remote"
+    exit 1
+fi
+
+local unpushed=$(git -C "$MY" rev-list origin/main..HEAD --count 2>/dev/null)
+if [[ "$unpushed" -gt 0 ]]; then
+    ui_error_simple "$unpushed unpushed commit(s) detected — push before updating"
+    exit 1
+fi
+
+local before_hash=$(git -C "$MY" rev-parse HEAD 2>/dev/null)
+
+git -C "$MY" reset --hard origin/main 2>/dev/null
+git -C "$MY" fetch --tags --force 2>/dev/null
+
+local after_hash=$(git -C "$MY" rev-parse HEAD 2>/dev/null)
+
+if [[ "$before_hash" == "$after_hash" ]]; then
+    ui_success_simple "Repository already up to date"
+else
+    ui_success_simple "Repository updated"
 fi
 
 # Update profile

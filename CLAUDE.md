@@ -16,6 +16,8 @@
 
 Primary language: **Zsh** (with some Node/JS helpers).
 
+- **Profiles** are standalone git repos at `$HOME/Projects/my-profile-<name>` (e.g. `~/Projects/my-profile-work`). They are **not** submodules and nothing should be created inside `my/profiles/`. The `profiles/` directory inside `my` is gitignored and only holds symlinks managed by the install system.
+
 ---
 
 ## 2. General Principles
