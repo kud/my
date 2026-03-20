@@ -95,6 +95,7 @@ alias cld='claude'
 alias cldc='claude --continue'
 alias cldr='claude --resume'
 alias cld-restart='claude-restart'
+alias cldu='brew upgrade claude-code'
 
 # 🧠 Basic Memory (disabled)
 # alias note="basic-memory tools write-note"
