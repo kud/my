@@ -144,10 +144,10 @@ settings:
       - Bash(git push -f*)
       - Bash(git push *--force*)
       - Bash(git push *-f*)
-      - Bash(rm -rf *)
     deny:
       - Read(.env*)
       - Skill(update-config)
+      - Bash(rm -rf *)
 
 # Plugin marketplaces
 marketplaces:
