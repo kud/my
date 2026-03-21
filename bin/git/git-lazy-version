@@ -14,7 +14,7 @@ source "${MY_DIR}/core/utils/ui-kit.zsh"
 
 usage() {
   echo "Usage: git lazy-version {major|minor|patch|next}" >&2
-  echo "Aliases: x=major, y=minor, z=patch" >&2
+  echo "Aliases: x/M=major, y/m=minor, z/p=patch" >&2
   echo "" >&2
   echo "Version types:" >&2
   echo "  major/x: Bump major version (1.0.0 -> 2.0.0)" >&2
@@ -31,11 +31,11 @@ fi
 
 arg=${1:-}
 case "$arg" in
-  major|x)
+  major|x|M)
     VERSION_TYPE=major ;;
-  minor|y)
+  minor|y|m)
     VERSION_TYPE=minor ;;
-  patch|z)
+  patch|z|p)
     VERSION_TYPE=patch ;;
   next)
     VERSION_TYPE=next ;;
