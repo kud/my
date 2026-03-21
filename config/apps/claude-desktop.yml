@@ -13,6 +13,13 @@
 #       KEY: value
 
 mcp:
+  google-keep:
+    transport: stdio
+    command: uvx
+    args:
+      - --from
+      - git+https://github.com/kud/mcp-google-keep
+      - mcp-google-keep
   # Raindrop: (pro only)
   #   transport: stdio
   #   command: npx

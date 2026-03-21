@@ -45,6 +45,8 @@ Run ALL of the following simultaneously:
    git status --short
    ```
 
+   > **Important:** `git status` exits 128 in non-git directories. Run it as an **independent** Bash call, never grouped with other parallel scans — a failure must not cancel sibling tool calls.
+
 6. **Directory listing** — list all files in the project root to spot unexpected files
 
 ## Step 2 — Report

@@ -81,6 +81,10 @@ settings:
       - mcp__excalidraw__read_checkpoint
       - mcp__excalidraw__read_me
       - mcp__excalidraw__create_view
+      # Google Keep read operations - auto-accept
+      - mcp__google-keep__list_notes
+      - mcp__google-keep__get_note
+      - mcp__google-keep__list_labels
       # GitHub CLI read operations - auto-accept
       - Bash(gh pr list*)
       - Bash(gh pr view*)
@@ -166,6 +170,13 @@ mcp:
   excalidraw:
     transport: http
     url: https://mcp.excalidraw.com/mcp
+  google-keep:
+    transport: stdio
+    command: uvx
+    args:
+      - --from
+      - git+https://github.com/kud/mcp-google-keep
+      - mcp-google-keep
   playwright:
     transport: stdio
     command: npx

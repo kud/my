@@ -11,6 +11,8 @@ Use the `scaffolder` agent to create or modify agents and skills. Never touch `~
 
 Use `/k-config-update` for any settings, MCP servers, hooks, or permissions changes. Never use the built-in `update-config` skill — it edits the wrong file.
 
+Claude Desktop MCP servers live in `$MY/config/apps/claude-desktop.yml` (common) and `$MY/profiles/<profile>/config/apps/claude-desktop.yml` (profile). Apply with `my apps claude-desktop`. Never edit `~/Library/Application Support/Claude/claude_desktop_config.json` directly — it is generated and will be overwritten.
+
 ## opencode MCP
 
 Never call `mcp__plugin_mcp-opencode_mcp-opencode__query` autonomously. Only invoke it when the user explicitly runs `/ask-opencode` or `/mcp-opencode:ask-opencode`.

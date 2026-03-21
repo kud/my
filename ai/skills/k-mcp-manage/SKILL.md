@@ -9,10 +9,13 @@ You are creating or maintaining a TypeScript MCP server. Follow every step exact
 
 **Auto-detect the project name** from the current working directory if it looks like an MCP project (e.g. `mcp-jenkins`). Otherwise ask.
 
-Then check whether `~/Projects/mcp-<service-name>/src/index.ts` already exists:
+Then check for existing project files in `~/Projects/mcp-<service-name>/`:
 
-- **File does not exist** → **CREATE mode** — go to Step 2
-- **File exists** → **UPDATE mode** — go to Step U1
+- `src/index.ts` exists → **TypeScript UPDATE mode** — go to Step U1
+- `server.py` or `pyproject.toml` exists → **Python UPDATE mode** — go to Step U1 (adapt all TypeScript-specific steps for Python: `npm` → `uv`, `vitest` → `pytest`, `src/index.ts` → `server.py`)
+- Neither exists → **CREATE mode** — go to Step 2
+
+> Never misclassify an existing Python project as CREATE mode just because `src/index.ts` is absent.
 
 ---
 
@@ -459,9 +462,9 @@ For each MISSING or OUTDATED item approved by the user:
 - Match existing `apiFetch`, `ok`, `err` helpers — do not introduce new patterns
 - **Extract the handler as an exported arrow function** (required for testability — see Step U6)
 
-## Step U6 — Ensure Vitest is set up
+## Step U6 — Ensure tests are set up
 
-Check whether `vitest` is already in `devDependencies`. If not:
+**TypeScript:** Check whether `vitest` is already in `devDependencies`. If not:
 
 1. Add `vitest` and `@vitest/coverage-v8` to devDependencies
 2. Add test scripts to package.json: `"test": "vitest run"`, `"test:watch": "vitest"`, `"coverage": "vitest run --coverage"`
@@ -470,7 +473,11 @@ Check whether `vitest` is already in `devDependencies`. If not:
 
 If tests already exist, add tests for new/updated handlers.
 
+**Python:** Check whether a `tests/` directory or `test_*.py` files exist. If present, add tests for any new tool functions. If absent, note the gap but do not scaffold — do not block on this.
+
 ## Step U7 — Build and verify
+
+**TypeScript:**
 
 ```bash
 npm run build
@@ -478,6 +485,15 @@ npm test
 ```
 
 Both must pass with zero errors.
+
+**Python:**
+
+```bash
+uv sync
+uv run python -c "import server; print('✓ imports OK')"
+```
+
+If tests exist: `uv run pytest`. All must pass.
 
 ## Step U8 — Sync CLAUDE.md
 
@@ -498,7 +514,7 @@ Create or update as needed.
 
 ## Step U10 — Update dependencies
 
-Run `npx npm-check-updates` to list outdated packages, then update everything to latest without asking:
+**TypeScript:** Run `npx npm-check-updates` to list outdated packages, then update everything to latest without asking:
 
 ```bash
 npx npm-check-updates -u
@@ -508,6 +524,14 @@ npm test
 ```
 
 If the build or tests break after a major bump, fix the code to be compatible before continuing.
+
+**Python:**
+
+```bash
+uv lock --upgrade
+uv sync
+uv run python -c "import server; print('✓')"
+```
 
 ## Step U11 — Bump patch version
 
