@@ -59,6 +59,7 @@ packages:
     - difftastic
     - gh
     - git
+    - gws
     - git-delta
     - git-filter-repo
     - gitui
@@ -187,6 +188,7 @@ packages:
     - caarlos0/tap/svu
     - superwhisper
     - codex
+    - google-cloud-sdk
 
     # 🔤 Fonts
     - font-symbols-only-nerd-font

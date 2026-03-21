@@ -606,6 +606,33 @@ vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to top window" })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
 
 -- =============================================================================
+-- 🖱️ VSCode-like UX
+-- =============================================================================
+
+-- Click to enter insert mode
+vim.api.nvim_create_autocmd("CursorMoved", {
+  callback = function()
+    if vim.fn.getmousepos().screenrow > 0 and vim.v.mouse_win > 0 then
+      vim.cmd("startinsert")
+    end
+  end,
+})
+
+-- Cmd+S to save
+vim.keymap.set({ "n", "i", "v" }, "<D-s>", "<Esc>:w<CR>", { desc = "Save file" })
+
+-- Cmd+Z / Cmd+Shift+Z undo/redo
+vim.keymap.set({ "n", "i" }, "<D-z>", "<Esc>u", { desc = "Undo" })
+vim.keymap.set({ "n", "i" }, "<D-S-z>", "<Esc><C-r>", { desc = "Redo" })
+
+-- Cmd+A select all
+vim.keymap.set({ "n", "i" }, "<D-a>", "<Esc>ggVG", { desc = "Select all" })
+
+-- Cmd+/ toggle comment (requires Comment.nvim)
+vim.keymap.set("n", "<D-/>", "gcc", { desc = "Toggle comment", remap = true })
+vim.keymap.set("v", "<D-/>", "gc", { desc = "Toggle comment", remap = true })
+
+-- =============================================================================
 -- 🎨 Highlight on yank
 -- =============================================================================
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })

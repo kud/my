@@ -160,6 +160,9 @@ mcp:
   notion:
     transport: http
     url: https://mcp.notion.com/mcp
+  todoist:
+    transport: http
+    url: https://ai.todoist.net/mcp
   excalidraw:
     transport: http
     url: https://mcp.excalidraw.com/mcp

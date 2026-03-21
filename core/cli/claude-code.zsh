@@ -272,13 +272,18 @@ if [[ -f "$MERGED_CONFIG" ]]; then
     global_setting_keys=($(yq -r '.global | keys[]' "$MERGED_CONFIG" 2>/dev/null))
 
     for key in "${global_setting_keys[@]}"; do
-        value=$(yq -r ".global.$key" "$MERGED_CONFIG" 2>/dev/null)
+        value_type=$(yq -r ".global.$key | type" "$MERGED_CONFIG" 2>/dev/null)
 
-        # Properly handle strings vs booleans/numbers
-        if [[ "$value" =~ ^(true|false|[0-9]+)$ ]]; then
+        if [[ "$value_type" == "!!map" || "$value_type" == "!!seq" ]]; then
+            value=$(yq -o json ".global.$key" "$MERGED_CONFIG" 2>/dev/null)
             update_claude_settings "$key" "$value"
         else
-            update_claude_settings "$key" "\"$value\""
+            value=$(yq -r ".global.$key" "$MERGED_CONFIG" 2>/dev/null)
+            if [[ "$value" =~ ^(true|false|[0-9]+)$ ]]; then
+                update_claude_settings "$key" "$value"
+            else
+                update_claude_settings "$key" "\"$value\""
+            fi
         fi
     done
 
