@@ -28,6 +28,7 @@ Always check for existing scripts and aliases first — git aliases, `bin/` scri
 
 ## Shell & Platform
 
+- **File deletion**: Always use `trash` instead of `rm`. Never silently fall back to `rm -f` if `rm` is blocked — ask the user first.
 - **sed**: Always use `sed -i ''` — works on both GNU and BSD. Prefer the `Edit` tool over `sed` entirely.
 - **Temp files**: Always use a timestamped name (e.g. `/tmp/payload-$(date +%s).json`) — never hardcode a fixed path.
 - **gh PR bodies**: Always write to a timestamped temp file and use `--body-file` — never pass inline `--body`.

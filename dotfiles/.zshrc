@@ -47,8 +47,7 @@ for module in \
   path/console-ninja.zsh \
   path/android.zsh \
   path/my.zsh \
-  starship.zsh \
-  iterm.zsh
+  starship.zsh
 
 do
   [[ -f $MY/shell/$module ]] && source $MY/shell/$module
