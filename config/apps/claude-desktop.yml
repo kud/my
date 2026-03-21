@@ -41,6 +41,7 @@ mcp:
     args:
       - -y
       - "@playwright/mcp@latest"
+      - --headless
   Trakt:
     transport: stdio
     command: npx

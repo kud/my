@@ -183,6 +183,7 @@ mcp:
     args:
       - -y
       - "@playwright/mcp@latest"
+      - --headless
   # basic-memory:
   #   enabled: false
   #   transport: stdio
