@@ -14,7 +14,7 @@ settings:
     swift-lsp@claude-plugins-official: true
     typescript-lsp@claude-plugins-official: true
     rust-analyzer-lsp@claude-plugins-official: true
-    mcp-opencode@kud-plugins: true
+    opencode@kud: true
   statusLine:
     type: command
     command: |
@@ -151,7 +151,7 @@ settings:
 
 # Plugin marketplaces
 marketplaces:
-  kud-plugins:
+  kud:
     source: kud/claude-plugins
 
 # Common MCP servers (all profiles)

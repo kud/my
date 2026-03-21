@@ -141,28 +141,29 @@ build_mcp_server() {
 
 # Process common MCP servers (if config exists)
 if [[ -f "$COMMON_CONFIG" ]]; then
-    mcp_names=($(yq -r '.mcp | keys[]' "$COMMON_CONFIG" 2>/dev/null))
+    mcp_names=("${(@f)$(yq -r '.mcp | keys[]' "$COMMON_CONFIG" 2>/dev/null)}")
 
     for name in "${mcp_names[@]}"; do
-        transport=$(yq -r ".mcp.$name.transport" "$COMMON_CONFIG" 2>/dev/null)
+        transport=$(yq -r ".mcp[\"$name\"].transport" "$COMMON_CONFIG" 2>/dev/null)
 
         if [[ "$transport" == "stdio" ]]; then
-            command=$(yq -r ".mcp.$name.command" "$COMMON_CONFIG" 2>/dev/null)
+            command=$(yq -r ".mcp[\"$name\"].command" "$COMMON_CONFIG" 2>/dev/null)
             command=$(expand_env_vars "$command")
 
             local args=()
-            local arg_values=($(yq -r ".mcp.$name.args[]" "$COMMON_CONFIG" 2>/dev/null))
+            local arg_values=("${(@f)$(yq -r ".mcp[\"$name\"].args[]" "$COMMON_CONFIG" 2>/dev/null)}")
             for arg in "${arg_values[@]}"; do
                 args+=("$(expand_env_vars "$arg")")
             done
 
             # Read environment variables if they exist
             local env_vars=()
-            local env_keys=($(yq -r ".mcp.$name.env | keys[]" "$COMMON_CONFIG" 2>/dev/null))
+            local env_keys=("${(@f)$(yq -r ".mcp[\"$name\"].env // {} | keys[]" "$COMMON_CONFIG" 2>/dev/null)}")
             local env_validation_failed=0
 
             for key in "${env_keys[@]}"; do
-                value=$(yq -r ".mcp.$name.env.$key" "$COMMON_CONFIG" 2>/dev/null)
+                [[ -z "$key" ]] && continue
+                value=$(yq -r ".mcp[\"$name\"].env[\"$key\"]" "$COMMON_CONFIG" 2>/dev/null)
 
                 if ! check_env_vars "$value"; then
                     ui_warning_simple "Skipping MCP server '$name' due to missing environment variables" 0
@@ -183,28 +184,29 @@ fi
 
 # Process profile-specific MCP servers (if config exists)
 if [[ -f "$PROFILE_CONFIG" ]]; then
-    mcp_names=($(yq -r '.mcp | keys[]' "$PROFILE_CONFIG" 2>/dev/null))
+    mcp_names=("${(@f)$(yq -r '.mcp | keys[]' "$PROFILE_CONFIG" 2>/dev/null)}")
 
     for name in "${mcp_names[@]}"; do
-        transport=$(yq -r ".mcp.$name.transport" "$PROFILE_CONFIG" 2>/dev/null)
+        transport=$(yq -r ".mcp[\"$name\"].transport" "$PROFILE_CONFIG" 2>/dev/null)
 
         if [[ "$transport" == "stdio" ]]; then
-            command=$(yq -r ".mcp.$name.command" "$PROFILE_CONFIG" 2>/dev/null)
+            command=$(yq -r ".mcp[\"$name\"].command" "$PROFILE_CONFIG" 2>/dev/null)
             command=$(expand_env_vars "$command")
 
             local args=()
-            local arg_values=($(yq -r ".mcp.$name.args[]" "$PROFILE_CONFIG" 2>/dev/null))
+            local arg_values=("${(@f)$(yq -r ".mcp[\"$name\"].args[]" "$PROFILE_CONFIG" 2>/dev/null)}")
             for arg in "${arg_values[@]}"; do
                 args+=("$(expand_env_vars "$arg")")
             done
 
             # Read environment variables if they exist
             local env_vars=()
-            local env_keys=($(yq -r ".mcp.$name.env | keys[]" "$PROFILE_CONFIG" 2>/dev/null))
+            local env_keys=("${(@f)$(yq -r ".mcp[\"$name\"].env // {} | keys[]" "$PROFILE_CONFIG" 2>/dev/null)}")
             local env_validation_failed=0
 
             for key in "${env_keys[@]}"; do
-                value=$(yq -r ".mcp.$name.env.$key" "$PROFILE_CONFIG" 2>/dev/null)
+                [[ -z "$key" ]] && continue
+                value=$(yq -r ".mcp[\"$name\"].env[\"$key\"]" "$PROFILE_CONFIG" 2>/dev/null)
 
                 if ! check_env_vars "$value"; then
                     ui_warning_simple "Skipping MCP server '$name' due to missing environment variables" 0

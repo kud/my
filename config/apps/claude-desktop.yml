@@ -13,9 +13,9 @@
 #       KEY: value
 
 mcp:
-  google-keep:
+  Google Keep:
     transport: stdio
-    command: uvx
+    command: ${HOME}/.local/share/mise/shims/uvx
     args:
       - --from
       - git+https://github.com/kud/mcp-google-keep
