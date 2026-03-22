@@ -179,7 +179,7 @@ add_mcp_server() {
     done
 
     # Check if already configured using cached list
-    if echo "$MCP_SERVER_LIST" | grep -q "$name"; then
+    if echo "$MCP_SERVER_LIST" | grep -q "^$name:"; then
         ui_info_simple "MCP server '$name' already configured" 0
         return 0
     fi
@@ -235,11 +235,44 @@ add_mcp_server() {
     fi
 }
 
+# Function to install a plugin
+install_plugin() {
+    local name="$1"
+    if echo "$PLUGIN_LIST" | grep -q "❯ ${name}@"; then
+        ui_info_simple "Plugin '$name' already installed" 0
+        return 0
+    fi
+    local output
+    output=$(claude plugin install "$name" --scope user 2>&1)
+    if [[ $? -eq 0 ]]; then
+        ui_success_simple "Installed plugin: $name" 0
+    else
+        ui_error_msg "Failed to install plugin: $name — $output" 0
+        return 1
+    fi
+}
+
+# Function to uninstall a plugin
+uninstall_plugin() {
+    local name="$1"
+    local output
+    output=$(claude plugin uninstall "$name" 2>&1)
+    if [[ $? -eq 0 ]]; then
+        ui_success_simple "Removed plugin: $name (not in profile config)" 0
+    else
+        ui_error_msg "Failed to remove plugin: $name — $output" 0
+        return 1
+    fi
+}
+
 # Cache MCP server list once to avoid repeated calls
 MCP_SERVER_LIST=$(claude mcp list 2>&1)
 
 # Cache marketplace list once
 MARKETPLACE_LIST=$(claude plugin marketplace list 2>&1)
+
+# Cache plugin list once
+PLUGIN_LIST=$(claude plugin list 2>&1)
 
 # Merge common + profile configs (profile overrides common, arrays are concatenated)
 MERGED_CONFIG=$(mktemp)
@@ -317,19 +350,52 @@ if [[ -f "$MERGED_CONFIG" ]]; then
     marketplace_names=($(yq -r '.marketplaces | keys[]' "$MERGED_CONFIG" 2>/dev/null))
 
     for name in "${marketplace_names[@]}"; do
-        if echo "$MARKETPLACE_LIST" | grep -q "$name"; then
+        local auto_update=$(yq -r ".marketplaces.$name.autoUpdate" "$MERGED_CONFIG" 2>/dev/null)
+
+        if ! echo "$MARKETPLACE_LIST" | grep -q "$name"; then
+            local source=$(yq -r ".marketplaces.$name.source" "$MERGED_CONFIG" 2>/dev/null)
+            local output
+            output=$(claude plugin marketplace add "$source" 2>&1)
+            if [[ $? -eq 0 ]]; then
+                ui_success_simple "Added marketplace: $name ($source)" 0
+            else
+                ui_error_msg "Failed to add marketplace: $name — $output" 0
+                continue
+            fi
+        else
             ui_info_simple "Marketplace '$name' already configured" 0
-            continue
         fi
 
-        source=$(yq -r ".marketplaces.$name.source" "$MERGED_CONFIG" 2>/dev/null)
+        if [[ "$auto_update" == "true" ]]; then
+            local temp_file=$(mktemp)
+            jq ".extraKnownMarketplaces[\"$name\"].autoUpdate = true" "$CLAUDE_SETTINGS" > "$temp_file" && mv "$temp_file" "$CLAUDE_SETTINGS"
+            ui_success_simple "Marketplace '$name' auto-update enabled" 0
+        fi
+    done
+fi
 
-        local output
-        output=$(claude plugin marketplace add "$source" 2>&1)
-        if [[ $? -eq 0 ]]; then
-            ui_success_simple "Added marketplace: $name ($source)" 0
-        else
-            ui_error_msg "Failed to add marketplace: $name — $output" 0
+# Process plugins from merged config
+if [[ -f "$MERGED_CONFIG" ]]; then
+    expected_plugins=()
+    plugin_names=($(yq -r '.plugins | keys[]' "$MERGED_CONFIG" 2>/dev/null))
+
+    for name in "${plugin_names[@]}"; do
+        [[ -z "$name" ]] && continue
+        expected_plugins+=("$name")
+        install_plugin "$name"
+    done
+
+    # Remove kud plugins not declared in the merged config
+    kud_installed=()
+    while IFS= read -r line; do
+        if [[ "$line" =~ "❯ ([^@]+)@kud" ]]; then
+            kud_installed+=("${match[1]}")
+        fi
+    done < <(echo "$PLUGIN_LIST")
+
+    for name in "${kud_installed[@]}"; do
+        if [[ ! " ${expected_plugins[@]} " =~ " ${name} " ]]; then
+            uninstall_plugin "$name"
         fi
     done
 fi
@@ -341,7 +407,7 @@ if [[ -f "$MERGED_CONFIG" ]]; then
     for name in "${mcp_names[@]}"; do
         local enabled=$(yq -r ".mcp.$name.enabled" "$MERGED_CONFIG" 2>/dev/null)
         if [[ "$enabled" == "false" ]]; then
-            if echo "$MCP_SERVER_LIST" | grep -q "$name"; then
+            if echo "$MCP_SERVER_LIST" | grep -q "^$name:"; then
                 claude mcp remove "$name" --scope user >/dev/null 2>&1
                 ui_success_simple "Removed MCP server: $name (disabled)" 0
             else

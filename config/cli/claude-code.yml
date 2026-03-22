@@ -97,7 +97,6 @@ settings:
       - Bash(gh repo view*)
       - Bash(gh repo list*)
       - Bash(gh search *)
-      - Bash(gh api *)
       # GitHub CLI write operations - auto-accept
       - Bash(gh pr ready*)
       - Bash(gh pr merge*)
@@ -138,6 +137,7 @@ settings:
       # my ai toolchain - auto-accept
       - Bash(my ai *)
     ask:
+      - Bash(gh api *)
       - Bash(npm publish *)
       # Force push - requires confirmation
       - Bash(git push --force*)
@@ -153,6 +153,12 @@ settings:
 marketplaces:
   kud:
     source: kud/claude-plugins
+    autoUpdate: true
+
+# Plugins to install (common to all profiles)
+plugins:
+  opencode:
+    marketplace: kud
 
 # Common MCP servers (all profiles)
 mcp:
@@ -170,13 +176,14 @@ mcp:
   excalidraw:
     transport: http
     url: https://mcp.excalidraw.com/mcp
-  google-keep:
-    transport: stdio
-    command: uvx
-    args:
-      - --from
-      - git+https://github.com/kud/mcp-google-keep
-      - mcp-google-keep
+  # google-keep: managed by google-keep@kud plugin
+  # google-keep:
+  #   transport: stdio
+  #   command: uvx
+  #   args:
+  #     - --from
+  #     - git+https://github.com/kud/mcp-google-keep
+  #     - mcp-google-keep
   playwright:
     transport: stdio
     command: npx

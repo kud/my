@@ -17,6 +17,7 @@
 Primary language: **Zsh** (with some Node/JS helpers).
 
 - **Profiles** are standalone git repos at `$HOME/Projects/my-profile-<name>` (e.g. `~/Projects/my-profile-work`). They are **not** submodules and nothing should be created inside `my/profiles/`. The `profiles/` directory inside `my` is gitignored and only holds symlinks managed by the install system.
+- **Profile lookup**: to edit a profile's config, check `$MY/profiles/$OS_PROFILE/` first (symlink); if not present, the profile lives at `$HOME/Projects/my-profile-$OS_PROFILE/`.
 
 ---
 
@@ -118,6 +119,20 @@ Place new logic where its _primary responsibility_ fits best, rather than where 
 
 - Update `README.md` or existing docs under `doc/` when you add user‑visible features or flags.
 - Keep docs concise and in the same tone as the existing README.
+
+---
+
+## Versioning
+
+When bumping the version of any repo, use the git alias:
+
+```zsh
+git lzv patch   # bug fixes
+git lzv minor   # new features
+git lzv major   # breaking changes
+```
+
+Never manually edit version fields or use `npm version` — `git lzv` handles commit, tag, and changelog in one step.
 
 ---
 

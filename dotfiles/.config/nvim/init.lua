@@ -618,6 +618,15 @@ vim.api.nvim_create_autocmd("CursorMoved", {
   end,
 })
 
+-- Start in insert mode when opening a file
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  callback = function()
+    if vim.bo.buftype == "" then
+      vim.cmd("startinsert")
+    end
+  end,
+})
+
 -- Cmd+S to save
 vim.keymap.set({ "n", "i", "v" }, "<D-s>", "<Esc>:w<CR>", { desc = "Save file" })
 
